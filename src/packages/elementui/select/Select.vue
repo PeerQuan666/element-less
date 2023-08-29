@@ -45,7 +45,7 @@ const props = withDefaults(defineProps<Props>(), {
     isInitTriggerSelect: true,
     resetValueByChangeData: true,
     valueSeparator:',',
-    validationTrigger:'change'
+    validationTrigger:'change',
 })
 const slots=useSlots()
 const attrs:Record<string,any> = useAttrs()
@@ -262,7 +262,6 @@ function handleSearch(searchValue: string) {
 function readData() {
     currLoading.value = true;
     let currUrl = props.url?.replacePowerUrl()??'';
-    currUrl = currUrl.replacePowerUrl();
 
     return new Promise((resolve, reject) => {
         currUrl.post(queryData).then(res => {

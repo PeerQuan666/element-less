@@ -3,7 +3,7 @@ title: Form表单
 icon: edit
 date: 2023-08-29
 category:
-  - Form
+  - ElementUI
 tag:
   - Form
   - 查询表单
@@ -22,7 +22,7 @@ star: true
 :::
 
 
-# 查询表单
+## 查询表单
 
 :::vuefile-demo
 
@@ -30,7 +30,7 @@ form/query
 
 :::
 
-# 编辑表单
+## 编辑表单
 
 :::vuefile-demo
 

@@ -39,7 +39,7 @@ const originalData: Array<Record<string, any>> = reactive([])
 const queryData = reactive({ searchKey: '', idString: '' })
 const attrs = useAttrs()
 const radioStyle:any=reactive([]);
-const emits = defineEmits(['select', 'readdataed', 'change-option', 'update:modelValue', 'update:select', 'update:select-label', 'change'])
+const emits = defineEmits(['select', 'readdataed', 'click-option', 'update:modelValue', 'update:select', 'update:select-label', 'change'])
 const optionData = computed<Array<Record<string, any>>>(() => {
     return options.concat(extraOption).concat(noExistOption);
 })
@@ -104,8 +104,6 @@ if (props.type == 'radio') {
 }
 else {
     radioClass.push('bb-radio')
-   
-
 }
 if (props.height) {
     radioClass.push('scrollheight')
@@ -217,7 +215,7 @@ function readData() {
     })
 }
 function handleClickOption(item: any) {
-    emits("change-option", item)
+    emits("click-option", item)
 }
 function handleReturnResult(value: number | string | boolean) {
     if (value === undefined) { value = ''; }
@@ -313,6 +311,7 @@ if (props.url) {
 
 .bb-radio-default {
     .el-radio-group {
+        display: inline-block;
         width: 100%;
     }
     .el-radio {

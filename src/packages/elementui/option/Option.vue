@@ -11,7 +11,7 @@ const props=defineProps<Props>()
 const componentName=ref('')
 const currLabel=ref('')
 const multiple=ref(false)
-const type=inject('type')
+const type=inject<string>('type')??''
 const optionWidth=inject<string>('optionWidth','')
 const slots=useSlots()
 const optionStyle:any=reactive([]);
@@ -37,7 +37,7 @@ if (type != 'tabs' && type != 'dropdown') {
  }
  multiple.value=inject('multiple',false)
  currLabel.value = props.label??'';
-if (type == "select") {
+if (type == "select"||type.indexOf("checkbox")>-1||type.indexOf("radio")>-1) {
     if (slots.default && slots.default()[0].type?.toString() == "Symbol(v-txt)") {
         currLabel.value = slots.default()[0].children?.toString()??''
     }
