@@ -22,3 +22,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+echo 'node_modules' >> .gitignore
+echo '.temp' >> .gitignore
+echo '.cache' >> .gitignore
+
+
+node_modules/
+docs/.vuepress/.cache/
+docs/.vuepress/.temp/
+docs/.vuepress/dist/
+

@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 })
 const slots = useSlots()
-const dataForm = ref()
+const queryForm = ref()
 const submitButton = ref()
 const tagID = 'bb-form' + babyCom.Guid32;
 const attrs = useAttrs();
@@ -157,16 +157,16 @@ function handleSearch() {
 }
 function clearValidate() {
     nextTick(() => {
-        dataForm.value.clearValidate()
+        queryForm.value.clearValidate()
     })
 }
 function validate() {
     
     return new Promise((resolve) => {
-        if (!dataForm.value) {
+        if (!queryForm.value) {
             resolve(true)
         } else {
-            dataForm.value.validate().then(res => {
+            queryForm.value.validate().then(res => {
                 resolve(res)
             }).catch(action => {
                 console.log(action)
@@ -177,7 +177,7 @@ function validate() {
     })
 }
 function validateField(fields) {
-    return dataForm.value.validateField(fields)
+    return queryForm.value.validateField(fields)
 }
 function handleSubmitButton() {
     submitButton.value.$el.trigger("click")
@@ -194,12 +194,11 @@ defineExpose({
 </script>
 
 <template>
-    <el-form :model="formData" ref="dataForm"  onsubmit="return false;" inline :show-message="false">
-  
+    <el-form :model="formData" class="queryForm" ref="queryForm"  onsubmit="return false;" inline :show-message="false">
        <slot v-if="false"></slot>
        <slot name="query" v-if="slots.default">
             <template v-for="vnode in slots.default()">
-                <component :is="()=>vnode"  v-if="!(vnode.type as any).name||(vnode.type as any)?.name==='ElFormItem'||(vnode.type as any)?.name==='BbFormItem'||(vnode as any).props['hasFormItem']?.toCamel()===false"></component>
+                <component :is="()=>vnode"  v-if="!(vnode.type as any).name||(vnode.type as any)?.name==='ElFormItem'||(vnode.type as any)?.name==='BbFormItem'||!(vnode.type as any).props.hasFormItem||(vnode as any).props['hasFormItem']?.toCamel()===false"></component>
                 <BbFormItem :validationTrigger="(vnode.type as any).props.validationTrigger?.default" v-bind="vnode.props??{}"   v-else>
                     <template #default="{key}">
                         <component :is="vnode" v-if="modelData[key]"  v-model="modelData[key].Value"></component>
@@ -209,5 +208,11 @@ defineExpose({
         </slot>
     </el-form>
 </template>
+<style lang="less" scoped>
+.queryForm{
+    display: flex;
+    flex-wrap: wrap;
+}
+</style>
 
 

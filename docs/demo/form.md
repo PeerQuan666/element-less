@@ -1,0 +1,39 @@
+---
+title: Form表单
+icon: edit
+date: 2023-08-29
+category:
+  - Form
+tag:
+  - Form
+  - 查询表单
+  - 编辑表单
+sticky: true
+star: true
+
+---
+
+表单
+
+:::tip 提示
+
+重写的组件<code>Props</code>继承<code>FormItemProps</code>在<code>bb-form</code>表单下会默认添加<code>bb-form-item</code>,如不需要添加属性:<code>hasFormItem="false"</code>
+
+:::
+
+
+# 查询表单
+
+:::vuefile-demo
+
+form/query
+
+:::
+
+# 编辑表单
+
+:::vuefile-demo
+
+form/edit
+
+:::

@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<RadioProps>(), ({
     selectIndex: -1,
     resetValueByChangeData: true,
     isInitTriggerSelect: true,
-    validationTrigger:'change'
+    validationTrigger:'change',
 
 }))
 

@@ -15,7 +15,7 @@ defineOptions({
 interface Props extends FormItemProps {
     data?: Array<Record<string, any>>,
     url?: string,
-    modelValue?: string | number|boolean,
+    modelValue?: any,
     labelField?: string,
     valueField?: string,
     disabledField?: string,

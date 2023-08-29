@@ -5,23 +5,44 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
+    "docs:clean-dev": "vuepress dev docs --clean-cache",
+    "docs:update-package": "npx vp-update"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-regular-svg-icons": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "axios": "^1.4.0",
+    "consola": "^3.2.3",
     "element-plus": "^2.3.9",
+    "escape-html": "^1.0.3",
+    "fortawesome": "^0.0.1-security",
     "less": "^4.2.0",
     "lodash": "^4.17.21",
+    "nprogress": "^0.2.0",
     "path": "^0.12.7",
+    "prismjs": "^1.29.0",
     "vue": "^3.3.4",
+    "vue-fontawesome": "^0.0.2",
     "vue-router": "^4.2.4",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.4.8",
     "@vitejs/plugin-vue": "^4.2.3",
+    "@vuepress/client": "2.0.0-beta.66",
+    "@vuepress/plugin-docsearch": "^2.0.0-beta.66",
+    "@vuepress/plugin-search": "^2.0.0-beta.66",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
-    "vue-tsc": "^1.8.5"
+    "vue": "^3.3.4",
+    "vue-tsc": "^1.8.5",
+    "vuepress": "2.0.0-beta.66",
+    "vuepress-plugin-search-pro": "^2.0.0-beta.235",
+    "vuepress-theme-hope": "2.0.0-beta.235"
   }
 }

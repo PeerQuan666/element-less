@@ -15,7 +15,7 @@ const attrs = useAttrs()
     <el-option-group :label="label" v-if="type == 'select'" v-bind="attrs">
         <slot></slot>
     </el-option-group>
-    <div  v-else>
+    <div style="width:100%" v-else>
         <div class="bb-radio-group-item" > {{ label }}</div>
         <slot v-bind="attrs"></slot>
     </div>
