@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref, reactive, watch, useAttrs, computed, nextTick, inject, provide, onBeforeUnmount, onMounted, useSlots } from 'vue'
 import babyCom from '../../utlis/babyCom.js'
-import { debounce } from 'lodash'
+import lodash from 'lodash';
+
 import {ElForm } from 'element-plus'
 import BbFormItem from '../form-item/FormItem.vue';
 import { QueryDataType, QueryMethod } from '../../utlis/enumCom';
 import { QueryInfo } from '../../utlis/interfaceCom';
-
+const { debounce } = lodash;
 defineOptions({ name: 'BbFormQuery' })
 interface Props {
     queryTableRef?: string,

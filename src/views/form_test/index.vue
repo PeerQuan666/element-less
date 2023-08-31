@@ -1,15 +1,3 @@
-<script lang="ts" setup>
-import { ref, reactive } from 'vue'
-
-const editData = reactive({})
-const queryForm = ref()
-const editForm = ref()
-const apiUrl = 'http://dataopenapi.tm.babybus.com/StatTag/GetUserGroupTagData?SysTag=Business&Power_CoteID_ProductID=manage&Power_MenuID=6aef7da4c8434aba886c99fec83e4d51'
-function handleTest() {
-    editForm.value.validate()
-    queryForm.value.validate()
-}
-</script>
 <template>
     <bb-form-query  ref="queryForm">
         <bb-select label="城市" field-name="selectValue" require clearable>
@@ -38,3 +26,16 @@ function handleTest() {
     </bb-form>
     <el-button @click="handleTest">提交</el-button>
 </template>
+
+<script lang="ts" setup>
+import { ref, reactive } from 'vue'
+
+const editData = reactive({})
+const queryForm = ref()
+const editForm = ref()
+const apiUrl = 'http://dataopenapi.tm.babybus.com/StatTag/GetUserGroupTagData?SysTag=Business&Power_CoteID_ProductID=manage&Power_MenuID=6aef7da4c8434aba886c99fec83e4d51'
+function handleTest() {
+    editForm.value.validate()
+    queryForm.value.validate()
+}
+</script>

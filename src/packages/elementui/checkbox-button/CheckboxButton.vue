@@ -2,29 +2,27 @@
 import { useSlots } from 'vue'
 import '../../utlis/babyPrototype.js'
 import {watch,ref} from 'vue'
-import BbRadio from '../radio/Radio.vue'
-import {RadioProps} from '../../utlis/interfaceCom'
+import BbCheckbox from '../checkbox/Checkbox.vue'
+import {CheckboxProps} from '../../utlis/interfaceCom'
 defineOptions({
-  name: 'BbRadioButton',
+  name: 'BbCheckboxButton',
 })
 const slots = useSlots()
 const emits=defineEmits(['update:modelValue'])
 
 const selectValue=ref('')
-const props:any = withDefaults(defineProps<RadioProps>(), ({
-    type: 'button',
+const props = withDefaults(defineProps<CheckboxProps>(), {
     labelField: 'label',
     valueField: 'value',
+    disabledField: 'disabled',
     noExistOptionPrefix: '未知选项',
     hasNoExistOption: true,
-    disabledField: 'disabled',
-    selectIndex: -1,
     resetValueByChangeData: true,
-    isInitTriggerSelect: true,
-}))
-selectValue.value=props.modelValue
+    type: 'checkboxbutton'
+})
+selectValue.value=props.modelValue??''
 watch(() => props.modelValue, (val) => {
-    selectValue.value=val
+    selectValue.value=val??''
 })
 watch(selectValue,(value)=>{
     emits('update:modelValue', value)
@@ -36,9 +34,9 @@ for(const slotItem in slots){
 
 </script>
 <template>
-    <bb-radio v-model="selectValue" v-bind="props">
+    <bb-checkbox v-model="selectValue" v-bind="props">
      <template v-for="item in slotNames" :slot="item">
         <slot :name="item" ></slot>
     </template>
-    </bb-radio>
+    </bb-checkbox>
 </template>

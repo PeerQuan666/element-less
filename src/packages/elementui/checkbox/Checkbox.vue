@@ -1,32 +1,11 @@
 <script setup lang="ts">
-import { FormItemProps } from '../../utlis/interfaceCom'
 import { ValueType } from '../../utlis/enumCom'
 import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick } from 'vue'
 import babyCom from '../../utlis/babyCom.js'
 import { ElMessage } from 'element-plus';
+import {CheckboxProps} from '../../utlis/interfaceCom'
 defineOptions({ name: 'BbCheckbox' })
-interface Props extends FormItemProps {
-    type?: string,
-    modelValue?: string,
-    width?: string,
-    height?: string,
-    optionWidth?: string,
-    labelField?: string,
-    valueField?: string,
-    disabledField?: string,
-    noExistOptionPrefix?: string,
-    hasNoExistOption?: boolean,
-    url?: string,
-    data?: Array<Record<string, any>>,
-    groupField?: string,
-    filterable?: boolean,
-    showCheckall?: boolean,
-    showInverse?: boolean,
-    resetValueByChangeData?: boolean,
-    isInitTriggerSelect?: boolean,
-    valueType?: ValueType,
-}
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CheckboxProps>(), {
     labelField: 'label',
     valueField: 'value',
     disabledField: 'disabled',

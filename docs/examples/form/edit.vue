@@ -19,15 +19,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import {ElMessage} from 'element-plus'
-const editData = reactive({})
+const editData = ref({selectValue:'',selectValue1:''})
 const editForm = ref()
 const apiUrl = 'http://dataopenapi.tm.babybus.com/StatTag/GetUserGroupTagData?SysTag=Business&Power_CoteID_ProductID=manage&Power_MenuID=6aef7da4c8434aba886c99fec83e4d51'
 function handleSubmit() {
     editForm.value.validate().then(res=>{
         if(res){
-            ElMessage.success(JSON.stringify(editData))
+            ElMessage.success(JSON.stringify(editData.value))
         }else{
             ElMessage.error('验证没通过')
         }

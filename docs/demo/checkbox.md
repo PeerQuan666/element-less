@@ -2,7 +2,7 @@
 title: CheckBox多选
 icon: square-check
 order: 2
-date: 2023-08-024
+date: 2023-08-24
 category:
   - ElementUI
 tag:
