@@ -1,19 +1,18 @@
 ---
-title: CheckBox多选
+title: Input 输入框
 icon: square-check
-order: 4
+order: 1
 date: 2023-08-24
 category:
   - ElementUI
 tag:
   - Form
-  - 单选
-  - 多选
+  - 输入框
 sticky: true
 star: true
 ---
 
-多选组件
+通过鼠标或键盘输入字符
 
 <!-- more -->
 
@@ -21,31 +20,23 @@ star: true
 
 :::vuefile-demo
 
-checkbox/base
+input/base
 
 :::
 
-
-## 分组
+## UrlEncode
 
 :::vuefile-demo
 
-checkbox/group
+input/encode
 
 :::
 
-## 读取数据源
+## 前后标签
 
 :::vuefile-demo
 
-checkbox/data
+input/tag
 
 :::
 
-## 读取接口
-
-:::vuefile-demo
-
-checkbox/api
-
-:::

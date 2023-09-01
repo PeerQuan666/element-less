@@ -14,6 +14,8 @@ category:
 
 ## 目录
 
+- [Input输入框](input.md)
+
 - [Select选择器](select.md)
 
 - [Checkbox多选](checkbox.md)
