@@ -1,6 +1,189 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 const babyCom ={
+    getCompareClass(val) {
+        if (!val || val === '-') { return ''; }
+        if (parseFloat(val) < 0) {
+            return 'txt-color-green';
+        }
+        return 'txt-color-red';
+
+    },
+    getHBResult(row, fieldName) {
+        let val1 = row[fieldName]
+        let val2 = row.HBData[fieldName]
+        if (!val1 || !val2) { return '-' }
+        val1 = val1.toString().toFloat(4);
+        val2 = val2.toString().toFloat(4);
+        return !val1 || !val2 ? '-' : (((val1 - val2) / val2) * 100).toFixed(2) + "%";
+    },
+    getTBResult(row, fieldName) {
+        let val1 = row[fieldName]
+        let val2 = row.TBData[fieldName]
+        if (!val1 || !val2) { return '-' }
+        val1 = val1.toString().toFloat(4);
+        val2 = val2.toString().toFloat(4);
+        return !val1 || !val2 ? '-' : (((val1 - val2) / val2) * 100).toFixed(2) + "%"
+    },
+    getAvgDayResult(val, fixed=2, dayCount=1) {
+        if (val) {
+            return (val / dayCount).toFixed(fixed)
+        }
+        return "-";
+    },
+     getUrlParms(paramName) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == paramName) { return pair[1]; }
+        }
+        return "";
+    },
+    formatDate(date, fmt) {
+        date = new Date(date);
+        let ret;
+        const opt = {
+            "Y+": date.getFullYear().toString(),
+            "y+": date.getFullYear().toString(),         // 年
+            "M+": (date.getMonth() + 1).toString(),     // 月
+            "m+": date.getMinutes().toString(),         // 分
+            "D+": date.getDate().toString(),            // 日
+            "d+": date.getDate().toString(),            // 日
+            "H+": date.getHours().toString(),           // 时
+            "h+": date.getHours().toString(),
+            "S+": date.getSeconds().toString(),          // 秒
+            "s+": date.getSeconds().toString()          // 秒
+        };
+        for (let k in opt) {
+            ret = new RegExp("(" + k + ")").exec(fmt);
+            if (ret) {
+                fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+            };
+        };
+        return fmt;
+    },
+     parseTime(time, cFormat='') {
+        if (arguments.length === 0) {
+          return null;
+        }
+        const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}';
+        let date;
+        if (typeof time == 'object') {
+          date = time;
+        } else {
+          if (('' + time).length === 10) time = parseInt(time) * 1000;
+          date = new Date(time);
+        }
+        const formatObj = {
+          y: date.getFullYear(),
+          m: date.getMonth() + 1,
+          d: date.getDate(),
+          h: date.getHours(),
+          i: date.getMinutes(),
+          s: date.getSeconds(),
+          a: date.getDay()
+        };
+        const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
+          let value = formatObj[key];
+          if (key === 'a') return ['一', '二', '三', '四', '五', '六', '日'][value - 1];
+          if (result.length > 0 && value < 10) {
+            value = '0' + value;
+          }
+          return value || 0;
+        });
+        return time_str;
+      },
+    exportTable(e, cellStyles = [], headerRowCount = 0, headerCellStyle = {}, filename = ""){
+
+    },
+    exportJSON(data){
+
+    },
+    getObjectKey(obj, fields, separator = '$'){
+        let currValue:any = [];
+        fields.toListString().forEach(ele => {
+            currValue.push(obj[ele])
+        })
+        return currValue.join(separator)
+    },
+    sumArray(arr) {
+        if (arr.length) {
+            let currArr = arr.filter(ele => this.isNumber(ele))
+            if (currArr.length) {
+                let sum = currArr.map(ele => parseFloat(ele)).reduce(function (prev, curr, idx, arr) {
+                    if (!prev) { prev = 0; }
+                    if (!curr) { curr = 0; }
+                    return prev + curr;
+                });
+                return sum.toFixedNumber()
+            }
+            return 0;
+         
+        }
+        return 0;
+       
+    },
+    pageArray(arr, pageIndex, pageSize){
+        var skipNum = pageIndex * pageSize;
+        var newArr = (skipNum + pageSize >= arr.length) ? arr.slice(skipNum, arr.length) : arr.slice(skipNum, skipNum + pageSize);
+        return newArr;
+    },
+    removeArrayItem(list,item) {
+        let index = list.indexOf(item)
+        if (index > -1) {
+            list.splice(index, 1)
+        }
+    },
+    orderBy(data, fieldName) {
+        if(data){
+            data.sort(function (obj1, obj2) {
+                var val1 = !obj1[fieldName] ? 0 : obj1[fieldName];
+                var val2 = !obj2[fieldName] ? 0 : obj2[fieldName];
+                if (babyCom.isNumber(val1) && babyCom.isNumber(val2)) {
+                    val1 = parseFloat(val1);
+                    val2 = parseFloat(val2);
+                }
+                if (val1 < val2) {
+                    return -1;
+                } else if (val1 > val2) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            })
+        }
+      
+    },
+    orderByDescending(data, fieldName) {
+        if(data){
+            data.sort(function (obj1, obj2) {
+                var val1 = !obj2[fieldName] ? 0 : obj2[fieldName];
+                var val2 = !obj1[fieldName] ? 0 : obj1[fieldName];
+                if (babyCom.isNumber(val1) && babyCom.isNumber(val2)) {
+                    val1 = parseFloat(val1);
+                    val2 = parseFloat(val2);
+                }
+                if (val1 < val2) {
+                    return -1;
+                } else if (val1 > val2) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            })
+        }
+       
+    },
+    getQueryData(queryData){
+        return {}
+    },
+    handleApiResult(result){
+
+    },
+    getToolHeight(){
+        return 0;
+    },
     Guid() {
         var guid = "";
         for (var i = 1; i <= 32; i++) {
@@ -29,23 +212,6 @@ const babyCom ={
         } else {
             return false;
         }
-    },
-    orderBy(data:Array<Record<string,any>>, fieldName:string) {
-        data.sort(function (obj1, obj2) {
-            var val1 = !obj1[fieldName] ? 0 : obj1[fieldName];
-            var val2 = !obj2[fieldName] ? 0 : obj2[fieldName];
-            if (babyCom.isNumber(val1) && babyCom.isNumber(val2)) {
-                val1 = parseFloat(val1);
-                val2 = parseFloat(val2);
-            }
-            if (val1 < val2) {
-                return -1;
-            } else if (val1 > val2) {
-                return 1;
-            } else {
-                return 0;
-            }
-        })
     },
     dtGroupBy(data:Array<Record<string,any>>, fieldName:string, sortFieldName='') {
         const groups:Record<string,any> = {};

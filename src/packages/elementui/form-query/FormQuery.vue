@@ -201,7 +201,7 @@ defineExpose({
        <slot v-if="false"></slot>
        <slot name="query" v-if="slots.default">
             <template v-for="vnode in slots.default()">
-                <component :is="()=>vnode"  v-if="!(vnode.type as any).name||(vnode.type as any)?.name==='ElFormItem'||(vnode.type as any)?.name==='BbFormItem'||!(vnode.type as any).props||!(vnode.type as any).props.hasFormItem||(vnode as any).props['hasFormItem']?.toCamel()===false"></component>
+                <component :is="()=>vnode"  v-if="!(vnode.type as any).name||(vnode.type as any)?.name==='ElFormItem'||(vnode.type as any)?.name==='BbFormItem'||!(vnode.type as any).props||!(vnode.type as any).props.hasFormItem||vnode.props&&(vnode as any).props['hasFormItem']===false"></component>
                 <BbFormItem :validationTrigger="(vnode.type as any).props.validationTrigger?.default" v-bind="vnode.props??{}"   v-else>
                     <template #default="{key}">
                         <component :is="vnode" v-if="(vnode as any).props.hasOwnProperty('modelValue')" ></component>

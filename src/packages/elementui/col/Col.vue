@@ -36,7 +36,7 @@ onMounted(() => {
             <slot name="edit" v-if="slots.default">
                 <template v-for="vnode in slots.default()">
                     <component :is="()=>vnode"
-                        v-if="!(vnode.type as any).name || (vnode.type as any).name === 'ElFormItem' || (vnode.type as any)?.name === 'BbFormItem' || (vnode.props as any)['hasFormItem']?.toCamel() === false">
+                        v-if="!(vnode.type as any).name || (vnode.type as any).name === 'ElFormItem' || (vnode.type as any)?.name === 'BbFormItem' || vnode.props&&(vnode.props as any)['hasFormItem'] === false">
                     </component>
                     <BbFormItem :validationTrigger="(vnode.type as any).props.validationTrigger?.default"
                         v-bind="vnode.props ?? {}" v-else>
