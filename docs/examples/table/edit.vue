@@ -4,19 +4,19 @@
     <el-button @click="handleEdit" type="primary" v-if="!eidtStatus">批量编辑</el-button>
     <el-button @click="handleUnEdit" type="info" v-else>取消编辑</el-button>
   </div>
-  <bb-table :data="data" rowKey="value" :showEditColumn="true" saveUrl="save" ref="dataTable" v-model:editStatus="eidtStatus">
-    <bb-column-checkbox></bb-column-checkbox>
-    <bb-column prop="key" label="默认类型" :is-edit="true" :require="true" ></bb-column>
-    <bb-column-bool prop="isRelease" label="Bool类型" width="130" :is-edit="true" :require="true" >
+  <els-table :data="data" rowKey="value" :showEditColumn="true" saveUrl="save" ref="dataTable" v-model:editStatus="eidtStatus">
+    <els-column-checkbox></els-column-checkbox>
+    <els-column prop="key" label="默认类型" :is-edit="true" :require="true" ></els-column>
+    <els-column-bool prop="isRelease" label="Bool类型" width="130" :is-edit="true" :require="true" >
       <template #edit>
-       <bb-select  >
-        <bb-option :value="1">发布</bb-option>
-        <bb-option :value="0">未发布</bb-option>
-       </bb-select>
+       <els-select  >
+        <els-option :value="1">发布</els-option>
+        <els-option :value="0">未发布</els-option>
+       </els-select>
       </template>
-    </bb-column-bool>
-    <bb-column-enum prop="valueType" label="枚举类型" width="100" :enumData="ValueType"></bb-column-enum>
-  </bb-table>
+    </els-column-bool>
+    <els-column-enum prop="valueType" label="枚举类型" width="100" :enumData="ValueType"></els-column-enum>
+  </els-table>
 </template>
 
 <script setup lang="ts">

@@ -1,9 +1,9 @@
 <template>
-    <bb-checkbox v-model="selectValue" 
+    <els-checkbox v-model="selectValue" 
     :data="data" 
     label-field="key" 
     value-field="value" >
-    </bb-checkbox>
+    </els-checkbox>
 </template>
 
 <script setup lang="ts">

@@ -4,12 +4,12 @@
 
 import { ref, reactive, watch, useAttrs, computed, nextTick, provide,useSlots } from 'vue'
 import { ElMessage } from 'element-plus';
-import '../../utlis/babyPrototype.js'
-import babyCom from '../../utlis/babyCom.js'
+import '../../utlis/lessPrototype.js'
+import lessCom from '../../utlis/lessCom.js'
 import  {ValueType} from '../../utlis/enumCom'
 import  {FormItemProps} from '../../utlis/interfaceCom'
 defineOptions({
-  name: 'BbSelect',
+  name: 'ElsSelect',
 })
 
 interface Props extends FormItemProps {
@@ -354,7 +354,7 @@ if (props.url) {
             </el-option>
         </template>
         <template v-else-if="(url || data&&data.length > 0 || options.length) && groupField && !defaultSlotData.length">
-            <el-option-group v-for="group in babyCom.dtGroupBy(options, groupField)" :key="group.key" :label="group.key">
+            <el-option-group v-for="group in lessCom.dtGroupBy(options, groupField)" :key="group.key" :label="group.key">
                 <el-option @click="handleClickOption(item)" v-for="item in group.value" :key="item[valueField]"
                     :label="item[labelField]" :value="item[valueField]">
                     <i class="check" v-if="multiple"></i>
@@ -427,3 +427,4 @@ if (props.url) {
     display: none;
 }
 </style>
+../../utlis/lessCom.js../../utlis/lessPrototype.js

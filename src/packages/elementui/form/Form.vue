@@ -2,9 +2,9 @@
 import { ref, nextTick, provide, onBeforeUnmount, onMounted, useSlots} from 'vue'
 
 import {ElForm } from 'element-plus'
-import BbFormItem from '../form-item/FormItem.vue';
+import ElsFormItem from '../form-item/FormItem.vue';
 
-defineOptions({ name: 'BbForm' })
+defineOptions({ name: 'ElsForm' })
 
 interface Props {
     type?: string,
@@ -78,14 +78,14 @@ defineExpose({
        <slot v-if="false"></slot>
        <slot name="edit" v-if="slots.default">
             <template v-for="vnode in slots.default()">
-                <component :is="()=>vnode"  v-if="!(vnode.type as any).name||(vnode.type as any).name==='ElFormItem'||(vnode.type as any)?.name==='BbFormItem'||!(vnode.type as any).props||!(vnode.type as any).props.hasFormItem||vnode.props &&(vnode.props as any)['hasFormItem']===false"></component>
-                <BbFormItem  :validationTrigger="(vnode.type as any).props.validationTrigger?.default" v-bind="vnode.props??{}"   v-else>
+                <component :is="()=>vnode"  v-if="!(vnode.type as any).name||(vnode.type as any).name==='ElFormItem'||(vnode.type as any)?.name==='ElsFormItem'||!(vnode.type as any).props||!(vnode.type as any).props.hasFormItem||vnode.props &&(vnode.props as any)['hasFormItem']===false"></component>
+                <ElsFormItem  :validationTrigger="(vnode.type as any).props.validationTrigger?.default" v-bind="vnode.props??{}"   v-else>
                     <template #default="{key}">
                         <component :is="vnode" v-if="(vnode as any).props.hasOwnProperty('modelValue')" ></component>
                         <component :is="vnode" v-else-if="modelData"   v-model="modelData[key]"></component>
                         <component :is="vnode" v-else></component>
                     </template>
-                </BbFormItem>
+                </ElsFormItem>
             </template>
         </slot>
     </el-form>

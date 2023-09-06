@@ -59,7 +59,7 @@ table/column
 
 :::tip
 
-列设置<code>:is-edit="true"</code>开启编辑,默认输入框，使用其他组件请使用插槽<code>edit</code>,默认在插槽下的组件会带上<code>bb-form-item</code>支持校验验证
+列设置<code>:is-edit="true"</code>开启编辑,默认输入框，使用其他组件请使用插槽<code>edit</code>,默认在插槽下的组件会带上<code>els-form-item</code>支持校验验证
 
 :::
 

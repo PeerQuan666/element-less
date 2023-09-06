@@ -1,21 +1,21 @@
 <template>
-    <bb-form v-model="editData" ref="editForm">
-        <bb-select label="城市" field-name="selectValue" 
+    <els-form v-model="editData" ref="editForm">
+        <els-select label="城市" field-name="selectValue" 
         :url="apiUrl" 
         label-field="Name" 
         value-field="ID" 
         require
-        clearable></bb-select>
-        <bb-radio-button label="城市1" field-name="selectValue1" require>
-            <bb-option :value="1">北京</bb-option>
-            <bb-option :value="2">天津</bb-option>
-            <bb-option :value="3">福州</bb-option>
-            <bb-option :value="4">厦门</bb-option>
-        </bb-radio-button>
-        <bb-form-item>
+        clearable></els-select>
+        <els-radio-button label="城市1" field-name="selectValue1" require>
+            <els-option :value="1">北京</els-option>
+            <els-option :value="2">天津</els-option>
+            <els-option :value="3">福州</els-option>
+            <els-option :value="4">厦门</els-option>
+        </els-radio-button>
+        <els-form-item>
             <el-button @click="handleSubmit" type="primary">提交</el-button>
-        </bb-form-item>
-    </bb-form>
+        </els-form-item>
+    </els-form>
 </template>
 
 <script lang="ts" setup>

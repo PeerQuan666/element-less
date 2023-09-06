@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useSlots } from 'vue';
-import BbColumn from '../table-column/TableColumn.vue';
-defineOptions({ name: 'BbColumnEnum' })
+import ElsColumn from '../table-column/TableColumn.vue';
+defineOptions({ name: 'ElsColumnEnum' })
 
 interface Props{
     enumData?:any,
@@ -20,12 +20,12 @@ const slots = useSlots()
 
 </script>
 <template>
-    <bb-column  type="enum" v-bind="props">
+    <els-column  type="enum" v-bind="props">
         <template #default="{row,$index}" v-if="slots.default">
             <slot name="default" :row="row" :$index="$index"></slot>
         </template>
         <template #edit="{row,$index}" v-if="slots.edit">
             <slot name="edit" :row="row" :$index="$index"></slot>
         </template>
-    </bb-column>
+    </els-column>
 </template>

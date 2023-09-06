@@ -3,8 +3,8 @@ home: true
 icon: home
 title: 首页
 heroImage: /logo.svg
-heroText: BabybusUI
-tagline: 一款基于Element Plus二次封装的组件库
+heroText: Element-Less
+tagline: 一款基于Element UI二次封装的组件库
 bgImage: https://theme-hope-assets.vuejs.press/bg/6-light.svg
 bgImageDark: https://theme-hope-assets.vuejs.press/bg/6-dark.svg
 actions:
@@ -21,7 +21,7 @@ highlights:
     bgImage: https://theme-hope-assets.vuejs.press/bg/3-light.svg
     bgImageDark: https://theme-hope-assets.vuejs.press/bg/3-dark.svg
     highlights:
-      - title: 运行 <code>npm install babybus-ui</code> 以使用组件。
+      - title: 运行 <code>npm install element-less</code> 以使用组件。
 
   - header: 在页面中使用组件
     description: 对ElementUI做了二次封装，添加了成吨的功能。

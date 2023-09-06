@@ -2,7 +2,7 @@
 import { ref, watch, useAttrs, useSlots } from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 defineOptions({
-    name: 'BbInput',
+    name: 'ElsInput',
 })
 interface Props extends FormItemProps {
     modelValue?: ''

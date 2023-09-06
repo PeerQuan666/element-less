@@ -17,7 +17,7 @@ star: true
 
 :::tip 提示
 
-重写的组件<code>Props</code>继承<code>FormItemProps</code>在<code>bb-form</code>表单下会默认添加<code>bb-form-item</code>,如不需要添加属性:<code>hasFormItem="false"</code>
+重写的组件<code>Props</code>继承<code>FormItemProps</code>在<code>els-form</code>表单下会默认添加<code>els-form-item</code>,如不需要添加属性:<code>hasFormItem="false"</code>
 
 :::
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, useSlots, inject, watch, onMounted } from 'vue'
 defineOptions({
-    name: 'BbCol',
+    name: 'ElsCol',
 })
 interface Props {
     span?: number,
@@ -36,16 +36,16 @@ onMounted(() => {
             <slot name="edit" v-if="slots.default">
                 <template v-for="vnode in slots.default()">
                     <component :is="()=>vnode"
-                        v-if="!(vnode.type as any).name || (vnode.type as any).name === 'ElFormItem' || (vnode.type as any)?.name === 'BbFormItem' || vnode.props&&(vnode.props as any)['hasFormItem'] === false">
+                        v-if="!(vnode.type as any).name || (vnode.type as any).name === 'ElFormItem' || (vnode.type as any)?.name === 'ElsFormItem' || vnode.props&&(vnode.props as any)['hasFormItem'] === false">
                     </component>
-                    <BbFormItem :validationTrigger="(vnode.type as any).props.validationTrigger?.default"
+                    <ElsFormItem :validationTrigger="(vnode.type as any).props.validationTrigger?.default"
                         v-bind="vnode.props ?? {}" v-else>
                         <template #default="{ key }">
                             <component :is="vnode" v-if="(vnode as any).props.hasOwnProperty('modelValue')"></component>
                             <component :is="vnode" v-else-if="formData" v-model="formData[key]"></component>
                             <component :is="vnode" v-else></component>
                         </template>
-                    </BbFormItem>
+                    </ElsFormItem>
                 </template>
             </slot>
         </template>

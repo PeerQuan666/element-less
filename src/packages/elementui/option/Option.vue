@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
 import { ref,inject, useSlots ,reactive} from 'vue';
-defineOptions({name:'BbOption'})
+defineOptions({name:'ElsOption'})
 interface Props{
     type?:string,
     label?:string,

@@ -11,8 +11,8 @@ import mdContainer from 'markdown-it-container'
 export default defineUserConfig({
   base: "/",
   lang: "zh-CN",
-  title: "BabybusUI",
-  description: "BabybusUI",
+  title: "Element-Less",
+  description: "Element Less",
   plugins: [
     searchProPlugin({
       // 索引全部内容

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref, reactive, watch, useAttrs, computed, nextTick, provide } from 'vue'
 import { ElMessage } from 'element-plus';
-import BbOption from '../option/Option.vue';
-import BbOptionGroup from  '../option-group/OptionGroup.vue';
-import babyCom from '../../utlis/babyCom.js'
-import '../../utlis/babyPrototype.js'
+import ElsOption from '../option/Option.vue';
+import ElsOptionGroup from  '../option-group/OptionGroup.vue';
+import lessCom from '../../utlis/lessCom.js'
+import '../../utlis/lessPrototype.js'
 import  {ValueType} from '../../utlis/enumCom'
 import {RadioProps} from '../../utlis/interfaceCom'
 defineOptions({
-  name: 'BbRadio',
+  name: 'ElsRadio',
 })
 
 const props = withDefaults(defineProps<RadioProps>(), ({
@@ -100,10 +100,10 @@ if (props.type == 'radio') {
     if(props.width){
         radioStyle.push({'width':props.width.appendPx()})
     }
-    radioClass.push('bb-radio-default')
+    radioClass.push('els-radio-default')
 }
 else {
-    radioClass.push('bb-radio')
+    radioClass.push('els-radio')
 }
 if (props.height) {
     radioClass.push('scrollheight')
@@ -268,32 +268,32 @@ if (props.url) {
             v-bind="attrs">
             <slot name="default"></slot>
         </el-radio>
-        <el-radio-group v-else v-model="selectValue" ref="bb-radio-group" v-bind="attrs">
+        <el-radio-group v-else v-model="selectValue" ref="els-radio-group" v-bind="attrs">
             <slot name="extra"></slot>
             <el-empty v-if="filterText&&!optionData.length"></el-empty>
             <template v-else-if="(url || data&&data.length > 0 || options.length) && !groupField">
-                <bb-option :type="type" v-for="(item, index) in options" :key="index" :value="item[valueField]"
+                <els-option :type="type" v-for="(item, index) in options" :key="index" :value="item[valueField]"
                     :disabled="item[disabledField] === true" @click.native="handleClickOption(item)">
                     <slot name="default" :item="item">
                         {{ item[labelField] }}
                     </slot>
-                </bb-option>
+                </els-option>
             </template>
             <template v-else-if="(url || data&&data.length > 0) && groupField">
-                <template v-for="gitem in babyCom.dtGroupBy(options, groupField)">
-                    <bb-option-group :label="gitem.key??'未分组'">
-                        <bb-option :type="type" v-for="(item, index) in gitem.value" :key="index" :value="item[valueField]"
+                <template v-for="gitem in lessCom.dtGroupBy(options, groupField)">
+                    <els-option-group :label="gitem.key??'未分组'">
+                        <els-option :type="type" v-for="(item, index) in gitem.value" :key="index" :value="item[valueField]"
                             :disabled="item[disabledField] === true" @click.native="handleClickOption(item)">
                             <slot name="default" :item="item">
                                 {{ item[labelField] }}
                             </slot>
-                        </bb-option>
-                    </bb-option-group>
+                        </els-option>
+                    </els-option-group>
                 </template>
             </template>
             <slot name="default" v-else>
             </slot>
-            <bb-option :type="type" v-for="(item) in noExistOption" :key="item[valueField]" :value="item[valueField]" @click.native="handleClickOption(item)">{{ item[labelField] }}</bb-option>
+            <els-option :type="type" v-for="(item) in noExistOption" :key="item[valueField]" :value="item[valueField]" @click.native="handleClickOption(item)">{{ item[labelField] }}</els-option>
         </el-radio-group>
     </div>
 </template>
@@ -301,7 +301,7 @@ if (props.url) {
 <style lang="less" scoped>
 
 
-.bb-radio {
+.els-radio {
     display:flex;
     .el-radio-group {
         display: inline-block;
@@ -309,7 +309,7 @@ if (props.url) {
     }
 }
 
-.bb-radio-default {
+.els-radio-default {
     .el-radio-group {
         display: inline-block;
         width: 100%;
@@ -324,4 +324,4 @@ if (props.url) {
     border: 1px solid #dcdfe6;
     padding: 5px;
 }
-</style>
+</style>../../utlis/lessCom.js../../utlis/lessPrototype.js

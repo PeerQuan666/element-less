@@ -1,12 +1,12 @@
 
 <template>
-  <bb-table :data="data" rowKey="value">
-    <bb-column-checkbox></bb-column-checkbox>
-    <bb-column prop="key" label="默认类型"  ></bb-column>
-    <bb-column-bool prop="isRelease" label="Bool类型" width="100"></bb-column-bool>
-    <bb-column-enum prop="valueType" label="枚举类型" width="100" :enumData="ValueType"></bb-column-enum>
-    <bb-column-select></bb-column-select>
-  </bb-table>
+  <els-table :data="data" rowKey="value">
+    <els-column-checkbox></els-column-checkbox>
+    <els-column prop="key" label="默认类型"  ></els-column>
+    <els-column-bool prop="isRelease" label="Bool类型" width="100"></els-column-bool>
+    <els-column-enum prop="valueType" label="枚举类型" width="100" :enumData="ValueType"></els-column-enum>
+    <els-column-select></els-column-select>
+  </els-table>
 </template>
 
 <script setup lang="ts">

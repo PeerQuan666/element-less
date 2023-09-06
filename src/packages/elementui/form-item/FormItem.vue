@@ -2,8 +2,8 @@
 import { ref, useAttrs, computed, inject, useSlots,reactive } from 'vue'
 import { FormItemProps, QueryInfo } from '../../utlis/interfaceCom'
 import { ElSpace } from 'element-plus';
-import babyCom from '../../utlis/babyCom.js'
-defineOptions({ name: "BbFormItem" })
+import lessCom from '../../utlis/lessCom.js'
+defineOptions({ name: "ElsFormItem" })
 interface Props extends FormItemProps {
     spacer?: string
     spaceWrap?: boolean,
@@ -41,11 +41,11 @@ function initRules() {
 
 function initQuery() {
     if(getQueryData){
-        let currKey=props.fieldName??babyCom.Guid32()
+        let currKey=props.fieldName??lessCom.Guid32()
         const currQueryData:any=getQueryData()
         if(currQueryData){
             if(currQueryData[currKey]){
-                currKey+='_'+babyCom.Guid32()
+                currKey+='_'+lessCom.Guid32()
             }
         }
         const queryInfo: QueryInfo =
@@ -96,4 +96,4 @@ if (formType == 'Query' && setQueryData) {
 .el-form-item__content {
     column-gap: 5px;
 }
-</style>
+</style>../../utlis/lessCom.js

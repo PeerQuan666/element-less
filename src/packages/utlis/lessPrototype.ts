@@ -1,5 +1,5 @@
 
-import babyCom from "./babyCom";
+import lessCom from "./lessCom";
 export { }
 declare global {
     interface Number{
@@ -33,7 +33,7 @@ String.prototype.toCamel=function(){
 }
 String.prototype.appendPx = function(){
     if(!this){return ''}
-    if(babyCom.isNumber(this.toString())){
+    if(lessCom.isNumber(this.toString())){
         return this+'px';
     }
     return this.toString();
@@ -74,10 +74,10 @@ String.prototype.replacePowerUrl = function replacePowerUrl() {
 };
 
 String.prototype.post = function request(postdata:object, alertCatchError=true) {
-    return babyCom.post(this.toString(), postdata, alertCatchError)
+    return lessCom.post(this.toString(), postdata, alertCatchError)
 }
 String.prototype.get = function request(postdata:object, alertCatchError=true) {
-    return babyCom.get(this.toString(), postdata, alertCatchError)
+    return lessCom.get(this.toString(), postdata, alertCatchError)
 }
 
 

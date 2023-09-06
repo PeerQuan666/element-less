@@ -1,12 +1,12 @@
 <template>
-    <bb-checkbox v-model="selectValue" 
+    <els-checkbox v-model="selectValue" 
     :url="apiUrl" 
     label-field="Name" 
     value-field="ID"
     height="600"
     option-width="40%"
     filterable
-    ></bb-checkbox>
+    ></els-checkbox>
 </template>
 
 <script setup lang="ts">

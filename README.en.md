@@ -1,7 +1,7 @@
 # babybus-ui
 
 #### Description
-基于elementui二次封装得宝宝级别组件
+基于ElementUI二次封装组件库，简洁高效
 
 #### Software Architecture
 Software architecture description

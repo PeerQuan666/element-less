@@ -19,7 +19,7 @@ export default hopeTheme({
 
   logo: "/logo.svg",
 
-  repo: "https://gitee.com/PeerQuan/babybus-ui.git",
+  repo: "https://gitee.com/PeerQuan/element-less.git",
 
   docsDir: "src",
 

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref, reactive, watch, useAttrs, computed, nextTick, inject, provide, onBeforeUnmount, onMounted, useSlots } from 'vue'
-import babyCom from '../../utlis/babyCom.js'
+import lessCom from '../../utlis/lessCom.js'
 import lodash from 'lodash';
 
 import {ElForm } from 'element-plus'
-import BbFormItem from '../form-item/FormItem.vue';
+import ElsFormItem from '../form-item/FormItem.vue';
 import { QueryDataType, QueryMethod } from '../../utlis/enumCom';
 import { QueryInfo } from '../../utlis/interfaceCom';
 const { debounce } = lodash;
-defineOptions({ name: 'BbFormQuery' })
+defineOptions({ name: 'ElsFormQuery' })
 interface Props {
     queryTableRef?: string,
     queryAutoReadData?: boolean,
@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
 const slots = useSlots()
 const queryForm = ref()
 const submitButton = ref()
-const tagID = 'bb-form' + babyCom.Guid32;
+const tagID = 'els-form' + lessCom.Guid32;
 const attrs = useAttrs();
 let modelData: Record<string, any> = reactive({})
 let formData: Record<string, any> = ref({}) 
@@ -99,7 +99,7 @@ function converToQueryData(query:QueryInfo) {
             QueryParameterType: parameterType,
             IsAroundComma: isAroundComma,
             IsAutoQuery:isAutoQuery,
-            Value: queryDataType === QueryDataType.Int&& defaultValue && babyCom.isNumber(defaultValue) ? parseFloat(defaultValue) : defaultValue
+            Value: queryDataType === QueryDataType.Int&& defaultValue && lessCom.isNumber(defaultValue) ? parseFloat(defaultValue) : defaultValue
         }
     }
     return null
@@ -201,14 +201,14 @@ defineExpose({
        <slot v-if="false"></slot>
        <slot name="query" v-if="slots.default">
             <template v-for="vnode in slots.default()">
-                <component :is="()=>vnode"  v-if="!(vnode.type as any).name||(vnode.type as any)?.name==='ElFormItem'||(vnode.type as any)?.name==='BbFormItem'||!(vnode.type as any).props||!(vnode.type as any).props.hasFormItem||vnode.props&&(vnode as any).props['hasFormItem']===false"></component>
-                <BbFormItem :validationTrigger="(vnode.type as any).props.validationTrigger?.default" v-bind="vnode.props??{}"   v-else>
+                <component :is="()=>vnode"  v-if="!(vnode.type as any).name||(vnode.type as any)?.name==='ElFormItem'||(vnode.type as any)?.name==='ElsFormItem'||!(vnode.type as any).props||!(vnode.type as any).props.hasFormItem||vnode.props&&(vnode as any).props['hasFormItem']===false"></component>
+                <ElsFormItem :validationTrigger="(vnode.type as any).props.validationTrigger?.default" v-bind="vnode.props??{}"   v-else>
                     <template #default="{key}">
                         <component :is="vnode" v-if="(vnode as any).props.hasOwnProperty('modelValue')" ></component>
                         <component :is="vnode" v-else-if="modelData[key]"    v-model="modelData[key].Value"></component>
                         <component :is="vnode" v-else></component>
                     </template>
-                </BbFormItem>
+                </ElsFormItem>
             </template>
         </slot>
     </el-form>
@@ -221,3 +221,4 @@ defineExpose({
 </style>
 
 
+../../utlis/lessCom.js

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-const babyCom ={
+const lessCom ={
     getCompareClass(val) {
         if (!val || val === '-') { return ''; }
         if (parseFloat(val) < 0) {
@@ -94,11 +94,15 @@ const babyCom ={
         });
         return time_str;
       },
-    exportTable(e, cellStyles = [], headerRowCount = 0, headerCellStyle = {}, filename = ""){
-
+    exportTable(el, cellStyles = [], headerRowCount = 0, headerCellStyle = {}, filename = ""){
+        console.log(el)
+        console.log(cellStyles)
+        console.log(headerRowCount)
+        console.log(headerCellStyle)
+        console.log(filename)
     },
     exportJSON(data){
-
+console.log(data)
     },
     getObjectKey(obj, fields, separator = '$'){
         let currValue:any = [];
@@ -111,7 +115,7 @@ const babyCom ={
         if (arr.length) {
             let currArr = arr.filter(ele => this.isNumber(ele))
             if (currArr.length) {
-                let sum = currArr.map(ele => parseFloat(ele)).reduce(function (prev, curr, idx, arr) {
+                let sum = currArr.map(ele => parseFloat(ele)).reduce(function (prev, curr) {
                     if (!prev) { prev = 0; }
                     if (!curr) { curr = 0; }
                     return prev + curr;
@@ -140,7 +144,7 @@ const babyCom ={
             data.sort(function (obj1, obj2) {
                 var val1 = !obj1[fieldName] ? 0 : obj1[fieldName];
                 var val2 = !obj2[fieldName] ? 0 : obj2[fieldName];
-                if (babyCom.isNumber(val1) && babyCom.isNumber(val2)) {
+                if (lessCom.isNumber(val1) && lessCom.isNumber(val2)) {
                     val1 = parseFloat(val1);
                     val2 = parseFloat(val2);
                 }
@@ -160,7 +164,7 @@ const babyCom ={
             data.sort(function (obj1, obj2) {
                 var val1 = !obj2[fieldName] ? 0 : obj2[fieldName];
                 var val2 = !obj1[fieldName] ? 0 : obj1[fieldName];
-                if (babyCom.isNumber(val1) && babyCom.isNumber(val2)) {
+                if (lessCom.isNumber(val1) && lessCom.isNumber(val2)) {
                     val1 = parseFloat(val1);
                     val2 = parseFloat(val2);
                 }
@@ -176,10 +180,88 @@ const babyCom ={
        
     },
     getQueryData(queryData){
-        return {}
-    },
-    handleApiResult(result){
+        if (!queryData) {
+           return {}
+        }
+        let queryParms = {};
+        for (let key in queryData) {
+            var item = queryData[key];
+            if (item.QueryParameterType == 'NoPost') { continue; }
+            if (key == "PageSize" || key == "PageIndex") {
+                queryParms["Query_" + key] = item.Value
+            }
+            else if (item.QueryParameterType == 'Sort') {
+                var parameterName = key.startsWith("Sort_") ? key : "Sort_" + key;
+                var fieldName = item.QueryFieldName;
+                var sortRank = item.Value;
+                if (sortRank) {
+                    var signatureMD5 = item.SignatureMD5;
+                    queryParms[parameterName] = fieldName + "$" + sortRank + "$" + signatureMD5;
+                }
+            }
+            else {
+                if (((item.QueryType !== undefined && item.QueryType == "Query") || (item.QueryParameterType !== undefined && item.QueryParameterType != 'NoQuery')) && item.QueryMethod !== 'NoAuto') {
+                    let parameterName = "Query_" + key;
+                    let fieldName = item.QueryFieldName;
+                    let queryMethod = item.QueryMethod;
+                    let queryDataType = item.QueryDataType;
+                    let signatureMD5 = item.SignatureMD5;
+                    let fieldValue = item.Value;
+                    if (item.IsAroundComma === true && fieldValue && !fieldValue.startsWith(',')) {
+                        fieldValue = `,${fieldValue},`
+                    }
+                    if (fieldValue || typeof (fieldValue) == "number") {
+                        queryParms[parameterName] = fieldName + "$" + queryMethod + "$" + queryDataType + "$" + signatureMD5 + "$" + fieldValue;
+                    }
+                }
+             
+                else{
+                    queryParms[key] = item.Value
+                }
+            }
 
+        }
+        return queryParms;
+    },
+    handleApiResult(res){
+        if (!res.EventActionData && res.ResultCode == "0") {
+            ElMessage.success(res.ResultMessage)
+            return
+        } else if (!res.EventActionData && res.ResultCode != "0") {
+            ElMessage.error(res.ResultMessage)
+            return;
+        }
+        res.EventActionData.forEach(action => {
+            switch (action.Name) {
+                case "Alert":
+                    ElMessage.success({ message: action.Value })
+                    break
+                case "TargetUrl":
+                    window.location.href = action.Value;
+                    break
+                case "RefreshGrid":
+                   
+                    break
+                case "RefreshGridParent":
+                   
+                    break
+                case "CloseModal":
+                  
+                    break
+                case "RefreshFrame":
+                   
+                    break
+                case "RefreshFrameParent":
+                   
+                    break
+                case "Script":
+                    
+                    break;
+
+            }
+
+
+        })
     },
     getToolHeight(){
         return 0;
@@ -195,7 +277,7 @@ const babyCom ={
         return guid;
     },
     Guid32() {
-        return babyCom.Guid().replace(/-/g, "")
+        return lessCom.Guid().replace(/-/g, "")
     },
     cloneObj(obj:any) {
         if (!obj) { return {}; }
@@ -277,4 +359,4 @@ const babyCom ={
 }
 
 
-export default babyCom
+export default lessCom

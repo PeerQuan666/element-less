@@ -6,7 +6,7 @@ import { library,config  } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { BabyUI } from '../../src/packages'
+import { ElementLess } from '../../src/packages'
 import 'element-plus/dist/index.css'
 
 library.add(far,fas)
@@ -20,6 +20,6 @@ export default defineClientConfig({
     }
     app.component('font-awesome-icon', FontAwesomeIcon)
     app.use(ElementPlus);
-    app.use(BabyUI);
+    app.use(ElementLess);
   },
 });

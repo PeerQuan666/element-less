@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import { useSlots } from 'vue';
-import BbColumn from '../table-column/TableColumn.vue';
+import ElsColumn from '../table-column/TableColumn.vue';
 
-defineOptions({ name: 'BbColumnHeader' })
+defineOptions({ name: 'ElsColumnHeader' })
 
 const slots = useSlots()
 
 </script>
 <template>
-    <bb-column type="header">
+    <els-column type="header">
         <template #default="{row,$index}" v-if="slots.default">
             <slot name="default" :row="row" :$index="$index"></slot>
         </template>
-    </bb-column>
+    </els-column>
 </template>

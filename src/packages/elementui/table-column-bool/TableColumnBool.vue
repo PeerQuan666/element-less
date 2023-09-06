@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useSlots } from 'vue';
-import BbColumn from '../table-column/TableColumn.vue';
+import ElsColumn from '../table-column/TableColumn.vue';
 
 interface Props{
     trueLabel?:string,
@@ -14,18 +14,18 @@ const props= withDefaults(defineProps<Props>(), {
     trueValue: 1,
     falseClass:'txt-red',
 })
-defineOptions({ name: 'BbColumnBool' })
+defineOptions({ name: 'ElsColumnBool' })
 
 const slots = useSlots()
 
 </script>
 <template>
-    <bb-column type="bool" v-bind="props">
+    <els-column type="bool" v-bind="props">
         <template #default="{row,$index}" v-if="slots.default">
             <slot name="default" :row="row" :$index="$index"></slot>
         </template>
         <template #edit="{row,$index}" v-if="slots.edit">
             <slot name="edit" :row="row" :$index="$index"></slot>
         </template>
-    </bb-column>
+    </els-column>
 </template>

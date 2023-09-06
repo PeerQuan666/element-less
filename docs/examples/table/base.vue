@@ -1,9 +1,9 @@
 
 <template>
-  <bb-table :data="data">
-    <bb-column prop="key" label="城市" width="100"  ></bb-column>
-    <bb-column prop="value" label="值" ></bb-column>
-  </bb-table>
+  <els-table :data="data">
+    <els-column prop="key" label="城市" width="100"  ></els-column>
+    <els-column prop="value" label="值" ></els-column>
+  </els-table>
 </template>
 
 <script setup lang="ts">

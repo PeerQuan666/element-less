@@ -1,20 +1,20 @@
 <template>
     <div>
-        <bb-radio v-model="selectValue">
-        <bb-option :value="1">北京</bb-option>
-        <bb-option :value="2">天津</bb-option>
-        <bb-option :value="3">福州</bb-option>
-        <bb-option :value="4">厦门</bb-option>
-    </bb-radio>
+        <els-radio v-model="selectValue">
+        <els-option :value="1">北京</els-option>
+        <els-option :value="2">天津</els-option>
+        <els-option :value="3">福州</els-option>
+        <els-option :value="4">厦门</els-option>
+    </els-radio>
     </div>
   
     <div>
-        <bb-radio-button v-model="selectValue">
-            <bb-option :value="1">北京</bb-option>
-            <bb-option :value="2">天津</bb-option>
-            <bb-option :value="3">福州</bb-option>
-            <bb-option :value="4">厦门</bb-option>
-        </bb-radio-button>
+        <els-radio-button v-model="selectValue">
+            <els-option :value="1">北京</els-option>
+            <els-option :value="2">天津</els-option>
+            <els-option :value="3">福州</els-option>
+            <els-option :value="4">厦门</els-option>
+        </els-radio-button>
     </div>
 
 </template>

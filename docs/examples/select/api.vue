@@ -1,9 +1,9 @@
 <template>
-    <bb-select v-model="selectValue" 
+    <els-select v-model="selectValue" 
     :url="apiUrl" 
     label-field="Name" 
     value-field="ID"
-    ></bb-select>
+    ></els-select>
 </template>
 
 <script setup lang="ts">

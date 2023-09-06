@@ -1,6 +1,6 @@
 {
-  "name": "babybus-ui",
-  "version": "1.0.0",
+  "name": "element-less",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

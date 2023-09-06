@@ -7,11 +7,11 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   build: {
-		outDir: "babybus-ui", //输出文件名称
+		outDir: "element-less", //输出文件名称
 		lib: {
 			entry: path.resolve(__dirname, "./src/packages/index.ts"), //指定组件编译入口文件
-			name: "babybus-ui",
-			fileName: "babybus-ui",
+			name: "element-less",
+			fileName: "element-less",
 		}, //库编译模式配置
 		rollupOptions: {
 			// 确保外部化处理那些你不想打包进库的依赖

@@ -1,9 +1,9 @@
 <template>
-    <bb-row :gutter="10">
-        <bb-col><div class="grid-content red" /></bb-col>
-        <bb-col><div class="grid-content green" /></bb-col>
-        <bb-col><div class="grid-content yellow" /></bb-col>
-    </bb-row>
+    <els-row :gutter="10">
+        <els-col><div class="grid-content red" /></els-col>
+        <els-col><div class="grid-content green" /></els-col>
+        <els-col><div class="grid-content yellow" /></els-col>
+    </els-row>
 </template>
 
 <script setup lang="ts">

@@ -1,7 +1,7 @@
 <template>
-    <bb-input v-model="inputValue" prefixTag="前标签" ></bb-input>
+    <els-input v-model="inputValue" prefixTag="前标签" ></els-input>
     <div style="margin-bottom: 10px;"></div>
-    <bb-input v-model="inputValue" suffixTag="后标签"></bb-input>
+    <els-input v-model="inputValue" suffixTag="后标签"></els-input>
 </template>
 
 <script setup lang="ts">

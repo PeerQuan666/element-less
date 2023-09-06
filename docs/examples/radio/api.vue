@@ -1,12 +1,12 @@
 <template>
-    <bb-radio v-model="selectValue" 
+    <els-radio v-model="selectValue" 
     :url="apiUrl" 
     label-field="Name" 
     value-field="ID"
     height="600"
     option-width="40%"
     filterable
-    ></bb-radio>
+    ></els-radio>
 </template>
 
 <script setup lang="ts">

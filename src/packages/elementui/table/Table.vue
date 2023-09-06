@@ -2,12 +2,11 @@
 import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick, h } from 'vue'
 import { ElMessage, ElLoading } from 'element-plus';
 import Sortable from 'sortablejs'
-import babyCom from '../../utlis/babyCom.js'
-import { isNumber } from 'lodash';
-import BbTableColumn from '../table-column/TableColumn.vue';
-import BbForm from '../form/Form.vue';
+import lessCom from '../../utlis/lessCom.js'
+import ElsTableColumn from '../table-column/TableColumn.vue';
+import ElsForm from '../form/Form.vue';
 
-defineOptions({ name: 'BbTable', inheritAttrs: false, })
+defineOptions({ name: 'ElsTable', inheritAttrs: false, })
 const emits = defineEmits(['update:check-rows', 'update:check-row-keys', 'drag-move', 'drag-start', 'update:editStatus', 'row-before-context-menu'])
 const attrs = useAttrs()
 interface Props {
@@ -52,7 +51,7 @@ interface Props {
     beforeReadData?: Function,
     afterReadData?: Function,
     headerStickyTop?: number | boolean,
-    editStatus?: bool
+    editStatus?: boolean
 
 }
 
@@ -73,7 +72,7 @@ const props = withDefaults(defineProps<Props>(), {
     queryData: {}
 })
 console.info(props)
-const tagID = babyCom.Guid32()
+const tagID = lessCom.Guid32()
 const wrapTagID = 'leo-wrap-' + tagID
 let currSaveUrl = ref('')
 let currHeaderStickyTop = ref(-1)
@@ -114,7 +113,7 @@ const tableForm = ref()
 
 const dataGridMenu = ref()
 let tableContainer = h('div', { class: 'table-container' })
-let tableFormContainer = h(BbForm, { ref: 'tableForm', modelValue: tableData, class: 'table-form-container', labelWidth: '0', showMessage: false })
+let tableFormContainer = h(ElsForm, { ref: 'tableForm', modelValue: tableData, class: 'table-form-container', labelWidth: '0', showMessage: false })
 
 
 watch(() => props.isLocaleString, (val) => {
@@ -186,8 +185,8 @@ watch(columnMergeData, (val) => {
 
 }, { immediate: true })
 watch(tableCheckData, (val) => {
-    emits("update:check-rows", babyCom.cloneObj(val.checkRows))
-    emits("update:check-row-keys", babyCom.cloneObj(val.checkRowKeys))
+    emits("update:check-rows", lessCom.cloneObj(val.checkRows))
+    emits("update:check-row-keys", lessCom.cloneObj(val.checkRowKeys))
 
 }, { deep: true })
 
@@ -358,7 +357,7 @@ function setSummaryData(field, summaryData) {
 function initData() {
     if (props.headerStickyTop === true) {
         currHeaderStickyTop.value = 0;
-    } else if (isNumber(props.headerStickyTop)) {
+    } else if (typeof(props.headerStickyTop)=="number") {
         currHeaderStickyTop.value = props.headerStickyTop
     } else {
         currHeaderStickyTop.value = -1;
@@ -415,7 +414,7 @@ function initTableData(val) {
         tableData.length = 0;
         tableData.push(...sourceTableData)
     }
-    editSourceTableData = babyCom.cloneObj(sourceTableData)
+    editSourceTableData = lessCom.cloneObj(sourceTableData)
     setTableCheckRows();
 }
 function setTableCurrentRow(id) {
@@ -499,7 +498,7 @@ function saveTableData(url, postData: any = []) {
                             ElMessage.success('保存成功')
                             compatibleReadData()
                         } else {
-                            babyCom.handleApiResult(res);
+                            lessCom.handleApiResult(res);
                         }
                     }
                     resolve(res)
@@ -593,7 +592,7 @@ function validEditRow(row) {
     return tableForm.value.validateField(validFields);
 }
 function handleTableSelectSortRow() {
-    sortSelectRow = babyCom.cloneObj(rowData)
+    sortSelectRow = lessCom.cloneObj(rowData)
 }
 function handleTableRowMoveHere(url) {
     url.post({ selectID: sortSelectRow[props.rowKey], moveID: rowData[props.rowKey] }).then(res => {
@@ -704,13 +703,13 @@ function handleSpanMethod({ row, column, rowIndex, columnIndex }) {
             if (mergeAttrData.mergeRowByFieldName) {
                 mergeByFieldName = mergeAttrData.mergeRowByFieldName
             }
-            let currRowValue = babyCom.getObjectKey(row, mergeByFieldName)
-            if (currTableData.findIndex(ele => babyCom.getObjectKey(ele, mergeByFieldName) === currRowValue) === rowIndex) {
-                let currRows = currTableData.filter(ele => babyCom.getObjectKey(ele, mergeByFieldName) === currRowValue);
+            let currRowValue = lessCom.getObjectKey(row, mergeByFieldName)
+            if (currTableData.findIndex(ele => lessCom.getObjectKey(ele, mergeByFieldName) === currRowValue) === rowIndex) {
+                let currRows = currTableData.filter(ele => lessCom.getObjectKey(ele, mergeByFieldName) === currRowValue);
                 rowSpan = currRows.length;
                 colSpan = 1;
                 if (mergeAttrData.isMergeSumValue) {
-                    row[column.columnKey] = babyCom.sumArray(currRows.map(ele => ele[mergeFieldName]))
+                    row[column.columnKey] = lessCom.sumArray(currRows.map(ele => ele[mergeFieldName]))
                 }
                 else if (mergeAttrData.mergeMethod) {
                     row[column.columnKey] = mergeAttrData.mergeMethod(currRows, column)
@@ -757,7 +756,7 @@ function handleSummaryMethod(param) {
                     sums[index] = currSummary.summaryValue
                 }
                 else {
-                    sums[index] = babyCom.sumArray(sourceTableData.map(ele => ele[currSummary.summaryFieldName]))
+                    sums[index] = lessCom.sumArray(sourceTableData.map(ele => ele[currSummary.summaryFieldName]))
                 }
             } else {
                 sums[index] = '';
@@ -768,7 +767,7 @@ function handleSummaryMethod(param) {
 }
 function clientTableData() {
 
-    let clientData = babyCom.cloneObj(sourceTableData)
+    let clientData = lessCom.cloneObj(sourceTableData)
     if (props.isClientSearch) {
         clientData = clientTableSearchData(clientData)
     }
@@ -780,9 +779,9 @@ function clientTableData() {
     setTableCheckRows()
 }
 function clientTablePageData(data) {
-    var pageData = babyCom.pageArray(data, currPageIndex.value - 1, currPageSize.value)
+    var pageData = lessCom.pageArray(data, currPageIndex.value - 1, currPageSize.value)
     if (pageData.length === 0) {
-        pageData = babyCom.pageArray(data, 0, currPageSize.value)
+        pageData = lessCom.pageArray(data, 0, currPageSize.value)
     }
     currRecourdCount = data.length
     return pageData
@@ -841,7 +840,7 @@ function readData() {
         props.beforeReadData()
     }
     dataLoading.value = true;
-    let currQueryData = babyCom.getQueryData(searchQueryData);
+    let currQueryData = lessCom.getQueryData(searchQueryData);
     return props.url.post(currQueryData).then(res => {
         if (res.ResultCode === "0") {
             if (res.Data.ExtendData != undefined) {
@@ -867,7 +866,7 @@ function readData() {
                 tableData.length = 0
                 tableData.push(...sourceTableData)
             }
-            editSourceTableData = babyCom.cloneObj(sourceTableData)
+            editSourceTableData = lessCom.cloneObj(sourceTableData)
             if (res.Data.DayCount) {
                 provideData.avgDay = res.Data.DayCount;
             }
@@ -925,7 +924,7 @@ function setTableCheckRows(checkRowKeys: any = null) {
                 if (ele[props.rowKey]) {
                     if (checkRowKeys) {
                         if (checkRowKeys.indexOf(ele[props.rowKey]) > -1) {
-                            tableCheckData.checkRowKeys = babyCom.cloneObj(checkRowKeys);
+                            tableCheckData.checkRowKeys = lessCom.cloneObj(checkRowKeys);
                             dataTable.value.toggleRowSelection(ele, true);
                         }
                     } else {
@@ -986,10 +985,10 @@ function handleSortTable(column) {
 }
 function sortTableData(fieldName, order) {
     if (order == "ascending") {
-        babyCom.orderBy(sourceTableData, fieldName)
+        lessCom.orderBy(sourceTableData, fieldName)
 
     } else if (order == "descending") {
-        babyCom.orderByDescending(sourceTableData, fieldName)
+        lessCom.orderByDescending(sourceTableData, fieldName)
     }
     clientTableData()
 }
@@ -1026,7 +1025,7 @@ function handleDragCheckItem() {
     tableCheckData.checkRowKeys = tableCheckData.checkRows.map(ele => ele[props.rowKey])
 }
 function handleCloseCheckItem(item) {
-    babyCom.removeArrayItem(tableCheckData.checkRows, item)
+    lessCom.removeArrayItem(tableCheckData.checkRows, item)
     tableCheckData.checkRowKeys = tableCheckData.checkRows.map(ele => ele[props.rowKey])
     let currRow = tableData.find(ele => ele[props.rowKey] == item[props.rowKey])
     if (currRow) {
@@ -1050,7 +1049,7 @@ function exportClientTableDataHtml() {
 function exportTableDataHtml() {
     let filename = getExportFileName();
     let headerCount = dataTable.value.$el.querySelector(".el-table__header").querySelectorAll("tr").length
-    babyCom.exportTable(dataTable.value.$el, [], headerCount, {
+    lessCom.exportTable(dataTable.value.$el, [], headerCount, {
         font: {
             bold: true,
         },
@@ -1088,7 +1087,7 @@ function exportTableReadDataHtml() {
         props.beforeReadData()
     }
     let currQueryData = Object.assign(props.queryData, columnSortData)
-    currQueryData = babyCom.getQueryData(currQueryData)
+    currQueryData = lessCom.getQueryData(currQueryData)
     currQueryData["Query_PageSize"] = 100000;
     currQueryData["Query_PageIndex"] = 0;
     const exportLoading = ElLoading.service({
@@ -1126,7 +1125,7 @@ function exportTableReadData() {
         return;
     }
     let currQueryData = Object.assign(props.queryData, columnSortData)
-    currQueryData = babyCom.getQueryData(currQueryData)
+    currQueryData = lessCom.getQueryData(currQueryData)
     currQueryData["Query_PageSize"] = 100000;
     currQueryData["Query_PageIndex"] = 0;
     currUrl.post(currQueryData).then(res => {
@@ -1143,7 +1142,7 @@ function exportDefaultTableData(tHeader, data, filename) {
     if (!filename) {
         filename = getExportFileName();
     }
-    babyCom.exportJSON({
+    lessCom.exportJSON({
         header: tHeader,
         data,
         filename: filename,
@@ -1153,7 +1152,7 @@ function exportDefaultTableData(tHeader, data, filename) {
 function formatExportJson(filterVal, jsonData) {
     return jsonData.map(v => filterVal.map(j => {
         if (j === 'timestamp') {
-            return babyCom.parseTime(v[j])
+            return lessCom.parseTime(v[j])
         } else {
             if (j.indexOf('.') > -1) {
                 return eval("v." + j)
@@ -1170,31 +1169,31 @@ function getExportFileName() {
     let currQueryData = props.queryData;
 
     if (currQueryData.StartDate_QueryDate && currQueryData.EndDate_QueryDate) {
-        filename += "(" + currQueryData.StartDate_QueryDate.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_QueryDate.replaceAll(" 23:59:59", "") + ")" + "-" + babyCom.formatDate(new Date(), "yyyyMMddHHmmss");
+        filename += "(" + currQueryData.StartDate_QueryDate.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_QueryDate.replaceAll(" 23:59:59", "") + ")" + "-" + lessCom.formatDate(new Date(), "yyyyMMddHHmmss");
     } else if (currQueryData.StartDate_CreateDate && currQueryData.EndDate_CreateDate) {
-        filename += "(" + currQueryData.StartDate_CreateDate.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_CreateDate.replaceAll(" 23:59:59", "") + ")" + "-" + babyCom.formatDate(new Date(), "yyyyMMddHHmmss");
+        filename += "(" + currQueryData.StartDate_CreateDate.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_CreateDate.replaceAll(" 23:59:59", "") + ")" + "-" + lessCom.formatDate(new Date(), "yyyyMMddHHmmss");
     }
     else if (currQueryData.DateType) {
         if ((currQueryData.DateType == 1 || currQueryData.DateType == 'Day') && currQueryData.StartDate_CreateDay) {
-            filename += "(" + currQueryData.StartDate_CreateDay.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_CreateDay.replaceAll(" 23:59:59", "") + ")" + "-" + babyCom.formatDate(new Date(), "yyyyMMddHHmmss");
+            filename += "(" + currQueryData.StartDate_CreateDay.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_CreateDay.replaceAll(" 23:59:59", "") + ")" + "-" + lessCom.formatDate(new Date(), "yyyyMMddHHmmss");
         } else if ((currQueryData.DateType == 2 || currQueryData.DateType == 'Week') && currQueryData.StartDate_CreateWeek) {
-            filename += "(" + currQueryData.StartDate_CreateWeek.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_CreateWeek.replaceAll(" 23:59:59", "") + ")" + "-" + babyCom.formatDate(new Date(), "yyyyMMddHHmmss");
+            filename += "(" + currQueryData.StartDate_CreateWeek.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_CreateWeek.replaceAll(" 23:59:59", "") + ")" + "-" + lessCom.formatDate(new Date(), "yyyyMMddHHmmss");
         } else if (currQueryData.EndDate_CreateMonth) {
-            filename += "(" + currQueryData.StartDate_CreateMonth.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_CreateMonth.replaceAll(" 23:59:59", "") + ")" + "-" + babyCom.formatDate(new Date(), "yyyyMMddHHmmss");
+            filename += "(" + currQueryData.StartDate_CreateMonth.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_CreateMonth.replaceAll(" 23:59:59", "") + ")" + "-" + lessCom.formatDate(new Date(), "yyyyMMddHHmmss");
         } else {
-            filename += "-" + babyCom.formatDate(new Date(), "yyyyMMddHHmmss");
+            filename += "-" + lessCom.formatDate(new Date(), "yyyyMMddHHmmss");
         }
     }
     else if (currQueryData.StartDate_CreateMonth && currQueryData.EndDate_CreateMonth) {
-        filename += "(" + currQueryData.StartDate_CreateMonth.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_CreateMonth.replaceAll(" 23:59:59", "") + ")" + "-" + babyCom.formatDate(new Date(), "yyyyMMddHHmmss");
+        filename += "(" + currQueryData.StartDate_CreateMonth.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_CreateMonth.replaceAll(" 23:59:59", "") + ")" + "-" + lessCom.formatDate(new Date(), "yyyyMMddHHmmss");
     }
     else if (currQueryData.StartDate_CreateDay && currQueryData.EndDate_CreateDay) {
-        filename += "(" + currQueryData.StartDate_CreateDay.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_CreateDay.replaceAll(" 23:59:59", "") + ")" + "-" + babyCom.formatDate(new Date(), "yyyyMMddHHmmss");
+        filename += "(" + currQueryData.StartDate_CreateDay.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_CreateDay.replaceAll(" 23:59:59", "") + ")" + "-" + lessCom.formatDate(new Date(), "yyyyMMddHHmmss");
     }
     else if (currQueryData.StartDate_CreateWeek && currQueryData.EndDate_CreateWeek) {
-        filename += "(" + currQueryData.StartDate_CreateWeek.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_CreateWeek.replaceAll(" 23:59:59", "") + ")" + "-" + babyCom.formatDate(new Date(), "yyyyMMddHHmmss");
+        filename += "(" + currQueryData.StartDate_CreateWeek.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_CreateWeek.replaceAll(" 23:59:59", "") + ")" + "-" + lessCom.formatDate(new Date(), "yyyyMMddHHmmss");
     } else {
-        filename += "-" + babyCom.formatDate(new Date(), "yyyyMMddHHmmss");
+        filename += "-" + lessCom.formatDate(new Date(), "yyyyMMddHHmmss");
     }
     return filename;
 }
@@ -1228,7 +1227,7 @@ onMounted(() => {
 
     if (props.headerStickyTop === true || props.headerStickyTop as number > -1) {
         setTimeout(() => {
-            currHeaderStickyTop.value = babyCom.getToolHeight()
+            currHeaderStickyTop.value = lessCom.getToolHeight()
         }, 400)
     }
     setDragSortable();
@@ -1236,7 +1235,7 @@ onMounted(() => {
     window.addEventListener("resize", function () {
         if (props.headerStickyTop === true || props.headerStickyTop as number > -1) {
             setTimeout(() => {
-                currHeaderStickyTop.value = babyCom.getToolHeight()
+                currHeaderStickyTop.value = lessCom.getToolHeight()
             }, 400)
         }
 
@@ -1286,7 +1285,7 @@ defineExpose({
             v-bind="attrs">
             <template #default>
                 <slot name="default"></slot>
-                <bb-table-column label="操作" v-if="showEditColumn && (isShowEditColumn || dragSortable)" fixed="right"
+                <els-table-column label="操作" v-if="showEditColumn && (isShowEditColumn || dragSortable)" fixed="right"
                     width="200">
                     <template #default="{ row, $index }">
                         <el-button type="success" @click="handleRowSave(row)" v-if="row.edit && isEdit"
@@ -1296,7 +1295,7 @@ defineExpose({
 
                         <el-button type="info" v-if="dragSortable" class="leo-table-drag" icon="Rank"></el-button>
                     </template>
-                </bb-table-column>
+                </els-table-column>
             </template>
             <template #append>
                 <slot name="append"></slot>
@@ -1326,4 +1325,4 @@ defineExpose({
     </div>
     <leo-menus-context ref="dataGridMenu" :row="rowData" :visible="gridMenuVisible" :positionLeft="gridMenuPositionLeft"
         :positionTop="gridMenuPositionTop"></leo-menus-context>
-</template>
+</template>../../utlis/lessCom.js

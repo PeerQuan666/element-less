@@ -2,11 +2,11 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, useAttrs, inject, onErrorCaptured,useSlots } from 'vue'
 import { ElMessage,ElButton } from 'element-plus';
-import babyCom from '../../utlis/babyCom';
+import lessCom from '../../utlis/lessCom';
 import { ColumnProps } from '../../utlis/interfaceCom'
 
 
-defineOptions({ name: 'BbColumn' })
+defineOptions({ name: 'ElsColumn' })
 const setEditData = inject<Function>("setEditData")
 const setSortData = inject<Function>("setSortData")
 const setMergeRowData = inject<Function>("setMergeRowData")
@@ -127,14 +127,14 @@ function formatterText(val) {
     if (val === undefined) { return '' }
     let currVal = val
     if (provideData.avgDay > 0 && props.isAvgDay) {
-        currVal = babyCom.getAvgDayResult(val, 2, provideData.avgDay)
+        currVal = lessCom.getAvgDayResult(val, 2, provideData.avgDay)
     }
 
-    if (babyCom.isNumber(currVal) && (props.isLocaleString || provideData.isLocaleString)) {
+    if (lessCom.isNumber(currVal) && (props.isLocaleString || provideData.isLocaleString)) {
         currVal = parseFloat(currVal).toLocaleString()
     }
     if (props.dateFormatter) {
-        currVal = babyCom.formatDate(val, props.dateFormatter)
+        currVal = lessCom.formatDate(val, props.dateFormatter)
     }
     return currVal
 
@@ -153,8 +153,8 @@ function getEnumKeyByValue(row) {
     }
 }
 function handleSelectRow(row) {
-    let selectTagID = babyCom.getUrlParms("Transfer_SelectTagID");
-    let isMulti = babyCom.getUrlParms("Transfer_IsMuti");
+    let selectTagID = lessCom.getUrlParms("Transfer_SelectTagID");
+    let isMulti = lessCom.getUrlParms("Transfer_IsMuti");
     if (handleTableSelectRow) {
         handleTableSelectRow(row)
     }
@@ -162,7 +162,7 @@ function handleSelectRow(row) {
         return;
     }
     if (selectTagID) {
-        let modalType = babyCom.getUrlParms("Power_ModalType");
+        let modalType = lessCom.getUrlParms("Power_ModalType");
         if (modalType) {
             var parent = window.parent;
             if (!parent[selectTagID]) {
@@ -194,7 +194,7 @@ if (props.isTb) {
 columnClass.value = ""
 if (provideData.isExport && props.isExport && props.type != 'selection' && props.type != 'select') {
 
-    columnClass.value += "bb-isexport "
+    columnClass.value += "els-isexport "
 }
 if (attrs["class-name"]) {
     columnClass.value += attrs["class-name"]
@@ -230,8 +230,8 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
                 </slot>
             </template>
             <template v-else-if="(!row.edit || !isEdit) && prop">
-                <bb-image v-if="type == 'image'" :empty-desc="urlEmptyDesc" :url="row[prop]" :is-preview="isPreview"
-                    :style="imageStyle"></bb-image>
+                <els-image v-if="type == 'image'" :empty-desc="urlEmptyDesc" :url="row[prop]" :is-preview="isPreview"
+                    :style="imageStyle"></els-image>
 
                 <template v-else-if="type == 'enum'">
                     {{ getEnumKeyByValue(row) }}
@@ -247,11 +247,11 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
                 </template>
                 <template v-else>
                     <slot name="default" :row="row" :column="column" :$index="$index">
-                        <span v-if="isHb && prop" :class="babyCom.getCompareClass(babyCom.getHBResult(row, prop))">
-                            {{ babyCom.getHBResult(row, prop) }}
+                        <span v-if="isHb && prop" :class="lessCom.getCompareClass(lessCom.getHBResult(row, prop))">
+                            {{ lessCom.getHBResult(row, prop) }}
                         </span>
-                        <span v-else-if="isTb && prop" :class="babyCom.getCompareClass(babyCom.getTBResult(row, prop))">
-                            {{ babyCom.getTBResult(row, prop) }}
+                        <span v-else-if="isTb && prop" :class="lessCom.getCompareClass(lessCom.getTBResult(row, prop))">
+                            {{ lessCom.getTBResult(row, prop) }}
                         </span>
                         <template v-else-if="(isLocaleString || isAvgDay || dateFormatter) && prop">
                             {{ formatterText(row[prop]) }}
@@ -262,9 +262,9 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
                 </template>
             </template>
             <template v-else-if="(!row.edit || !isEdit)">
-                <bb-menus-dropdown v-if="type == 'operate'" :row="row" :key="row" :is-fold="isFold"
+                <els-menus-dropdown v-if="type == 'operate'" :row="row" :key="row" :is-fold="isFold"
                     :un-fold-count="unFoldCount" :is-mobile="attrs['is-mobile']">
-                </bb-menus-dropdown>
+                </els-menus-dropdown>
 
                 <el-button v-else-if="type == 'select'" 
                     @click="handleSelectRow(row)" :type="tableCheckData.checkRowKeys.indexOf(row[rowKey]) > -1?'info':'primary'">{{ tableCheckData.checkRowKeys.indexOf(row[rowKey]) > -1?'取消选择':selectButtonLabel }}</el-button>
@@ -280,26 +280,26 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
                 <slot name="formitem"  :row="row" :column="column" :$index="$index">
                     <template v-if="slots.edit">
                         <template v-for="vnode in slots.edit({row:row})[0].children">
-                                <component :is="()=>vnode"  v-if="!(vnode.type as any).name||(vnode.type as any).name==='ElFormItem'||(vnode.type as any)?.name==='BbFormItem'||!(vnode.type as any).props||!(vnode.type as any).props.hasFormItem||vnode.props&&(vnode.props as any)['hasFormItem']===false"></component>
-                                <BbFormItem 
+                                <component :is="()=>vnode"  v-if="!(vnode as any).type.name||(vnode as any).type.name==='ElFormItem'||(vnode as any).type?.name==='ElsFormItem'||!(vnode as any).type.props||!(vnode as any).type.props.hasFormItem||(vnode as any).props&&(vnode as any).props['hasFormItem']===false"></component>
+                                <ElsFormItem 
                                 :prop="`[${$index}]['${prop}']`" :key="`[${$index}]['${prop}']`"
-                                :validationTrigger="(vnode.type as any).props.validationTrigger?.default" 
+                                :validationTrigger="(vnode as any).type.props.validationTrigger?.default" 
                                 :require="require" 
                                 :requireMessage="requireMessage" 
                                 :validationMessage="validationMessage" 
                                 :validationExpression="validationExpression"
                                 :validationMethod="validationMethod"
-                                v-bind="vnode.props??{}"   v-else>
+                                v-bind="(vnode as any).props??{}"   v-else>
                                 
-                                    <template #default="{key}">
+                                    <template #default>
                                         <component :is="vnode" v-if="(vnode as any).props?.hasOwnProperty('modelValue')" ></component>
                                         <component :is="vnode" v-else-if="row"   v-model="row[prop]"></component>
                                         <component :is="vnode" v-else></component>
                                     </template>
-                                </BbFormItem>
+                                </ElsFormItem>
                         </template>
                     </template>
-                    <bb-form-item v-else :prop="`[${$index}]['${prop}']`" :key="`[${$index}]['${prop}']`"
+                    <els-form-item v-else :prop="`[${$index}]['${prop}']`" :key="`[${$index}]['${prop}']`"
                         :require="require" 
                         :requireMessage="requireMessage" 
                         :validationMessage="validationMessage" 
@@ -311,10 +311,11 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
                             clearable 
                             :placeholder="'请输入' + attrs['label']"
                             v-model="row[prop]"></el-input>
-                    </bb-form-item>
+                    </els-form-item>
                 </slot>
             </template>
           
         </template>
     </el-table-column>
 </template>
+../../utlis/lessCom

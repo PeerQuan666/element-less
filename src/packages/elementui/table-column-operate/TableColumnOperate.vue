@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import BbColumn from '../table-column/TableColumn.vue';
+import ElsColumn from '../table-column/TableColumn.vue';
 import { useSlots } from 'vue';
 interface Props{
     menusFieldname?:string
@@ -8,13 +8,13 @@ interface Props{
 withDefaults(defineProps<Props>(), {
   menusFieldname: 'PowerMenu',
 })
-defineOptions({ name: 'BbColumnOperate' })
+defineOptions({ name: 'ElsColumnOperate' })
 const slots = useSlots()
 </script>
 <template>
-    <bb-column label="操作" type="operate" :menusFieldname="menusFieldname" :isExport="false">
+    <els-column label="操作" type="operate" :menusFieldname="menusFieldname" :isExport="false">
         <template #default="{row,$index}" v-if="slots.default">
             <slot name="default" :row="row" :$index="$index"></slot>
         </template>
-    </bb-column>
+    </els-column>
 </template>

@@ -1,10 +1,10 @@
 <template>
-    <bb-select v-model="selectValue" 
+    <els-select v-model="selectValue" 
     :data="data" 
     label-field="key" 
     value-field="value" 
     group-field="group">
-    </bb-select>
+    </els-select>
 </template>
 
 <script setup lang="ts">

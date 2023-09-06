@@ -1,0 +1,12 @@
+{
+  "name": "element-less",
+  "version": "0.0.0",
+  "description": "基于ElementUI二次封装组件库，简洁高效",
+  "main": "speed-ui.umd.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["vue","vue3","element","elementui","element-less"],
+  "author": "PeerQuan",
+  "license": "ISC"
+}

@@ -3,7 +3,7 @@ import { inject, useAttrs } from 'vue';
 interface Props {
     label: string,
 }
-defineOptions({ name: 'BbOptionGroup' })
+defineOptions({ name: 'ElsOptionGroup' })
 defineProps<Props>()
 const type = inject('type')
 console.info(type)
@@ -16,12 +16,12 @@ const attrs = useAttrs()
         <slot></slot>
     </el-option-group>
     <div style="width:100%" v-else>
-        <div class="bb-radio-group-item" > {{ label }}</div>
+        <div class="els-radio-group-item" > {{ label }}</div>
         <slot v-bind="attrs"></slot>
     </div>
 </template>
 <style lang="less" scoped>
-.bb-radio-group-item {
+.els-radio-group-item {
     width: 100%;
     font-size: 14px;
     font-weight: bold;

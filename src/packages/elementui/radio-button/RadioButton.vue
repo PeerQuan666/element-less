@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useSlots } from 'vue'
-import '../../utlis/babyPrototype.js'
+import '../../utlis/lessPrototype.js'
 import {watch,ref} from 'vue'
-import BbRadio from '../radio/Radio.vue'
+import ElsRadio from '../radio/Radio.vue'
 import {RadioProps} from '../../utlis/interfaceCom'
 defineOptions({
-  name: 'BbRadioButton',
+  name: 'ElsRadioButton',
 })
 const slots = useSlots()
 const emits=defineEmits(['update:modelValue'])
@@ -36,9 +36,10 @@ for(const slotItem in slots){
 
 </script>
 <template>
-    <bb-radio v-model="selectValue" v-bind="props">
+    <els-radio v-model="selectValue" v-bind="props">
      <template v-for="item in slotNames" :slot="item">
         <slot :name="item" ></slot>
     </template>
-    </bb-radio>
+    </els-radio>
 </template>
+../../utlis/lessPrototype.js

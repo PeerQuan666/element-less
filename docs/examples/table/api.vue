@@ -1,9 +1,9 @@
 
 <template>
-    <bb-table :url="apiUrl"  :is-client-page="true" :page-size="10">
-      <bb-column prop="ID" label="ID"  align="left" ></bb-column>
-      <bb-column prop="Name" label="名称" align="left" ></bb-column>
-    </bb-table>
+    <els-table :url="apiUrl"  :is-client-page="true" :page-size="10">
+      <els-column prop="ID" label="ID"  align="left" ></els-column>
+      <els-column prop="Name" label="名称" align="left" ></els-column>
+    </els-table>
   </template>
   
   <script setup lang="ts">

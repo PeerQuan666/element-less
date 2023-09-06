@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ValueType } from '../../utlis/enumCom'
 import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick } from 'vue'
-import babyCom from '../../utlis/babyCom.js'
+import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
 import {CheckboxProps} from '../../utlis/interfaceCom'
-defineOptions({ name: 'BbCheckbox' })
+defineOptions({ name: 'ElsCheckbox' })
 const props = withDefaults(defineProps<CheckboxProps>(), {
     labelField: 'label',
     valueField: 'value',
@@ -47,10 +47,10 @@ if (props.type == 'checkbox') {
     if (props.width) {
         checkboxStyle.push({ 'width': props.width.appendPx() })
     }
-    checkboxClass.push('bb-checkbox-default')
+    checkboxClass.push('els-checkbox-default')
 }
 else {
-    checkboxClass.push('bb-checkbox')
+    checkboxClass.push('els-checkbox')
 }
 if (props.height) {
     checkboxClass.push('scrollheight')
@@ -324,44 +324,44 @@ onMounted(() => {
                 v-if="filterable" placeholder="输入关键字进行过滤" v-model="filterText" clearable>
             </el-input>
         </div>
-        <el-checkbox v-if="!url && (!data || !data.length) && !optionData.length" ref="bb-checkbox"
+        <el-checkbox v-if="!url && (!data || !data.length) && !optionData.length" ref="els-checkbox"
             v-model="singleSelectValue" v-bind="attrs">
             <slot name="default"></slot>
         </el-checkbox>
-        <el-checkbox-group v-else v-model="selectValue" ref="bb-checkbox-group" v-bind="attrs">
+        <el-checkbox-group v-else v-model="selectValue" ref="els-checkbox-group" v-bind="attrs">
             <slot name="extra"></slot>
             <el-empty v-if="filterText&&!optionData.length"></el-empty>
             <template v-else-if="(url || data && data.length > 0 || options.length) && !groupField">
-                <bb-option v-for="(item, index) in options" :key="index" :value="item[valueField]"
+                <els-option v-for="(item, index) in options" :key="index" :value="item[valueField]"
                     :disabled="item[disabledField] === true" @click.native="handleClickOption(item)">
                     <slot name="default" :item="item">
                         {{ item[labelField] }}
                     </slot>
-                </bb-option>
+                </els-option>
             </template>
             <template v-else-if="(url || (data && data.length > 0)) && groupField">
-                <template v-for="gitem in babyCom.dtGroupBy(options, groupField)">
-                    <bb-option-group :label="gitem.key ?? '未分组'">
-                        <bb-option v-for="(item, index) in gitem.value" :key="index" :value="item[valueField]"
+                <template v-for="gitem in lessCom.dtGroupBy(options, groupField)">
+                    <els-option-group :label="gitem.key ?? '未分组'">
+                        <els-option v-for="(item, index) in gitem.value" :key="index" :value="item[valueField]"
                             :disabled="item[disabledField] === true" @click.native="handleClickOption(item)">
                             <slot name="default" :item="item">
                                 {{ item[labelField] }}
                             </slot>
-                        </bb-option>
-                    </bb-option-group>
+                        </els-option>
+                    </els-option-group>
                 </template>
             </template>
             <slot name="default" v-else>
             </slot>
-            <bb-option v-for="item in noExistOption" :key="item[valueField]" :value="item[valueField]"
-                @click="handleClickOption(item)">{{ item[labelField] }}</bb-option>
+            <els-option v-for="item in noExistOption" :key="item[valueField]" :value="item[valueField]"
+                @click="handleClickOption(item)">{{ item[labelField] }}</els-option>
         </el-checkbox-group>
     </div>
 </template>
 
 
 <style lang="less" scoped>
-.bb-checkbox {
+.els-checkbox {
     display: flex;
 
     .el-checkbox-group {
@@ -370,7 +370,7 @@ onMounted(() => {
     }
 }
 
-.bb-checkbox-default {
+.els-checkbox-default {
     .el-checkbox-group {
         width: 100%;
     }
@@ -385,4 +385,4 @@ onMounted(() => {
     border: 1px solid #dcdfe6;
     padding: 5px;
 }
-</style>
+</style>../../utlis/lessCom.js

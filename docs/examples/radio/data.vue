@@ -1,9 +1,9 @@
 <template>
-    <bb-radio-button v-model="selectValue" 
+    <els-radio-button v-model="selectValue" 
     :data="data" 
     label-field="key" 
     value-field="value" >
-    </bb-radio-button>
+    </els-radio-button>
 </template>
 
 <script setup lang="ts">

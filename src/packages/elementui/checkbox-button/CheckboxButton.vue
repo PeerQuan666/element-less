@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useSlots } from 'vue'
-import '../../utlis/babyPrototype.js'
+import '../../utlis/lessPrototype.js'
 import {watch,ref} from 'vue'
-import BbCheckbox from '../checkbox/Checkbox.vue'
+import ElsCheckbox from '../checkbox/Checkbox.vue'
 import {CheckboxProps} from '../../utlis/interfaceCom'
 defineOptions({
-  name: 'BbCheckboxButton',
+  name: 'ElsCheckboxButton',
 })
 const slots = useSlots()
 const emits=defineEmits(['update:modelValue'])
@@ -34,9 +34,10 @@ for(const slotItem in slots){
 
 </script>
 <template>
-    <bb-checkbox v-model="selectValue" v-bind="props">
+    <els-checkbox v-model="selectValue" v-bind="props">
      <template v-for="item in slotNames" :slot="item">
         <slot :name="item" ></slot>
     </template>
-    </bb-checkbox>
+    </els-checkbox>
 </template>
+../../utlis/lessPrototype.js

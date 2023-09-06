@@ -1,14 +1,14 @@
 <template>
-    <bb-select v-model="selectValue">
-        <bb-option-group label="分组1">
-            <bb-option :value="1">北京</bb-option>
-            <bb-option :value="2">天津</bb-option>
-        </bb-option-group>
-        <bb-option-group label="分组2">
-            <bb-option :value="3">福州</bb-option>
-            <bb-option :value="4">厦门</bb-option>
-        </bb-option-group>
-    </bb-select>
+    <els-select v-model="selectValue">
+        <els-option-group label="分组1">
+            <els-option :value="1">北京</els-option>
+            <els-option :value="2">天津</els-option>
+        </els-option-group>
+        <els-option-group label="分组2">
+            <els-option :value="3">福州</els-option>
+            <els-option :value="4">厦门</els-option>
+        </els-option-group>
+    </els-select>
 </template>
 
 <script setup lang="ts">

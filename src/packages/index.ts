@@ -1,45 +1,45 @@
 import {App} from 'vue'
 // 导出所有组件
-import BbInput from './elementui/input'
-import BbSelect from './elementui/select'
-import BbRadio from './elementui/radio'
-import BbCheckbox from './elementui/checkbox'
-import BbCheckboxButton from './elementui/checkbox-button'
-import BbRadioButton from './elementui/radio-button'
-import BbOption from './elementui/option'
-import BbOptionGroup from './elementui/option-group'
+import ElsInput from './elementui/input'
+import ElsSelect from './elementui/select'
+import ElsRadio from './elementui/radio'
+import ElsCheckbox from './elementui/checkbox'
+import ElsCheckboxButton from './elementui/checkbox-button'
+import ElsRadioButton from './elementui/radio-button'
+import ElsOption from './elementui/option'
+import ElsOptionGroup from './elementui/option-group'
 
-import BbRow from './elementui/row'
-import BbCol from './elementui/col'
+import ElsRow from './elementui/row'
+import ElsCol from './elementui/col'
 
-import BbForm from './elementui/form'
-import BbFormQuery from './elementui/form-query'
-import BbFormItem from './elementui/form-item'
+import ElsForm from './elementui/form'
+import ElsFormQuery from './elementui/form-query'
+import ElsFormItem from './elementui/form-item'
 
-import BbTable from './elementui/table'
-import BbColumn from './elementui/table-column'
-import BbColumnBool from './elementui/table-column-bool'
-import BbColumnCheckbox from './elementui/table-column-checkbox'
-import BbColumnEnum from './elementui/table-column-enum'
-import BbColumnExpand from './elementui/table-column-expand'
-import BbColumnHeader from './elementui/table-column-header'
-import BbColumnImage from './elementui/table-column-image'
-import BbColumnOperate from './elementui/table-column-operate'
-import BbColumnSelect from './elementui/table-column-select'
+import ElsTable from './elementui/table'
+import ElsColumn from './elementui/table-column'
+import ElsColumnBool from './elementui/table-column-bool'
+import ElsColumnCheckbox from './elementui/table-column-checkbox'
+import ElsColumnEnum from './elementui/table-column-enum'
+import ElsColumnExpand from './elementui/table-column-expand'
+import ElsColumnHeader from './elementui/table-column-header'
+import ElsColumnImage from './elementui/table-column-image'
+import ElsColumnOperate from './elementui/table-column-operate'
+import ElsColumnSelect from './elementui/table-column-select'
 
 
 const components =[
-    BbInput,
-    BbSelect,
-    BbRadio,BbRadioButton,
-    BbCheckbox,BbCheckboxButton,
-    BbOption,BbOptionGroup,
-    BbRow,BbCol,
-    BbForm,BbFormQuery,BbFormItem,
-    BbTable,BbColumn,BbColumnBool,BbColumnCheckbox,BbColumnEnum,BbColumnExpand,BbColumnHeader,BbColumnImage,BbColumnOperate,BbColumnSelect]
+    ElsInput,
+    ElsSelect,
+    ElsRadio,ElsRadioButton,
+    ElsCheckbox,ElsCheckboxButton,
+    ElsOption,ElsOptionGroup,
+    ElsRow,ElsCol,
+    ElsForm,ElsFormQuery,ElsFormItem,
+    ElsTable,ElsColumn,ElsColumnBool,ElsColumnCheckbox,ElsColumnEnum,ElsColumnExpand,ElsColumnHeader,ElsColumnImage,ElsColumnOperate,ElsColumnSelect]
 
 
-const BabyUI = {
+const ElementLess = {
     install(app:App) {
         components.forEach((item) => {
             app.component(item.name, item);
@@ -47,7 +47,7 @@ const BabyUI = {
     },
 };
 components.forEach((item) => {
-    BabyUI[item.name]=item;
+    ElementLess[item.name]=item;
 });
 
-export  {BabyUI};
+export  {ElementLess};
