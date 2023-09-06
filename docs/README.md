@@ -16,7 +16,7 @@ actions:
     link: ./demo/
 
 highlights:
-  - header: 低代码、易使用、宝宝级别护航
+  - header: 简洁、高效、易懂
     image: /assets/image/box.svg
     bgImage: https://theme-hope-assets.vuejs.press/bg/3-light.svg
     bgImageDark: https://theme-hope-assets.vuejs.press/bg/3-dark.svg

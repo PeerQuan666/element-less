@@ -1,23 +1,24 @@
 # element-less
 
+#### 主要目的
+为后端开发人员减少重复的工作量。
+
 #### 介绍
-基于ElementUI二次封装组件库，简洁高效
+基于ElementUI二次封装组件库，代码简洁、高效、易懂
+
 
 #### 软件架构
-软件架构说明
+Vue+ElementUI
 
 
 #### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  npm install element-plus
+2.  npm install element-less
 
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+文档地址:http://peerquan.gitee.io/element-less
 
 #### 参与贡献
 

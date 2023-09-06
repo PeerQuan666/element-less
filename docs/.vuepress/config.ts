@@ -9,7 +9,7 @@ import mdContainer from 'markdown-it-container'
 
 
 export default defineUserConfig({
-  base: "/",
+  base: "/element-less/",
   lang: "zh-CN",
   title: "Element-Less",
   description: "Element Less",
