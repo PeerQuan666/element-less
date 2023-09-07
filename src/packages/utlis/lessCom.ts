@@ -1,6 +1,38 @@
 import axios from 'axios'
+import {getCurrentInstance,ComponentInternalInstance } from 'vue'
+import {exportJsonToExcel,exportTableToExcelEl} from './Export2Excel.js'
 import { ElMessage } from 'element-plus'
 const lessCom ={
+    menuCommand(menu){
+        const { proxy } = getCurrentInstance() as ComponentInternalInstance
+    
+        const $parent=proxy?.$parent as any;
+        if($parent){
+            $parent.gridMenuVisible = false
+            switch (menu.ActionType) {
+                case 'Modal':
+                    break
+                case 'Target':
+                   
+                
+                    break;
+                case 'DesktopTarget':
+
+                    break;
+                case 'Select':
+                 
+                    break
+                case 'Export':
+                  
+                    break;
+                default:
+               
+                    break
+    
+            }
+        }
+     
+    },
     getCompareClass(val) {
         if (!val || val === '-') { return ''; }
         if (parseFloat(val) < 0) {
@@ -95,14 +127,10 @@ const lessCom ={
         return time_str;
       },
     exportTable(el, cellStyles = [], headerRowCount = 0, headerCellStyle = {}, filename = ""){
-        console.log(el)
-        console.log(cellStyles)
-        console.log(headerRowCount)
-        console.log(headerCellStyle)
-        console.log(filename)
+        exportTableToExcelEl(el,cellStyles,headerRowCount,headerCellStyle,filename)
     },
     exportJSON(data){
-console.log(data)
+        exportJsonToExcel(data)
     },
     getObjectKey(obj, fields, separator = '$'){
         let currValue:any = [];
@@ -321,7 +349,7 @@ console.log(data)
         if (!data) { data = []; }
      
         return new Promise((resolve, reject) => {
-            axios.post(url,data).then(res => {
+            axios.post(url,data,{headers:{ 'Content-Type': 'application/x-www-form-urlencoded'}}).then(res => {
                 if(res.status==200){
                     resolve(res.data)
                 }else {

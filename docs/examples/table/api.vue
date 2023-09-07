@@ -11,13 +11,3 @@
   const apiUrl = ref('http://dataopenapi.tm.babybus.com/StatTag/GetUserGroupTagData?SysTag=Business&Power_CoteID_ProductID=manage&Power_MenuID=6aef7da4c8434aba886c99fec83e4d51')
 
   </script>
-  <style >
-  table{
-    margin: auto !important;
-  }
-  th, td {
-      border-color: var(--border-color-dark);
-      border: 0px solid #dfe2e5;
-  }
-  </style>
-  

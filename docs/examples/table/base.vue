@@ -14,13 +14,5 @@ const data = reactive([
   { key: '福州', value: 3, group: '分组2' },
   { key: '厦门', value: 4, group: '分组2' }
 ])
+
 </script>
-<style >
-table{
-  margin: auto !important;
-}
-th, td {
-    border-color: var(--border-color-dark);
-    border: 0px solid #dfe2e5;
-}
-</style>

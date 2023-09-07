@@ -1,12 +1,13 @@
 
 <script setup lang="ts">
-import { ref, watch, onMounted, useAttrs, inject, onErrorCaptured,useSlots } from 'vue'
+import { ref, watch, onMounted, useAttrs, inject, onErrorCaptured,useSlots ,getCurrentInstance} from 'vue'
 import { ElMessage,ElButton } from 'element-plus';
 import lessCom from '../../utlis/lessCom';
 import { ColumnProps } from '../../utlis/interfaceCom'
 
 
 defineOptions({ name: 'ElsColumn' })
+const {  proxy } = getCurrentInstance() as any
 const setEditData = inject<Function>("setEditData")
 const setSortData = inject<Function>("setSortData")
 const setMergeRowData = inject<Function>("setMergeRowData")
@@ -36,7 +37,12 @@ const currColumnKey = ref('')
 const columnSortable: any = ref(false)
 let columnSortMethod: any = ref()
 const columnClass = ref('')
+let menuFieldname=''
 
+if(proxy&&proxy.$lessConfig?.table){
+    menuFieldname=proxy.$lessConfig.table.menuFieldname
+
+}
 
 watch(() => props.sortable, (val) => {
     columnSortable.value = val
@@ -262,9 +268,9 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
                 </template>
             </template>
             <template v-else-if="(!row.edit || !isEdit)">
-                <els-menus-dropdown v-if="type == 'operate'" :row="row" :key="row" :is-fold="isFold"
+                <els-menu-dropdown v-if="type == 'operate'" :menus="row[menuFieldname]" :key="row" :is-fold="isFold"
                     :un-fold-count="unFoldCount" :is-mobile="attrs['is-mobile']">
-                </els-menus-dropdown>
+                </els-menu-dropdown>
 
                 <el-button v-else-if="type == 'select'" 
                     @click="handleSelectRow(row)" :type="tableCheckData.checkRowKeys.indexOf(row[rowKey]) > -1?'info':'primary'">{{ tableCheckData.checkRowKeys.indexOf(row[rowKey]) > -1?'取消选择':selectButtonLabel }}</el-button>
@@ -318,4 +324,3 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
         </template>
     </el-table-column>
 </template>
-../../utlis/lessCom

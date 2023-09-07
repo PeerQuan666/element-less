@@ -21,6 +21,7 @@
     "consola": "^3.2.3",
     "element-plus": "^2.3.9",
     "escape-html": "^1.0.3",
+    "file-saver": "^2.0.5",
     "fortawesome": "^0.0.1-security",
     "less": "^4.2.0",
     "lodash": "^4.17.21",
@@ -31,7 +32,8 @@
     "vue": "^3.3.4",
     "vue-fontawesome": "^0.0.2",
     "vue-router": "^4.2.4",
-    "vuex": "^4.1.0"
+    "vuex": "^4.1.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/node": "^20.4.8",
@@ -40,6 +42,7 @@
     "@vuepress/client": "2.0.0-beta.66",
     "@vuepress/plugin-docsearch": "^2.0.0-beta.66",
     "@vuepress/plugin-search": "^2.0.0-beta.66",
+    "script-loader": "^0.7.2",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vue": "^3.3.4",

@@ -1,6 +1,7 @@
 
 <template>
   <div style="margin-bottom:10px">
+    <el-button @click="handleSave" type="primary" v-if="eidtStatus">批量保存</el-button>
     <el-button @click="handleEdit" type="primary" v-if="!eidtStatus">批量编辑</el-button>
     <el-button @click="handleUnEdit" type="info" v-else>取消编辑</el-button>
   </div>
@@ -31,6 +32,9 @@ const data = reactive([
 const eidtStatus=ref(false)
 const dataTable=ref()
 const tableEdit=ref(false)
+function handleSave(){
+  dataTable.value.saveTableData()
+}
 function handleEdit(){
   dataTable.value.editTable()
 }
@@ -39,17 +43,4 @@ function handleUnEdit(){
 
 }
 </script>
-<style >
-table {
-  margin: auto !important;
-}
 
-th,
-td {
-  border-color: var(--border-color-dark);
-  border: 0px solid #dfe2e5;
-}
-
-.txt-red {
-  color: red;
-}</style>

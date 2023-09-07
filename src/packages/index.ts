@@ -27,6 +27,10 @@ import ElsColumnImage from './elementui/table-column-image'
 import ElsColumnOperate from './elementui/table-column-operate'
 import ElsColumnSelect from './elementui/table-column-select'
 
+import ElsMenuContext from './custom/menu-context'
+import ElsMenuDropdown from './custom/menu-dropdown'
+
+
 
 const components =[
     ElsInput,
@@ -36,7 +40,10 @@ const components =[
     ElsOption,ElsOptionGroup,
     ElsRow,ElsCol,
     ElsForm,ElsFormQuery,ElsFormItem,
-    ElsTable,ElsColumn,ElsColumnBool,ElsColumnCheckbox,ElsColumnEnum,ElsColumnExpand,ElsColumnHeader,ElsColumnImage,ElsColumnOperate,ElsColumnSelect]
+    ElsTable,ElsColumn,ElsColumnBool,ElsColumnCheckbox,ElsColumnEnum,ElsColumnExpand,ElsColumnHeader,ElsColumnImage,ElsColumnOperate,ElsColumnSelect,
+    ElsMenuContext,
+    ElsMenuDropdown
+]
 
 
 const ElementLess = {

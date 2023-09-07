@@ -68,3 +68,91 @@ table/column
 table/edit
 
 :::
+
+## 导出
+
+:::tip
+
+导出分为客户端导出、服务端导出
+客户端导出会将当前所有数据根据表格渲染导出
+服务端导出应用在数据量大情况，由服务端分页
+服务端导出会去重新请求一次接口并且页数设置100000，由接口去处理请求之后返回数据重新渲染完成导出，导出之后会再请求一次当前页的数据还原
+
+:::
+
+:::vuefile-demo
+
+table/export
+
+:::
+
+## 菜单
+
+:::tip
+
+需要设置全局配置
+
+:::
+
+```ts
+app.config.globalProperties.$lessConfig = {
+    table:{
+        menuFieldname:'PowerMenu',//列表数据字段名
+        contextMenu:{
+            idFieldname:'MenuID',//菜单主键ID
+            nameFieldname:'MenuName',//菜单名称
+            actionFieldname:'ActionName',//处理名称（可不填）
+            iconFieldname:'ImageUrl'//图标 可使用fontawesome图标库
+        }
+        
+    }
+}
+```
+### 右键菜单
+
+禁用<code>:hasContextMenu="false"</code>
+
+:::vuefile-demo
+
+table/menu
+
+:::
+
+### 右侧菜单 
+
+添加<code>els-column-operate</code>列
+
+:::vuefile-demo
+
+table/menu-operate
+
+:::
+
+
+## 合并行列
+
+:::tip
+
+默认菜单字段名为PowerMenu
+
+:::
+
+:::vuefile-demo
+
+table/export
+
+:::
+
+## 汇总
+
+:::tip
+
+默认菜单字段名为PowerMenu
+
+:::
+
+:::vuefile-demo
+
+table/export
+
+:::

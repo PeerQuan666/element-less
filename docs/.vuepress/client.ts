@@ -19,6 +19,18 @@ export default defineClientConfig({
       app.component(key, component)
     }
     app.component('font-awesome-icon', FontAwesomeIcon)
+    app.config.globalProperties.$lessConfig = {
+      table:{
+          menuFieldname:'PowerMenu',
+          contextMenu:{
+              idFieldname:'MenuID',
+              nameFieldname:'MenuName',
+              actionFieldname:'ActionName',
+              iconFieldname:'ImageUrl'
+          }
+          
+      }
+  }
     app.use(ElementPlus);
     app.use(ElementLess);
   },

@@ -102,7 +102,6 @@ export interface ColumnProps {
     imageStyle?: string,
     isPreview?: boolean,
     urlEmptyDesc?: string,
-    menusFieldname?: string,
     isFold?: boolean,
     unFoldCount?: number,
     selectButtonLabel?: string,

@@ -13,7 +13,11 @@ declare global {
     toList(valueSeparator:string):string[];
     toListNumber(valueSeparator:string):number[];
     appendPx():string,
-    toCamel():string
+    toCamel():string,
+    toBool():boolean,
+    toInt():number,
+    toFloat():number,
+    
 
 
     }
@@ -53,6 +57,26 @@ String.prototype.toListNumber = function (valueSeparator=','):number[] {
     return []
     
  }
+ String.prototype.toBool = function toBool() {
+    if (this.toLowerCase() === "true") {
+        return true;
+    } else if (this.toLowerCase() === "false") {
+        return false
+    }
+    return false
+};
+String.prototype.toInt = function toInt() {
+    if (lessCom.isNumber(this.toString())) {
+        return parseInt(this.toString())
+    }
+    return 0;
+};
+String.prototype.toFloat = function toFloat(digits=2) {
+    if (!digits) {
+        return parseFloat(this.toString())
+    }
+    return parseFloat(parseFloat(this.toString()).toFixed(digits))
+};
 String.prototype.cutWord = function (len: number) {
     if (this) {
         if (this.length > len) {

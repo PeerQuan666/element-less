@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick, h } from 'vue'
+import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick, h ,getCurrentInstance} from 'vue'
+
+
 import { ElMessage, ElLoading } from 'element-plus';
 import Sortable from 'sortablejs'
 import lessCom from '../../utlis/lessCom.js'
@@ -7,7 +9,8 @@ import ElsTableColumn from '../table-column/TableColumn.vue';
 import ElsForm from '../form/Form.vue';
 
 defineOptions({ name: 'ElsTable', inheritAttrs: false, })
-const emits = defineEmits(['update:check-rows', 'update:check-row-keys', 'drag-move', 'drag-start', 'update:editStatus', 'row-before-context-menu'])
+const {  proxy } = getCurrentInstance() as any
+const emits = defineEmits(['update:check-rows', 'update:check-row-keys', 'drag-move', 'drag-start', 'update:editStatus'])
 const attrs = useAttrs()
 interface Props {
     tableName?: string,
@@ -51,7 +54,10 @@ interface Props {
     beforeReadData?: Function,
     afterReadData?: Function,
     headerStickyTop?: number | boolean,
-    editStatus?: boolean
+    editStatus?: boolean,
+    beforeTriggerContextMenu?:Function,
+    hasContextMenu?:boolean
+
 
 }
 
@@ -69,9 +75,20 @@ const props = withDefaults(defineProps<Props>(), {
     isReadDataClearCheckRowKey: true,
     showEditColumn: true,
     headerStickyTop: -1,
-    queryData: {}
+    hasContextMenu:true,
+    queryData: {},
 })
-console.info(props)
+
+let menuFieldname=''
+let idFieldname=''
+let actionFieldname=''
+if(proxy&&proxy.$lessConfig?.table){
+    menuFieldname=proxy.$lessConfig.table.menuFieldname
+    idFieldname=proxy.$lessConfig.table.contextMenu.idFieldname
+    actionFieldname=proxy.$lessConfig.table.contextMenu.actionFieldname
+
+}
+
 const tagID = lessCom.Guid32()
 const wrapTagID = 'leo-wrap-' + tagID
 let currSaveUrl = ref('')
@@ -88,9 +105,9 @@ let editSourceTableData: Array<Record<string, any>> = reactive([])
 
 let extendData: Record<string, any> = reactive({})
 let rowData: Record<string, any> = reactive({})
-let gridMenuVisible = ref(false)
-let gridMenuPositionLeft = ref(0)
-let gridMenuPositionTop = ref(0)
+let contextMenuVisible = ref(false)
+let contextMenuPositionLeft = ref(0)
+let contextMenuPositionTop = ref(0)
 let sortSelectRow: Record<string, any> = reactive({})
 let currShowSummary = ref(false)
 let currSpanMethod: Function
@@ -111,9 +128,9 @@ const bottomScroll = ref()
 const dataTable = ref()
 const tableForm = ref()
 
-const dataGridMenu = ref()
+const contentMenu = ref()
 let tableContainer = h('div', { class: 'table-container' })
-let tableFormContainer = h(ElsForm, { ref: 'tableForm', modelValue: tableData, class: 'table-form-container', labelWidth: '0', showMessage: false })
+let tableFormContainer = h(ElsForm, {  modelValue: tableData, class: 'table-form-container', labelWidth: '0', showMessage: false })
 
 
 watch(() => props.isLocaleString, (val) => {
@@ -444,8 +461,11 @@ function validTableForm(postData) {
             })
         }
         if (postData.length > 1) {
-            tableForm.value.validate().then(() => {
-                resolve(postData)
+            tableForm.value.validate().then(res => {
+                if(res){
+                    resolve(postData)
+                }
+              
             }).catch(action => {
                 console.log(action)
                 resolve(false)
@@ -472,7 +492,7 @@ function saveTableData(url, postData: any = []) {
                     props.beforeSave()
                 }
 
-                if (!url) { url = currSaveUrl; }
+                if (!url) { url = currSaveUrl.value; }
                 if (!url) {
                     ElMessage.error("请设置保存地址");
                     return resolve(false)
@@ -578,7 +598,7 @@ function handleRowSave(row) {
         postItem[ele.fieldName] = row[ele.fieldName]
     })
     let postData = [postItem];
-    saveTableData(currSaveUrl, postData)
+    saveTableData(currSaveUrl.value, postData)
 }
 function validEditRow(row) {
     let validFields: any = [];
@@ -673,18 +693,25 @@ function handleTableSelectAll(selection) {
         })
     }
 }
-function handleRowContentMenu(row, column, event) {
+function handleRowContextMenu(row, column, event) {
+    if(!props.hasContextMenu){return}
+    if(!menuFieldname){
+        console.log('未设置全局配置$lessConfig，无法使用菜单')
+        return
+    }
     console.log(column)
-    if (!row.PowerMenu || !row.PowerMenu.length) { return; }
+    if (!row[menuFieldname] || !row[menuFieldname].length) { return; }
     if (event.target.className.indexOf("el-image-viewer") > -1) {
         return;
     }
     var currEvent = event
     rowData = row
-    emits("row-before-context-menu", row)
-    gridMenuPositionLeft = currEvent.clientX
-    gridMenuPositionTop = currEvent.clientY
-    gridMenuVisible.value = true
+    if(props.beforeTriggerContextMenu){
+        props.beforeTriggerContextMenu(row)
+    }
+    contextMenuPositionLeft.value = currEvent.clientX
+    contextMenuPositionTop.value = currEvent.clientY
+    contextMenuVisible.value = true
     currEvent.returnValue = false
     dataTable.value.setCurrentRow(row)
 }
@@ -873,7 +900,7 @@ function readData() {
 
         }
         else if (res.ResultCode === "Login") {
-            window.location.href = res.Data;
+            ElMessage.warning('未登录')
         }
         else {
             ElMessage.error(res.ResultMessage);
@@ -939,25 +966,27 @@ function setTableCheckRows(checkRowKeys: any = null) {
     })
 }
 function handlePowerMenu(row, menuID) {
-    if (!row.PowerMenu) {
+    if(!menuFieldname){
+        ElMessage.warning('未设置全局配置$lessConfig，无法使用菜单')
+        return
+    }
+    if (!row[menuFieldname]) {
         ElMessage.error('菜单不存在')
         return;
     }
     setTimeout(() => {
-        var currPowerMenu = row.PowerMenu.find(ele => ele.MenuID === menuID || ele.ActionName === menuID);
+        var currPowerMenu = row[menuFieldname].find(ele => ele[idFieldname] === menuID || ele[actionFieldname] === menuID);
         if (!currPowerMenu) {
             ElMessage.error('菜单不存在')
             return;
         }
-        dataGridMenu.value.handleCommand(currPowerMenu);
+        contentMenu.value.handleCommand(currPowerMenu);
     }, 150)
 }
 function margePowerMenu() {
     if (tableData && props.extraPowerMenus) {
         tableData.forEach(ele => {
-            props.extraPowerMenus.forEach(cele => {
-                ele.PowerMenu.push(cele)
-            })
+            ele[menuFieldname].push(...props.extraPowerMenus)
 
         })
     }
@@ -1032,21 +1061,21 @@ function handleCloseCheckItem(item) {
         dataTable.value.toggleRowSelection(currRow, false);
     }
 }
-function exportClientTableDataHtml() {
+function exportClientDataHtml() {
     let pageSize = currPageSize.value;
     let pageIndex = currPageIndex.value;
-    pageSize = 100000;
-    pageIndex = 0;
+    currPageSize.value = 100000;
+    currPageIndex.value = 0;
     changePageReadData();
     nextTick(() => {
-        exportTableDataHtml();
+        exportDataHtml();
         currPageSize.value = pageSize;
         currPageIndex.value = pageIndex;
         changePageReadData();
     })
 
 }
-function exportTableDataHtml() {
+function exportDataHtml() {
     let filename = getExportFileName();
     let headerCount = dataTable.value.$el.querySelector(".el-table__header").querySelectorAll("tr").length
     lessCom.exportTable(dataTable.value.$el, [], headerCount, {
@@ -1057,26 +1086,8 @@ function exportTableDataHtml() {
         fill: { bgcolor: { rgb: 'F5F7FA' }, fgColor: { rgb: 'F5F7FA' } }
     }, filename)
 }
-function exportTableData(list: any = []) {
-    var tHeader: any = [];
-    var filterVal: any = [];
-    dataTable.value.$refs.tableHeaderRef.columnRows.forEach(ele => {
-        ele.forEach(cele => {
-            if (cele.label && cele.property) {
-                tHeader.push(cele.label)
-                filterVal.push(cele.property)
-            }
-        })
-    })
-    if (!list.length) {
-        list = tableData;
-    }
-    const data = formatExportJson(filterVal, list)
-    let fileName = getExportFileName();
-    exportDefaultTableData(tHeader, data, fileName)
 
-}
-function exportTableReadDataHtml() {
+function exportReadDataHtml() {
     let currUrl = props.url;
 
     if (!currUrl) {
@@ -1099,12 +1110,15 @@ function exportTableReadDataHtml() {
     currUrl.post(currQueryData).then(res => {
         if (res.ResultCode === "0") {
             tableData.length = 0
-            tableData.push(...res.Data.Data);
-            nextTick(() => {
-                exportTableDataHtml()
-                tableData.length = 0
-                tableData.push(...sourceTableData);
+            if (res.Data.PageSize != undefined) {
+                tableData.push(...res.Data.Data);
 
+            }else{
+                tableData.push(...res.Data);
+            }
+            nextTick(() => {
+                exportDataHtml()
+                changePageReadData();
                 exportLoading.close();
             })
         }
@@ -1117,55 +1131,11 @@ function exportTableReadDataHtml() {
         console.log(action)
     })
 }
-function exportTableReadData() {
-    let currUrl = props.url;
 
-    if (!currUrl) {
-        ElMessage.error("接口地址不存在！")
-        return;
-    }
-    let currQueryData = Object.assign(props.queryData, columnSortData)
-    currQueryData = lessCom.getQueryData(currQueryData)
-    currQueryData["Query_PageSize"] = 100000;
-    currQueryData["Query_PageIndex"] = 0;
-    currUrl.post(currQueryData).then(res => {
-        if (res.ResultCode === "0") {
-            var currData = res.Data.Data;
-            exportTableData(currData)
-        }
-        else {
-            ElMessage.error(res.ResultMessage);
-        }
-    })
-}
-function exportDefaultTableData(tHeader, data, filename) {
-    if (!filename) {
-        filename = getExportFileName();
-    }
-    lessCom.exportJSON({
-        header: tHeader,
-        data,
-        filename: filename,
-        autoWidth: true
-    })
-}
-function formatExportJson(filterVal, jsonData) {
-    return jsonData.map(v => filterVal.map(j => {
-        if (j === 'timestamp') {
-            return lessCom.parseTime(v[j])
-        } else {
-            if (j.indexOf('.') > -1) {
-                return eval("v." + j)
-            } else {
-                return v[j]
-            }
 
-        }
-    }))
-}
 
 function getExportFileName() {
-    let filename = props.tableName
+    let filename = props.tableName??'未设置名称'
     let currQueryData = props.queryData;
 
     if (currQueryData.StartDate_QueryDate && currQueryData.EndDate_QueryDate) {
@@ -1243,9 +1213,8 @@ onMounted(() => {
 
 })
 defineExpose({
-    exportTableReadData,
-    exportTableReadDataHtml,
-    exportClientTableDataHtml,
+    exportReadDataHtml,
+    exportClientDataHtml,
     toggleRowSelection,
     initTableCheckKeys,
     initTableCheckRows,
@@ -1256,8 +1225,9 @@ defineExpose({
     getTableSelection,
     handleTableBodyScroll,
     editTable,
-    unEditTable
-
+    unEditTable,
+    saveTableData,
+    contextMenuVisible
 })
 
 </script>
@@ -1274,12 +1244,12 @@ defineExpose({
             </template>
         </draggable>
     </div>
-    <component :is="isEdit?tableFormContainer:tableContainer">
+    <component :is="isEdit?tableFormContainer:tableContainer" ref="tableForm">
 
         <el-table :data="tableData" :inner-wrapper-class="wrapTagID" v-loading="dataLoading" :border="true" fit
             highlight-current-row :class="!isMobile && hasBottomFixdScroll ? tagID + ' leo-table-noScroll' : tagID"
             :row-key="rowKey" ref="dataTable" :header-sticky-top="currHeaderStickyTop" :row-class-name="currRowClassName"
-            :show-summary="currShowSummary" @sort-change="currSortChange" @row-contextmenu="handleRowContentMenu"
+            :show-summary="currShowSummary" @sort-change="currSortChange" @row-contextmenu="handleRowContextMenu"
             @row-dblclick="handleTableRowDblClick" @row-click="handleTableRowClick" @select="handleTableSelect"
             @select-all="handleTableSelectAll" :span-method="currSpanMethod" :summary-method="currSummaryMethod"
             v-bind="attrs">
@@ -1319,10 +1289,10 @@ defineExpose({
             @current-change="handleChangePage" @size-change="handleChangePageSize" v-if="hasPage">
             <el-input v-model="currPageSize" style="width:55px;margin-left:5px;" @blur="handleChangePageSize"
                 placeholder="页数" v-if="isCustomPageSize && !isMobile"></el-input>
-            <el-tag type="info" @click="exportTableDataHtml" style="margin-right:10px;cursor: pointer;margin-left:10px;"
+            <el-tag type="info" @click="exportDataHtml" style="margin-right:10px;cursor: pointer;margin-left:10px;"
                 v-if="!isMobile">导出</el-tag>
         </el-pagination>
     </div>
-    <leo-menus-context ref="dataGridMenu" :row="rowData" :visible="gridMenuVisible" :positionLeft="gridMenuPositionLeft"
-        :positionTop="gridMenuPositionTop"></leo-menus-context>
-</template>../../utlis/lessCom.js
+    <els-menu-context ref="contentMenu"  v-if="hasContextMenu&&menuFieldname" :menus="rowData[menuFieldname]" :visible="contextMenuVisible" :positionLeft="contextMenuPositionLeft"
+        :positionTop="contextMenuPositionTop"></els-menu-context>
+</template>

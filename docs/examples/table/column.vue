@@ -19,13 +19,3 @@ const data = reactive([
   { key: '厦门', value: 4, group: '分组2',isRelease:0,valueType:'string' }
 ])
 </script>
-<style >
-table{
-  margin: auto !important;
-}
-th, td {
-    border-color: var(--border-color-dark);
-    border: 0px solid #dfe2e5;
-}
-.txt-red{color: red;}
-</style>
