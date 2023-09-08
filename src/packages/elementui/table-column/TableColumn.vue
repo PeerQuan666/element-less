@@ -1,13 +1,13 @@
 
 <script setup lang="ts">
-import { ref, watch, onMounted, useAttrs, inject, onErrorCaptured,useSlots ,getCurrentInstance} from 'vue'
-import { ElMessage,ElButton } from 'element-plus';
+import { ref, watch, onMounted, useAttrs, inject, onErrorCaptured, useSlots, getCurrentInstance } from 'vue'
+import { ElMessage, ElButton } from 'element-plus';
 import lessCom from '../../utlis/lessCom';
 import { ColumnProps } from '../../utlis/interfaceCom'
 
 
 defineOptions({ name: 'ElsColumn' })
-const {  proxy } = getCurrentInstance() as any
+const { proxy } = getCurrentInstance() as any
 const setEditData = inject<Function>("setEditData")
 const setSortData = inject<Function>("setSortData")
 const setMergeRowData = inject<Function>("setMergeRowData")
@@ -17,7 +17,7 @@ const handlePowerMenu = inject<Function>("handlePowerMenu")
 const rowKey = inject<any>("rowKey")
 const tableCheckData = inject<any>("tableCheckData")
 const provideData = inject<any>("provideData")
-const slots=useSlots()
+const slots = useSlots()
 const props = withDefaults(defineProps<ColumnProps>(), {
     isExport: true,
     autoComplete: true,
@@ -29,7 +29,8 @@ const props = withDefaults(defineProps<ColumnProps>(), {
     enumEqualType: 'Value',
     enumNoneLabel: '未知',
     menusFieldname: 'PowerMenu',
-    selectButtonLabel: '选择'
+    selectButtonLabel: '选择',
+    isPreview:true
 
 })
 const attrs = useAttrs()
@@ -37,10 +38,10 @@ const currColumnKey = ref('')
 const columnSortable: any = ref(false)
 let columnSortMethod: any = ref()
 const columnClass = ref('')
-let menuFieldname=''
+let menuFieldname = ''
 
-if(proxy&&proxy.$lessConfig?.table){
-    menuFieldname=proxy.$lessConfig.table.menuFieldname
+if (proxy && proxy.$lessConfig?.table) {
+    menuFieldname = proxy.$lessConfig.table.menu
 
 }
 
@@ -50,28 +51,31 @@ watch(() => props.sortable, (val) => {
 
 watch(() => props.isEdit, (val) => {
     if (setEditData) {
-        setEditData(props.editFields??props.prop, val)
+        setEditData(props.editFields ?? props.prop, val)
     }
 }, { immediate: true })
 
-watch(() => props.isMergeRow, (val) => {
+
+
+watch(() => props.mergeRow, (val) => {
     if (setMergeRowData) {
+        const isMergeRow = val || (props.mergeFieldname ? true : false) || (props.mergeRowByFieldname ? true : false) || (props.mergeMethod ? true : false) || props.mergeSum
         setMergeRowData(props.prop, {
-            isMergeRow: val,
+            mergeRow: isMergeRow,
             mergeFieldName: props.mergeFieldname ? props.mergeFieldname : props.prop,
             mergeRowByFieldName: props.mergeRowByFieldname,
             mergeMethod: props.mergeMethod,
-            isMergeSumValue: props.isMergeSumValue
+            mergeSum: props.mergeSum
         })
-
     }
-
 }, { immediate: true })
 
 watch(() => props.summaryValue, (val) => {
     if (setSummaryData) {
+        const isSummary = props.showSummary || (props.summaryValue!==undefined? true : false) || (props.summaryMethod ? true : false) 
+
         setSummaryData(props.prop, {
-            showSummary: props.showSummary,
+            showSummary: isSummary,
             summaryFieldName: props.prop,
             summaryValue: val,
             summaryMethod: props.summaryMethod
@@ -82,8 +86,9 @@ watch(() => props.summaryValue, (val) => {
 
 watch(() => props.showSummary, (val) => {
     if (setSummaryData) {
+        const isSummary = val || (props.summaryValue!==undefined? true : false) || (props.summaryMethod ? true : false) 
         setSummaryData(props.prop, {
-            showSummary: val,
+            showSummary: isSummary,
             summaryFieldName: props.prop,
             summaryValue: props.summaryValue,
             summaryMethod: props.summaryMethod
@@ -236,7 +241,7 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
                 </slot>
             </template>
             <template v-else-if="(!row.edit || !isEdit) && prop">
-                <els-image v-if="type == 'image'" :empty-desc="urlEmptyDesc" :url="row[prop]" :is-preview="isPreview"
+                <els-image v-if="type == 'image'"  :empty-desc="imageEmptyDesc" :url="row[prop]" :is-preview="isPreview"
                     :style="imageStyle"></els-image>
 
                 <template v-else-if="type == 'enum'">
@@ -272,8 +277,9 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
                     :un-fold-count="unFoldCount" :is-mobile="attrs['is-mobile']">
                 </els-menu-dropdown>
 
-                <el-button v-else-if="type == 'select'" 
-                    @click="handleSelectRow(row)" :type="tableCheckData.checkRowKeys.indexOf(row[rowKey]) > -1?'info':'primary'">{{ tableCheckData.checkRowKeys.indexOf(row[rowKey]) > -1?'取消选择':selectButtonLabel }}</el-button>
+                <el-button v-else-if="type == 'select'" @click="handleSelectRow(row)"
+                    :type="tableCheckData.checkRowKeys.indexOf(row[rowKey]) > -1 ? 'info' : 'primary'">{{
+                        tableCheckData.checkRowKeys.indexOf(row[rowKey]) > -1 ? '取消选择' : selectButtonLabel }}</el-button>
                 <template v-else-if="type == 'expand'">
                     <slot name="default" :row="row" :column="column" :$index="$index"></slot>
                     <div class="el-table-tr-split" v-if="hasBottomBorder"></div>
@@ -283,44 +289,37 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
             <template v-else-if="prop">
                 <slot name="edit" :row="row" :column="column" :$index="$index" v-if="false">
                 </slot>
-                <slot name="formitem"  :row="row" :column="column" :$index="$index">
+                <slot name="formitem" :row="row" :column="column" :$index="$index">
                     <template v-if="slots.edit">
-                        <template v-for="vnode in slots.edit({row:row})[0].children">
-                                <component :is="()=>vnode"  v-if="!(vnode as any).type.name||(vnode as any).type.name==='ElFormItem'||(vnode as any).type?.name==='ElsFormItem'||!(vnode as any).type.props||!(vnode as any).type.props.hasFormItem||(vnode as any).props&&(vnode as any).props['hasFormItem']===false"></component>
-                                <ElsFormItem 
-                                :prop="`[${$index}]['${prop}']`" :key="`[${$index}]['${prop}']`"
-                                :validationTrigger="(vnode as any).type.props.validationTrigger?.default" 
-                                :require="require" 
-                                :requireMessage="requireMessage" 
-                                :validationMessage="validationMessage" 
-                                :validationExpression="validationExpression"
-                                :validationMethod="validationMethod"
-                                v-bind="(vnode as any).props??{}"   v-else>
-                                
-                                    <template #default>
-                                        <component :is="vnode" v-if="(vnode as any).props?.hasOwnProperty('modelValue')" ></component>
-                                        <component :is="vnode" v-else-if="row"   v-model="row[prop]"></component>
-                                        <component :is="vnode" v-else></component>
-                                    </template>
-                                </ElsFormItem>
+                        <template v-for="vnode in slots.edit({ row: row })[0].children">
+                            <component :is="()=>vnode"
+                                v-if="!(vnode as any).type.name || (vnode as any).type.name === 'ElFormItem' || (vnode as any).type?.name === 'ElsFormItem' || !(vnode as any).type.props || !(vnode as any).type.props.hasFormItem || (vnode as any).props && (vnode as any).props['hasFormItem'] === false">
+                            </component>
+                            <ElsFormItem :prop="`[${$index}]['${prop}']`" :key="`[${$index}]['${prop}']`"
+                                :validationTrigger="(vnode as any).type.props.validationTrigger?.default" :require="require"
+                                :requireMessage="requireMessage" :validationMessage="validationMessage"
+                                :validationExpression="validationExpression" :validationMethod="validationMethod"
+                                v-bind="(vnode as any).props ?? {}" v-else>
+
+                                <template #default>
+                                    <component :is="vnode" v-if="(vnode as any).props?.hasOwnProperty('modelValue')">
+                                    </component>
+                                    <component :is="vnode" v-else-if="row" v-model="row[prop]"></component>
+                                    <component :is="vnode" v-else></component>
+                                </template>
+                            </ElsFormItem>
                         </template>
                     </template>
                     <els-form-item v-else :prop="`[${$index}]['${prop}']`" :key="`[${$index}]['${prop}']`"
-                        :require="require" 
-                        :requireMessage="requireMessage" 
-                        :validationMessage="validationMessage" 
-                        :validationExpression="validationExpression"
-                        :validationMethod="validationMethod"
-                        :validationTrigger="validationTrigger"
-                        >
-                        <el-input :name="prop" 
-                            clearable 
-                            :placeholder="'请输入' + attrs['label']"
+                        :require="require" :requireMessage="requireMessage" :validationMessage="validationMessage"
+                        :validationExpression="validationExpression" :validationMethod="validationMethod"
+                        :validationTrigger="validationTrigger">
+                        <el-input :name="prop" clearable :placeholder="'请输入' + attrs['label']"
                             v-model="row[prop]"></el-input>
                     </els-form-item>
                 </slot>
             </template>
-          
+
         </template>
     </el-table-column>
 </template>

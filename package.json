@@ -32,6 +32,7 @@
     "vue": "^3.3.4",
     "vue-fontawesome": "^0.0.2",
     "vue-router": "^4.2.4",
+    "vuedraggable": "^4.1.0",
     "vuex": "^4.1.0",
     "xlsx": "^0.18.5"
   },

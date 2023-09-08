@@ -46,7 +46,11 @@ table/api
 
 ## 列类型
 
+:::tip
 
+列类型分为<code>checkbox</code>、<code>expand</code>、<code>header</code>、<code>enum</code>、<code>bool</code>、<code>image</code>、<code>select</code>、<code>operate</code>
+
+:::
 
 :::vuefile-demo
 
@@ -66,6 +70,20 @@ table/column
 :::vuefile-demo
 
 table/edit
+
+:::
+
+## 拖动
+
+:::tip
+
+列设置<code>draggable</code>开启拖动,拖动完事件<code>dragEnd</code>
+
+:::
+
+:::vuefile-demo
+
+table/drag
 
 :::
 
@@ -129,30 +147,18 @@ table/menu-operate
 :::
 
 
-## 合并行列
+## 合并行、汇总
 
 :::tip
 
-默认菜单字段名为PowerMenu
-
+设置<code>mergeRow</code>或者<code>mergeRowByFieldname</code>
+合并行汇总使用<code>mergeSum</code>
+汇总使用<code>showSummary</code>、可使用方法返回<code>:summaryMethod</code> 或者自定义数据 <code>:summaryValue</code>
 :::
 
 :::vuefile-demo
 
-table/export
+table/merge
 
 :::
 
-## 汇总
-
-:::tip
-
-默认菜单字段名为PowerMenu
-
-:::
-
-:::vuefile-demo
-
-table/export
-
-:::

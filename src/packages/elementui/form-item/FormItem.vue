@@ -41,7 +41,7 @@ function initRules() {
 
 function initQuery() {
     if(getQueryData){
-        let currKey=props.fieldName??lessCom.Guid32()
+        let currKey=props.prop??lessCom.Guid32()
         const currQueryData:any=getQueryData()
         if(currQueryData){
             if(currQueryData[currKey]){
@@ -51,7 +51,7 @@ function initQuery() {
         const queryInfo: QueryInfo =
         {
             key:currKey,
-            fieldName: props?.fieldName,
+            prop: props?.prop,
             method: props.queryMethod,
             dataType: props.queryDataType,
             isAroundComma: props.queryAroundComma,
@@ -66,7 +66,7 @@ function initQuery() {
 const itemRules = computed<Array<Record<string, any>>>(() => {
     return initRules()
 })
-let defaultKey:any=props.fieldName
+let defaultKey:any=props.prop
 let queryData:any=reactive({})
 if (formType == 'Query' && setQueryData) {
      queryData = initQuery()

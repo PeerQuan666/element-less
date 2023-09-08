@@ -77,7 +77,7 @@ function setQueryData(item) {
     }
 }
 function converToQueryData(query:QueryInfo) {
-    const queryFieldname = query.fieldName??''
+    const queryFieldname = query.prop??''
     const isAroundComma = query.isAroundComma??false
     const queryDataType = query.dataType??QueryDataType.String
     const queryMethod:QueryMethod = query.method??QueryMethod.NoAuto

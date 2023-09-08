@@ -46,7 +46,7 @@ export default hopeTheme({
   },
 
   plugins: {
-    
+    photoSwipe:false,
     copyCode:{},
     // You should generate and use your own comment service
     comment: {

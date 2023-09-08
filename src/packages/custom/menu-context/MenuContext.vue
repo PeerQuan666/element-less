@@ -20,9 +20,9 @@ let idFieldname=''
 let nameFieldname=''
 let iconFieldname=''
 if(proxy&&proxy.$lessConfig?.table){
-    idFieldname=proxy.$lessConfig.table.contextMenu.idFieldname
-    nameFieldname=proxy.$lessConfig.table.contextMenu.nameFieldname
-    iconFieldname=proxy.$lessConfig.table.contextMenu.iconFieldname
+    idFieldname=proxy.$lessConfig.table.contextMenu.id
+    nameFieldname=proxy.$lessConfig.table.contextMenu.name
+    iconFieldname=proxy.$lessConfig.table.contextMenu.icon
 }
 const isOutBottom = computed(() => {
     return (props.positionTop + (30 * menuData.length) + 30) > window.innerHeight

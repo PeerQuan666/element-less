@@ -21,13 +21,21 @@ export default defineClientConfig({
     app.component('font-awesome-icon', FontAwesomeIcon)
     app.config.globalProperties.$lessConfig = {
       table:{
-          menuFieldname:'PowerMenu',
+          menu:'PowerMenu',
+          avgDay:'DayCount',
           contextMenu:{
-              idFieldname:'MenuID',
-              nameFieldname:'MenuName',
-              actionFieldname:'ActionName',
-              iconFieldname:'ImageUrl'
+              id:'MenuID',
+              name:'MenuName',
+              action:'ActionName',
+              icon:'ImageUrl'
+          },
+          page:{
+            pageSize:'PageSize',
+            currentPage:'PageIndex',
+            total:'RecordCountInt',
+            pageCount:'PageCount'
           }
+
           
       }
   }

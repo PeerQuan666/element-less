@@ -3,7 +3,8 @@ import lessCom from "./lessCom";
 export { }
 declare global {
     interface Number{
-        appendPx():string
+        appendPx():string,
+        toFixedNumber():number
     }
     interface String {
     cutWord(value: number): string;
@@ -17,11 +18,15 @@ declare global {
     toBool():boolean,
     toInt():number,
     toFloat():number,
+
     
 
 
     }
 }
+Number.prototype.toFixedNumber = function toFixedNumber(digits=2) {
+    return parseFloat(this.toFixed(digits))
+};
 Number.prototype.appendPx = function(){
     if(this){
         return this+'px';

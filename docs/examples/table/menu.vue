@@ -3,8 +3,8 @@
     <els-table :url="apiUrl" :is-client-page="true" :page-size="10" row-key="WallID" >
         <els-column-checkbox></els-column-checkbox>
         <els-column-header label="右键菜单，请点击右键试试">
-            <els-column prop="AppID" label="ID" align="left"></els-column>
-            <els-column prop="AppName" label="名称" align="left"></els-column>
+            <els-column prop="ID" label="ID" align="left"></els-column>
+            <els-column prop="AuthorName" label="作者" align="left"></els-column>
         </els-column-header>
     </els-table>
 </template>

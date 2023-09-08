@@ -134,7 +134,7 @@ const lessCom ={
     },
     getObjectKey(obj, fields, separator = '$'){
         let currValue:any = [];
-        fields.toListString().forEach(ele => {
+        fields.split(',').forEach(ele => {
             currValue.push(obj[ele])
         })
         return currValue.join(separator)

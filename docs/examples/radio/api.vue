@@ -11,6 +11,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-const apiUrl = 'http://dataopenapi.tm.babybus.com/StatTag/GetUserGroupTagData?SysTag=Business&Power_CoteID_ProductID=manage&Power_MenuID=6aef7da4c8434aba886c99fec83e4d51'
+const apiUrl = 'http://manage.ybt2023.com/home/test2'
 const selectValue = ref('')
 </script>

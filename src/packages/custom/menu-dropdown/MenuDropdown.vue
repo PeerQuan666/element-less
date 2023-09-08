@@ -24,9 +24,9 @@ let idFieldname=''
 let nameFieldname=''
 let iconFieldName=''
 if(proxy&&proxy.$lessConfig?.table){
-    idFieldname=proxy.$lessConfig.table.contextMenu.idFieldname
-    nameFieldname=proxy.$lessConfig.table.contextMenu.nameFieldname
-    iconFieldName=proxy.$lessConfig.table.contextMenu.iconFieldName
+    idFieldname=proxy.$lessConfig.table.contextMenu.id
+    nameFieldname=proxy.$lessConfig.table.contextMenu.name
+    iconFieldName=proxy.$lessConfig.table.contextMenu.icon
 }
 
 watch(() => props.menus, (val) => {

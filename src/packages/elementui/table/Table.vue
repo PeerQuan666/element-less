@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick, h ,getCurrentInstance} from 'vue'
+import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick, h, getCurrentInstance } from 'vue'
 
+import draggable from 'vuedraggable'
 
 import { ElMessage, ElLoading } from 'element-plus';
 import Sortable from 'sortablejs'
@@ -9,8 +10,8 @@ import ElsTableColumn from '../table-column/TableColumn.vue';
 import ElsForm from '../form/Form.vue';
 
 defineOptions({ name: 'ElsTable', inheritAttrs: false, })
-const {  proxy } = getCurrentInstance() as any
-const emits = defineEmits(['update:check-rows', 'update:check-row-keys', 'drag-move', 'drag-start', 'update:editStatus'])
+const { proxy } = getCurrentInstance() as any
+const emits = defineEmits(['update:check-rows', 'update:check-row-keys', 'dragMove', 'dragEnd', 'update:editStatus'])
 const attrs = useAttrs()
 interface Props {
     tableName?: string,
@@ -34,7 +35,7 @@ interface Props {
     isClientSort?: boolean,
     isClientPage?: boolean,
     isClientSearch?: boolean,
-    dragSortable?: boolean,
+    dragRow?: boolean,
     align?: string,
     headerAlign?: string,
     initReadData?: boolean,
@@ -55,8 +56,8 @@ interface Props {
     afterReadData?: Function,
     headerStickyTop?: number | boolean,
     editStatus?: boolean,
-    beforeTriggerContextMenu?:Function,
-    hasContextMenu?:boolean
+    beforeTriggerContextMenu?: Function,
+    hasContextMenu?: boolean
 
 
 }
@@ -75,17 +76,28 @@ const props = withDefaults(defineProps<Props>(), {
     isReadDataClearCheckRowKey: true,
     showEditColumn: true,
     headerStickyTop: -1,
-    hasContextMenu:true,
+    hasContextMenu: true,
     queryData: {},
 })
 
-let menuFieldname=''
-let idFieldname=''
-let actionFieldname=''
-if(proxy&&proxy.$lessConfig?.table){
-    menuFieldname=proxy.$lessConfig.table.menuFieldname
-    idFieldname=proxy.$lessConfig.table.contextMenu.idFieldname
-    actionFieldname=proxy.$lessConfig.table.contextMenu.actionFieldname
+let menuFieldname = ''
+let idFieldname = ''
+let actionFieldname = ''
+let pageSizeFieldname = ''
+let currentPageFieldName = ''
+let totalFieldname = ''
+let pageCountFieldname = ''
+let avgDayFieldname = ''
+
+if (proxy && proxy.$lessConfig?.table) {
+    menuFieldname = proxy.$lessConfig.table.menu
+    idFieldname = proxy.$lessConfig.table.contextMenu.id
+    actionFieldname = proxy.$lessConfig.table.contextMenu.action
+    pageSizeFieldname = proxy.$lessConfig.table.page.pageSize
+    currentPageFieldName = proxy.$lessConfig.table.page.currentPage
+    totalFieldname = proxy.$lessConfig.table.page.total
+    pageCountFieldname = proxy.$lessConfig.table.page.pageCount
+    avgDayFieldname = proxy.$lessConfig.table.avgDay
 
 }
 
@@ -103,7 +115,6 @@ const tableData: Array<Record<string, any>> = reactive([])
 const sourceTableData: Array<Record<string, any>> = reactive([])
 let editSourceTableData: Array<Record<string, any>> = reactive([])
 
-let extendData: Record<string, any> = reactive({})
 let rowData: Record<string, any> = reactive({})
 let contextMenuVisible = ref(false)
 let contextMenuPositionLeft = ref(0)
@@ -130,7 +141,7 @@ const tableForm = ref()
 
 const contentMenu = ref()
 let tableContainer = h('div', { class: 'table-container' })
-let tableFormContainer = h(ElsForm, {  modelValue: tableData, class: 'table-form-container', labelWidth: '0', showMessage: false })
+let tableFormContainer = h(ElsForm, { modelValue: tableData, class: 'table-form-container', labelWidth: '0', showMessage: false })
 
 
 watch(() => props.isLocaleString, (val) => {
@@ -199,7 +210,6 @@ watch(columnMergeData, (val) => {
     if (val && val.length) {
         currSpanMethod = handleSpanMethod;
     }
-
 }, { immediate: true })
 watch(tableCheckData, (val) => {
     emits("update:check-rows", lessCom.cloneObj(val.checkRows))
@@ -296,28 +306,29 @@ function getTableSelection(isPostCheckRowData, isPostNoCheckRow) {
 
 }
 function setDragSortable() {
-    if (props.dragSortable) {
+    if (props.dragRow) {
         new Sortable(dataTable.value.$el.querySelector(".el-table__body-wrapper tbody"), {
             handle: '.leo-table-drag',
             draggable: '.el-table__row', // 允许拖拽的项目类名
             // 拖拽中 回调函数
             onMove(customEvent) {
-                console.info("----DragMove----")
-                emits("drag-move", customEvent)
+                emits("dragMove", customEvent)
             },
-            onStart(parms) {
-                console.info("----DragStart----")
-                emits("drag-move", parms)
+            onStart() {
+
             },
             // 拖拽结束，调整位置
             onEnd({ newIndex, oldIndex }) {
-                console.info("----DragEnd---")
-                if (oldIndex && newIndex) {
-                    const currRow = tableData.splice(oldIndex, 1);
-                    tableData.splice(newIndex, 0, currRow);
-                    emits("drag-start", { newIndex, oldIndex })
-                }
+                if (newIndex !== undefined && oldIndex !== undefined) {
+                    if ((oldIndex as number) > -1 && (newIndex as number) > -1) {
+                        const startRow = tableData[oldIndex]
+                        const endRow = tableData[newIndex]
+                        const currRow = tableData.splice(oldIndex as number, 1)[0];
+                        tableData.splice(newIndex as number, 0, currRow);
+                        emits("dragEnd", { startRow, endRow })
 
+                    }
+                }
             },
         })
     }
@@ -346,9 +357,10 @@ function setMergeRowData(field, mergeData) {
     if (currIndex > -1) {
         columnMergeData.splice(currIndex, 1)
     }
-    columnMergeData.push({ fieldName: field, mergeData: mergeData })
-    columnMergeData = columnMergeData.filter(ele => ele.mergeData.isMergeRow)
-
+    if (mergeData.mergeRow) {
+        columnMergeData.push({ fieldName: field, mergeData: mergeData })
+        columnMergeData = columnMergeData.filter(ele => ele.mergeData.mergeRow)
+    }
     if (!currSpanMethod) {
         currSpanMethod = handleSpanMethod;
 
@@ -374,7 +386,7 @@ function setSummaryData(field, summaryData) {
 function initData() {
     if (props.headerStickyTop === true) {
         currHeaderStickyTop.value = 0;
-    } else if (typeof(props.headerStickyTop)=="number") {
+    } else if (typeof (props.headerStickyTop) == "number") {
         currHeaderStickyTop.value = props.headerStickyTop
     } else {
         currHeaderStickyTop.value = -1;
@@ -403,27 +415,23 @@ function initTableData(val) {
     } else if (val.Data) {
         sourceTableData.length = 0
         sourceTableData.push(...val.Data)
-        if (val.ExtendData) {
-            extendData = val.ExtendData
-        }
         if (val.PageSize !== undefined && !props.isClientPage) {
-            currPageSize.value = val.PageSize
+            currPageSize.value = val[pageSizeFieldname]
         }
         if (val.PageIndex !== undefined) {
-            currPageIndex.value = val.PageIndex + 1;
+            currPageIndex.value = val[currentPageFieldName] + 1;
         }
         if (val.RecordCountInt !== undefined) {
-            currRecourdCount.value = val.RecordCountInt;
+            currRecourdCount.value = val[totalFieldname];
         }
         if (val.PageCount !== undefined) {
-            currPageTotal.value = val.PageCount;
+            currPageTotal.value = val[pageCountFieldname];
         }
-        if (val.DayCount) {
-            provideData.avgDay = val.DayCount
+        if (val[avgDayFieldname]) {
+            provideData.avgDay = val[avgDayFieldname]
         }
     } else {
         sourceTableData.length = 0;
-        extendData = {}
     }
     if (props.isClientSearch || props.isClientPage) {
         clientTableData();
@@ -462,10 +470,10 @@ function validTableForm(postData) {
         }
         if (postData.length > 1) {
             tableForm.value.validate().then(res => {
-                if(res){
+                if (res) {
                     resolve(postData)
                 }
-              
+
             }).catch(action => {
                 console.log(action)
                 resolve(false)
@@ -545,13 +553,13 @@ function editTable() {
     tableData.forEach(ele => {
         ele.edit = true
     })
-    emits("update:editStatus",true)
+    emits("update:editStatus", true)
 }
 function unEditTable() {
     tableData.forEach(ele => {
         ele.edit = false
     })
-    emits("update:editStatus",false)
+    emits("update:editStatus", false)
 
 }
 function handleRowEdit(row, index) {
@@ -694,8 +702,8 @@ function handleTableSelectAll(selection) {
     }
 }
 function handleRowContextMenu(row, column, event) {
-    if(!props.hasContextMenu){return}
-    if(!menuFieldname){
+    if (!props.hasContextMenu) { return }
+    if (!menuFieldname) {
         console.log('未设置全局配置$lessConfig，无法使用菜单')
         return
     }
@@ -706,7 +714,7 @@ function handleRowContextMenu(row, column, event) {
     }
     var currEvent = event
     rowData = row
-    if(props.beforeTriggerContextMenu){
+    if (props.beforeTriggerContextMenu) {
         props.beforeTriggerContextMenu(row)
     }
     contextMenuPositionLeft.value = currEvent.clientX
@@ -715,12 +723,12 @@ function handleRowContextMenu(row, column, event) {
     currEvent.returnValue = false
     dataTable.value.setCurrentRow(row)
 }
-function handleSpanMethod({ row, column, rowIndex, columnIndex }) {
+function handleSpanMethod({ row, column, rowIndex }) {
     var rowSpan = 1;
     var colSpan = 1;
     if (columnMergeData.length && column.columnKey) {
         let currTableData = tableData;
-        let mergeAttrData = columnMergeData.find(ele => ele.fieldName == column.columnKey && ele.mergeData.isMergeRow === true);
+        let mergeAttrData = columnMergeData.find(ele => ele.fieldName == column.columnKey && ele.mergeData.mergeRow === true);
         if (mergeAttrData) {
             mergeAttrData = mergeAttrData.mergeData
         }
@@ -735,7 +743,7 @@ function handleSpanMethod({ row, column, rowIndex, columnIndex }) {
                 let currRows = currTableData.filter(ele => lessCom.getObjectKey(ele, mergeByFieldName) === currRowValue);
                 rowSpan = currRows.length;
                 colSpan = 1;
-                if (mergeAttrData.isMergeSumValue) {
+                if (mergeAttrData.mergeSum) {
                     row[column.columnKey] = lessCom.sumArray(currRows.map(ele => ele[mergeFieldName]))
                 }
                 else if (mergeAttrData.mergeMethod) {
@@ -743,22 +751,11 @@ function handleSpanMethod({ row, column, rowIndex, columnIndex }) {
                 }
 
             } else {
-                if (mergeAttrData.isMergeSumValue || mergeAttrData.mergeMethod) {
+                if (mergeAttrData.mergeSum || mergeAttrData.mergeMethod) {
                     row[column.columnKey] = 0;
                 }
                 rowSpan = 0;
                 colSpan = 0;
-            }
-        }
-    } else {
-        let currMergeData = extendData;
-        if (currMergeData) {
-            if (currMergeData[rowIndex + '_' + columnIndex]) {
-                var currData = currMergeData[rowIndex + '_' + columnIndex];
-                if (currData) {
-                    rowSpan = parseInt(currData.split('_')[0]);
-                    colSpan = parseInt(currData.split('_')[1]);
-                }
             }
         }
     }
@@ -870,18 +867,15 @@ function readData() {
     let currQueryData = lessCom.getQueryData(searchQueryData);
     return props.url.post(currQueryData).then(res => {
         if (res.ResultCode === "0") {
-            if (res.Data.ExtendData != undefined) {
-                extendData = res.Data.ExtendData
-            }
             if (res.Data.PageSize != undefined) {
                 sourceTableData.length = 0
                 sourceTableData.push(...res.Data.Data);
                 if (!props.isClientPage) {
-                    currPageSize.value = res.Data.PageSize
+                    currPageSize.value = res.Data[pageSizeFieldname]
                 }
-                currPageIndex.value = res.Data.PageIndex + 1
-                currRecourdCount.value = res.Data.RecordCountInt
-                currPageTotal.value = res.Data.PageCount
+                currPageIndex.value = res.Data[currentPageFieldName] + 1
+                currRecourdCount.value = res.Data[totalFieldname]
+                currPageTotal.value = res.Data[pageCountFieldname]
             } else {
                 sourceTableData.length = 0
                 sourceTableData.push(...res.Data)
@@ -894,8 +888,8 @@ function readData() {
                 tableData.push(...sourceTableData)
             }
             editSourceTableData = lessCom.cloneObj(sourceTableData)
-            if (res.Data.DayCount) {
-                provideData.avgDay = res.Data.DayCount;
+            if (res.Data[avgDayFieldname]) {
+                provideData.avgDay = res.Data[avgDayFieldname];
             }
 
         }
@@ -966,7 +960,7 @@ function setTableCheckRows(checkRowKeys: any = null) {
     })
 }
 function handlePowerMenu(row, menuID) {
-    if(!menuFieldname){
+    if (!menuFieldname) {
         ElMessage.warning('未设置全局配置$lessConfig，无法使用菜单')
         return
     }
@@ -1113,7 +1107,7 @@ function exportReadDataHtml() {
             if (res.Data.PageSize != undefined) {
                 tableData.push(...res.Data.Data);
 
-            }else{
+            } else {
                 tableData.push(...res.Data);
             }
             nextTick(() => {
@@ -1135,7 +1129,7 @@ function exportReadDataHtml() {
 
 
 function getExportFileName() {
-    let filename = props.tableName??'未设置名称'
+    let filename = props.tableName ?? '未设置名称'
     let currQueryData = props.queryData;
 
     if (currQueryData.StartDate_QueryDate && currQueryData.EndDate_QueryDate) {
@@ -1232,8 +1226,8 @@ defineExpose({
 
 </script>
 <template>
-    <div class="select_container" v-if="showCheckLabelFieldname || $slots.checklabel">
-        <draggable :list="tableCheckData.checkRows" :item-key="rowKey" class="leo-table-checkrows"
+    <div class="select_container" v-if="showCheckLabelFieldname">
+        <draggable :list="tableCheckData.checkRows" :item-key="rowKey.toString()" class="els-table-checkrows"
             @end="handleDragCheckItem">
             <template #item="{ element }">
                 <el-tag :closable="true" @close="handleCloseCheckItem(element)">
@@ -1247,7 +1241,7 @@ defineExpose({
     <component :is="isEdit?tableFormContainer:tableContainer" ref="tableForm">
 
         <el-table :data="tableData" :inner-wrapper-class="wrapTagID" v-loading="dataLoading" :border="true" fit
-            highlight-current-row :class="!isMobile && hasBottomFixdScroll ? tagID + ' leo-table-noScroll' : tagID"
+            highlight-current-row :class="!isMobile && hasBottomFixdScroll ? tagID + ' els-table-noScroll' : tagID"
             :row-key="rowKey" ref="dataTable" :header-sticky-top="currHeaderStickyTop" :row-class-name="currRowClassName"
             :show-summary="currShowSummary" @sort-change="currSortChange" @row-contextmenu="handleRowContextMenu"
             @row-dblclick="handleTableRowDblClick" @row-click="handleTableRowClick" @select="handleTableSelect"
@@ -1255,15 +1249,17 @@ defineExpose({
             v-bind="attrs">
             <template #default>
                 <slot name="default"></slot>
-                <els-table-column label="操作" v-if="showEditColumn && (isShowEditColumn || dragSortable)" fixed="right"
-                    width="200">
+                <els-table-column label="操作" v-if="showEditColumn && (isShowEditColumn || dragRow)" fixed="right"
+                    :width="isShowEditColumn ? '200' : '80'">
                     <template #default="{ row, $index }">
-                        <el-button type="success" @click="handleRowSave(row)" v-if="row.edit && isEdit"
-                            :loading="row.saveDataLoading" icon="Check">保存</el-button>
-                        <el-button @click="handleRowEdit(row, $index)" icon="Edit" :type="row.edit ? 'info' : 'primary'">{{
-                            row.edit ? '取消' : '编辑' }}</el-button>
-
-                        <el-button type="info" v-if="dragSortable" class="leo-table-drag" icon="Rank"></el-button>
+                        <template v-if="isShowEditColumn">
+                            <el-button type="success" @click="handleRowSave(row)" v-if="row.edit && isEdit"
+                                :loading="row.saveDataLoading" icon="Check">保存</el-button>
+                            <el-button @click="handleRowEdit(row, $index)" icon="Edit"
+                                :type="row.edit ? 'info' : 'primary'">{{
+                                    row.edit ? '取消' : '编辑' }}</el-button>
+                        </template>
+                        <el-button type="info" v-if="dragRow" class="leo-table-drag" icon="Rank"></el-button>
                     </template>
                 </els-table-column>
             </template>
@@ -1293,6 +1289,25 @@ defineExpose({
                 v-if="!isMobile">导出</el-tag>
         </el-pagination>
     </div>
-    <els-menu-context ref="contentMenu"  v-if="hasContextMenu&&menuFieldname" :menus="rowData[menuFieldname]" :visible="contextMenuVisible" :positionLeft="contextMenuPositionLeft"
+    <els-menu-context ref="contentMenu" v-if="hasContextMenu && menuFieldname" :menus="rowData[menuFieldname]"
+        :visible="contextMenuVisible" :positionLeft="contextMenuPositionLeft"
         :positionTop="contextMenuPositionTop"></els-menu-context>
 </template>
+<style >
+.pagination-container {
+    display: flex;
+    justify-content: center;
+}
+
+.select_container {
+    margin-bottom: 10px;
+}
+
+.els-table-checkrows .el-tag {
+    margin-right: 10px;
+    cursor: move;
+}
+.table-form-container .el-form-item{
+    margin-bottom: 0px !important; 
+}
+</style>

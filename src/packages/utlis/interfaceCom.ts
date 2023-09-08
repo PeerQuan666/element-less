@@ -3,7 +3,7 @@ import  {ValueType,QueryDataType,QueryMethod} from './enumCom'
 
 
 export interface FormItemProps{
-    fieldName?:string,
+    prop?:string,
     label?:string,
     require?:boolean,
     requireMessage?:string,
@@ -81,11 +81,11 @@ export interface ColumnProps {
     triggerActionName?: string,
     triggerMenuId?: string,
     headerFormatter?: string,
-    isMergeRow?: boolean,
+    mergeRow?: boolean,
     mergeRowByFieldname?: string,
     mergeFieldname?: string,
     mergeMethod?: Function,
-    isMergeSumValue?: boolean,
+    mergeSum?: boolean,
     showSummary?: boolean,
     summaryMethod?: Function,
     summaryValue?: string | number,
@@ -100,8 +100,8 @@ export interface ColumnProps {
     enumNoneLabel?: string,
     hasBottomBorder?: boolean,
     imageStyle?: string,
+    imageEmptyDesc?: string,
     isPreview?: boolean,
-    urlEmptyDesc?: string,
     isFold?: boolean,
     unFoldCount?: number,
     selectButtonLabel?: string,
@@ -122,7 +122,7 @@ export interface ColumnProps {
 
 export interface QueryInfo{
     key?:string,
-    fieldName?:string,
+    prop?:string,
     method?:QueryMethod,
     dataType?:QueryDataType,
     isAroundComma?:boolean,
