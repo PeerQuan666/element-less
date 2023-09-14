@@ -1,7 +1,7 @@
 ---
 title: CheckBox多选
 icon: square-check
-order: 4
+order: 6
 date: 2023-08-24
 category:
   - ElementUI

@@ -16,17 +16,17 @@ const props = withDefaults(defineProps<Props>(), {
 const dialogVisible = ref(false)
 const unFoldMenus: Array<Record<string, any>> = reactive([])
 const menuData: Array<Record<string, any>> = reactive([])
-if (!proxy.$lessConfig?.table) {
+if (!proxy.$lessConfig?.menu) {
     console.log('未设置全局配置$lessConfig，无法使用菜单')
 }
 
 let idFieldname=''
 let nameFieldname=''
 let iconFieldName=''
-if(proxy&&proxy.$lessConfig?.table){
-    idFieldname=proxy.$lessConfig.table.contextMenu.id
-    nameFieldname=proxy.$lessConfig.table.contextMenu.name
-    iconFieldName=proxy.$lessConfig.table.contextMenu.icon
+if(proxy&&proxy.$lessConfig?.menu){
+    idFieldname=proxy.$lessConfig.menu.id
+    nameFieldname=proxy.$lessConfig.menu.name
+    iconFieldName=proxy.$lessConfig.menu.icon
 }
 
 watch(() => props.menus, (val) => {

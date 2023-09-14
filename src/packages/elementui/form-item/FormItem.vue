@@ -75,6 +75,8 @@ if (formType == 'Query' && setQueryData) {
     }
     defaultKey=queryData?.key
 }
+let startKey:any=attrs['propStart']
+let endKey:any=attrs['propEnd']
 
 </script>
 <template>
@@ -85,7 +87,7 @@ if (formType == 'Query' && setQueryData) {
         <el-space v-if="spacer" :wrap="spaceWrap" :spacer="spacer" :size="spaceSize">
             <slot></slot>
         </el-space>
-        <slot  v-bind="{key:defaultKey}"></slot>
+        <slot  v-bind="{key:defaultKey,startKey:startKey,endKey:endKey}"></slot>
 
         <template v-if="slots.error">
             <slot name="error"></slot>
@@ -96,4 +98,4 @@ if (formType == 'Query' && setQueryData) {
 .el-form-item__content {
     column-gap: 5px;
 }
-</style>../../utlis/lessCom.js
+</style>

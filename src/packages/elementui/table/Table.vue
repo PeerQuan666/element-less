@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick, h, getCurrentInstance } from 'vue'
+import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick, inject, h, getCurrentInstance } from 'vue'
 
 import draggable from 'vuedraggable'
 
@@ -48,7 +48,7 @@ interface Props {
     loading?: boolean,
     spanMethod?: Function,
     showSummary?: boolean,
-    showCheckLabelFieldname?: string,
+    showCheckField?: string,
     showEditColumn?: boolean,
     summaryMethod?: Function,
     beforeSave?: Function,
@@ -57,7 +57,8 @@ interface Props {
     headerStickyTop?: number | boolean,
     editStatus?: boolean,
     beforeTriggerContextMenu?: Function,
-    hasContextMenu?: boolean
+    hasContextMenu?: boolean,
+    isPageCompleteReadData?: boolean
 
 
 }
@@ -78,6 +79,7 @@ const props = withDefaults(defineProps<Props>(), {
     headerStickyTop: -1,
     hasContextMenu: true,
     queryData: {},
+    isPageCompleteReadData: true
 })
 
 let menuFieldname = ''
@@ -90,9 +92,6 @@ let pageCountFieldname = ''
 let avgDayFieldname = ''
 
 if (proxy && proxy.$lessConfig?.table) {
-    menuFieldname = proxy.$lessConfig.table.menu
-    idFieldname = proxy.$lessConfig.table.contextMenu.id
-    actionFieldname = proxy.$lessConfig.table.contextMenu.action
     pageSizeFieldname = proxy.$lessConfig.table.page.pageSize
     currentPageFieldName = proxy.$lessConfig.table.page.currentPage
     totalFieldname = proxy.$lessConfig.table.page.total
@@ -100,9 +99,17 @@ if (proxy && proxy.$lessConfig?.table) {
     avgDayFieldname = proxy.$lessConfig.table.avgDay
 
 }
+if (proxy && proxy.$lessConfig?.menu) {
+    menuFieldname = proxy.$lessConfig.table.menu
+    idFieldname = proxy.$lessConfig.table.menu.id
+    actionFieldname = proxy.$lessConfig.table.menu.action
+}
+
+
 
 const tagID = lessCom.Guid32()
 const wrapTagID = 'leo-wrap-' + tagID
+const queryFormData=ref({})
 let currSaveUrl = ref('')
 let currHeaderStickyTop = ref(-1)
 let dataLoading = ref(false)
@@ -807,7 +814,7 @@ function clientTablePageData(data) {
     if (pageData.length === 0) {
         pageData = lessCom.pageArray(data, 0, currPageSize.value)
     }
-    currRecourdCount = data.length
+    currRecourdCount.value = data.length
     return pageData
 }
 function clientTableSearchData(data) {
@@ -844,11 +851,15 @@ function clientTableSearchData(data) {
         }
         return isTrue
     });
-    currRecourdCount = filterData.length
+    currRecourdCount.value = filterData.length
     return filterData
 }
-function searchData() {
-    currPageIndex.value = 1;
+function searchData(queryData={},isFirstPage=true) {
+    queryFormData.value=queryData
+    if(isFirstPage){
+        currPageIndex.value = 1;
+
+    }
     return compatibleReadData();
 }
 function readData() {
@@ -856,7 +867,7 @@ function readData() {
         return;
     }
 
-    let searchQueryData = Object.assign(props.queryData ?? {}, columnSortData)
+    let searchQueryData = Object.assign(props.queryData ?? {}, columnSortData,queryFormData.value)
     searchQueryData.PageSize = { Value: currPageSize.value };
     searchQueryData.PageIndex = { Value: currPageIndex.value - 1 };
 
@@ -912,6 +923,7 @@ function readData() {
         setTableCheckRows()
 
     }).catch(error => {
+        dataLoading.value=false
         console.log(error);
         ElMessage.error("数据加载失败！")
 
@@ -1163,8 +1175,23 @@ function getExportFileName() {
 }
 
 initData();
-
+const elsPageStore = inject<any>('elsPageStore')
+const getCurrentRefName = inject<Function>("getCurrentRefName")
+    const isQuery=computed(()=>{
+    return props.url || props.isClientSearch
+}) 
 onMounted(() => {
+    if (elsPageStore && getCurrentRefName) {
+        const currRef = getCurrentRefName(proxy.el)
+        if (currRef) {
+            if (!(elsPageStore.value.queryForms.find(ele => ele.tableRef == currRef || !ele.tableRef)) && props.isPageCompleteReadData) {
+                readData();
+            }
+        }
+    }
+    if(elsPageStore){
+        elsPageStore.value.dataTables.push({isQuery:isQuery,query:searchData})
+    }
     if (props.initReadData && props.url) {
         readData()
     }
@@ -1205,7 +1232,11 @@ onMounted(() => {
 
     });
 
+
 })
+
+
+
 defineExpose({
     exportReadDataHtml,
     exportClientDataHtml,
@@ -1221,18 +1252,19 @@ defineExpose({
     editTable,
     unEditTable,
     saveTableData,
-    contextMenuVisible
+    contextMenuVisible,
+
 })
 
 </script>
 <template>
-    <div class="select_container" v-if="showCheckLabelFieldname">
+    <div class="select_container" v-if="showCheckField">
         <draggable :list="tableCheckData.checkRows" :item-key="rowKey.toString()" class="els-table-checkrows"
             @end="handleDragCheckItem">
             <template #item="{ element }">
                 <el-tag :closable="true" @close="handleCloseCheckItem(element)">
                     <slot name="checklabel" :check-item="element">
-                        <span v-if="showCheckLabelFieldname">{{ element[showCheckLabelFieldname] }}</span>
+                        <span v-if="showCheckField">{{ element[showCheckField] }}</span>
                     </slot>
                 </el-tag>
             </template>
@@ -1307,7 +1339,8 @@ defineExpose({
     margin-right: 10px;
     cursor: move;
 }
-.table-form-container .el-form-item{
-    margin-bottom: 0px !important; 
+
+.table-form-container .el-form-item {
+    margin-bottom: 0px !important;
 }
 </style>

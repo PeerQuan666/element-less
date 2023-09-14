@@ -46,6 +46,7 @@ const props = withDefaults(defineProps<Props>(), {
     resetValueByChangeData: true,
     valueSeparator:',',
     validationTrigger:'change',
+    width:'220'
 })
 const slots=useSlots()
 const attrs:Record<string,any> = useAttrs()

@@ -19,10 +19,10 @@ const menuData: Array<Record<string, any>> = reactive([])
 let idFieldname=''
 let nameFieldname=''
 let iconFieldname=''
-if(proxy&&proxy.$lessConfig?.table){
-    idFieldname=proxy.$lessConfig.table.contextMenu.id
-    nameFieldname=proxy.$lessConfig.table.contextMenu.name
-    iconFieldname=proxy.$lessConfig.table.contextMenu.icon
+if(proxy&&proxy.$lessConfig?.menu){
+    idFieldname=proxy.$lessConfig.menu.id
+    nameFieldname=proxy.$lessConfig.menu.name
+    iconFieldname=proxy.$lessConfig.menu.icon
 }
 const isOutBottom = computed(() => {
     return (props.positionTop + (30 * menuData.length) + 30) > window.innerHeight

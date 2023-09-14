@@ -2,11 +2,10 @@
     <els-checkbox v-model="selectValue" 
     :url="apiUrl" 
     label-field="Name" 
-    value-field="ID"
-    height="600"
+    value-field="ID" 
+    height="600" 
     option-width="40%"
-    filterable
-    ></els-checkbox>
+    filterable></els-checkbox>
 </template>
 
 <script setup lang="ts">

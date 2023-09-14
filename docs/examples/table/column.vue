@@ -1,6 +1,6 @@
 
 <template>
-  <els-table :data="data" rowKey="value" showCheckLabelFieldname="key">
+  <els-table :data="data" rowKey="value" showCheckField="key">
     <els-column-checkbox></els-column-checkbox>
     <els-column prop="key" label="默认类型"  ></els-column>
     <els-column-bool prop="isRelease" label="Bool类型" width="100"></els-column-bool>

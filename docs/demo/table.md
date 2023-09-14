@@ -1,6 +1,7 @@
 ---
 title: Table表格
 icon: edit
+order: 11
 date: 2023-08-29
 category:
   - ElementUI
@@ -114,17 +115,29 @@ table/export
 
 ```ts
 app.config.globalProperties.$lessConfig = {
-    table:{
-        menuFieldname:'PowerMenu',//列表数据字段名
-        contextMenu:{
-            idFieldname:'MenuID',//菜单主键ID
-            nameFieldname:'MenuName',//菜单名称
-            actionFieldname:'ActionName',//处理名称（可不填）
-            iconFieldname:'ImageUrl'//图标 可使用fontawesome图标库
-        }
-        
-    }
-}
+      menu:{
+        id:'MenuID',
+        name:'MenuName',
+        action:'ActionName',
+        actionType:'ActionType',
+        icon:'ImageUrl',
+        buttonColor:'ButtonColor',
+        buttonType:'ButtonType',
+        group:'Fold'
+      },
+      table:{
+          menu:'PowerMenu',
+          avgDay:'DayCount',
+          page:{
+            pageSize:'PageSize',
+            currentPage:'PageIndex',
+            total:'RecordCountInt',
+            pageCount:'PageCount'
+          }
+
+          
+      }
+  }
 ```
 ### 右键菜单
 

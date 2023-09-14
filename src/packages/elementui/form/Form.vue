@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, nextTick, provide, onBeforeUnmount, onMounted, useSlots} from 'vue'
+import { ref, nextTick, provide, onBeforeUnmount, onMounted, useSlots, useAttrs } from 'vue'
 
-import {ElForm } from 'element-plus'
+import { ElForm } from 'element-plus'
 import ElsFormItem from '../form-item/FormItem.vue';
 
 defineOptions({ name: 'ElsForm' })
@@ -13,24 +13,31 @@ interface Props {
     queryTableRef?: string,
     queryAutoReadData?: boolean,
     queryParameterType?: string,
-    labelWidth?:string
+    labelWidth?: string
 }
 const props = withDefaults(defineProps<Props>(), {
     queryParameterType: 'Query',
-    labelWidth:'100'
+
 
 })
-
+const attrs = useAttrs()
 const slots = useSlots()
 const dataForm = ref()
 const submitButton = ref()
-let modelData: Record<string, any> =props.modelValue
+const currLabelWidth = ref(props.labelWidth)
 
-provide('labelWidth', props.labelWidth)
-provide('formData',modelData)
+let modelData: Record<string, any> = props.modelValue
+
+if (attrs['inline'] === undefined) {
+    currLabelWidth.value = props.labelWidth ?? '100'
+
+}
+provide('container', 'form')
+provide('labelWidth', currLabelWidth)
+provide('formData', modelData)
 
 onMounted(() => {
-   console.info('加载完成')
+    console.info('加载完成')
 })
 
 onBeforeUnmount(() => {
@@ -74,18 +81,33 @@ defineExpose({
 </script>
 
 <template>
-      <el-form :model="modelData" ref="dataForm"  onsubmit="return false;" :label-width="labelWidth" >
-       <slot v-if="false"></slot>
-       <slot name="edit" v-if="slots.default">
+    <el-form :model="modelData" ref="dataForm" onsubmit="return false;" :label-width="currLabelWidth">
+        <slot v-if="false"></slot>
+        <slot name="edit" v-if="slots.default">
             <template v-for="vnode in slots.default()">
-                <component :is="()=>vnode"  v-if="!(vnode.type as any).name||(vnode.type as any).name==='ElFormItem'||(vnode.type as any)?.name==='ElsFormItem'||!(vnode.type as any).props||!(vnode.type as any).props.hasFormItem||vnode.props &&(vnode.props as any)['hasFormItem']===false"></component>
-                <ElsFormItem  :validationTrigger="(vnode.type as any).props.validationTrigger?.default" v-bind="vnode.props??{}"   v-else>
-                    <template #default="{key}">
-                        <component :is="vnode" v-if="(vnode as any).props.hasOwnProperty('modelValue')" ></component>
-                        <component :is="vnode" v-else-if="modelData"   v-model="modelData[key]"></component>
+                <component :is="()=>vnode"
+                    v-if="!(vnode.type as any).name || (vnode.type as any).name === 'ElFormItem' || (vnode.type as any)?.name === 'ElsFormItem' || !(vnode.type as any).props || !(vnode.type as any).props.hasFormItem || vnode.props && (vnode.props as any)['hasFormItem'] === false">
+                </component>
+                <ElsFormItem :validationTrigger="(vnode.type as any).props.validationTrigger?.default"
+                    v-bind="vnode.props ?? {}"
+                     v-else>
+                    <template #default="{ key, startKey, endKey }">
+                        <component :is="vnode" v-if="(vnode as any).props.hasOwnProperty('modelValue')"></component>
+                        <component :is="vnode" v-else-if="modelData && !startKey && !endKey" v-model="modelData[key]">
+                        </component>
+                        <component :is="vnode" v-else-if="modelData && startKey && endKey && key&&(key!=startKey&&key!=endKey)" 
+                            v-model="modelData[key]"
+                            v-model:start="modelData[startKey]" 
+                            v-model:end="modelData[endKey]">
+                        </component>
+                        <component :is="vnode" v-else-if="modelData  && startKey && endKey&&(!key||key==startKey||key==endKey)"
+                            v-model:start="modelData[startKey]" 
+                            v-model:end="modelData[endKey]">
+                        </component>
                         <component :is="vnode" v-else></component>
                     </template>
                 </ElsFormItem>
+
             </template>
         </slot>
     </el-form>

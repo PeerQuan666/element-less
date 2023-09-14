@@ -1,0 +1,122 @@
+<template>
+    <els-menu-tool v-model="selectValue" :data="data" @click="handleClick"></els-menu-tool>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const selectValue = ref('')
+const data = ref<any>(
+    [
+    {
+        "MenuID":"9edf0d1964cc4c22a039fb329bb05e6a",
+        "MenuName":"新增数据",
+        "FoldName":"",
+        "MenuType":3,
+        "ActionType":"Target",
+        "ButtonType":"Add",
+        "ButtonColor":"primary",
+        "ActionScript":"",
+        "ModalTitle":"新增{名称}",
+        "ModalWidth":"80%",
+        "ModalHeight":"500",
+        "ConfirmMessage":"",
+        "ConfirmPassword":"",
+        "IsShowPassword":0,
+        "IsQueryState":1,
+        "ImageUrl":"el-icon-edit",
+        "TargetUrl":"/PromoteManage/PromoteData/Add?Power_MenuID=a2cf21dbbc504b33a8f21bb4b9bf3e98&SignatureMD5=F73A1B3B22EAF4881B73B9872A71EF7A&SignatureStamp=1694506233",
+        "SortIndex":1,
+        "IsLoading":false
+    },
+    
+    {
+        "MenuID":"5c9779d62d414b8b9ecbc1d82ed55d00",
+        "MenuName":"消耗KPI录入",
+        "FoldName":"其他数据录入",
+        "MenuType":3,
+        "ActionType":"Target",
+        "ButtonType":"None",
+        "ButtonColor":"success",
+        "ActionScript":"",
+        "ModalTitle":"",
+        "ModalWidth":"0",
+        "ModalHeight":"0",
+        "ConfirmMessage":"",
+        "ConfirmPassword":"",
+        "IsShowPassword":0,
+        "IsQueryState":0,
+        "ImageUrl":"el-icon-postcard",
+        "TargetUrl":"/PromoteManage/PromoteConsumeKpi/List?Power_MenuID=a2cf21dbbc504b33a8f21bb4b9bf3e98&SignatureMD5=F73A1B3B22EAF4881B73B9872A71EF7A&SignatureStamp=1694506233",
+        "SortIndex":5,
+        "IsLoading":false
+    },
+    {
+        "MenuID":"7b1c2086ce1f434aadbda523ba3a2d0b",
+        "MenuName":"月度实际消耗录入",
+        "FoldName":"其他数据录入",
+        "MenuType":3,
+        "ActionType":"Target",
+        "ButtonType":"None",
+        "ButtonColor":"info",
+        "ActionScript":"",
+        "ModalTitle":"",
+        "ModalWidth":"0",
+        "ModalHeight":"0",
+        "ConfirmMessage":"",
+        "ConfirmPassword":"",
+        "IsShowPassword":0,
+        "IsQueryState":0,
+        "ImageUrl":"el-icon-postcard",
+        "TargetUrl":"/PromoteManage/PromoteActualConsume/List?Power_MenuID=a2cf21dbbc504b33a8f21bb4b9bf3e98&SignatureMD5=F73A1B3B22EAF4881B73B9872A71EF7A&SignatureStamp=1694506233",
+        "SortIndex":6,
+        "IsLoading":false
+    },
+    {
+        "MenuID":"7c45c1a487b04d27b30124f5dc94a0f9",
+        "MenuName":"积分墙观测录入",
+        "FoldName":"其他数据录入",
+        "MenuType":3,
+        "ActionType":"Target",
+        "ButtonType":"None",
+        "ButtonColor":"primary",
+        "ActionScript":"",
+        "ModalTitle":"",
+        "ModalWidth":"0",
+        "ModalHeight":"0",
+        "ConfirmMessage":"",
+        "ConfirmPassword":"",
+        "IsShowPassword":0,
+        "IsQueryState":0,
+        "ImageUrl":"el-icon-copy-document",
+        "TargetUrl":"/PromoteManage/PromoteIntegralWall/List?Power_MenuID=a2cf21dbbc504b33a8f21bb4b9bf3e98&SignatureMD5=F73A1B3B22EAF4881B73B9872A71EF7A&SignatureStamp=1694506233",
+        "SortIndex":7,
+        "IsLoading":false
+    },
+    
+    {
+        "MenuID":"55d5ff6b2bc346c197ddcb8b419788d8",
+        "MenuName":"查询",
+        "FoldName":"",
+        "MenuType":3,
+        "ActionType":"Search",
+        "ButtonType":"Search",
+        "ButtonColor":"primary",
+        "ActionScript":"",
+        "ModalTitle":"",
+        "ModalWidth":"0",
+        "ModalHeight":"0",
+        "ConfirmMessage":"",
+        "ConfirmPassword":"",
+        "IsShowPassword":0,
+        "IsQueryState":0,
+        "ImageUrl":"el-icon-search",
+        "TargetUrl":"/PromoteManage/PromoteData/ReadData?Power_MenuID=a2cf21dbbc504b33a8f21bb4b9bf3e98&SignatureMD5=F73A1B3B22EAF4881B73B9872A71EF7A&SignatureStamp=1694506233",
+        "SortIndex":12,
+        "IsLoading":false
+    }
+]
+    )
+    function handleClick(menu){
+        console.info(menu)
+    }
+</script>

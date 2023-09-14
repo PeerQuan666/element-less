@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<Props>(), {
     encode: false,
     encodeType: 'url',
     validationTrigger:'blur',
-    width:''
+    width:'220'
 })
 const emits = defineEmits(['update:modelValue'])
 

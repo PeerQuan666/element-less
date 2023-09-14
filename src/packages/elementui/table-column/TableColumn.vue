@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<ColumnProps>(), {
     enumNoneLabel: '未知',
     menusFieldname: 'PowerMenu',
     selectButtonLabel: '选择',
-    isPreview:true
+    isPreview: true
 
 })
 const attrs = useAttrs()
@@ -72,7 +72,7 @@ watch(() => props.mergeRow, (val) => {
 
 watch(() => props.summaryValue, (val) => {
     if (setSummaryData) {
-        const isSummary = props.showSummary || (props.summaryValue!==undefined? true : false) || (props.summaryMethod ? true : false) 
+        const isSummary = props.showSummary || (props.summaryValue !== undefined ? true : false) || (props.summaryMethod ? true : false)
 
         setSummaryData(props.prop, {
             showSummary: isSummary,
@@ -86,7 +86,7 @@ watch(() => props.summaryValue, (val) => {
 
 watch(() => props.showSummary, (val) => {
     if (setSummaryData) {
-        const isSummary = val || (props.summaryValue!==undefined? true : false) || (props.summaryMethod ? true : false) 
+        const isSummary = val || (props.summaryValue !== undefined ? true : false) || (props.summaryMethod ? true : false)
         setSummaryData(props.prop, {
             showSummary: isSummary,
             summaryFieldName: props.prop,
@@ -165,28 +165,19 @@ function getEnumKeyByValue(row) {
 }
 function handleSelectRow(row) {
     let selectTagID = lessCom.getUrlParms("Transfer_SelectTagID");
-    let isMulti = lessCom.getUrlParms("Transfer_IsMuti");
+    let multiple = lessCom.getUrlParms("Transfer_Multiple");
     if (handleTableSelectRow) {
         handleTableSelectRow(row)
     }
-    if (isMulti.toLowerCase() == 'true') {
+    if (multiple.toLowerCase() == 'true') {
         return;
     }
     if (selectTagID) {
-        let modalType = lessCom.getUrlParms("Power_ModalType");
-        if (modalType) {
-            var parent = window.parent;
-            if (!parent[selectTagID]) {
-                ElMessage.error('父页面接收方法不存在')
-            }
-            parent[selectTagID](row)
-        } else {
-            if (!window[selectTagID]) {
-                ElMessage.error('页面接收方法不存在')
-            }
-            window[selectTagID](row)
-
+        var parent = window.parent;
+        if (!parent[selectTagID]) {
+            ElMessage.error('父页面接收方法不存在')
         }
+        parent[selectTagID](row)
     }
 
 }
@@ -241,7 +232,7 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
                 </slot>
             </template>
             <template v-else-if="(!row.edit || !isEdit) && prop">
-                <els-image v-if="type == 'image'"  :empty-desc="imageEmptyDesc" :url="row[prop]" :is-preview="isPreview"
+                <els-image v-if="type == 'image'" :empty-desc="imageEmptyDesc" :url="row[prop]" :is-preview="isPreview"
                     :style="imageStyle"></els-image>
 
                 <template v-else-if="type == 'enum'">

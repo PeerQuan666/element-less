@@ -1,37 +1,43 @@
 import axios from 'axios'
-import {getCurrentInstance,ComponentInternalInstance } from 'vue'
-import {exportJsonToExcel,exportTableToExcelEl} from './Export2Excel.js'
+import { exportJsonToExcel, exportTableToExcelEl } from './Export2Excel.js'
 import { ElMessage } from 'element-plus'
-const lessCom ={
-    menuCommand(menu){
-        const { proxy } = getCurrentInstance() as ComponentInternalInstance
-    
-        const $parent=proxy?.$parent as any;
-        if($parent){
-            $parent.gridMenuVisible = false
+
+const lessCom = {
+    menuCommand(menu,elsPageStore) {
             switch (menu.ActionType) {
                 case 'Modal':
                     break
                 case 'Target':
-                   
-                
+
+
                     break;
                 case 'DesktopTarget':
 
                     break;
                 case 'Select':
-                 
+
                     break
                 case 'Export':
-                  
+
+                    break;
+                case 'Search':
+                    menu.IsLoading = true;
+                    if(elsPageStore){
+                        elsPageStore.value.queryForms.forEach(ele=>{
+                            ele.query().then(res=>{
+                                menu.IsLoading = false;
+                            })
+                        })
+                    }
+                    return false;
                     break;
                 default:
-               
+
                     break
-    
+
             }
-        }
-     
+        
+
     },
     getCompareClass(val) {
         if (!val || val === '-') { return ''; }
@@ -57,13 +63,13 @@ const lessCom ={
         val2 = val2.toString().toFloat(4);
         return !val1 || !val2 ? '-' : (((val1 - val2) / val2) * 100).toFixed(2) + "%"
     },
-    getAvgDayResult(val, fixed=2, dayCount=1) {
+    getAvgDayResult(val, fixed = 2, dayCount = 1) {
         if (val) {
             return (val / dayCount).toFixed(fixed)
         }
         return "-";
     },
-     getUrlParms(paramName) {
+    getUrlParms(paramName) {
         var query = window.location.search.substring(1);
         var vars = query.split("&");
         for (var i = 0; i < vars.length; i++) {
@@ -95,45 +101,45 @@ const lessCom ={
         };
         return fmt;
     },
-     parseTime(time, cFormat='') {
+    parseTime(time, cFormat = '') {
         if (arguments.length === 0) {
-          return null;
+            return null;
         }
         const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}';
         let date;
         if (typeof time == 'object') {
-          date = time;
+            date = time;
         } else {
-          if (('' + time).length === 10) time = parseInt(time) * 1000;
-          date = new Date(time);
+            if (('' + time).length === 10) time = parseInt(time) * 1000;
+            date = new Date(time);
         }
         const formatObj = {
-          y: date.getFullYear(),
-          m: date.getMonth() + 1,
-          d: date.getDate(),
-          h: date.getHours(),
-          i: date.getMinutes(),
-          s: date.getSeconds(),
-          a: date.getDay()
+            y: date.getFullYear(),
+            m: date.getMonth() + 1,
+            d: date.getDate(),
+            h: date.getHours(),
+            i: date.getMinutes(),
+            s: date.getSeconds(),
+            a: date.getDay()
         };
         const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
-          let value = formatObj[key];
-          if (key === 'a') return ['一', '二', '三', '四', '五', '六', '日'][value - 1];
-          if (result.length > 0 && value < 10) {
-            value = '0' + value;
-          }
-          return value || 0;
+            let value = formatObj[key];
+            if (key === 'a') return ['一', '二', '三', '四', '五', '六', '日'][value - 1];
+            if (result.length > 0 && value < 10) {
+                value = '0' + value;
+            }
+            return value || 0;
         });
         return time_str;
-      },
-    exportTable(el, cellStyles = [], headerRowCount = 0, headerCellStyle = {}, filename = ""){
-        exportTableToExcelEl(el,cellStyles,headerRowCount,headerCellStyle,filename)
     },
-    exportJSON(data){
+    exportTable(el, cellStyles = [], headerRowCount = 0, headerCellStyle = {}, filename = "") {
+        exportTableToExcelEl(el, cellStyles, headerRowCount, headerCellStyle, filename)
+    },
+    exportJSON(data) {
         exportJsonToExcel(data)
     },
-    getObjectKey(obj, fields, separator = '$'){
-        let currValue:any = [];
+    getObjectKey(obj, fields, separator = '$') {
+        let currValue: any = [];
         fields.split(',').forEach(ele => {
             currValue.push(obj[ele])
         })
@@ -151,24 +157,24 @@ const lessCom ={
                 return sum.toFixedNumber()
             }
             return 0;
-         
+
         }
         return 0;
-       
+
     },
-    pageArray(arr, pageIndex, pageSize){
+    pageArray(arr, pageIndex, pageSize) {
         var skipNum = pageIndex * pageSize;
         var newArr = (skipNum + pageSize >= arr.length) ? arr.slice(skipNum, arr.length) : arr.slice(skipNum, skipNum + pageSize);
         return newArr;
     },
-    removeArrayItem(list,item) {
+    removeArrayItem(list, item) {
         let index = list.indexOf(item)
         if (index > -1) {
             list.splice(index, 1)
         }
     },
     orderBy(data, fieldName) {
-        if(data){
+        if (data) {
             data.sort(function (obj1, obj2) {
                 var val1 = !obj1[fieldName] ? 0 : obj1[fieldName];
                 var val2 = !obj2[fieldName] ? 0 : obj2[fieldName];
@@ -185,10 +191,10 @@ const lessCom ={
                 }
             })
         }
-      
+
     },
     orderByDescending(data, fieldName) {
-        if(data){
+        if (data) {
             data.sort(function (obj1, obj2) {
                 var val1 = !obj2[fieldName] ? 0 : obj2[fieldName];
                 var val2 = !obj1[fieldName] ? 0 : obj1[fieldName];
@@ -205,11 +211,11 @@ const lessCom ={
                 }
             })
         }
-       
+
     },
-    getQueryData(queryData){
+    getQueryData(queryData) {
         if (!queryData) {
-           return {}
+            return {}
         }
         let queryParms = {};
         for (let key in queryData) {
@@ -242,8 +248,8 @@ const lessCom ={
                         queryParms[parameterName] = fieldName + "$" + queryMethod + "$" + queryDataType + "$" + signatureMD5 + "$" + fieldValue;
                     }
                 }
-             
-                else{
+
+                else {
                     queryParms[key] = item.Value
                 }
             }
@@ -251,7 +257,7 @@ const lessCom ={
         }
         return queryParms;
     },
-    handleApiResult(res){
+    handleApiResult(res) {
         if (!res.EventActionData && res.ResultCode == "0") {
             ElMessage.success(res.ResultMessage)
             return
@@ -268,22 +274,22 @@ const lessCom ={
                     window.location.href = action.Value;
                     break
                 case "RefreshGrid":
-                   
+
                     break
                 case "RefreshGridParent":
-                   
+
                     break
                 case "CloseModal":
-                  
+
                     break
                 case "RefreshFrame":
-                   
+
                     break
                 case "RefreshFrameParent":
-                   
+
                     break
                 case "Script":
-                    
+
                     break;
 
             }
@@ -291,7 +297,7 @@ const lessCom ={
 
         })
     },
-    getToolHeight(){
+    getToolHeight() {
         return 0;
     },
     Guid() {
@@ -307,14 +313,14 @@ const lessCom ={
     Guid32() {
         return lessCom.Guid().replace(/-/g, "")
     },
-    cloneObj(obj:any) {
+    cloneObj(obj: any) {
         if (!obj) { return {}; }
         return JSON.parse(JSON.stringify(obj))
     },
-    isObject:(obj:any) =>{
+    isObject: (obj: any) => {
         return Object.prototype.toString.call(obj).indexOf('Object') > -1 || Object.prototype.toString.call(obj).indexOf('Array') > -1;
     },
-    isNumber(val:string) {
+    isNumber(val: string) {
         var regPos = /^\d+(\.\d+)?$/;
         var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/;
         if (regPos.test(val) || regNeg.test(val)) {
@@ -323,8 +329,8 @@ const lessCom ={
             return false;
         }
     },
-    dtGroupBy(data:Array<Record<string,any>>, fieldName:string, sortFieldName='') {
-        const groups:Record<string,any> = {};
+    dtGroupBy(data: Array<Record<string, any>>, fieldName: string, sortFieldName = '') {
+        const groups: Record<string, any> = {};
         data.forEach(function (o) {
             const group = o[fieldName];
             groups[group] = groups[group] || [];
@@ -334,7 +340,7 @@ const lessCom ={
             let sortGroupData = Object.keys(groups).map(function (group) {
                 let groupsData = groups[group];
                 let sort = groupsData[0][sortFieldName];
-                return { key: group, sort: sort ? sort:0, value: groupsData };
+                return { key: group, sort: sort ? sort : 0, value: groupsData };
             });
             this.orderBy(sortGroupData, "sort")
             return sortGroupData;
@@ -343,19 +349,19 @@ const lessCom ={
             return Object.keys(groups).map(function (group) {
                 return { key: group, value: groups[group] };
             });
-        } 
+        }
     },
-    post(url:string, data:object,alertCatchError=true) {
+    post(url: string, data: object, alertCatchError = true) {
         if (!data) { data = []; }
-     
+
         return new Promise((resolve, reject) => {
-            axios.post(url,data,{headers:{ 'Content-Type': 'application/x-www-form-urlencoded'}}).then(res => {
-                if(res.status==200){
+            axios.post(url, data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(res => {
+                if (res.status == 200) {
                     resolve(res.data)
-                }else {
+                } else {
                     reject(res)
                 }
-            
+
             }).catch(action => {
                 if (alertCatchError) {
                     ElMessage.error({ message: '接口调用异常' })
@@ -365,13 +371,13 @@ const lessCom ={
             });
         })
     },
-    get(url:string, data:object,alertCatchError=true) {
+    get(url: string, data: object, alertCatchError = true) {
         if (!data) { data = []; }
         return new Promise((resolve, reject) => {
-            axios.get(url,{params:data}).then(res => {
-                if(res.status==200){
+            axios.get(url, { params: data }).then(res => {
+                if (res.status == 200) {
                     resolve(res.data)
-                }else {
+                } else {
                     reject(res)
                 }
             }).catch(action => {
@@ -383,7 +389,7 @@ const lessCom ={
             });
         })
     },
-    
+
 }
 
 

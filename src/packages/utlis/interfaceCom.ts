@@ -1,7 +1,5 @@
 import  {ValueType,QueryDataType,QueryMethod} from './enumCom'
 
-
-
 export interface FormItemProps{
     prop?:string,
     label?:string,
@@ -16,9 +14,37 @@ export interface FormItemProps{
     queryDataType?:QueryDataType,
     queryDefaultValue?:any,
     queryAutoReadData?:boolean,
-    queryAroundComma?:boolean   
-
+    queryAroundComma?:boolean,
 }
+
+export interface RangeFormItemProps extends FormItemProps{
+    propStart:'',
+    propEnd:'',
+}
+
+
+export interface DatePickerProps extends FormItemProps {
+    type?: string,
+    modelValue?: string | number,
+    start?: string | number,
+    end?: string | number,
+    valueFormat?: string,
+    greaterThan?: string,
+    lessThan?: string,
+    width?: string,
+    isShortcuts?: boolean,
+    disabledDate?: Function,
+    shortcutsDate?: string | number,
+    shortcuts?: Array<{ text: string, value: Date | Function }>,
+    valueSeparator?: string,
+    defaultTime?: string|Array<string> 
+}
+
+export interface DatePickerRangeProps extends DatePickerProps,RangeFormItemProps{
+ 
+}
+
+
 
 export interface CheckboxProps extends FormItemProps {
     type?: string,

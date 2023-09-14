@@ -18,11 +18,18 @@ declare global {
     toBool():boolean,
     toInt():number,
     toFloat():number,
-
-    
-
-
+    addUrlParameter(param:string, value:string):string
     }
+    interface Array{
+        remove(item:any):Array<any>
+    }
+}
+Array.prototype.remove=function remove(item){
+    let index = list.indexOf(item)
+    if (index > -1) {
+        list.splice(index, 1)
+    }
+    return list
 }
 Number.prototype.toFixedNumber = function toFixedNumber(digits=2) {
     return parseFloat(this.toFixed(digits))
@@ -100,6 +107,16 @@ String.prototype.replacePowerUrl = function replacePowerUrl() {
         console.log(err)
     }
     return this.toString();
+};
+
+String.prototype.addUrlParameter = function addUrlParameter(param, value) {
+    if (this.toString().indexOf(param) > -1) {
+        var oUrl = this.toString();
+        var re = eval('/(' + param + '=)([^&]*)/gi');
+        return oUrl.replace(re, param + '=' + value);
+    } 
+    let cSymbol = this.indexOf('?') > -1 ? '&' : '?'
+    return `${this}${cSymbol}${param}=${value}`;
 };
 
 String.prototype.post = function request(postdata:object, alertCatchError=true) {

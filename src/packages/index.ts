@@ -27,14 +27,32 @@ import ElsColumnImage from './elementui/table-column-image'
 import ElsColumnOperate from './elementui/table-column-operate'
 import ElsColumnSelect from './elementui/table-column-select'
 
+
+import ElsMenu from './elementui/menu'
+import ElsMenuItem from './elementui/menu-item'
+import ElsSubMenu from './elementui/menu-sub'
+
 import ElsImage from './elementui/image'
 import ElsImageViewer from './elementui/image-viewer'
 
 import ElsMenuContext from './custom/menu-context'
 import ElsMenuDropdown from './custom/menu-dropdown'
+import ElsMenuTool from './custom/menu-tool'
 
+import ElsAutocomplete from './elementui/autocomplete'
+import ElsCascader from './elementui/cascader'
+import ElsDialog from './elementui/dialog'
+import ElsDatePicker from './elementui/date-picker'
+import ElsDatePickerRange from './elementui/date-picker-range'
 
+import ElsCollapseTransition from './elementui/collapse-transition'
+import ElsDataModal from './custom/data-modal'
+import ElsButtonSelect from './custom/button-select'
+import ElsButtonSearch from './custom/button-search'
+import ElsList from './custom/list'
+import ElsTip from './custom/tip'
 
+import ElsContainer from './elementui/Container'
 const components =[
     ElsInput,
     ElsSelect,
@@ -47,7 +65,24 @@ const components =[
     ElsImage,
     ElsImageViewer,
     ElsMenuContext,
-    ElsMenuDropdown
+    ElsMenuDropdown,
+    ElsMenu,
+    ElsMenuItem,
+    ElsSubMenu,
+    ElsAutocomplete,
+    ElsCascader,
+    ElsCollapseTransition,
+    ElsDialog,
+    ElsDataModal,
+    ElsMenuTool,
+    ElsButtonSearch,
+    ElsButtonSelect,
+    ElsList,
+    ElsTip,
+    ElsDatePicker,
+    ElsDatePickerRange,
+    ElsContainer
+
 ]
 
 
