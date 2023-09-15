@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watch, getCurrentInstance } from 'vue'
-import lessCom from '../../utlis/lessCom.js'
+import { ref, reactive, watch, getCurrentInstance,inject } from 'vue'
 const { proxy } = getCurrentInstance() as any
 defineOptions({ name: "ElsMenuDropdown" })
 
@@ -19,7 +18,7 @@ const menuData: Array<Record<string, any>> = reactive([])
 if (!proxy.$lessConfig?.menu) {
     console.log('未设置全局配置$lessConfig，无法使用菜单')
 }
-
+const elsMenuCommand=inject<Function>('elsMenuCommand')
 let idFieldname=''
 let nameFieldname=''
 let iconFieldName=''
@@ -39,7 +38,11 @@ watch(() => props.menus, (val) => {
     }
 }, { immediate: true })
 
-
+function menuCommand(menu){
+    if(elsMenuCommand){
+         elsMenuCommand(menu)
+    }
+}
 
 </script>
 <template >
@@ -48,9 +51,9 @@ watch(() => props.menus, (val) => {
             <el-link type="primary" @click="dialogVisible = !dialogVisible">操作</el-link>
         </template>
         <template v-else-if="isFold || unFoldCount > 0">
-            <el-link class="els-table-operate-link" type="primary" @click="lessCom.menuCommand(item)" v-for="item in unFoldMenus"
+            <el-link class="els-table-operate-link" type="primary" @click="menuCommand(item)" v-for="item in unFoldMenus"
                 :key="item[idFieldname]">{{ item[nameFieldname] }}</el-link>
-            <el-dropdown @command="lessCom.menuCommand" v-if="menuData.length">
+            <el-dropdown @command="menuCommand" v-if="menuData.length">
                 <span class="els-table-operate-link"> {{ unFoldCount > 0 ? '更多操作' : '操作' }}  <el-icon class="el-icon--right">
         <arrow-down />
       </el-icon></span>
@@ -63,12 +66,12 @@ watch(() => props.menus, (val) => {
             </el-dropdown>
         </template>
         <template v-else>
-            <el-link class="els-table-operate-link" type="primary" @click="lessCom.menuCommand(item)" v-for="item in menuData"
+            <el-link class="els-table-operate-link" type="primary" @click="menuCommand(item)" v-for="item in menuData"
                 :key="item[idFieldname]">{{ item[nameFieldname] }}</el-link>
         </template>
         <el-dialog :align-center="true" :append-to-body="true" v-model="dialogVisible" class="table-column-operate-dialog"
             :show-close="false" width="50%">
-            <div v-for="item in menuData" class="center" @click="lessCom.menuCommand(item)"
+            <div v-for="item in menuData" class="center" @click="menuCommand(item)"
                 style="line-height: 50px; border-bottom: 1px solid #dcdcdc;">{{ item.MenuName }}</div>
         </el-dialog>
     </div>

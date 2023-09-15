@@ -57,8 +57,7 @@ interface Props {
     headerStickyTop?: number | boolean,
     editStatus?: boolean,
     beforeTriggerContextMenu?: Function,
-    hasContextMenu?: boolean,
-    isPageCompleteReadData?: boolean
+    hasContextMenu?: boolean
 
 
 }
@@ -79,7 +78,6 @@ const props = withDefaults(defineProps<Props>(), {
     headerStickyTop: -1,
     hasContextMenu: true,
     queryData: {},
-    isPageCompleteReadData: true
 })
 
 let menuFieldname = ''
@@ -106,10 +104,9 @@ if (proxy && proxy.$lessConfig?.menu) {
 }
 
 
-
-const tagID = lessCom.Guid32()
-const wrapTagID = 'leo-wrap-' + tagID
-const queryFormData=ref({})
+const tagID = "els_table_" + lessCom.Guid32()
+const wrapTagID = 'els-wrap-' + tagID
+const queryFormData = ref({})
 let currSaveUrl = ref('')
 let currHeaderStickyTop = ref(-1)
 let dataLoading = ref(false)
@@ -818,13 +815,15 @@ function clientTablePageData(data) {
     return pageData
 }
 function clientTableSearchData(data) {
-    if (!props.queryData) {
+    let currQueryData = Object.assign({}, props.queryData ?? {}, columnSortData, queryFormData.value)
+
+    if (!currQueryData) {
         return data
     }
     let filterData = data.filter(ele => {
         var isTrue = true;
-        for (let key in props.queryData) {
-            let currQuery = props.queryData[key];
+        for (let key in currQueryData) {
+            let currQuery = currQueryData[key];
             let currFieldName = currQuery["QueryFieldName"];
             if (!currFieldName) {
                 continue;
@@ -844,7 +843,7 @@ function clientTableSearchData(data) {
                     isTrue = ele[currFieldName] == currValue;
                 }
                 else {
-                    isTrue = ele[currFieldName] && ele[currFieldName].toLowerCase().includes(currValue.toLowerCase());
+                    isTrue = ele[currFieldName] && ele[currFieldName].toString().toLowerCase().includes(currValue.toLowerCase());
                 }
             }
             if (!isTrue) { return isTrue; }
@@ -854,20 +853,36 @@ function clientTableSearchData(data) {
     currRecourdCount.value = filterData.length
     return filterData
 }
-function searchData(queryData={},isFirstPage=true) {
-    queryFormData.value=queryData
-    if(isFirstPage){
-        currPageIndex.value = 1;
 
+function query(initPage = true, queryData = {}, isFirstPage = true) {
+    queryFormData.value = queryData
+    if (isFirstPage) {
+        currPageIndex.value = 1;
     }
-    return compatibleReadData();
+    if (initPage) {
+        if (props.url) {
+            return readData();
+        }
+    } else {
+
+        return compatibleReadData()
+    }
+}
+
+
+function searchData(queryData = {}, isFirstPage = true) {
+    queryFormData.value = queryData
+    if (isFirstPage) {
+        currPageIndex.value = 1;
+    }
+    return compatibleReadData()
 }
 function readData() {
     if (!props.url) {
         return;
     }
 
-    let searchQueryData = Object.assign(props.queryData ?? {}, columnSortData,queryFormData.value)
+    let searchQueryData = Object.assign({}, props.queryData ?? {}, columnSortData, queryFormData.value)
     searchQueryData.PageSize = { Value: currPageSize.value };
     searchQueryData.PageIndex = { Value: currPageIndex.value - 1 };
 
@@ -923,7 +938,7 @@ function readData() {
         setTableCheckRows()
 
     }).catch(error => {
-        dataLoading.value=false
+        dataLoading.value = false
         console.log(error);
         ElMessage.error("数据加载失败！")
 
@@ -1103,7 +1118,7 @@ function exportReadDataHtml() {
     if (props.beforeReadData) {
         props.beforeReadData()
     }
-    let currQueryData = Object.assign(props.queryData, columnSortData)
+    let currQueryData = Object.assign({}, props.queryData ?? {}, columnSortData, queryFormData.value)
     currQueryData = lessCom.getQueryData(currQueryData)
     currQueryData["Query_PageSize"] = 100000;
     currQueryData["Query_PageIndex"] = 0;
@@ -1142,7 +1157,8 @@ function exportReadDataHtml() {
 
 function getExportFileName() {
     let filename = props.tableName ?? '未设置名称'
-    let currQueryData = props.queryData;
+    let currQueryData = Object.assign({}, props.queryData ?? {}, columnSortData, queryFormData.value)
+
 
     if (currQueryData.StartDate_QueryDate && currQueryData.EndDate_QueryDate) {
         filename += "(" + currQueryData.StartDate_QueryDate.replaceAll(" 00:00:00", "") + "~" + currQueryData.EndDate_QueryDate.replaceAll(" 23:59:59", "") + ")" + "-" + lessCom.formatDate(new Date(), "yyyyMMddHHmmss");
@@ -1176,25 +1192,19 @@ function getExportFileName() {
 
 initData();
 const elsPageStore = inject<any>('elsPageStore')
-const getCurrentRefName = inject<Function>("getCurrentRefName")
-    const isQuery=computed(()=>{
+const isQuery = computed(() => {
     return props.url || props.isClientSearch
-}) 
+})
 onMounted(() => {
-    if (elsPageStore && getCurrentRefName) {
-        const currRef = getCurrentRefName(proxy.el)
-        if (currRef) {
-            if (!(elsPageStore.value.queryForms.find(ele => ele.tableRef == currRef || !ele.tableRef)) && props.isPageCompleteReadData) {
-                readData();
-            }
+    if (elsPageStore) {
+        elsPageStore.value.dataTables.push({ tagID: tagID, initReadData: props.initReadData, isQuery: isQuery, query: query })
+
+    } else {
+        if (props.initReadData && props.url) {
+            searchData()
         }
     }
-    if(elsPageStore){
-        elsPageStore.value.dataTables.push({isQuery:isQuery,query:searchData})
-    }
-    if (props.initReadData && props.url) {
-        readData()
-    }
+
     currShowSummary.value = props.showSummary;
     if (props.spanMethod) {
         currSpanMethod = props.spanMethod;
@@ -1252,7 +1262,11 @@ defineExpose({
     editTable,
     unEditTable,
     saveTableData,
+    searchData,
+    query,
     contextMenuVisible,
+    tagID,
+    initReadData: props.initReadData
 
 })
 

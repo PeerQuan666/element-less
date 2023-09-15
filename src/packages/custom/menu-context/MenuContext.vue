@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import {  reactive, computed, watch, onMounted,  getCurrentInstance, onUnmounted } from 'vue'
-import lessCom from '../../utlis/lessCom.js'
+import {  reactive, computed, watch, onMounted,  getCurrentInstance, onUnmounted,inject } from 'vue'
 const {  proxy } = getCurrentInstance() as any
 defineOptions({ name: "ElsMenuContext" })
 
@@ -15,6 +14,7 @@ const props = withDefaults(defineProps<Props>(), {
     positionTop: 0,
     visible: false
 })
+const elsMenuCommand=inject<Function>('elsMenuCommand')
 const menuData: Array<Record<string, any>> = reactive([])
 let idFieldname=''
 let nameFieldname=''
@@ -49,6 +49,11 @@ function clickDocumentHandler(e) {
        }
  
 }
+function menuCommand(menu){
+    if(elsMenuCommand){
+        elsMenuCommand(menu)
+    }
+}
 onMounted(() => {
     document.addEventListener('mousedown', triggerHideFn)
 })
@@ -63,7 +68,7 @@ onUnmounted(() => {
         :style="[{ left: positionLeft + 'px' }, { top: isOutBottom ? 'auto' : (positionTop + 'px') }, { bottom: !isOutBottom ? 'auto' : (positionBottom + 'px') }]">
         <li class="air-table__context--list"
             v-for="item in menuData" :key="item[idFieldname]"
-            @click="lessCom.menuCommand(item)">
+            @click="menuCommand(item)">
             <i :class="item[iconFieldname]"></i><span class="air-table__context--info">{{ item[nameFieldname] }}</span>
         </li>
     </ul>

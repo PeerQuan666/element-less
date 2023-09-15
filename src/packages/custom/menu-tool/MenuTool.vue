@@ -45,8 +45,8 @@ if (proxy && proxy.$lessConfig?.menu) {
     buttonTypeFieldname = proxy.$lessConfig.menu.buttonType
     groupFieldname = proxy.$lessConfig.menu.group
 }
-const elsPageStore=inject<any>('elsPageStore')
 
+const elsMenuCommand=inject<Function>('elsMenuCommand')
 const saveDataLoading = ref(false)
 const isTableEdit = ref(false)
 const menuData: Array<Record<string, any>> = reactive([])
@@ -88,6 +88,7 @@ watch(() => props.data, (val) => {
         initData(val)
     }
 }, { immediate: true })
+
 function initData(val) {
     menuData.length = 0;
     menuData.push(...val)
@@ -155,8 +156,8 @@ function handleCommandMore(type) {
 function triggerPowerMenu(menuID) {
     if (props.data) {
         var currPowerMenu = props.data.find(ele => ele[actionFieldname] === menuID || ele[idFieldname] == menuID);
-        if (currPowerMenu) {
-            lessCom.menuCommand(currPowerMenu,elsPageStore)
+        if (currPowerMenu&&elsMenuCommand) {
+            elsMenuCommand(currPowerMenu)
         }
     }
 
@@ -173,8 +174,8 @@ function menuCommand(menu) {
             uploadUrl: menu.TargetUrl
         }
 
-    } else {
-        lessCom.menuCommand(menu,elsPageStore)
+    } else if(elsMenuCommand){
+        elsMenuCommand(menu)
 
     }
 }

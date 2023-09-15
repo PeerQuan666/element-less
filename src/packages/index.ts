@@ -39,6 +39,7 @@ import ElsMenuContext from './custom/menu-context'
 import ElsMenuDropdown from './custom/menu-dropdown'
 import ElsMenuTool from './custom/menu-tool'
 
+import ElsCaption from './custom/caption'
 import ElsAutocomplete from './elementui/autocomplete'
 import ElsCascader from './elementui/cascader'
 import ElsDialog from './elementui/dialog'
@@ -52,7 +53,7 @@ import ElsButtonSearch from './custom/button-search'
 import ElsList from './custom/list'
 import ElsTip from './custom/tip'
 
-import ElsContainer from './elementui/Container'
+import ElsContainer from './custom/Container'
 const components =[
     ElsInput,
     ElsSelect,
@@ -81,7 +82,8 @@ const components =[
     ElsTip,
     ElsDatePicker,
     ElsDatePickerRange,
-    ElsContainer
+    ElsContainer,
+    ElsCaption
 
 ]
 

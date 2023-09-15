@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useAttrs, computed, inject, useSlots,reactive } from 'vue'
+import { ref, useAttrs, computed, inject, useSlots,reactive  } from 'vue'
 import { FormItemProps, QueryInfo } from '../../utlis/interfaceCom'
 import { ElSpace } from 'element-plus';
 import lessCom from '../../utlis/lessCom.js'
@@ -10,7 +10,10 @@ interface Props extends FormItemProps {
     spaceSize?: any,
 
 }
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(),{
+    queryAutoReadData:undefined
+})
+
 const attrs: any = useAttrs()
 const formItem: any = ref()
 const setQueryData = inject<Function>('setQueryData',()=>{})

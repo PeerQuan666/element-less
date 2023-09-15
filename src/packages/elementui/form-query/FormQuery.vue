@@ -9,12 +9,12 @@ import { QueryInfo } from '../../utlis/interfaceCom';
 const { debounce } = lodash;
 defineOptions({ name: 'ElsFormQuery' })
 interface Props {
-    queryTableRef?: string,
-    queryAutoReadData?: boolean,
-    queryParameterType?: string,//NoPost|NoQuery|Query
+    tableRef?: string,
+    autoReadData?: boolean,
+    parameterType?: string,//NoPost|NoQuery|Query
 }
 const props = withDefaults(defineProps<Props>(), {
-    queryParameterType: 'Query',
+    parameterType: 'Query',
 
 })
 const slots = useSlots()
@@ -23,17 +23,29 @@ const submitButton = ref()
 const tagID = 'els-form' + lessCom.Guid32();
 const attrs = useAttrs();
 const elsPageStore = inject<any>('elsPageStore')
-
+const elsQuery = inject<Function>('elsQuery')
 let modelData: Record<string, any> = reactive({})
 let formData: Record<string, any> = ref({})
 const debouncedQuerySearch = computed<Function>(() => {
+    if(elsQuery){
+        return debounce(handleElsQuery, 200)
+    }
+   else{
     return debounce(handleSearch, 200)
+   }
 })
+function handleElsQuery(){
+    if(elsQuery){
+        return elsQuery(false,props.tableRef)
+    }
+}
 const emits = defineEmits(['update:modelValue', 'search'])
+
 provide('setQueryData', setQueryData)
 provide('getQueryData', getQueryData)
 provide('labelWidth', attrs['label-width'])
 provide('formType', 'Query')
+provide('queryTableRef', props.tableRef)
 provide('formData', modelData)
 watch(modelData, (val) => {
     const currData = Object.fromEntries(
@@ -42,7 +54,7 @@ watch(modelData, (val) => {
     formData.value = { ...currData }
     emits("update:modelValue", currData)
 })
-const queryStore = { id: tagID,tableRef:props.queryTableRef, query: handleSearch }
+const queryStore = { id: tagID,tableRef:props.tableRef, query: handleSearch }
 const validateStore = { id: tagID, validate: validate }
 
 onMounted(() => {
@@ -62,12 +74,13 @@ onBeforeUnmount(() => {
 function getQueryData() {
     return modelData
 }
+
 function setQueryData(item) {
     if (Array.isArray(item)) {
         item.forEach(ele => {
             modelData[ele.key] = converToQueryData(ele);
             if (modelData[ele.key]["QueryParameterType"] != "NoPost" && modelData[ele.key]["IsAutoQuery"]) {
-                watch(modelData[ele.key]['Value'], (newVal: any, oldVal: any) => {
+                watch(()=>modelData[ele.key]['Value'], (newVal: any, oldVal: any) => {
                     if (newVal !== '' && newVal !== 0 && newVal == oldVal) {
                         return;
                     }
@@ -78,7 +91,7 @@ function setQueryData(item) {
     } else {
         modelData[item.key] = converToQueryData(item);
         if (modelData[item.key]["QueryParameterType"] != "NoPost" && modelData[item.key]["IsAutoQuery"]) {
-            watch(modelData[item.key]['Value'], (newVal: any, oldVal: any) => {
+            watch(()=>modelData[item.key]['Value'], (newVal: any, oldVal: any) => {
                 if (newVal !== '' && newVal !== 0 && newVal == oldVal) {
                     return;
                 }
@@ -92,8 +105,8 @@ function converToQueryData(query: QueryInfo) {
     const isAroundComma = query.isAroundComma ?? false
     const queryDataType = query.dataType ?? QueryDataType.String
     const queryMethod: QueryMethod = query.method ?? QueryMethod.NoAuto
-    const isAutoQuery = query.isAutoQuery ?? props.queryAutoReadData
-    let parameterType = props.queryParameterType
+    const isAutoQuery = query.isAutoQuery ?? props.autoReadData
+    let parameterType = props.parameterType
     if (query.parameterType) {
         parameterType = query.parameterType
     }
@@ -118,7 +131,11 @@ function converToQueryData(query: QueryInfo) {
 
 }
 function recoverQueryState() {
-    var currQueryDataStr = sessionStorage.getItem(`${tagID}_QueryData`);
+    const pathID=inject<string>('elsPathID')
+    if(!pathID){
+        return
+    }
+    var currQueryDataStr = sessionStorage.getItem(`${pathID}_QueryData`);
     if (currQueryDataStr) {
         var currQueryData = JSON.parse(currQueryDataStr);
         currQueryData.QueryData.forEach(ele => {
@@ -127,10 +144,6 @@ function recoverQueryState() {
             }
         })
         clearQueryState();
-    }
-    const isPageCompleteReadData = inject<boolean>('isPageCompleteReadData', false)
-    if (isPageCompleteReadData) {
-        //查询
     }
 }
 
@@ -152,31 +165,14 @@ function cacheQueryState() {
 function clearQueryState() {
     sessionStorage.removeItem(`${tagID}_QueryData`)
 }
-function handleSearch(isFirstPage = true) {
-    return new Promise((resolve) => {
+function handleSearch() {
+    return  new Promise((resolve) => {
         validate().then(res => {
             if (res) {
                 if (attrs["onSearch"]) {
                     emits("search", modelData)
-                    resolve(true)
-                } else if (elsPageStore) {
-                    if (props.queryTableRef && elsPageStore.value.dataTables[props.queryTableRef]) {
-                        elsPageStore.value.dataTables[props.queryTableRef].query(modelData,isFirstPage).then(res => {
-                            resolve(res)
-                        })
-                    }
-                    else if (elsPageStore.value.dataTables.filter(ele => ele.isQuery).length) {
-                        elsPageStore.value.dataTables.forEach(ele => {
-                            if (ele.isQuery) {
-                                ele.query(modelData,isFirstPage).then(res => {
-                                    resolve(res)
-                                })
-                            }
-                        })
-
-                    }
-
-                }
+                } 
+                resolve(modelData)
             } else {
                 resolve(false)
             }
@@ -211,6 +207,7 @@ function handleSubmitButton() {
     submitButton.value.$el.trigger("click")
 }
 defineExpose({
+    recoverQueryState,
     cacheQueryState,
     clearValidate,
     validateField,

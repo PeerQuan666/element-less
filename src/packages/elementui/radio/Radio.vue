@@ -318,6 +318,14 @@ if (props.url) {
         margin-bottom: 15px;
     }
 }
+.el-radio-group .els-caption {
+    margin-top: 18px;
+}
+
+.el-radio-group .els-caption:nth-child(1) {
+    margin-top: 0px;
+}
+
 
 .scrollheight {
     overflow-y: scroll;
