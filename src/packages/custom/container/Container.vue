@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { provide, ref, getCurrentInstance, onMounted, computed } from 'vue'
 import '../../utlis/lessPrototype.js'
+import { faSave } from '@fortawesome/free-regular-svg-icons';
 import { map } from 'lodash';
 defineOptions({
     name: 'ElsContainer',
@@ -11,7 +12,8 @@ const { ctx } = getCurrentInstance() as any
 const elsPageStore = ref<any>({
     validates: [],
     queryForms: [],
-    dataTables: []
+    dataTables: [],
+    saveForms:[]
 })
 const elsPathId = computed(() => {
     const path = location.host + location.pathname
@@ -23,9 +25,9 @@ const elsPathId = computed(() => {
 })
 const completeReadTableIds = ref<any>([])
 
-function vaildForm() {
+function validate() {
     return new Promise((resolve, reject) => {
-    Promise.all(elsPageStore.value.queryForms.map(ele => ele.validate())).then(res => {
+    Promise.all(elsPageStore.value.validates.map(ele => ele.validate())).then(res => {
         if (res.every(ele => ele == true)) {
             resolve(true)
         } else {
@@ -33,7 +35,24 @@ function vaildForm() {
         }
     })})
 }
-
+function save(){
+    return new Promise((resolve,reject) => {
+        if(elsPageStore.value.saveForms.length){
+            validate().then(res=>{
+                if(res){
+                    Promise.all(elsPageStore.value.saveForms.map(ele => ele.save())).then(allRes=>{
+                        resolve(true)
+                    }).catch((error)=>{
+                            reject(error)
+                        })
+                }else{resolve(false)}
+            })
+        }else{
+            resolve(true)
+        }
+       
+    })
+}
 async function query(initPage = false, tableRef = '') {
     completeReadTableIds.value.length = 0
     return new Promise(async (resolve) => {
@@ -94,6 +113,14 @@ async function query(initPage = false, tableRef = '') {
 }
 function elsMenuCommand(menu) {
     switch (menu.ActionType) {
+        case 'Save':
+            menu.IsLoading = true;
+            save().then(res=>{
+                menu.IsLoading = false;
+            }).catch(()=>{
+                menu.IsLoading = false;
+            })
+            break
         case 'Modal':
             break
         case 'Target':
@@ -113,6 +140,8 @@ function elsMenuCommand(menu) {
             menu.IsLoading = true;
             query().then(() => {
                 menu.IsLoading = false;
+            }).catch(()=>{
+                menu.IsLoading = false;
             })
             return false;
             break;
@@ -123,10 +152,52 @@ function elsMenuCommand(menu) {
     }
 }
 
+function elsApiResult(res) {
+        if (!res.EventActionData && res.ResultCode == "0") {
+            ElMessage.success(res.ResultMessage)
+            return
+        } else if (!res.EventActionData && res.ResultCode != "0") {
+            ElMessage.error(res.ResultMessage)
+            return;
+        }
+        res.EventActionData.forEach(action => {
+            switch (action.Name) {
+                case "Alert":
+                    ElMessage.success({ message: action.Value })
+                    break
+                case "TargetUrl":
+                    window.location.href = action.Value;
+                    break
+                case "RefreshGrid":
+
+                    break
+                case "RefreshGridParent":
+
+                    break
+                case "CloseModal":
+
+                    break
+                case "RefreshFrame":
+
+                    break
+                case "RefreshFrameParent":
+
+                    break
+                case "Script":
+
+                    break;
+
+            }
+
+
+        })
+    }
+
 provide("elsPathID", elsPathId)
 provide("elsPageStore", elsPageStore)
 provide("elsQuery", query)
 provide("elsMenuCommand", elsMenuCommand)
+provide("elsApiResult",elsApiResult)
 
 onMounted(() => {
     query(true)

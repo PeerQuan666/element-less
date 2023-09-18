@@ -19,6 +19,11 @@ star: true
 
 ## 查看演示
 
+:::tip
+默认使用<code>els-container</code>组件包含，可省去很多复杂的操作
+比如页面默认验证、保存, <code>els-form</code>设置saveUrl可设置保存地址
+:::
+
 :::vuefile-demo
 
 pages/edit

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, nextTick, provide, onBeforeUnmount, onMounted, useSlots, useAttrs } from 'vue'
-
+import { ref, nextTick, provide, onBeforeUnmount, onMounted, useSlots, useAttrs,inject } from 'vue'
+import lessCom from '../../utlis/lessCom.js'
 import { ElForm } from 'element-plus'
 import ElsFormItem from '../form-item/FormItem.vue';
 
@@ -23,6 +23,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 
 })
+const tagID = 'els-form' + lessCom.Guid32();
 const attrs = useAttrs()
 const slots = useSlots()
 const dataForm = ref()
@@ -38,14 +39,64 @@ if (attrs['inline'] === undefined) {
 provide('container', 'form')
 provide('labelWidth', currLabelWidth)
 provide('formData', modelData)
+const elsApiResult=inject<Function>("elsApiResult")??function(){}
+const elsPageStore = inject<any>('elsPageStore')
+const validateStore = { id: tagID, validate: validate }
+const saveStore = { id: tagID, save: saveData }
 
 onMounted(() => {
-    console.info('加载完成')
+    if (elsPageStore) {
+        elsPageStore.value.saveForms.push(saveStore)
+        elsPageStore.value.validates.push(validateStore)
+    }
 })
 
 onBeforeUnmount(() => {
-    console.info('卸载')
+    if (elsPageStore) {
+        elsPageStore.value.saveForms.remove(saveStore)
+        elsPageStore.value.validates.remove(validateStore)
+    }
 })
+function saveData(){
+   return new Promise((resolve,reject)=>{
+        if(props.saveUrl){
+            validate().then((valid)=>{
+                if(valid){
+                    if(props.beforeSave){
+                        props.beforeSave(modelData.value).then(bres=>{
+                            if(bres){
+                                props.saveUrl?.post(modelData).then(res=>{
+                                    if(props.afterSave){
+                                        props.afterSave(res)
+                                    }
+                                    elsApiResult(res)
+                                    resolve(res)
+                                }).catch((error)=>{
+                                    reject(error)
+                                })
+                            }
+                        })  
+                    }else{
+                        props.saveUrl?.post(modelData).then(res=>{
+                                if(props.afterSave){
+                                    props.afterSave(res)
+                                }
+                                elsApiResult(res)
+                                resolve(res)
+                            }).catch((error)=>{
+                                    reject(error)
+                                })
+
+                    }
+                }else{resolve(false)}
+            })
+        }else{
+            resolve(false)
+        }
+    })
+   
+
+}
 
 function clearValidate() {
     nextTick(() => {

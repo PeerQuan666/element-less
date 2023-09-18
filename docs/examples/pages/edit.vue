@@ -1,26 +1,29 @@
 
 <template>
-    <els-menu-tool :data="toolData" ></els-menu-tool>
-    <els-form v-model="editData" ref="editForm" style="margin-top: 10px;" labelWidth="60">
-        <els-input label="名字"></els-input>
-        <els-input label="金额"></els-input>
-        <els-select label="类型" prop="selectValue" :url="apiUrl" label-field="Name" value-field="ID" require
-            clearable></els-select>
-        <els-radio-button label="城市" prop="selectValue1" require>
-            <els-option>北京</els-option>
-            <els-option>天津</els-option>
-            <els-option>福州</els-option>
-            <els-option>厦门</els-option>
-        </els-radio-button>
-        <els-input type="textarea" label="备注" width="500" ></els-input>
-    </els-form>
+    <els-container>
+        <els-menu-tool :data="toolData" ></els-menu-tool>
+        <els-form v-model="editData" ref="editForm" style="margin-top: 10px;" labelWidth="60" saveUrl="http://www.baidu.com">
+            <els-input label="名字" prop="name"></els-input>
+            <els-input label="金额" prop="revenue"></els-input>
+            <els-select label="类型" prop="selectValue" :url="apiUrl" label-field="Name" value-field="ID" require
+                clearable></els-select>
+            <els-radio-button label="城市" prop="selectValue1" require>
+                <els-option>北京</els-option>
+                <els-option>天津</els-option>
+                <els-option>福州</els-option>
+                <els-option>厦门</els-option>
+            </els-radio-button>
+            <els-input type="textarea" label="备注" width="500" ></els-input>
+        </els-form>
+    </els-container>
+   
 </template>
   
 <script setup lang="ts">
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 const editForm = ref()
-const editData = ref({ selectValue: '', selectValue1: '' })
+const editData = ref({ selectValue: '', selectValue1: '' ,childrenData:{}})
 const apiUrl = 'http://manage.ybt2023.com/home/test2'
 const toolData = ref<any>(
     [
@@ -29,7 +32,7 @@ const toolData = ref<any>(
             "MenuName": "保存",
             "FoldName": "",
             "MenuType": 3,
-            "ActionType": "Target",
+            "ActionType": "Save",
             "ButtonType": "Add",
             "ButtonColor": "primary",
             "ActionScript": "",
