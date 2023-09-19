@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { provide, ref, getCurrentInstance, onMounted, computed } from 'vue'
+import { provide, ref, getCurrentInstance, onMounted, computed,useSlots } from 'vue'
 import '../../utlis/lessPrototype.js'
-import { faSave } from '@fortawesome/free-regular-svg-icons';
-import { map } from 'lodash';
+import {ElMessage} from 'element-plus'
 defineOptions({
     name: 'ElsContainer',
 })
@@ -26,7 +25,7 @@ const elsPathId = computed(() => {
 const completeReadTableIds = ref<any>([])
 
 function validate() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
     Promise.all(elsPageStore.value.validates.map(ele => ele.validate())).then(res => {
         if (res.every(ele => ele == true)) {
             resolve(true)
@@ -41,6 +40,7 @@ function save(){
             validate().then(res=>{
                 if(res){
                     Promise.all(elsPageStore.value.saveForms.map(ele => ele.save())).then(allRes=>{
+                        console.info(allRes)
                         resolve(true)
                     }).catch((error)=>{
                             reject(error)
@@ -54,6 +54,7 @@ function save(){
     })
 }
 async function query(initPage = false, tableRef = '') {
+    const parentRefs=ctx._.parent.refs
     completeReadTableIds.value.length = 0
     return new Promise(async (resolve) => {
         if (tableRef) {
@@ -61,11 +62,11 @@ async function query(initPage = false, tableRef = '') {
             if (currForm) {
                 await currForm.query().then(res => {
                     if (res) {
-                        const currTable = ctx.$parent.$refs[currForm.tableRef]
+                        const currTable = parentRefs[currForm.tableRef]
                         if (currTable && (currTable.initReadData || !initPage)) {
                             completeReadTableIds.value.push(currTable.tagID)
 
-                            ctx.$parent.$refs[currForm.tableRef].query(initPage, res).then(res => {
+                            parentRefs[currForm.tableRef].query(initPage, res).then(() => {
                                 resolve(true)
                             })
                         }
@@ -82,10 +83,11 @@ async function query(initPage = false, tableRef = '') {
             for (const ele of elsPageStore.value.queryForms.filter(ele => ele.tableRef)) {
                 await ele.query().then(res => {
                     if (res) {
-                        const currTable = ctx.$parent.$refs[ele.tableRef]
+                     
+                        const currTable = parentRefs[ele.tableRef]
                         if (currTable && (currTable.initReadData || !initPage)) {
                             completeReadTableIds.value.push(currTable.tagID)
-                            queryAsyncs.push(ctx.$parent.$refs[ele.tableRef].query(initPage, res))
+                            queryAsyncs.push(parentRefs[ele.tableRef].query(initPage, res))
                         }
                     }
                 })
@@ -115,7 +117,7 @@ function elsMenuCommand(menu) {
     switch (menu.ActionType) {
         case 'Save':
             menu.IsLoading = true;
-            save().then(res=>{
+            save().then(()=>{
                 menu.IsLoading = false;
             }).catch(()=>{
                 menu.IsLoading = false;
@@ -124,17 +126,12 @@ function elsMenuCommand(menu) {
         case 'Modal':
             break
         case 'Target':
-
-
             break;
         case 'DesktopTarget':
-
             break;
         case 'Select':
-
             break
         case 'Export':
-
             break;
         case 'Search':
             menu.IsLoading = true;
@@ -146,7 +143,6 @@ function elsMenuCommand(menu) {
             return false;
             break;
         default:
-
             break
 
     }
@@ -169,22 +165,16 @@ function elsApiResult(res) {
                     window.location.href = action.Value;
                     break
                 case "RefreshGrid":
-
                     break
                 case "RefreshGridParent":
-
                     break
                 case "CloseModal":
-
                     break
                 case "RefreshFrame":
-
                     break
                 case "RefreshFrameParent":
-
                     break
                 case "Script":
-
                     break;
 
             }
@@ -201,6 +191,8 @@ provide("elsApiResult",elsApiResult)
 
 onMounted(() => {
     query(true)
+    const childSlot=useSlots()
+console.info('ss')
 })
 
 </script>
