@@ -1,5 +1,5 @@
 import type { App } from 'vue'
-import Container from './Container.vue'
+import Container from '../container/Container.vue'
 
 // 使用install方法，在app.use挂载
 Container.install = (app: App): void => {

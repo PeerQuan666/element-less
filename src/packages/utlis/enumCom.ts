@@ -32,3 +32,9 @@ export enum QueryDataType {
     TimeStamp='TimeStamp',
     SecondStamp='SecondStamp',
 }  
+
+export enum UploadType {
+    None='None',
+    Pic='Pic',
+    File='File',
+}  

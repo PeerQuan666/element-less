@@ -1,6 +1,6 @@
 <template>
     {{inputValue  }}
-    <els-input v-model="inputValue" encode></els-input>
+    <els-input v-model="inputValue" encode width="500"></els-input>
 </template>
 
 <script setup lang="ts">

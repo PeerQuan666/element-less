@@ -269,13 +269,14 @@ function handleReturnResult(val) {
 }
 
 
-
 watch(() => props.start, (val) => {
     dateValue.value = [val, props.end]
 }, { immediate: true })
+
 watch(() => props.end, (val) => {
     dateValue.value = [props.start, val]
 }, { immediate: true })
+
 watch(() => props.modelValue, (val) => {
     if (typeof (val) === 'string' && (props.type.indexOf('range') > -1 || props.type == 'dates')) {
         dateValue.value = val.split(props.valueSeparator)
@@ -283,6 +284,7 @@ watch(() => props.modelValue, (val) => {
         dateValue.value = val
     }
 }, { immediate: true })
+
 watch(dateValue, (val) => {
     handleReturnResult(val)
 })

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick, inject, h, getCurrentInstance } from 'vue'
+import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick, inject, h } from 'vue'
 
 import draggable from 'vuedraggable'
 
@@ -10,7 +10,6 @@ import ElsTableColumn from '../table-column/TableColumn.vue';
 import ElsForm from '../form/Form.vue';
 
 defineOptions({ name: 'ElsTable', inheritAttrs: false, })
-const { proxy } = getCurrentInstance() as any
 const emits = defineEmits(['update:check-rows', 'update:check-row-keys', 'dragMove', 'dragEnd', 'update:editStatus'])
 const attrs = useAttrs()
 interface Props {
@@ -79,30 +78,10 @@ const props = withDefaults(defineProps<Props>(), {
     hasContextMenu: true,
     queryData: {},
 })
+const {$codeField,$messageField,$dataField,$success}=lessCom.getApiConfig()
+const {$idField,$actionField} =lessCom.getMenuConfig()
 
-let menuFieldname = ''
-let idFieldname = ''
-let actionFieldname = ''
-let pageSizeFieldname = ''
-let currentPageFieldName = ''
-let totalFieldname = ''
-let pageCountFieldname = ''
-let avgDayFieldname = ''
-
-if (proxy && proxy.$lessConfig?.table) {
-    pageSizeFieldname = proxy.$lessConfig.table.page.pageSize
-    currentPageFieldName = proxy.$lessConfig.table.page.currentPage
-    totalFieldname = proxy.$lessConfig.table.page.total
-    pageCountFieldname = proxy.$lessConfig.table.page.pageCount
-    avgDayFieldname = proxy.$lessConfig.table.avgDay
-
-}
-if (proxy && proxy.$lessConfig?.menu) {
-    menuFieldname = proxy.$lessConfig.table.menu
-    idFieldname = proxy.$lessConfig.table.menu.id
-    actionFieldname = proxy.$lessConfig.table.menu.action
-}
-
+const {$pageDataField,$menuField,$pageSizeField,$currentPageField,$totalField,$pageCountField,$avgDayField} =lessCom.getTableConfig()
 
 const tagID = "els_table_" + lessCom.Guid32()
 const wrapTagID = 'els-wrap-' + tagID
@@ -148,11 +127,13 @@ let tableContainer = h('div', { class: 'table-container' })
 let tableFormContainer = h(ElsForm, { modelValue: tableData, class: 'table-form-container', labelWidth: '0', showMessage: false })
 
 
+
 watch(() => props.isLocaleString, (val) => {
     provideData.isLocaleString = val
 }, { immediate: true })
-if (props.data && props.data.Data) {
-    watch(() => props.data.Data, (val) => {
+
+if (props.data && props.data[$pageDataField]) {
+    watch(() => props.data[$pageDataField], (val) => {
 
         if (val) {
             if (props.isReadDataClearCheckRowKey) {
@@ -166,7 +147,6 @@ if (props.data && props.data.Data) {
 }
 
 watch(() => props.data, (val) => {
-    console.info('aaa')
     if (Array.isArray(val)) {
         if (props.isReadDataClearCheckRowKey) {
             tableCheckData.checkRowKeys.length = 0;
@@ -351,7 +331,6 @@ function setSortData(sortData) {
     columnSortData[sortData.Key] = {
         QueryFieldName: sortData.Info["QueryFieldName"],
         QueryParameterType: sortData.Info["QueryParameterType"],
-        SignatureMD5: sortData.Info["SignatureMD5"],
         Value: sortData.Info["Value"]
     }
 }
@@ -416,23 +395,23 @@ function initTableData(val) {
         sourceTableData.length = 0
         sourceTableData.push(...val)
 
-    } else if (val.Data) {
+    } else if (val[$pageDataField]) {
         sourceTableData.length = 0
-        sourceTableData.push(...val.Data)
-        if (val.PageSize !== undefined && !props.isClientPage) {
-            currPageSize.value = val[pageSizeFieldname]
+        sourceTableData.push(...val[$pageDataField])
+        if (val[$pageSizeField] !== undefined && !props.isClientPage) {
+            currPageSize.value = val[$pageSizeField]
         }
-        if (val.PageIndex !== undefined) {
-            currPageIndex.value = val[currentPageFieldName] + 1;
+        if (val[$currentPageField] !== undefined) {
+            currPageIndex.value = val[$currentPageField] + 1;
         }
-        if (val.RecordCountInt !== undefined) {
-            currRecourdCount.value = val[totalFieldname];
+        if (val[$totalField] !== undefined) {
+            currRecourdCount.value = val[$totalField];
         }
-        if (val.PageCount !== undefined) {
-            currPageTotal.value = val[pageCountFieldname];
+        if (val[$pageCountField] !== undefined) {
+            currPageTotal.value = val[$pageCountField];
         }
-        if (val[avgDayFieldname]) {
-            provideData.avgDay = val[avgDayFieldname]
+        if ($avgDayField&&val[$avgDayField]) {
+            provideData.avgDay = val[$avgDayField]
         }
     } else {
         sourceTableData.length = 0;
@@ -523,8 +502,8 @@ function saveTableData(url, postData: any = []) {
                         ele.saveDataLoading = false;
                     })
                     tableForm.value.handleSubmitButton();
-                    if (res.ResultCode != "0") {
-                        ElMessage.error(res.ResultMessage)
+                    if (res[$codeField] != "0") {
+                        ElMessage.error(res[$messageField])
                     } else {
                         if (!res.EventActionData) {
                             ElMessage.success('保存成功')
@@ -628,8 +607,8 @@ function handleTableSelectSortRow() {
 }
 function handleTableRowMoveHere(url) {
     url.post({ selectID: sortSelectRow[props.rowKey], moveID: rowData[props.rowKey] }).then(res => {
-        if (!res || res.ResultCode != "0") {
-            ElMessage.error(res.ResultMessage)
+        if (!res || res[$codeField] != "0") {
+            ElMessage.error(res[$messageField])
         }
         else {
             ElMessage.success("移动成功")
@@ -640,8 +619,8 @@ function handleTableRowMoveHere(url) {
 }
 function handleTableRowExchangeMove(url) {
     url.post({ selectID: sortSelectRow[props.rowKey], moveID: rowData[props.rowKey] }).then(res => {
-        if (!res || res.ResultCode != "0") {
-            ElMessage.error(res.ResultMessage)
+        if (!res || res[$codeField] != "0") {
+            ElMessage.error(res[$messageField])
         }
         else {
             ElMessage.success("移动成功")
@@ -707,12 +686,12 @@ function handleTableSelectAll(selection) {
 }
 function handleRowContextMenu(row, column, event) {
     if (!props.hasContextMenu) { return }
-    if (!menuFieldname) {
+    if (!$menuField) {
         console.log('未设置全局配置$lessConfig，无法使用菜单')
         return
     }
     console.log(column)
-    if (!row[menuFieldname] || !row[menuFieldname].length) { return; }
+    if (!row[$menuField] || !row[$menuField].length) { return; }
     if (event.target.className.indexOf("el-image-viewer") > -1) {
         return;
     }
@@ -892,19 +871,19 @@ function readData() {
     dataLoading.value = true;
     let currQueryData = lessCom.getQueryData(searchQueryData);
     return props.url.post(currQueryData).then(res => {
-        if (res.ResultCode === "0") {
-            if (res.Data.PageSize != undefined) {
+        if (res[$codeField] === $success) {
+            if (res[$dataField][$pageSizeField] != undefined) {
                 sourceTableData.length = 0
-                sourceTableData.push(...res.Data.Data);
+                sourceTableData.push(...res[$dataField][$pageDataField]);
                 if (!props.isClientPage) {
-                    currPageSize.value = res.Data[pageSizeFieldname]
+                    currPageSize.value = res[$dataField][$pageSizeField]
                 }
-                currPageIndex.value = res.Data[currentPageFieldName] + 1
-                currRecourdCount.value = res.Data[totalFieldname]
-                currPageTotal.value = res.Data[pageCountFieldname]
+                currPageIndex.value = res[$dataField][$currentPageField] + 1
+                currRecourdCount.value = res[$dataField][$totalField]
+                currPageTotal.value = res[$dataField][$pageCountField]
             } else {
                 sourceTableData.length = 0
-                sourceTableData.push(...res.Data)
+                sourceTableData.push(...res[$dataField])
 
             }
             if (props.isClientSearch || props.isClientPage) {
@@ -914,16 +893,13 @@ function readData() {
                 tableData.push(...sourceTableData)
             }
             editSourceTableData = lessCom.cloneObj(sourceTableData)
-            if (res.Data[avgDayFieldname]) {
-                provideData.avgDay = res.Data[avgDayFieldname];
+            if ($avgDayField&&res[$dataField][$avgDayField]) {
+                provideData.avgDay = res[$dataField][$avgDayField];
             }
 
         }
-        else if (res.ResultCode === "Login") {
-            ElMessage.warning('未登录')
-        }
         else {
-            ElMessage.error(res.ResultMessage);
+            ElMessage.error(res[$messageField]);
         }
         dataLoading.value = false
         if (props.afterReadData) {
@@ -987,16 +963,16 @@ function setTableCheckRows(checkRowKeys: any = null) {
     })
 }
 function handlePowerMenu(row, menuID) {
-    if (!menuFieldname) {
+    if (!$menuField) {
         ElMessage.warning('未设置全局配置$lessConfig，无法使用菜单')
         return
     }
-    if (!row[menuFieldname]) {
+    if (!row[$menuField]) {
         ElMessage.error('菜单不存在')
         return;
     }
     setTimeout(() => {
-        var currPowerMenu = row[menuFieldname].find(ele => ele[idFieldname] === menuID || ele[actionFieldname] === menuID);
+        var currPowerMenu = row[$menuField].find(ele => ele[$idField] === menuID || ele[$actionField] === menuID);
         if (!currPowerMenu) {
             ElMessage.error('菜单不存在')
             return;
@@ -1007,7 +983,7 @@ function handlePowerMenu(row, menuID) {
 function margePowerMenu() {
     if (tableData && props.extraPowerMenus) {
         tableData.forEach(ele => {
-            ele[menuFieldname].push(...props.extraPowerMenus)
+            ele[$menuField].push(...props.extraPowerMenus)
 
         })
     }
@@ -1030,8 +1006,8 @@ function handleSortTable(column) {
     if (columnSortData["Sort_" + prop]) {
         columnSortData["Sort_" + prop].Value = columnSort
     }
-
-    searchData()
+    currPageIndex.value = 1;
+    compatibleReadData()
 }
 function sortTableData(fieldName, order) {
     if (order == "ascending") {
@@ -1042,7 +1018,17 @@ function sortTableData(fieldName, order) {
     }
     clientTableData()
 }
+function getPageInfo(){
+return {pageSize:currPageSize.value,pageIndex:currPageIndex.value}
+}
+function setPageInfo(pageInfo){
+    if(pageInfo){
+        currPageSize.value=pageInfo.pageSize
+        currPageIndex.value=pageInfo.pageIndex
+    }
+}
 function changePageReadData() {
+
     if (props.isClientPage) {
         clientTableData()
         return
@@ -1080,6 +1066,13 @@ function handleCloseCheckItem(item) {
     let currRow = tableData.find(ele => ele[props.rowKey] == item[props.rowKey])
     if (currRow) {
         dataTable.value.toggleRowSelection(currRow, false);
+    }
+}
+function exportTable(){
+    if(props.isClientPage||!props.url){
+        exportClientDataHtml()
+    }else if(props.url){
+        exportReadDataHtml()
     }
 }
 function exportClientDataHtml() {
@@ -1129,13 +1122,13 @@ function exportReadDataHtml() {
         background: 'rgba(0, 0, 0, 0.7)'
     });
     currUrl.post(currQueryData).then(res => {
-        if (res.ResultCode === "0") {
+        if (res[$codeField] === "0") {
             tableData.length = 0
-            if (res.Data.PageSize != undefined) {
-                tableData.push(...res.Data.Data);
+            if (res[$dataField][$pageSizeField] != undefined) {
+                tableData.push(...res[$avgDayField][$pageDataField]);
 
             } else {
-                tableData.push(...res.Data);
+                tableData.push(...res[$avgDayField]);
             }
             nextTick(() => {
                 exportDataHtml()
@@ -1145,7 +1138,7 @@ function exportReadDataHtml() {
         }
         else {
             exportLoading.close();
-            ElMessage.error(res.ResultMessage);
+            ElMessage.error(res[$messageField]);
         }
     }).catch(action => {
         exportLoading.close();
@@ -1197,7 +1190,7 @@ const isQuery = computed(() => {
 })
 onMounted(() => {
     if (elsPageStore) {
-        elsPageStore.value.dataTables.push({ tagID: tagID, initReadData: props.initReadData, isQuery: isQuery, query: query })
+        elsPageStore.value.dataTables.push({ tagID: tagID,tableName:props.tableName, initReadData: props.initReadData, isQuery: isQuery, isExport:props.isExport, query: query,table:dataTable,changePageReadData,setPageInfo,getPageInfo,exportTable })
 
     } else {
         if (props.initReadData && props.url) {
@@ -1264,6 +1257,7 @@ defineExpose({
     saveTableData,
     searchData,
     query,
+    exportTable,
     contextMenuVisible,
     tagID,
     initReadData: props.initReadData
@@ -1335,7 +1329,7 @@ defineExpose({
                 v-if="!isMobile">导出</el-tag>
         </el-pagination>
     </div>
-    <els-menu-context ref="contentMenu" v-if="hasContextMenu && menuFieldname" :menus="rowData[menuFieldname]"
+    <els-menu-context ref="contentMenu" v-if="hasContextMenu && $menuField" :menus="rowData[$menuField]"
         :visible="contextMenuVisible" :positionLeft="contextMenuPositionLeft"
         :positionTop="contextMenuPositionTop"></els-menu-context>
 </template>

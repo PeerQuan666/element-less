@@ -1,13 +1,13 @@
 
 <script setup lang="ts">
-import { ref, watch, onMounted, useAttrs, inject, onErrorCaptured, useSlots, getCurrentInstance } from 'vue'
+import { ref, watch, onMounted, useAttrs, inject, onErrorCaptured, useSlots } from 'vue'
 import { ElMessage, ElButton } from 'element-plus';
 import lessCom from '../../utlis/lessCom';
 import { ColumnProps } from '../../utlis/interfaceCom'
 
 
 defineOptions({ name: 'ElsColumn' })
-const { proxy } = getCurrentInstance() as any
+
 const setEditData = inject<Function>("setEditData")
 const setSortData = inject<Function>("setSortData")
 const setMergeRowData = inject<Function>("setMergeRowData")
@@ -38,12 +38,8 @@ const currColumnKey = ref('')
 const columnSortable: any = ref(false)
 let columnSortMethod: any = ref()
 const columnClass = ref('')
-let menuFieldname = ''
+let {$menuField} = lessCom.getTableConfig()
 
-if (proxy && proxy.$lessConfig?.table) {
-    menuFieldname = proxy.$lessConfig.table.menu
-
-}
 
 watch(() => props.sortable, (val) => {
     columnSortable.value = val
@@ -102,13 +98,9 @@ onErrorCaptured(() => {
     return false;
 })
 onMounted(() => {
-    if (props.sortData) {
-        let currQueryData = props.sortData;
-        if (typeof (currQueryData) === 'string') {
-            currQueryData = JSON.parse(currQueryData)
-        }
-        if (setSortData) {
-            setSortData(currQueryData);
+    if (props.sortable!==undefined) {
+        if (setSortData&&props.prop) {
+            setSortData({Key:"Sort_"+props.prop,Info:{QueryFieldName:props.prop,QueryParameterType:'Sort',Value:props.sortExpress}});
 
         }
     }
@@ -201,7 +193,7 @@ if (provideData.isExport && props.isExport && props.type != 'selection' && props
 if (attrs["class-name"]) {
     columnClass.value += attrs["class-name"]
 }
-columnSortable.value = props.sortable
+columnSortable.value = props.sortable===''?true:props.sortable
 if (columnSortable.value === true) {
     columnSortable.value = "custom"
 }
@@ -264,7 +256,7 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
                 </template>
             </template>
             <template v-else-if="(!row.edit || !isEdit)">
-                <els-menu-dropdown v-if="type == 'operate'" :menus="row[menuFieldname]" :key="row" :is-fold="isFold"
+                <els-menu-dropdown v-if="type == 'operate'" :menus="row[$menuField]" :key="row" :is-fold="isFold"
                     :un-fold-count="unFoldCount" :is-mobile="attrs['is-mobile']">
                 </els-menu-dropdown>
 

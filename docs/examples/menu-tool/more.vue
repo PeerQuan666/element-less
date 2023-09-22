@@ -1,5 +1,5 @@
 <template>
-    <els-menu-tool v-model="selectValue" :data="data" 
+    <els-menu-tool :data="data" 
     logUrl="https://element-plus.org/zh-CN/component/button.html"
     docUrl="https://element-plus.org/zh-CN/guide/design.html"
     ></els-menu-tool>
@@ -7,7 +7,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-const selectValue = ref('')
 const data = ref<any>(
     [
     {

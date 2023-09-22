@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref, watch, useAttrs } from 'vue'
 import '../../utlis/lessPrototype.js'
-import { DatePickerRangeProps } from '../../utlis/interfaceCom'
+import { DatePickerProps,RangeFormItemProps } from '../../utlis/interfaceCom'
+import { QueryDataType } from '../../utlis/enumCom';
 const emits = defineEmits(['update:modelValue', 'update:start', 'update:end'])
 defineOptions({ name: 'ElsDatePickerRange' })
 
-interface Props extends DatePickerRangeProps {
+interface Props extends DatePickerProps, RangeFormItemProps {
     single?: boolean,
     
 }
@@ -14,6 +15,8 @@ const props = withDefaults(defineProps<Props>(), {
     type: 'date',
     single: true,
     valueSeparator: ',',
+    queryRangeOrEqual:true,
+    queryDataType:QueryDataType.Date
 })
 
 const attrs = useAttrs()
@@ -70,6 +73,9 @@ watch(dateEndValue, (val) => {
 watch(() => props.modelValue, (val) => {
     dateValue.value = val
 }, { immediate: true })
+
+
+
 
 
 </script>

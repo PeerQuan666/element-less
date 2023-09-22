@@ -19,6 +19,7 @@ declare global {
     toInt():number,
     toFloat():number,
     addUrlParameter(param:string, value:string):string,
+    setPowerPublicQuery():string
     md5():string
     }
     interface Array<T> {
@@ -42,6 +43,23 @@ Number.prototype.appendPx = function(){
     return ''
     
 }
+String.prototype.setPowerPublicQuery=function() {
+    if (!this) {
+        return '';
+    }
+    let url=this;
+    let currParms = location.href.split("?")[1];
+    if (currParms) {
+        let dtParms = currParms.split('&');
+        dtParms.forEach(ele => {
+            let parmKeyValue = ele.split('=');
+            if (ele && (ele.includes("Power_") || ele.includes("Transfer_")) && !url.includes(parmKeyValue[0])) {
+                url = ((url.indexOf("?") == -1) ? (url + "?" + parmKeyValue[0] + "=" + parmKeyValue[1]) : (url + "&" + parmKeyValue[0] + "=" + parmKeyValue[1]));
+            }
+        })
+    }
+    return url.toString();
+},
 String.prototype.toCamel=function(){
     return this.replace(/-([a-z])/g, function (match, letter) {
         console.log(match)

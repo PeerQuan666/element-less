@@ -51,7 +51,7 @@ const props = withDefaults(defineProps<Props>(), {
 const slots=useSlots()
 const attrs:Record<string,any> = useAttrs()
 const emits = defineEmits(['update:modelValue', 'update:select', 'update:select-label', 'change', 'click-option', 'select', 'blur', 'clear', 'readdataed'])
-
+const {$codeField,$messageField,$dataField,$success}=lessCom.getApiConfig()
 const initSelect = ref(false)
 const preSelectValue = ref<any>('')
 const currLoading = ref(false)
@@ -266,16 +266,16 @@ function readData() {
 
     return new Promise((resolve, reject) => {
         currUrl.post(queryData).then(res => {
-            if (res.ResultCode == "0") {
+            if (res[$codeField] == $success) {
                 options.length = 0;
-                options.push(...res.Data)
+                options.push(...res[$dataField])
                 initSelectValue();
                 initNoExistData();
                 initSelectIndex();
                 emits("readdataed", options)
             }
             else {
-                ElMessage.error(res.ResultMessage)
+                ElMessage.error(res[$messageField])
             }
             currLoading.value = false;
             resolve(true)

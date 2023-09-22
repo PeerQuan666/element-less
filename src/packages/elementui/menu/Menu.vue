@@ -30,6 +30,7 @@ const props = withDefaults(defineProps<Props>(), {
     rootParentValue:''
 
 })
+const {$codeField,$messageField,$dataField,$success}=lessCom.getApiConfig()
 
 const searchKey = ref('')
 const isCollapse = ref(props.collapse)
@@ -123,13 +124,13 @@ function handleMenuClick(item) {
 function readData() {
     if (props.url) {
         props.url.post({}).then(res => {
-            if (res.ResultCode == "0") {
+            if (res[$codeField] == $success) {
                 optionData.length = 0;
-                optionData.push(...res.Data)
+                optionData.push(...res[$dataField])
                 converToData()
             }
             else {
-                ElMessage.error(res.ResultMessage);
+                ElMessage.error(res[$messageField]);
             }
         })
     }

@@ -16,10 +16,9 @@ const props = withDefaults(defineProps<Props>(), {
     encode: false,
     encodeType: 'url',
     validationTrigger:'blur',
-    width:'220'
 })
 const emits = defineEmits(['update:modelValue'])
-
+const currWidth=ref(props.width??'')
 const slots = useSlots()
 const attrs = useAttrs()
 const slotNames: any = []
@@ -28,6 +27,15 @@ for (const slotItem in slots) {
 }
 const encodeValue = ref()
 const inputValue = ref()
+if(!currWidth.value){
+    if(attrs['type']==='textarea'){
+        currWidth.value='500'
+    }else{
+        currWidth.value='220'
+
+    }
+}
+
 
 
 watch(() => props.modelValue, (val) => {
@@ -51,7 +59,7 @@ watch(inputValue, (val) => {
 })
 </script>
 <template>
-    <el-input v-model="inputValue" :style="[{width:props.width.appendPx()}]" v-bind="attrs">
+    <el-input v-model="inputValue" :style="[{width:currWidth.appendPx()}]" v-bind="attrs">
         <template v-for="item in slotNames" :slot="item">
             <slot :name="item"></slot>
         </template>

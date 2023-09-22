@@ -1,42 +1,103 @@
 import axios from 'axios'
-import { exportJsonToExcel, exportTableToExcelEl } from './Export2Excel.js'
+import { getCurrentInstance} from 'vue'
+import { exportJsonToExcel, exportTableToExcelEl, exportTableToExcelElMuti } from './Export2Excel.js'
+import {  QueryMethod } from './enumCom';
 import { ElMessage } from 'element-plus'
 
+
+
+
 const lessCom = {
-    menuCommand(menu,elsPageStore) {
-            switch (menu.ActionType) {
-                case 'Modal':
-                    break
-                case 'Target':
+    getApiConfig(){
+        const { proxy } = getCurrentInstance() as any
+        if(!proxy){
+            return {}
+        }
+        return {
+            $codeField : proxy.$lessConfig.api['code'],
+            $messageField : proxy.$lessConfig.api['message'],
+            $dataField : proxy.$lessConfig.api['data'],
+            $success:proxy.$lessConfig.api['successCode']
+        }
+    },
+    getMenuConfig(){
+        const { proxy } = getCurrentInstance() as any
+        if(!proxy){
+            return {}
+        }
+        return{
+            $idField : proxy.$lessConfig.menu['id'],
+            $actionField : proxy.$lessConfig.menu['action'],
+            $nameField : proxy.$lessConfig.menu['name'],
+            $actionTypeField : proxy.$lessConfig.menu['actionType'],
+            $iconField : proxy.$lessConfig.menu['icon'],
+            $buttonColorField : proxy.$lessConfig.menu['buttonColor'],
+            $buttonTypeField : proxy.$lessConfig.menu['buttonType'],
+            $groupField:proxy.$lessConfig.menu['group'],
+        }
+    },
+    getTableConfig(){
+        const { proxy } = getCurrentInstance() as any
+        if(!proxy){
+            return {}
+        }
+        return {
+            $menuField:proxy.$lessConfig.table['menu'],
+            $avgDayField : proxy.$lessConfig.table['avgDay'],
+            $pageDataField : proxy.$lessConfig.table.page['data'],
+            $pageSizeField : proxy.$lessConfig.table.page['pageSize'],
+            $currentPageField : proxy.$lessConfig.table.page['currentPage'],
+            $totalField : proxy.$lessConfig.table.page['total'],
+            $pageCountField : proxy.$lessConfig.table.page['pageCount']
+
+        }
+    },
+    getUploadConfig(){
+        const { proxy } = getCurrentInstance() as any
+        if(!proxy){
+            return {}
+        }
+        return {
+            $uploadUrl:proxy.$lessConfig.upload['url'],
+            $dataField: proxy.$lessConfig.upload['data'],
+            $pathField : proxy.$lessConfig.upload['data_path'],
+            $md5Field : proxy.$lessConfig.upload['data_md5']
+        }
+    },
+    menuCommand(menu, elsPageStore) {
+        switch (menu.ActionType) {
+            case 'Modal':
+                break
+            case 'Target':
 
 
-                    break;
-                case 'DesktopTarget':
+                break;
+            case 'DesktopTarget':
 
-                    break;
-                case 'Select':
+                break;
+            case 'Select':
 
-                    break
-                case 'Export':
+                break
+            case 'Export':
 
-                    break;
-                case 'Search':
-                    menu.IsLoading = true;
-                    if(elsPageStore){
-                        elsPageStore.value.queryForms.forEach(ele=>{
-                            ele.query().then(res=>{
-                                menu.IsLoading = false;
-                            })
+                break;
+            case 'Search':
+                menu.IsLoading = true;
+                if (elsPageStore) {
+                    elsPageStore.value.queryForms.forEach(ele => {
+                        ele.query().then(res => {
+                            menu.IsLoading = false;
                         })
-                    }
-                    return false;
-                    break;
-                default:
+                    })
+                }
+                return false;
+                break;
+            default:
 
-                    break
+                break
 
-            }
-        
+        }
+
 
     },
     getCompareClass(val) {
@@ -79,7 +140,10 @@ const lessCom = {
         return "";
     },
     formatDate(date, fmt) {
-        date = new Date(date);
+        if(typeof(date)==='string'||typeof(date)==='number'){
+            date = new Date(date);
+        }
+      
         let ret;
         const opt = {
             "Y+": date.getFullYear().toString(),
@@ -132,6 +196,10 @@ const lessCom = {
         });
         return time_str;
     },
+    exportMuti(es, sheetNames, cellStyles: any = [], headerRowCounts: any = [1], headerCellStyle = {}, filename = "") {
+        exportTableToExcelElMuti(es, sheetNames, cellStyles, headerRowCounts, headerCellStyle = {}, filename = "")
+    },
+
     exportTable(el, cellStyles = [], headerRowCount = 0, headerCellStyle = {}, filename = "") {
         exportTableToExcelEl(el, cellStyles, headerRowCount, headerCellStyle, filename)
     },
@@ -229,28 +297,51 @@ const lessCom = {
                 var fieldName = item.QueryFieldName;
                 var sortRank = item.Value;
                 if (sortRank) {
-                    var signatureMD5 = item.SignatureMD5;
+                    var signatureMD5 = (fieldName + '_' + sortRank).md5();
                     queryParms[parameterName] = fieldName + "$" + sortRank + "$" + signatureMD5;
                 }
             }
             else {
-                if (((item.QueryType !== undefined && item.QueryType == "Query") || (item.QueryParameterType !== undefined && item.QueryParameterType != 'NoQuery')) && item.QueryMethod !== 'NoAuto') {
-                    let parameterName = "Query_" + key;
-                    let fieldName = item.QueryFieldName;
-                    let queryMethod = item.QueryMethod;
-                    let queryDataType = item.QueryDataType;
-                    let signatureMD5 = item.SignatureMD5;
-                    let fieldValue = item.Value;
-                    if (item.IsAroundComma === true && fieldValue && !fieldValue.startsWith(',')) {
-                        fieldValue = `,${fieldValue},`
-                    }
-                    if (fieldValue || typeof (fieldValue) == "number") {
-                        queryParms[parameterName] = fieldName + "$" + queryMethod + "$" + queryDataType + "$" + signatureMD5 + "$" + fieldValue;
+                if (item.QueryParameterType !== undefined && item.QueryParameterType !== 'NoQuery' && item.QueryMethod !== 'NoAuto') {
+                    if (item.IsRange || item.isRangeOrEqual) {
+                        let fieldName = item.QueryFieldName;
+                        let startQueryMethod = item.IsRangeOrEqual ? QueryMethod.GreaterThanOrEqual : QueryMethod.GreaterThan;
+                        let queryDataType = item.QueryDataType;
+                        let startSignatureMD5 = (fieldName + '_' + startQueryMethod + '_' + queryDataType).md5();
+                        let startFieldValue = item.Value.split(',')[0];
+                        if (startFieldValue || typeof (startFieldValue) == "number") {
+                            queryParms["Query_Start_" + key] = fieldName + "$" + startQueryMethod + "$" + queryDataType + "$" + startSignatureMD5 + "$" + encodeURIComponent(startFieldValue);
+                        }
+                        let endQueryMethod = item.IsRangeOrEqual ? QueryMethod.LessThanOrEqual : QueryMethod.LessThan
+                        let endSignatureMD5 = (fieldName + '_' + startQueryMethod + '_' + queryDataType).md5();
+                        let endFieldValue = item.Value.split(',')[0];
+                        if (endFieldValue || typeof (endFieldValue) == "number") {
+                            queryParms["Query_End_" + key] = fieldName + "$" + endQueryMethod + "$" + queryDataType + "$" + endSignatureMD5 + "$" + encodeURIComponent(endFieldValue);
+                        }
+                    } else {
+                        let parameterName = "Query_" + key;
+                        let fieldName = item.QueryFieldName;
+                        let queryMethod = item.QueryMethod;
+                        let queryDataType = item.QueryDataType;
+                        let signatureMD5 = (fieldName + '_' + queryMethod + '_' + queryDataType).md5();
+                        let fieldValue = item.Value;
+                        if (item.IsAroundComma === true && fieldValue && !fieldValue.startsWith(',')) {
+                            fieldValue = `,${fieldValue},`
+                        }
+                        if (fieldValue || typeof (fieldValue) == "number") {
+                            queryParms[parameterName] = fieldName + "$" + queryMethod + "$" + queryDataType + "$" + signatureMD5 + "$" + encodeURIComponent(fieldValue);
+                        }
                     }
                 }
-
                 else {
-                    queryParms[key] = item.Value
+                    if (item.IsRange || item.IsRangeOrEqual) {
+                        queryParms['Start_' + key] = item.Value.split(',')[0];
+                        queryParms['End_' + key] = item.Value.split(',')[1];
+
+                    } else {
+                        queryParms[key] = item.Value;
+
+                    }
                 }
             }
 
@@ -258,11 +349,12 @@ const lessCom = {
         return queryParms;
     },
     handleApiResult(res) {
-        if (!res.EventActionData && res.ResultCode == "0") {
-            ElMessage.success(res.ResultMessage)
+        const {$codeField,$messageField,$dataField,$success}=lessCom.getApiConfig()
+        if (!res.EventActionData && res[$codeField] == "0") {
+            ElMessage.success(res[$messageField])
             return
-        } else if (!res.EventActionData && res.ResultCode != "0") {
-            ElMessage.error(res.ResultMessage)
+        } else if (!res.EventActionData && res[$codeField] != "0") {
+            ElMessage.error(res[$messageField])
             return;
         }
         res.EventActionData.forEach(action => {

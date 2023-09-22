@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<RadioProps>(), ({
 
 }))
 
-
+const {$codeField,$messageField,$dataField,$success}=lessCom.getApiConfig()
 const selectValue = ref<any>()
 const preSelectValue = ref<any>('')
 const selectItem = ref<any>()
@@ -193,11 +193,11 @@ function readData() {
 
     return new Promise((resolve, reject) => {
         currUrl.post(queryData).then(res => {
-            if (res.ResultCode == "0") {
+            if (res[$codeField] == $success) {
                 options.length = 0;
-                options.push(...res.Data)
+                options.push(...res[$dataField])
                 originalData.length = 0;
-                originalData.push(...res.Data)
+                originalData.push(...res[$dataField])
 
                 initSelectValue();
                 initNoExistData();
@@ -205,7 +205,7 @@ function readData() {
                 emits("readdataed", options)
             }
             else {
-                ElMessage.error(res.ResultMessage)
+                ElMessage.error(res[$messageField])
             }
             resolve(true)
         }).catch(action => {

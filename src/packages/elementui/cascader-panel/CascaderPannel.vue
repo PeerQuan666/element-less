@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import '../../utlis/lessPrototype.js'
+import { FormItemProps } from '../../utlis/interfaceCom'
 defineOptions({ name: 'ElsCascaderPanel' })
-interface Props {
+interface Props  extends FormItemProps {
     modelValue?: string,
     labelField?: string
 

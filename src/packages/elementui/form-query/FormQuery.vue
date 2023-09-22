@@ -101,17 +101,20 @@ function setQueryData(item) {
     }
 }
 function converToQueryData(query: QueryInfo) {
+    const isRange=query.isRange??false
+    const isRangeOrEqual=query.isRangeOrEqual??false
+
     const queryFieldname = query.prop ?? ''
     const isAroundComma = query.isAroundComma ?? false
     const queryDataType = query.dataType ?? QueryDataType.String
-    const queryMethod: QueryMethod = query.method ?? QueryMethod.NoAuto
+    const queryMethod: QueryMethod = query.method ??queryDataType==QueryDataType.String?QueryMethod.Contains: QueryMethod.Equal
     const isAutoQuery = query.isAutoQuery ?? props.autoReadData
     let parameterType = props.parameterType
     if (query.parameterType) {
         parameterType = query.parameterType
     }
 
-    let defaultValue = query.Value ?? ''
+    let defaultValue = query.value ?? ''
     if (query.key) {
         if (modelData[query.key] && modelData[query.key].Value !== '') {
             defaultValue = modelData[query.key].Value
@@ -123,6 +126,8 @@ function converToQueryData(query: QueryInfo) {
             QueryParameterType: parameterType,
             IsAroundComma: isAroundComma,
             IsAutoQuery: isAutoQuery,
+            IsRange:isRange,
+            isRangeOrEqual:isRangeOrEqual,
             Value: queryDataType === QueryDataType.Int && defaultValue && lessCom.isNumber(defaultValue) ? parseFloat(defaultValue) : defaultValue
         }
     }
@@ -226,8 +231,14 @@ defineExpose({
                 <component :is="()=>vnode"
                     v-if="!(vnode.type as any).name || (vnode.type as any)?.name === 'ElFormItem' || (vnode.type as any)?.name === 'ElsFormItem' || !(vnode.type as any).props || !(vnode.type as any).props.hasFormItem || vnode.props && (vnode as any).props['hasFormItem'] === false">
                 </component>
-                <ElsFormItem :validationTrigger="(vnode.type as any).props.validationTrigger?.default"
-                    v-bind="vnode.props ?? {}" v-else>
+                <ElsFormItem 
+                   :validationTrigger="(vnode.type as any).props.validationTrigger?.default"
+                   :queryMethod="(vnode.type as any).props.queryMethod?.default"
+                   :queryDataType="(vnode.type as any).props.queryDataType?.default"
+                   :queryRangeOrEqual="(vnode.type as any).props.queryRangeOrEqual?.default"
+                   :queryRange="(vnode.type as any).props.queryRange?.default"
+                    v-bind="vnode.props ?? {}" 
+                    v-else>
                     <template #default="{ key }">
                         <component :is="vnode" v-if="(vnode as any).props.hasOwnProperty('modelValue')"></component>
                         <component :is="vnode" v-else-if="modelData[key]" v-model="modelData[key].Value"></component>

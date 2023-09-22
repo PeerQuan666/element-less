@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, useAttrs, computed, inject, useSlots,reactive  } from 'vue'
+
 import { FormItemProps, QueryInfo } from '../../utlis/interfaceCom'
 import { ElSpace } from 'element-plus';
 import lessCom from '../../utlis/lessCom.js'
@@ -54,12 +55,14 @@ function initQuery() {
         const queryInfo: QueryInfo =
         {
             key:currKey,
-            prop: props?.prop,
+            prop: props?.prop??props.queryField,
             method: props.queryMethod,
             dataType: props.queryDataType,
             isAroundComma: props.queryAroundComma,
             isAutoQuery: props.queryAutoReadData,
-            Value: props.queryDefaultValue
+            isRange:props.queryRange,
+            isRangeOrEqual:props.queryRangeOrEqual,
+            value: props.queryDefaultValue
         };
         return queryInfo
     }

@@ -271,7 +271,7 @@ defineExpose({
     </div>
 </template>
 
-<style scoped lang="less">
+<style  lang="less">
 .els-tool-menu {
     display: flex;
     justify-content: space-between;

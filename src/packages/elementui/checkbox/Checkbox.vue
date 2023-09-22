@@ -16,6 +16,7 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
 })
 const attrs = useAttrs()
 const emits = defineEmits(['update:modelValue', 'update:select', 'update:select-label', 'change', 'click-option', 'select', 'blur', 'clear', 'readdataed'])
+const {$codeField,$messageField,$dataField,$success}=lessCom.getApiConfig()
 let initSelect = ref(false)
 const preSelectValue = ref([])
 const selectItem = ref()
@@ -216,18 +217,18 @@ function readData() {
     let currUrl = props.url?.replacePowerUrl() ?? '';
     return new Promise((resolve, reject) => {
         currUrl.post(queryData).then(res => {
-            if (res.ResultCode == "0") {
+            if (res[$codeField] == $success) {
                 options.length = 0;
-                options.push(...res.Data)
+                options.push(...res[$dataField])
                 originalData.length = 0;
-                originalData.push(...res.Data)
+                originalData.push(...res[$dataField])
                 initSelectValue();
                 initNoExistData();
                 checkAllStatus();
                 emits("readdataed", options)
             }
             else {
-                ElMessage.error(res.ResultMessage)
+                ElMessage.error(res[$messageField])
             }
             resolve(true)
 

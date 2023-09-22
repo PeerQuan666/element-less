@@ -5,7 +5,7 @@
     <el-button @click="handleEdit" type="primary" v-if="!eidtStatus">批量编辑</el-button>
     <el-button @click="handleUnEdit" type="info" v-else>取消编辑</el-button>
   </div>
-  <els-table :data="data" rowKey="value" :showEditColumn="true" saveUrl="save" ref="dataTable" v-model:editStatus="eidtStatus">
+  <els-table :data="data" rowKey="value" :showEditColumn="true" saveUrl="save" ref="dataTable" v-model:editStatus="eidtStatus" >
     <els-column-checkbox></els-column-checkbox>
     <els-column prop="key" label="默认类型" :is-edit="true" :require="true" ></els-column>
     <els-column-bool prop="isRelease" label="Bool类型" width="130" :is-edit="true" :require="true" >

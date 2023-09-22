@@ -2,10 +2,11 @@
 <template>
     <els-container>
         <els-menu-tool :data="toolData" logUrl="https://element-plus.org/zh-CN/component/button.html"
-            docUrl="https://element-plus.org/zh-CN/guide/design.html"></els-menu-tool>
+            docUrl="https://element-plus.org/zh-CN/guide/design.html"><els-button-export></els-button-export></els-menu-tool>
         <els-caption type="left" style="margin: 10px 0px;">第一个查询</els-caption>
         <els-form-query style="margin-top: 10px;">
             <els-input label="ID" prop="ID" width="100"></els-input>
+            <els-date-picker-range label="时间" prop="date"></els-date-picker-range>
             <els-select label="作者" prop="AuthorName" width="100" clearable>
                 <els-option>无敌元气妹</els-option>
                 <els-option>稚葵</els-option>
@@ -13,9 +14,9 @@
                 <els-option>海浪无声</els-option>
             </els-select>
         </els-form-query>
-        <els-table :url="apiUrl" :is-client-page="true" :page-size="10" row-key="WallID">
+        <els-table :url="apiUrl" :is-client-page="true" :page-size="10" row-key="WallID" tableName="第一份数据">
             <els-column-checkbox></els-column-checkbox>
-            <els-column prop="ID" label="ID" align="left"></els-column>
+            <els-column prop="ID" label="ID" align="left" sortable></els-column>
             <els-column prop="AuthorName" label="作者" align="left"></els-column>
         </els-table>
         <els-caption type="left" style="margin: 10px 0px;">指定查询 <b>(查询表单上指定属性<code>tableRef</code>)</b></els-caption>

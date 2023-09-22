@@ -10,16 +10,19 @@ export interface FormItemProps{
     validationMethod?:Function,
     validationTrigger?:string,
     hasFormItem?:boolean,
+    queryField?:string,
     queryMethod?:QueryMethod,
     queryDataType?:QueryDataType,
     queryDefaultValue?:any,
     queryAutoReadData?:boolean,
     queryAroundComma?:boolean,
+    queryRange?:boolean,
+    queryRangeOrEqual?:boolean
 }
 
 export interface RangeFormItemProps extends FormItemProps{
-    propStart:'',
-    propEnd:'',
+    propStart?:'',
+    propEnd?:'',
 }
 
 
@@ -40,9 +43,24 @@ export interface DatePickerProps extends FormItemProps {
     defaultTime?: string|Array<string> 
 }
 
-export interface DatePickerRangeProps extends DatePickerProps,RangeFormItemProps{
- 
+
+export interface TimePickerProps extends FormItemProps {
+    type?: string,
+    modelValue?: string,
+    start?: string | number,
+    end?: string | number,
+    greaterThan?: string,
+    lessThan?: string,
+    width?: string,
+    isShortcuts?: boolean,
+    defaultValue?:string|Array<string>
+    disabledHours?: Function|Array<any>,
+    disabledMinutes?: Function|Array<any>,
+    disabledSeconds?: Function|Array<any>,
+    valueSeparator?:string,
+    valueFormat?:string
 }
+
 
 
 
@@ -153,8 +171,10 @@ export interface QueryInfo{
     dataType?:QueryDataType,
     isAroundComma?:boolean,
     isAutoQuery?:boolean,
-    parameterType?:string
-    Value?:any
+    parameterType?:string,
+    isRange?:boolean,
+    isRangeOrEqual?:boolean,
+    value?:any
 
 }
 

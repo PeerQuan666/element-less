@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { ref, reactive, watch, useAttrs } from 'vue'
 import '../../utlis/lessPrototype.js'
+import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
+import { FormItemProps } from '../../utlis/interfaceCom'
+import { ValueType } from '../../utlis/enumCom'
 defineOptions({ name: 'ElsCascader' })
-interface Props {
+interface Props extends FormItemProps {
     modelValue?: string,
     isPanel?: boolean,
     labelField?: string,
     valueField?: string,
-    parentidField?: string,
+    parentIdField?: string,
     rootParentValue?: string,
     disabledField?: string,
     childrenField?: string,
@@ -23,23 +26,32 @@ interface Props {
     onChange?: Function,
     data?: Array<Record<string, any>>,
     resetValueByChangeData?: boolean,
-    mutiPathValueSeparator?: string,
-    isInitTriggerSelect?: boolean
+    pathSeparator?: string,
+    isInitTriggerSelect?: boolean,
+    valueSeparator?: string,
+    valueType?: ValueType,
 }
 const props = withDefaults(defineProps<Props>(), {
     labelField: 'label',
     valueField: 'value',
-    parentidField: 'ParentID',
+    parentIdField: 'parentId',
     disabledField: '',
     childrenField: 'children',
     leafField: 'leaf',
     emitPath: true,
     resetValueByChangeData: true,
-    mutiPathValueSeparator: '$',
+    pathSeparator: '$',
+    valueSeparator: ',',
+    rootParentValue: '',
 
 })
+const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig()
+
 const initSelect = ref(false)
 const componentName = ref('el-cascader')
+if(props.isPanel){
+    componentName.value="el-cascader-panel"
+}
 const dataProps = ref<any>({})
 const tableData = reactive<Array<Record<string, any>>>([])
 const optionData = reactive<Array<Record<string, any>>>([])
@@ -53,67 +65,95 @@ watch(() => props.modelValue, () => {
 })
 watch(() => props.url, () => {
     if (props.resetValueByChangeData) {
-        selectValue.value = [];
+        selectValue.value.length = 0
     }
     readData()
 }, { immediate: true })
 watch(() => props.data, (val: any) => {
     if (val && val.length) {
         if (props.resetValueByChangeData) {
-            selectValue.value = [];
+            selectValue.value.length = 0
         }
+        tableData.length = 0
+        tableData.push(...val)
         toTreeData()
-        initSelectValue();
     }
 }, { immediate: true })
 
 const attrs = useAttrs()
 const emits = defineEmits(['update:modelValue', 'update:select', 'update:select-label'])
 
-watch(selectValue, (val) => {
-    handleReturnResult(val)
-})
-watch(() => props.modelValue, (val) => {
-    selectValue.value = val
-})
-
-
-
 function initSelectValue() {
-    if (props.multiple) {
+    if (props.modelValue === '' || props.modelValue === undefined) {
+        return
+    }
+    if (props.multiple && props.emitPath) {
         if (props.modelValue && props.emitPath) {
-            selectValue.value = props.modelValue.split(props.mutiPathValueSeparator).map(ele => ele.split(','))
+            selectValue.value.length = 0;
+            selectValue.value.push(...props.modelValue.split(props.pathSeparator).map(ele => ele.split(',')))
         } else if (props.modelValue) {
-            selectValue.value = props.modelValue.split(props.mutiPathValueSeparator)
+            selectValue.value.length = 0;
+            selectValue.value.push(...props.modelValue.split(props.pathSeparator))
         } else {
             selectValue.value.length = 0;
         }
-    } else if (props.modelValue && props.emitPath) {
-        selectValue.value = props.modelValue.split(props.mutiPathValueSeparator);
-    } else if (props.modelValue) {
-        selectValue.value = props.modelValue
+        selectValue.value.length = 0;
+        if (props.valueType === ValueType.Number) {
+            selectValue.value.push(...props.modelValue.toString().split(props.pathSeparator).map(ele => ele.toListNumber(props.valueSeparator)))
+        } else if (props.valueType === ValueType.String) {
+            selectValue.value.push(...props.modelValue.toString().split(props.pathSeparator).map(ele => ele.toList(props.valueSeparator)))
+        } else if (optionData.length && typeof (optionData[0][props.valueField]) === "number") {
+            selectValue.value.push(...props.modelValue.toString().split(props.pathSeparator).map(ele => ele.toListNumber(props.valueSeparator)))
+        } else if (props.modelValue) {
+            selectValue.value.push(...props.modelValue.toString().split(props.pathSeparator).map(ele => ele.toList(props.valueSeparator)))
+        }
+    } else if (props.multiple || props.emitPath) {
+        selectValue.value.length = 0;
+        if (props.valueType === ValueType.Number) {
+            selectValue.value.push(...props.modelValue.toString().toListNumber(props.valueSeparator))
+        } else if (props.valueType === ValueType.String) {
+            selectValue.value.push(...props.modelValue.toString().toList(props.valueSeparator))
+        } else if (optionData.length && typeof (optionData[0][props.valueField]) === "number") {
+            selectValue.value.push(...props.modelValue.toString().toListNumber(props.valueSeparator))
+        } else if (props.modelValue) {
+            selectValue.value.push(...props.modelValue.toString().toList(props.valueSeparator))
+        }
+
+    } else {
+        if (props.valueType === ValueType.Number) {
+            selectValue.value = parseFloat(props.modelValue.toString());
+        }
+        else if (props.valueType === ValueType.String) {
+            selectValue.value = props.modelValue.toString();
+        }
+        else if (optionData.length && props.modelValue.toString().length < 12 && typeof (optionData[0][props.valueField]) === "number") {
+            selectValue.value = parseFloat(props.modelValue.toString());
+        } else {
+            selectValue.value = props.modelValue;
+        }
     }
+
 }
 function readData() {
     if (props.url) {
         props.url.post({}).then(res => {
-            if (res.ResultCode == "0") {
+            if (res[$codeField] == $success) {
                 tableData.length = 0
-                tableData.push(...res.Data)
+                tableData.push(...res[$dataField])
 
                 toTreeData()
                 initSelectValue()
             }
             else {
-                ElMessage.error(res.ResultMessage);
+                ElMessage.error(res[$messageField]);
             }
         })
     }
 }
 function toTreeData() {
     optionData.length = 0
-    if (tableData) {
-        tableData.filter(ele => ele[props.parentidField] == props.rootParentValue).forEach(ele => {
+    if (tableData.length) {
+        tableData.filter(ele => ele[props.parentIdField] == props.rootParentValue).forEach(ele => {
             let currOption = ele;
             currOption[props.childrenField] = [];
             searchChildData(currOption)
@@ -125,7 +165,7 @@ function toTreeData() {
     }
 }
 function searchChildData(item) {
-    tableData.filter(ele => ele[props.parentidField] == item[props.valueField]).forEach(ele => {
+    tableData.filter(ele => ele[props.parentIdField] == item[props.valueField]).forEach(ele => {
         let currOption = ele;
         currOption[props.childrenField] = [];
         searchChildData(currOption)
@@ -153,24 +193,25 @@ function handleReturnResult(value) {
     }
 
     if (props.multiple && props.emitPath) {
-        emits('update:modelValue', value.join(props.mutiPathValueSeparator));
+        const currValue = value.map(ele => ele.join(props.valueSeparator)).join(props.pathSeparator)
+        emits('update:modelValue', currValue);
         if (initSelect && tableData.length) {
-            let selectData = value.map(ele => tableData.filter(cele => ele.indexOf(cele[props.valueField]) > -1))
+            let selectData = value.map(ele => tableData.filter(cele => ele.includes(cele[props.valueField])))
             emits('update:select', selectData)
 
             let selectLabelData = selectData.map(ele => ele.map(cele => cele[props.labelField]))
-            emits('update:select-label', selectLabelData.join(props.mutiPathValueSeparator))
+            emits('update:select-label', selectLabelData.join(props.pathSeparator))
 
         }
         initSelect.value = true
         if (props.onChange) {
-            props.onChange(value.join(props.mutiPathValueSeparator));
+            props.onChange(currValue);
         }
         return
     }
 
     if (props.emitPath || props.multiple) {
-        emits('update:modelValue', value.toString());
+        emits('update:modelValue', value.join(props.valueSeparator));
 
         if (initSelect.value && tableData.length) {
             let selectData = tableData.filter(cele => value.indexOf(cele[props.valueField]) > -1)
@@ -181,7 +222,7 @@ function handleReturnResult(value) {
         }
         initSelect.value = true
         if (props.onChange) {
-            props.onChange(value.join(props.mutiPathValueSeparator));
+            props.onChange(value.join(props.valueSeparator));
         }
         return
     }

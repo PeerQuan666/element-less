@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, watch } from 'vue'
 import '../../utlis/lessPrototype.js'
+import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
 defineOptions({ name: 'ElsAutocomplete' })
 interface Props {
@@ -17,7 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emits = defineEmits(['update:modelValue'])
-
+const {$codeField,$messageField,$dataField,$success}=lessCom.getApiConfig()
 const selectValue = ref()
 const tableData: Array<Record<string, any>> = reactive([])
 const queryData = reactive<any>({ searchKey: '', idString: '' })
@@ -57,12 +58,12 @@ function readData() {
     return new Promise((resolve) => {
         if (props.url) {
             props.url.post(queryData).then(res => {
-                if (res.ResultCode == "0") {
+                if (res[$codeField] == $success) {
                     tableData.length = 0;
-                    tableData.push(...res.Data)
+                    tableData.push(...res[$dataField])
                 }
                 else {
-                    ElMessage.error(res.ResultMessage)
+                    ElMessage.error(res[$messageField])
                 }
             })
         } else { resolve(false) }

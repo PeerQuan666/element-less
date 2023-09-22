@@ -20,6 +20,18 @@ export default defineClientConfig({
     }
     app.component('font-awesome-icon', FontAwesomeIcon)
     app.config.globalProperties.$lessConfig = {
+      api:{
+        code:'ResultCode',
+        message:'ResultMessage',
+        data:'Data',
+        successCode:'0'
+      },
+      upload:{
+        url:'http://manage.ybt2023.com/Home/TestUpload',
+        data:'UploadInfo',
+        data_path:'ResourcePath',
+        data_md5:'Md5Value',
+      },
       menu:{
         id:'MenuID',
         name:'MenuName',
@@ -34,13 +46,12 @@ export default defineClientConfig({
           menu:'PowerMenu',
           avgDay:'DayCount',
           page:{
+            data:"Data",
             pageSize:'PageSize',
             currentPage:'PageIndex',
             total:'RecordCountInt',
             pageCount:'PageCount'
           }
-
-          
       }
   }
     app.use(ElementPlus);
