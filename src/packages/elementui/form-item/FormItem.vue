@@ -44,7 +44,7 @@ function initRules() {
 }
 
 function initQuery() {
-    if(getQueryData){
+    if(getQueryData&&(props.queryField||props.prop)){
         let currKey=props.prop??lessCom.Guid32()
         const currQueryData:any=getQueryData()
         if(currQueryData){
@@ -55,7 +55,7 @@ function initQuery() {
         const queryInfo: QueryInfo =
         {
             key:currKey,
-            prop: props?.prop??props.queryField,
+            prop: props.queryField??props.prop,
             method: props.queryMethod,
             dataType: props.queryDataType,
             isAroundComma: props.queryAroundComma,

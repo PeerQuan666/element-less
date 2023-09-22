@@ -1,8 +1,8 @@
 <template>
     <els-row :gutter="10">
-        <els-col><div class="grid-content red" /></els-col>
-        <els-col><div class="grid-content green" /></els-col>
-        <els-col><div class="grid-content yellow" /></els-col>
+      <div class="grid-content red" />
+      <div class="grid-content green" />
+      <div class="grid-content yellow" />
     </els-row>
 </template>
 

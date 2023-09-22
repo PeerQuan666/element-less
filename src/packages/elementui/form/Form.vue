@@ -2,8 +2,7 @@
 import { ref, nextTick, provide, onBeforeUnmount, onMounted, useSlots, useAttrs,inject } from 'vue'
 import lessCom from '../../utlis/lessCom.js'
 import { ElForm } from 'element-plus'
-import ElsFormItem from '../form-item/FormItem.vue';
-
+import ElsFormNode from '../../custom/form-node/FormNode.vue';
 defineOptions({ name: 'ElsForm' })
 
 interface Props {
@@ -140,31 +139,7 @@ defineExpose({
         <slot v-if="false"></slot>
         <slot name="edit" v-if="slots.default">
             <template v-for="vnode in slots.default()">
-                <component :is="()=>vnode"
-                    v-if="!(vnode.type as any).name || (vnode.type as any).name === 'ElFormItem' || (vnode.type as any)?.name === 'ElsFormItem' || !(vnode.type as any).props || !(vnode.type as any).props.hasFormItem || vnode.props && (vnode.props as any)['hasFormItem'] === false">
-                </component>
-                
-                <ElsFormItem 
-                :validationTrigger="(vnode.type as any).props.validationTrigger?.default"
-          
-                    v-bind="vnode.props ?? {}" v-else>
-                    <template #default="{ key, startKey, endKey }">
-               
-                        <component :is="vnode" v-if="(vnode as any).props.hasOwnProperty('modelValue')"></component>
-                        <component :is="vnode" v-else-if="modelData && !startKey && !endKey" v-model="modelData[key]">
-                        </component>
-                        <component :is="vnode"
-                            v-else-if="modelData && startKey && endKey && key && (key != startKey && key != endKey)"
-                            v-model="modelData[key]" v-model:start="modelData[startKey]" v-model:end="modelData[endKey]">
-                        </component>
-                        <component :is="vnode"
-                            v-else-if="modelData && startKey && endKey && (!key || key == startKey || key == endKey)"
-                            v-model:start="modelData[startKey]" v-model:end="modelData[endKey]">
-                        </component>
-                        <component :is="vnode" v-else></component>
-                    </template>
-                </ElsFormItem>
-
+                <ElsFormNode :vnode="vnode"></ElsFormNode>
             </template>
         </slot>
     </el-form>

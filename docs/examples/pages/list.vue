@@ -4,9 +4,9 @@
         <els-menu-tool :data="toolData" logUrl="https://element-plus.org/zh-CN/component/button.html"
             docUrl="https://element-plus.org/zh-CN/guide/design.html"><els-button-export></els-button-export></els-menu-tool>
         <els-caption type="left" style="margin: 10px 0px;">第一个查询</els-caption>
-        <els-form-query style="margin-top: 10px;">
+        <els-form-query style="margin-top: 10px;" v-model="queryData">
             <els-input label="ID" prop="ID" width="100"></els-input>
-            <els-date-picker-range label="时间" prop="date"></els-date-picker-range>
+            <els-input-range label="时间" prop="date" ></els-input-range>
             <els-select label="作者" prop="AuthorName" width="100" clearable>
                 <els-option>无敌元气妹</els-option>
                 <els-option>稚葵</els-option>
@@ -57,6 +57,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 const apiUrl = ref('http://manage.ybt2023.com/home/test')
+const queryData=ref()
 const toolData = ref<any>(
     [
         {

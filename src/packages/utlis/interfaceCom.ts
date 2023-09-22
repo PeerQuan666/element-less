@@ -17,7 +17,8 @@ export interface FormItemProps{
     queryAutoReadData?:boolean,
     queryAroundComma?:boolean,
     queryRange?:boolean,
-    queryRangeOrEqual?:boolean
+    queryRangeOrEqual?:boolean,
+    span?:number
 }
 
 export interface RangeFormItemProps extends FormItemProps{

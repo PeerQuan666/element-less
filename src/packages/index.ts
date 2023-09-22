@@ -59,6 +59,7 @@ import ElsButtonSearch from './custom/button-search'
 import ElsButtonExport from './custom/button-export'
 import ElsList from './custom/list'
 import ElsTip from './custom/tip'
+import ElsFormNode from './custom/form-node'
 
 import ElsContainer from './custom/container/Container.vue'
 const components =[
@@ -98,7 +99,8 @@ const components =[
     ElsUpload,
     ElsTree,
     ElsTreeSelect,
-    ElsInputRange
+    ElsInputRange,
+    ElsFormNode
 
 ]
 

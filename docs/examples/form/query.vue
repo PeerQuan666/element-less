@@ -10,6 +10,7 @@
             <els-option :value="1">北京</els-option>
             <els-option :value="2">天津</els-option>
         </els-radio-button>
+        <els-input-range label="范围" prop="inputRange" propStart="inputStart" propEnd="inputEnd" require></els-input-range>
         <el-button @click="handleSearch" type="primary">查询</el-button>
     </els-form-query>
 </template>

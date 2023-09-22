@@ -314,7 +314,7 @@ const lessCom = {
                         }
                         let endQueryMethod = item.IsRangeOrEqual ? QueryMethod.LessThanOrEqual : QueryMethod.LessThan
                         let endSignatureMD5 = (fieldName + '_' + startQueryMethod + '_' + queryDataType).md5();
-                        let endFieldValue = item.Value.split(',')[0];
+                        let endFieldValue = item.Value.split(',')[1];
                         if (endFieldValue || typeof (endFieldValue) == "number") {
                             queryParms["Query_End_" + key] = fieldName + "$" + endQueryMethod + "$" + queryDataType + "$" + endSignatureMD5 + "$" + encodeURIComponent(endFieldValue);
                         }

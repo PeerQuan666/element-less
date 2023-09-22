@@ -3,7 +3,6 @@ import { ref, reactive, watch, useAttrs, computed, nextTick, inject, provide, on
 import lessCom from '../../utlis/lessCom.js'
 import lodash from 'lodash';
 import { ElForm } from 'element-plus'
-import ElsFormItem from '../form-item/FormItem.vue';
 import { QueryDataType, QueryMethod } from '../../utlis/enumCom';
 import { QueryInfo } from '../../utlis/interfaceCom';
 const { debounce } = lodash;
@@ -25,7 +24,7 @@ const attrs = useAttrs();
 const elsPageStore = inject<any>('elsPageStore')
 const elsQuery = inject<Function>('elsQuery')
 let modelData: Record<string, any> = reactive({})
-let formData: Record<string, any> = ref({})
+let formData: Record<string, any> = reactive({})
 const debouncedQuerySearch = computed<Function>(() => {
     if(elsQuery){
         return debounce(handleElsQuery, 200)
@@ -46,14 +45,13 @@ provide('getQueryData', getQueryData)
 provide('labelWidth', attrs['label-width'])
 provide('formType', 'Query')
 provide('queryTableRef', props.tableRef)
-provide('formData', modelData)
-watch(modelData, (val) => {
-    const currData = Object.fromEntries(
-        Object.keys(val).map(key => [key, val[key].Value])
-    );
-    formData.value = { ...currData }
-    emits("update:modelValue", currData)
+provide('formData', formData)
+
+watch(formData, (val) => {
+    emits("update:modelValue", val)
 })
+
+
 const queryStore = { id: tagID,tableRef:props.tableRef, query: handleSearch }
 const validateStore = { id: tagID, validate: validate }
 
@@ -79,8 +77,10 @@ function setQueryData(item) {
     if (Array.isArray(item)) {
         item.forEach(ele => {
             modelData[ele.key] = converToQueryData(ele);
+            formData[ele.key]=modelData[ele.key].Value
+
             if (modelData[ele.key]["QueryParameterType"] != "NoPost" && modelData[ele.key]["IsAutoQuery"]) {
-                watch(()=>modelData[ele.key]['Value'], (newVal: any, oldVal: any) => {
+                watch(()=>formData[ele.key], (newVal: any, oldVal: any) => {
                     if (newVal !== '' && newVal !== 0 && newVal == oldVal) {
                         return;
                     }
@@ -90,8 +90,9 @@ function setQueryData(item) {
         })
     } else {
         modelData[item.key] = converToQueryData(item);
+        formData[item.key]=modelData[item.key].Value
         if (modelData[item.key]["QueryParameterType"] != "NoPost" && modelData[item.key]["IsAutoQuery"]) {
-            watch(()=>modelData[item.key]['Value'], (newVal: any, oldVal: any) => {
+            watch(()=>formData[item.key], (newVal: any, oldVal: any) => {
                 if (newVal !== '' && newVal !== 0 && newVal == oldVal) {
                     return;
                 }
@@ -143,28 +144,24 @@ function recoverQueryState() {
     var currQueryDataStr = sessionStorage.getItem(`${pathID}_QueryData`);
     if (currQueryDataStr) {
         var currQueryData = JSON.parse(currQueryDataStr);
-        currQueryData.QueryData.forEach(ele => {
-            if (modelData[ele.Key] || modelData[ele.Key] === 0) {
-                modelData[ele.Key].Value = ele.Value
+        for(const key in currQueryData.QueryData){
+            if(key){
+                if (formData[key] || formData[key] === 0) {
+                    formData[key] =currQueryData.QueryData[key]
+                }
             }
-        })
+        
+        }
+
         clearQueryState();
     }
 }
 
 function cacheQueryState() {
-    var currQueryData: any = [];
-    for (let key in modelData) {
-        var item = modelData[key];
-        if (item.Value || item.Value === 0) {
-            currQueryData.push({ Key: key, Value: item.Value })
-        }
-    }
-    var cacheData = { QueryData: currQueryData, CreateTime: new Date().getTime() }
-    if (currQueryData.length > 0) {
+    if (Object.keys(formData).length > 0) {
+        var cacheData = { QueryData: formData, CreateTime: new Date().getTime() }
         sessionStorage.setItem(`$${tagID}_QueryData`, JSON.stringify(cacheData))
     }
-
 }
 
 function clearQueryState() {
@@ -172,7 +169,13 @@ function clearQueryState() {
 }
 function handleSearch() {
     return  new Promise((resolve) => {
+        
         validate().then(res => {
+            for(const key in formData){
+                if(key&&modelData[key]){
+                    modelData[key].Value= formData[key]
+                }
+            }
             if (res) {
                 if (attrs["onSearch"]) {
                     emits("search", modelData)
@@ -228,23 +231,7 @@ defineExpose({
         <slot v-if="false"></slot>
         <slot name="query" v-if="slots.default">
             <template v-for="vnode in slots.default()">
-                <component :is="()=>vnode"
-                    v-if="!(vnode.type as any).name || (vnode.type as any)?.name === 'ElFormItem' || (vnode.type as any)?.name === 'ElsFormItem' || !(vnode.type as any).props || !(vnode.type as any).props.hasFormItem || vnode.props && (vnode as any).props['hasFormItem'] === false">
-                </component>
-                <ElsFormItem 
-                   :validationTrigger="(vnode.type as any).props.validationTrigger?.default"
-                   :queryMethod="(vnode.type as any).props.queryMethod?.default"
-                   :queryDataType="(vnode.type as any).props.queryDataType?.default"
-                   :queryRangeOrEqual="(vnode.type as any).props.queryRangeOrEqual?.default"
-                   :queryRange="(vnode.type as any).props.queryRange?.default"
-                    v-bind="vnode.props ?? {}" 
-                    v-else>
-                    <template #default="{ key }">
-                        <component :is="vnode" v-if="(vnode as any).props.hasOwnProperty('modelValue')"></component>
-                        <component :is="vnode" v-else-if="modelData[key]" v-model="modelData[key].Value"></component>
-                        <component :is="vnode" v-else></component>
-                    </template>
-                </ElsFormItem>
+                <ElsFormNode :vnode="vnode"></ElsFormNode>
             </template>
         </slot>
     </el-form>
