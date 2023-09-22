@@ -1,12 +1,11 @@
 
 <template>
     <els-container>
-        <els-menu-tool :data="toolData" ></els-menu-tool>
-        <els-form v-model="editData" ref="editForm" style="margin-top: 10px;" labelWidth="60" saveUrl="http://www.baidu.com">
-
+        <els-menu-tool :data="toolData"></els-menu-tool>
+        <els-form v-model="editData" ref="editForm" style="margin-top: 10px;" labelWidth="60"
+            saveUrl="http://www.baidu.com">
             <els-input label="名字1" prop="name1" require></els-input>
             <els-input label="名字" prop="name" require></els-input>
-        
             <els-input label="金额" prop="revenue"></els-input>
             <els-select label="类型" prop="selectValue" :url="apiUrl" label-field="Name" value-field="ID" require
                 clearable></els-select>
@@ -16,17 +15,16 @@
                 <els-option>福州</els-option>
                 <els-option>厦门</els-option>
             </els-radio-button>
-            <els-input type="textarea" label="备注" width="500" ></els-input>
+            <els-input type="textarea" label="备注" width="500"></els-input>
         </els-form>
     </els-container>
-   
 </template>
   
 <script setup lang="ts">
 import { ref } from 'vue'
 const editForm = ref()
-const activeName=ref('first')
-const editData = ref({ selectValue: '', selectValue1: '' ,childrenData:{}})
+const activeName = ref('first')
+const editData = ref({ selectValue: '', selectValue1: '', childrenData: {} })
 const apiUrl = 'http://manage.ybt2023.com/home/test2'
 const toolData = ref<any>(
     [

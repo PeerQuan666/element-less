@@ -19,7 +19,7 @@ actions:
     link: ./demo/
 
 highlights:
-  - header: 能用最简单的代码实现最复杂的功能，不多说，朝这个方向使劲封装。
+  - header: 这么牛逼的组件，开发起来真是太简单啦！
     image: /assets/image/box.svg
     bgImage: https://theme-hope-assets.vuejs.press/bg/3-light.svg
     bgImageDark: https://theme-hope-assets.vuejs.press/bg/3-dark.svg
@@ -27,7 +27,7 @@ highlights:
       - title: 运行 <code>npm install element-less</code> 以使用组件。
 
   - header: 在页面中使用组件
-    description: 对ElementUI做了二次封装，啊啊啊好烦啊，这么多代码看瞎了，我就想偷懒简单点写。
+    description: 简单点、让开发的方式再简单点
     image: /assets/image/markdown.svg
     bgImage: https://theme-hope-assets.vuejs.press/bg/2-light.svg
     bgImageDark: https://theme-hope-assets.vuejs.press/bg/2-dark.svg
