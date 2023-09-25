@@ -1,6 +1,5 @@
 ---
 title: 编辑页
-icon: square-check
 order: 2
 date: 2023-08-24
 category:
@@ -26,6 +25,6 @@ star: true
 
 :::vuefile-demo
 
-pages/edit
+pages-edit/edit
 
 :::

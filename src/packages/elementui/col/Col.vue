@@ -16,10 +16,10 @@ const currSpan = ref(24)
 const getSpan = inject<Function>("getSpan")
 const colData = inject<any>("colData")
 const formData = inject<any>("formData")
-watch(colData, (val) => {
+watch(colData, () => {
     currSpan.value = props.span
-    if (props.span == 24) {
-        currSpan.value = 24 / val.count
+    if (props.span == 24&& getSpan) {
+        currSpan.value = getSpan()
     }
 }, { deep: true })
 onMounted(() => {
@@ -27,7 +27,7 @@ onMounted(() => {
     if (props.span == 24 && getSpan) {
         currSpan.value = getSpan()
     }
-})
+}) 
 </script>
 <template>
     <el-col :span="currSpan">

@@ -1,7 +1,6 @@
 ---
 title: Menu 导航菜单
-icon: edit
-order: 12
+order: 2
 date: 2023-08-29
 category:
   - ElementUI

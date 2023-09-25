@@ -57,18 +57,18 @@ if (setExtraOption) {
         <template #default>
             <slot name="default"></slot>
         </template>
-        <template #label v-if="$slots.label">
+        <template #label v-if="slots.label">
             <slot name="label"></slot>
         </template>
     </el-tab-pane>
     <el-dropdown-item v-else-if="type == 'dropdown'" :command="value ?? currLabel" v-bind="attrs">
         <template #default>
-            <slot name="default">{{ label }}</slot>
+            <slot name="default">{{ currLabel }}</slot>
         </template>
-        <template #dropdown v-if="$slots.dropdown">
+        <template #dropdown v-if="slots.dropdown">
             <slot name="dropdown"></slot>
         </template>
     </el-dropdown-item>
     <component v-else :is="componentName" :style="optionStyle" v-bind="attrs" :label="value ?? currLabel">
-        <slot name="default">{{label}}</slot>
+        <slot name="default">{{currLabel}}</slot>
     </component></template>

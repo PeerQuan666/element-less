@@ -1,7 +1,6 @@
 ---
 title: TreeSelect 树形选择
-icon: edit
-order: 12
+order: 15
 date: 2023-08-29
 category:
   - ElementUI

@@ -1,7 +1,6 @@
 ---
 title: DatePicker 日期选择器
-icon: square-check
-order: 9
+order: 13
 date: 2023-08-24
 category:
   - ElementUI

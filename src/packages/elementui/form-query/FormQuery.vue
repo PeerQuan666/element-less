@@ -52,7 +52,7 @@ watch(formData, (val) => {
 })
 
 
-const queryStore = { id: tagID,tableRef:props.tableRef, query: handleSearch }
+const queryStore = { id: tagID,tableRef:props.tableRef, query: handleSearch ,cacheQueryState}
 const validateStore = { id: tagID, validate: validate }
 
 onMounted(() => {

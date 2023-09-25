@@ -1,7 +1,6 @@
 ---
 title: Upload上传
-icon: square-check
-order: 10
+order: 17
 date: 2023-08-24
 category:
   - ElementUI

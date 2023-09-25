@@ -1,7 +1,6 @@
 ---
 title: TimePicker 时间选择器
-icon: square-check
-order: 9
+order: 14
 date: 2023-08-24
 category:
   - ElementUI

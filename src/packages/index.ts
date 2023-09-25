@@ -1,6 +1,7 @@
 import {App} from 'vue'
 // 导出所有组件
 import ElsInput from './elementui/input'
+import ElsTextarea from './elementui/textarea'
 import ElsInputRange from './elementui/input-range'
 import ElsSelect from './elementui/select'
 import ElsRadio from './elementui/radio'
@@ -34,6 +35,7 @@ import ElsMenu from './elementui/menu'
 import ElsMenuItem from './elementui/menu-item'
 import ElsSubMenu from './elementui/menu-sub'
 
+
 import ElsImage from './elementui/image'
 import ElsImageViewer from './elementui/image-viewer'
 import ElsMenuContext from './custom/menu-context'
@@ -45,6 +47,8 @@ import ElsAutocomplete from './elementui/autocomplete'
 import ElsCascader from './elementui/cascader'
 import ElsCascaderPanel from './elementui/cascader-panel'
 import ElsDialog from './elementui/dialog'
+import ElsDrawer from './elementui/drawer'
+import ElsDropdown from './elementui/dropdown'
 
 import ElsUpload from './elementui/upload'
 import ElsTimePicker from './elementui/time-picker'
@@ -100,7 +104,10 @@ const components =[
     ElsTree,
     ElsTreeSelect,
     ElsInputRange,
-    ElsFormNode
+    ElsFormNode,
+    ElsTextarea,
+    ElsDrawer,
+    ElsDropdown
 
 ]
 

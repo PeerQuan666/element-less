@@ -17,6 +17,7 @@ const lessCom = {
             $codeField : proxy.$lessConfig.api['code'],
             $messageField : proxy.$lessConfig.api['message'],
             $dataField : proxy.$lessConfig.api['data'],
+            $eventData: proxy.$lessConfig.api['eventData'],
             $success:proxy.$lessConfig.api['successCode']
         }
     },
@@ -31,9 +32,13 @@ const lessCom = {
             $nameField : proxy.$lessConfig.menu['name'],
             $actionTypeField : proxy.$lessConfig.menu['actionType'],
             $iconField : proxy.$lessConfig.menu['icon'],
+            $urlField : proxy.$lessConfig.menu['url'],
             $buttonColorField : proxy.$lessConfig.menu['buttonColor'],
             $buttonTypeField : proxy.$lessConfig.menu['buttonType'],
             $groupField:proxy.$lessConfig.menu['group'],
+            $confirmField : proxy.$lessConfig.menu['confirmField'],
+            $confirmPasswordField : proxy.$lessConfig.menu['confirmPasswordField'],
+
         }
     },
     getTableConfig(){
@@ -63,42 +68,6 @@ const lessCom = {
             $pathField : proxy.$lessConfig.upload['data_path'],
             $md5Field : proxy.$lessConfig.upload['data_md5']
         }
-    },
-    menuCommand(menu, elsPageStore) {
-        switch (menu.ActionType) {
-            case 'Modal':
-                break
-            case 'Target':
-
-
-                break;
-            case 'DesktopTarget':
-
-                break;
-            case 'Select':
-
-                break
-            case 'Export':
-
-                break;
-            case 'Search':
-                menu.IsLoading = true;
-                if (elsPageStore) {
-                    elsPageStore.value.queryForms.forEach(ele => {
-                        ele.query().then(res => {
-                            menu.IsLoading = false;
-                        })
-                    })
-                }
-                return false;
-                break;
-            default:
-
-                break
-
-        }
-
-
     },
     getCompareClass(val) {
         if (!val || val === '-') { return ''; }
@@ -348,46 +317,19 @@ const lessCom = {
         }
         return queryParms;
     },
-    handleApiResult(res) {
-        const {$codeField,$messageField,$dataField,$success}=lessCom.getApiConfig()
-        if (!res.EventActionData && res[$codeField] == "0") {
-            ElMessage.success(res[$messageField])
-            return
-        } else if (!res.EventActionData && res[$codeField] != "0") {
-            ElMessage.error(res[$messageField])
-            return;
+    downLoadTxt(url) {
+        var a = document.createElement('a');
+        a.setAttribute('href', url);
+        a.setAttribute('download', url.split('/').pop()); //分割路径，取出最后一个元素
+        a.setAttribute('target', '_blank');
+        a.setAttribute('id', 'ElsDownloadFile');
+        // 防止反复添加
+        const eleFile=document.getElementById('LeoDownloadFile')
+        if (eleFile) {
+            document.body.removeChild(eleFile);
         }
-        res.EventActionData.forEach(action => {
-            switch (action.Name) {
-                case "Alert":
-                    ElMessage.success({ message: action.Value })
-                    break
-                case "TargetUrl":
-                    window.location.href = action.Value;
-                    break
-                case "RefreshGrid":
-
-                    break
-                case "RefreshGridParent":
-
-                    break
-                case "CloseModal":
-
-                    break
-                case "RefreshFrame":
-
-                    break
-                case "RefreshFrameParent":
-
-                    break
-                case "Script":
-
-                    break;
-
-            }
-
-
-        })
+        document.body.appendChild(a);
+        a.click();
     },
     getToolHeight() {
         return 0;

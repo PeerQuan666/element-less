@@ -1,7 +1,6 @@
 ---
 title: DataModal弹窗选择
-icon: square-check
-order: 7
+order: 12
 date: 2023-08-24
 category:
   - ElementUI

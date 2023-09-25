@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, useSlots, provide, onMounted } from 'vue'
 import ElsCol from '../col'
+import lessCom from '../../utlis/lessCom';
 
 defineOptions({
     name: 'ElsRow',
@@ -14,11 +15,16 @@ function getSpan() {
         if (slots.default().length == 1 && slots.default()[0].type.toString() == 'Symbol(Fragment)') {
             let cols = (slots.default()[0].children as any).filter(ele => ele.type)
             colData.value.count = cols.length
-            return 24 / cols.length;
+            const spanCount= lessCom.sumArray(cols.filter(ele=>ele.props&&ele.props.span).map(ele=>ele.props.span))
+            return (24-spanCount) / cols.filter(ele=>!ele.props||!ele.props.span).length;
         }
         let cols = slots.default().filter(ele => ele.type)
         colData.value.count = cols.length
-        return 24 / cols.length;
+        const spanCount= lessCom.sumArray(cols.filter(ele=>ele.props&&ele.props.span).map(ele=>ele.props?.span))
+
+        return (24-spanCount) / cols.filter(ele=>!ele.props||!ele.props.span).length;
+
+
     }
     return 24
 }

@@ -1,1 +1,1 @@
-export const sidebarData = {"/pages/":["list","edit"],"/demo/":["layout","form","input","select","checkbox","radio","datamodal","autocomplete","list","date-picker","time-picker","tip","upload","table","cascader","menu","tree","tree-select","menu-tool"]};
+export const sidebarData = {"/pages/":["list","edit"],"/demo/":["layout","menu","tip","menu-tool","table","form","input","radio","select","checkbox","autocomplete","cascader","datamodal","date-picker","time-picker","tree-select","tree","upload","list","dropdown"]};

@@ -229,9 +229,6 @@ provide('handlePowerMenu', handlePowerMenu)
 isMobile.value = navigator.userAgent.indexOf('Mobile') > -1
 
 
-
-
-
 function handleTableBodyScroll(data) {
     if (scrollLeft != data.scrollLeft) {
         scrollLeft = data.scrollLeft;
@@ -260,15 +257,26 @@ function updateBottomScroll() {
             }, 50)
         })
     }
-
-
 }
-function getTableSelection(isPostCheckRowData, isPostNoCheckRow) {
+function getTableSelectionWithQuery(hasQuery:boolean){
+   const keyData= getTableSelection()
+   if(hasQuery){
+    let searchQueryData = Object.assign({}, props.queryData ?? {}, columnSortData, queryFormData.value)
+    searchQueryData.PageSize = { Value: currPageSize.value };
+    searchQueryData.PageIndex = { Value: currPageIndex.value - 1 };
+    const queryData= lessCom.getQueryData(searchQueryData)
+    return Object.assign({}, keyData, queryData);
+   }
+
+    return keyData;
+  
+}
+function getTableSelection(isPostCheckRowData=false, isPostNoCheckRow=false) {
     if (isPostCheckRowData === false) {
-        isPostCheckRowData = isPostCheckRowData
+        isPostCheckRowData = props.isPostCheckRowData
     }
     if (isPostNoCheckRow === false) {
-        isPostNoCheckRow = isPostNoCheckRow
+        isPostNoCheckRow = props.isPostNoCheckRow
     }
     if (isPostCheckRowData) {
         let keyData = {};
@@ -1190,8 +1198,8 @@ const isQuery = computed(() => {
 })
 onMounted(() => {
     if (elsPageStore) {
-        elsPageStore.value.dataTables.push({ tagID: tagID,tableName:props.tableName, initReadData: props.initReadData, isQuery: isQuery, isExport:props.isExport, query: query,table:dataTable,changePageReadData,setPageInfo,getPageInfo,exportTable })
-
+        elsPageStore.value.dataTables.push({ tagID: tagID,tableName:props.tableName, initReadData: props.initReadData, isQuery: isQuery, isExport:props.isExport, query: query,table:dataTable,changePageReadData,setPageInfo,getPageInfo,exportTable,getTableSelectionWithQuery })
+       
     } else {
         if (props.initReadData && props.url) {
             searchData()

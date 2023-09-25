@@ -7,8 +7,7 @@ import Example from './demo/vp-example.vue'
 import SourceCode from './demo/vp-source-code.vue'
 
 const allExamples = import.meta.globEager('../../examples/*/*.vue')
-console.info('111')
-console.info(allExamples)
+
 defineOptions({
   name: 'VpDemo'
 })
@@ -41,6 +40,7 @@ const formatPathDemos = computed(() => {
     demos[key.replace('../../examples/', '').replace('.vue', '')] =
       allExamples[key].default
   })
+
 
   return demos
 })

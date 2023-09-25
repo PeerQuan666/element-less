@@ -1,14 +1,15 @@
-import  {ValueType,QueryDataType,QueryMethod} from './enumCom'
+import  {ValueType,QueryDataType,QueryMethod,ValidType} from './enumCom'
 
 export interface FormItemProps{
     prop?:string,
     label?:string,
-    require?:boolean,
-    requireMessage?:string,
-    validationExpression?:string,
-    validationMessage?:string,
-    validationMethod?:Function,
-    validationTrigger?:string,
+    required?:boolean,
+    requiredMessage?:string,
+    validExpression?:string,
+    validMessage?:string,
+    validMethod?:Function,
+    validTrigger?:string,
+    validType?:ValidType,
     hasFormItem?:boolean,
     queryField?:string,
     queryMethod?:QueryMethod,

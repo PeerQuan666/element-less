@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, reactive, getCurrentInstance ,inject} from 'vue'
+import { ref, watch, reactive, getCurrentInstance, inject } from 'vue'
 
 const { proxy } = getCurrentInstance() as any
 import lessCom from '../../utlis/lessCom.js'
@@ -14,10 +14,8 @@ interface Props {
     data?: Array<Record<string, any>>,
     buttonType?: string,
     showMenuName?: boolean,
-    editTable?: Function,
-    saveTable?: Function,
     command?: Function,
-    onClick?:Function
+    onSelect?: Function
 
 }
 
@@ -46,7 +44,9 @@ if (proxy && proxy.$lessConfig?.menu) {
     groupFieldname = proxy.$lessConfig.menu.group
 }
 
-const elsMenuCommand=inject<Function>('elsMenuCommand')
+const elsMenuCommand = inject<Function>('elsMenuCommand')
+const elsSaveTable = inject<Function>('elsSaveTable')
+
 const saveDataLoading = ref(false)
 const isTableEdit = ref(false)
 const menuData: Array<Record<string, any>> = reactive([])
@@ -112,14 +112,12 @@ function initData(val) {
 }
 function handleEditTable() {
     isTableEdit.value = true;
-    if (props.editTable) {
-        props.editTable(true)
-    }
 }
 function handleSaveTable() {
     saveDataLoading.value = true;
-    if (props.saveTable) {
-        props.saveTable().then(res => {
+
+    if (elsSaveTable) {
+        elsSaveTable().then(res => {
             if (res) {
                 saveDataLoading.value = false
             }
@@ -130,9 +128,6 @@ function handleSaveTable() {
 }
 function handleUnEditTable() {
     isTableEdit.value = false;
-    if (props.editTable) {
-        props.editTable(false)
-    }
 }
 function handleCommandMore(type) {
     if (props.command) {
@@ -156,15 +151,14 @@ function handleCommandMore(type) {
 function triggerPowerMenu(menuID) {
     if (props.data) {
         var currPowerMenu = props.data.find(ele => ele[actionFieldname] === menuID || ele[idFieldname] == menuID);
-        if (currPowerMenu&&elsMenuCommand) {
+        if (currPowerMenu && elsMenuCommand) {
             elsMenuCommand(currPowerMenu)
         }
     }
-
 }
 function menuCommand(menu) {
-    if(props.onClick){
-        props.onClick(menu)
+    if (props.onSelect) {
+        props.onSelect(menu)
         return
     }
     if (menu[actionTypeFieldname] == 'Import') {
@@ -174,7 +168,7 @@ function menuCommand(menu) {
             uploadUrl: menu.TargetUrl
         }
 
-    } else if(elsMenuCommand){
+    } else if (elsMenuCommand) {
         elsMenuCommand(menu)
 
     }
@@ -223,7 +217,7 @@ defineExpose({
                 {{ showMenuName ? menu[nameFieldname] : '' }}
             </el-button>
         </div>
-        <div class="operationlog" v-if="mutiSaveUrl||logUrl||docUrl||noteUrl">
+        <div class="operationlog" v-if="mutiSaveUrl || logUrl || docUrl || noteUrl">
             <el-tooltip v-if="mutiSaveUrl && !isTableEdit" placement="bottom-end" content="可以双击指定行单独编辑">
                 <el-button v-if="!isTableEdit" @click="handleEditTable" type="primary">
                     <i class='el-icon-s-operation'></i>批量编辑
@@ -291,4 +285,5 @@ defineExpose({
         margin-left: 100px;
     }
 
-}</style>
+}
+</style>

@@ -10,7 +10,8 @@ interface Props extends FormItemProps {
     suffixTag?: string
     width?: number|string,
     encode?: boolean,
-    encodeType?: string
+    encodeType?: string,
+    textarea?:boolean
 }
 const props = withDefaults(defineProps<Props>(), {
     encode: false,
@@ -28,7 +29,7 @@ for (const slotItem in slots) {
 const encodeValue = ref()
 const inputValue = ref()
 if(!currWidth.value){
-    if(attrs['type']==='textarea'){
+    if(attrs['type']==='textarea'||props.textarea){
         currWidth.value='500'
     }else{
         currWidth.value='220'

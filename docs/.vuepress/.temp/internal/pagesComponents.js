@@ -13,6 +13,8 @@ export const pagesComponents = {
   "v-639880ee": defineAsyncComponent(() => import(/* webpackChunkName: "v-639880ee" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/datamodal.html.vue")),
   // path: /demo/date-picker.html
   "v-638b06bf": defineAsyncComponent(() => import(/* webpackChunkName: "v-638b06bf" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/date-picker.html.vue")),
+  // path: /demo/dropdown.html
+  "v-0529def5": defineAsyncComponent(() => import(/* webpackChunkName: "v-0529def5" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/dropdown.html.vue")),
   // path: /demo/form.html
   "v-b56d46bc": defineAsyncComponent(() => import(/* webpackChunkName: "v-b56d46bc" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/form.html.vue")),
   // path: /demo/input.html
@@ -43,14 +45,14 @@ export const pagesComponents = {
   "v-3b532e08": defineAsyncComponent(() => import(/* webpackChunkName: "v-3b532e08" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/tree.html.vue")),
   // path: /demo/upload.html
   "v-092b6b76": defineAsyncComponent(() => import(/* webpackChunkName: "v-092b6b76" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/upload.html.vue")),
+  // path: /guide/
+  "v-fffb8e28": defineAsyncComponent(() => import(/* webpackChunkName: "v-fffb8e28" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/guide/index.html.vue")),
   // path: /pages/edit.html
   "v-0750746b": defineAsyncComponent(() => import(/* webpackChunkName: "v-0750746b" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/pages/edit.html.vue")),
   // path: /pages/list.html
   "v-2d93ae57": defineAsyncComponent(() => import(/* webpackChunkName: "v-2d93ae57" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/pages/list.html.vue")),
   // path: /pages/
   "v-e379c5b8": defineAsyncComponent(() => import(/* webpackChunkName: "v-e379c5b8" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/pages/index.html.vue")),
-  // path: /guide/
-  "v-fffb8e28": defineAsyncComponent(() => import(/* webpackChunkName: "v-fffb8e28" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/guide/index.html.vue")),
   // path: /test/test.html
   "v-2791cd83": defineAsyncComponent(() => import(/* webpackChunkName: "v-2791cd83" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/test/test.html.vue")),
   // path: /guide/bar/baz.html

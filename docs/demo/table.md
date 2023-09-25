@@ -1,7 +1,6 @@
 ---
 title: Table表格
-icon: edit
-order: 11
+order: 5
 date: 2023-08-29
 category:
   - ElementUI
@@ -109,37 +108,10 @@ table/export
 
 :::tip
 
-需要设置全局配置
-
+需要设置全局配置，全局配置请参考组件页面
 :::
-
-```ts
-app.config.globalProperties.$lessConfig = {
-      menu:{
-        id:'MenuID',
-        name:'MenuName',
-        action:'ActionName',
-        actionType:'ActionType',
-        icon:'ImageUrl',
-        buttonColor:'ButtonColor',
-        buttonType:'ButtonType',
-        group:'Fold'
-      },
-      table:{
-          menu:'PowerMenu',
-          avgDay:'DayCount',
-          page:{
-            pageSize:'PageSize',
-            currentPage:'PageIndex',
-            total:'RecordCountInt',
-            pageCount:'PageCount'
-          }
-
-          
-      }
-  }
-```
 ### 右键菜单
+
 
 禁用<code>:hasContextMenu="false"</code>
 

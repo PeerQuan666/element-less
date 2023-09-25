@@ -1,7 +1,6 @@
 ---
 title: Autocomplete
-icon: square-check
-order: 8
+order: 10
 date: 2023-08-24
 category:
   - ElementUI

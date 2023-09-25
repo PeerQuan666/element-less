@@ -7,7 +7,8 @@ interface Props {
     menus?: Array<Record<string, any>>,
     isFold?: boolean,
     unFoldCount?: number,
-    isMobile?: boolean
+    isMobile?: boolean,
+    onSelect?: Function
 }
 const props = withDefaults(defineProps<Props>(), {
     unFoldCount: 0
@@ -38,12 +39,15 @@ watch(() => props.menus, (val) => {
     }
 }, { immediate: true })
 
-function menuCommand(menu){
-    if(elsMenuCommand){
-         elsMenuCommand(menu)
+function menuCommand(menu) {
+    if (!props.onSelect) {
+        if (elsMenuCommand) {
+            elsMenuCommand(menu)
+        }
+    } else {
+        props.onSelect(menu)
     }
 }
-
 </script>
 <template >
     <div v-if="nameFieldname" class="els-table-operate">

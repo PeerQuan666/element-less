@@ -1,7 +1,6 @@
 ---
 title: Menu 页面菜单
-icon: square-check
-order: 13
+order: 4
 date: 2023-08-24
 category:
   - ElementUI

@@ -1,7 +1,6 @@
 ---
 title: Tree 树形控件(单选、多选)
-icon: edit
-order: 12
+order: 16
 date: 2023-08-29
 category:
   - ElementUI
