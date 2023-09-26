@@ -14,20 +14,19 @@
         <els-option :value="1">发布</els-option>
         <els-option :value="0">未发布</els-option>
        </els-select>
-      </template>
+      </template> 
     </els-column-bool>
-    <els-column-enum prop="valueType" label="枚举类型" width="100" :enumData="ValueType"></els-column-enum>
+    <els-column prop="valueType" label="类型" width="100" ></els-column>
   </els-table>
 </template>
 
 <script setup lang="ts">
-import { ValueType } from '../../../src/packages/utlis/enumCom'
 import { ref, reactive } from 'vue'
 const data = reactive([
-  { key: '北京', value: 1, group: '分组1', isRelease: 1, valueType: '' },
-  { key: '天津', value: 2, group: '分组1', isRelease: 0, valueType: 'number' },
-  { key: '福州', value: 3, group: '分组2', isRelease: 1, valueType: 'string' },
-  { key: '厦门', value: 4, group: '分组2', isRelease: 0, valueType: 'string' }
+  { key: '北京', value: 1, group: '分组1', isRelease: 1, valueType: '城市' },
+  { key: '天津', value: 2, group: '分组1', isRelease: 0, valueType: '城市' },
+  { key: '福州', value: 3, group: '分组2', isRelease: 1, valueType: '城市' },
+  { key: '厦门', value: 4, group: '分组2', isRelease: 0, valueType: '城市' }
 ])
 const eidtStatus=ref(false)
 const dataTable=ref()

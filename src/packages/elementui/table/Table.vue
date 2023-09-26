@@ -80,7 +80,7 @@ const props = withDefaults(defineProps<Props>(), {
     queryData: {},
 })
 const {$codeField,$messageField,$dataField,$success}=lessCom.getApiConfig()
-const {$idField,$actionField} =lessCom.getMenuConfig()
+const {$idField,$actionNameField} =lessCom.getMenuConfig()
 
 const {$pageDataField,$menuField,$pageSizeField,$currentPageField,$totalField,$pageCountField,$avgDayField} =lessCom.getTableConfig()
 
@@ -989,7 +989,7 @@ function handlePowerMenu(row, menuID) {
         return;
     }
     setTimeout(() => {
-        var currPowerMenu = row[$menuField].find(ele => ele[$idField] === menuID || ele[$actionField] === menuID);
+        var currPowerMenu = row[$menuField].find(ele => ele[$idField] === menuID || ele[$actionNameField] === menuID);
         if (!currPowerMenu) {
             ElMessage.error('菜单不存在')
             return;

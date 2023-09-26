@@ -31,12 +31,15 @@ date: 2023-08-24
       menu:{ //菜单：导航菜单、工具栏菜单、右键菜单
         id:'MenuID',//菜单ID
         name:'MenuName',//菜单名称
-        action:'ActionName',//菜单动作名称
-        actionType:'ActionType',//菜单动作类型：保存、新增、修改、删除
+        action:'ActionType',//菜单动作类型:保存、新增、修改、删除
         icon:'ImageUrl',//菜单图标
         buttonColor:'ButtonColor',//按钮颜色
         buttonType:'ButtonType',//按钮类型：跳转、保存、查询、导入导出
-        group:'Fold'//组名
+        group:'Fold',//组名
+        url:'TargetUrl',//菜单地址
+        areaName:'AreaName',//区域名称
+        controllerName:'ControllerName',//控制器名称
+        actionName:'ActionName',//动作名称
       },
       table:{ //表格
           menu:'PowerMenu', //右键菜单字段

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, nextTick, provide, onBeforeUnmount, onMounted, useSlots, useAttrs,inject } from 'vue'
+import { ref, nextTick, provide, onBeforeUnmount, onMounted, useSlots, useAttrs, inject } from 'vue'
 import lessCom from '../../utlis/lessCom.js'
 import { ElForm } from 'element-plus'
 import ElsFormNode from '../../custom/form-node/FormNode.vue';
@@ -13,9 +13,9 @@ interface Props {
     queryAutoReadData?: boolean,
     queryParameterType?: string,
     labelWidth?: string,
-    saveUrl?:string,
-    beforeSave?:Function,
-    afterSave?:Function
+    saveUrl?: string,
+    beforeSave?: Function,
+    afterSave?: Function
 }
 const props = withDefaults(defineProps<Props>(), {
     queryParameterType: 'Query',
@@ -38,7 +38,7 @@ if (attrs['inline'] === undefined) {
 provide('container', 'form')
 provide('labelWidth', currLabelWidth)
 provide('formData', modelData)
-const elsApiResult=inject<Function>("elsApiResult")??function(){}
+const elsApiResult = inject<Function>("elsApiResult") ?? function () { }
 const elsPageStore = inject<any>('elsPageStore')
 const validateStore = { id: tagID, validate: validate }
 const saveStore = { id: tagID, save: saveData }
@@ -56,44 +56,49 @@ onBeforeUnmount(() => {
         elsPageStore.value.validates.remove(validateStore)
     }
 })
-function saveData(){
-   return new Promise((resolve,reject)=>{
-        if(props.saveUrl){
-            validate().then((valid)=>{
-                if(valid){
-                    if(props.beforeSave){
-                        props.beforeSave(modelData.value).then(bres=>{
-                            if(bres){
-                                props.saveUrl?.post(modelData).then(res=>{
-                                    if(props.afterSave){
+function saveData(url) {
+    return new Promise((resolve, reject) => {
+        let currSaveUrl = props.saveUrl
+        if (!currSaveUrl) {
+            currSaveUrl = url
+        }
+        currSaveUrl = currSaveUrl.replacePowerUrl()
+        if (currSaveUrl) {
+            validate().then((valid) => {
+                if (valid) {
+                    if (props.beforeSave) {
+                        props.beforeSave(modelData.value).then(bres => {
+                            if (bres) {
+                                currSaveUrl.post(modelData).then(res => {
+                                    if (props.afterSave) {
                                         props.afterSave(res)
                                     }
                                     elsApiResult(res)
                                     resolve(res)
-                                }).catch((error)=>{
+                                }).catch((error) => {
                                     reject(error)
                                 })
                             }
-                        })  
-                    }else{
-                        props.saveUrl?.post(modelData).then(res=>{
-                                if(props.afterSave){
-                                    props.afterSave(res)
-                                }
-                                elsApiResult(res)
-                                resolve(res)
-                            }).catch((error)=>{
-                                    reject(error)
-                                })
+                        })
+                    } else {
+                        currSaveUrl.post(modelData).then(res => {
+                            if (props.afterSave) {
+                                props.afterSave(res)
+                            }
+                            elsApiResult(res)
+                            resolve(res)
+                        }).catch((error) => {
+                            reject(error)
+                        })
 
                     }
-                }else{resolve(false)}
+                } else { resolve(false) }
             })
-        }else{
+        } else {
             resolve(false)
         }
     })
-   
+
 
 }
 

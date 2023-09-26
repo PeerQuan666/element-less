@@ -46,13 +46,12 @@ function validate() {
         })
     })
 }
-function save() {
+function save(url) {
     return new Promise((resolve, reject) => {
         if (elsPageStore.value.saveForms.length) {
             validate().then(res => {
                 if (res) {
-                    Promise.all(elsPageStore.value.saveForms.map(ele => ele.save())).then(allRes => {
-                        console.info(allRes)
+                    Promise.all(elsPageStore.value.saveForms.map(ele => ele.save(url))).then(() => {
                         resolve(true)
                     }).catch((error) => {
                         reject(error)
@@ -165,9 +164,8 @@ function elsMenuCommand(menu) {
             if (menu[$confirmField] && !menu[$confirmPasswordField]) {
                 menu.IsLoading = true;
                 ElMessageBox.confirm(menu[$confirmField]).then(_ => {
-                    save().then(res => {
+                    save(menu[$urlField]).then(res => {
                         menu.IsLoading = false;
-                        elsApiResult(res)
                     }).catch(() => {
                         menu.IsLoading = false;
                     })
@@ -185,9 +183,8 @@ function elsMenuCommand(menu) {
                     inputValidator: (val) => { return val == menu[$confirmPasswordField]; },
                     inputErrorMessage: '密码错误'
                 }).then(() => {
-                    save().then(res => {
+                    save(menu[$urlField]).then(res => {
                         menu.IsLoading = false;
-                        elsApiResult(res)
                     }).catch(() => {
                         menu.IsLoading = false;
                     })
@@ -197,9 +194,8 @@ function elsMenuCommand(menu) {
                 });
             }
             else {
-                save().then(res => {
+                save(menu[$urlField]).then(res => {
                     menu.IsLoading = false;
-                    elsApiResult(res)
                 }).catch(() => {
                     menu.IsLoading = false;
                 })
@@ -330,6 +326,9 @@ function elsMenuCommand(menu) {
 }
 
 function elsApiResult(res) {
+    if(!res){
+        return
+    }
     if (!res[$eventData.data] && res[$codeField] == $success) {
         ElMessage.success(res[$messageField])
         return

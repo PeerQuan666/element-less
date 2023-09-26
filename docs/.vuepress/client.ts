@@ -36,12 +36,15 @@ export default defineClientConfig({
       menu:{
         id:'MenuID',
         name:'MenuName',
-        action:'ActionName',
-        actionType:'ActionType',
+        action:'ActionType',
         icon:'ImageUrl',
         buttonColor:'ButtonColor',
         buttonType:'ButtonType',
-        group:'Fold'
+        group:'Fold',
+        url:'TargetUrl',
+        areaName:'AreaName',
+        controllerName:'ControllerName',
+        actionName:'ActionName'
       },
       table:{
           menu:'PowerMenu',
