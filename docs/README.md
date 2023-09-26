@@ -9,7 +9,7 @@ bgImage: https://theme-hope-assets.vuejs.press/bg/6-light.svg
 bgImageDark: https://theme-hope-assets.vuejs.press/bg/6-dark.svg
 actions:
   - text: 使用指南 💡
-    link: ./demo/
+    link: ./design/
     type: primary
 
   - text: 演示
@@ -19,21 +19,33 @@ actions:
     link: ./demo/
 
 highlights:
-  - header: 这么牛逼的组件，开发起来真是太简单啦！
+  - header: 精简代码，代码量缩减50%+
+    description: 让开发的方式再简单点
     image: /assets/image/box.svg
     bgImage: https://theme-hope-assets.vuejs.press/bg/3-light.svg
     bgImageDark: https://theme-hope-assets.vuejs.press/bg/3-dark.svg
+    bgImageStyle:
+      background-repeat: repeat
+      background-size: initial
+    features:
+      - title: 页面菜单
+      - title: 表单提交
+      - title: 导入导出
+      - title: 自动化查询
+      - title: 接口动作执行
+      - title: 数据扁平化
+
+  - header: 这么牛逼的组件，开发起来真是太简单啦！
+    image: /assets/image/features.svg
+    bgImage: https://theme-hope-assets.vuejs.press/bg/1-light.svg
+    bgImageDark: https://theme-hope-assets.vuejs.press/bg/1-dark.svg
     highlights:
       - title: 运行 <code>npm install element-less</code> 以使用组件。
 
   - header: 在页面中使用组件
-    description: 简单点、让开发的方式再简单点
-    image: /assets/image/markdown.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/2-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/2-dark.svg
-    bgImageStyle:
-      background-repeat: repeat
-      background-size: initial
+    image: /assets/image/layout.svg
+    bgImage: https://theme-hope-assets.vuejs.press/bg/5-light.svg
+    bgImageDark: https://theme-hope-assets.vuejs.press/bg/5-dark.svg
     features:
       - title: Select 选择器
         icon: clipboard-check

@@ -26,7 +26,7 @@ function initData() {
         }
     }
 }
-watch(() => props.url, (val) => {
+watch(() => props.url, () => {
     initData()
 }, { immediate: true })
 

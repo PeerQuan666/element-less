@@ -15,7 +15,8 @@ interface Props {
     buttonType?: string,
     showMenuName?: boolean,
     command?: Function,
-    onSelect?: Function
+    onSelect?: Function,
+    onUploaded?:Function
 
 }
 
@@ -46,6 +47,7 @@ if (proxy && proxy.$lessConfig?.menu) {
 
 const elsMenuCommand = inject<Function>('elsMenuCommand')
 const elsSaveTable = inject<Function>('elsSaveTable')
+const elsApiResult = inject<Function>('elsApiResult')
 
 const saveDataLoading = ref(false)
 const isTableEdit = ref(false)
@@ -173,6 +175,14 @@ function menuCommand(menu) {
 
     }
 }
+function uploadSuccess(res){
+    if(props.onUploaded){
+        props.onUploaded(res)
+    }
+    else if(elsApiResult){
+        elsApiResult(res)
+    }
+}
 defineExpose({
     triggerPowerMenu
 })
@@ -250,7 +260,7 @@ defineExpose({
                 v-if="uploadInfo.previewImg.startsWith('http') && !uploadInfo.previewImg.endsWith('xlsx')"></els-image>
             <el-link :href="uploadInfo.previewImg" type="primary" target='_blank' v-else>点击下载模板地址</el-link>
             <div style="text-align: center;margin-top: 20px;">
-                <el-upload multiple drag :on-success="lessCom.handleApiResult" :action="uploadInfo.uploadUrl">
+                <el-upload multiple drag :on-success="uploadSuccess" :action="uploadInfo.uploadUrl">
                     <i class="el-icon-upload"></i>
                     <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                 </el-upload>

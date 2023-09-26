@@ -4,6 +4,13 @@ export default sidebar({
   "/": [
     "",
     {
+      text: "使用",
+      icon: "laptop-code",
+      prefix: "design/",
+      link: "design/",
+      children: "structure",
+    },
+    {
       text: "演示页",
       icon: "laptop-code",
       prefix: "pages/",

@@ -173,6 +173,18 @@ function handleSelectRow(row) {
     }
 
 }
+function getContextMenus(row){
+    const currMenus:any=[]
+    if(provideData.contextMenus){
+        currMenus.push(...provideData.contextMenus)
+
+    }
+    if($menuField){
+        currMenus.push(...row[$menuField]) 
+
+    }
+    return currMenus
+}
 
 currColumnKey.value = props.prop ?? '';
 columnSortMethod = props.sortMethod;
@@ -256,7 +268,7 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
                 </template>
             </template>
             <template v-else-if="(!row.edit || !isEdit)">
-                <els-menu-dropdown v-if="type == 'operate'" :menus="row[$menuField]" :key="row" :is-fold="isFold"
+                <els-menu-dropdown v-if="type == 'operate'" :menus="getContextMenus(row)" :key="row" :is-fold="isFold"
                     :un-fold-count="unFoldCount" :is-mobile="attrs['is-mobile']">
                 </els-menu-dropdown>
 

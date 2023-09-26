@@ -30,7 +30,7 @@ export default hopeTheme({
   // sidebar
   sidebar,
 
-  footer: "默认页脚",
+  footer: "",
 
   displayFooter: true,
 

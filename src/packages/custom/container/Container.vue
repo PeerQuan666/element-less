@@ -330,7 +330,6 @@ function elsMenuCommand(menu) {
 }
 
 function elsApiResult(res) {
-
     if (!res[$eventData.data] && res[$codeField] == $success) {
         ElMessage.success(res[$messageField])
         return
@@ -339,12 +338,12 @@ function elsApiResult(res) {
         return;
     }
     res[$eventData.data].forEach(action => {
-        switch (action[$eventData.key]) {
+        switch (action[$eventData.data_key]) {
             case "Alert":
-                ElMessage.success({ message: action[$eventData.value] })
+                ElMessage.success({ message: action[$eventData.data_value] })
                 break
             case "TargetUrl":
-                window.location.href = action[$eventData.value];
+                window.location.href = action[$eventData.data_value];
                 break
             case "RefreshTable":
                 elsPageStore.value.dataTables.forEach(item => {

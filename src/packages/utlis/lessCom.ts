@@ -166,7 +166,7 @@ const lessCom = {
         return time_str;
     },
     exportMuti(es, sheetNames, cellStyles: any = [], headerRowCounts: any = [1], headerCellStyle = {}, filename = "") {
-        exportTableToExcelElMuti(es, sheetNames, cellStyles, headerRowCounts, headerCellStyle = {}, filename = "")
+        exportTableToExcelElMuti(es, sheetNames, cellStyles, headerRowCounts, headerCellStyle, filename)
     },
 
     exportTable(el, cellStyles = [], headerRowCount = 0, headerCellStyle = {}, filename = "") {

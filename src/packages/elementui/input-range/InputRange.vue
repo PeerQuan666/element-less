@@ -2,7 +2,6 @@
 import { ref, watch, useAttrs } from 'vue'
 import '../../utlis/lessPrototype.js'
 import { RangeFormItemProps } from '../../utlis/interfaceCom'
-import { join } from 'path';
 import lessCom from '../../utlis/lessCom';
 const emits = defineEmits(['update:modelValue', 'update:start', 'update:end'])
 defineOptions({ name: 'ElsInputRange' })
@@ -23,13 +22,13 @@ const props = withDefaults(defineProps<Props>(), {
     valueSeparator: ',',
     queryRangeOrEqual: true,
     isNumber: true,
-    width: 100
+    width: '100'
 })
 
 const attrs = useAttrs()
-const currValue = ref([])
-const currStartValue = ref('')
-const currEndValue = ref('')
+const currValue = ref<any>([])
+const currStartValue = ref()
+const currEndValue = ref()
 
 
 watch(() => props.start, (val) => {

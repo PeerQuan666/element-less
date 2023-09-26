@@ -56,6 +56,7 @@ interface Props {
     headerStickyTop?: number | boolean,
     editStatus?: boolean,
     beforeTriggerContextMenu?: Function,
+    contextMenus?:Array<Record<string,any>>,
     hasContextMenu?: boolean
 
 
@@ -99,6 +100,7 @@ const sourceTableData: Array<Record<string, any>> = reactive([])
 let editSourceTableData: Array<Record<string, any>> = reactive([])
 
 let rowData: Record<string, any> = reactive({})
+let currContextMenus:Array<Record<string, any> >=reactive([])
 let contextMenuVisible = ref(false)
 let contextMenuPositionLeft = ref(0)
 let contextMenuPositionTop = ref(0)
@@ -113,7 +115,7 @@ let columnMergeData: Array<Record<string, any>> = reactive([])
 let columnSummaryData: Array<Record<string, any>> = reactive([])
 let isFirstReadData = ref(true)
 let tableCheckData = reactive<any>({ checkRows: [], checkRowKeys: [] })
-let provideData = reactive({ avgDay: 0, isLocaleString: false, isClientPage: false, isClientSearch: false, align: '', headerAlign: '', isExport: true })
+let provideData = reactive({ avgDay: 0, isLocaleString: false, isClientPage: false, isClientSearch: false, align: '', headerAlign: '', isExport: true,contextMenus:props.contextMenus })
 let tableBodyWidth = ref('')
 let scrollLeft = ref('')
 let isMobile = ref(false)
@@ -441,7 +443,7 @@ function setTableCurrentRow(id) {
         }
     }
 }
-function validTableForm(postData) {
+function validTableForm(postData:any=[]) {
     return new Promise((resolve) => {
         if (!columnEditData.length) {
             ElMessage.error("没有编辑的行");
@@ -517,7 +519,7 @@ function saveTableData(url, postData: any = []) {
                             ElMessage.success('保存成功')
                             compatibleReadData()
                         } else {
-                            lessCom.handleApiResult(res);
+                            elsApiResult(res);
                         }
                     }
                     resolve(res)
@@ -707,6 +709,13 @@ function handleRowContextMenu(row, column, event) {
     rowData = row
     if (props.beforeTriggerContextMenu) {
         props.beforeTriggerContextMenu(row)
+    }
+    currContextMenus.length=0;
+    if(props.contextMenus){
+        currContextMenus.push(...props.contextMenus)
+    }
+    if($menuField&& row[$menuField]){
+        currContextMenus.push(...row[$menuField])
     }
     contextMenuPositionLeft.value = currEvent.clientX
     contextMenuPositionTop.value = currEvent.clientY
@@ -1193,12 +1202,25 @@ function getExportFileName() {
 
 initData();
 const elsPageStore = inject<any>('elsPageStore')
+const elsApiResult = inject<any>('elsApiResult')
+
 const isQuery = computed(() => {
     return props.url || props.isClientSearch
 })
 onMounted(() => {
     if (elsPageStore) {
-        elsPageStore.value.dataTables.push({ tagID: tagID,tableName:props.tableName, initReadData: props.initReadData, isQuery: isQuery, isExport:props.isExport, query: query,table:dataTable,changePageReadData,setPageInfo,getPageInfo,exportTable,getTableSelectionWithQuery })
+        elsPageStore.value.dataTables.push({ tagID: tagID,tableName:props.tableName,
+             initReadData: props.initReadData, 
+             isQuery: isQuery, 
+             isExport:props.isExport,
+             saveTableData,
+              query: query,
+              table:dataTable,
+              changePageReadData,
+              setPageInfo,
+              getPageInfo,
+              exportTable,
+              getTableSelectionWithQuery })
        
     } else {
         if (props.initReadData && props.url) {
@@ -1337,7 +1359,7 @@ defineExpose({
                 v-if="!isMobile">导出</el-tag>
         </el-pagination>
     </div>
-    <els-menu-context ref="contentMenu" v-if="hasContextMenu && $menuField" :menus="rowData[$menuField]"
+    <els-menu-context ref="contentMenu" v-if="hasContextMenu" :menus="currContextMenus"
         :visible="contextMenuVisible" :positionLeft="contextMenuPositionLeft"
         :positionTop="contextMenuPositionTop"></els-menu-context>
 </template>

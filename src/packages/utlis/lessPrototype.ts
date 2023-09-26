@@ -131,8 +131,7 @@ String.prototype.replacePowerUrl = function replacePowerUrl() {
 String.prototype.addUrlParameter = function addUrlParameter(param, value) {
     if (this.toString().indexOf(param) > -1) {
         var oUrl = this.toString();
-        var re = eval('/(' + param + '=)([^&]*)/gi');
-        return oUrl.replace(re, param + '=' + value);
+        return oUrl.replace(new RegExp('/(' + param + '=)([^&]*)/gi'), param + '=' + value);
     } 
     let cSymbol = this.indexOf('?') > -1 ? '&' : '?'
     return `${this}${cSymbol}${param}=${value}`;

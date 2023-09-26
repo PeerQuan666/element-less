@@ -25,7 +25,7 @@ export default defineClientConfig({
         message:'ResultMessage',
         data:'Data',
         successCode:'0',
-        eventData:{data:'EventActionData',key:'Name',value:'value'}
+        eventData:{data:'EventActionData',data_key:'Name',data_value:'value'}
       },
       upload:{
         url:'http://manage.ybt2023.com/Home/TestUpload',
