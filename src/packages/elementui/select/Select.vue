@@ -45,7 +45,7 @@ const props = withDefaults(defineProps<Props>(), {
     isInitTriggerSelect: true,
     resetValueByChangeData: true,
     valueSeparator:',',
-    validationTrigger:'change',
+    validTrigger:'change',
     width:'220'
 })
 const slots=useSlots()

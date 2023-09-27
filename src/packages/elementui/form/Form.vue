@@ -136,7 +136,6 @@ defineExpose({
     validate,
     handleSubmitButton
 })
-
 </script>
 
 <template>

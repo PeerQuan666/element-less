@@ -217,6 +217,7 @@ const isEdit = computed(() => {
     return columnEditData.filter(ele => ele.isEdit).length > 0;
 
 })
+provide('tableData', tableData)
 provide('provideData', provideData)
 provide('rowKey', props.rowKey)
 provide('setEditData', setEditData)
@@ -327,14 +328,16 @@ function setDragSortable() {
         })
     }
 }
-function setEditData(field, isEdit) {
-    if (!field) { return; }
-    let currIndex = columnEditData.findIndex(ele => ele.fieldName == field)
-    if (currIndex > -1) {
-        columnEditData.splice(currIndex, 1)
-    }
-    columnEditData.push({ fieldName: field, isEdit: isEdit })
-    columnEditData = columnEditData.filter(ele => ele.isEdit)
+function setEditData(fields, isEdit) {
+    if (!fields) { return; }
+    fields.split(',').forEach(field=>{
+        let currIndex = columnEditData.findIndex(ele => ele.fieldName == field)
+        if (currIndex > -1) {
+            columnEditData.splice(currIndex, 1)
+        }
+        columnEditData.push({ fieldName: field, isEdit: isEdit })
+        columnEditData = columnEditData.filter(ele => ele.isEdit)
+    })
 }
 function setSortData(sortData) {
     if (!sortData) { return; }
@@ -549,11 +552,19 @@ function editTable() {
     emits("update:editStatus", true)
 }
 function unEditTable() {
-    tableData.forEach(ele => {
-        ele.edit = false
+    tableData.forEach((row,index) => {
+        let sourceRow = editSourceTableData.find(ele => ele[props.rowKey] == row[props.rowKey])
+        if (sourceRow) {
+            for (const key in sourceRow) {
+                if (tableData[index].hasOwnProperty(key)) {
+                    tableData[index][key] = sourceRow[key];
+                }
+            }
+            row.edit = false
+            sourceRow.edit = false
+        }
     })
     emits("update:editStatus", false)
-
 }
 function handleRowEdit(row, index) {
     if (isEdit) {
@@ -1203,6 +1214,7 @@ function getExportFileName() {
 initData();
 const elsPageStore = inject<any>('elsPageStore')
 const elsApiResult = inject<any>('elsApiResult')
+
 
 const isQuery = computed(() => {
     return props.url || props.isClientSearch

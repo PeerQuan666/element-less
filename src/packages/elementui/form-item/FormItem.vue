@@ -109,6 +109,7 @@ function initQuery() {
 const itemRules = computed<Array<Record<string, any>>>(() => {
     return initRules()
 })
+
 let defaultKey: any = props.prop
 let queryData: any = reactive({})
 if (formType == 'Query' && setQueryData) {
@@ -118,12 +119,16 @@ if (formType == 'Query' && setQueryData) {
     }
     defaultKey = queryData?.key
 }
+let defaultProp=defaultKey
+if(props.aIndex>-1){
+    defaultProp=`[${props.aIndex}]['${defaultKey}']`
+}
 let startKey: any = attrs['propStart']
 let endKey: any = attrs['propEnd']
 
 </script>
 <template>
-    <el-form-item ref="formItem" :label="label" :prop="defaultKey" :rules="itemRules">
+    <el-form-item ref="formItem" :label="label" :prop="defaultProp" :rules="itemRules">
         <template v-if="slots.label" #label>
             <slot name="label"></slot>
         </template>

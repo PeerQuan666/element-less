@@ -19,7 +19,8 @@ export interface FormItemProps{
     queryAroundComma?:boolean,
     queryRange?:boolean,
     queryRangeOrEqual?:boolean,
-    span?:number
+    span?:number,
+    aIndex?:number
 }
 
 export interface RangeFormItemProps extends FormItemProps{
@@ -107,7 +108,7 @@ export interface RadioProps extends FormItemProps {
     isInitTriggerSelect?: boolean,
     resetValueByChangeData?: boolean,
     valueType?: ValueType,
-    onChange?: Function
+    onChange?: Function,
 }
 export interface ColumnProps {
     prop?: string,
@@ -158,12 +159,13 @@ export interface ColumnProps {
     tipContent?: string,
     align?:string,
     headerAlign?:string,
-    require?:boolean,
-    requireMessage?:string,
-    validationExpression?:string,
-    validationMessage?:string,
-    validationMethod?:Function,
-    validationTrigger?:string,
+    required?:boolean,
+    requiredMessage?:string,
+    validType?:ValidType,
+    validExpression?:string,
+    validMessage?:string,
+    validMethod?:Function,
+    validTrigger?:string,
 }
 
 export interface QueryInfo{

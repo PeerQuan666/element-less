@@ -46,7 +46,7 @@ watch(() => props.sortable, (val) => {
 }, { immediate: true })
 
 watch(() => props.isEdit, (val) => {
-    if (setEditData) {
+    if (setEditData&&(props.editFields||props.prop)) {
         setEditData(props.editFields ?? props.prop, val)
     }
 }, { immediate: true })
@@ -67,6 +67,9 @@ watch(() => props.mergeRow, (val) => {
 }, { immediate: true })
 
 watch(() => props.summaryValue, (val) => {
+    if(!val){
+        return
+    }
     if (setSummaryData) {
         const isSummary = props.showSummary || (props.summaryValue !== undefined ? true : false) || (props.summaryMethod ? true : false)
 
@@ -81,6 +84,9 @@ watch(() => props.summaryValue, (val) => {
 }, { immediate: true })
 
 watch(() => props.showSummary, (val) => {
+    if(!val){
+        return
+    }
     if (setSummaryData) {
         const isSummary = val || (props.summaryValue !== undefined ? true : false) || (props.summaryMethod ? true : false)
         setSummaryData(props.prop, {
@@ -286,29 +292,14 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
                 </slot>
                 <slot name="formitem" :row="row" :column="column" :$index="$index">
                     <template v-if="slots.edit">
-                        <template v-for="vnode in slots.edit({ row: row })[0].children">
-                            <component :is="()=>vnode"
-                                v-if="!(vnode as any).type.name || (vnode as any).type.name === 'ElFormItem' || (vnode as any).type?.name === 'ElsFormItem' || !(vnode as any).type.props || !(vnode as any).type.props.hasFormItem || (vnode as any).props && (vnode as any).props['hasFormItem'] === false">
-                            </component>
-                            <ElsFormItem :prop="`[${$index}]['${prop}']`" :key="`[${$index}]['${prop}']`"
-                                :validationTrigger="(vnode as any).type.props.validationTrigger?.default" :require="require"
-                                :requireMessage="requireMessage" :validationMessage="validationMessage"
-                                :validationExpression="validationExpression" :validationMethod="validationMethod"
-                                v-bind="(vnode as any).props ?? {}" v-else>
-
-                                <template #default>
-                                    <component :is="vnode" v-if="(vnode as any).props?.hasOwnProperty('modelValue')">
-                                    </component>
-                                    <component :is="vnode" v-else-if="row" v-model="row[prop]"></component>
-                                    <component :is="vnode" v-else></component>
-                                </template>
-                            </ElsFormItem>
+                        <template v-for="vnode in slots.edit({ row: row })[0].children" :key="`[${$index}]['${prop}']`">
+                            <ElsFormNode :vnode="vnode"   :prop="prop" :index="$index" ></ElsFormNode>
                         </template>
                     </template>
                     <els-form-item v-else :prop="`[${$index}]['${prop}']`" :key="`[${$index}]['${prop}']`"
-                        :require="require" :requireMessage="requireMessage" :validationMessage="validationMessage"
-                        :validationExpression="validationExpression" :validationMethod="validationMethod"
-                        :validationTrigger="validationTrigger">
+                        :required="required" :requiredMessage="requiredMessage" :validMessage="validMessage"
+                        :validExpression="validExpression" :validMethod="validMethod"
+                        :validTrigger="validTrigger">
                         <el-input :name="prop" clearable :placeholder="'请输入' + attrs['label']"
                             v-model="row[prop]"></el-input>
                     </els-form-item>

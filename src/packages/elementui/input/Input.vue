@@ -16,7 +16,7 @@ interface Props extends FormItemProps {
 const props = withDefaults(defineProps<Props>(), {
     encode: false,
     encodeType: 'url',
-    validationTrigger:'blur',
+    validTrigger:'blur',
 })
 const emits = defineEmits(['update:modelValue'])
 const currWidth=ref(props.width??'')
