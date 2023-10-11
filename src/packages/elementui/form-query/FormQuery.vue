@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watch, useAttrs, computed, nextTick, inject, provide, onBeforeUnmount, onMounted, useSlots } from 'vue'
+import { ref, reactive, watch, useAttrs, computed, nextTick, inject, provide, onBeforeUnmount, onMounted } from 'vue'
 import lessCom from '../../utlis/lessCom.js'
 import lodash from 'lodash';
 import { ElForm } from 'element-plus'
@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<Props>(), {
     parameterType: 'Query',
 
 })
-const slots = useSlots()
+
 const queryForm = ref()
 const submitButton = ref()
 const tagID = 'els-form' + lessCom.Guid32();
@@ -46,7 +46,10 @@ provide('labelWidth', attrs['label-width'])
 provide('formType', 'Query')
 provide('queryTableRef', props.tableRef)
 provide('formData', formData)
+provide('setModelValue',setModelValue)
+provide('getModelValue',getModelValue)
 
+provide('container', 'form')
 watch(formData, (val) => {
     emits("update:modelValue", val)
 })
@@ -214,6 +217,47 @@ function validateField(fields) {
 function handleSubmitButton() {
     submitButton.value.$el.trigger("click")
 }
+
+
+function getModelValue(key, aIndex = -1) {
+    if (!key) {
+        return
+    }
+    if (aIndex > -1) {
+        if (key.includes('.')) {
+            return new Function('formData', `return formData[${aIndex}].${key};`);
+        } else {
+            return formData[aIndex][key]
+        }
+
+    }
+    if (key.includes('.')) {
+        return new Function('formData', `return formData.${key};`);
+    } else {
+        return formData[key]
+    }
+}
+
+function setModelValue(key, value, aIndex = -1) {
+    if (!key) {
+        return
+    }
+    if (aIndex > -1) {
+        if (key.includes('.')) {
+            new Function('formData,value', `formData[${aIndex}].${key}=value;`);
+        } else {
+            formData[aIndex][key] = value
+        }
+    }
+    if (key.includes('.')) {
+        new Function('formData,value', `formData.${key}=value;`);
+    } else {
+        formData[key] = value
+    }
+}
+
+
+
 defineExpose({
     recoverQueryState,
     cacheQueryState,
@@ -228,12 +272,7 @@ defineExpose({
 
 <template>
     <el-form :model="formData" class="queryForm" ref="queryForm" onsubmit="return false;" inline :show-message="false">
-        <slot v-if="false"></slot>
-        <slot name="query" v-if="slots.default">
-            <template v-for="vnode in slots.default()">
-                <ElsFormNode :vnode="vnode"></ElsFormNode>
-            </template>
-        </slot>
+        <slot></slot>
     </el-form>
 </template>
 <style lang="less" scoped>

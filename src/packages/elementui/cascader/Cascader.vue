@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watch, useAttrs } from 'vue'
+import { ref, reactive, watch, useAttrs, inject, watchEffect } from 'vue'
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
@@ -49,20 +49,29 @@ const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig
 
 const initSelect = ref(false)
 const componentName = ref('el-cascader')
-if(props.isPanel){
-    componentName.value="el-cascader-panel"
+if (props.isPanel) {
+    componentName.value = "el-cascader-panel"
 }
 const dataProps = ref<any>({})
 const tableData = reactive<Array<Record<string, any>>>([])
 const optionData = reactive<Array<Record<string, any>>>([])
 const selectValue = ref<any>([])
+const getModelValue = inject<Function>('getModelValue', () => null)
+function initModelValue() {
+    if (!props.modelValue && getModelValue && props.prop) {
+        return getModelValue(props.prop,props.aIndex)
+    }
+    return props.modelValue
+}
 watch(selectValue, (val: any) => {
     handleReturnResult(val);
 })
 
-watch(() => props.modelValue, () => {
-    initSelectValue();
+watchEffect(() => {
+    initModelValue()
+    initSelectValue()
 })
+
 watch(() => props.url, () => {
     if (props.resetValueByChangeData) {
         selectValue.value.length = 0
@@ -82,54 +91,56 @@ watch(() => props.data, (val: any) => {
 
 const attrs = useAttrs()
 const emits = defineEmits(['update:modelValue', 'update:select', 'update:select-label'])
+const setModelValue = inject<Function>('setModelValue', () => { })
 
 function initSelectValue() {
-    if (props.modelValue === '' || props.modelValue === undefined) {
+    const currValue = initModelValue()
+    if (currValue === '' || currValue === undefined) {
         return
     }
     if (props.multiple && props.emitPath) {
-        if (props.modelValue && props.emitPath) {
+        if (currValue && props.emitPath) {
             selectValue.value.length = 0;
-            selectValue.value.push(...props.modelValue.split(props.pathSeparator).map(ele => ele.split(',')))
-        } else if (props.modelValue) {
+            selectValue.value.push(...currValue.split(props.pathSeparator).map(ele => ele.split(',')))
+        } else if (currValue) {
             selectValue.value.length = 0;
-            selectValue.value.push(...props.modelValue.split(props.pathSeparator))
+            selectValue.value.push(...currValue.split(props.pathSeparator))
         } else {
             selectValue.value.length = 0;
         }
         selectValue.value.length = 0;
         if (props.valueType === ValueType.Number) {
-            selectValue.value.push(...props.modelValue.toString().split(props.pathSeparator).map(ele => ele.toListNumber(props.valueSeparator)))
+            selectValue.value.push(...currValue.toString().split(props.pathSeparator).map(ele => ele.toListNumber(props.valueSeparator)))
         } else if (props.valueType === ValueType.String) {
-            selectValue.value.push(...props.modelValue.toString().split(props.pathSeparator).map(ele => ele.toList(props.valueSeparator)))
+            selectValue.value.push(...currValue.toString().split(props.pathSeparator).map(ele => ele.toList(props.valueSeparator)))
         } else if (optionData.length && typeof (optionData[0][props.valueField]) === "number") {
-            selectValue.value.push(...props.modelValue.toString().split(props.pathSeparator).map(ele => ele.toListNumber(props.valueSeparator)))
-        } else if (props.modelValue) {
-            selectValue.value.push(...props.modelValue.toString().split(props.pathSeparator).map(ele => ele.toList(props.valueSeparator)))
+            selectValue.value.push(...currValue.toString().split(props.pathSeparator).map(ele => ele.toListNumber(props.valueSeparator)))
+        } else if (currValue) {
+            selectValue.value.push(...currValue.toString().split(props.pathSeparator).map(ele => ele.toList(props.valueSeparator)))
         }
     } else if (props.multiple || props.emitPath) {
         selectValue.value.length = 0;
         if (props.valueType === ValueType.Number) {
-            selectValue.value.push(...props.modelValue.toString().toListNumber(props.valueSeparator))
+            selectValue.value.push(...currValue.toString().toListNumber(props.valueSeparator))
         } else if (props.valueType === ValueType.String) {
-            selectValue.value.push(...props.modelValue.toString().toList(props.valueSeparator))
+            selectValue.value.push(...currValue.toString().toList(props.valueSeparator))
         } else if (optionData.length && typeof (optionData[0][props.valueField]) === "number") {
-            selectValue.value.push(...props.modelValue.toString().toListNumber(props.valueSeparator))
-        } else if (props.modelValue) {
-            selectValue.value.push(...props.modelValue.toString().toList(props.valueSeparator))
+            selectValue.value.push(...currValue.toString().toListNumber(props.valueSeparator))
+        } else if (currValue) {
+            selectValue.value.push(...currValue.toString().toList(props.valueSeparator))
         }
 
     } else {
         if (props.valueType === ValueType.Number) {
-            selectValue.value = parseFloat(props.modelValue.toString());
+            selectValue.value = parseFloat(currValue.toString());
         }
         else if (props.valueType === ValueType.String) {
-            selectValue.value = props.modelValue.toString();
+            selectValue.value = currValue.toString();
         }
-        else if (optionData.length && props.modelValue.toString().length < 12 && typeof (optionData[0][props.valueField]) === "number") {
-            selectValue.value = parseFloat(props.modelValue.toString());
+        else if (optionData.length && currValue.toString().length < 12 && typeof (optionData[0][props.valueField]) === "number") {
+            selectValue.value = parseFloat(currValue.toString());
         } else {
-            selectValue.value = props.modelValue;
+            selectValue.value = currValue;
         }
     }
 
@@ -175,12 +186,17 @@ function searchChildData(item) {
         item[props.childrenField].push(currOption)
     })
 }
+function handleReturnModelValue(value) {
+    emits('update:modelValue', value);
+    if (setModelValue && props.prop) {
+        setModelValue(props.prop, value,props.aIndex)
+    }
+}
 function handleReturnResult(value) {
     if (value === undefined) { value = ''; }
 
     if (!value || value.length == 0) {
-        emits('update:modelValue', "");
-
+        handleReturnModelValue("")
         if (initSelect.value) {
             emits('update:select', {})
             emits('update:select-label', '')
@@ -194,7 +210,8 @@ function handleReturnResult(value) {
 
     if (props.multiple && props.emitPath) {
         const currValue = value.map(ele => ele.join(props.valueSeparator)).join(props.pathSeparator)
-        emits('update:modelValue', currValue);
+        handleReturnModelValue(currValue)
+
         if (initSelect && tableData.length) {
             let selectData = value.map(ele => tableData.filter(cele => ele.includes(cele[props.valueField])))
             emits('update:select', selectData)
@@ -211,7 +228,7 @@ function handleReturnResult(value) {
     }
 
     if (props.emitPath || props.multiple) {
-        emits('update:modelValue', value.join(props.valueSeparator));
+        handleReturnModelValue(value.join(props.valueSeparator))
 
         if (initSelect.value && tableData.length) {
             let selectData = tableData.filter(cele => value.indexOf(cele[props.valueField]) > -1)
@@ -226,8 +243,8 @@ function handleReturnResult(value) {
         }
         return
     }
+    handleReturnModelValue(value)
 
-    emits('update:modelValue', value);
     if (initSelect.value && tableData.length) {
         let selectData = tableData.find(cele => value == cele[props.valueField])
         if (selectData) {
@@ -268,16 +285,18 @@ if (attrs['props']) {
 </script>
 
 <template>
-    <component :is="componentName" :props="dataProps" v-model="selectValue" :options="optionData" v-bind="attrs">
-        <template #default="{ node, data }">
-            <slot name="default" :node="node" :data="data">
-                {{ data[labelField] }}
-            </slot>
-        </template>
-        <template #empty>
-            <slot name="empty">
-            </slot>
-        </template>
-    </component>
+    <ElsFormNode v-bind="props">
+        <component :is="componentName" :props="dataProps" v-model="selectValue" :options="optionData">
+            <template #default="{ node, data }">
+                <slot name="default" :node="node" :data="data">
+                    {{ data[labelField] }}
+                </slot>
+            </template>
+            <template #empty>
+                <slot name="empty">
+                </slot>
+            </template>
+        </component>
+    </ElsFormNode>
 </template>
 

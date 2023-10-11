@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ValueType } from '../../utlis/enumCom'
-import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick } from 'vue'
+import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick,inject,watchEffect } from 'vue'
 import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
-import {CheckboxProps} from '../../utlis/interfaceCom'
+import { CheckboxProps } from '../../utlis/interfaceCom'
 defineOptions({ name: 'ElsCheckbox' })
 const props = withDefaults(defineProps<CheckboxProps>(), {
     labelField: 'label',
@@ -16,7 +16,9 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
 })
 const attrs = useAttrs()
 const emits = defineEmits(['update:modelValue', 'update:select', 'update:select-label', 'change', 'click-option', 'select', 'blur', 'clear', 'readdataed'])
-const {$codeField,$messageField,$dataField,$success}=lessCom.getApiConfig()
+const setModelValue=inject<Function>('setModelValue',()=>null)
+
+const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig()
 let initSelect = ref(false)
 const preSelectValue = ref([])
 const selectItem = ref()
@@ -36,6 +38,13 @@ const queryData = reactive({ searchKey: '', idString: '' })
 const optionData = computed<Array<Record<string, any>>>(() => {
     return options.concat(extraOption).concat(noExistOption);
 })
+const getModelValue=inject<Function>('getModelValue',()=>null)
+function initModelValue(){
+    if(!props.modelValue&&getModelValue&&props.prop){
+      return  getModelValue(props.prop,props.aIndex)
+    }
+    return props.modelValue
+}
 const checkboxClass: string[] = reactive([])
 const checkboxStyle: any = reactive([]);
 provide('type', props.type)
@@ -100,11 +109,12 @@ watch(() => props.data, (val, oldVal) => {
 
     }
 })
-watch(() => props.modelValue, () => {
-    initSelectValue();
-    initNoExistData()
+watchEffect(()=>{
+   initModelValue()
+   initSelectValue()
 })
 watch(selectValue, (val) => {
+    initNoExistData()
     handleReturnResult(val);
     checkAllStatus();
 })
@@ -176,7 +186,7 @@ function handleCheckAllChange(val) {
 }
 function initSelectValue() {
     let currValueType = props.valueType;
-    let currModelValue = props.modelValue
+    let currModelValue = initModelValue()
     if (typeof (currModelValue) == "string") {
         currModelValue = currModelValue.replace(/^,+/, "").replace(/,+$/, "");
     }
@@ -269,12 +279,18 @@ function handleComitSelect(value) {
 function handleClickOption(item) {
     emits("click-option", item)
 }
+function handleReturnModelValue(value){
+    emits('update:modelValue', value);
+    if(setModelValue&&props.prop){
+        setModelValue(props.prop,value,props.aIndex)
+    }
+}
 function handleReturnResult(value) {
     if (value === undefined) { value = ''; }
     if (multiple.value) {
-        emits('update:modelValue', value.toString())
+        handleReturnModelValue(value.toString())
     } else {
-        emits('update:modelValue', value)
+        handleReturnModelValue(value)
     }
     if (initSelect) {
         if (value) {
@@ -316,48 +332,50 @@ onMounted(() => {
 </script>
 
 <template>
-    <div :class="checkboxClass" :style="checkboxStyle">
-        <div style="margin-bottom: 15px;text-align:left;" v-if="showCheckall || filterable">
-            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" v-if="showCheckall"
-                @change="handleCheckAllChange">全选</el-checkbox>
-            <el-checkbox v-model="checkInverse" v-if="showInverse" @change="handleInverseChange">反选</el-checkbox>
-            <el-input style="width:200px;" :style="showCheckall ? 'margin-left:15px;' : ''" suffix-icon="Search"
-                v-if="filterable" placeholder="输入关键字进行过滤" v-model="filterText" clearable>
-            </el-input>
-        </div>
-        <el-checkbox v-if="!url && (!data || !data.length) && !optionData.length" ref="els-checkbox"
-            v-model="singleSelectValue" v-bind="attrs">
-            <slot name="default"></slot>
-        </el-checkbox>
-        <el-checkbox-group v-else v-model="selectValue" ref="els-checkbox-group" v-bind="attrs">
-            <slot name="extra"></slot>
-            <el-empty v-if="filterText&&!optionData.length"></el-empty>
-            <template v-else-if="(url || data && data.length > 0 || options.length) && !groupField">
-                <els-option v-for="(item, index) in options" :key="index" :value="item[valueField]"
-                    :disabled="item[disabledField] === true" @click.native="handleClickOption(item)">
-                    <slot name="default" :item="item">
-                        {{ item[labelField] }}
-                    </slot>
-                </els-option>
-            </template>
-            <template v-else-if="(url || (data && data.length > 0)) && groupField">
-                <template v-for="gitem in lessCom.dtGroupBy(options, groupField)">
-                    <els-option-group :label="gitem.key ?? '未分组'">
-                        <els-option v-for="(item, index) in gitem.value" :key="index" :value="item[valueField]"
-                            :disabled="item[disabledField] === true" @click.native="handleClickOption(item)">
-                            <slot name="default" :item="item">
-                                {{ item[labelField] }}
-                            </slot>
-                        </els-option>
-                    </els-option-group>
+    <ElsFormNode v-bind="props">
+        <div :class="checkboxClass" :style="checkboxStyle">
+            <div style="margin-bottom: 15px;text-align:left;" v-if="showCheckall || filterable">
+                <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" v-if="showCheckall"
+                    @change="handleCheckAllChange">全选</el-checkbox>
+                <el-checkbox v-model="checkInverse" v-if="showInverse" @change="handleInverseChange">反选</el-checkbox>
+                <el-input style="width:200px;" :style="showCheckall ? 'margin-left:15px;' : ''" suffix-icon="Search"
+                    v-if="filterable" placeholder="输入关键字进行过滤" v-model="filterText" clearable>
+                </el-input>
+            </div>
+            <el-checkbox v-if="!url && (!data || !data.length) && !optionData.length" ref="els-checkbox"
+                v-model="singleSelectValue" v-bind="attrs">
+                <slot name="default"></slot>
+            </el-checkbox>
+            <el-checkbox-group v-else v-model="selectValue" ref="els-checkbox-group" v-bind="attrs">
+                <slot name="extra"></slot>
+                <el-empty v-if="filterText && !optionData.length"></el-empty>
+                <template v-else-if="(url || data && data.length > 0 || options.length) && !groupField">
+                    <els-option v-for="(item, index) in options" :key="index" :value="item[valueField]"
+                        :disabled="item[disabledField] === true" @click.native="handleClickOption(item)">
+                        <slot name="default" :item="item">
+                            {{ item[labelField] }}
+                        </slot>
+                    </els-option>
                 </template>
-            </template>
-            <slot name="default" v-else>
-            </slot>
-            <els-option v-for="item in noExistOption" :key="item[valueField]" :value="item[valueField]"
-                @click="handleClickOption(item)">{{ item[labelField] }}</els-option>
-        </el-checkbox-group>
-    </div>
+                <template v-else-if="(url || (data && data.length > 0)) && groupField">
+                    <template v-for="gitem in lessCom.dtGroupBy(options, groupField)">
+                        <els-option-group :label="gitem.key ?? '未分组'">
+                            <els-option v-for="(item, index) in gitem.value" :key="index" :value="item[valueField]"
+                                :disabled="item[disabledField] === true" @click.native="handleClickOption(item)">
+                                <slot name="default" :item="item">
+                                    {{ item[labelField] }}
+                                </slot>
+                            </els-option>
+                        </els-option-group>
+                    </template>
+                </template>
+                <slot name="default" v-else>
+                </slot>
+                <els-option v-for="item in noExistOption" :key="item[valueField]" :value="item[valueField]"
+                    @click="handleClickOption(item)">{{ item[labelField] }}</els-option>
+            </el-checkbox-group>
+        </div>
+    </ElsFormNode>
 </template>
 
 

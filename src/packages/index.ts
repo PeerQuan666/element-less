@@ -31,9 +31,11 @@ import ElsColumnSelect from './elementui/table-column-select'
 
 import ElsTreeSelect from './elementui/tree-select'
 import ElsTree from './elementui/tree'
+
 import ElsMenu from './elementui/menu'
 import ElsMenuItem from './elementui/menu-item'
 import ElsSubMenu from './elementui/menu-sub'
+import ElsSwitch from './elementui/switch'
 
 
 import ElsImage from './elementui/image'
@@ -41,6 +43,10 @@ import ElsImageViewer from './elementui/image-viewer'
 import ElsMenuContext from './custom/menu-context'
 import ElsMenuDropdown from './custom/menu-dropdown'
 import ElsMenuTool from './custom/menu-tool'
+import ElsMdEditor from './custom/mdEditor'
+import ElsMdPreview from './custom/mdPreview'
+import ElsUEditor from './custom/uEditor'
+import ElsAceEditor from './custom/aceEditor'
 
 import ElsCaption from './custom/caption'
 import ElsAutocomplete from './elementui/autocomplete'
@@ -49,6 +55,8 @@ import ElsCascaderPanel from './elementui/cascader-panel'
 import ElsDialog from './elementui/dialog'
 import ElsDrawer from './elementui/drawer'
 import ElsDropdown from './elementui/dropdown'
+import ElsSlider from './elementui/slider'
+import ElsInputNumber from './elementui/input-number'
 
 import ElsUpload from './elementui/upload'
 import ElsTimePicker from './elementui/time-picker'
@@ -64,6 +72,9 @@ import ElsButtonExport from './custom/button-export'
 import ElsList from './custom/list'
 import ElsTip from './custom/tip'
 import ElsFormNode from './custom/form-node'
+
+import ElsDynamicDesigner from './custom/dynamicDesigner'
+import ElsDynamicRender from './custom/dynamicRender'
 
 import ElsContainer from './custom/container/Container.vue'
 const components =[
@@ -107,7 +118,16 @@ const components =[
     ElsFormNode,
     ElsTextarea,
     ElsDrawer,
-    ElsDropdown
+    ElsDropdown,
+    ElsMdEditor,
+    ElsMdPreview,
+    ElsUEditor,
+    ElsAceEditor,
+    ElsSlider,
+    ElsDynamicDesigner,
+    ElsSwitch,
+    ElsDynamicRender,
+    ElsInputNumber
 
 ]
 

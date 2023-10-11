@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import './style.css'
 import 'element-plus/dist/index.css'
+import VueUeditorWrap from "vue-ueditor-wrap"
 import App from './App.vue'
 import ElementPlus from 'element-plus'
 import store from './packages/store'
@@ -20,6 +21,7 @@ app.config.globalProperties.$lessConfig = {
         
     }
 }
+app.use(VueUeditorWrap)
 app.use(router)
 app.use(ElementPlus)
 app.use(store)

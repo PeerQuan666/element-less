@@ -45,9 +45,9 @@ if (proxy && proxy.$lessConfig?.menu) {
     groupFieldname = proxy.$lessConfig.menu.group
 }
 
-const elsMenuCommand = inject<Function>('elsMenuCommand')
-const elsSaveTable = inject<Function>('elsSaveTable')
-const elsApiResult = inject<Function>('elsApiResult')
+const elsMenuCommand = inject<Function>('elsMenuCommand',()=>null)
+const elsSaveTable = inject<Function>('elsSaveTable',()=>null)
+const elsApiResult = inject<Function>('elsApiResult',()=>null)
 
 const saveDataLoading = ref(false)
 const isTableEdit = ref(false)

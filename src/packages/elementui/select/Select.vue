@@ -2,14 +2,14 @@
     
 <script lang="ts" setup>
 
-import { ref, reactive, watch, useAttrs, computed, nextTick, provide,useSlots } from 'vue'
+import { ref, reactive, watch, useAttrs, computed, nextTick, provide, useSlots, inject,watchEffect } from 'vue'
 import { ElMessage } from 'element-plus';
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom.js'
-import  {ValueType} from '../../utlis/enumCom'
-import  {FormItemProps} from '../../utlis/interfaceCom'
+import { ValueType } from '../../utlis/enumCom'
+import { FormItemProps } from '../../utlis/interfaceCom'
 defineOptions({
-  name: 'ElsSelect',
+    name: 'ElsSelect',
 })
 
 interface Props extends FormItemProps {
@@ -29,13 +29,13 @@ interface Props extends FormItemProps {
     resetValueByChangeData?: boolean,
     valueType?: ValueType,
     loading?: boolean,
-    width?: string|number,
+    width?: string | number,
     onChange?: Function,
     valueSeparator?: string,
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    valueType:ValueType.Auto,
+    valueType: ValueType.Auto,
     labelField: 'label',
     valueField: 'value',
     disabledField: 'disabled',
@@ -44,22 +44,22 @@ const props = withDefaults(defineProps<Props>(), {
     hasNoExistOption: true,
     isInitTriggerSelect: true,
     resetValueByChangeData: true,
-    valueSeparator:',',
-    validTrigger:'change',
-    width:'220'
+    valueSeparator: ',',
+    validTrigger: 'change',
 })
-const slots=useSlots()
-const attrs:Record<string,any> = useAttrs()
+const slots = useSlots()
+const attrs: Record<string, any> = useAttrs()
 const emits = defineEmits(['update:modelValue', 'update:select', 'update:select-label', 'change', 'click-option', 'select', 'blur', 'clear', 'readdataed'])
-const {$codeField,$messageField,$dataField,$success}=lessCom.getApiConfig()
+const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig()
 const initSelect = ref(false)
 const preSelectValue = ref<any>('')
 const currLoading = ref(false)
 const selectValue = ref<any>('')
-const multiple=attrs['multiple']!==undefined&&attrs['multiple']!==false;
-if(multiple){
-    selectValue.value=[]
+const multiple = attrs['multiple'] !== undefined && attrs['multiple'] !== false;
+if (multiple) {
+    selectValue.value = []
 }
+
 const selectItem = ref<any>()
 const selectLabel = ref('')
 const options: Array<Record<string, any>> = reactive([])
@@ -67,7 +67,22 @@ const noExistOption: Array<Record<string, any>> = reactive([])
 const extraOption: Array<Record<string, any>> = reactive([])
 const defaultSlotData: Array<Record<string, any>> = reactive([])
 const queryData = reactive({ searchKey: '', idString: '' })
+const formInputWidth = inject<string>('inputWidth') ?? ''
+const currWidth = ref(props.width ?? '')
+if (!currWidth.value) {
+    if (formInputWidth) {
+        currWidth.value = formInputWidth
+    } 
 
+}
+const getModelValue=inject<Function>('getModelValue',()=>null)
+
+function initModelValue(){
+    if(!props.modelValue&&getModelValue&&props.prop){
+      return  getModelValue(props.prop,props.aIndex)
+    }
+    return props.modelValue
+}
 
 const optionData = computed<Array<Record<string, any>>>(() => {
     return options.concat(extraOption).concat(noExistOption);
@@ -87,7 +102,7 @@ watch(() => props.url, () => {
 })
 watch(() => props.data, (val, oldVal) => {
     if (val === undefined && oldVal === undefined) { return; }
-    if (val != oldVal && JSON.stringify(val) != JSON.stringify(oldVal)&&val) {
+    if (val != oldVal && JSON.stringify(val) != JSON.stringify(oldVal) && val) {
         if (props.resetValueByChangeData) {
             if (multiple) {
                 selectValue.value = [];
@@ -101,13 +116,18 @@ watch(() => props.data, (val, oldVal) => {
         initSelectIndex();
     }
 })
-watch(() => props.modelValue, () => {
-    initSelectValue();
+watchEffect(()=>{
+   initModelValue()
+   initSelectValue()
+})
+
+watch(selectValue, () => {
     initNoExistData();
 })
-watch(selectValue, (val:any) => {
-    if(multiple){
-        handleReturnResult((val as Array<string|number>).join(props.valueSeparator));
+
+watch(selectValue, (val: any) => {
+    if (multiple) {
+        handleReturnResult((val as Array<string | number>).join(props.valueSeparator));
         return
     }
     handleReturnResult(val);
@@ -121,36 +141,38 @@ function initSelectValue() {
     if (attrs["allow-create"]) {
         currValueType = ValueType.String
     }
-    if (props.modelValue === '' || props.modelValue === undefined) {
+    const currModelValue=initModelValue()
+    if (currModelValue === '' ||currModelValue=== undefined) {
         return
     }
     if (multiple) {
         if (currValueType === ValueType.Number) {
-            selectValue.value  = props.modelValue.toString().toListNumber(props.valueSeparator)
+            selectValue.value = currModelValue.toString().toListNumber(props.valueSeparator)
         } else if (currValueType === ValueType.String) {
-            selectValue.value  = props.modelValue.toString().toList(props.valueSeparator)
+            selectValue.value = currModelValue.toString().toList(props.valueSeparator)
         } else if (optionData.value.length && typeof (optionData.value[0][props.valueField]) === "number") {
-            selectValue.value  = props.modelValue.toString().toListNumber(props.valueSeparator)
-        } else if (props.modelValue) {
-            selectValue.value  = props.modelValue.toString().toList(props.valueSeparator)
+            selectValue.value = currModelValue.toString().toListNumber(props.valueSeparator)
+        } else if (currModelValue) {
+            selectValue.value = currModelValue.toString().toList(props.valueSeparator)
         }
-    }else{
+    } else {
         if (currValueType === ValueType.Number) {
-            selectValue.value  = parseFloat(props.modelValue.toString());
+            selectValue.value = parseFloat(currModelValue.toString());
         }
         else if (currValueType === ValueType.String) {
-            selectValue.value  = props.modelValue.toString();
+            selectValue.value = currModelValue.toString();
         }
-        else if (optionData.value.length && props.modelValue.toString().length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
-            selectValue.value  = parseFloat(props.modelValue.toString());
+        else if (optionData.value.length && currModelValue.toString().length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
+            selectValue.value = parseFloat(currModelValue.toString());
         } else {
-            selectValue.value  = props.modelValue;
+            selectValue.value = currModelValue;
         }
     }
 }
 
 function initSelectIndex() {
-    if (props.selectIndex > -1 && !props.modelValue) {
+    const currModelValue=initModelValue()
+    if (props.selectIndex > -1 && !currModelValue) {
         if (optionData.value.length) {
             selectValue.value = optionData.value[props.selectIndex][props.valueField];
             if (multiple) {
@@ -216,7 +238,7 @@ function initNoExistData() {
     })
 
 }
-function handleComitSelect(value: string | number|boolean) {
+function handleComitSelect(value: string | number | boolean) {
     try {
         if ((value || value === 0) && optionData.value.length) {
             let currOptions = optionData.value;
@@ -252,7 +274,7 @@ function handleClear() {
 
 }
 function handleSearch(searchValue: string) {
-    if (attrs['remote']===undefined|| attrs['remote']===false) {
+    if (attrs['remote'] === undefined || attrs['remote'] === false) {
         return;
     }
     queryData['idString'] = selectValue.value?.toString();
@@ -262,7 +284,7 @@ function handleSearch(searchValue: string) {
 
 function readData() {
     currLoading.value = true;
-    let currUrl = props.url?.replacePowerUrl()??'';
+    let currUrl = props.url?.replacePowerUrl() ?? '';
 
     return new Promise((resolve, reject) => {
         currUrl.post(queryData).then(res => {
@@ -290,16 +312,24 @@ function handleClickOption(item: any) {
     emits("click-option", item)
 }
 
+const setModelValue=inject<Function>('setModelValue',()=>null)
+function handleReturnModelValue(value){
+    emits('update:modelValue', value);
+    if(setModelValue&&props.prop){
+        setModelValue(props.prop,value,props.aIndex)
+    }
+}
 
-function handleReturnResult(value: number|string|boolean) {
+
+function handleReturnResult(value: number | string | boolean) {
     if (value === undefined) { value = ''; }
-    emits('update:modelValue', value)
+    handleReturnModelValue(value)
     if (initSelect) {
         if (value || value === 0) {
             if (props.valueField && props.labelField) {
                 if (multiple) {
                     emits('update:select', optionData.value.filter(ele => (value as string).indexOf(ele[props.valueField]) > -1))
-                    emits('update:select-label', optionData.value.filter(ele =>  (value as string).indexOf(ele[props.valueField]) > -1).map(ele => ele[props.labelField]).toString())
+                    emits('update:select-label', optionData.value.filter(ele => (value as string).indexOf(ele[props.valueField]) > -1).map(ele => ele[props.labelField]).toString())
 
                 } else {
                     let currOption = optionData.value.find(ele => value == ele[props.valueField]);
@@ -321,8 +351,8 @@ function handleReturnResult(value: number|string|boolean) {
 }
 
 
-if ((attrs["remote"]===true||attrs["remote"]==='') && props.url) {
-    if(props.modelValue){
+if ((attrs["remote"] === true || attrs["remote"] === '') && props.url) {
+    if (props.modelValue) {
         queryData['idString'] = props.modelValue.toString();
     }
 }
@@ -331,7 +361,7 @@ if (props.url) {
     readData()
 } else {
     options.length = 0
-    if(props.data){
+    if (props.data) {
         options.push(...props.data)
     }
     initSelectValue()
@@ -341,61 +371,67 @@ if (props.url) {
 
 </script>
 <template>
-    <el-select v-model="selectValue" :remote-method="handleSearch" :style="{width:props.width?.appendPx()}" :loading="currLoading" remote-show-suffix
-        @blur="handleBlur" @clear="handleClear">
-        <slot name="extra">
-        </slot>
-        <template v-if="(url || data&&data.length > 0 || options.length) && !groupField && !defaultSlotData.length">
-            <el-option @click="handleClickOption(item)" v-for="item in options" :disabled="item[disabledField] === true"
-                :key="item[valueField]" :label="item[labelField]" :value="item[valueField]">
-                <i class="check" v-if="multiple"></i>
-                <slot name="default" :item="item">
-                    {{ item[labelField] }}
-                </slot>
-            </el-option>
-        </template>
-        <template v-else-if="(url || data&&data.length > 0 || options.length) && groupField && !defaultSlotData.length">
-            <el-option-group v-for="group in lessCom.dtGroupBy(options, groupField)" :key="group.key" :label="group.key">
-                <el-option @click="handleClickOption(item)" v-for="item in group.value" :key="item[valueField]"
-                    :label="item[labelField]" :value="item[valueField]">
+    <ElsFormNode v-bind="props">
+        <el-select v-model="selectValue"  :remote-method="handleSearch" :style="{ width: currWidth?.appendPx() }"
+            :loading="currLoading" remote-show-suffix @blur="handleBlur" @clear="handleClear" v-bind="attrs">
+            <slot name="extra">
+            </slot>
+            <template v-if="(url || data && data.length > 0 || options.length) && !groupField && !defaultSlotData.length">
+                <el-option @click="handleClickOption(item)" v-for="item in options" :disabled="item[disabledField] === true"
+                    :key="item[valueField]" :label="item[labelField]" :value="item[valueField]">
                     <i class="check" v-if="multiple"></i>
                     <slot name="default" :item="item">
                         {{ item[labelField] }}
                     </slot>
                 </el-option>
-            </el-option-group>
-        </template>
-        <slot name="default" v-else>
-        </slot>
-        <el-option @click="handleClickOption(item)" v-for="item in noExistOption" :key="item[valueField]"
-            :label="item[labelField]" :value="item[valueField]">
-            <i class="check" v-if="attrs.multiple"></i>
-            {{ item[labelField] }}
-        </el-option>
-        <template #empty v-if="slots['empty']">
-            <slot name="empty">
+            </template>
+            <template v-else-if="(url || data && data.length > 0 || options.length) && groupField && !defaultSlotData.length">
+                <el-option-group v-for="group in lessCom.dtGroupBy(options, groupField)" :key="group.key"
+                    :label="group.key">
+                    <el-option @click="handleClickOption(item)" v-for="item in group.value" :key="item[valueField]"
+                        :label="item[labelField]" :value="item[valueField]">
+                        <i class="check" v-if="multiple"></i>
+                        <slot name="default" :item="item">
+                            {{ item[labelField] }}
+                        </slot>
+                    </el-option>
+                </el-option-group>
+            </template>
+            <slot name="default" v-else>
             </slot>
-        </template>
+            <el-option @click="handleClickOption(item)" v-for="item in noExistOption" :key="item[valueField]"
+                :label="item[labelField]" :value="item[valueField]">
+                <i class="check" v-if="attrs.multiple"></i>
+                {{ item[labelField] }}
+            </el-option>
+            <template #empty v-if="slots['empty']">
+                <slot name="empty">
+                </slot>
+            </template>
 
-        <template #prefix v-if="slots['prefix']">
-            <slot name="prefix">
-            </slot>
-        </template>
+            <template #prefix v-if="slots['prefix']">
+                <slot name="prefix">
+                </slot>
+            </template>
 
-    </el-select>
+        </el-select>
+    </ElsFormNode>
 </template>
 <style lang="less" scoped>
 .el-select-dropdown__item.selected::after {
     content: "" !important;
 }
+
 .el-select-dropdown__item.selected .check {
     background-color: #409eff;
     border-color: #409eff;
 }
+
 .el-select-dropdown__item.selected .check:after {
-        transform: rotate(45deg) scaleY(1);
-    }
-    .el-select-dropdown__item .check::after {
+    transform: rotate(45deg) scaleY(1);
+}
+
+.el-select-dropdown__item .check::after {
     box-sizing: content-box;
     content: "";
     border: 1px solid #fff;
@@ -410,6 +446,7 @@ if (props.url) {
     transition: transform .15s ease-in .05s;
     transform-origin: center;
 }
+
 .el-select-dropdown__item .check {
     display: inline-block;
     position: relative;
@@ -421,11 +458,11 @@ if (props.url) {
     height: 14px;
     background-color: #fff;
     z-index: 1;
-    transition: border-color .25s cubic-bezier(.71,-.46,.29,1.46),background-color .25s cubic-bezier(.71,-.46,.29,1.46);
+    transition: border-color .25s cubic-bezier(.71, -.46, .29, 1.46), background-color .25s cubic-bezier(.71, -.46, .29, 1.46);
     margin-right: 5px;
 }
-.el-select-dropdown.is-multiple .el-select-dropdown__item.selected::after{
+
+.el-select-dropdown.is-multiple .el-select-dropdown__item.selected::after {
     display: none;
-}
-</style>
+}</style>
 ../../utlis/lessCom.js../../utlis/lessPrototype.js

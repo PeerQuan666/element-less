@@ -128,7 +128,8 @@ String.prototype.replacePowerUrl = function replacePowerUrl() {
     return this.toString();
 };
 
-String.prototype.addUrlParameter = function addUrlParameter(param, value) {
+String.prototype.addUrlParameter = function addUrlParameter(param, value:any) {
+    if(value===undefined){return this.toString()}
     if (this.toString().indexOf(param) > -1) {
         var oUrl = this.toString();
         return oUrl.replace(new RegExp('/(' + param + '=)([^&]*)/gi'), param + '=' + value);

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useAttrs, watch } from 'vue'
+import { ref, useAttrs, watch, inject, watchEffect } from 'vue'
 import '../../utlis/lessPrototype.js'
 import { TimePickerProps } from '../../utlis/interfaceCom'
 const emits = defineEmits(['update:modelValue', 'update:start', 'update:end', 'visible-change'])
@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<TimePickerProps>(), {
     type: 'date',
     valueSeparator: ',',
     width: '120',
-    valueFormat:'HH:mm:ss'
+    valueFormat: 'HH:mm:ss'
 })
 
 const attrs = useAttrs()
@@ -24,23 +24,36 @@ const greaterMinute = ref(0)
 const greaterSecond = ref(0)
 
 
-watch(() => props.start, (val) => {
-    if (attrs["is-range"]&&val) {
-        if(props.end){
-            timeValue.value = [val, props.end]
-        }
-    }
-}, { immediate: true })
 
-watch(() => props.end, (val) => {
-    if (attrs["is-range"]&&val) {
-        if (props.start) {
-            timeValue.value = [props.start, val]
-        }
+const getModelValue = inject<Function>('getModelValue', () => null)
+function initModelValue() {
+    if (!props.modelValue && getModelValue && props.prop) {
+        return getModelValue(props.prop,props.aIndex)
     }
-}, { immediate: true })
+    return props.modelValue
+}
+function initStartModelValue() {
+    if (!props.start && getModelValue && attrs.propStart) {
+        return getModelValue(attrs.propStart)
+    }
+    return props.start
+}
+function initEndModelValue() {
+    if (!props.end && getModelValue && attrs.propEnd) {
+        return getModelValue(attrs.propEnd)
+    }
+    return props.modelValue
+}
+watchEffect(() => {
+    if (attrs["is-range"]) {
+        const startValue = initStartModelValue()
+        const endValue = initEndModelValue()
+        timeValue.value = [startValue, endValue]
+    }
 
-watch(() => props.modelValue, (val) => {
+})
+watchEffect(() => {
+    const val = initModelValue()
     if (val !== undefined) {
         if (attrs["is-range"]) {
             if (val) {
@@ -50,8 +63,8 @@ watch(() => props.modelValue, (val) => {
             timeValue.value = val
         }
     }
+})
 
-}, { immediate: true })
 
 watch(timeValue, (val) => {
     handleReturnResult(val)
@@ -162,30 +175,48 @@ function handleVisible(visible) {
     selectVisible.value = visible
     emits('visible-change', visible)
 }
-
+const setModelValue = inject<Function>('setModelValue', () => { })
+function handleReturnModelValue(value) {
+    emits('update:modelValue', value);
+    if (setModelValue && props.prop) {
+        setModelValue(props.prop, value,props.aIndex)
+    }
+}
+function handleReturnStartValue(value) {
+    emits('update:start', value);
+    if (setModelValue && attrs.propStart) {
+        setModelValue(attrs.propStart, value,props.aIndex)
+    }
+}
+function handleReturnEndValue(value) {
+    emits('update:start', value);
+    if (setModelValue && attrs.propEnd) {
+        setModelValue(attrs.propEnd, value,props.aIndex)
+    }
+}
 function handleReturnResult(val) {
     if (!val) {
-        emits('update:start', '')
-        emits('update:end', '')
-        emits('update:modelValue', '')
+        handleReturnStartValue('')
+        handleReturnEndValue('')
+        handleReturnModelValue('')
     } else {
         if (attrs["is-range"] === true) {
-            let startDate=val[0]
-            let endDate=val[1]
-            emits('update:start', startDate)
-            emits('update:end', endDate)
-            if(!startDate&&!endDate){
-                emits('update:modelValue', '')
-            }else{
-                emits('update:modelValue', startDate + props.valueSeparator + endDate)
+            let startDate = val[0]
+            let endDate = val[1]
+            handleReturnStartValue(startDate)
+            handleReturnEndValue(endDate)
+
+            if (!startDate && !endDate) {
+                handleReturnModelValue('')
+            } else {
+                handleReturnModelValue(startDate + props.valueSeparator + endDate)
 
             }
         }
-        else if(val){
-            emits('update:modelValue', val)
-        }else{
-            emits('update:modelValue', '')
-
+        else if (val) {
+            handleReturnModelValue(val)
+        } else {
+            handleReturnModelValue('')
         }
     }
 }
@@ -195,30 +226,32 @@ if (attrs["is-range"]) {
         if (props.end) {
             timeValue.value = [props.start, props.end];
         } else {
-            timeValue.value = [props.start,props.start];
+            timeValue.value = [props.start, props.start];
         }
     } else if (props.modelValue) {
         timeValue.value = props.modelValue.split(',')
     }
-} else if(props.modelValue){
+} else if (props.modelValue) {
     timeValue.value = props.modelValue
 }
 
-const currWidth=ref(props.width)
+const currWidth = ref(props.width)
 const pickerStyle = ref<any>([])
 if (currWidth.value) {
     pickerStyle.value.push({ width: currWidth.value?.appendPx() })
 }
-if (attrs['is-range']!==undefined) {
+if (attrs['is-range'] !== undefined) {
     pickerStyle.value.push({ "flex-grow": 0 })
 }
 
 </script>
 
 <template>
-    <el-time-picker v-model="timeValue"  :value-format="valueFormat" :style="pickerStyle" 
-    :disabled-hours="disabledHourFn"
-        :disabled-minutes="disabledMinutesFn" :disabled-seconds="disabledSecondsFn" @visible-change="handleVisible">
-    </el-time-picker>
+    <ElsFormNode v-bind="props">
+        <el-time-picker v-model="timeValue" :value-format="valueFormat" :style="pickerStyle"
+            :disabled-hours="disabledHourFn" :disabled-minutes="disabledMinutesFn" :disabled-seconds="disabledSecondsFn"
+            @visible-change="handleVisible">
+        </el-time-picker>
+    </ElsFormNode>
 </template>
 

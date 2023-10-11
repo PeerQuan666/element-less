@@ -8,6 +8,7 @@ import { ElMessage } from 'element-plus'
 
 
 const lessCom = {
+    
     getApiConfig(){
         const { proxy } = getCurrentInstance() as any
         if(!proxy){
@@ -57,6 +58,16 @@ const lessCom = {
             $totalField : proxy.$lessConfig.table.page['total'],
             $pageCountField : proxy.$lessConfig.table.page['pageCount']
 
+        }
+    },
+    getUEditorConfig(){
+        const { proxy } = getCurrentInstance() as any
+        if(!proxy){
+            return {}
+        }
+        return {
+            $serverUrl:proxy.$lessConfig.uEditor['serverUrl'],
+            $homeUrl:proxy.$lessConfig.uEditor['homeUrl'],
         }
     },
     getUploadConfig(){

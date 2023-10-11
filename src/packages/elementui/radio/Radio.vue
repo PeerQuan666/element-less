@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref, reactive, watch, useAttrs, computed, nextTick, provide } from 'vue'
+import { ref, reactive, watch, useAttrs, computed, nextTick, provide,inject,watchEffect } from 'vue'
 import { ElMessage } from 'element-plus';
 import ElsOption from '../option/Option.vue';
-import ElsOptionGroup from  '../option-group/OptionGroup.vue';
+import ElsOptionGroup from '../option-group/OptionGroup.vue';
 import lessCom from '../../utlis/lessCom.js'
 import '../../utlis/lessPrototype.js'
-import  {ValueType} from '../../utlis/enumCom'
-import {RadioProps} from '../../utlis/interfaceCom'
+import { ValueType } from '../../utlis/enumCom'
+import { RadioProps } from '../../utlis/interfaceCom'
 defineOptions({
-  name: 'ElsRadio',
+    name: 'ElsRadio',
 })
 
 const props = withDefaults(defineProps<RadioProps>(), ({
@@ -21,11 +21,11 @@ const props = withDefaults(defineProps<RadioProps>(), ({
     selectIndex: -1,
     resetValueByChangeData: true,
     isInitTriggerSelect: true,
-    validTrigger:'change',
+    validTrigger: 'change',
 
 }))
 
-const {$codeField,$messageField,$dataField,$success}=lessCom.getApiConfig()
+const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig()
 const selectValue = ref<any>()
 const preSelectValue = ref<any>('')
 const selectItem = ref<any>()
@@ -38,22 +38,32 @@ const extraOption: Array<Record<string, any>> = reactive([])
 const originalData: Array<Record<string, any>> = reactive([])
 const queryData = reactive({ searchKey: '', idString: '' })
 const attrs = useAttrs()
-const radioStyle:any=reactive([]);
+const radioStyle: any = reactive([]);
 const emits = defineEmits(['select', 'readdataed', 'click-option', 'update:modelValue', 'update:select', 'update:select-label', 'change'])
 const optionData = computed<Array<Record<string, any>>>(() => {
     return options.concat(extraOption).concat(noExistOption);
 })
 
+const getModelValue=inject<Function>('getModelValue',()=>null)
+function initModelValue(){
+    if(!props.modelValue&&getModelValue&&props.prop){
+      return  getModelValue(props.prop,props.aIndex)
+    }
+    return props.modelValue
+}
+
 watch(selectValue, (val) => {
+    initNoExistData()
     handleReturnResult(val);
 })
 watch(() => props.selectIndex, () => {
     initSelectIndex();
 })
-watch(() => props.modelValue, () => {
-    initSelectValue();
-    initNoExistData()
+watchEffect(()=>{
+   initModelValue()
+   initSelectValue()
 })
+
 watch(() => props.url, () => {
     if (props.resetValueByChangeData) {
         selectValue.value = "";
@@ -83,12 +93,12 @@ watch(filterText, (val) => {
     }))
 
 })
-if(props.type=='button'){
+if (props.type == 'button') {
     provide('type', 'radiobutton')
 
-}else{
-provide('type', 'radio')
-provide('optionWidth', props.optionWidth)
+} else {
+    provide('type', 'radio')
+    provide('optionWidth', props.optionWidth)
 
 }
 provide('setExtraOption', setExtraOption)
@@ -96,9 +106,9 @@ provide('setExtraOption', setExtraOption)
 const radioClass: string[] = reactive([])
 if (props.type == 'radio') {
 
-    radioStyle.push({'text-align':'left'})
-    if(props.width){
-        radioStyle.push({'width':props.width.appendPx()})
+    radioStyle.push({ 'text-align': 'left' })
+    if (props.width) {
+        radioStyle.push({ 'width': props.width.appendPx() })
     }
     radioClass.push('els-radio-default')
 }
@@ -107,30 +117,32 @@ else {
 }
 if (props.height) {
     radioClass.push('scrollheight')
-    if(props.height){
-        radioStyle.push({'max-height':props.height.appendPx()})
+    if (props.height) {
+        radioStyle.push({ 'max-height': props.height.appendPx() })
     }
 
 }
 
 function initSelectValue() {
+    const currValue=initModelValue()
     let currValueType = props.valueType;
-    if (props.modelValue === '' || props.modelValue === undefined) { selectValue.value = ''; return }
+    if (currValue === '' || currValue === undefined) { selectValue.value = ''; return }
     if (currValueType === ValueType.Number) {
-        selectValue.value = parseFloat(props.modelValue.toString());
+        selectValue.value = parseFloat(currValue.toString());
     }
     else if (currValueType === ValueType.String) {
-        selectValue.value = props.modelValue.toString();
+        selectValue.value = currValue.toString();
     }
-    else if (optionData.value.length && props.modelValue.toString().length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
-        selectValue.value = parseFloat(props.modelValue.toString());
+    else if (optionData.value.length && currValue.toString().length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
+        selectValue.value = parseFloat(currValue.toString());
     } else {
-        selectValue.value = props.modelValue;
+        selectValue.value = currValue;
     }
 
 }
 function initSelectIndex() {
-    if (props.selectIndex > -1 && !props.modelValue) {
+    const currValue=initModelValue()
+    if (props.selectIndex > -1 && !currValue) {
         if (optionData.value.length) {
             selectValue.value = optionData.value[props.selectIndex][props.valueField];
         }
@@ -139,7 +151,7 @@ function initSelectIndex() {
 function setExtraOption(item: Record<string, any>) {
     let index = optionData.value.findIndex(ele => ele[props.valueField] == item.value)
     if (index == -1) {
-        let currSlotData:Record<string,any> = {};
+        let currSlotData: Record<string, any> = {};
         currSlotData[props.labelField] = item.label;
         currSlotData[props.valueField] = item.value;
         currSlotData["DataIsExtra"] = true;
@@ -153,7 +165,7 @@ function initNoExistData() {
             if (selectValue.value) {
                 let currOption = optionData.value.find(oele => oele[props.valueField] == selectValue.value);
                 if (!currOption) {
-                    let newOption:Record<string,any> = {};
+                    let newOption: Record<string, any> = {};
                     if (attrs["allow-create"]) {
                         newOption[props.labelField] = selectValue.value;
                     } else {
@@ -187,8 +199,8 @@ function handleComitSelect(value: string | number | boolean) {
 }
 function readData() {
 
-    let currUrl = props.url?.replacePowerUrl()??'';
-  
+    let currUrl = props.url?.replacePowerUrl() ?? '';
+
     queryData['idString'] = selectValue.value?.toString();
 
     return new Promise((resolve, reject) => {
@@ -217,9 +229,16 @@ function readData() {
 function handleClickOption(item: any) {
     emits("click-option", item)
 }
+const setModelValue=inject<Function>('setModelValue',()=>null)
+function handleReturnModelValue(value){
+    emits('update:modelValue', value);
+    if(setModelValue&&props.prop){
+        setModelValue(props.prop,value,props.aIndex)
+    }
+}
 function handleReturnResult(value: number | string | boolean) {
     if (value === undefined) { value = ''; }
-    emits('update:modelValue', value)
+    handleReturnModelValue(value)
     if (initSelect.value) {
         if (value || value === 0) {
             if (props.valueField && props.labelField) {
@@ -258,51 +277,54 @@ if (props.url) {
 
 </script>
 <template>
-    <div  :class="radioClass"  :style="radioStyle">
-        <div v-if="props.filterable">
-            <el-input style="width:200px;" suffix-icon="Search" v-if="filterable" placeholder="输入关键字进行过滤"
-                v-model="filterText" clearable>
-            </el-input>
-        </div>
-        <el-radio v-if="!url && (!data || !data.length) && !optionData.length" ref="leo-radio" v-model="selectValue"
-            v-bind="attrs">
-            <slot name="default"></slot>
-        </el-radio>
-        <el-radio-group v-else v-model="selectValue" ref="els-radio-group" v-bind="attrs">
-            <slot name="extra"></slot>
-            <el-empty v-if="filterText&&!optionData.length"></el-empty>
-            <template v-else-if="(url || data&&data.length > 0 || options.length) && !groupField">
-                <els-option :type="type" v-for="(item, index) in options" :key="index" :value="item[valueField]"
-                    :disabled="item[disabledField] === true" @click.native="handleClickOption(item)">
-                    <slot name="default" :item="item">
-                        {{ item[labelField] }}
-                    </slot>
-                </els-option>
-            </template>
-            <template v-else-if="(url || data&&data.length > 0) && groupField">
-                <template v-for="gitem in lessCom.dtGroupBy(options, groupField)">
-                    <els-option-group :label="gitem.key??'未分组'">
-                        <els-option :type="type" v-for="(item, index) in gitem.value" :key="index" :value="item[valueField]"
-                            :disabled="item[disabledField] === true" @click.native="handleClickOption(item)">
-                            <slot name="default" :item="item">
-                                {{ item[labelField] }}
-                            </slot>
-                        </els-option>
-                    </els-option-group>
+    <ElsFormNode v-bind="props">
+        <div :class="radioClass" :style="radioStyle">
+            <div v-if="props.filterable">
+                <el-input style="width:200px;" suffix-icon="Search" v-if="filterable" placeholder="输入关键字进行过滤"
+                    v-model="filterText" clearable>
+                </el-input>
+            </div>
+            <el-radio v-if="!url && (!data || !data.length) && !optionData.length" ref="leo-radio" v-model="selectValue"
+                v-bind="attrs">
+                <slot name="default"></slot>
+            </el-radio>
+            <el-radio-group v-else v-model="selectValue" ref="els-radio-group" v-bind="attrs">
+                <slot name="extra"></slot>
+                <el-empty v-if="filterText && !optionData.length"></el-empty>
+                <template v-else-if="(url || data && data.length > 0 || options.length) && !groupField">
+                    <els-option :type="type" v-for="(item, index) in options" :key="index" :value="item[valueField]"
+                        :disabled="item[disabledField] === true" @click.native="handleClickOption(item)">
+                        <slot name="default" :item="item">
+                            {{ item[labelField] }}
+                        </slot>
+                    </els-option>
                 </template>
-            </template>
-            <slot name="default" v-else>
-            </slot>
-            <els-option :type="type" v-for="(item) in noExistOption" :key="item[valueField]" :value="item[valueField]" @click.native="handleClickOption(item)">{{ item[labelField] }}</els-option>
-        </el-radio-group>
-    </div>
+                <template v-else-if="(url || data && data.length > 0) && groupField">
+                    <template v-for="gitem in lessCom.dtGroupBy(options, groupField)">
+                        <els-option-group :label="gitem.key ?? '未分组'">
+                            <els-option :type="type" v-for="(item, index) in gitem.value" :key="index"
+                                :value="item[valueField]" :disabled="item[disabledField] === true"
+                                @click.native="handleClickOption(item)">
+                                <slot name="default" :item="item">
+                                    {{ item[labelField] }}
+                                </slot>
+                            </els-option>
+                        </els-option-group>
+                    </template>
+                </template>
+                <slot name="default" v-else>
+                </slot>
+                <els-option :type="type" v-for="(item) in noExistOption" :key="item[valueField]" :value="item[valueField]"
+                    @click.native="handleClickOption(item)">{{ item[labelField] }}</els-option>
+            </el-radio-group>
+        </div>
+    </ElsFormNode>
 </template>
 
 <style lang="less" scoped>
-
-
 .els-radio {
-    display:flex;
+    display: flex;
+
     .el-radio-group {
         display: inline-block;
         width: 100%;
@@ -314,10 +336,12 @@ if (props.url) {
         display: inline-block;
         width: 100%;
     }
+
     .el-radio {
         margin-bottom: 15px;
     }
 }
+
 .el-radio-group .els-caption {
     margin-top: 18px;
 }
@@ -331,5 +355,4 @@ if (props.url) {
     overflow-y: scroll;
     border: 1px solid #dcdfe6;
     padding: 5px;
-}
-</style>../../utlis/lessCom.js../../utlis/lessPrototype.js
+}</style>../../utlis/lessCom.js../../utlis/lessPrototype.js

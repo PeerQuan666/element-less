@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useSlots, inject, watch, onMounted } from 'vue'
+import { ref, inject, watch, onMounted } from 'vue'
 defineOptions({
     name: 'ElsCol',
 })
@@ -11,7 +11,6 @@ const props = withDefaults(defineProps<Props>(), {
     span: 24,
 })
 
-const slots = useSlots()
 const currSpan = ref(24)
 const getSpan = inject<Function>("getSpan")
 const colData = inject<any>("colData")
@@ -32,12 +31,7 @@ onMounted(() => {
 <template>
     <el-col :span="currSpan">
         <template v-if="formData">
-            <slot v-if="false"></slot>
-            <slot name="edit" v-if="slots.default">
-                <template v-for="vnode in slots.default()">
-                    <ElsFormNode :vnode="vnode"></ElsFormNode>
-                </template>
-            </slot>
+            <slot ></slot>
         </template>
         <slot v-else></slot>
     </el-col>

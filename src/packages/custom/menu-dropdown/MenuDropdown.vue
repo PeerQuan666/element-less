@@ -30,6 +30,8 @@ if(proxy&&proxy.$lessConfig?.menu){
 }
 
 watch(() => props.menus, (val) => {
+    menuData.length=0;
+    unFoldMenus.length=0;
     if (val) {
         menuData.push(...val)
         if (props.unFoldCount > 0) {
@@ -37,7 +39,7 @@ watch(() => props.menus, (val) => {
         }
 
     }
-}, { immediate: true })
+}, { immediate: true ,deep:true})
 
 function menuCommand(menu) {
     if (!props.onSelect) {

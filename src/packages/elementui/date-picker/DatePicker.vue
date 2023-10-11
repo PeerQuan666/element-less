@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useAttrs, watch } from 'vue'
+import { ref, useAttrs, watch ,inject,watchEffect} from 'vue'
 import '../../utlis/lessPrototype.js'
 import { DatePickerProps } from '../../utlis/interfaceCom'
 const emits = defineEmits(['update:modelValue', 'update:start', 'update:end'])
@@ -13,13 +13,13 @@ const props = withDefaults(defineProps<DatePickerProps>(), {
 const attrs = useAttrs()
 const currValueFormat = ref()
 const dateValue = ref()
-const currDefaultTime=ref()
-const currWidth=ref(props.width)
-if(props.defaultTime){
-    if(typeof(props.defaultTime)==='string'){
-        currDefaultTime.value=new Date('1991-08-28 '+props.defaultTime)
-    }else if(Array.isArray(props.defaultTime)){
-        currDefaultTime.value=props.defaultTime.map(ele=>{return new Date('1991-08-28 '+ele)})
+const currDefaultTime = ref()
+const currWidth = ref(props.width)
+if (props.defaultTime) {
+    if (typeof (props.defaultTime) === 'string') {
+        currDefaultTime.value = new Date('1991-08-28 ' + props.defaultTime)
+    } else if (Array.isArray(props.defaultTime)) {
+        currDefaultTime.value = props.defaultTime.map(ele => { return new Date('1991-08-28 ' + ele) })
     }
 }
 let pickerOptions = ref<Array<{ text: string, value: Date | Function }>>([])
@@ -243,39 +243,85 @@ if (props.shortcuts) {
         ]
     }
 }
-
+const setModelValue=inject<Function>('setModelValue',()=>{})
+function handleReturnModelValue(value){
+    emits('update:modelValue', value);
+    if(setModelValue&&props.prop){
+        setModelValue(props.prop,value,props.aIndex)
+    }
+}
+function handleReturnStartValue(value){
+    emits('update:start', value);
+    if(setModelValue&&attrs.propStart){
+        setModelValue(attrs.propStart,value,props.aIndex)
+    }
+}
+function handleReturnEndValue(value){
+    emits('update:start', value);
+    if(setModelValue&&attrs.propEnd){
+        setModelValue(attrs.propEnd,value,props.aIndex)
+    }
+}
 function handleReturnResult(val) {
     if (!val) {
-        emits('update:start', '')
-        emits('update:end', '')
-        emits('update:modelValue', '')
+        handleReturnStartValue('')
+        handleReturnEndValue('')
+        handleReturnModelValue('')
     } else {
         if (props.type.indexOf('range') > -1) {
-            emits('update:start', val[0])
-            emits('update:end', val[1])
+            handleReturnStartValue(val[0])
+            handleReturnEndValue(val[1])
             if (!val[0] && !val[1]) {
-                emits('update:modelValue', '')
+                handleReturnModelValue('')
             } else {
-                emits('update:modelValue', val.join(props.valueSeparator))
+                handleReturnModelValue(val.join(props.valueSeparator))
             }
         }
         else if (props.type == 'dates' && Array.isArray(val)) {
-            emits('update:modelValue', val.join(props.valueSeparator))
+            handleReturnModelValue(val.join(props.valueSeparator))
         }
         else {
-            emits('update:modelValue', val)
+            handleReturnModelValue(val)
         }
     }
 }
 
 
-watch(() => props.start, (val) => {
-    dateValue.value = [val, props.end]
-}, { immediate: true })
 
-watch(() => props.end, (val) => {
-    dateValue.value = [props.start, val]
-}, { immediate: true })
+const getModelValue = inject<Function>('getModelValue', () => null)
+function initModelValue() {
+    if (!props.modelValue && getModelValue && props.prop) {
+        return getModelValue(props.prop,props.aIndex)
+    }
+    return props.modelValue
+}
+function initStartModelValue() {
+    if (!props.start && getModelValue && attrs.propStart) {
+        return getModelValue(attrs.propStart)
+    }
+    return props.start
+}
+function initEndModelValue() {
+    if (!props.end && getModelValue && attrs.propEnd) {
+        return getModelValue(attrs.propEnd)
+    }
+    return props.modelValue
+}
+watchEffect(()=>{
+   const startValue=initStartModelValue()
+   const endValue=initEndModelValue()
+   dateValue.value = [startValue, endValue]
+})
+
+
+watchEffect(()=>{
+   const currValue=initModelValue()
+   if (typeof (currValue) === 'string' && (props.type.indexOf('range') > -1 || props.type == 'dates')) {
+        dateValue.value = currValue.split(props.valueSeparator)
+    } else {
+        dateValue.value = currValue
+    }
+})
 
 watch(() => props.modelValue, (val) => {
     if (typeof (val) === 'string' && (props.type.indexOf('range') > -1 || props.type == 'dates')) {
@@ -297,42 +343,42 @@ if (!currValueFormat.value) {
     switch (props.type) {
         case 'year':
             currValueFormat.value = "YYYY"
-            currWidth.value='60'
+            currWidth.value = '60'
             break;
         case 'monthrange':
         case 'month':
             currValueFormat.value = "YYYY-MM"
-            currWidth.value='80'
+            currWidth.value = '80'
             break;
         case 'daterange':
         case 'dates':
         case 'date':
             currValueFormat.value = "YYYY-MM-DD"
-            currWidth.value='140'
-            if(props.defaultTime){
+            currWidth.value = '140'
+            if (props.defaultTime) {
                 currValueFormat.value = "YYYY-MM-DD HH:mm:ss"
             }
             break;
         case 'datetimerange':
-             currValueFormat.value = "YYYY-MM-DD HH:mm:ss"
-             if(!props.defaultTime){
-                currDefaultTime.value=[new Date('1991-08-28 00:00:00'),new Date('1991-08-28 23:59:59')]
-             }
-             currWidth.value='180'
+            currValueFormat.value = "YYYY-MM-DD HH:mm:ss"
+            if (!props.defaultTime) {
+                currDefaultTime.value = [new Date('1991-08-28 00:00:00'), new Date('1991-08-28 23:59:59')]
+            }
+            currWidth.value = '180'
             break;
         case 'datetime':
             currValueFormat.value = "YYYY-MM-DD HH:mm:ss"
-            currWidth.value='200'
+            currWidth.value = '200'
             break;
         case 'week':
             currValueFormat.value = "YYYY-MM-DD"
-            currWidth.value='80'
+            currWidth.value = '80'
             break;
         default:
             break;
     }
-    if(props.type.indexOf('range')>-1&&currWidth.value){
-        currWidth.value=(parseInt(currWidth.value)*2).toString()
+    if (props.type.indexOf('range') > -1 && currWidth.value) {
+        currWidth.value = (parseInt(currWidth.value) * 2).toString()
     }
 }
 const pickerStyle = ref<any>([])
@@ -347,14 +393,17 @@ initValue();
 </script>
 
 <template>
-    <el-date-picker v-model="dateValue" v-bind="attrs" :type="type" :value-format="currValueFormat" :defaultTime="currDefaultTime"
-        :disabled-date="currDisabledDate" :shortcuts="pickerOptions" :style="pickerStyle">
-        <template #default="cell">
-            <slot name="default" :cell="cell"></slot>
-        </template>
-        <template #range-separator>
-            <slot name="range-separator"></slot>
-        </template>
-    </el-date-picker>
+    <ElsFormNode v-bind="props">
+        <el-date-picker v-model="dateValue" v-bind="attrs" :type="type" :value-format="currValueFormat"
+            :defaultTime="currDefaultTime" :disabled-date="currDisabledDate" :shortcuts="pickerOptions"
+            :style="pickerStyle">
+            <template #default="cell">
+                <slot name="default" :cell="cell"></slot>
+            </template>
+            <template #range-separator>
+                <slot name="range-separator"></slot>
+            </template>
+        </el-date-picker>
+    </ElsFormNode>
 </template>
 

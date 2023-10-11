@@ -1,24 +1,9 @@
 import  {ValueType,QueryDataType,QueryMethod,ValidType} from './enumCom'
 
-export interface FormItemProps{
+export interface FormItemProps extends ValidProps,QueryProps{
     prop?:string,
     label?:string,
-    required?:boolean,
-    requiredMessage?:string,
-    validExpression?:string,
-    validMessage?:string,
-    validMethod?:Function,
-    validTrigger?:string,
-    validType?:ValidType,
     hasFormItem?:boolean,
-    queryField?:string,
-    queryMethod?:QueryMethod,
-    queryDataType?:QueryDataType,
-    queryDefaultValue?:any,
-    queryAutoReadData?:boolean,
-    queryAroundComma?:boolean,
-    queryRange?:boolean,
-    queryRangeOrEqual?:boolean,
     span?:number,
     aIndex?:number
 }
@@ -182,3 +167,47 @@ export interface QueryInfo{
 
 }
 
+export interface DynamicConfig{
+    keyID:string,
+    keyName:string,
+    keyCode:string,
+    sortIndex?:number,
+    dataType?: number,
+    arrayDataType?:number,
+    checkValueEmpty?:boolean,
+    validExpression?:string,
+    controlType?: number,
+    data: Array<DynamicConfig>,
+    isShow?:boolean,
+    description?:string,
+    descriptionPosition?:string,
+    isModify?:boolean,
+    config:{validConfig:Record<string,any>,baseConfig:Record<string,any>,arrayConfig: Record<string,any>,advancedConfig:Record<string,any>},
+    defaultValue?: any
+}
+
+
+
+export interface ValidProps{
+    required?:boolean,
+    requiredMessage?:string,
+    validType?:ValidType,
+    validExpression?:string,
+    validMessage?:string,
+    validMethod?:Function,
+    validTrigger?:string,
+
+}
+
+
+export interface QueryProps{
+    queryField?:string,
+    queryMethod?:QueryMethod,
+    queryDataType?:QueryDataType,
+    queryDefaultValue?:any,
+    queryAutoReadData?:boolean,
+    queryAroundComma?:boolean,
+    queryRange?:boolean,
+    queryRangeOrEqual?:boolean,
+
+}

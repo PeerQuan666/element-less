@@ -12,7 +12,7 @@ provide('getSpan', getSpan)
 provide('colData', colData)
 function getSpan() {
     if (slots.default) {
-        if (slots.default().length == 1 && slots.default()[0].type.toString() == 'Symbol(Fragment)') {
+        if (slots.default().length == 1 && (slots.default()[0].type.toString() == 'Symbol(Fragment)'||slots.default()[0].type.toString() == 'Symbol(v-fgt)')) {
             let cols = (slots.default()[0].children as any).filter(ele => ele.type)
             colData.value.count = cols.length
             const spanCount= lessCom.sumArray(cols.filter(ele=>ele.props&&ele.props.span).map(ele=>ele.props.span))
@@ -21,10 +21,7 @@ function getSpan() {
         let cols = slots.default().filter(ele => ele.type)
         colData.value.count = cols.length
         const spanCount= lessCom.sumArray(cols.filter(ele=>ele.props&&ele.props.span).map(ele=>ele.props?.span))
-
         return (24-spanCount) / cols.filter(ele=>!ele.props||!ele.props.span).length;
-
-
     }
     return 24
 }
@@ -34,17 +31,16 @@ onMounted(() => {
 </script>
 <template>
     <el-row>
-        <slot v-if="false"></slot>
         <slot name="edit" v-if="slots.default">
             <template v-for="vnode in slots.default()">
-
+              
                 <component :is="()=>vnode"
-                    v-if="typeof (vnode.type) == 'object' && (vnode.type as any)?.name === 'ElsCol' && (vnode.type as any)?.name !== 'ElCol'">
-                    <component :is="vnode">
+                    v-if="(typeof (vnode.type) == 'object' && ((vnode.type as any)?.name === 'ElsCol' || (vnode.type as any)?.name !== 'ElCol'))||vnode.type.toString().startsWith('Symbol')">
+                    <component :is="()=>vnode" v-if="vnode.type.toString().startsWith('Symbol')"></component>
+                    <component :is="vnode" v-else>
                     </component>
                 </component>
                 <ElsCol :span="vnode.props?vnode.props?.span:24" v-else>
-                  
                     <component :is="vnode">
                     </component>
                 </ElsCol>

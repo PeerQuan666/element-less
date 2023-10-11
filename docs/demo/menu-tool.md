@@ -15,22 +15,6 @@ star: true
 
 <!-- more -->
 
-## 全局配置
-
-```ts
-app.config.globalProperties.$lessConfig = {
-      menu:{
-        id:'MenuID',//菜单ID
-        name:'MenuName',//菜单名称
-        action:'ActionName',//行为名
-        actionType:'ActionType',//行为类型
-        icon:'ImageUrl',//图标
-        buttonColor:'ButtonColor',//按钮颜色
-        buttonType:'ButtonType',//按钮类型
-        group:'Fold'//分组
-      }
-  }
-```
 
 ## 基础用法
 

@@ -1212,8 +1212,8 @@ function getExportFileName() {
 }
 
 initData();
-const elsPageStore = inject<any>('elsPageStore')
-const elsApiResult = inject<any>('elsApiResult')
+const elsPageStore = inject<any>('elsPageStore',null)
+const elsApiResult = inject<any>('elsApiResult',null)
 
 
 const isQuery = computed(() => {

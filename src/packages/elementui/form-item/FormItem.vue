@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useAttrs, computed, inject, useSlots, reactive } from 'vue'
+import { ref, useAttrs, computed, inject, useSlots, reactive,provide } from 'vue'
 
 import { FormItemProps, QueryInfo } from '../../utlis/interfaceCom'
 import { ValidType } from '../../utlis/enumCom'
@@ -13,7 +13,9 @@ interface Props extends FormItemProps {
 
 }
 const props = withDefaults(defineProps<Props>(), {
-    queryAutoReadData: undefined
+    queryAutoReadData: undefined,
+    hasFormItem:true,
+    aIndex:-1
 })
 
 const attrs: any = useAttrs()
@@ -21,6 +23,10 @@ const formItem: any = ref()
 const setQueryData = inject<Function>('setQueryData', () => { })
 const getQueryData = inject<Function>('getQueryData', () => { })
 const formType = inject<string>('formType', '')
+if(!props.hasFormItem){
+    provide('container', 'formitem')
+}
+
 const slots = useSlots()
 function initRules() {
     if (formItem.value) {

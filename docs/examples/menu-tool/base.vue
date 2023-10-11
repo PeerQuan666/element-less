@@ -1,5 +1,5 @@
 <template>
-    <els-menu-tool v-model="selectValue" :data="data" @click="handleClick"></els-menu-tool>
+    <els-menu-tool v-model="selectValue" :data="data" @select="handleClick"></els-menu-tool>
 </template>
 
 <script setup lang="ts">
@@ -15,7 +15,6 @@ const data = ref<any>(
         "ActionType":"Target",
         "ButtonType":"Add",
         "ButtonColor":"primary",
-        "ActionScript":"",
         "ModalTitle":"新增{名称}",
         "ModalWidth":"80%",
         "ModalHeight":"500",
@@ -24,9 +23,9 @@ const data = ref<any>(
         "IsShowPassword":0,
         "IsQueryState":1,
         "ImageUrl":"el-icon-edit",
-        "TargetUrl":"/PromoteManage/PromoteData/Add?Power_MenuID=a2cf21dbbc504b33a8f21bb4b9bf3e98&SignatureMD5=F73A1B3B22EAF4881B73B9872A71EF7A&SignatureStamp=1694506233",
-        "SortIndex":1,
-        "IsLoading":false
+        "TargetUrl":"Add",
+
+
     },
     
     {
@@ -46,9 +45,7 @@ const data = ref<any>(
         "IsShowPassword":0,
         "IsQueryState":0,
         "ImageUrl":"el-icon-postcard",
-        "TargetUrl":"/PromoteManage/PromoteConsumeKpi/List?Power_MenuID=a2cf21dbbc504b33a8f21bb4b9bf3e98&SignatureMD5=F73A1B3B22EAF4881B73B9872A71EF7A&SignatureStamp=1694506233",
-        "SortIndex":5,
-        "IsLoading":false
+        "TargetUrl":"Add",
     },
     {
         "MenuID":"7b1c2086ce1f434aadbda523ba3a2d0b",
@@ -67,9 +64,7 @@ const data = ref<any>(
         "IsShowPassword":0,
         "IsQueryState":0,
         "ImageUrl":"el-icon-postcard",
-        "TargetUrl":"/PromoteManage/PromoteActualConsume/List?Power_MenuID=a2cf21dbbc504b33a8f21bb4b9bf3e98&SignatureMD5=F73A1B3B22EAF4881B73B9872A71EF7A&SignatureStamp=1694506233",
-        "SortIndex":6,
-        "IsLoading":false
+        "TargetUrl":"Add",
     },
     {
         "MenuID":"7c45c1a487b04d27b30124f5dc94a0f9",
@@ -88,9 +83,7 @@ const data = ref<any>(
         "IsShowPassword":0,
         "IsQueryState":0,
         "ImageUrl":"el-icon-copy-document",
-        "TargetUrl":"/PromoteManage/PromoteIntegralWall/List?Power_MenuID=a2cf21dbbc504b33a8f21bb4b9bf3e98&SignatureMD5=F73A1B3B22EAF4881B73B9872A71EF7A&SignatureStamp=1694506233",
-        "SortIndex":7,
-        "IsLoading":false
+        "TargetUrl":"Add",
     },
     
     {
@@ -110,9 +103,7 @@ const data = ref<any>(
         "IsShowPassword":0,
         "IsQueryState":0,
         "ImageUrl":"el-icon-search",
-        "TargetUrl":"/PromoteManage/PromoteData/ReadData?Power_MenuID=a2cf21dbbc504b33a8f21bb4b9bf3e98&SignatureMD5=F73A1B3B22EAF4881B73B9872A71EF7A&SignatureStamp=1694506233",
-        "SortIndex":12,
-        "IsLoading":false
+        "TargetUrl":"Search",
     }
 ]
     )

@@ -1,7 +1,7 @@
 <template>
     <els-input v-model="inputValue"></els-input>
     <div style="margin-bottom: 10px;"></div>
-    <els-input v-model="inputValue" type="textarea"></els-input>
+    <els-textarea v-model="inputValue"></els-textarea>
 </template>
 
 <script setup lang="ts">

@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { useSlots } from 'vue'
 import '../../utlis/lessPrototype.js'
-import {watch,ref} from 'vue'
+import { watch, ref } from 'vue'
 import ElsCheckbox from '../checkbox/Checkbox.vue'
-import {CheckboxProps} from '../../utlis/interfaceCom'
+import { CheckboxProps } from '../../utlis/interfaceCom'
 defineOptions({
-  name: 'ElsCheckboxButton',
+    name: 'ElsCheckboxButton',
 })
 const slots = useSlots()
-const emits=defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue'])
 
-const selectValue=ref('')
+const selectValue = ref('')
 const props = withDefaults(defineProps<CheckboxProps>(), {
     labelField: 'label',
     valueField: 'value',
@@ -20,24 +20,24 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
     resetValueByChangeData: true,
     type: 'checkboxbutton'
 })
-selectValue.value=props.modelValue??''
+selectValue.value = props.modelValue ?? ''
 watch(() => props.modelValue, (val) => {
-    selectValue.value=val??''
+    selectValue.value = val ?? ''
 })
-watch(selectValue,(value)=>{
+watch(selectValue, (value) => {
     emits('update:modelValue', value)
 })
-const slotNames:any=[]
-for(const slotItem in slots){
+const slotNames: any = []
+for (const slotItem in slots) {
     slotNames.push(slotItem)
 }
 
 </script>
 <template>
     <els-checkbox v-model="selectValue" v-bind="props">
-     <template v-for="item in slotNames" :slot="item">
-        <slot :name="item" ></slot>
-    </template>
+        <template v-for="item in slotNames" :slot="item">
+            <slot :name="item"></slot>
+        </template>
     </els-checkbox>
 </template>
 ../../utlis/lessPrototype.js

@@ -40,7 +40,7 @@ watch(() => props.menus, (val) => {
     if (val) {
         menuData.push(...val)
     }
-}, { immediate: true })
+}, { immediate: true,deep:true })
 
 const triggerHideFn = clickDocumentHandler.bind(this)
 

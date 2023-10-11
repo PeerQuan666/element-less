@@ -16,6 +16,7 @@ npm i file-saver
 npm i sortablejs 
 npm i vuedraggable@next 
 npm i --save-dev @types/sortablejs
+npm install md-editor-v3
 ```
 
 ### 选装

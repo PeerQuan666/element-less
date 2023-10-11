@@ -4,15 +4,15 @@ import {
   h,
   init_vue_runtime_esm_bundler,
   watch
-} from "./chunk-KKR3AVM4.js";
-import "./chunk-OZ6L3MPR.js";
+} from "./chunk-3XCZATPT.js";
 import {
   config$1,
   icon,
   parse$1,
   text
 } from "./chunk-KGKNMYPW.js";
-import "./chunk-2LSFTFF7.js";
+import "./chunk-ATDA5F66.js";
+import "./chunk-7REXU52E.js";
 
 // node_modules/@fortawesome/vue-fontawesome/index.es.js
 init_vue_runtime_esm_bundler();

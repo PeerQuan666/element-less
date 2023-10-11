@@ -25,6 +25,7 @@
     "fortawesome": "^0.0.1-security",
     "less": "^4.2.0",
     "lodash": "^4.17.21",
+    "md-editor-v3": "^4.7.0",
     "nprogress": "^0.2.0",
     "path": "^0.12.7",
     "prismjs": "^1.29.0",
@@ -32,6 +33,7 @@
     "vue": "^3.3.4",
     "vue-fontawesome": "^0.0.2",
     "vue-router": "^4.2.4",
+    "vue-ueditor-wrap": "^3.0.8",
     "vuedraggable": "^4.1.0",
     "vuex": "^4.1.0",
     "xlsx": "^0.18.5"
@@ -43,6 +45,7 @@
     "@vuepress/client": "2.0.0-beta.66",
     "@vuepress/plugin-docsearch": "^2.0.0-beta.66",
     "@vuepress/plugin-search": "^2.0.0-beta.66",
+    "ace-builds": "^1.28.0",
     "script-loader": "^0.7.2",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, useAttrs, onMounted } from 'vue'
+import { ref, watch, useAttrs, onMounted,inject ,watchEffect} from 'vue'
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
@@ -108,9 +108,19 @@ watch(() => props.data, (val: any) => {
     }
 }, { immediate: true })
 
-watch(() => props.modelValue, () => {
-    initSelectValue();
+const getModelValue = inject<Function>('getModelValue', () => null)
+function initModelValue() {
+    if (!props.modelValue && getModelValue && props.prop) {
+        return getModelValue(props.prop,props.aIndex)
+    }
+    return props.modelValue
+}
+
+watchEffect(()=>{
+  initModelValue()
+  initSelectValue()
 })
+
 
 const emits = defineEmits(['update:modelValue', 'update:select', 'update:select-label', 'select'])
 
@@ -395,13 +405,20 @@ function handleComitSelect(value) {
         console.log(err)
     }
 }
+const setModelValue=inject<Function>('setModelValue',()=>{})
+function handleReturnModelValue(value){
+    emits('update:modelValue', value);
+    if(setModelValue&&props.prop){
+        setModelValue(props.prop,value,props.aIndex)
+    }
+}
 function handleReturnResult(value) {
     if (value === undefined) { value = []; }
     if (currMultiple) {
-        emits('update:modelValue', value.join(props.valueSeparator))
+        handleReturnModelValue(value.join(props.valueSeparator))
 
     } else {
-        emits('update:modelValue', value.toString())
+        handleReturnModelValue(value.toString())
 
     }
     if (attrs['onUpdate:select'] || attrs['onUpdate:select-label'] || attrs["onSelect"]) {
@@ -543,27 +560,30 @@ function handleNodeClick(data) {
 </script>
 
 <template>
-    <el-tree-select ref="dataTree" v-loading="dataLoading" :load="handleLoadNode" v-model="selectValue" node-key="id"
-        :props="currProps" :data="options" @check-change="handleChange" @node-click="handleNodeClick"
-        @node-expand="handleNodeExpand" @node-collapse="handleNodeCollapse" :default-expanded-keys="expendData"
-        :check-strictly="checkStrictly" :multiple="currMultiple"
-        :expand-on-click-node="!currMultiple ? true : expandOnClickNode" :filter-node-method="filterNode"
-        :show-checkbox="currShowCheckbox" v-bind="attrs">
-        <template #default="{ node, data }">
-            <slot name="default" :node="node" :data="data.sourceData">
-                <span @dblclick="handleAllSelect(node)" v-if="currMultiple">
-                    {{ node.label }}
-                </span>
-                <span v-else :class="{ 'els-tree-selected': viewData && viewData[valueField] == data.sourceData[valueField] }">
-                    {{ node.label }}
-                    <el-icon v-if="viewData && viewData[valueField] == data.sourceData[valueField]">
-                        <Check />
-                    </el-icon>
-                </span>
-            </slot>
-        </template>
+    <ElsFormNode v-bind="props">
+        <el-tree-select ref="dataTree" v-loading="dataLoading" :load="handleLoadNode" v-model="selectValue" node-key="id"
+            :props="currProps" :data="options" @check-change="handleChange" @node-click="handleNodeClick"
+            @node-expand="handleNodeExpand" @node-collapse="handleNodeCollapse" :default-expanded-keys="expendData"
+            :check-strictly="checkStrictly" :multiple="currMultiple"
+            :expand-on-click-node="!currMultiple ? true : expandOnClickNode" :filter-node-method="filterNode"
+            :show-checkbox="currShowCheckbox" v-bind="attrs">
+            <template #default="{ node, data }">
+                <slot name="default" :node="node" :data="data.sourceData">
+                    <span @dblclick="handleAllSelect(node)" v-if="currMultiple">
+                        {{ node.label }}
+                    </span>
+                    <span v-else
+                        :class="{ 'els-tree-selected': viewData && viewData[valueField] == data.sourceData[valueField] }">
+                        {{ node.label }}
+                        <el-icon v-if="viewData && viewData[valueField] == data.sourceData[valueField]">
+                            <Check />
+                        </el-icon>
+                    </span>
+                </slot>
+            </template>
 
-    </el-tree-select>
+        </el-tree-select>
+    </ElsFormNode>
 </template>
 <style scoped>
 .els-tree-selected {

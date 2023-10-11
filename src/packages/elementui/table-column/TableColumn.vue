@@ -291,9 +291,9 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
                 <slot name="edit" :row="row" :column="column" :$index="$index" v-if="false">
                 </slot>
                 <slot name="formitem" :row="row" :column="column" :$index="$index">
-                    <template v-if="slots.edit">
+                    <template v-if="slots.edit" >
                         <template v-for="vnode in slots.edit({ row: row })[0].children" :key="`[${$index}]['${prop}']`">
-                            <ElsFormNode :vnode="vnode"   :prop="prop" :index="$index" ></ElsFormNode>
+                            <component :is="vnode"  :prop="prop" :aIndex="$index" ></component>
                         </template>
                     </template>
                     <els-form-item v-else :prop="`[${$index}]['${prop}']`" :key="`[${$index}]['${prop}']`"

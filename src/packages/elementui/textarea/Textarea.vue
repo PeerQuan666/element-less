@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, useAttrs, useSlots } from 'vue'
+import { ref, watch, useSlots } from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 defineOptions({
     name: 'ElsTextarea',
@@ -17,7 +17,6 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const emits = defineEmits(['update:modelValue'])
 const slots = useSlots()
-const attrs = useAttrs()
 const slotNames: any = []
 for (const slotItem in slots) {
     slotNames.push(slotItem)
@@ -33,6 +32,6 @@ watch(inputValue, (val) => {
 })
 </script>
 <template>
-    <els-input v-model="inputValue" type="textarea" :encode="encode" :encodeType="encodeType" :width="width" v-bind="attrs">
+    <els-input v-model="inputValue" type="textarea" v-bind="props" >
     </els-input>
 </template>

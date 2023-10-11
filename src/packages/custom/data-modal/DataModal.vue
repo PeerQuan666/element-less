@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, computed, watch, useAttrs, } from 'vue'
+import { ref, computed, watch, useAttrs, inject,watchEffect} from 'vue'
+import { FormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'
 import '../../utlis/lessPrototype.js'
 defineOptions({ name: "ElsDataModal" })
 const emits = defineEmits(['update:select', 'update:modelValue', 'update:select-label'])
 
-interface Props {
+interface Props extends FormItemProps {
     modelValue?: string,
     selectLabel?: string,
     select?: Record<string, any>,
@@ -21,6 +22,7 @@ interface Props {
     labelField?: string,
     valueField?: string,
     multiple?: boolean,
+    open?:Function,
     confirm?: Function
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -28,8 +30,8 @@ const props = withDefaults(defineProps<Props>(), {
     buttonLabel: '选择',
     hasInput: true,
     hasButton: true,
-    modalWidth: '50%',
-    modalHeight: '500px',
+    width: '50%',
+    height: '500px',
 
 })
 
@@ -41,10 +43,19 @@ const currSelectData = ref<any>()
 const dialogVisible = ref(false)
 const attrs = useAttrs()
 
-watch(() => props.modelValue, (val) => {
-    currSelectValue.value = val ?? ''
+const setModelValue=inject<Function>('setModelValue',()=>null)
+const getModelValue=inject<Function>('getModelValue',()=>null)
+ function initModelValue(){
+    if(!props.modelValue&&getModelValue&&props.prop){
+      return  getModelValue(props.prop,props.aIndex)
+    }
+    return props.modelValue
+}
+watchEffect(()=>{
+    const currValue=initModelValue()
+    currSelectValue.value = currValue ?? ''
+})
 
-}, { immediate: true })
 
 
 watch(() => props.selectLabel, (val) => {
@@ -69,6 +80,9 @@ function registEvent() {
     window[tagID.value] = handleSelect
 }
 function handleOpenModal() {
+    if(props.open){
+        props.open()
+    }
     dialogVisible.value = true
 }
 function handleConfirm() {
@@ -79,6 +93,12 @@ function handleConfirm() {
             }
         })
 
+    }
+}
+function handleReturnModelValue(val){
+    emits('update:modelValue', val)
+    if(setModelValue&&props.prop){
+        setModelValue(props.prop,val,props.aIndex)
     }
 }
 
@@ -93,11 +113,11 @@ function handleReturnResult() {
                 currSelectValue.value = currSelectData.value[props.valueField]
                 currSelectLabel.value = currSelectData.value[props.labelField]
             }
-            emits("update:modelValue", currSelectValue.value)
+            handleReturnModelValue(currSelectValue.value)
             emits("update:select-label", currSelectLabel.value)
         } else {
             currSelectValue.value = currSelectData.value
-            emits("update:modelValue", currSelectData.value)
+            handleReturnModelValue(currSelectValue.value)
         }
         emits("update:select", currSelectData.value)
     }
@@ -105,7 +125,7 @@ function handleReturnResult() {
         currSelectValue.value=''
         currSelectLabel.value=''
         emits("update:select-label", '')
-        emits("update:modelValue", '')
+        handleReturnModelValue('')
         emits("update:select", null)
 
     }

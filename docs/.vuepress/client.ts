@@ -2,6 +2,7 @@ import { defineClientConfig } from "@vuepress/client";
 import VpDemo from './components/vp-demo.vue'
 import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import VueUeditorWrap from "vue-ueditor-wrap"
 import { library,config  } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
@@ -33,6 +34,10 @@ export default defineClientConfig({
         data_path:'ResourcePath',
         data_md5:'Md5Value',
       },
+      uEditor:{
+        serverUrl:'http://manage.ybt2023.com/UEditorTest/Upload',
+        homeUrl:'/UEditor/'
+      },
       menu:{
         id:'MenuID',
         name:'MenuName',
@@ -58,6 +63,7 @@ export default defineClientConfig({
           }
       }
   }
+  app.use(VueUeditorWrap)
     app.use(ElementPlus);
     app.use(ElementLess);
   },

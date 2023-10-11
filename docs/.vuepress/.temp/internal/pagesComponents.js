@@ -3,6 +3,10 @@ import { defineAsyncComponent } from 'vue'
 export const pagesComponents = {
   // path: /
   "v-8daa1a0e": defineAsyncComponent(() => import(/* webpackChunkName: "v-8daa1a0e" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/index.html.vue")),
+  // path: /guide/
+  "v-fffb8e28": defineAsyncComponent(() => import(/* webpackChunkName: "v-fffb8e28" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/guide/index.html.vue")),
+  // path: /demo/aceeditor.html
+  "v-4282153c": defineAsyncComponent(() => import(/* webpackChunkName: "v-4282153c" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/aceeditor.html.vue")),
   // path: /demo/autocomplete.html
   "v-2c491a04": defineAsyncComponent(() => import(/* webpackChunkName: "v-2c491a04" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/autocomplete.html.vue")),
   // path: /demo/cascader.html
@@ -15,6 +19,8 @@ export const pagesComponents = {
   "v-638b06bf": defineAsyncComponent(() => import(/* webpackChunkName: "v-638b06bf" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/date-picker.html.vue")),
   // path: /demo/dropdown.html
   "v-0529def5": defineAsyncComponent(() => import(/* webpackChunkName: "v-0529def5" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/dropdown.html.vue")),
+  // path: /demo/dynamic.html
+  "v-36398acd": defineAsyncComponent(() => import(/* webpackChunkName: "v-36398acd" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/dynamic.html.vue")),
   // path: /demo/form.html
   "v-b56d46bc": defineAsyncComponent(() => import(/* webpackChunkName: "v-b56d46bc" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/form.html.vue")),
   // path: /demo/input.html
@@ -23,6 +29,8 @@ export const pagesComponents = {
   "v-33d62ebc": defineAsyncComponent(() => import(/* webpackChunkName: "v-33d62ebc" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/layout.html.vue")),
   // path: /demo/list.html
   "v-1f15ddf0": defineAsyncComponent(() => import(/* webpackChunkName: "v-1f15ddf0" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/list.html.vue")),
+  // path: /demo/mdeditor.html
+  "v-040b5922": defineAsyncComponent(() => import(/* webpackChunkName: "v-040b5922" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/mdeditor.html.vue")),
   // path: /demo/menu-tool.html
   "v-1afe1566": defineAsyncComponent(() => import(/* webpackChunkName: "v-1afe1566" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/menu-tool.html.vue")),
   // path: /demo/menu.html
@@ -33,6 +41,8 @@ export const pagesComponents = {
   "v-1473bf53": defineAsyncComponent(() => import(/* webpackChunkName: "v-1473bf53" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/index.html.vue")),
   // path: /demo/select.html
   "v-6e716fac": defineAsyncComponent(() => import(/* webpackChunkName: "v-6e716fac" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/select.html.vue")),
+  // path: /demo/slider.html
+  "v-8f04a936": defineAsyncComponent(() => import(/* webpackChunkName: "v-8f04a936" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/slider.html.vue")),
   // path: /demo/table.html
   "v-2859ad44": defineAsyncComponent(() => import(/* webpackChunkName: "v-2859ad44" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/table.html.vue")),
   // path: /demo/time-picker.html
@@ -43,6 +53,8 @@ export const pagesComponents = {
   "v-f2fae9fe": defineAsyncComponent(() => import(/* webpackChunkName: "v-f2fae9fe" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/tree-select.html.vue")),
   // path: /demo/tree.html
   "v-3b532e08": defineAsyncComponent(() => import(/* webpackChunkName: "v-3b532e08" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/tree.html.vue")),
+  // path: /demo/ueditor.html
+  "v-5c92eaca": defineAsyncComponent(() => import(/* webpackChunkName: "v-5c92eaca" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/ueditor.html.vue")),
   // path: /demo/upload.html
   "v-092b6b76": defineAsyncComponent(() => import(/* webpackChunkName: "v-092b6b76" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/demo/upload.html.vue")),
   // path: /design/config.html
@@ -57,8 +69,6 @@ export const pagesComponents = {
   "v-2d93ae57": defineAsyncComponent(() => import(/* webpackChunkName: "v-2d93ae57" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/pages/list.html.vue")),
   // path: /pages/
   "v-e379c5b8": defineAsyncComponent(() => import(/* webpackChunkName: "v-e379c5b8" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/pages/index.html.vue")),
-  // path: /guide/
-  "v-fffb8e28": defineAsyncComponent(() => import(/* webpackChunkName: "v-fffb8e28" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/guide/index.html.vue")),
   // path: /test/test.html
   "v-2791cd83": defineAsyncComponent(() => import(/* webpackChunkName: "v-2791cd83" */"D:/MyProjects/element-less/docs/.vuepress/.temp/pages/test/test.html.vue")),
   // path: /guide/bar/baz.html

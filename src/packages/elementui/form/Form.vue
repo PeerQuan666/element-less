@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, nextTick, provide, onBeforeUnmount, onMounted, useSlots, useAttrs, inject } from 'vue'
+import { ref, nextTick, provide, onBeforeUnmount, onMounted, useAttrs, inject } from 'vue'
 import lessCom from '../../utlis/lessCom.js'
 import { ElForm } from 'element-plus'
-import ElsFormNode from '../../custom/form-node/FormNode.vue';
+import { useVModel } from '@vueuse/core'
+
 defineOptions({ name: 'ElsForm' })
 
 interface Props {
@@ -15,31 +16,45 @@ interface Props {
     labelWidth?: string,
     saveUrl?: string,
     beforeSave?: Function,
-    afterSave?: Function
+    afterSave?: Function,
+    slotData?: any,
+    inputWidth?: string
 }
 const props = withDefaults(defineProps<Props>(), {
     queryParameterType: 'Query',
 
 
 })
+const emits = defineEmits(['update:modelValue'])
 const tagID = 'els-form' + lessCom.Guid32();
 const attrs = useAttrs()
-const slots = useSlots()
 const dataForm = ref()
 const submitButton = ref()
 const currLabelWidth = ref(props.labelWidth)
+const parentLabelWidth=inject<string>('labelWidth')
 
-let modelData: Record<string, any> = props.modelValue
+let modelData: Record<string, any> = useVModel(props, 'modelValue', emits)
 
 if (attrs['inline'] === undefined) {
     currLabelWidth.value = props.labelWidth ?? '100'
 
 }
+const parentInputWidth=inject<string>('inputWidth','')
+if(props.inputWidth){
+    provide('inputWidth', props.inputWidth)
+}else{
+    provide('inputWidth', parentInputWidth)
+}
+
 provide('container', 'form')
-provide('labelWidth', currLabelWidth)
+provide('setModelValue', setModelValue)
+provide('getModelValue', getModelValue)
+
+
+provide('labelWidth', currLabelWidth||parentLabelWidth)
 provide('formData', modelData)
-const elsApiResult = inject<Function>("elsApiResult") ?? function () { }
-const elsPageStore = inject<any>('elsPageStore')
+const elsApiResult = inject<Function>("elsApiResult",()=>null) 
+const elsPageStore = inject<any>('elsPageStore',null)
 const validateStore = { id: tagID, validate: validate }
 const saveStore = { id: tagID, save: saveData }
 
@@ -58,7 +73,7 @@ onBeforeUnmount(() => {
 })
 function saveData(url) {
     return new Promise((resolve, reject) => {
-        let currSaveUrl = props.saveUrl
+        let currSaveUrl = props.saveUrl ?? ''
         if (!currSaveUrl) {
             currSaveUrl = url
         }
@@ -130,22 +145,55 @@ function handleSubmitButton() {
     submitButton.value.$el.trigger("click")
 }
 
+function getModelValue(key, aIndex = -1) {
+    if (!key) {
+        return
+    }
+    if (aIndex > -1) {
+        if (key.includes('.')) {
+            return new Function('modelData', `return modelData.value[${aIndex}].${key};`);
+        } else {
+            return modelData.value[aIndex][key]
+        }
+
+    }
+    if (key.includes('.')) {
+        return new Function('modelData', `return modelData.value.${key};`);
+    } else {
+        return modelData.value[key]
+    }
+}
+
+function setModelValue(key, value, aIndex = -1) {
+    if (!key) {
+        return
+    }
+    if (aIndex > -1) {
+        if (key.includes('.')) {
+            new Function('modelData,value', `modelData.value[${aIndex}].${key}=value;`);
+        } else {
+            modelData.value[aIndex][key] = value
+        }
+    }
+    if (key.includes('.')) {
+        new Function('modelData,value', `modelData.value.${key}=value;`);
+    } else {
+        modelData.value[key] = value
+    }
+}
+
 defineExpose({
     clearValidate,
     validateField,
     validate,
     handleSubmitButton
 })
+
 </script>
 
 <template>
     <el-form :model="modelData" ref="dataForm" onsubmit="return false;" :label-width="currLabelWidth">
-        <slot v-if="false"></slot>
-        <slot name="edit" v-if="slots.default">
-            <template v-for="vnode in slots.default()">
-                <ElsFormNode :vnode="vnode"></ElsFormNode>
-            </template>
-        </slot>
+        <slot></slot>
     </el-form>
 </template>
 

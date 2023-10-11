@@ -34,9 +34,9 @@ import {
   version,
   watch,
   watchEffect
-} from "./chunk-KKR3AVM4.js";
-import "./chunk-OZ6L3MPR.js";
-import "./chunk-2LSFTFF7.js";
+} from "./chunk-3XCZATPT.js";
+import "./chunk-ATDA5F66.js";
+import "./chunk-7REXU52E.js";
 
 // node_modules/@vueuse/shared/node_modules/vue-demi/lib/index.mjs
 init_vue_runtime_esm_bundler();

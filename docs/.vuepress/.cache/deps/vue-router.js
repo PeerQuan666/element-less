@@ -1,7 +1,4 @@
 import {
-  setupDevtoolsPlugin
-} from "./chunk-J4VLYDXT.js";
-import {
   computed2 as computed,
   defineComponent,
   getCurrentInstance,
@@ -20,9 +17,12 @@ import {
   unref,
   watch,
   watchEffect
-} from "./chunk-KKR3AVM4.js";
-import "./chunk-OZ6L3MPR.js";
-import "./chunk-2LSFTFF7.js";
+} from "./chunk-3XCZATPT.js";
+import "./chunk-ATDA5F66.js";
+import {
+  setupDevtoolsPlugin
+} from "./chunk-J4VLYDXT.js";
+import "./chunk-7REXU52E.js";
 
 // node_modules/vue-router/dist/vue-router.mjs
 init_vue_runtime_esm_bundler();
