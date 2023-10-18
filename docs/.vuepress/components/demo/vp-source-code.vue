@@ -9,7 +9,6 @@ const props = defineProps({
 })
 
 const decoded = computed(() => {
-  console.info(props)
   return decodeURIComponent(props.source)
 })
 </script>

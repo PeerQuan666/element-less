@@ -253,6 +253,7 @@ function initShowConfig(data, showConfigData) {
     }
 }
 function handleReturnResult() {
+   
     //有配置再更新直
     if (props.config) {
         var currData = {};
@@ -272,6 +273,7 @@ function handleReturnResult() {
             }
 
         })
+
         if (typeof (props.modelValue) == 'object') {
             emits('update:modelValue', currData)
             return
@@ -400,13 +402,12 @@ function childResultList(item) {
     }
     .listitem {
         .els-list-operate{margin-bottom: 0;}
-        .leo-dynamic-r-item-child {display: flex;gap: 5px;}
-        form{
-            .leo-dynamic-r-item-child {
-                display:inherit
-            }
+        >form{
             flex-grow:1;
+            .leo-dynamic-r-item-child:has(label[class^=el-form-item__label]) {display: inherit}
+            .leo-dynamic-r-item-child {display: flex;gap: 5px;}
         }
+        .leo-dynamic-r-item-child {display: flex;gap: 5px;}
         .els-dynamic-r-item{
             display: flex;
         }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { watch, provide, ref, computed, nextTick } from 'vue'
-import { dynamicDataType, dynamicControlType, dynamicArrayDataType } from '../../utlis/lessConfig.js'
+import { dynamicDataType, dynamicControlType } from '../../utlis/lessConfig.js'
 import DynamicDesignerViewInner from './DynamicDesignerViewInner.vue'
 import draggable from 'vuedraggable'
 import '../../utlis/lessPrototype.js'
@@ -9,16 +9,26 @@ import property_form from '../../utlis/dynamicPropertys/form'
 import property_array from '../../utlis/dynamicPropertys/array'
 import property_advanced from '../../utlis/dynamicPropertys/advanced'
 import property_arrayAndObject from '../../utlis/dynamicPropertys/arrayAndObject'
+import { useDesign } from '../../utlis/stateDesign.js'
+import lodash from 'lodash';
+const { debounce } = lodash;
+const useDesignStore = useDesign()
+const emits = defineEmits(['update:modelValue'])
 defineOptions({
-    name: 'ElsDynamicDesignerViewInner',
+    name: 'ElsDynamicDesignerViewInner'
 })
 interface Props {
-    config: Array<Record<string, any>>,
+    modelValue: Array<Record<string, any>>|string
 }
 
 const props = withDefaults(defineProps<Props>(), {
 
 })
+const isDisabledUndo = ref(true)
+const isDisabledReDo = ref(true)
+const activeNames = ['1', '2']
+const viewPriview = ref(false)
+const formValue = ref()
 const controlData = ref<any>([])
 const objectData = ref<any>([
     {
@@ -64,6 +74,7 @@ const objectData = ref<any>([
         value: ''
     }
 ])
+const importJSON=ref()
 
 dynamicControlType.forEach((ele) => {
     controlData.value.push({
@@ -89,22 +100,88 @@ dynamicControlType.forEach((ele) => {
     })
 })
 const renderData = ref<any>([])
-renderData.value = lessCom.cloneObj(props.config)
 
-watch(() => props.config, (val) => {
-    if (val) {
-        initData()
+function initData(){
+
+    if (props.modelValue) {
+        if(typeof(props.modelValue)==='object'){
+            renderData.value = lessCom.cloneObj(props.modelValue)
+
+        }else{
+            renderData.value = lessCom.cloneObj(JSON.parse(props.modelValue))
+        }
+        recoverData(renderData.value)
     }
 
-}, { deep: true, immediate: true })
-
-
-function initData() {
-
-    let currData: any = props.config
-    renderData.value.length = 0;
-    renderData.value.push(...currData.filter(ele => ele.isShow == 1));
 }
+
+initData()
+
+const debouncedReturnResult= computed<Function>(() => {
+
+    return debounce(returnResult, 200)
+
+})
+function returnResult(){
+    const val=renderData.value
+    if (val.length > 0) {
+        const currVal = lessCom.cloneObj(val)
+        recoverConfig(currVal)
+        if(typeof(val)==='object'){
+            emits('update:modelValue',currVal)
+        }else{
+            emits('update:modelValue', JSON.stringify(currVal))
+
+        }
+        importJSON.value= JSON.stringify(currVal)
+    }else{
+        if(typeof(val)==='object'){
+            emits('update:modelValue',{})
+        }else{
+            emits('update:modelValue', '')
+
+        }
+    }
+}
+watch(renderData, () => {
+    debouncedReturnResult.value()
+
+}, { deep: true })
+
+function recoverConfig(data) {
+    data.forEach((ele) => {
+
+        if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
+            recoverArrayConfig(ele)
+        } else if (ele.dataTypeName == 'Object') {
+            recoverConfig(ele.data)
+        } else if (ele.dataTypeName == '无' && ele.componentName == 'ElsRow') {
+            recoverConfig(ele.data)
+        }
+        delete ele.componentGroup
+        delete ele.dataTypeName
+        delete ele.arrayDataTypeName
+        delete ele.componentName
+        delete ele.controlTypeName
+        delete ele.value
+    })
+}
+function recoverArrayConfig(item) {
+    delete item.arrayObjData
+    delete item.value
+    item.data.forEach(ele => {
+
+        if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
+            recoverArrayConfig(ele)
+        } else if (ele.dataTypeName == 'Object') {
+            recoverConfig(ele.data)
+        } else if (ele.dataTypeName == '无' && ele.componentName == 'ElsRow') {
+            recoverConfig(ele.data)
+        }
+    })
+
+}
+
 
 function getDefaultValue(item) {
     const currDataType = dynamicDataType.find(ele => ele.value == item.dataType)
@@ -164,8 +241,6 @@ function recoverData(data, valueData: any = null) {
         } else if (currDataType?.label == '无' && currControlType?.componentName == 'ElsRow') {
             recoverData(ele.data, valueData)
         }
-
-
     })
 }
 function recoverArrayData(item, valueData: any = null) {
@@ -181,8 +256,6 @@ function recoverArrayData(item, valueData: any = null) {
             ele.componentGroup = currControlType?.group
             var currItem = Object.assign({}, ele)
             getDefaultValue(currItem);
-
-
             if (currDataType?.label == 'Array' && currArrayDataType?.label == 'Object') {
                 recoverArrayData(currItem)
             } else if (currDataType?.label == 'Object' || currControlType?.componentName == 'ElsRow') {
@@ -192,7 +265,6 @@ function recoverArrayData(item, valueData: any = null) {
         })
         item["arrayObjData"] = currData;
     }
-
     if (valueData) {
         item.value = valueData
         let arrayData: any = [];
@@ -231,10 +303,15 @@ function getUploadUrl(url, item) {
 const currSelectItem = ref()
 const showPropertys = ref(false)
 function setSelectItem(item) {
+
+    if (!item) {
+        currSelectItem.value = null
+        showPropertys.value = false
+        return
+    }
     if (!currSelectItem.value || currSelectItem.value.keyID != item.keyID) {
         showPropertys.value = false
         currSelectItem.value = item
-        console.info(item)
         nextTick(() => {
             showPropertys.value = true
         })
@@ -286,6 +363,29 @@ const currPropertys = computed(() => {
     }
 
 })
+
+function recordComponent() {
+    setSelectItem(null)
+    useDesignStore.record(renderData.value)
+    isDisabledUndo.value = false
+    isDisabledReDo.value = true
+}
+function unDoComponent() {
+    setSelectItem(null)
+    renderData.value = useDesignStore.undo()
+    isDisabledReDo.value = false
+    if (renderData.value.length == 0) {
+        isDisabledUndo.value = true
+    }
+}
+function reDoComponent() {
+    const currValue = useDesignStore.redo();
+    if (currValue) {
+        renderData.value = currValue.data
+        isDisabledReDo.value = currValue.last
+    }
+
+}
 function getSelectItem() {
     return currSelectItem.value
 }
@@ -298,37 +398,38 @@ function getDataTypeData(controlType) {
 
 
 }
-const importJSON = ref()
-function handleOpenImport() {
-    importJSON.value = JSON.stringify(renderData.value, null, '\t')
-}
+
 function handleImportDesigner() {
     renderData.value = JSON.parse(importJSON.value)
     recoverData(renderData.value)
+    recordComponent()
     return Promise.resolve(true)
 }
 function clearAll() {
+    isDisabledReDo.value = true;
+    isDisabledUndo.value = true;
+    useDesignStore.clear()
     renderData.value = []
     currSelectItem.value = null
 }
-const activeNames = ['1', '2']
-const viewPriview = ref(false)
-const formValue = ref()
+
 provide("getUploadUrl", getUploadUrl)
 provide("setSelectItem", setSelectItem)
 provide("getSelectItem", getSelectItem)
+provide("recordComponent", recordComponent)
+
 
 </script>
 <template>
     <div style="display:flex;background:#f8f8f8;" class="els-dynamic-view">
-
         <div style="flex-basis:260px;flex-shrink: 0;background: #fff;" class="els-dynamic-view-components">
-            <el-tabs stretch >
-                <el-tab-pane label="表单组件" >
+            <el-tabs stretch>
+                <el-tab-pane label="表单组件">
                     <el-collapse v-model="activeNames">
                         <el-collapse-item title="基础类型" name="1">
-                            <draggable tag="ul" :list="controlData.filter(ele=>ele.componentGroup==='Form')" item-key="keyID"
-                                :group="{ name: 'dragGroup', pull: 'clone', put: false }" :clone="handleClone" :sort="false">
+                            <draggable tag="ul" :list="controlData.filter(ele => ele.componentGroup === 'Form')"
+                                item-key="keyID" :group="{ name: 'dragGroup', pull: 'clone', put: false }"
+                                :clone="handleClone" :sort="false">
                                 <template #item="{ element, index }">
                                     <li class="container-widget-item" :key="index">
                                         {{ element.controlTypeName }}
@@ -338,7 +439,8 @@ provide("getSelectItem", getSelectItem)
                         </el-collapse-item>
                         <el-collapse-item title="对象类型" name="2">
                             <draggable tag="ul" :list="objectData" item-key="keyID"
-                                :group="{ name: 'dragGroup', pull: 'clone', put: false }" :clone="handleClone" :sort="false">
+                                :group="{ name: 'dragGroup', pull: 'clone', put: false }" :clone="handleClone"
+                                :sort="false">
                                 <template #item="{ element, index }">
                                     <li class="container-widget-item" :key="index">
                                         {{ element.controlTypeName }}
@@ -346,13 +448,14 @@ provide("getSelectItem", getSelectItem)
                                 </template>
                             </draggable>
                         </el-collapse-item>
-                     </el-collapse>
-                    </el-tab-pane>
-                    <el-tab-pane  label="展示组件" >
-                        <el-collapse v-model="activeNames">
+                    </el-collapse>
+                </el-tab-pane>
+                <el-tab-pane label="展示组件">
+                    <el-collapse v-model="activeNames">
                         <el-collapse-item title="容器" name="1">
-                            <draggable tag="ul" :list="controlData.filter(ele=>ele.componentGroup==='Container')" item-key="keyID"
-                                :group="{ name: 'dragGroup', pull: 'clone', put: false }" :clone="handleClone" :sort="false">
+                            <draggable tag="ul" :list="controlData.filter(ele => ele.componentGroup === 'Container')"
+                                item-key="keyID" :group="{ name: 'dragGroup', pull: 'clone', put: false }"
+                                :clone="handleClone" :sort="false">
                                 <template #item="{ element, index }">
                                     <li class="container-widget-item" :key="index">
                                         {{ element.controlTypeName }}
@@ -361,8 +464,9 @@ provide("getSelectItem", getSelectItem)
                             </draggable>
                         </el-collapse-item>
                         <el-collapse-item title="展示" name="2">
-                            <draggable tag="ul" :list="controlData.filter(ele=>ele.componentGroup==='Desc')" item-key="keyID"
-                                :group="{ name: 'dragGroup', pull: 'clone', put: false }" :clone="handleClone" :sort="false">
+                            <draggable tag="ul" :list="controlData.filter(ele => ele.componentGroup === 'Desc')"
+                                item-key="keyID" :group="{ name: 'dragGroup', pull: 'clone', put: false }"
+                                :clone="handleClone" :sort="false">
                                 <template #item="{ element, index }">
                                     <li class="container-widget-item" :key="index">
                                         {{ element.controlTypeName }}
@@ -370,28 +474,49 @@ provide("getSelectItem", getSelectItem)
                                 </template>
                             </draggable>
                         </el-collapse-item>
-                     </el-collapse>
-                    </el-tab-pane>
-               </el-tabs>
-           
-        
+                    </el-collapse>
+                </el-tab-pane>
+            </el-tabs>
+
+
         </div>
         <div style="flex-grow:1">
-            <div style="display: flex; gap: 5px;justify-content: flex-end;background:#fff;line-height:42px;padding:0 15px">
-                <el-link type="primary" @click="clearAll">
-                    <el-icon>
-                        <Delete />
-                    </el-icon>清空
-                </el-link>
-                <els-data-modal title="导入配置" componentName="el-link" buttonLabel="导入配置" :hasInput="false"
-                    :open="handleOpenImport" link :confirm="handleImportDesigner" icon="DocumentAdd">
-                    <els-textarea v-model="importJSON" width="100%" :rows="20"></els-textarea>
-                </els-data-modal>
-                <el-link type="primary" @click="viewPriview = !viewPriview">
-                    <el-icon>
-                        <View />
-                    </el-icon>预览
-                </el-link>
+            <div class="main-tool">
+                <span style="display: flex; align-items: center;cursor: pointer;">
+                    <el-button link @click="unDoComponent" :disabled="isDisabledUndo">
+                        <svg t="1697597294665" class="icon" viewBox="0 0 1137 1024" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" p-id="1473" width="32" height="32">
+                            <path
+                                d="M489.244444 568.888889l60.681482 75.851852H265.481481l64.474075-265.481482 60.681481 72.05926c34.133333-30.340741 109.985185-68.266667 238.933333-68.266667 201.007407 0 280.651852 204.8 280.651852 204.8S792.651852 455.111111 663.703704 455.111111c-98.607407 0-155.496296 75.851852-174.45926 113.777778z"
+                                p-id="1474" fill="#409eff"></path>
+                        </svg>
+                    </el-button>
+                    <el-button link @click="reDoComponent" :disabled="isDisabledReDo">
+                        <svg t="1697597431667" class="icon" viewBox="0 0 1137 1024" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" p-id="980" width="32" height="32">
+                            <path
+                                d="M611.783111 569.344L549.622519 644.740741h284.444444l-65.498074-265.481482-59.922963 72.666074c-35.422815-28.48237-108.278519-68.342519-238.667852-68.342518-202.827852 0-280.651852 206.01363-280.651852 206.013629s116.318815-132.778667 246.215111-132.778666c97.204148-0.037926 153.865481 74.827852 176.241778 112.526222z"
+                                p-id="981" fill="#409eff"></path>
+                        </svg>
+                    </el-button>
+                </span>
+                <span style="display: flex; align-items: center;gap: 5px;">
+                    <el-link type="primary" @click="clearAll">
+                        <el-icon>
+                            <Delete />
+                        </el-icon>清空
+                    </el-link>
+                    <els-data-modal title="导入配置" componentName="el-link" buttonLabel="导入配置" :hasInput="false"
+                         link :confirm="handleImportDesigner" icon="DocumentAdd">
+                         <ElsJsonEditor v-model="importJSON" style="height: 500px;"></ElsJsonEditor>
+
+                    </els-data-modal>
+                    <el-link type="primary" @click="viewPriview = !viewPriview">
+                        <el-icon>
+                            <View />
+                        </el-icon>预览
+                    </el-link>
+                </span>
             </div>
             <div class="main">
                 <DynamicDesignerViewInner :data="renderData"></DynamicDesignerViewInner>
@@ -400,8 +525,9 @@ provide("getSelectItem", getSelectItem)
                 </el-empty>
             </div>
         </div>
-        <div style="flex-basis:400px;width:400px; flex-shrink: 0;background: #fff;padding:0 5px;" class="els-dynamic-view-propertys">
-            <el-tabs  stretch v-if="currSelectItem && currPropertys && showPropertys">
+        <div style="flex-basis:400px;width:400px; flex-shrink: 0;background: #fff;padding:0 5px;"
+            class="els-dynamic-view-propertys">
+            <el-tabs stretch v-if="currSelectItem && currPropertys && showPropertys">
                 <el-tab-pane label="基础属性" v-if="currSelectItem.dataType">
                     <els-form v-model="currSelectItem">
                         <els-input label="名称" prop="keyName" required></els-input>
@@ -415,6 +541,7 @@ provide("getSelectItem", getSelectItem)
                             required :data="getDataTypeData(currSelectItem.controlType)"
                             v-model:select-label="currSelectItem.arrayDataTypeName" valueField="value" labelField="label"
                             placeholder="值类型" prop="arrayDataType"></els-select>
+                        <els-input label="默认值" prop="defaultValue"></els-input>
 
                     </els-form>
                 </el-tab-pane>
@@ -448,7 +575,7 @@ provide("getSelectItem", getSelectItem)
                 <ElsDynamicRender v-model="formValue" :config="renderData"></ElsDynamicRender>
             </el-tab-pane>
             <el-tab-pane label="表单属性">
-                {{ formValue }}
+                <ElsJsonViewer :data="formValue" ></ElsJsonViewer>
             </el-tab-pane>
         </el-tabs>
     </els-dialog>
@@ -456,6 +583,21 @@ provide("getSelectItem", getSelectItem)
 
 <style lang="less">
 .els-dynamic-view {
+    .main-tool {
+        display: flex;
+        gap: 5px;
+        justify-content: space-between;
+        background: #fff;
+        line-height: 42px;
+        padding: 0 15px
+    }
+
+    .main-tool button.is-disabled {
+        svg path {
+            fill: #a8abb2
+        }
+    }
+
     .main {
         background: #fff;
         padding: 10px;
@@ -470,9 +612,10 @@ provide("getSelectItem", getSelectItem)
 }
 
 .els-dynamic-view-components {
-.el-collapse-item__header{
-font-weight:bold;
-}
+    .el-collapse-item__header {
+        font-weight: bold;
+    }
+
     .el-card__body {
         padding: 0px 10px;
     }

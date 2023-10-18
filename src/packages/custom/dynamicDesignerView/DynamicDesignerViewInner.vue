@@ -109,40 +109,53 @@ watchEffect(() => {
 
 const setSelectItem = inject<Function>('setSelectItem', () => { })
 const getSelectItem = inject<Function>('getSelectItem', () => { })
+const recordComponent = inject<Function>('recordComponent', () => { })
+
 
 function handleSelectItem(item) {
     setSelectItem(item)
 }
 function handleAddComponent(e) {
-
+    recordComponent()
     setSelectItem(currData.value[e.newIndex])
 
 }
-function handleAddArrayComponent(element){
-    
-    if(element.data.length>0){
-        
-        const child=element.data[0];
-        if(child.dataTypeName==='Array'){
+function initArrayChild(element){
+    if (element.data.length > 0) {
+        const child = element.data[0];
+        if (child.dataTypeName === 'Array') {
             ElMessage.warning('数组不能嵌套数组')
-            element.data.splice(0,1)
+            element.data.splice(0, 1)
             return
         }
-        element.arrayDataType=child.dataType
-        element.arrayDataTypeName=child.dataTypeName
-        element.componentName=child.componentName
-        element.componentGroup=child.componentGroup
-        element.controlType=child.controlType
-        element.controlTypeName=child.controlTypeName
-        element.data=[]
-        element.value=[]
+        if(child.dataTypeName=='无'){
+            ElMessage.warning('数组中不能展示组件')
+            element.data.splice(0, 1)
+            return
+        }
+        element.arrayDataType = child.dataType
+        element.arrayDataTypeName = child.dataTypeName
+        element.componentName = child.componentName
+        element.componentGroup = child.componentGroup
+        element.controlType = child.controlType
+        element.controlTypeName = child.controlTypeName
+        element.data = child.data
+        element.value = []
     }
+    recordComponent()
+    return true
+}
+function handleAddArrayComponent() {
+ 
+    recordComponent()
 
-   
+
 }
 function handleRemove(item) {
     var index = currData.value.indexOf(item)
     currData.value.splice(index, 1)
+    setSelectItem(null)
+    recordComponent()
 
 }
 currDepath.value += 1;
@@ -155,19 +168,21 @@ currDepath.value += 1;
         <component :is="nodeItem?.componentName=='ElsRow'?'ElsRow':'div'" :gutter="5" :class="itemClassName"
             :style="nodeItem?.componentName === 'ElsRow' ? nodeItem ? nodeItem.config.advancedConfig?.style : '' : ''">
             <draggable tag="div" :class="nodeItem?.componentName === 'ElsRow' ? 'els-row-drag' : ''"
-                :style="[{ 'min-height': depath?'50px' : '650px' }]"
-                style="margin:5px 0;width: 100%;" :list="currData" @add="handleAddComponent" item-key="keyID"
+                :style="[{ 'min-height': depath ? '50px' : '650px' }]" style="margin:5px 0;width: 100%;" :list="currData"
+                @add="handleAddComponent" item-key="keyID"
                 v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }" :sort="true" handle=".els-view-move">
                 <template #item="{ element, index }">
-                    
+
                     <component :key="element.keyID" :is="nodeItem?.componentName==='ElsRow'?'els-col':'div'">
                         <div v-if="handleIfExpress(element)" class="els-dynamic-d-v-item"
-                            :class="{ 'selected': getSelectItem()?.keyCode == element.keyCode }"
+                            :class="{ 'selected': getSelectItem()?.keyID == element.keyID }"
                             @click.stop="handleSelectItem(element)">
                             <span class="els-dynamic-d-v-item-type" v-if="element.componentGroup == 'Form'">
                                 <span>{{ element.keyCode }}</span>
                                 <span>{{ element.dataTypeName === 'Array' ? `Array
-                                    <${element.arrayDataTypeName ? element.arrayDataTypeName : 'T'}>` : element.dataTypeName }}</span>
+                                    <${element.arrayDataTypeName ? element.arrayDataTypeName : 'T'}>` :
+                                    element.dataTypeName }}
+                                </span>
                             </span>
                             <span class="els-dynamic-d-v-item-move">
                                 <el-popconfirm title="确定删除吗？" @confirm="handleRemove(element)">
@@ -199,11 +214,11 @@ currDepath.value += 1;
 
 
                                     <template v-if="element.dataTypeName === 'Array' && !element.arrayDataTypeName">
-                                        <draggable tag="div" style="min-height:100px;margin:5px 0;width: 100%;z-index:10"
-                                            :list="element.data" @add="handleAddArrayComponent(element)" item-key="keyID"
+                                        <draggable  tag="div" style="min-height:100px;margin:5px 0;width: 100%;z-index:10"
+                                            :list="element.data" @add="handleAddArrayComponent()"  item-key="keyID"
                                             v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }">
                                             <template #item>
-                                                <el-empty></el-empty>
+                                                <el-empty v-if="initArrayChild(element)"></el-empty>
                                             </template>
                                         </draggable>
                                     </template>
@@ -215,7 +230,8 @@ currDepath.value += 1;
                                         @valueChange="handleValueChange($event, element)">
                                     </DynamicDesignerViewItem>
 
-                                    <DynamicDesignerViewInner v-else-if="element.dataTypeName == 'Object'||(element.dataTypeName == 'Array' && element.arrayDataTypeName == 'Object')"
+                                    <DynamicDesignerViewInner
+                                        v-else-if="element.dataTypeName == 'Object' || (element.dataTypeName == 'Array' && element.arrayDataTypeName == 'Object')"
                                         :data="element.data" :parentNode="currNode" :node-item="element"
                                         :depath="currDepath">
                                     </DynamicDesignerViewInner>

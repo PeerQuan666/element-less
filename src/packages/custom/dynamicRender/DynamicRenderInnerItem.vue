@@ -116,7 +116,7 @@ const baseAttrs = computed(() => {
     }
     return currAttrs
 })
-const componentAttrs = ref<any>(baseAttrs)
+const componentAttrs = ref<any>(baseAttrs.value)
 const showText = ref('')
 
 const componentName = ref('')
@@ -129,9 +129,9 @@ watchEffect(() => {
 
 
 //判断父节点类型
-watch(dyProvideData, (val,oldval) => {
-    if (val&&val!=oldval) {
-        console.info('sss')
+watch(dyProvideData, (val) => {
+
+    if (val&&['active-value','inactive-value','multiple','value'].includes(props.item.keyCode)) {
         const currNodeType = val.nodeType
         showText.value=''
         //判断配置节点数据类型
@@ -161,9 +161,15 @@ watch(dyProvideData, (val,oldval) => {
                 } else {
                     componentAttrs.value = Object.assign({},baseAttrs.value, { 'disabled': false })
                     if (props.item.keyCode == 'active-value') {
-                        currValue.value = 'true'
+                        if(typeof(currValue.value )!=='string'){
+                            currValue.value = 'true'
+                        }
+                       
                     } else {
-                        currValue.value = 'false'
+                        if(typeof(currValue.value )!=='string'){
+                            currValue.value = 'false'
+                        }
+                   
                     }
                 }
 
@@ -178,12 +184,18 @@ watch(dyProvideData, (val,oldval) => {
 
             } else if (props.item.keyCode === 'value') {
                 if (currNodeType.dataType == 'Bool') {
-                    currValue.value = false
+                    if(typeof(currValue.value)!=='boolean'){
+                        currValue.value = false
+                    }
+                
                     componentName.value = 'ElsSelect';
-                    componentAttrs.value = Object.assign({},baseAttrs.value, {'teleported':false, 'width':'80', 'data': [{ label: 'true', value: true }, { label: 'false', value: false }], 'type': 'radio'})
+                    componentAttrs.value = Object.assign( {'teleported':false, 'width':'80', 'data': [{ label: 'true', value: true }, { label: 'false', value: false }], 'type': 'radio'},baseAttrs.value)
                 }
                 else if (currNodeType.dataType === '数字') {
-                    currValue.value=0
+                    if(typeof(currValue.value)!=='number'){
+                        currValue.value=0
+                    }
+          
                     componentName.value = 'ElsInputNumber';
                     componentAttrs.value = Object.assign({},baseAttrs.value, { "controls-position":'right','width':'80' })
 

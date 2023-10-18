@@ -25,18 +25,20 @@ const designerContainer = ref()
 const innerClass = ref('')
 const designerObj = ref([])
 const props = defineProps<Props>()
-watch(() => props.modelValue, (val) => {
-  if (val && typeof (val) === 'string') {
-    if (val != JSON.stringify(designerObj.value)) {
-      designerJSON.value = val
-      designerObj.value = JSON.parse(val)
-    }
-  } else if (val && typeof (val) === 'object') {
-    designerJSON.value = JSON.stringify(val)
-    designerObj.value = val
-  }
 
-})
+function initData(){
+  if (props.modelValue && typeof (props.modelValue) === 'string') {
+    if (props.modelValue != JSON.stringify(designerObj.value)) {
+      designerJSON.value = props.modelValue
+      designerObj.value = JSON.parse(props.modelValue)
+    }
+  } else if (props.modelValue && typeof (props.modelValue) === 'object') {
+    designerJSON.value = JSON.stringify(props.modelValue)
+    designerObj.value = props.modelValue
+  }
+}
+
+initData()
 provide("tagID", 'els-dynamic-designer-' + lessCom.Guid32())
 provide('dataTypeData', !props.dataType ? dynamicDataType : props.dataType)
 provide('arrayObjectType', !props.arrayDataType ? dynamicArrayDataType : props.arrayDataType)
@@ -50,10 +52,19 @@ function handleImportDesigner() {
   return Promise.resolve(true)
 }
 function handleOpenImport() {
-  importJSON.value = JSON.stringify(designerObj.value, null, '\t')
+  importJSON.value =JSON.stringify(designerObj.value) 
 }
 watch(designerObj, (val) => {
-  emits('update:modelValue', JSON.stringify(val))
+  if (val) {
+    if (typeof (props.modelValue) === 'object') {
+      emits('update:modelValue', val)
+
+    } else {
+      emits('update:modelValue', JSON.stringify(val))
+
+    }
+  }
+
 }, { deep: true })
 onMounted(() => {
   useResizeObserver(designerContainer, (entries) => {
@@ -71,30 +82,30 @@ onMounted(() => {
   })
 })
 const designType = ref('精简模式')
-function closeViewDialog(){
-  designType.value='精简模式'
+function closeViewDialog() {
+  designType.value = '精简模式'
 }
 </script>
 <template>
   <div class="els-dynamic-config" ref="designerContainer">
     <div style="display: flex;">
       <ElsRadioButton v-model="designType">
-        <ElsOption>精简模式</ElsOption>
-        <ElsOption>设计模式</ElsOption>
+        <ElsOption value="精简模式"><el-icon><MoreFilled /></el-icon></ElsOption>
+        <ElsOption value="设计模式"><el-icon><Grid /></el-icon></ElsOption>
       </ElsRadioButton>
-      <els-data-modal style="margin-left:5px;margin-bottom:5px;" title="导入配置" buttonLabel="导入配置" :hasInput="false"
+      <els-data-modal style="margin-left:5px;margin-bottom:5px;" title="导入配置" buttonLabel="导入配置" icon="Edit" :hasInput="false"
         :open="handleOpenImport" :confirm="handleImportDesigner">
-        <els-textarea v-model="importJSON" width="100%" :rows="20"></els-textarea>
+        <ElsJsonEditor v-model="importJSON" style="height: 500px;"></ElsJsonEditor>
       </els-data-modal>
     </div>
-    <DynamicDesignerInner v-if="designType==='精简模式'" :data="designerObj" :class="innerClass"></DynamicDesignerInner>
+    <DynamicDesignerInner v-if="designType === '精简模式'" :data="designerObj" :class="innerClass"></DynamicDesignerInner>
   </div>
-  <template v-if="designType!=='精简模式'">
-       <ElsDialog v-if="innerClass!=='max'" :visible="true" @close="closeViewDialog" width="90%">
-          <DynamicDesignerView :config="designerObj"></DynamicDesignerView>
-       </ElsDialog>
-       <DynamicDesignerView v-else :config="designerObj"></DynamicDesignerView>
-    </template>
+  <template v-if="designType !== '精简模式'">
+    <ElsDialog v-if="innerClass !== 'max'" :visible="true" @close="closeViewDialog" width="90%">
+      <DynamicDesignerView v-model="designerObj"></DynamicDesignerView>
+    </ElsDialog>
+    <DynamicDesignerView v-else v-model="designerObj"></DynamicDesignerView>
+  </template>
 </template>
 <style lang="less">
 .els-dynamicc-d-head {

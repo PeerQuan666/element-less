@@ -8,6 +8,10 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { ElementLess } from '../../src/packages'
+import pinia  from '../../src/packages/utlis/pinia'
+
+
+
 import 'element-plus/dist/index.css'
 
 library.add(far,fas)
@@ -63,7 +67,9 @@ export default defineClientConfig({
           }
       }
   }
-  app.use(VueUeditorWrap)
+
+  app.use(pinia)
+   app.use(VueUeditorWrap)
     app.use(ElementPlus);
     app.use(ElementLess);
   },

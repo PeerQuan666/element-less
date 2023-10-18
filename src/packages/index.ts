@@ -76,6 +76,9 @@ import ElsFormNode from './custom/form-node'
 import ElsDynamicDesigner from './custom/dynamicDesigner'
 import ElsDynamicRender from './custom/dynamicRender'
 
+import ElsJsonEditor from './custom/jsonEditor'
+import ElsJsonViewer from './custom/jsonViewer'
+
 import ElsContainer from './custom/container/Container.vue'
 const components =[
     ElsInput,
@@ -127,7 +130,9 @@ const components =[
     ElsDynamicDesigner,
     ElsSwitch,
     ElsDynamicRender,
-    ElsInputNumber
+    ElsInputNumber,
+    ElsJsonEditor,
+    ElsJsonViewer
 
 ]
 
