@@ -31,9 +31,10 @@ const renderData: Array<Record<string, any>> = reactive([])
 const valueData: Record<string, any> = ref({})
 
 const provideData=ref({nodeType:props.nodeType})
-watch(()=>props.nodeType,(val)=>{
-    provideData.value.nodeType=val
-
+watch(()=>props.nodeType,(val,old)=>{
+    if(val!=old){
+        provideData.value.nodeType=val
+    }
 })
 provide('dyProvideData',provideData)
 
@@ -94,13 +95,6 @@ function getDefaultValue(item) {
     const currDataType = dynamicDataType.find(ele => ele.value == item.dataType)
     if (currDataType) {
         switch (currDataType.label) {
-            case '字符串':
-                if (item.defaultValue) {
-                    item.value = item.defaultValue.toString()
-                }else{
-                    item.value = ''
-                }
-                break
             case '数字':
                 if (item.defaultValue) {
                     item.value = parseFloat(item.defaultValue)
@@ -115,6 +109,12 @@ function getDefaultValue(item) {
                     item.value = false
                 }
                 break
+            default:
+                if (item.defaultValue) {
+                    item.value = item.defaultValue.toString()
+                }else{
+                    item.value = ''
+                }
         }
     }
 
@@ -152,20 +152,24 @@ function recoverData(data, valueData: any = null) {
         valueData = {}
     }
     data.forEach((ele) => {
-        if (!valueData[ele.keyCode] && valueData[ele.keyCode] !== 0 && valueData[ele.keyCode] !== false) {
-            getDefaultValue(ele)
+        if(ele.keyCode){
+            const currVal=valueData[ele.keyCode]
+            if (currVal===undefined) {
+                getDefaultValue(ele)
 
-        } else {
-            ele.value = valueData[ele.keyCode]
+            } else {
+                ele.value = currVal
+            }
+        }else{
+            getDefaultValue(ele)
         }
         const currDataType = dynamicDataType.find(d => d.value == ele.dataType)
         const currArrayDataType = dynamicDataType.find(d => d.value == ele.arrayDataType)
         const currControlType = dynamicControlType.find(d => d.value == ele.controlType)
-
+        ele.componentGroup=currControlType?.group
         ele.dataTypeName = currDataType?.label
         ele.arrayDataTypeName = currArrayDataType?.label
         ele.componentName = currControlType?.componentName
-
         if (currDataType?.label == 'Array' && currArrayDataType?.label == 'Object') {
             recoverArrayData(ele, valueData[ele.keyCode])
         } else if (currDataType?.label == 'Object') {
@@ -189,13 +193,14 @@ function recoverArrayData(item, valueData: any = null) {
             ele.dataTypeName = currDataType?.label
             ele.arrayDataTypeName = currArrayDataType?.label
             ele.componentName = currControlType?.componentName
+            ele.componentGroup=currControlType?.group
             var currItem = Object.assign({}, ele)
             getDefaultValue(currItem);
 
 
             if (currDataType?.label == 'Array' && currArrayDataType?.label == 'Object') {
                 recoverArrayData(currItem)
-            } else if (currDataType?.label == 'Object') {
+            } else if (currDataType?.label == 'Object'||currControlType?.componentName == 'ElsRow') {
                 recoverData(currItem.data)
             }
             currData.push(currItem)
@@ -253,15 +258,15 @@ function handleReturnResult() {
         var currData = {};
         renderData.forEach(ele => {
             if (ele.componentName !== 'ElsCaption') {
-                if (ele.dataTypeName == 'Object') {
+                if (ele.dataTypeName == 'Object'&&ele.keyCode) {
                     currData[ele.keyCode] = childResult(ele)
                 }
                 else if (ele.dataTypeName == '无' && ele.componentName == 'ElsRow') {
                     Object.assign(currData, childResult(ele))
                 }
-                else if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
+                else if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object'&&ele.keyCode) {
                     currData[ele.keyCode] = childResultList(ele)
-                } else {
+                } else if(ele.keyCode){
                     currData[ele.keyCode] = ele.value;
                 }
             }
@@ -283,15 +288,15 @@ function childResult(item) {
     if (!currData) { currData = item; }
     currData.forEach(ele => {
         if (ele.componentName !== 'ElsCaption') {
-            if (ele.dataTypeName == 'Object') {
+            if (ele.dataTypeName == 'Object'&&ele.keyCode) {
                 currItem[ele.keyCode] = childResult(ele)
             }
             else if (ele.dataTypeName == '无' && ele.componentName == 'ElsRow') {
                 Object.assign(currItem, childResult(ele))
             }
-            else if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
+            else if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object'&&ele.keyCode) {
                 currItem[ele.keyCode] = childResultList(ele)
-            } else {
+            } else if(ele.keyCode){
                 currItem[ele.keyCode] = ele.value;
             }
         }
@@ -339,23 +344,80 @@ function childResultList(item) {
     <DynamicRenderInner :data="renderData"></DynamicRenderInner>
 </template>
 <style lang="less">
+.el-row:has(div[class^=el-form-item]){
+    margin-bottom: 0px;
+}
 .leo-dynamic-r-item-child {
     .el-form-item__content {
         .el-form {
             flex-grow: 1;
+            .el-row:last-child{
+                margin-bottom: 0px;
+            }
+        }
+        .els_upload_container{
+            flex-grow: 1;
         }
     }
-    
+    .el-form-item:has(form){
+        .el-form-item {
+            margin-bottom: 18px;
+        }
+    }
 
 }
+.els-dynamic-obj{
+    .el-form-item{
+        margin-bottom: 18px !important;
+    }
+    .el-form-item .el-form-item{
+        margin-bottom: 0px !important;
+    }
+}
 .els-dynamic-r-array{
+    border: 1px solid #dcdfe6;
+    padding: 5px 60px 5px 5px;
+    position:relative;
+    >.els-list-operate{
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: #e5efff;
+    margin-left: 0px !important;
+}
+}
+.els-dynamic-r-array-container{
+    overflow: scroll;
+    flex-grow:1;
+}
+
+.els-dynamic-r-item,.els-dynamic-r-array{
+    .el-form-item__content>.els-caption{
+        margin-bottom: 0px;
+    }
+    .els-caption{
+        flex-grow: 1;
+    }
     .listitem {
         .els-list-operate{margin-bottom: 0;}
-        .leo-dynamic-r-item-child {display: flex;}
+        .leo-dynamic-r-item-child {display: flex;gap: 5px;}
+        form{
+            .leo-dynamic-r-item-child {
+                display:inherit
+            }
+            flex-grow:1;
+        }
         .els-dynamic-r-item{
             display: flex;
         }
+    }
+
 }
+.els-list>div>div:has(>div[class*=els-dynamic-r-array])
+{ margin-bottom:10px}
+
+::-webkit-scrollbar-track-piece{
+    background: none;
 }
 
 </style>

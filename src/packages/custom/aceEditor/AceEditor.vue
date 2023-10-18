@@ -39,12 +39,12 @@ const editor = ref<any>()
 function handleReturnResult(val){
 
     emits('update:modelValue', val)
-    if(setModelValue&&props.prop){
+    if(props.modelValue===undefined&&setModelValue&&props.prop!==undefined){
         setModelValue(props.prop,val,props.aIndex)
     }
 }
 function initModelValue(){
-    if(!props.modelValue&&getModelValue&&props.prop){
+    if(props.modelValue===undefined&&getModelValue&&props.prop){
       return  getModelValue(props.prop,props.aIndex)
     }
     return props.modelValue

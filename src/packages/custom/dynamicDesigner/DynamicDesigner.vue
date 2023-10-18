@@ -4,6 +4,8 @@ import { useResizeObserver } from '@vueuse/core'
 import '../../utlis/lessPrototype.js'
 import { dynamicDataType, dynamicArrayDataType, dynamicControlType } from '../../utlis/lessConfig.js'
 import DynamicDesignerInner from './DynamicDesignerInner.vue'
+import DynamicDesignerView from '../dynamicDesignerView/DynamicDesignerView.vue'
+
 import lessCom from '../../utlis/lessCom'
 defineOptions({
   name: 'ElsDynamicDesigner',
@@ -68,16 +70,31 @@ onMounted(() => {
     }
   })
 })
-
+const designType = ref('精简模式')
+function closeViewDialog(){
+  designType.value='精简模式'
+}
 </script>
 <template>
   <div class="els-dynamic-config" ref="designerContainer">
-    <els-data-modal style="margin-left:5px;margin-bottom:5px;" title="导入配置" buttonLabel="导入配置" :hasInput="false"
-      :open="handleOpenImport" :confirm="handleImportDesigner">
-      <els-textarea v-model="importJSON" width="100%" :rows="20"></els-textarea>
-    </els-data-modal>
-    <DynamicDesignerInner :data="designerObj" :class="innerClass"></DynamicDesignerInner>
+    <div style="display: flex;">
+      <ElsRadioButton v-model="designType">
+        <ElsOption>精简模式</ElsOption>
+        <ElsOption>设计模式</ElsOption>
+      </ElsRadioButton>
+      <els-data-modal style="margin-left:5px;margin-bottom:5px;" title="导入配置" buttonLabel="导入配置" :hasInput="false"
+        :open="handleOpenImport" :confirm="handleImportDesigner">
+        <els-textarea v-model="importJSON" width="100%" :rows="20"></els-textarea>
+      </els-data-modal>
+    </div>
+    <DynamicDesignerInner v-if="designType==='精简模式'" :data="designerObj" :class="innerClass"></DynamicDesignerInner>
   </div>
+  <template v-if="designType!=='精简模式'">
+       <ElsDialog v-if="innerClass!=='max'" :visible="true" @close="closeViewDialog" width="90%">
+          <DynamicDesignerView :config="designerObj"></DynamicDesignerView>
+       </ElsDialog>
+       <DynamicDesignerView v-else :config="designerObj"></DynamicDesignerView>
+    </template>
 </template>
 <style lang="less">
 .els-dynamicc-d-head {
@@ -272,6 +289,7 @@ onMounted(() => {
   }
 
   .tag-name {
+    cursor: pointer;
     position: absolute;
     right: 0;
     top: 0px;
@@ -280,6 +298,7 @@ onMounted(() => {
     display: flex;
     align-items: center;
     column-gap: 3px;
+    z-index: 1;
   }
 }
 
@@ -290,4 +309,5 @@ onMounted(() => {
 
 .els-dynamic-d-item-container>.els-dynamic-d-flat-item-child {
   margin-left: 0 !important;
-}</style>
+}
+</style>

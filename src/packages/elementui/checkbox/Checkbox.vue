@@ -40,16 +40,29 @@ const optionData = computed<Array<Record<string, any>>>(() => {
 })
 const getModelValue=inject<Function>('getModelValue',()=>null)
 function initModelValue(){
-    if(!props.modelValue&&getModelValue&&props.prop){
+    if(props.modelValue===undefined&&getModelValue&&props.prop){
       return  getModelValue(props.prop,props.aIndex)
     }
     return props.modelValue
 }
 const checkboxClass: string[] = reactive([])
 const checkboxStyle: any = reactive([]);
-provide('type', props.type)
+const provideOptionData=ref<any>({type:'checkbox',optionWidth:''})
+
+provide('provideOption',provideOptionData)
+watchEffect(()=>{
+    if (props.type == 'button') {
+        provideOptionData.value.type= 'checkboxbutton'
+    } else {
+        provideOptionData.value.type= 'checkbox'
+
+    }
+    if(props.optionWidth){
+        provideOptionData.value.optionWidth=props.optionWidth
+    }
+})
+
 provide('setExtraOption', setExtraOption)
-provide('optionWidth', props.optionWidth)
 
 if (props.type == 'checkbox') {
 
@@ -191,10 +204,6 @@ function initSelectValue() {
         currModelValue = currModelValue.replace(/^,+/, "").replace(/,+$/, "");
     }
     if (currModelValue === '' || currModelValue === undefined) {
-        if (selectValue.value.length > 0) {
-            selectValue.value = [];
-        }
-        singleSelectValue.value = '';
         return
     }
     if (!multiple.value) {
@@ -213,7 +222,7 @@ function initSelectValue() {
     } else {
         if (currValueType === ValueType.Number) {
             selectValue.value = currModelValue.split(',').map(ele => parseFloat(ele));
-        } else if (currValueType === "string" && currModelValue !== "") {
+        } else if (currValueType === ValueType.String && currModelValue !== "") {
             selectValue.value = currModelValue.split(',')
         } else if (optionData.value.length && typeof (optionData.value[0][props.valueField]) === "number") {
             selectValue.value = currModelValue.split(',').map(ele => parseFloat(ele));
@@ -281,7 +290,7 @@ function handleClickOption(item) {
 }
 function handleReturnModelValue(value){
     emits('update:modelValue', value);
-    if(setModelValue&&props.prop){
+    if(props.modelValue===undefined&&setModelValue&&props.prop!==undefined){
         setModelValue(props.prop,value,props.aIndex)
     }
 }
@@ -332,7 +341,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <ElsFormNode v-bind="props">
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
         <div :class="checkboxClass" :style="checkboxStyle">
             <div style="margin-bottom: 15px;text-align:left;" v-if="showCheckall || filterable">
                 <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" v-if="showCheckall"

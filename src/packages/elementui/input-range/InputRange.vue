@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, watch, useAttrs,inject,watchEffect } from 'vue'
+import { ref, useAttrs,inject,watchEffect } from 'vue'
 import '../../utlis/lessPrototype.js'
 import { RangeFormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom';
 const emits = defineEmits(['update:modelValue', 'update:start', 'update:end'])
-defineOptions({ name: 'ElsInputRange' })
+defineOptions({ name: 'ElsInputRange',
+    inheritAttrs:false })
 
 interface Props extends RangeFormItemProps {
     modelValue?: string,
@@ -33,20 +34,20 @@ const currEndValue = ref()
 
 const getModelValue = inject<Function>('getModelValue', () => null)
 function initModelValue() {
-    if (!props.modelValue && getModelValue && props.prop) {
+    if (props.modelValue===undefined&& getModelValue && props.prop!==undefined) {
         return getModelValue(props.prop,props.aIndex)
     }
     return props.modelValue
 }
 
 function initStartModelValue() {
-    if (!props.start && getModelValue && attrs.propStart) {
+    if (props.start===undefined && getModelValue && attrs.propStart!==undefined) {
         return getModelValue(attrs.propStart)
     }
     return props.start
 }
 function initEndModelValue() {
-    if (!props.end && getModelValue && attrs.propEnd) {
+    if (props.end===undefined && getModelValue && attrs.propEnd!==undefined) {
         return getModelValue(attrs.propEnd)
     }
     return props.modelValue
@@ -113,7 +114,7 @@ function handleReturnResult() {
         emits('update:modelValue', '')
     }
 
-    if(setModelValue&&props.prop){
+    if(props.modelValue===undefined&&setModelValue&&props.prop!==undefined){
         setModelValue(props.prop,currValue,props.aIndex)
         setModelValue(props.propStart,startValue,props.aIndex)
         setModelValue(props.propEnd,endValue,props.aIndex)
@@ -127,7 +128,7 @@ function handleReturnResult() {
 </script>
 
 <template>
-    <ElsFormNode v-bind="props">
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
         <el-space class="els-range">
             <els-input auto-complete="on" :placeholder="startPlaceholder" :width="width" v-bind="attrs"
                 v-model="currStartValue" @blur="handleBlur" @change="handleChange">

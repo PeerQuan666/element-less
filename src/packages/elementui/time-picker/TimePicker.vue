@@ -3,7 +3,10 @@ import { ref, useAttrs, watch, inject, watchEffect } from 'vue'
 import '../../utlis/lessPrototype.js'
 import { TimePickerProps } from '../../utlis/interfaceCom'
 const emits = defineEmits(['update:modelValue', 'update:start', 'update:end', 'visible-change'])
-defineOptions({ name: 'ElsTimePicker' })
+import lessCom from '../../utlis/lessCom.js'
+
+defineOptions({ name: 'ElsTimePicker' ,
+    inheritAttrs:false})
 
 const props = withDefaults(defineProps<TimePickerProps>(), {
     type: 'date',
@@ -13,7 +16,6 @@ const props = withDefaults(defineProps<TimePickerProps>(), {
 })
 
 const attrs = useAttrs()
-console.info(props)
 const timeValue = ref()
 const selectVisible = ref(false)
 const lessHour = ref(0)
@@ -27,19 +29,19 @@ const greaterSecond = ref(0)
 
 const getModelValue = inject<Function>('getModelValue', () => null)
 function initModelValue() {
-    if (!props.modelValue && getModelValue && props.prop) {
+    if (props.modelValue===undefined&&getModelValue && props.prop!==undefined) {
         return getModelValue(props.prop,props.aIndex)
     }
     return props.modelValue
 }
 function initStartModelValue() {
-    if (!props.start && getModelValue && attrs.propStart) {
+    if (props.start===undefined && getModelValue && attrs.propStart!==undefined) {
         return getModelValue(attrs.propStart)
     }
     return props.start
 }
 function initEndModelValue() {
-    if (!props.end && getModelValue && attrs.propEnd) {
+    if (props.end===undefined && getModelValue && attrs.propEnd!==undefined) {
         return getModelValue(attrs.propEnd)
     }
     return props.modelValue
@@ -178,19 +180,19 @@ function handleVisible(visible) {
 const setModelValue = inject<Function>('setModelValue', () => { })
 function handleReturnModelValue(value) {
     emits('update:modelValue', value);
-    if (setModelValue && props.prop) {
+    if (props.modelValue===undefined&&setModelValue && props.prop!==undefined) {
         setModelValue(props.prop, value,props.aIndex)
     }
 }
 function handleReturnStartValue(value) {
     emits('update:start', value);
-    if (setModelValue && attrs.propStart) {
+    if (props.start===undefined&&setModelValue && attrs.propStart!==undefined) {
         setModelValue(attrs.propStart, value,props.aIndex)
     }
 }
 function handleReturnEndValue(value) {
-    emits('update:start', value);
-    if (setModelValue && attrs.propEnd) {
+    emits('update:end', value);
+    if (props.end===undefined&&setModelValue && attrs.propEnd!==undefined) {
         setModelValue(attrs.propEnd, value,props.aIndex)
     }
 }
@@ -247,7 +249,7 @@ if (attrs['is-range'] !== undefined) {
 </script>
 
 <template>
-    <ElsFormNode v-bind="props">
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
         <el-time-picker v-model="timeValue" :value-format="valueFormat" :style="pickerStyle"
             :disabled-hours="disabledHourFn" :disabled-minutes="disabledMinutesFn" :disabled-seconds="disabledSecondsFn"
             @visible-change="handleVisible">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useAttrs,h,provide} from 'vue'
+import {useAttrs,h,provide,watchEffect} from 'vue'
 import draggable from 'vuedraggable'
 import { useVModel } from '@vueuse/core'
 import ElsForm from '../../elementui/form/Form.vue';
@@ -28,7 +28,8 @@ const props = withDefaults(defineProps<Props>(), {
     itemKey:''
 
 })
-provide('labelWidth', props.labelWidth)
+
+
 const currData=useVModel(props, 'data', emits) 
 const attrs=useAttrs()
 function handleAdd() {
@@ -43,18 +44,28 @@ function handleRemove(item) {
     var index = currData.value.indexOf(item)
     currData.value.splice(index, 1)
 }
-let container =props.hasForm? h(ElsForm):h('div')
+let container =h('div')
+let outContainer=h('div')
+watchEffect(()=>{
+    if(props.hasForm&&currData.value.length){
+        if(typeof(currData[0])!=='object'){
+            outContainer=h(ElsForm)
+            container =h('div')
 
+        }else{
+            container= h(ElsForm)
+            outContainer=h('div')
+        }
+    }
+})
 </script>
 <template >
- 
-    <div class="els-list">
+    <component :is="outContainer" v-model="currData" class="els-list" :labelWidth="labelWidth">
         <draggable :list="currData" handle=".el-icon-rank" v-bind="attrs" :item-key="itemKey">
             <template #item="{ element, index }">  
-                <component :is="container"  v-model="currData[index]" inline :slotData="{ item: element, index: index, $item: element, $index: index }">
+                <component :is="container"  v-model="currData[index]" inline :labelWidth="labelWidth">
                     <div class="listitem flex" :class="itemClassName">
-               
-                        <slot name="default" v-bind="{ item: element, index: index, $item: element, $index: index }"></slot>
+                        <slot name="default" v-bind="{ item: element, index: index, $item: element, $index: index }" :key="element"></slot>
                         <span class="els-list-operate" v-if="sortable || isRemove" style="margin-left:10px;">
                             <slot name="drag" v-if="sortable && isModify">
                                 <el-icon class="el-icon-rank">
@@ -81,7 +92,7 @@ let container =props.hasForm? h(ElsForm):h('div')
         <div v-if="isModify && isAdd" class="leo-list-add">
             <slot name="add"><el-button type="info" icon="edit" @click="handleAdd">添加</el-button></slot>
         </div>
-    </div>
+    </component>
 </template>
 
 <style lang="less" >
@@ -95,9 +106,18 @@ let container =props.hasForm? h(ElsForm):h('div')
             display: flex;
             column-gap: 5px;
             cursor: pointer;
+            
         }
 
-        .els-list-operate {
+        >.el-form-item{
+            flex-grow: 1;
+        }
+    }
+    .el-form-item{margin-bottom: 18px !important;}
+
+    .listitem:has(div[class^=el-form-item]) {
+        margin-bottom: 0px;
+        .els-list-operate{
             margin-bottom: 18px;
         }
     }

@@ -5,7 +5,7 @@ import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
 import { FormItemProps } from '../../utlis/interfaceCom'
 import { ValueType } from '../../utlis/enumCom'
-defineOptions({ name: 'ElsTreeSelect' })
+defineOptions({ name: 'ElsTreeSelect',inheritAttrs:false })
 interface Props extends FormItemProps {
     modelValue?: string,
     checkStrictly?: boolean,
@@ -110,7 +110,7 @@ watch(() => props.data, (val: any) => {
 
 const getModelValue = inject<Function>('getModelValue', () => null)
 function initModelValue() {
-    if (!props.modelValue && getModelValue && props.prop) {
+    if (props.modelValue===undefined&& getModelValue && props.prop) {
         return getModelValue(props.prop,props.aIndex)
     }
     return props.modelValue
@@ -408,7 +408,7 @@ function handleComitSelect(value) {
 const setModelValue=inject<Function>('setModelValue',()=>{})
 function handleReturnModelValue(value){
     emits('update:modelValue', value);
-    if(setModelValue&&props.prop){
+    if(props.modelValue===undefined&&setModelValue&&props.prop!==undefined){
         setModelValue(props.prop,value,props.aIndex)
     }
 }
@@ -560,7 +560,7 @@ function handleNodeClick(data) {
 </script>
 
 <template>
-    <ElsFormNode v-bind="props">
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
         <el-tree-select ref="dataTree" v-loading="dataLoading" :load="handleLoadNode" v-model="selectValue" node-key="id"
             :props="currProps" :data="options" @check-change="handleChange" @node-click="handleNodeClick"
             @node-expand="handleNodeExpand" @node-collapse="handleNodeCollapse" :default-expanded-keys="expendData"

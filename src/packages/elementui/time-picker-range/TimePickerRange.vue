@@ -3,8 +3,10 @@ import { ref, watch, useAttrs, computed } from 'vue'
 import '../../utlis/lessPrototype.js'
 import { TimePickerProps, RangeFormItemProps } from '../../utlis/interfaceCom'
 import { QueryDataType } from '../../utlis/enumCom';
+import lessCom from '../../utlis/lessCom.js'
+
 const emits = defineEmits(['update:modelValue', 'update:start', 'update:end'])
-defineOptions({ name: 'ElsTimePickerRange' })
+defineOptions({ name: 'ElsTimePickerRange',inheritAttrs:false })
 
 interface Props extends TimePickerProps, RangeFormItemProps {
     single?: boolean,
@@ -94,7 +96,7 @@ const endGreaterThanCpt = computed(() => {
 </script>
 
 <template>
-    <ElsFormNode v-bind="props">
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
         <els-time-picker v-if="single" :is-range="true" v-model="dateValue" v-bind="props" width="200"
             :defaultValue="defaultValue" v-model:start="dateStartValue" v-model:end="dateEndValue">
             <template #default="cell">

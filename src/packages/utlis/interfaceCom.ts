@@ -5,7 +5,10 @@ export interface FormItemProps extends ValidProps,QueryProps{
     label?:string,
     hasFormItem?:boolean,
     span?:number,
-    aIndex?:number
+    aIndex?:number,
+    tip?:string,
+    tipPosition?:string,
+    suffixContent?:string
 }
 
 export interface RangeFormItemProps extends FormItemProps{
@@ -182,7 +185,7 @@ export interface DynamicConfig{
     description?:string,
     descriptionPosition?:string,
     isModify?:boolean,
-    config:{validConfig:Record<string,any>,baseConfig:Record<string,any>,arrayConfig: Record<string,any>,advancedConfig:Record<string,any>},
+    config:{formConfig:Record<string,any>,baseConfig:Record<string,any>,arrayConfig: Record<string,any>,advancedConfig:Record<string,any>},
     defaultValue?: any
 }
 

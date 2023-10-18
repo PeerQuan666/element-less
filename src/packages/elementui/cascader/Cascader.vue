@@ -58,7 +58,7 @@ const optionData = reactive<Array<Record<string, any>>>([])
 const selectValue = ref<any>([])
 const getModelValue = inject<Function>('getModelValue', () => null)
 function initModelValue() {
-    if (!props.modelValue && getModelValue && props.prop) {
+    if (props.modelValue===undefined&& getModelValue && props.prop) {
         return getModelValue(props.prop,props.aIndex)
     }
     return props.modelValue
@@ -188,7 +188,7 @@ function searchChildData(item) {
 }
 function handleReturnModelValue(value) {
     emits('update:modelValue', value);
-    if (setModelValue && props.prop) {
+    if (props.modelValue===undefined&&setModelValue && props.prop) {
         setModelValue(props.prop, value,props.aIndex)
     }
 }
@@ -285,7 +285,7 @@ if (attrs['props']) {
 </script>
 
 <template>
-    <ElsFormNode v-bind="props">
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
         <component :is="componentName" :props="dataProps" v-model="selectValue" :options="optionData">
             <template #default="{ node, data }">
                 <slot name="default" :node="node" :data="data">

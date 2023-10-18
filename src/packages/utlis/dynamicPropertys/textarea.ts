@@ -1,71 +1,11 @@
-export default [
+export default[
 	{
-		"keyID": "a5b1d96caf744c084e55faaf50fe6ca9",
+		"keyID": "60bf4a26d64d17b6a3ea163a3b943e75",
 		"keyName": "",
 		"keyCode": "",
 		"data": [
 			{
-				"keyID": "0617de43dd3d85138ceaeec3f84663ca",
-				"keyName": "按钮位置",
-				"keyCode": "controls-position",
-				"data": [],
-				"config": {
-					"arrayConfig": {
-						"componentName": "ElsFormItem",
-						"type": "bottom",
-						"arrayDefaultLength": 0,
-						"arrangementType": "Vertical",
-						"maxHeight": "",
-						"maxWidth": ""
-					},
-					"formConfig": {
-						"labelWidth": "",
-						"tip": "",
-						"tipPosition": "left",
-						"suffixContent": "",
-						"required": false,
-						"requiredMessage": "",
-						"validType": "",
-						"validExpression": "",
-						"validMessage": "",
-						"validMethod": ""
-					},
-					"baseConfig": {
-						"dataType": 1,
-						"data": [
-							{
-								"label": "两侧",
-								"value": ""
-							},
-							{
-								"label": "右侧",
-								"value": "right"
-							}
-						],
-						"url": "",
-						"labelField": "",
-						"valueField": "",
-						"multiple": false,
-						"clearable": false,
-						"filterable": false,
-						"allow-create": false,
-						"width": "",
-						"placeholder": "",
-						"teleported": false,
-						"remote": false
-					},
-					"advancedConfig": {
-						"style": "",
-						"vif": "",
-						"disabled": "",
-						"eventChange": ""
-					}
-				},
-				"controlType": 6,
-				"dataType": 1
-			},
-			{
-				"keyID": "d9f0df9fd6c6f08f1f28a21d1ccd9b5d",
+				"keyID": "b74ea924c95546db4eee695f8435740d",
 				"keyName": "宽度",
 				"keyCode": "width",
 				"data": [],
@@ -77,18 +17,6 @@ export default [
 						"arrangementType": "Vertical",
 						"maxHeight": "",
 						"maxWidth": ""
-					},
-					"formConfig": {
-						"labelWidth": "",
-						"tip": "",
-						"tipPosition": "left",
-						"suffixContent": "",
-						"required": false,
-						"requiredMessage": "",
-						"validType": "",
-						"validExpression": "",
-						"validMessage": "",
-						"validMethod": ""
 					},
 					"baseConfig": {
 						"width": "",
@@ -103,6 +31,62 @@ export default [
 						"isPassword": false,
 						"isTrim": false,
 						"encode": false
+					},
+					"formConfig": {
+						"labelWidth": "",
+						"required": false,
+						"requiredMessage": "",
+						"validType": "",
+						"validExpression": "",
+						"validMessage": "",
+						"validMethod": ""
+					},
+					"advancedConfig": {
+						"style": "",
+						"vif": "",
+						"disabled": "",
+						"eventChange": ""
+					}
+				},
+				"controlType": 1,
+				"dataType": 1
+			},
+			{
+				"keyID": "5035ac60096d1c2921b602b1b718dba9",
+				"keyName": "占位文本",
+				"keyCode": "placeholder",
+				"data": [],
+				"config": {
+					"arrayConfig": {
+						"componentName": "ElsFormItem",
+						"type": "bottom",
+						"arrayDefaultLength": 0,
+						"arrangementType": "Vertical",
+						"maxHeight": "",
+						"maxWidth": ""
+					},
+					"baseConfig": {
+						"width": "",
+						"placeholder": "",
+						"prefixIcon": "",
+						"suffixIcon": "",
+						"prefixTag": "",
+						"suffixTag": "",
+						"maxlength": "",
+						"showWordLimit": false,
+						"clearable": false,
+						"isPassword": false,
+						"isTrim": false,
+						"encode": false
+					},
+					"formConfig": {
+						"labelWidth": "",
+						"required": false,
+						"requiredMessage": "",
+						"validType": "",
+						"validExpression": "",
+						"validMessage": "",
+						"validMethod": ""
 					},
 					"advancedConfig": {
 						"style": "",
@@ -117,99 +101,26 @@ export default [
 		],
 		"config": {
 			"arrayConfig": {},
-			"formConfig": {
-				"required": false,
-				"requiredMessage": "",
-				"validType": "",
-				"validExpression": "",
-				"validMessage": "",
-				"validMethod": ""
-			},
 			"baseConfig": {},
-			"advancedConfig": {
-				"style": "",
-				"vif": "",
-				"disabled": "",
-				"eventChange": ""
-			}
+			"formConfig": {},
+			"advancedConfig": {}
 		},
 		"controlType": 100,
 		"dataType": 0
 	},
 	{
-		"keyID": "985a7032310af215d2c9d81dd772fc95",
+		"keyID": "1ef4e73659bba931a3dd811634c80a98",
 		"keyName": "",
 		"keyCode": "",
 		"data": [
 			{
-				"keyID": "c9f44ef72fef38bc8af1d6769ab18ba9",
-				"keyName": "步长",
-				"keyCode": "step",
+				"keyID": "1e389ba8d8c039908ab9c01aba79412c",
+				"keyName": "行数",
+				"keyCode": "rows",
 				"data": [],
 				"config": {
-					"arrayConfig": {
-						"componentName": "ElsFormItem",
-						"type": "bottom",
-						"arrayDefaultLength": 0,
-						"arrangementType": "Vertical",
-						"maxHeight": "",
-						"maxWidth": ""
-					},
 					"formConfig": {
 						"labelWidth": "",
-						"tip": "",
-						"tipPosition": "left",
-						"suffixContent": "",
-						"required": false,
-						"requiredMessage": "",
-						"validType": "Float",
-						"validExpression": "",
-						"validMessage": "",
-						"validMethod": ""
-					},
-					"baseConfig": {
-						"width": "",
-						"placeholder": "",
-						"prefixIcon": "",
-						"suffixIcon": "",
-						"prefixTag": "",
-						"suffixTag": "",
-						"maxlength": "",
-						"showWordLimit": false,
-						"clearable": false,
-						"isPassword": false,
-						"isTrim": false,
-						"encode": false
-					},
-					"advancedConfig": {
-						"style": "",
-						"vif": "",
-						"disabled": "",
-						"eventChange": ""
-					}
-				},
-				"controlType": 1,
-				"dataType": 1
-			},
-			{
-				"keyID": "da1d5bb5312c470f8aafe1b24393cb2b",
-				"keyName": "精度",
-				"keyCode": "precision",
-				"data": [],
-				"config": {
-					"arrayConfig": {
-						"componentName": "ElsFormItem",
-						"type": "bottom",
-						"arrayDefaultLength": 0,
-						"arrangementType": "Vertical",
-						"maxHeight": "",
-						"maxWidth": ""
-					},
-					"formConfig": {
-						"labelWidth": "",
-						"tip": "",
-						"tipPosition": "left",
-						"suffixContent": "",
 						"required": false,
 						"requiredMessage": "",
 						"validType": "Number",
@@ -236,43 +147,67 @@ export default [
 						"vif": "",
 						"disabled": "",
 						"eventChange": ""
-					}
+					},
+					"arrayConfig": {}
 				},
 				"controlType": 1,
-				"dataType": 1
+				"dataType": 1,
+				"defaultValue": "3"
+			},
+			{
+				"keyID": "65727a4022f5d7626e84ddca19aa9a0a",
+				"keyName": "高度自适应",
+				"keyCode": "autosize",
+				"data": [],
+				"config": {
+					"formConfig": {
+						"labelWidth": "",
+						"required": false,
+						"requiredMessage": "",
+						"validType": "",
+						"validExpression": "",
+						"validMessage": "",
+						"validMethod": ""
+					},
+					"baseConfig": {
+						"active-text": "",
+						"inactive-text": "",
+						"active-value": true,
+						"inactive-value": false
+					},
+					"advancedConfig": {
+						"style": "",
+						"vif": "",
+						"disabled": "",
+						"eventChange": ""
+					},
+					"arrayConfig": {}
+				},
+				"controlType": 4,
+				"dataType": 3
 			}
 		],
 		"config": {
 			"arrayConfig": {},
-			"formConfig": {
-				"required": false,
-				"requiredMessage": "",
-				"validType": "",
-				"validExpression": "",
-				"validMessage": "",
-				"validMethod": ""
-			},
 			"baseConfig": {},
-			"advancedConfig": {
-				"style": "",
-				"vif": "",
-				"disabled": "",
-				"eventChange": ""
-			}
+			"formConfig": {},
+			"advancedConfig": {}
 		},
 		"controlType": 100,
 		"dataType": 0
 	},
 	{
-		"keyID": "2ab3238e666f131cfed8e45ce011d14d",
+		"keyID": "1325b3da1e90a5c3f3e776fcd20daee8",
 		"keyName": "",
 		"keyCode": "",
 		"data": [
 			{
-				"keyID": "c14353bb00866f80739b8819a94c0360",
-				"keyName": "最小值",
-				"keyCode": "min",
+				"keyID": "22dfb3b30a67173376365ecb9739b63b",
+				"keyName": "最大长度",
+				"keyCode": "maxlength",
 				"data": [],
+				"controlType": 1,
+				"dataType": 1,
 				"config": {
 					"arrayConfig": {
 						"componentName": "ElsFormItem",
@@ -281,18 +216,6 @@ export default [
 						"arrangementType": "Vertical",
 						"maxHeight": "",
 						"maxWidth": ""
-					},
-					"formConfig": {
-						"labelWidth": "",
-						"tip": "",
-						"tipPosition": "left",
-						"suffixContent": "",
-						"required": false,
-						"requiredMessage": "",
-						"validType": "Float",
-						"validExpression": "",
-						"validMessage": "",
-						"validMethod": ""
 					},
 					"baseConfig": {
 						"width": "",
@@ -308,21 +231,30 @@ export default [
 						"isTrim": false,
 						"encode": false
 					},
+					"formConfig": {
+						"labelWidth": "",
+						"required": false,
+						"requiredMessage": "",
+						"validType": "Number",
+						"validExpression": "",
+						"validMessage": "",
+						"validMethod": ""
+					},
 					"advancedConfig": {
 						"style": "",
 						"vif": "",
 						"disabled": "",
 						"eventChange": ""
 					}
-				},
-				"controlType": 1,
-				"dataType": 1
+				}
 			},
 			{
-				"keyID": "c2f434f74d12246bad8f4bffb7df7d56",
-				"keyName": "最大值",
-				"keyCode": "max",
+				"keyID": "d9b1e919d3433933c28ed5dd4af12b0f",
+				"keyName": "显示字数",
+				"keyCode": "showWordLimit",
 				"data": [],
+				"dataType": 3,
+				"controlType": 4,
 				"config": {
 					"arrayConfig": {
 						"componentName": "ElsFormItem",
@@ -332,31 +264,20 @@ export default [
 						"maxHeight": "",
 						"maxWidth": ""
 					},
+					"baseConfig": {
+						"active-text": "",
+						"inactive-text": "",
+						"active-value": true,
+						"inactive-value": false
+					},
 					"formConfig": {
 						"labelWidth": "",
-						"tip": "",
-						"tipPosition": "left",
-						"suffixContent": "",
 						"required": false,
 						"requiredMessage": "",
-						"validType": "Float",
+						"validType": "",
 						"validExpression": "",
 						"validMessage": "",
 						"validMethod": ""
-					},
-					"baseConfig": {
-						"width": "",
-						"placeholder": "",
-						"prefixIcon": "",
-						"suffixIcon": "",
-						"prefixTag": "",
-						"suffixTag": "",
-						"maxlength": "",
-						"showWordLimit": false,
-						"clearable": false,
-						"isPassword": false,
-						"isTrim": false,
-						"encode": false
 					},
 					"advancedConfig": {
 						"style": "",
@@ -364,29 +285,105 @@ export default [
 						"disabled": "",
 						"eventChange": ""
 					}
-				},
-				"controlType": 1,
-				"dataType": 1
+				}
 			}
 		],
 		"config": {
 			"arrayConfig": {},
-			"formConfig": {
-				"labelWidth": "",
-				"required": false,
-				"requiredMessage": "",
-				"validType": "",
-				"validExpression": "",
-				"validMessage": "",
-				"validMethod": ""
+			"componentName": "ElsRow"
+		},
+		"controlType": 100,
+		"dataType": 0
+	},
+	{
+		"keyID": "c5d440baf1db26a5dbe3b6190da5a7ed",
+		"keyName": "",
+		"keyCode": "",
+		"data": [
+			{
+				"keyID": "c232677203ac847728c56baffe182660",
+				"keyName": "Url编码",
+				"keyCode": "encode",
+				"data": [],
+				"config": {
+					"arrayConfig": {
+						"componentName": "ElsFormItem",
+						"type": "bottom",
+						"arrayDefaultLength": 0,
+						"arrangementType": "Vertical",
+						"maxHeight": "",
+						"maxWidth": ""
+					},
+					"baseConfig": {
+						"active-text": "",
+						"inactive-text": "",
+						"active-value": true,
+						"inactive-value": false
+					},
+					"formConfig": {
+						"labelWidth": "",
+						"required": false,
+						"requiredMessage": "",
+						"validType": "",
+						"validExpression": "",
+						"validMessage": "",
+						"validMethod": ""
+					},
+					"advancedConfig": {
+						"style": "",
+						"vif": "",
+						"disabled": "",
+						"eventChange": ""
+					}
+				},
+				"controlType": 4,
+				"dataType": 3
 			},
-			"baseConfig": {},
-			"advancedConfig": {
-				"style": "",
-				"vif": "",
-				"disabled": "",
-				"eventChange": ""
+			{
+				"keyID": "3b91bea58458a51fbc8809be51881b29",
+				"keyName": "显示清除",
+				"keyCode": "clearable",
+				"data": [],
+				"controlType": 4,
+				"dataType": 3,
+				"config": {
+					"arrayConfig": {
+						"componentName": "ElsFormItem",
+						"type": "bottom",
+						"arrayDefaultLength": 0,
+						"arrangementType": "Vertical",
+						"maxHeight": "",
+						"maxWidth": ""
+					},
+					"baseConfig": {
+						"active-text": "",
+						"inactive-text": "",
+						"active-value": true,
+						"inactive-value": false
+					},
+					"formConfig": {
+						"labelWidth": "",
+						"required": false,
+						"requiredMessage": "",
+						"validType": "",
+						"validExpression": "",
+						"validMessage": "",
+						"validMethod": ""
+					},
+					"advancedConfig": {
+						"style": "",
+						"vif": "",
+						"disabled": "",
+						"eventChange": ""
+					}
+				}
 			}
+		],
+		"config": {
+			"arrayConfig": {},
+			"baseConfig": {},
+			"formConfig": {},
+			"advancedConfig": {}
 		},
 		"controlType": 100,
 		"dataType": 0

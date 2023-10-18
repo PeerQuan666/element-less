@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, inject, watch, onMounted } from 'vue'
+import { ref,watch,inject,provide, onMounted, watchEffect, onUnmounted } from 'vue'
+import lessCom from '../../utlis/lessCom';
 defineOptions({
     name: 'ElsCol',
 })
@@ -8,31 +9,40 @@ interface Props {
 
 }
 const props = withDefaults(defineProps<Props>(), {
-    span: 24,
 })
-
+const tagID = 'els-col-' + lessCom.Guid32()
+provide('layer', 'col')
 const currSpan = ref(24)
-const getSpan = inject<Function>("getSpan")
-const colData = inject<any>("colData")
-const formData = inject<any>("formData")
-watch(colData, () => {
-    currSpan.value = props.span
-    if (props.span == 24&& getSpan) {
+const colData = inject<any>("colData", null)
+const getSpan = inject<Function>("getSpan", () => null)
+const setSpan = inject<Function>("setSpan", () => null)
+const removeSpan = inject<Function>("removeSpan", () => null)
+
+watch(()=>props.span,(val)=>{
+    setSpan(tagID, val)
+
+},{immediate:true})
+
+watch(colData.value, () => {
+    if(getSpan){
         currSpan.value = getSpan()
+
     }
 }, { deep: true })
 onMounted(() => {
-    currSpan.value = props.span
-    if (props.span == 24 && getSpan) {
+    if (getSpan) {
         currSpan.value = getSpan()
     }
-}) 
+})
+onUnmounted(() => {
+    if (removeSpan) {
+        removeSpan(tagID)
+
+    }
+})
 </script>
 <template>
     <el-col :span="currSpan">
-        <template v-if="formData">
-            <slot ></slot>
-        </template>
-        <slot v-else></slot>
+        <slot ></slot>
     </el-col>
 </template>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, watch, useAttrs, useSlots, inject,watchEffect } from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
+import lessCom from '../../utlis/lessCom.js'
+
 defineOptions({
     name: 'ElsInput',
 })
@@ -22,7 +24,7 @@ const setModelValue=inject<Function>('setModelValue',()=>null)
 const getModelValue=inject<Function>('getModelValue',()=>null)
 const formInputWidth = inject<string>('inputWidth','')
 const emits = defineEmits(['update:modelValue'])
-const currWidth = ref(props.width ?? '')
+
 const slots = useSlots()
 const attrs = useAttrs()
 const slotNames: any = []
@@ -31,16 +33,22 @@ for (const slotItem in slots) {
 }
 const encodeValue = ref()
 const inputValue = ref()
-if (!currWidth.value) {
+
+const currWidth = ref()
+watchEffect(()=>{
+    currWidth.value= props.width ?? ''
+    if (!currWidth.value) {
     if (formInputWidth) {
         currWidth.value = formInputWidth
     } 
 
 }
+})
+
 
 
 function initModelValue(){
-    if(!props.modelValue&&getModelValue&&props.prop){
+    if(props.modelValue===undefined&&getModelValue&&props.prop){
       return  getModelValue(props.prop,props.aIndex)
     }
     return props.modelValue
@@ -71,14 +79,14 @@ function handleReturnResult(val){
         currValue=encodeURIComponent(val)
     } 
     emits('update:modelValue', currValue)
-    if(setModelValue&&props.prop){
+    if(props.modelValue===undefined&&setModelValue&&props.prop!==undefined){
         setModelValue(props.prop,currValue,props.aIndex)
     }
 }
 </script>
 <template>
 
-    <ElsFormNode v-bind="props">
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
         <el-input v-model="inputValue" :style="[{ width: currWidth.appendPx() }]"  v-bind="attrs">
             <template v-for="item in slotNames" :slot="item">
                 <slot :name="item"></slot>

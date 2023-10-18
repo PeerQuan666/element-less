@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, inject, watchEffect, watch, useAttrs, computed } from 'vue'
 import { dynamicControlType } from '../../utlis/lessConfig.js'
-
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom';
 interface Props {
@@ -49,11 +48,9 @@ function handleClear() {
 }
 
 
-const dyProvideData = inject<any>('dyProvideData', null)
 
 const baseAttrs = computed(() => {
-
-    let baseConfig = {}
+    let baseConfig={}
     const currControl = dynamicControlType.find(ele => ele.value == props.item.controlType)
     if (currControl?.defaultPropertys) {
         const currBaseConfig = Object.assign({}, currControl?.defaultPropertys, props.item.config.baseConfig)
@@ -128,76 +125,6 @@ watchEffect(() => {
 
 
 
-//判断父节点类型
-watch(dyProvideData, (val,oldval) => {
-    if (val&&val!=oldval) {
-        console.info('sss')
-        const currNodeType = val.nodeType
-        showText.value=''
-        //判断配置节点数据类型
-        if (currNodeType && currNodeType.componentName == 'ElsSwitch') {
-
-            if (props.item.keyCode == 'active-value' || props.item.keyCode == 'inactive-value') {
-         
-                if (currNodeType.dataType == 'Bool') {
-                    componentAttrs.value = Object.assign({},baseAttrs.value, { 'disabled': true })
-                    if (props.item.keyCode == 'active-value') {
-                        currValue.value = true
-                        showText.value = 'true'
-                    } else {
-                        currValue.value = false
-                        showText.value = 'false'
-                    }
-                } else if (currNodeType.dataType == '数字') {
-                    componentAttrs.value = Object.assign({},baseAttrs.value, { 'disabled': false })
-                    if (props.item.keyCode == 'active-value') {
-                        showText.value='1'
-                        currValue.value = 1
-                    } else {
-                        currValue.value = 0
-                        showText.value='0'
-
-                    }
-                } else {
-                    componentAttrs.value = Object.assign({},baseAttrs.value, { 'disabled': false })
-                    if (props.item.keyCode == 'active-value') {
-                        currValue.value = 'true'
-                    } else {
-                        currValue.value = 'false'
-                    }
-                }
-
-
-            }
-        }
-        else if (currNodeType && ['ElsSelect', 'ElsRadio', 'ElsCheckBox', 'ElsCascader'].includes(currNodeType.componentName)) {
-            if (props.item.keyCode === 'multiple' && currNodeType.dataType === '数字') {
-
-                currValue.value = false
-                showText.value = 'false'
-
-            } else if (props.item.keyCode === 'value') {
-                if (currNodeType.dataType == 'Bool') {
-                    currValue.value = false
-                    componentName.value = 'ElsSelect';
-                    componentAttrs.value = Object.assign({},baseAttrs.value, {'teleported':false, 'width':'80', 'data': [{ label: 'true', value: true }, { label: 'false', value: false }], 'type': 'radio'})
-                }
-                else if (currNodeType.dataType === '数字') {
-                    currValue.value=0
-                    componentName.value = 'ElsInputNumber';
-                    componentAttrs.value = Object.assign({},baseAttrs.value, { "controls-position":'right','width':'80' })
-
-
-                }
-            }
-
-        }
-    }
-
-}, { immediate: true, deep: true })
-
-
-
 
 
 
@@ -223,10 +150,12 @@ function getFileUploadUrl() {
 
 
 </script>
+
 <template>
+
     <template v-if="componentName">
         <el-tag v-if="showText">{{ showText }}</el-tag>
-        <component v-else :is="componentName" v-bind="componentAttrs" v-model="currValue" :url="getFileUploadUrl()"
+        <component v-else :is="componentName"  v-bind="componentAttrs" v-model="currValue" :url="getFileUploadUrl()"
             @clear="handleClear">
         </component>
     </template>

@@ -220,18 +220,18 @@ function handleSubmitButton() {
 
 
 function getModelValue(key, aIndex = -1) {
-    if (!key) {
+    if (key===undefined||key==='') {
         return
     }
     if (aIndex > -1) {
-        if (key.includes('.')) {
+        if (key.toString().includes('.')) {
             return new Function('formData', `return formData[${aIndex}].${key};`);
         } else {
             return formData[aIndex][key]
         }
 
     }
-    if (key.includes('.')) {
+    if (key.toString().includes('.')) {
         return new Function('formData', `return formData.${key};`);
     } else {
         return formData[key]
@@ -239,17 +239,17 @@ function getModelValue(key, aIndex = -1) {
 }
 
 function setModelValue(key, value, aIndex = -1) {
-    if (!key) {
+    if (key===undefined||key==='') {
         return
     }
     if (aIndex > -1) {
-        if (key.includes('.')) {
+        if (key.toString().includes('.')) {
             new Function('formData,value', `formData[${aIndex}].${key}=value;`);
         } else {
             formData[aIndex][key] = value
         }
     }
-    if (key.includes('.')) {
+    if (key.toString().includes('.')) {
         new Function('formData,value', `formData.${key}=value;`);
     } else {
         formData[key] = value

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, nextTick, provide, onBeforeUnmount, onMounted, useAttrs, inject } from 'vue'
+import { ref, nextTick, provide, onBeforeUnmount, onMounted, useAttrs, inject, watchEffect,watch } from 'vue'
 import lessCom from '../../utlis/lessCom.js'
 import { ElForm } from 'element-plus'
 import { useVModel } from '@vueuse/core'
-
+import '../../utlis/lessPrototype.js'
 defineOptions({ name: 'ElsForm' })
 
 interface Props {
@@ -17,7 +17,6 @@ interface Props {
     saveUrl?: string,
     beforeSave?: Function,
     afterSave?: Function,
-    slotData?: any,
     inputWidth?: string
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -30,35 +29,56 @@ const tagID = 'els-form' + lessCom.Guid32();
 const attrs = useAttrs()
 const dataForm = ref()
 const submitButton = ref()
-const currLabelWidth = ref(props.labelWidth)
-const parentLabelWidth=inject<string>('labelWidth')
 
 let modelData: Record<string, any> = useVModel(props, 'modelValue', emits)
 
-if (attrs['inline'] === undefined) {
-    currLabelWidth.value = props.labelWidth ?? '100'
-
-}
-const parentInputWidth=inject<string>('inputWidth','')
-if(props.inputWidth){
-    provide('inputWidth', props.inputWidth)
-}else{
-    provide('inputWidth', parentInputWidth)
-}
 
 provide('container', 'form')
 provide('setModelValue', setModelValue)
 provide('getModelValue', getModelValue)
 
-
-provide('labelWidth', currLabelWidth||parentLabelWidth)
 provide('formData', modelData)
-const elsApiResult = inject<Function>("elsApiResult",()=>null) 
-const elsPageStore = inject<any>('elsPageStore',null)
+
+const parentLabelWidth = inject<string>('labelWidth', '')
+const currLabelWidth = ref()
+const parentInputWidth = inject<string>('inputWidth', '')
+const elsApiResult = inject<Function>("elsApiResult", () => null)
+const elsPageStore = inject<any>('elsPageStore', null)
 const validateStore = { id: tagID, validate: validate }
 const saveStore = { id: tagID, save: saveData }
+if (props.labelWidth) {
+    provide('labelWidth', props.labelWidth)
+}
+if (props.inputWidth) {
+        provide('inputWidth', props.inputWidth)
+    } else {
+        provide('inputWidth', parentInputWidth)
+    }
+
+watch(()=>props.labelWidth,(val)=>{
+    if(val){
+        currLabelWidth.value = props.labelWidth
+    }
+})
 
 onMounted(() => {
+    if (props.labelWidth) {
+        currLabelWidth.value = props.labelWidth
+    }
+    if ((currLabelWidth.value === undefined || currLabelWidth.value === '') && parentLabelWidth) {
+        currLabelWidth.value = parentLabelWidth
+    }
+
+    if (attrs['inline'] === undefined && currLabelWidth.value === undefined || currLabelWidth.value === '') {
+        currLabelWidth.value = '100'
+    }
+ 
+    if (currLabelWidth.value) {
+        currLabelWidth.value = currLabelWidth.value.appendPx()
+    }
+
+  
+
     if (elsPageStore) {
         elsPageStore.value.saveForms.push(saveStore)
         elsPageStore.value.validates.push(validateStore)
@@ -146,18 +166,18 @@ function handleSubmitButton() {
 }
 
 function getModelValue(key, aIndex = -1) {
-    if (!key) {
+    if (key===undefined||key==='') {
         return
     }
     if (aIndex > -1) {
-        if (key.includes('.')) {
+        if (key.toString().includes('.')) {
             return new Function('modelData', `return modelData.value[${aIndex}].${key};`);
         } else {
             return modelData.value[aIndex][key]
         }
 
     }
-    if (key.includes('.')) {
+    if (key.toString().includes('.')) {
         return new Function('modelData', `return modelData.value.${key};`);
     } else {
         return modelData.value[key]
@@ -165,17 +185,18 @@ function getModelValue(key, aIndex = -1) {
 }
 
 function setModelValue(key, value, aIndex = -1) {
-    if (!key) {
+
+    if (key===undefined||key==='') {
         return
     }
     if (aIndex > -1) {
-        if (key.includes('.')) {
+        if (key.toString().includes('.')) {
             new Function('modelData,value', `modelData.value[${aIndex}].${key}=value;`);
         } else {
             modelData.value[aIndex][key] = value
         }
     }
-    if (key.includes('.')) {
+    if (key.toString().includes('.')) {
         new Function('modelData,value', `modelData.value.${key}=value;`);
     } else {
         modelData.value[key] = value
@@ -192,6 +213,7 @@ defineExpose({
 </script>
 
 <template>
+
     <el-form :model="modelData" ref="dataForm" onsubmit="return false;" :label-width="currLabelWidth">
         <slot></slot>
     </el-form>

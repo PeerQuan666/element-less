@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref, useAttrs, watch ,inject,watchEffect} from 'vue'
+import { ref, useAttrs, watch, inject, watchEffect } from 'vue'
 import '../../utlis/lessPrototype.js'
 import { DatePickerProps } from '../../utlis/interfaceCom'
 const emits = defineEmits(['update:modelValue', 'update:start', 'update:end'])
-defineOptions({ name: 'ElsDatePicker' })
+import lessCom from '../../utlis/lessCom.js'
+
+defineOptions({ name: 'ElsDatePicker',inheritAttrs:false })
 
 const props = withDefaults(defineProps<DatePickerProps>(), {
     type: 'date',
@@ -25,7 +27,7 @@ if (props.defaultTime) {
 let pickerOptions = ref<Array<{ text: string, value: Date | Function }>>([])
 
 function initValue() {
-    if (props.type == "daterange" || props.type == "monthrange" || props.type == 'dates') {
+    if (props.type == "daterange" || props.type == "datetimerange" || props.type == "monthrange" || props.type == 'dates') {
         if (props.start && props.end) {
             dateValue.value = [props.start.toString(), props.end.toString()];
         } else if (props.start) {
@@ -243,23 +245,23 @@ if (props.shortcuts) {
         ]
     }
 }
-const setModelValue=inject<Function>('setModelValue',()=>{})
-function handleReturnModelValue(value){
+const setModelValue = inject<Function>('setModelValue', () => { })
+function handleReturnModelValue(value) {
     emits('update:modelValue', value);
-    if(setModelValue&&props.prop){
-        setModelValue(props.prop,value,props.aIndex)
+    if (props.modelValue===undefined&&setModelValue && props.prop !== undefined) {
+        setModelValue(props.prop, value, props.aIndex)
     }
 }
-function handleReturnStartValue(value){
+function handleReturnStartValue(value) {
     emits('update:start', value);
-    if(setModelValue&&attrs.propStart){
-        setModelValue(attrs.propStart,value,props.aIndex)
+    if (props.start===undefined&&setModelValue && attrs.propStart !== undefined) {
+        setModelValue(attrs.propStart, value, props.aIndex)
     }
 }
-function handleReturnEndValue(value){
-    emits('update:start', value);
-    if(setModelValue&&attrs.propEnd){
-        setModelValue(attrs.propEnd,value,props.aIndex)
+function handleReturnEndValue(value) {
+    emits('update:end', value);
+    if (props.end===undefined&&setModelValue && attrs.propEnd !== undefined) {
+        setModelValue(attrs.propEnd, value, props.aIndex)
     }
 }
 function handleReturnResult(val) {
@@ -290,33 +292,35 @@ function handleReturnResult(val) {
 
 const getModelValue = inject<Function>('getModelValue', () => null)
 function initModelValue() {
-    if (!props.modelValue && getModelValue && props.prop) {
-        return getModelValue(props.prop,props.aIndex)
+    if (props.modelValue===undefined && getModelValue && props.prop) {
+        return getModelValue(props.prop, props.aIndex)
     }
     return props.modelValue
 }
 function initStartModelValue() {
-    if (!props.start && getModelValue && attrs.propStart) {
+    if (props.start===undefined && getModelValue && attrs.propStart) {
         return getModelValue(attrs.propStart)
     }
     return props.start
 }
 function initEndModelValue() {
-    if (!props.end && getModelValue && attrs.propEnd) {
+    if (props.end===undefined && getModelValue && attrs.propEnd) {
         return getModelValue(attrs.propEnd)
     }
     return props.modelValue
 }
-watchEffect(()=>{
-   const startValue=initStartModelValue()
-   const endValue=initEndModelValue()
-   dateValue.value = [startValue, endValue]
+watchEffect(() => {
+    if (props.type.indexOf('range') > -1 && (props.start !== undefined && props.end !== undefined) || (attrs.propStart && attrs.propEnd)) {
+        const startValue = initStartModelValue()
+        const endValue = initEndModelValue()
+        dateValue.value = [startValue, endValue]
+    }
 })
 
 
-watchEffect(()=>{
-   const currValue=initModelValue()
-   if (typeof (currValue) === 'string' && (props.type.indexOf('range') > -1 || props.type == 'dates')) {
+watchEffect(() => {
+    const currValue = initModelValue()
+    if (typeof (currValue) === 'string' && (props.type.indexOf('range') > -1 || props.type == 'dates')) {
         dateValue.value = currValue.split(props.valueSeparator)
     } else {
         dateValue.value = currValue
@@ -334,66 +338,83 @@ watch(() => props.modelValue, (val) => {
 watch(dateValue, (val) => {
     handleReturnResult(val)
 })
-
-currValueFormat.value = props.valueFormat;
-if (currValueFormat.value == "timestamp") {
-    currValueFormat.value = "x";
-}
-if (!currValueFormat.value) {
-    switch (props.type) {
-        case 'year':
-            currValueFormat.value = "YYYY"
-            currWidth.value = '60'
-            break;
-        case 'monthrange':
-        case 'month':
-            currValueFormat.value = "YYYY-MM"
-            currWidth.value = '80'
-            break;
-        case 'daterange':
-        case 'dates':
-        case 'date':
-            currValueFormat.value = "YYYY-MM-DD"
-            currWidth.value = '140'
-            if (props.defaultTime) {
-                currValueFormat.value = "YYYY-MM-DD HH:mm:ss"
-            }
-            break;
-        case 'datetimerange':
-            currValueFormat.value = "YYYY-MM-DD HH:mm:ss"
-            if (!props.defaultTime) {
-                currDefaultTime.value = [new Date('1991-08-28 00:00:00'), new Date('1991-08-28 23:59:59')]
-            }
-            currWidth.value = '180'
-            break;
-        case 'datetime':
-            currValueFormat.value = "YYYY-MM-DD HH:mm:ss"
-            currWidth.value = '200'
-            break;
-        case 'week':
-            currValueFormat.value = "YYYY-MM-DD"
-            currWidth.value = '80'
-            break;
-        default:
-            break;
-    }
-    if (props.type.indexOf('range') > -1 && currWidth.value) {
-        currWidth.value = (parseInt(currWidth.value) * 2).toString()
-    }
-}
 const pickerStyle = ref<any>([])
-if (currWidth.value) {
-    pickerStyle.value.push({ width: currWidth.value?.appendPx() })
-}
-if (props.type.indexOf('range') > -1) {
-    pickerStyle.value.push({ "flex-grow": 0 })
-}
+watchEffect(() => {
+    currValueFormat.value = props.valueFormat;
+    if (currValueFormat.value == "timestamp") {
+        currValueFormat.value = "x";
+    }
+    currWidth.value = props.width
+    if (!currValueFormat.value) {
+        switch (props.type) {
+            case 'year':
+                currValueFormat.value = "YYYY"
+                if (!currWidth.value) {
+                    currWidth.value = '60'
+                }
+
+                break;
+            case 'monthrange':
+            case 'month':
+                currValueFormat.value = "YYYY-MM"
+                if (!currWidth.value) {
+                    currWidth.value = '80'
+                }
+                break;
+            case 'daterange':
+            case 'dates':
+            case 'date':
+                currValueFormat.value = "YYYY-MM-DD"
+                if (!currWidth.value) {
+                    currWidth.value = '140'
+                }
+                if (props.defaultTime) {
+                    currValueFormat.value = "YYYY-MM-DD HH:mm:ss"
+                }
+                break;
+            case 'datetimerange':
+                currValueFormat.value = "YYYY-MM-DD HH:mm:ss"
+                if (!props.defaultTime) {
+                    currDefaultTime.value = [new Date('1991-08-28 00:00:00'), new Date('1991-08-28 23:59:59')]
+                }
+                if (!currWidth.value) {
+                    currWidth.value = '180'
+                }
+                break;
+            case 'datetime':
+                currValueFormat.value = "YYYY-MM-DD HH:mm:ss"
+                if (!currWidth.value) {
+                    currWidth.value = '200'
+                }
+                break;
+            case 'week':
+                currValueFormat.value = "YYYY-MM-DD"
+                if (!currWidth.value) {
+                    currWidth.value = '80'
+                }
+                break;
+            default:
+                break;
+        }
+        if (props.type.indexOf('range') > -1 && currWidth.value) {
+            currWidth.value = (parseInt(currWidth.value) * 2).toString()
+        }
+    }
+
+    if (currWidth.value) {
+        pickerStyle.value.push({ width: currWidth.value?.appendPx() })
+    }
+    if (props.type.indexOf('range') > -1) {
+        pickerStyle.value.push({ "flex-grow": 0 })
+    }
+
+})
 
 initValue();
 </script>
 
 <template>
-    <ElsFormNode v-bind="props">
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
         <el-date-picker v-model="dateValue" v-bind="attrs" :type="type" :value-format="currValueFormat"
             :defaultTime="currDefaultTime" :disabled-date="currDisabledDate" :shortcuts="pickerOptions"
             :style="pickerStyle">
@@ -404,6 +425,5 @@ initValue();
                 <slot name="range-separator"></slot>
             </template>
         </el-date-picker>
-    </ElsFormNode>
-</template>
+    </ElsFormNode></template>
 

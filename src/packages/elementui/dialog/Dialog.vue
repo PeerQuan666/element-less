@@ -12,7 +12,8 @@ interface Props {
     url?: string,
     contentWidth?: string,
     contentHeight?: string,
-    loading?: boolean
+    loading?: boolean,
+    visible?:boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -45,8 +46,13 @@ watch(() => props.url, (val) => {
 }, { immediate:true})
 
 watch(() => props.modelValue, (val) => {
+    
     dialogVisible.value = val
+    if(props.visible){
+        dialogVisible.value=props.visible
+    }
 }, { immediate: true })
+
 watch(dialogVisible, (val) => {
     emits("update:modelValue", val)
 })

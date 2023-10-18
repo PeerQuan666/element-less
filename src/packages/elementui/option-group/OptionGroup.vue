@@ -1,22 +1,26 @@
 <script lang="ts" setup>
-import { inject, useAttrs } from 'vue';
+import { inject, useAttrs ,ref,watchEffect} from 'vue';
 interface Props {
     label: string,
 }
 defineOptions({ name: 'ElsOptionGroup' })
 defineProps<Props>()
-const type = inject('type')
-console.info(type)
+const provideOption = inject<any>('provideOption', undefined)
 const attrs = useAttrs()
+const currType = ref()
+watchEffect(() => {
+    currType.value = provideOption.value.type
 
+
+})
 
 </script>
 <template>
-    <el-option-group :label="label" v-if="type == 'select'" v-bind="attrs">
+    <el-option-group :label="label" v-if="currType == 'select'" v-bind="attrs">
         <slot></slot>
     </el-option-group>
     <div style="width:100%" v-else>
-        <div class="els-radio-group-item" > {{ label }}</div>
+        <div class="els-radio-group-item"> {{ label }}</div>
         <slot v-bind="attrs"></slot>
     </div>
 </template>
@@ -30,5 +34,4 @@ const attrs = useAttrs()
     border-bottom: 1px solid #dcdfe6;
     margin-bottom: 10px;
 }
-
 </style>

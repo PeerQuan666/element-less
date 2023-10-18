@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { watch, computed } from 'vue'
 import { useVModel } from '@vueuse/core'
-import DynamicRenderInnerItem from './DynamicRenderInnerItem.vue'
+import DynamicDesignerViewInnerItem from './DynamicDesignerViewInnerItem.vue'
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom'
 
@@ -122,10 +122,10 @@ watch(() => currData.value.config.arrayConfig.arrayDefaultLength, (val) => {
             { 'display': currData.config.arrayConfig.arrangementType === 'Horizontal' ? 'flex' : '' },
             { 'flex-wrap': 'wrap' }, { 'gap': '5px' }]">
             <template #default="{ index }">
-                <DynamicRenderInnerItem v-bind="formAttrs" :key="index" :parent-node="parentNode" :curr-node="currData"
+                <DynamicDesignerViewInnerItem v-bind="formAttrs" :parent-node="parentNode" :curr-node="currData"
                     :disabled="handleDisabledExpress()" :prop="index.toString()" :item="currData"
                     :style="item.config.advancedConfig.style" @valueChange="handleValueChange">
-                </DynamicRenderInnerItem>
+                </DynamicDesignerViewInnerItem>
             </template>
 
         </els-list>

@@ -26,7 +26,7 @@ const tableData: Array<Record<string, any>> = reactive([])
 const queryData = reactive<any>({ searchKey: '', idString: '' })
 const getModelValue = inject<Function>('getModelValue', () => null)
 function initModelValue() {
-    if (!props.modelValue && getModelValue && props.prop) {
+    if (props.modelValue===undefined && getModelValue && props.prop) {
         return getModelValue(props.prop,props.aIndex)
     }
     return props.modelValue
@@ -40,7 +40,6 @@ watchEffect(() => {
 })
 
 watch(() => props.data, (val) => {
-    console.info(val)
     tableData.length = 0
     if (val) {
         tableData.push(...val)
@@ -85,7 +84,7 @@ function readData() {
 function handleReturnResult(value) {
     if (value === undefined) { value = ''; }
     emits('update:modelValue', value)
-    if (setModelValue && props.prop) {
+    if (props.modelValue===undefined&&setModelValue && props.prop) {
         setModelValue(props.prop, value,props.aIndex)
     }
 
@@ -94,7 +93,7 @@ function handleReturnResult(value) {
 </script>
 
 <template>
-    <ElsFormNode v-bind="props">
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
         <el-autocomplete v-model="selectValue" :style="[{ width: width?.appendPx() }]" :fetch-suggestions="queryMethod"
             :value-key="valueField">
             <template #prefix>

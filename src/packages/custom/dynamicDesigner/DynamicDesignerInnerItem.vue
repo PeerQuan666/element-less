@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { inject, ref, computed ,watch} from 'vue'
+import { inject, ref, computed, watch } from 'vue'
 import lessCom from '../../utlis/lessCom'
 import { useVModel } from '@vueuse/core'
 import { DynamicConfig } from '../../utlis/interfaceCom.js'
 import DynamicDesignerInner from './DynamicDesignerInner.vue'
-import  property_valid from '../../utlis/dynamicPropertys/valid'
-import  property_array from '../../utlis/dynamicPropertys/array'
+import property_form from '../../utlis/dynamicPropertys/form'
+import property_array from '../../utlis/dynamicPropertys/array'
 import property_advanced from '../../utlis/dynamicPropertys/advanced'
+import property_arrayAndObject from '../../utlis/dynamicPropertys/arrayAndObject'
 import '../../utlis/lessPrototype.js'
 defineOptions({
   name: 'ElsDynamicDesigner',
@@ -24,7 +25,6 @@ const dataTypeData = inject<any>("dataTypeData", null)
 const controlData = inject<any>("controlData", null)
 const arrayObjectType = inject("arrayObjectType")
 const currDepath = ref(props.depath + 1)
-const currPropertys = ref<any>()
 const currData = useVModel(props, 'data', emits)
 const currItem = useVModel(props, 'item', emits)
 
@@ -94,27 +94,44 @@ const isRow = computed(() => {
   return currControlType.value.label == '栅格'
 })
 
-if (controlData) {
-    const currControlData = controlData.find(ele => ele.value == currItem.value.controlType)
-    if (currControlData) {
-      currPropertys.value = currControlData.propertys
+
+
+const currPropertys=computed(()=>{
+  if(currItem.value.dataType!==undefined){
+    if(!currItem.value.controlType){
+      const currVal = dataTypeData.find(ele => ele.value == currItem.value.dataType)
+      const arrayVal = dataTypeData.find(ele => ele.value == currItem.value.arrayDataType)
+
+      if (currVal?.label == 'Array'&&arrayVal?.label==='Object' || currVal?.label == 'Object') {
+        return lessCom.cloneObj(property_arrayAndObject)
+      }
+    }else{
+      if (controlData) {
+        const currControlData = controlData.find(ele => ele.value == currItem.value.controlType)
+        if (currControlData) {
+          return currControlData.propertys
+        }
+      }
     }
+  }
+  else{
+
+  if(!currItem.value.controlType){
+    currItem.value.config = {
+        formConfig: {},
+        baseConfig: {},
+        advancedConfig: {},
+        arrayConfig: {}
+      }
+  }
+  return null
+   
   }
 
-watch(()=>currItem.value.controlType,(val)=>{
-  if (controlData) {
-    const currControlData = controlData.find(ele => ele.value == val)
-    if (currControlData) {
-      currPropertys.value = currControlData.propertys
-    }
-  } else {
-    currItem.value.config = {
-      validConfig: {},
-      baseConfig: {},
-      advancedConfig: {},
-      arrayConfig:{}
-    }
-  }
+})
+
+
+watch(() => currItem.value.controlType, () => {
   if (isRow.value) {
     currItem.value.data.length = 0
     currItem.value.dataType = 0;
@@ -125,10 +142,10 @@ watch(()=>currItem.value.controlType,(val)=>{
         keyCode: '',
         data: [],
         config: {
-          validConfig: {},
+          formConfig: {},
           baseConfig: {},
           advancedConfig: {},
-          arrayConfig:{}
+          arrayConfig: {}
         },
       })
   } else {
@@ -147,10 +164,10 @@ function handleChangeDataType() {
       keyCode: '',
       data: [],
       config: {
-        validConfig: {},
+        formConfig: {},
         baseConfig: {},
         advancedConfig: {},
-        arrayConfig:{},
+        arrayConfig: {},
       },
     })
   } else {
@@ -162,15 +179,16 @@ function handleChangeDataType() {
 
 </script>
 <template>
+
   <els-form v-model="currItem" labelWidth="0" inputWidth="100%"
     :class="[{ 'els-dynamic-d-item-parentdiv': isObject }, { 'els-dynamic-d-item-container': isRow }]"
     :show-message="false">
     <div class="els-dynamic-d-item-div" v-if="!isRow">
       <span class="keyName">
-        <els-input clearable placeholder="请输入名称" prop="keyName"></els-input>
+        <els-input clearable v-if="itemDataType.label != '无'" placeholder="请输入名称" prop="keyName"></els-input>
       </span>
       <span class="keyCode">
-        <els-input placeholder="编码" required clearable :disabled="currItem.isModify" @input="handleChangeKeyCode"
+        <els-input placeholder="编码" v-if="itemDataType.label != '无'" required clearable :disabled="currItem.isModify" @input="handleChangeKeyCode"
           prop="keyCode"></els-input>
       </span>
       <span class="dataType">
@@ -181,49 +199,52 @@ function handleChangeDataType() {
       </span>
       <span class="controlType">
         <els-select v-if="itemDataType.label != 'Object' && arrayDataType.label != 'Object'" filterable required
-          :disabled="currItem.dataType === undefined"  placeholder="控件"
-          prop="controlType" :data="currControlTypeData" valueField="value" labelField="label">
+          :disabled="currItem.dataType === undefined" placeholder="控件" prop="controlType" :data="currControlTypeData"
+          valueField="value" labelField="label">
         </els-select>
       </span>
 
       <span class="config">
-        <el-popover placement="right-start" trigger="click" width="600"
-          :disabled="!item.controlType && itemDataType.label != 'Object' && itemDataType.label != 'Object'">
-          <el-tabs>
-            <el-tab-pane label="组件属性">
-              <ElsDynamicRender v-model="currItem.config.baseConfig" :nodeType="{dataType:currDataType?.label,componentName:currControlType?.componentName}"  :config="currPropertys" inputWidth="100%">
-              </ElsDynamicRender>
-            </el-tab-pane>
-            <el-tab-pane label="数组属性">
-              <ElsDynamicRender v-model="currItem.config.arrayConfig"   :config="property_array" inputWidth="100%">
-              </ElsDynamicRender>
-            </el-tab-pane>
-            <el-tab-pane label="验证属性">
-              <ElsDynamicRender v-model="currItem.config.validConfig" :config="property_valid" inputWidth="100%">
-              </ElsDynamicRender>
-            </el-tab-pane>
-            <el-tab-pane label="高级属性">
-              <ElsDynamicRender v-model="currItem.config.advancedConfig" :config="property_advanced" inputWidth="100%">
-              </ElsDynamicRender>
-            </el-tab-pane>
-          </el-tabs>
+
+        <el-popover placement="right-start" trigger="click" width="600" >
+          <els-form labelWidth="120">
+            <el-tabs>
+              <el-tab-pane label="组件属性" >
+                <ElsDynamicRender v-model="currItem.config.baseConfig"
+                  :nodeType="{ dataType: currDataType?.label, componentName: currControlType?.componentName }"
+                  :config="currPropertys" inputWidth="100%">
+                </ElsDynamicRender>
+              </el-tab-pane>
+              <el-tab-pane label="数组属性" v-if="itemDataType.label == 'Array'">
+                <ElsDynamicRender v-model="currItem.config.arrayConfig" :config="property_array" inputWidth="100%">
+                </ElsDynamicRender>
+              </el-tab-pane>
+              <el-tab-pane label="表单属性"  v-if="itemDataType.label != '无'" >
+                <ElsDynamicRender v-model="currItem.config.formConfig" :config="property_form" inputWidth="100%">
+                </ElsDynamicRender>
+              </el-tab-pane>
+              <el-tab-pane label="高级属性">
+                <ElsDynamicRender v-model="currItem.config.advancedConfig" :config="property_advanced" inputWidth="100%">
+                </ElsDynamicRender>
+              </el-tab-pane>
+            </el-tabs>
+          </els-form>
           <template #reference>
-            <el-link type="primary"
-              :disabled="!currItem.controlType && itemDataType.label != 'Object' && itemDataType.label != 'Array'">配置</el-link>
+            <el-link type="primary" >配置</el-link>
           </template>
         </el-popover>
       </span>
       <span class="checkEmpty">
         <el-switch v-if="!isObject && itemDataType.label !== '无'"
-          v-model="currItem.config.validConfig.required"></el-switch>
+          v-model="currItem.config.formConfig.required"></el-switch>
       </span>
       <span class="regex">
         <el-popover placement="right" width="400" trigger="click" v-if="!isObject && itemDataType.label !== '无'">
           <els-input clearable type="textarea" :rows="5" placeholder="请输入正则表达式"
-            v-model="currItem.config.validConfig.validExpression"></els-input>
+            v-model="currItem.config.formConfig.validExpression"></els-input>
           <template #reference>
             <els-input clearable style="width: 120px;" placeholder="正则表达式"
-              v-model="currItem.config.validConfig.validExpression"></els-input>
+              v-model="currItem.config.formConfig.validExpression"></els-input>
           </template>
         </el-popover>
       </span>
@@ -264,4 +285,4 @@ function handleChangeDataType() {
       :config="currItem.config.advancedConfig" :is-container="isRow" :depath="currDepath">
     </DynamicDesignerInner>
   </els-form>
-</template>
+</template>../../utlis/dynamicPropertys/form.js

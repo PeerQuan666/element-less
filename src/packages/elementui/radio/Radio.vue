@@ -9,6 +9,7 @@ import { ValueType } from '../../utlis/enumCom'
 import { RadioProps } from '../../utlis/interfaceCom'
 defineOptions({
     name: 'ElsRadio',
+    inheritAttrs:false
 })
 
 const props = withDefaults(defineProps<RadioProps>(), ({
@@ -46,7 +47,7 @@ const optionData = computed<Array<Record<string, any>>>(() => {
 
 const getModelValue=inject<Function>('getModelValue',()=>null)
 function initModelValue(){
-    if(!props.modelValue&&getModelValue&&props.prop){
+    if(props.modelValue===undefined&&getModelValue&&props.prop){
       return  getModelValue(props.prop,props.aIndex)
     }
     return props.modelValue
@@ -93,14 +94,23 @@ watch(filterText, (val) => {
     }))
 
 })
-if (props.type == 'button') {
-    provide('type', 'radiobutton')
+const provideOptionData=ref<any>({type:'radio',optionWidth:''})
 
-} else {
-    provide('type', 'radio')
-    provide('optionWidth', props.optionWidth)
+provide('provideOption',provideOptionData)
+watchEffect(()=>{
 
-}
+    if (props.type == 'button') {
+        provideOptionData.value.type= 'radiobutton'
+    } else {
+        provideOptionData.value.type= 'radio'
+
+    }
+    if(props.optionWidth){
+        provideOptionData.value.optionWidth=props.optionWidth
+    }
+})
+
+
 provide('setExtraOption', setExtraOption)
 
 const radioClass: string[] = reactive([])
@@ -232,7 +242,7 @@ function handleClickOption(item: any) {
 const setModelValue=inject<Function>('setModelValue',()=>null)
 function handleReturnModelValue(value){
     emits('update:modelValue', value);
-    if(setModelValue&&props.prop){
+    if(props.modelValue===undefined&&setModelValue&&props.prop!==undefined){
         setModelValue(props.prop,value,props.aIndex)
     }
 }
@@ -277,7 +287,7 @@ if (props.url) {
 
 </script>
 <template>
-    <ElsFormNode v-bind="props">
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
         <div :class="radioClass" :style="radioStyle">
             <div v-if="props.filterable">
                 <el-input style="width:200px;" suffix-icon="Search" v-if="filterable" placeholder="输入关键字进行过滤"

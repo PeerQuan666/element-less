@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useAttrs, computed, inject, useSlots, reactive,provide } from 'vue'
+import { ref, useAttrs, computed, inject, useSlots, reactive, provide,watchEffect } from 'vue'
 
 import { FormItemProps, QueryInfo } from '../../utlis/interfaceCom'
 import { ValidType } from '../../utlis/enumCom'
@@ -14,8 +14,9 @@ interface Props extends FormItemProps {
 }
 const props = withDefaults(defineProps<Props>(), {
     queryAutoReadData: undefined,
-    hasFormItem:true,
-    aIndex:-1
+    hasFormItem: true,
+    aIndex: -1,
+    tipPosition: 'left'
 })
 
 const attrs: any = useAttrs()
@@ -23,7 +24,7 @@ const formItem: any = ref()
 const setQueryData = inject<Function>('setQueryData', () => { })
 const getQueryData = inject<Function>('getQueryData', () => { })
 const formType = inject<string>('formType', '')
-if(!props.hasFormItem){
+if (!props.hasFormItem) {
     provide('container', 'formitem')
 }
 
@@ -47,7 +48,7 @@ function initRules() {
                     validExpression = "^-?\\d+$";
                     break;
                 case ValidType.Float:
-                    validExpression = "^([1-9]+(\\.\\d+)?|0\\.\\d+)$";
+                    validExpression = "^([1-9]+\\d*(\\.\\d+)?|0\\.\\d+)$";
                     break;
                 case ValidType.Price:
                     validExpression = "((^[1-9]\\d*)|^0)(\\.\\d{0,2}){0,1}$";
@@ -76,7 +77,7 @@ function initRules() {
             }
         }
         if (validExpression) {
-            currItemRules.push({ pattern: new RegExp(validExpression), message: props.requiredMessage ? props.requiredMessage : currLabel + '格式错误' })
+            currItemRules.push({ pattern: new RegExp(validExpression), message: props.validMessage ? props.validMessage : currLabel + '格式错误' })
 
         }
         if (props.validMethod) {
@@ -115,34 +116,60 @@ function initQuery() {
 const itemRules = computed<Array<Record<string, any>>>(() => {
     return initRules()
 })
-
-let defaultKey: any = props.prop
+const defaultKey=ref<any>()
+const defaultProp=ref<any>()
 let queryData: any = reactive({})
-if (formType == 'Query' && setQueryData) {
-    queryData = initQuery()
-    if (queryData) {
-        setQueryData(queryData);
+
+watchEffect(()=>{
+    defaultKey.value=props.prop
+    if (formType == 'Query' && setQueryData) {
+        queryData = initQuery()
+        if (queryData) {
+            setQueryData(queryData);
+        }
+        defaultKey.value = queryData?.key
     }
-    defaultKey = queryData?.key
-}
-let defaultProp=defaultKey
-if(props.aIndex>-1){
-    defaultProp=`[${props.aIndex}]['${defaultKey}']`
-}
+    defaultProp.value=  defaultKey.value
+    if (props.aIndex > -1) {
+        defaultProp.value = `[${props.aIndex}]['${defaultKey.value}']`
+    }
+})
+
+
 let startKey: any = attrs['propStart']
 let endKey: any = attrs['propEnd']
 
 </script>
 <template>
     <el-form-item ref="formItem" :label="label" :prop="defaultProp" :rules="itemRules">
+
         <template v-if="slots.label" #label>
             <slot name="label"></slot>
+        </template>
+        <template v-else-if="tip&&tipPosition=='left'" #label>
+            <el-tooltip placement="top">
+                <template #content>
+                    <div v-html="tip"></div>
+                </template>
+                <span class="els-form-item-label">{{ label }}   <el-icon style="margin-left:5px;cursor: pointer;">
+                    <Question-Filled /></el-icon></span>
+             </el-tooltip>
+
         </template>
         <el-space v-if="spacer" :wrap="spaceWrap" :spacer="spacer" :size="spaceSize">
             <slot></slot>
         </el-space>
         <slot v-bind="{ key: defaultKey, startKey: startKey, endKey: endKey }"></slot>
-
+        <template v-if="tip && tipPosition == 'right'">
+            <el-tooltip placement="top">
+                <template #content>
+                    <div v-html="tip"></div>
+                </template>
+                <span class="els-form-item-append"><el-icon style="margin-left:5px;cursor: pointer;">
+                    <Question-Filled /></el-icon></span>
+             </el-tooltip>
+        </template>
+        <span v-if="suffixContent" v-html="suffixContent" class="els-form-item-append"></span>
         <template v-if="slots.error">
             <slot name="error"></slot>
         </template>
@@ -151,5 +178,9 @@ let endKey: any = attrs['propEnd']
 <style lang="less" >
 .el-form-item__content {
     column-gap: 5px;
+}
+.els-form-item-label{display: flex;align-items: center;}
+.el-form-item__content:has(span[class^=els-form-item-append]){
+    flex-wrap: nowrap;
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, inject, computed, onMounted } from 'vue'
+import { ref, inject, computed, watchEffect } from 'vue'
 import DynamicRenderInnerItem from './DynamicRenderInnerItem.vue'
 import DynamicRenderInner from './DynamicRenderInner.vue'
 import DynamicRenderInnerArray from './DynamicRenderInnerArray.vue'
@@ -44,39 +44,47 @@ const currNode = computed(() => {
 })
 
 function handleDisabledExpress(item) {
+
     if (item.config.baseConfig && item.config.advancedConfig.disabled) {
         let currEvent = new Function('parentNode,currNode', "return " + item.config.advancedConfig.disabled);
-        return currEvent(props.parentNode, currNode);
+        return currEvent(props.parentNode, currNode.value);
     }
     return false;
 }
 function handleIfExpress(item) {
-    if (item.config.advancedConfig && item.config.advancedConfig.vif) {
-        let currEvent = new Function('parentNode,currNode', "return " + item.config.advancedConfig.vif);
-        return currEvent(props.parentNode, currNode);
+    try {
+        if (item.config.advancedConfig && item.config.advancedConfig.vif) {
+            let currEvent = new Function('parentNode,currNode', "return " + item.config.advancedConfig.vif);
+            return currEvent(props.parentNode, currNode.value);
+        }
+    } catch (err) {
+        console.error(err)
+        debugger
     }
+
     return true;
 }
 function handleValueChange(val, item) {
     if (item.config.advancedConfig && item.config.advancedConfig.eventChange) {
         let currEvent = new Function('val,parentNode,currNode', item.config.advancedConfig.eventChange)
-        currEvent(val, props.parentNode, currNode);
+        currEvent(val, props.parentNode, currNode.value);
     }
 }
-function initClass() {
-    if (props.depath == 0) {
-        itemClassName.value = "els-dynamic-r-item";
-    } else {
-        itemClassName.value = "leo-dynamic-r-item-child";
+function getFormItemAttr(item) {
+    const currFormConfig = lessCom.cloneObj(item.config.formConfig)
+    if ((item.dataTypeName == '无' || item.config.baseConfig?.componentName == 'ElsCaption' || item.componentName === 'ElsRow')) {
+        currFormConfig.labelWidth = '0px'
+    } else if (item.dataTypeName == 'Array' && item.arrayDataTypeName == 'Object') {
+        delete currFormConfig.labelWidth
     }
-
-    if (props.nodeItem && props.nodeItem.config.baseConfig) {
-        labelWidth.value = props.nodeItem.baseConfig && props.nodeItem.baseConfig.width ? props.nodeItem.baseConfig.width + 'px' : undefined
-    }
-    if (!labelWidth.value && defaultLabelWidth) {
-        labelWidth.value = defaultLabelWidth.value
-    }
-    currDepath.value += 1;
+    if (currFormConfig) {
+        if (currFormConfig.validMethod) {
+            let currEvent = new Function('parentNode,currNode', "return " + currFormConfig.validMethod);
+            currFormConfig.validMethod = currEvent(props.parentNode, currNode.value);
+        } else {
+            delete currFormConfig.validMethod
+        }
+    } return currFormConfig
 }
 
 function handleAddItem(item) {
@@ -84,64 +92,88 @@ function handleAddItem(item) {
 }
 
 
-onMounted(() => {
-    initClass()
+if (props.depath && props.depath > 0) {
+    itemClassName.value = "leo-dynamic-r-item-child";
+
+} else {
+    itemClassName.value = "els-dynamic-r-item";
+}
+watchEffect(() => {
+    const formConfig = props.nodeItem?.config.formConfig
+    if (props.nodeItem && formConfig) {
+        labelWidth.value = formConfig.labelWidth ? formConfig.labelWidth : undefined
+    }
+    if (!labelWidth.value && defaultLabelWidth) {
+        labelWidth.value = defaultLabelWidth.value
+    }
 })
+
+currDepath.value += 1;
+
+
 
 </script>
 <template>
-  
-    <els-form v-model="currData" :label-width="labelWidth"  >
-        <component :is="nodeItem?.componentName=='ElsRow'?'ElsRow':'div'"  :class="itemClassName"
-            :style="nodeItem?.componentName==='ElsRow' ? nodeItem ? nodeItem.config.advancedConfig?.style : '' : ''">
+    <els-form v-model="currData" :label-width="labelWidth">
+        <component :is="nodeItem?.componentName=='ElsRow'?'ElsRow':'div'" :class="itemClassName"
+            :style="nodeItem?.componentName === 'ElsRow' ? nodeItem ? nodeItem.config.advancedConfig?.style : '' : ''">
 
+            <component :is="nodeItem?.componentName==='ElsRow'?'els-col':'div'" v-for="(item, index) in currData">
 
-            <component :is="nodeItem?.componentName==='ElsRow'?'els-col':'div'"  v-for="(item, index) in currData">
-             
                 <template v-if="handleIfExpress(item)">
-                    <els-caption v-if="item.config.baseConfig?.componentName == 'ElsCaption'" v-bind="item.config.baseConfig">
-                    {{ item.keyName}}</els-caption>
-                    <els-form-item v-if="item.componentName !== 'ElsCaption'" :hasFormItem="false"
-                        :style="item.dataTypeName == '无'||item.config.baseConfig.componentName == 'ElsCaption' ? 'margin-bottom:0 !important' : ''"
-                        :label="item.dataTypeName == '无'||item.config.baseConfig.componentName == 'ElsCaption' ? '' : item.keyName"
-                        :label-width="(item.dataTypeName == '无'||item.config.baseConfig.componentName == 'ElsCaption') ? '0' :undefined" v-bind="item.validConfig"
-                        :prop="`[${index}].value`">
 
-                        <DynamicRenderInnerItem
-                            v-if="item.dataTypeName != 'Array' && item.dataTypeName != 'Object' && item.componentName !== 'ElsRow'"
-                            :disabled="handleDisabledExpress(item)" :parent-node="parentNode" :curr-node="currNode"
-                            :item="item" v-model="item.value" :style="item.config.advancedConfig.style"
-                            @valueChange="handleValueChange($event, item)">
-                        </DynamicRenderInnerItem>
+                    <DynamicRenderInner v-if="item.componentName == 'ElsRow'" :data="item.data" :parentNode="currNode"
+                        :node-item="item" :depath="currDepath">
+                    </DynamicRenderInner>
+                    <template v-else>
+                        
+                        <els-caption v-if="item.config.baseConfig?.componentName == 'ElsCaption'"
+                                    v-bind="item.config.baseConfig"
+                                    :title="!item.config.baseConfig.title ? item.keyName : item.config.baseConfig.title"></els-caption>
 
-                        <DynamicRenderInner v-else-if="item.dataTypeName == 'Object' || item.componentName == 'ElsRow'"
-                            :data="item.data" :node-item="item" :depath="currDepath">
-                        </DynamicRenderInner>
+                        <els-form-item v-if="item.componentGroup === 'Form'||item.dataTypeName==='Array'||item.dataTypeName=='Object'" :hasFormItem="false"
+                          :key="item.keyID"
+                            v-bind="getFormItemAttr(item)"
+                            :class="item.dataTypeName == 'Object'?'els-dynamic-obj':''"
+                            :style="item.config.baseConfig?.componentName == 'ElsCaption' || item.dataTypeName == 'Object' ? 'margin-bottom:0 !important' : ''"
+                            :label="item.config.baseConfig?.componentName == 'ElsCaption' ? '' : item.keyName"
+                            :prop="`[${index}].value`">
+                            <DynamicRenderInnerItem
+                                :key="item.keyID"
+                                v-if="item.dataTypeName != 'Array' && item.dataTypeName != 'Object' && item.componentName !== 'ElsRow'"
+                                :disabled="handleDisabledExpress(item)" :parent-node="parentNode" :curr-node="currNode"
+                                :item="item" v-model="item.value" :style="item.config.advancedConfig.style"
+                                @valueChange="handleValueChange($event, item)">
+                            </DynamicRenderInnerItem>
 
-                        <div v-else-if="item.dataTypeName == 'Array' && item.arrayDataTypeName == 'Object'" class="els-dynamic-r-array"
-                            :class="{ 'horizontal': item.config.baseConfig.arrangementType === 'Horizontal' }">
-                            <els-list :data="item.data" @add="handleAddItem(item)"
-                                item-class-name="els-dynamic-r-array"
-                                :hasForm="false"
-                                :style="item.config.advancedConfig.style ? item.config.advancedConfig.style : [{ 'max-width': (item.config.baseConfig.maxWidth ? item.config.baseConfig.maxWidth + 'px' : '') }, { 'max-height': (item.config.baseConfig.maxHeight ? item.config.baseConfig.maxHeight + 'px' : '') }, { 'display': item.config.baseConfig.arrangementType === 'Horizontal' ? 'flex' : '' }, { 'flex-wrap': 'wrap' }]">
-                                <template #default="{ $item }">
-                                    <DynamicRenderInner :parent-node="currNode" :node-item="item" :data="$item"
-                                        :depath="currDepath">
-                                    </DynamicRenderInner>
-                                </template>
-                            </els-list>
-                        </div>
+                            <DynamicRenderInner  v-else-if="item.dataTypeName == 'Object'" :data="item.data"
+                                :parentNode="currNode" :node-item="item" :depath="currDepath">
+                            </DynamicRenderInner>
 
-                        <DynamicRenderInnerArray v-else-if="item.dataTypeName == 'Array' && item.arrayDataTypeName != 'Object'"
-                            :parent-node="currNode" :item="item" :depath="currDepath">
-                        </DynamicRenderInnerArray>
+                            <div v-else-if="item.dataTypeName == 'Array' && item.arrayDataTypeName == 'Object'"
+                                class="els-dynamic-r-array-container"
+                                :class="{ 'horizontal': item.config.baseConfig.arrangementType === 'Horizontal' }">
+                                <els-list :labelWidth="item.config.formConfig.labelWidth" :data="item.data"
+                                    @add="handleAddItem(item)" item-class-name="els-dynamic-r-array" :hasForm="false"
+                                    :style="item.config.advancedConfig.style ? item.config.advancedConfig.style : [{ 'max-width': (item.config.baseConfig.maxWidth ? item.config.baseConfig.maxWidth + 'px' : '') }, { 'max-height': (item.config.baseConfig.maxHeight ? item.config.baseConfig.maxHeight + 'px' : '') }, { 'display': item.config.baseConfig.arrangementType === 'Horizontal' ? 'flex' : '' }, { 'flex-wrap': 'wrap' }]">
+                                    <template #default="{ $item }">
+                                        <DynamicRenderInner :parent-node="currNode" :node-item="item" :data="$item" class="test1111111111"
+                                            :depath="currDepath">
+                                        </DynamicRenderInner>
+                                    </template>
+                                </els-list>
+                            </div>
 
-                    </els-form-item>
+                            <DynamicRenderInnerArray
+                                v-else-if="item.dataTypeName == 'Array' && item.arrayDataType && item.arrayDataTypeName != 'Object'"
+                                :parent-node="parentNode" :item="item" :depath="currDepath">
+                            </DynamicRenderInnerArray>
 
-                    
+                        </els-form-item>
+                        <els-caption v-if="item.componentGroup === 'Desc'&&item.componentName=='ElsCaption'" v-bind="item.config.baseConfig"></els-caption>
+                    </template>
                 </template>
             </component>
 
         </component>
-    </els-form>
-</template>
+</els-form></template>

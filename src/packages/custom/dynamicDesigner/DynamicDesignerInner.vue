@@ -17,28 +17,28 @@ interface Props {
 
 }
 
-const emits = defineEmits(['update:data'])
+const emits = defineEmits(['update:data','removeItem'])
 const props = withDefaults(defineProps<Props>(),{depath:0})
 const currData = useVModel(props, 'data', emits)
 const currConfig = ref(props.config ?? {})
 function handleRemove() {
-
+  emits("removeItem")
 }
-function handleAddItem(item) {
-  if (!item.type) {
+function handleAddItem() {
     currData.value.push(
       {
-        keyID:lessCom.Guid32(),
+        keyID:"key_"+lessCom.randomNumber().toString(),
         keyName: '',
         keyCode: '',
         data: [],
         config:{
-          validConfig:{},
+          formConfig:{},
           baseConfig:{},
-          advancedConfig:{}
+          advancedConfig:{},
+          arrayConfig:{}
         },
       })
-  }
+  
 }
 const tagID = inject('tagID')
 </script>
@@ -49,12 +49,11 @@ const tagID = inject('tagID')
         <els-form-item label="样式" label-width="60px">
           <el-input v-model="currConfig.style"></el-input>
         </els-form-item>
-        <els-form-item label="V-If" label-width="60px">
+        <els-form-item label="v-if" label-width="60px">
           <el-input v-model="currConfig.vif"></el-input>
         </els-form-item>
         <template #reference> <span>(1行{{ data.length }}列)</span></template>
       </el-popover>
-
         <el-icon class="el-icon-rank">
             <Rank />
           </el-icon>

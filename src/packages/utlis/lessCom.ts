@@ -8,7 +8,54 @@ import { ElMessage } from 'element-plus'
 
 
 const lessCom = {
-    
+    getFormNodeProps(props){
+        const param =  (({
+            prop,label,
+            hasFormItem,
+            span,
+            aIndex,
+            tip,
+            tipPosition,
+            suffixContent,
+            required,
+            requiredMessage,
+            validType,
+            validExpression,
+            validMessage,
+            validMethod,
+            validTrigger,
+            queryField,
+            queryMethod,
+            queryDataType,
+            queryDefaultValue,
+            queryAutoReadData,
+            queryAroundComma,
+            queryRange,
+            queryRangeOrEqual
+        }) => ({  prop,label,
+            hasFormItem,
+            span,
+            aIndex,
+            tip,
+            tipPosition,
+            suffixContent,
+            required,
+            requiredMessage,
+            validType,
+            validExpression,
+            validMessage,
+            validMethod,
+            validTrigger,
+            queryField,
+            queryMethod,
+            queryDataType,
+            queryDefaultValue,
+            queryAutoReadData,
+            queryAroundComma,
+            queryRange,
+            queryRangeOrEqual}))(props)
+        return param;
+    },
     getApiConfig(){
         const { proxy } = getCurrentInstance() as any
         if(!proxy){
@@ -262,6 +309,9 @@ const lessCom = {
             })
         }
 
+    },
+    randomNumber(len=100000){
+        return (Math.random()*len).toString().toInt()
     },
     getQueryData(queryData) {
         if (!queryData) {

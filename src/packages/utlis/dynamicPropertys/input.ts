@@ -1,4 +1,4 @@
-export default[
+export default [
 	{
 		"keyID": "60bf4a26d64d17b6a3ea163a3b943e75",
 		"keyName": "",
@@ -12,7 +12,6 @@ export default[
 				"config": {
 					"arrayConfig": {
 						"componentName": "ElsFormItem",
-						"labelWidth": "",
 						"type": "bottom",
 						"arrayDefaultLength": 0,
 						"arrangementType": "Vertical",
@@ -21,20 +20,23 @@ export default[
 					},
 					"baseConfig": {
 						"width": "",
-						"placeHolder": "",
+						"placeholder": "",
 						"prefixIcon": "",
 						"suffixIcon": "",
 						"prefixTag": "",
 						"suffixTag": "",
-						"minLength": 0,
-						"maxLength": 0,
+						"maxlength": "",
+						"showWordLimit": false,
 						"clearable": false,
 						"isPassword": false,
-						"showWordLimit": false,
 						"isTrim": false,
-						"isEncode": false
+						"encode": false
 					},
-					"validConfig": {
+					"formConfig": {
+						"labelWidth": "",
+						"tip": "",
+						"tipPosition": "left",
+						"suffixContent": "",
 						"required": false,
 						"requiredMessage": "",
 						"validType": "",
@@ -55,12 +57,11 @@ export default[
 			{
 				"keyID": "5035ac60096d1c2921b602b1b718dba9",
 				"keyName": "占位文本",
-				"keyCode": "placeHolder",
+				"keyCode": "placeholder",
 				"data": [],
 				"config": {
 					"arrayConfig": {
 						"componentName": "ElsFormItem",
-						"labelWidth": "",
 						"type": "bottom",
 						"arrayDefaultLength": 0,
 						"arrangementType": "Vertical",
@@ -69,20 +70,23 @@ export default[
 					},
 					"baseConfig": {
 						"width": "",
-						"placeHolder": "",
+						"placeholder": "",
 						"prefixIcon": "",
 						"suffixIcon": "",
 						"prefixTag": "",
 						"suffixTag": "",
-						"minLength": 0,
-						"maxLength": 0,
+						"maxlength": "",
+						"showWordLimit": false,
 						"clearable": false,
 						"isPassword": false,
-						"showWordLimit": false,
 						"isTrim": false,
-						"isEncode": false
+						"encode": false
 					},
-					"validConfig": {
+					"formConfig": {
+						"labelWidth": "",
+						"tip": "",
+						"tipPosition": "left",
+						"suffixContent": "",
 						"required": false,
 						"requiredMessage": "",
 						"validType": "",
@@ -104,7 +108,7 @@ export default[
 		"config": {
 			"arrayConfig": {},
 			"baseConfig": {},
-			"validConfig": {},
+			"formConfig": {},
 			"advancedConfig": {}
 		},
 		"controlType": 100,
@@ -125,7 +129,6 @@ export default[
 				"config": {
 					"arrayConfig": {
 						"componentName": "ElsFormItem",
-						"labelWidth": "",
 						"type": "bottom",
 						"arrayDefaultLength": 0,
 						"arrangementType": "Vertical",
@@ -134,20 +137,23 @@ export default[
 					},
 					"baseConfig": {
 						"width": "",
-						"placeHolder": "",
+						"placeholder": "",
 						"prefixIcon": "",
 						"suffixIcon": "",
 						"prefixTag": "",
 						"suffixTag": "",
-						"minLength": 0,
-						"maxLength": 0,
+						"maxlength": "",
+						"showWordLimit": false,
 						"clearable": false,
 						"isPassword": false,
-						"showWordLimit": false,
 						"isTrim": false,
-						"isEncode": false
+						"encode": false
 					},
-					"validConfig": {
+					"formConfig": {
+						"labelWidth": "",
+						"tip": "",
+						"tipPosition": "left",
+						"suffixContent": "",
 						"required": false,
 						"requiredMessage": "",
 						"validType": "",
@@ -171,7 +177,6 @@ export default[
 				"config": {
 					"arrayConfig": {
 						"componentName": "ElsFormItem",
-						"labelWidth": "",
 						"type": "bottom",
 						"arrayDefaultLength": 0,
 						"arrangementType": "Vertical",
@@ -180,20 +185,23 @@ export default[
 					},
 					"baseConfig": {
 						"width": "",
-						"placeHolder": "",
+						"placeholder": "",
 						"prefixIcon": "",
 						"suffixIcon": "",
 						"prefixTag": "",
 						"suffixTag": "",
-						"minLength": 0,
-						"maxLength": 0,
+						"maxlength": "",
+						"showWordLimit": false,
 						"clearable": false,
 						"isPassword": false,
-						"showWordLimit": false,
 						"isTrim": false,
-						"isEncode": false
+						"encode": false
 					},
-					"validConfig": {
+					"formConfig": {
+						"labelWidth": "",
+						"tip": "",
+						"tipPosition": "left",
+						"suffixContent": "",
 						"required": false,
 						"requiredMessage": "",
 						"validType": "",
@@ -215,7 +223,7 @@ export default[
 		"config": {
 			"arrayConfig": {},
 			"baseConfig": {},
-			"validConfig": {},
+			"formConfig": {},
 			"advancedConfig": {}
 		},
 		"controlType": 100,
@@ -236,7 +244,6 @@ export default[
 				"config": {
 					"arrayConfig": {
 						"componentName": "ElsFormItem",
-						"labelWidth": "",
 						"type": "bottom",
 						"arrayDefaultLength": 0,
 						"arrangementType": "Vertical",
@@ -245,20 +252,23 @@ export default[
 					},
 					"baseConfig": {
 						"width": "",
-						"placeHolder": "",
+						"placeholder": "",
 						"prefixIcon": "",
 						"suffixIcon": "",
 						"prefixTag": "",
 						"suffixTag": "",
-						"minLength": 0,
-						"maxLength": 0,
+						"maxlength": "",
+						"showWordLimit": false,
 						"clearable": false,
 						"isPassword": false,
-						"showWordLimit": false,
 						"isTrim": false,
-						"isEncode": false
+						"encode": false
 					},
-					"validConfig": {
+					"formConfig": {
+						"labelWidth": "",
+						"tip": "",
+						"tipPosition": "left",
+						"suffixContent": "",
 						"required": false,
 						"requiredMessage": "",
 						"validType": "",
@@ -282,7 +292,6 @@ export default[
 				"config": {
 					"arrayConfig": {
 						"componentName": "ElsFormItem",
-						"labelWidth": "",
 						"type": "bottom",
 						"arrayDefaultLength": 0,
 						"arrangementType": "Vertical",
@@ -291,20 +300,23 @@ export default[
 					},
 					"baseConfig": {
 						"width": "",
-						"placeHolder": "",
+						"placeholder": "",
 						"prefixIcon": "",
 						"suffixIcon": "",
 						"prefixTag": "",
 						"suffixTag": "",
-						"minLength": 0,
-						"maxLength": 0,
+						"maxlength": "",
+						"showWordLimit": false,
 						"clearable": false,
 						"isPassword": false,
-						"showWordLimit": false,
 						"isTrim": false,
-						"isEncode": false
+						"encode": false
 					},
-					"validConfig": {
+					"formConfig": {
+						"labelWidth": "",
+						"tip": "",
+						"tipPosition": "left",
+						"suffixContent": "",
 						"required": false,
 						"requiredMessage": "",
 						"validType": "",
@@ -337,15 +349,14 @@ export default[
 		"data": [
 			{
 				"keyID": "22dfb3b30a67173376365ecb9739b63b",
-				"keyName": "最小长度",
-				"keyCode": "minLength",
+				"keyName": "最大长度",
+				"keyCode": "maxlength",
 				"data": [],
-				"controlType": 3,
-				"dataType": 2,
+				"controlType": 1,
+				"dataType": 1,
 				"config": {
 					"arrayConfig": {
 						"componentName": "ElsFormItem",
-						"labelWidth": "",
 						"type": "bottom",
 						"arrayDefaultLength": 0,
 						"arrangementType": "Vertical",
@@ -353,14 +364,66 @@ export default[
 						"maxWidth": ""
 					},
 					"baseConfig": {
-						"controls-position": "",
 						"width": "",
-						"step": 0,
-						"precision": 0,
-						"min": 0,
-						"max": 0
+						"placeholder": "",
+						"prefixIcon": "",
+						"suffixIcon": "",
+						"prefixTag": "",
+						"suffixTag": "",
+						"maxlength": "",
+						"showWordLimit": false,
+						"clearable": false,
+						"isPassword": false,
+						"isTrim": false,
+						"encode": false
 					},
-					"validConfig": {
+					"formConfig": {
+						"labelWidth": "",
+						"tip": "",
+						"tipPosition": "left",
+						"suffixContent": "",
+						"required": false,
+						"requiredMessage": "",
+						"validType": "Number",
+						"validExpression": "",
+						"validMessage": "",
+						"validMethod": ""
+					},
+					"advancedConfig": {
+						"style": "",
+						"vif": "",
+						"disabled": "",
+						"eventChange": ""
+					}
+				}
+			},
+			{
+				"keyID": "d9b1e919d3433933c28ed5dd4af12b0f",
+				"keyName": "显示字数",
+				"keyCode": "showWordLimit",
+				"data": [],
+				"dataType": 3,
+				"controlType": 4,
+				"config": {
+					"arrayConfig": {
+						"componentName": "ElsFormItem",
+						"type": "bottom",
+						"arrayDefaultLength": 0,
+						"arrangementType": "Vertical",
+						"maxHeight": "",
+						"maxWidth": ""
+					},
+					"baseConfig": {
+						"active-text": "",
+						"inactive-text": "",
+						"active-value": true,
+						"inactive-value": false
+					},
+					"formConfig": {
+						"labelWidth": "",
+						"tip": "",
+						"tipPosition": "left",
+						"suffixContent": "",
 						"required": false,
 						"requiredMessage": "",
 						"validType": "",
@@ -375,47 +438,6 @@ export default[
 						"eventChange": ""
 					}
 				}
-			},
-			{
-				"keyID": "73fe4c2ceea9f41c862ce60a14c46eda",
-				"keyName": "最大长度",
-				"keyCode": "maxLength",
-				"data": [],
-				"config": {
-					"arrayConfig": {
-						"componentName": "ElsFormItem",
-						"labelWidth": "",
-						"type": "bottom",
-						"arrayDefaultLength": 0,
-						"arrangementType": "Vertical",
-						"maxHeight": "",
-						"maxWidth": ""
-					},
-					"baseConfig": {
-						"controls-position": "",
-						"width": "",
-						"step": 0,
-						"precision": 0,
-						"min": 0,
-						"max": 0
-					},
-					"validConfig": {
-						"required": false,
-						"requiredMessage": "",
-						"validType": "",
-						"validExpression": "",
-						"validMessage": "",
-						"validMethod": ""
-					},
-					"advancedConfig": {
-						"style": "",
-						"vif": "",
-						"disabled": "",
-						"eventChange": ""
-					}
-				},
-				"controlType": 3,
-				"dataType": 2
 			}
 		],
 		"config": {
@@ -440,7 +462,6 @@ export default[
 				"config": {
 					"arrayConfig": {
 						"componentName": "ElsFormItem",
-						"labelWidth": "",
 						"type": "bottom",
 						"arrayDefaultLength": 0,
 						"arrangementType": "Vertical",
@@ -453,7 +474,11 @@ export default[
 						"active-value": true,
 						"inactive-value": false
 					},
-					"validConfig": {
+					"formConfig": {
+						"labelWidth": "",
+						"tip": "",
+						"tipPosition": "left",
+						"suffixContent": "",
 						"required": false,
 						"requiredMessage": "",
 						"validType": "",
@@ -467,7 +492,8 @@ export default[
 						"disabled": "",
 						"eventChange": ""
 					}
-				}
+				},
+				"defaultValue": "true"
 			},
 			{
 				"keyID": "a1d2f8181ccb54c494963d2bdbaf65af",
@@ -477,7 +503,6 @@ export default[
 				"config": {
 					"arrayConfig": {
 						"componentName": "ElsFormItem",
-						"labelWidth": "",
 						"type": "bottom",
 						"arrayDefaultLength": 0,
 						"arrangementType": "Vertical",
@@ -490,7 +515,11 @@ export default[
 						"active-value": true,
 						"inactive-value": false
 					},
-					"validConfig": {
+					"formConfig": {
+						"labelWidth": "",
+						"tip": "",
+						"tipPosition": "left",
+						"suffixContent": "",
 						"required": false,
 						"requiredMessage": "",
 						"validType": "",
@@ -512,7 +541,7 @@ export default[
 		"config": {
 			"arrayConfig": {},
 			"baseConfig": {},
-			"validConfig": {},
+			"formConfig": {},
 			"advancedConfig": {}
 		},
 		"controlType": 100,
@@ -524,16 +553,13 @@ export default[
 		"keyCode": "",
 		"data": [
 			{
-				"keyID": "d9b1e919d3433933c28ed5dd4af12b0f",
-				"keyName": "显示字数",
-				"keyCode": "showWordLimit",
+				"keyID": "03a20ae3d70dd25afa8b07e95af9de78",
+				"keyName": "清除前后空格",
+				"keyCode": "isTrim",
 				"data": [],
-				"dataType": 3,
-				"controlType": 4,
 				"config": {
 					"arrayConfig": {
 						"componentName": "ElsFormItem",
-						"labelWidth": "",
 						"type": "bottom",
 						"arrayDefaultLength": 0,
 						"arrangementType": "Vertical",
@@ -546,7 +572,11 @@ export default[
 						"active-value": true,
 						"inactive-value": false
 					},
-					"validConfig": {
+					"formConfig": {
+						"labelWidth": "",
+						"tip": "",
+						"tipPosition": "left",
+						"suffixContent": "",
 						"required": false,
 						"requiredMessage": "",
 						"validType": "",
@@ -560,17 +590,18 @@ export default[
 						"disabled": "",
 						"eventChange": ""
 					}
-				}
+				},
+				"controlType": 4,
+				"dataType": 3
 			},
 			{
-				"keyID": "03a20ae3d70dd25afa8b07e95af9de78",
-				"keyName": "清除前后空格",
-				"keyCode": "isTrim",
+				"keyID": "c232677203ac847728c56baffe182660",
+				"keyName": "Url编码",
+				"keyCode": "encode",
 				"data": [],
 				"config": {
 					"arrayConfig": {
 						"componentName": "ElsFormItem",
-						"labelWidth": "",
 						"type": "bottom",
 						"arrayDefaultLength": 0,
 						"arrangementType": "Vertical",
@@ -583,7 +614,11 @@ export default[
 						"active-value": true,
 						"inactive-value": false
 					},
-					"validConfig": {
+					"formConfig": {
+						"labelWidth": "",
+						"tip": "",
+						"tipPosition": "left",
+						"suffixContent": "",
 						"required": false,
 						"requiredMessage": "",
 						"validType": "",
@@ -605,49 +640,10 @@ export default[
 		"config": {
 			"arrayConfig": {},
 			"baseConfig": {},
-			"validConfig": {},
+			"formConfig": {},
 			"advancedConfig": {}
 		},
 		"controlType": 100,
 		"dataType": 0
-	},
-	{
-		"keyID": "c232677203ac847728c56baffe182660",
-		"keyName": "Url编码",
-		"keyCode": "isEncode",
-		"data": [],
-		"config": {
-			"arrayConfig": {
-				"componentName": "ElsFormItem",
-				"labelWidth": "",
-				"type": "bottom",
-				"arrayDefaultLength": 0,
-				"arrangementType": "Vertical",
-				"maxHeight": "",
-				"maxWidth": ""
-			},
-			"baseConfig": {
-				"active-text": "",
-				"inactive-text": "",
-				"active-value": true,
-				"inactive-value": false
-			},
-			"validConfig": {
-				"required": false,
-				"requiredMessage": "",
-				"validType": "",
-				"validExpression": "",
-				"validMessage": "",
-				"validMethod": ""
-			},
-			"advancedConfig": {
-				"style": "",
-				"vif": "",
-				"disabled": "",
-				"eventChange": ""
-			}
-		},
-		"controlType": 4,
-		"dataType": 3
 	}
 ]

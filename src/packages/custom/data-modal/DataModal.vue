@@ -23,7 +23,8 @@ interface Props extends FormItemProps {
     valueField?: string,
     multiple?: boolean,
     open?:Function,
-    confirm?: Function
+    confirm?: Function,
+    componentName?:string
 }
 const props = withDefaults(defineProps<Props>(), {
     inputWidth: '200',
@@ -32,6 +33,7 @@ const props = withDefaults(defineProps<Props>(), {
     hasButton: true,
     width: '50%',
     height: '500px',
+    componentName:'el-button'
 
 })
 
@@ -46,7 +48,7 @@ const attrs = useAttrs()
 const setModelValue=inject<Function>('setModelValue',()=>null)
 const getModelValue=inject<Function>('getModelValue',()=>null)
  function initModelValue(){
-    if(!props.modelValue&&getModelValue&&props.prop){
+    if(props.modelValue===undefined&&getModelValue&&props.prop){
       return  getModelValue(props.prop,props.aIndex)
     }
     return props.modelValue
@@ -97,7 +99,7 @@ function handleConfirm() {
 }
 function handleReturnModelValue(val){
     emits('update:modelValue', val)
-    if(setModelValue&&props.prop){
+    if(props.modelValue===undefined&&setModelValue&&props.prop){
         setModelValue(props.prop,val,props.aIndex)
     }
 }
@@ -148,12 +150,14 @@ const modalUrl = computed(() => {
 
 </script>
 <template >
-    <el-space>
-        <el-input v-model="currSelectValue" v-if="hasInput" v-bind="attrs"
-            :style="(inputWidth ? 'width:' + inputWidth : '')"></el-input>
-        <el-button type="primary" v-if="hasButton" @click="handleOpenModal">{{ buttonLabel }}</el-button>
+    
+    <span style="display: flex;">
+        <el-input v-model="currSelectValue" v-if="hasInput" 
+            :style="(inputWidth ? 'width:' + inputWidth.appendPx() : '')"></el-input>
+        <component :is="componentName" type="primary" v-bind="attrs" v-if="hasButton" @click.native="handleOpenModal" >{{ buttonLabel?buttonLabel:'选择' }}</component>
         <el-tag v-if="currSelectLabel">{{ currSelectLabel }}</el-tag>
-        <els-dialog :title="title" :width="width" :contentHeight="height" v-model="dialogVisible" :url="modalUrl">
+    </span>
+    <els-dialog :title="title" :width="width" :contentHeight="height" v-model="dialogVisible" :url="modalUrl">
             <slot></slot>
             <template #footer v-if="!modalUrl">
                 <span class="dialog-footer">
@@ -164,7 +168,6 @@ const modalUrl = computed(() => {
                 </span>
             </template>
         </els-dialog>
-    </el-space>
 </template>
 
 <style scoped>

@@ -1,8 +1,9 @@
 
 export enum ValueType {
     Auto = '',
-    String='string',
-    Number='number',
+    String='String',
+    Number='Number',
+    Bool='Bool'
 }
 export enum ValidType {
     None='',

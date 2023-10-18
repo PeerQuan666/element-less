@@ -1,50 +1,35 @@
 <script setup lang="ts">
-import { ref, useSlots, provide, onMounted } from 'vue'
-import ElsCol from '../col'
-import lessCom from '../../utlis/lessCom';
+import { ref, provide } from 'vue'
 
 defineOptions({
     name: 'ElsRow',
 })
-const slots = useSlots()
-const colData = ref({ count: 24 })
-provide('getSpan', getSpan)
+const colData = ref<any>([])
+const spanCount = ref(24)
+provide('layer', 'row')
 provide('colData', colData)
-function getSpan() {
-    if (slots.default) {
-        if (slots.default().length == 1 && (slots.default()[0].type.toString() == 'Symbol(Fragment)'||slots.default()[0].type.toString() == 'Symbol(v-fgt)')) {
-            let cols = (slots.default()[0].children as any).filter(ele => ele.type)
-            colData.value.count = cols.length
-            const spanCount= lessCom.sumArray(cols.filter(ele=>ele.props&&ele.props.span).map(ele=>ele.props.span))
-            return (24-spanCount) / cols.filter(ele=>!ele.props||!ele.props.span).length;
-        }
-        let cols = slots.default().filter(ele => ele.type)
-        colData.value.count = cols.length
-        const spanCount= lessCom.sumArray(cols.filter(ele=>ele.props&&ele.props.span).map(ele=>ele.props?.span))
-        return (24-spanCount) / cols.filter(ele=>!ele.props||!ele.props.span).length;
+provide('getSpan', getSpan)
+provide('setSpan', setSpan)
+provide('removeSpan', removeSpan)
+function setSpan(id, span) {
+    if(colData.value.find(ele=>ele.id==id)){
+        removeSpan(id)
     }
-    return 24
+    colData.value.push({ 'id': id, 'span': span })
 }
-onMounted(() => {
+function removeSpan(id) {
+    colData.value.splice(colData.value.findIndex(ele => ele.id == id), 1)
+}
 
-})
+function getSpan() {
+    const autoSpan = colData.value.filter(ele => !ele.span).length
+    if (autoSpan)
+        return spanCount.value / autoSpan
+}
+
 </script>
 <template>
     <el-row>
-        <slot name="edit" v-if="slots.default">
-            <template v-for="vnode in slots.default()">
-              
-                <component :is="()=>vnode"
-                    v-if="(typeof (vnode.type) == 'object' && ((vnode.type as any)?.name === 'ElsCol' || (vnode.type as any)?.name !== 'ElCol'))||vnode.type.toString().startsWith('Symbol')">
-                    <component :is="()=>vnode" v-if="vnode.type.toString().startsWith('Symbol')"></component>
-                    <component :is="vnode" v-else>
-                    </component>
-                </component>
-                <ElsCol :span="vnode.props?vnode.props?.span:24" v-else>
-                    <component :is="vnode">
-                    </component>
-                </ElsCol>
-            </template>
-        </slot>
+        <slot ></slot>
     </el-row>
 </template>

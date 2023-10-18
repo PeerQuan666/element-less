@@ -1,5 +1,6 @@
 <template>
     <ElsDynamicDesigner v-model="config"></ElsDynamicDesigner>
+    <ElsDynamicRender v-model="value" :config="config"></ElsDynamicRender>
 </template>
 
 <script setup>

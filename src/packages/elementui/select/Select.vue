@@ -10,6 +10,7 @@ import { ValueType } from '../../utlis/enumCom'
 import { FormItemProps } from '../../utlis/interfaceCom'
 defineOptions({
     name: 'ElsSelect',
+    inheritAttrs:false
 })
 
 interface Props extends FormItemProps {
@@ -32,6 +33,8 @@ interface Props extends FormItemProps {
     width?: string | number,
     onChange?: Function,
     valueSeparator?: string,
+    multiple?:boolean,
+    allowCreate?:boolean,
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -55,10 +58,16 @@ const initSelect = ref(false)
 const preSelectValue = ref<any>('')
 const currLoading = ref(false)
 const selectValue = ref<any>('')
-const multiple = attrs['multiple'] !== undefined && attrs['multiple'] !== false;
-if (multiple) {
-    selectValue.value = []
-}
+
+watch(()=>props.multiple,(val)=>{
+    if(val){
+        selectValue.value = []
+      
+    }else{
+        selectValue.value=''
+    }
+},{immediate:true})
+
 
 const selectItem = ref<any>()
 const selectLabel = ref('')
@@ -67,7 +76,7 @@ const noExistOption: Array<Record<string, any>> = reactive([])
 const extraOption: Array<Record<string, any>> = reactive([])
 const defaultSlotData: Array<Record<string, any>> = reactive([])
 const queryData = reactive({ searchKey: '', idString: '' })
-const formInputWidth = inject<string>('inputWidth') ?? ''
+const formInputWidth = inject<string>('inputWidth','')
 const currWidth = ref(props.width ?? '')
 if (!currWidth.value) {
     if (formInputWidth) {
@@ -78,7 +87,7 @@ if (!currWidth.value) {
 const getModelValue=inject<Function>('getModelValue',()=>null)
 
 function initModelValue(){
-    if(!props.modelValue&&getModelValue&&props.prop){
+    if(props.modelValue===undefined&&getModelValue&&props.prop){
       return  getModelValue(props.prop,props.aIndex)
     }
     return props.modelValue
@@ -92,7 +101,7 @@ watch(() => props.selectIndex, () => {
 })
 watch(() => props.url, () => {
     if (props.resetValueByChangeData) {
-        if (multiple) {
+        if (props.multiple) {
             selectValue.value = [];
         } else {
             selectValue.value = "";
@@ -104,7 +113,7 @@ watch(() => props.data, (val, oldVal) => {
     if (val === undefined && oldVal === undefined) { return; }
     if (val != oldVal && JSON.stringify(val) != JSON.stringify(oldVal) && val) {
         if (props.resetValueByChangeData) {
-            if (multiple) {
+            if (props.multiple) {
                 selectValue.value = [];
             } else {
                 selectValue.value = "";
@@ -116,36 +125,42 @@ watch(() => props.data, (val, oldVal) => {
         initSelectIndex();
     }
 })
-watchEffect(()=>{
-   initModelValue()
-   initSelectValue()
-})
-
-watch(selectValue, () => {
-    initNoExistData();
-})
 
 watch(selectValue, (val: any) => {
-    if (multiple) {
+    if (props.multiple) {
         handleReturnResult((val as Array<string | number>).join(props.valueSeparator));
         return
     }
     handleReturnResult(val);
 })
-provide('type', 'select')
-provide('multiple', multiple)
+watchEffect(()=>{
+ 
+        initSelectValue()
+        initNoExistData();
+  
+
+})
+
+const provideOptionData=ref<any>({type:'select'})
+provide('provideOption',provideOptionData)
+
+provide('multiple', props.multiple)
 provide('setExtraOption', setExtraOption)
 
 function initSelectValue() {
+
     let currValueType = props.valueType;
-    if (attrs["allow-create"]) {
+    if (props.allowCreate) {
         currValueType = ValueType.String
     }
     const currModelValue=initModelValue()
-    if (currModelValue === '' ||currModelValue=== undefined) {
+
+    
+    if (currModelValue === '' ||currModelValue=== undefined||selectValue.value===currModelValue) {
         return
     }
-    if (multiple) {
+
+    if (props.multiple) {
         if (currValueType === ValueType.Number) {
             selectValue.value = currModelValue.toString().toListNumber(props.valueSeparator)
         } else if (currValueType === ValueType.String) {
@@ -175,7 +190,7 @@ function initSelectIndex() {
     if (props.selectIndex > -1 && !currModelValue) {
         if (optionData.value.length) {
             selectValue.value = optionData.value[props.selectIndex][props.valueField];
-            if (multiple) {
+            if (props.multiple) {
                 selectValue.value = [selectValue]
             }
         }
@@ -195,14 +210,14 @@ function initNoExistData() {
     nextTick(() => {
         noExistOption.length = 0
         if (props.hasNoExistOption) {
-            if (multiple) {
+            if (props.multiple) {
                 if (selectValue.value.length) {
                     let existValue = (selectValue.value as Array<any>).filter(ele => !optionData.value.map(cele => cele[props.valueField]).includes(ele));
                     if (existValue && existValue.length) {
                         existValue.forEach(ele => {
                             if (ele === 0 || ele) {
                                 let newOption: any = {};
-                                if (attrs["allow-create"]) {
+                                if (props.allowCreate) {
                                     newOption[props.labelField] = ele;
                                 } else {
                                     newOption[props.labelField] = props.noExistOptionPrefix ? props.noExistOptionPrefix + "-" + ele : ele;
@@ -220,7 +235,7 @@ function initNoExistData() {
                     let currOption = optionData.value.find(oele => oele[props.valueField] == selectValue.value);
                     if (!currOption) {
                         let newOption: any = {};
-                        if (attrs["allow-create"]) {
+                        if (props.allowCreate) {
                             newOption[props.labelField] = selectValue.value;
                         } else {
                             newOption[props.labelField] = props.noExistOptionPrefix ? props.noExistOptionPrefix + "-" + selectValue.value : selectValue.value;
@@ -243,7 +258,7 @@ function handleComitSelect(value: string | number | boolean) {
         if ((value || value === 0) && optionData.value.length) {
             let currOptions = optionData.value;
             let currValue = value;
-            if (multiple) {
+            if (props.multiple) {
                 selectItem.value = currOptions.filter(ele => value.toString().indexOf(ele[props.valueField]) > -1);
                 selectLabel.value = (selectItem.value as Array<Record<string, any>>).map(ele => ele[props.labelField]).toString()
                 currValue = value.toString()
@@ -315,7 +330,7 @@ function handleClickOption(item: any) {
 const setModelValue=inject<Function>('setModelValue',()=>null)
 function handleReturnModelValue(value){
     emits('update:modelValue', value);
-    if(setModelValue&&props.prop){
+    if(props.modelValue===undefined&& setModelValue&&props.prop!==undefined){
         setModelValue(props.prop,value,props.aIndex)
     }
 }
@@ -327,7 +342,7 @@ function handleReturnResult(value: number | string | boolean) {
     if (initSelect) {
         if (value || value === 0) {
             if (props.valueField && props.labelField) {
-                if (multiple) {
+                if (props.multiple) {
                     emits('update:select', optionData.value.filter(ele => (value as string).indexOf(ele[props.valueField]) > -1))
                     emits('update:select-label', optionData.value.filter(ele => (value as string).indexOf(ele[props.valueField]) > -1).map(ele => ele[props.labelField]).toString())
 
@@ -369,10 +384,11 @@ if (props.url) {
     initSelectIndex();
 }
 
+
 </script>
 <template>
-    <ElsFormNode v-bind="props">
-        <el-select v-model="selectValue"  :remote-method="handleSearch" :style="{ width: currWidth?.appendPx() }"
+  <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
+        <el-select v-model="selectValue"  :allowCreate="allowCreate" :multiple="multiple"  :remote-method="handleSearch" :style="{ width: currWidth?.appendPx() }"
             :loading="currLoading" remote-show-suffix @blur="handleBlur" @clear="handleClear" v-bind="attrs">
             <slot name="extra">
             </slot>

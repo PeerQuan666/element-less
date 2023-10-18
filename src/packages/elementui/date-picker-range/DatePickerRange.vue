@@ -4,7 +4,9 @@ import '../../utlis/lessPrototype.js'
 import { DatePickerProps, RangeFormItemProps } from '../../utlis/interfaceCom'
 import { QueryDataType } from '../../utlis/enumCom';
 const emits = defineEmits(['update:modelValue', 'update:start', 'update:end'])
-defineOptions({ name: 'ElsDatePickerRange' })
+import lessCom from '../../utlis/lessCom.js'
+
+defineOptions({ name: 'ElsDatePickerRange',inheritAttrs:false })
 
 interface Props extends DatePickerProps, RangeFormItemProps {
     single?: boolean,
@@ -81,7 +83,7 @@ watch(() => props.modelValue, (val) => {
 </script>
 
 <template>
-    <ElsFormNode v-bind="props">
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
         <els-date-picker v-if="single" v-model="dateValue" v-bind="props" :defaultTime="currDefaultTime" :type="currType"
             v-model:start="dateStartValue" v-model:end="dateEndValue">
             <template #default="cell">

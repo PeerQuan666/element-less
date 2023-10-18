@@ -1,22 +1,24 @@
 <script setup lang="ts">
-import { watch, inject ,watchEffect,useAttrs} from 'vue'
-import { useVModel } from '@vueuse/core'
+import { watch, inject ,watchEffect,useAttrs,ref} from 'vue'
+import lessCom from '../../utlis/lessCom.js'
 import { FormItemProps } from '../../utlis/interfaceCom'
 
 defineOptions({
     name: 'ElsInputNumber',
+    inheritAttrs:false
 })
 interface Props extends FormItemProps {
-    modelValue?: number
+    width?:string
+    modelValue?: Number
 }
 const props = defineProps<Props>()
 const emits = defineEmits(['update:modelValue'])
 const attrs=useAttrs()
-const currValue = useVModel(props, 'modelValue', emits)
+const currValue = ref()
 
 const getModelValue = inject<Function>('getModelValue', () => null)
 function initModelValue() {
-    if (!props.modelValue && getModelValue && props.prop) {
+    if (props.modelValue===undefined&& getModelValue && props.prop) {
         return getModelValue(props.prop,props.aIndex)
     }
     return props.modelValue
@@ -31,14 +33,15 @@ const setModelValue = inject<Function>('setModelValue', () => { })
 
 
 watch(currValue, (val) => {
-    if (setModelValue && props.prop) {
+    emits('update:modelValue', val)
+    if (props.modelValue===undefined&&setModelValue && props.prop) {
         setModelValue(props.prop, val,props.aIndex)
     }
 })
 
 </script>
 <template>
-    <ElsFormNode v-bind="props">
-        <el-input-number v-model="currValue"  v-bind="attrs"></el-input-number>
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
+        <el-input-number v-model="currValue"  :style="[{ width: width?.appendPx() }]"  v-bind="attrs"></el-input-number>
     </ElsFormNode>
 </template>

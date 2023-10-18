@@ -2,6 +2,7 @@
 defineOptions({ name: "ElsCaption"})
 interface Props {
     type?: string,
+    title?:string
 }
 defineProps<Props>()
 
@@ -10,7 +11,7 @@ defineProps<Props>()
    <div class="els-caption" :class="{'els-left-caption':type=='left'}" >
         <span class="els-caption-sub-header" v-if="type=='left'"><i class="dec"></i></span>
         <span>
-        <slot></slot>
+        <slot>{{ title }}</slot>
     </span>
     </div>
 </template>

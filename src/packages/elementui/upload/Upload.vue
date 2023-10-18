@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useAttrs, onMounted, watch, inject } from 'vue'
+import { ref, useAttrs, onMounted, watch, inject, watchEffect } from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 import { UploadType } from '../../utlis/enumCom'
 import lessCom from '../../utlis/lessCom.js'
@@ -8,6 +8,7 @@ import { ElNotification, ElMessage } from 'element-plus'
 import '../../utlis/lessPrototype'
 defineOptions({
     name: 'ElsUpload',
+    inheritAttrs:false
 })
 const attrs = useAttrs()
 const emits = defineEmits(['update:modelValue', 'uploaded', 'completed'])
@@ -48,7 +49,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const apiConfig = lessCom.getApiConfig()
 const { $dataField, $pathField, $uploadUrl, $md5Field } = lessCom.getUploadConfig()
-const multiple = attrs['multiple'] == true || attrs['multiple'] == ''
+
 const currShowInput = ref(false)
 const fileList = ref<Array<any>>([])
 const showVisible = ref(false)
@@ -58,15 +59,22 @@ const uploadLoading = ref(false)
 const currUploadUrl = ref('')
 const fileUpload = ref()
 const currShowFileList = ref(props.showFileList)
-if (multiple) {
-    currShowFileList.value = true
-}
+const multiple =ref(false)
+watchEffect(()=>{
+    multiple.value= attrs['multiple'] === true || attrs['multiple'] === ''
+    if (multiple.value) {
+        currShowFileList.value = true
+    }else{
+        currShowFileList.value=props.showFileList
+    }
+})
+
 function submitUpload() {
     fileUpload.value.submit();
 }
 const getModelValue = inject<Function>('getModelValue', () => null)
 function initModelValue() {
-    if (!props.modelValue && getModelValue && props.prop) {
+    if (props.modelValue===undefined&& getModelValue && props.prop) {
         return getModelValue(props.prop,props.aIndex)
     }
     return props.modelValue
@@ -147,7 +155,7 @@ function handleSuccess(res, file, fileList) {
     uploadLoading.value = false
     handleSortMutiPic();
     emits('uploaded', res)
-    if (multiple) {
+    if (multiple.value) {
         if (fileList.length) {
             const isSuccess = fileList.map(ele => ele.status).every(ele => ele == 'success')
             if (isSuccess) {
@@ -159,7 +167,7 @@ function handleSuccess(res, file, fileList) {
 
 }
 function handleSortMutiPic() {
-    if (props.type != UploadType.Pic && !multiple) { return; }
+    if (props.type != UploadType.Pic && !multiple.value) { return; }
     new Sortable(fileUpload.value.$el.querySelector(".el-upload-list"), {
         handle: '.el-upload-list__item',
         draggable: '.el-upload-list__item', // 允许拖拽的项目类名
@@ -224,7 +232,7 @@ function setFileUrl() {
         fileUrl.value = "";
     }
 
-    if (!multiple) {
+    if (!multiple.value) {
         let lastFile = fileList.value.filter(ele => ele.status == 'success').at(-1);
         if (lastFile) {
             fileUrl.value = lastFile.url
@@ -238,7 +246,7 @@ function setFileUrl() {
 const setModelValue = inject<Function>('setModelValue', () => { })
 function handleReturnModelValue(value) {
     emits('update:modelValue', value);
-    if (setModelValue && props.prop) {
+    if (props.modelValue===undefined&&setModelValue && props.prop) {
         setModelValue(props.prop, value,props.aIndex)
     }
 }
@@ -262,7 +270,7 @@ watch(() => props.url, () => {
 
 onMounted(() => {
     currShowInput.value = props.showInput
-    if (props.type == UploadType.File && !multiple) {
+    if (props.type == UploadType.File && !multiple.value) {
         currShowInput.value = true;
     }
 
@@ -274,7 +282,7 @@ defineExpose({
 })
 </script>
 <template>
-    <ElsFormNode v-bind="props">
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
         <div class="els_upload_container">
             <el-upload ref="fileUpload" v-model:file-list="fileList" :class="{ 'ele-uploader': type == UploadType.Pic }"
                 :action="currUploadUrl" :on-success="handleSuccess" :on-error="handleError" :on-remove="handleRemove"
