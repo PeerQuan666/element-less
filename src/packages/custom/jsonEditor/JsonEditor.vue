@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import "jsoneditor";
-import JsonEditorVue from 'json-editor-vue3'
+import { ref, watch,defineAsyncComponent,useAttrs } from "vue";
+
+
+const JsonEditorVue=defineAsyncComponent(()=>{
+    import("jsoneditor")
+    return import('json-editor-vue3')
+})
 
 defineOptions({
     name: 'ElsJsonEditor',
-    components: { JsonEditorVue }
+    inheritAttrs:false
 })
+const attrs=useAttrs()
 const emits = defineEmits(['update:modelValue'])
 
 interface Props {
@@ -42,13 +47,15 @@ const validate = async (editor) => {
 };
 </script>
 <template >
-    <JsonEditorVue  class="els-jsoneditor" v-model="currData" @blur="validate" />
+    <div class="els-jsoneditor">
+        <JsonEditorVue v-model="currData" @blur="validate" v-bind="attrs" />
+    </div>
 </template>
 <style lang="less">
 .els-jsoneditor {
     .full-screen {
-        right: 0;
-        top: 0;
+        right: 0 !important;
+        top: 0 !important;
     }
 
     .jsoneditor-poweredBy {

@@ -13,9 +13,8 @@ import pinia  from '../../src/packages/utlis/pinia'
 import 'element-plus/dist/index.css'
 library.add(far,fas)
 
-export default defineClientConfig({
-  enhance: ({ app, router, siteData }) => {
-  
+export  default   defineClientConfig ({
+  enhance: async ({ app, router, siteData }) => {
     app.component(VpDemo.name, VpDemo)
     for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
       app.component(key, component)
@@ -65,7 +64,7 @@ export default defineClientConfig({
       }
   }
 
-  app.use(pinia)
+   app.use(pinia)
    app.use(VueUeditorWrap)
     app.use(ElementPlus);
     app.use(ElementLess);

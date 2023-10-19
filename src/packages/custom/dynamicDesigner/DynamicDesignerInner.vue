@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { inject, ref } from 'vue'
+import { inject, ref ,defineAsyncComponent} from 'vue'
 import { useVModel } from '@vueuse/core'
 import { DynamicConfig } from '../../utlis/interfaceCom.js'
-import DynamicDesignerInnerItem from './DynamicDesignerInnerItem.vue'
-
+const DynamicDesignerInnerItem=defineAsyncComponent(()=>{
+  return import('./DynamicDesignerInnerItem.vue')
+})
 import lessCom from '../../utlis/lessCom'
 import '../../utlis/lessPrototype.js'
 defineOptions({
@@ -81,7 +82,18 @@ const tagID = inject('tagID')
     <els-list :data="data" @add="handleAddItem" :sortable="false" :is-remove="false" item :hasForm="false" itemKey="keyID"
       v-bind="{ group: tagID, animation: 300 }" >
       <template #default="{ $item, $index }">
-        <DynamicDesignerInnerItem :data="data" :item="$item" :depath="depath" :key="$index"></DynamicDesignerInnerItem>
+        <Suspense>
+          <template #default>
+            <DynamicDesignerInnerItem :data="data" :item="$item" :depath="depath" :key="$index"></DynamicDesignerInnerItem>
+          </template>
+          <template #fallback >
+              <el-skeleton animated>
+                <template #template>
+                  <el-skeleton-item variant="text" style="width: 100%;" />
+                </template>
+              </el-skeleton>
+          </template>
+        </Suspense>
       </template>
     </els-list>
   </div>

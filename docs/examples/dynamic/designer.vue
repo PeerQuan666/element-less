@@ -2,7 +2,6 @@
     <el-tabs>
         <el-tab-pane label="配置">
             <ElsDynamicDesigner v-model="config"></ElsDynamicDesigner>
-
         </el-tab-pane>
         <el-tab-pane label="预览">
         </el-tab-pane>

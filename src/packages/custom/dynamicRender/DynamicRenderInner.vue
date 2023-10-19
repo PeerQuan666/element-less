@@ -93,7 +93,7 @@ function handleAddItem(item) {
 
 
 if (props.depath && props.depath > 0) {
-    itemClassName.value = "leo-dynamic-r-item-child";
+    itemClassName.value = "els-dynamic-r-item-child";
 
 } else {
     itemClassName.value = "els-dynamic-r-item";

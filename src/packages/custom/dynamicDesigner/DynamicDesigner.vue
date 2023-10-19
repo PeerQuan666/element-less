@@ -52,7 +52,7 @@ function handleImportDesigner() {
   return Promise.resolve(true)
 }
 function handleOpenImport() {
-  importJSON.value =JSON.stringify(designerObj.value) 
+  importJSON.value =designerObj.value
 }
 watch(designerObj, (val) => {
   if (val) {
@@ -92,10 +92,10 @@ function closeViewDialog() {
       <ElsRadioButton v-model="designType">
         <ElsOption value="精简模式"><el-icon><MoreFilled /></el-icon></ElsOption>
         <ElsOption value="设计模式"><el-icon><Grid /></el-icon></ElsOption>
-      </ElsRadioButton>
+      </ElsRadioButton> 
       <els-data-modal style="margin-left:5px;margin-bottom:5px;" title="导入配置" buttonLabel="导入配置" icon="Edit" :hasInput="false"
         :open="handleOpenImport" :confirm="handleImportDesigner">
-        <ElsJsonEditor v-model="importJSON" style="height: 500px;"></ElsJsonEditor>
+        <ElsJsonEditor v-model="importJSON"  style="height: 500px;"></ElsJsonEditor>
       </els-data-modal>
     </div>
     <DynamicDesignerInner v-if="designType === '精简模式'" :data="designerObj" :class="innerClass"></DynamicDesignerInner>
@@ -119,12 +119,15 @@ function closeViewDialog() {
 }
 
 .els-dynamic-config {
+  :has(div[class^='el-form-item']){
+    .leo-list-add {
+    margin-left: 5px
+  }
+  }
   border: 1px solid #dcdfe6;
   padding: 10px;
 
-  .leo-list-add {
-    margin-left: 5px
-  }
+
 
   .keyName {
     width: 120px;

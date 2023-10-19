@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { provide, watch, ref, reactive } from 'vue'
+import { provide, watch, ref, reactive,defineAsyncComponent } from 'vue'
 import { dynamicDataType, dynamicControlType } from '../../utlis/lessConfig.js'
-import DynamicRenderInner from './DynamicRenderInner.vue'
-
+const DynamicRenderInner=defineAsyncComponent(()=>{
+  return import('./DynamicRenderInner.vue')
+})
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom'
 defineOptions({
@@ -343,13 +344,23 @@ function childResultList(item) {
 
 </script>
 <template>
-    <DynamicRenderInner :data="renderData"></DynamicRenderInner>
+    <div class="els-dynamic-render">
+        <Suspense>
+          <template #default>
+            <DynamicRenderInner :data="renderData"></DynamicRenderInner>
+          </template>
+          <template #fallback >
+              <el-skeleton animated>
+              </el-skeleton>
+          </template>
+        </Suspense>
+    </div>
 </template>
 <style lang="less">
 .el-row:has(div[class^=el-form-item]){
     margin-bottom: 0px;
 }
-.leo-dynamic-r-item-child {
+.els-dynamic-r-item-child {
     .el-form-item__content {
         .el-form {
             flex-grow: 1;
@@ -404,10 +415,10 @@ function childResultList(item) {
         .els-list-operate{margin-bottom: 0;}
         >form{
             flex-grow:1;
-            .leo-dynamic-r-item-child:has(label[class^=el-form-item__label]) {display: inherit}
-            .leo-dynamic-r-item-child {display: flex;gap: 5px;}
+            .els-dynamic-r-item-child:has(label[class^=el-form-item__label]) {display: inherit}
+            .els-dynamic-r-item-child {display: flex;gap: 5px;}
         }
-        .leo-dynamic-r-item-child {display: flex;gap: 5px;}
+        .els-dynamic-r-item-child {display: flex;gap: 5px;}
         .els-dynamic-r-item{
             display: flex;
         }

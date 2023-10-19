@@ -100,7 +100,9 @@ dynamicControlType.forEach((ele) => {
     })
 })
 const renderData = ref<any>([])
-
+function handleOpenImport() {
+  importJSON.value =renderData.value
+}
 function initData(){
 
     if (props.modelValue) {
@@ -133,7 +135,6 @@ function returnResult(){
             emits('update:modelValue', JSON.stringify(currVal))
 
         }
-        importJSON.value= JSON.stringify(currVal)
     }else{
         if(typeof(val)==='object'){
             emits('update:modelValue',{})
@@ -506,9 +507,9 @@ provide("recordComponent", recordComponent)
                             <Delete />
                         </el-icon>清空
                     </el-link>
-                    <els-data-modal title="导入配置" componentName="el-link" buttonLabel="导入配置" :hasInput="false"
+                    <els-data-modal title="导入配置" :open="handleOpenImport" componentName="el-link" buttonLabel="导入配置" :hasInput="false"
                          link :confirm="handleImportDesigner" icon="DocumentAdd">
-                         <ElsJsonEditor v-model="importJSON" style="height: 500px;"></ElsJsonEditor>
+                         <ElsJsonEditor v-model="importJSON"  style="height: 500px;"></ElsJsonEditor>
 
                     </els-data-modal>
                     <el-link type="primary" @click="viewPriview = !viewPriview">
