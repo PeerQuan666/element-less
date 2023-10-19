@@ -4,7 +4,7 @@ import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick,
 import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
 import { CheckboxProps } from '../../utlis/interfaceCom'
-defineOptions({ name: 'ElsCheckbox' })
+defineOptions({ name: 'ElsCheckbox' ,inheritAttrs:false})
 const props = withDefaults(defineProps<CheckboxProps>(), {
     labelField: 'label',
     valueField: 'value',

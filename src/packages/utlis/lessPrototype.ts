@@ -26,6 +26,7 @@ declare global {
         remove(item: T): Array<T>;
     }
 }
+
 Array.prototype.remove=function remove(item){
     let index = this.indexOf(item)
     if (index > -1) {

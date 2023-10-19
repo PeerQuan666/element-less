@@ -8,6 +8,10 @@ import { ElMessage } from 'element-plus'
 
 
 const lessCom = {
+    jsonFormatter(obj){
+        if(!obj){return ''}
+        return JSON.stringify(obj, null, "  ")
+    },
     getFormNodeProps(props){
         const param =  (({
             prop,label,
@@ -54,6 +58,11 @@ const lessCom = {
             queryAroundComma,
             queryRange,
             queryRangeOrEqual}))(props)
+            for(const key in param){
+                if(param[key]===undefined){
+                    delete param[key]
+                }
+            }
         return param;
     },
     getApiConfig(){

@@ -4,7 +4,7 @@ import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
 import { FormItemProps } from '../../utlis/interfaceCom'
-defineOptions({ name: 'ElsAutocomplete' })
+defineOptions({ name: 'ElsAutocomplete',inheritAttrs:false })
 interface Props extends FormItemProps {
     data?: Array<Record<string, any>>,
     url?: string,

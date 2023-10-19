@@ -23,6 +23,7 @@ interface Props extends FormItemProps {
     valueField?: string,
     multiple?: boolean,
     open?:Function,
+    close?:Function,
     confirm?: Function,
     componentName?:string
 }
@@ -87,11 +88,19 @@ function handleOpenModal() {
     }
     dialogVisible.value = true
 }
+function handleCloseModal(){
+    if(props.close){
+        props.close()
+    }
+}
+const confirmLoading=ref(false)
 function handleConfirm() {
+    confirmLoading.value=true
     if (props.confirm) {
         props.confirm().then(res => {
             if (res) {
                 dialogVisible.value = false
+                confirmLoading.value=false
             }
         })
 
@@ -157,12 +166,12 @@ const modalUrl = computed(() => {
         <component :is="componentName" type="primary" v-bind="attrs" v-if="hasButton" @click.native="handleOpenModal" >{{ buttonLabel?buttonLabel:'选择' }}</component>
         <el-tag v-if="currSelectLabel">{{ currSelectLabel }}</el-tag>
     </span>
-    <els-dialog :title="title" :width="width" :contentHeight="height" v-model="dialogVisible" :url="modalUrl">
+    <els-dialog :title="title" :width="width" :contentHeight="height" v-model="dialogVisible" :url="modalUrl" @close="handleCloseModal">
             <slot></slot>
             <template #footer v-if="!modalUrl">
                 <span class="dialog-footer">
                     <el-button @click="dialogVisible = false">取消</el-button>
-                    <el-button type="primary" @click="handleConfirm">
+                    <el-button type="primary" :loading="confirmLoading" @click="handleConfirm">
                         提交
                     </el-button>
                 </span>

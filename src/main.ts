@@ -6,6 +6,7 @@ import App from './App.vue'
 import ElementPlus from 'element-plus'
 import store from './packages/store'
 import { ElementLess } from './packages'
+import "jsoneditor";
 // 引入 router
 import router from './router'
 const app = createApp(App)

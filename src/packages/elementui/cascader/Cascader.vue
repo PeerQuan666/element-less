@@ -5,7 +5,7 @@ import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
 import { FormItemProps } from '../../utlis/interfaceCom'
 import { ValueType } from '../../utlis/enumCom'
-defineOptions({ name: 'ElsCascader' })
+defineOptions({ name: 'ElsCascader' ,inheritAttrs:false})
 interface Props extends FormItemProps {
     modelValue?: string,
     isPanel?: boolean,

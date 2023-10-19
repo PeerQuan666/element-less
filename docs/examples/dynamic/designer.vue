@@ -5,7 +5,6 @@
 
         </el-tab-pane>
         <el-tab-pane label="预览">
-            <ElsDynamicRender v-model="value" :config="config"></ElsDynamicRender>
         </el-tab-pane>
         <el-tab-pane label="表单属性">
             {{ value }}

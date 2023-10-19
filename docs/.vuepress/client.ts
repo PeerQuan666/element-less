@@ -1,3 +1,4 @@
+
 import { defineClientConfig } from "@vuepress/client";
 import VpDemo from './components/vp-demo.vue'
 import ElementPlus from 'element-plus'
@@ -9,11 +10,7 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { ElementLess } from '../../src/packages'
 import pinia  from '../../src/packages/utlis/pinia'
-
-
-
 import 'element-plus/dist/index.css'
-
 library.add(far,fas)
 
 export default defineClientConfig({

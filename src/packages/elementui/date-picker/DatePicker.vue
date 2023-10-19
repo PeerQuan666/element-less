@@ -350,7 +350,7 @@ watchEffect(() => {
             case 'year':
                 currValueFormat.value = "YYYY"
                 if (!currWidth.value) {
-                    currWidth.value = '60'
+                    currWidth.value = '100'
                 }
 
                 break;
@@ -358,7 +358,7 @@ watchEffect(() => {
             case 'month':
                 currValueFormat.value = "YYYY-MM"
                 if (!currWidth.value) {
-                    currWidth.value = '80'
+                    currWidth.value = '120'
                 }
                 break;
             case 'daterange':
@@ -366,7 +366,7 @@ watchEffect(() => {
             case 'date':
                 currValueFormat.value = "YYYY-MM-DD"
                 if (!currWidth.value) {
-                    currWidth.value = '140'
+                    currWidth.value = '160'
                 }
                 if (props.defaultTime) {
                     currValueFormat.value = "YYYY-MM-DD HH:mm:ss"

@@ -498,7 +498,7 @@ export default [
 			{
 				"keyID": "a1d2f8181ccb54c494963d2bdbaf65af",
 				"keyName": "密码框",
-				"keyCode": "isPassword",
+				"keyCode": "showPassword",
 				"data": [],
 				"config": {
 					"arrayConfig": {

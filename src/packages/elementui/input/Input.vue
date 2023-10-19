@@ -5,6 +5,7 @@ import lessCom from '../../utlis/lessCom.js'
 
 defineOptions({
     name: 'ElsInput',
+    inheritAttrs:false
 })
 interface Props extends FormItemProps {
     modelValue?: ''
@@ -85,9 +86,8 @@ function handleReturnResult(val){
 }
 </script>
 <template>
-
     <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-        <el-input v-model="inputValue" :style="[{ width: currWidth.appendPx() }]"  v-bind="attrs">
+        <el-input v-model="inputValue" :style="[{ width: currWidth.appendPx() }]"   v-bind="attrs">
             <template v-for="item in slotNames" :slot="item">
                 <slot :name="item"></slot>
             </template>
