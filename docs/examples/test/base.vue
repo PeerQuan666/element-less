@@ -11,7 +11,7 @@
   </template>
   
   <script setup lang="ts">
-  import  {ValueType} from '../../../src/packages/utlis/enumCom'
+  import  {ValueType} from '../../../packages/utlis/enumCom'
   import { ref, reactive } from 'vue'
   const checkRows=ref()
   const data = reactive([

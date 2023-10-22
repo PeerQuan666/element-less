@@ -1,12 +1,24 @@
 <template>
   <els-row :gutter="10">
-    <div class="grid-content bg-purple" />
-    <div class="grid-content bg-purple-dark" />
-    <div class="grid-content bg-purple-light" />
+    <els-col>
+      <div class="grid-content bg-purple" />
+    </els-col>
+    <els-col>
+      <div class="grid-content bg-purple-dark" />
+    </els-col>
+    <els-col>
+      <div class="grid-content bg-purple-light" />
+    </els-col>
   </els-row>
   <els-row :gutter="10">
-    <div class="grid-content bg-purple" />
-    <div class="grid-content bg-purple-dark" :span="12" />
-    <div class="grid-content bg-purple-light" />
+    <els-col>
+      <div class="grid-content bg-purple" />
+    </els-col>
+    <els-col>
+      <div class="grid-content bg-purple-dark" :span="12" />
+    </els-col>
+    <els-col>
+      <div class="grid-content bg-purple-light" />
+    </els-col>
   </els-row>
 </template>

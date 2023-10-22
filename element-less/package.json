@@ -1,12 +1,46 @@
 {
   "name": "element-less",
-  "version": "1.0.0",
-  "description": "基于ElementUI封装的组件",
-  "main": "element-less.umd.js",
+  "version": "1.1.13",
+  "description": "",
+  "main": "element-less.js",
+  "module": "element-less.js",
+  "browser": "element-less.js",
+  "unpkg": "element-less.iife.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["vue","vue3","element","elementui","element-less"],
-  "author": "PeerQuan",
+ "dependencies": {
+    "@vueuse/core": "^10.4.1",
+    "axios": "^1.4.0",
+    "consola": "^3.2.3",
+    "element-plus": "^2.3.9",
+    "escape-html": "^1.0.3",
+    "file-saver": "^2.0.5",
+    "fortawesome": "^0.0.1-security",
+    "json-editor-vue3": "^1.0.8",
+    "less": "^4.2.0",
+    "lodash": "^4.17.21",
+    "md-editor-v3": "^4.7.0",
+    "nprogress": "^0.2.0",
+    "path": "^0.12.7",
+    "pinia": "^2.1.7",
+    "prismjs": "^1.29.0",
+    "sortablejs": "^1.15.0",
+    "vue": "^3.3.4",
+    "vue-json-viewer": "^3.0.4",
+    "vue-ueditor-wrap": "^3.0.8",
+    "vuedraggable": "^4.1.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.8",
+    "@types/sortablejs": "^1.15.2",
+    "ace-builds": "^1.28.0",
+    "script-loader": "^0.7.2",
+    "typescript": "^5.0.2",
+    "vue": "^3.3.4"
+  },
+  "keywords": [],
+  "author": "",
   "license": "ISC"
 }

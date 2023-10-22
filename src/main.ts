@@ -4,11 +4,14 @@ import 'element-plus/dist/index.css'
 import VueUeditorWrap from "vue-ueditor-wrap"
 import App from './App.vue'
 import ElementPlus from 'element-plus'
-import store from './packages/store'
-import { ElementLess } from './packages'
 import "jsoneditor";
 // 引入 router
 import router from './router'
+
+
+
+
+
 const app = createApp(App)
 app.config.globalProperties.$lessConfig = {
     table:{
@@ -25,6 +28,4 @@ app.config.globalProperties.$lessConfig = {
 app.use(VueUeditorWrap)
 app.use(router)
 app.use(ElementPlus)
-app.use(store)
-app.use(ElementLess)
 app.mount('#app')

@@ -1,7 +1,10 @@
 {
   "name": "element-less",
-  "version": "1.0.2",
+  "version": "1.1.5",
   "type": "module",
+  "private": false,
+  "author": "PeerQuan <875035774@qq.com>",
+  "license": "ISC",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
@@ -19,11 +22,13 @@
     "@vueuse/core": "^10.4.1",
     "axios": "^1.4.0",
     "consola": "^3.2.3",
+    "element-less": "^1.1.3",
+    "element-less-json-editor": "^1.0.1",
     "element-plus": "^2.3.9",
     "escape-html": "^1.0.3",
     "file-saver": "^2.0.5",
     "fortawesome": "^0.0.1-security",
-    "json-editor-vue3": "^1.0.8",
+    "json-editor-vue": "^0.10.19",
     "less": "^4.2.0",
     "lodash": "^4.17.21",
     "md-editor-v3": "^4.7.0",
@@ -32,6 +37,7 @@
     "pinia": "^2.1.7",
     "prismjs": "^1.29.0",
     "sortablejs": "^1.15.0",
+    "vite-plugin-compression": "^0.5.1",
     "vue": "^3.3.4",
     "vue-fontawesome": "^0.0.2",
     "vue-json-viewer": "^3.0.4",
@@ -57,5 +63,11 @@
     "vuepress": "2.0.0-beta.66",
     "vuepress-plugin-search-pro": "^2.0.0-beta.235",
     "vuepress-theme-hope": "2.0.0-beta.235"
-  }
+  },
+  "description": "基于ElementUI二次封装组件库，简洁高效",
+  "directories": {
+    "doc": "docs"
+  },
+  "keywords": [],
+  "main": "index.js"
 }

@@ -8,9 +8,10 @@ import { library,config  } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { ElementLess } from '../../src/packages'
-import pinia  from '../../src/packages/utlis/pinia'
+import ElementLess from '../../packages'
+import pinia  from '../../packages/utlis/pinia'
 import 'element-plus/dist/index.css'
+import   '../../element-less/style.css'
 library.add(far,fas)
 
 export  default   defineClientConfig ({

@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { ValueType } from '../../../src/packages/utlis/enumCom'
+import { ValueType } from '../../../packages/utlis/enumCom'
 import { ref, reactive } from 'vue'
 const data = reactive([
   { key: '北京', value: 1, group: '分组1', isRelease: 1, valueType: '' },
