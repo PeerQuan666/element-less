@@ -2,6 +2,7 @@
 import { inject, ref, computed, watch } from 'vue'
 import lessCom from '../../utlis/lessCom'
 import { useVModel } from '@vueuse/core'
+import { ElMessage } from 'element-plus'
 import { DynamicConfig } from '../../utlis/interfaceCom.js'
 import DynamicDesignerInner from './DynamicDesignerInner.vue'
 import property_form from '../../utlis/dynamicPropertys/form'
@@ -80,7 +81,7 @@ const currComponentType = computed(() => {
 
 const currComponentTypeData = computed(() => {
   if (controlData) {
-    return controlData.filter(ele => !currDataType.value || ele.dataTypes.includes(currDataType.value?.value))
+    return controlData.filter(ele => !currDataType.value || ele.dataTypes.includes(currDataType.value?.type))
 
   }
   return []
@@ -176,6 +177,18 @@ function handleChangeDataType() {
     currItem.value.data.length = 0;
   }
 }
+
+function validationCode(rule, value, callback) {
+          console.log(rule)
+            if (value === '') {
+                callback(new Error('keyCode不能为空'))
+            } else if (props.data.filter(ele => ele.keyCode == value).length>1) {
+              ElMessage.warning(`[${value}]重复`)
+                callback(new Error('keyCode重复'))
+            } else {
+                callback()
+            }
+        }
 </script>
 <template>
   <els-form v-model="currItem" labelWidth="0" inputWidth="100%"
@@ -186,7 +199,7 @@ function handleChangeDataType() {
         <els-input clearable v-if="itemDataType.type != 'None'" placeholder="请输入名称" prop="keyName"></els-input>
       </span>
       <span class="keyCode">
-        <els-input placeholder="编码" v-if="itemDataType.type != 'None'" required clearable :disabled="currItem.isModify"
+        <els-input placeholder="编码" v-if="itemDataType.type != 'None'" :validMethod="validationCode" required clearable :disabled="currItem.isModify"
           @input="handleChangeKeyCode" prop="keyCode"></els-input>
       </span>
       <span class="dataType">

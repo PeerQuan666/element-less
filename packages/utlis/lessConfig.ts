@@ -40,8 +40,8 @@ export const dynamicComponentType = [
     { componentName: 'ElsDataModal', config: {}, label: '弹窗', value: 'DataModal', type: "DataModal", dataTypes: ['String'], defaultPropertys: {}, propertys: property_datamodal, group: 'Form' },
     { componentName: 'ElsDatePicker', config: {}, label: '日期选择器', value: 'DatePicker', type: "DatePicker", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_date, group: 'Form' },
     { componentName: 'ElsTimePicker', config: {}, label: '时间选择器', value: 'TimePicker', type: "TimePicker", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_time, group: 'Form' },
-    { componentName: 'ElsCaption', config: {}, label: '分隔描述', value: 'Caption', type: "Caption", dataTypes: ['无'], defaultPropertys: {}, propertys: property_caption, group: 'Desc' },
-    { componentName: 'ElsRow', config: {}, label: '栅格', value: 'Row',type: "Row",  dataTypes: ['无'], defaultPropertys: {}, propertys: property_row, group: 'Container' },
+    { componentName: 'ElsCaption', config: {}, label: '分隔描述', value: 'Caption', type: "Caption", dataTypes: ['None'], defaultPropertys: {}, propertys: property_caption, group: 'Desc' },
+    { componentName: 'ElsRow', config: {}, label: '栅格', value: 'Row',type: "Row",  dataTypes: ['None'], defaultPropertys: {}, propertys: property_row, group: 'Container' },
 
 ]
 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { provide, watch, ref, reactive,defineAsyncComponent ,inject} from 'vue'
+import { provide, watch, ref, reactive, defineAsyncComponent, inject } from 'vue'
 import { dynamicDataType, dynamicComponentType } from '../../utlis/lessConfig.js'
-const DynamicRenderInner=defineAsyncComponent(()=>{
-  return import('./DynamicRenderInner.vue')
+const DynamicRenderInner = defineAsyncComponent(() => {
+    return import('./DynamicRenderInner.vue')
 })
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom'
@@ -17,8 +17,8 @@ interface Props {
     resourceCode?: string,
     restrictCode?: string,
     appendUrlParams?: Array<Record<string, any>>,
-    inputWidth?:string,
-    nodeType?:any,
+    inputWidth?: string,
+    nodeType?: any,
     dataTypes?: Array<Record<string, any>>,
     componentTypes?: Array<Record<string, any>>,
     appendComponentTypes?: Array<Record<string, any>>,
@@ -26,45 +26,56 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
 
 })
-provide('inputWidth', props.inputWidth)
 const emits = defineEmits(['update:modelValue'])
+provide('inputWidth', props.inputWidth)
 provide("tagID", 'els-dynamic-render-' + lessCom.Guid32())
 provide("getUploadUrl", getUploadUrl)
 
 const renderData: Array<Record<string, any>> = reactive([])
 const valueData: Record<string, any> = ref({})
-const dataTypeMapping=inject<any>('dataTypeMapping',undefined)
-const componentTypeMapping=inject<any>('componentTypeMapping',undefined)
-const provideData=ref({nodeType:props.nodeType})
+const provideData = ref({ nodeType: props.nodeType })
+
+const idataTypes = inject<any>("dataTypeData", null)
+const icomponentTypes = inject<any>("componentData", null)
 
 
-const currDynamicDataType=ref<any>([])
-if(props.dataTypes){
+
+
+const currDynamicDataType = ref<any>([])
+if(idataTypes){
+    currDynamicDataType.value.push(...idataTypes)
+}
+else if (props.dataTypes) {
     currDynamicDataType.value.push(...props.dataTypes)
-}else{
+}  else {
     currDynamicDataType.value.push(...dynamicDataType)
 }
 
-const currComponentTypes=ref<any>([])
+provide('dataTypeData', currDynamicDataType.value)
 
-if(props.componentTypes){
+const currComponentTypes = ref<any>([])
+
+if (icomponentTypes) {
+    currComponentTypes.value.push(...icomponentTypes)
+
+}else if (props.componentTypes) {
     currComponentTypes.value.push(...props.componentTypes)
-}else{
+}  else {
     currComponentTypes.value.push(...dynamicComponentType)
 }
 
-if(props.appendComponentTypes){
+if (props.appendComponentTypes) {
     currComponentTypes.value.push(...props.appendComponentTypes)
 }
 
 provide('componentData', currComponentTypes.value)
 
-watch(()=>props.nodeType,(val,old)=>{
-    if(val!=old){
-        provideData.value.nodeType=val
+watch(() => props.nodeType, (val, old) => {
+    if (val != old) {
+        provideData.value.nodeType = val
     }
 })
-provide('dyProvideData',provideData)
+provide('dyProvideData', provideData)
 
 watch(renderData, () => {
     handleReturnResult()
@@ -91,7 +102,7 @@ function initData() {
         currData = JSON.parse(props.config)
 
     } else {
-        currData =lessCom.cloneObj(props.config) 
+        currData = lessCom.cloneObj(props.config)
     }
     initShowConfig(currData, props.showConfig);
     recoverData(currData, valueData.value);
@@ -120,8 +131,7 @@ function getUploadUrl(url, item) {
     return uploadUrl;
 }
 function getDefaultValue(item) {
-    const itemDataType=dataTypeMapping&&dataTypeMapping[item.dataType]?dataTypeMapping[item.dataType] :item.dataType
-    const currDataType = currDynamicDataType.value.find(ele => ele.value == itemDataType)
+    const currDataType = currDynamicDataType.value.find(ele => ele.value === item.dataType || ele.type === item.dataType)
     if (currDataType) {
         switch (currDataType.type) {
             case 'Number':
@@ -138,10 +148,16 @@ function getDefaultValue(item) {
                     item.value = false
                 }
                 break
+            case 'Object':
+                item.value={}
+                break
+            case 'Array':
+                item.value=[]
+                break
             default:
                 if (item.defaultValue) {
                     item.value = item.defaultValue.toString()
-                }else{
+                } else {
                     item.value = ''
                 }
         }
@@ -181,26 +197,23 @@ function recoverData(data, valueData: any = null) {
         valueData = {}
     }
     data.forEach((ele) => {
-        if(ele.keyCode){
-            const currVal=valueData[ele.keyCode]
-            if (currVal===undefined) {
+        if (ele.keyCode) {
+            const currVal = valueData[ele.keyCode]
+            if (currVal === undefined) {
                 getDefaultValue(ele)
 
             } else {
                 ele.value = currVal
             }
-        }else{
+        } else {
             getDefaultValue(ele)
         }
 
-        const itemDataType=dataTypeMapping&&dataTypeMapping[ele.dataType]?dataTypeMapping[ele.dataType] :ele.dataType
-        const arrayItemDataType=dataTypeMapping&&dataTypeMapping[ele.arrayDataType]?dataTypeMapping[ele.arrayDataType] :ele.arrayDataType
-        const itemComponenType=componentTypeMapping&&componentTypeMapping[ele.componentType]?componentTypeMapping[ele.componentType] :ele.componentType
+        const currDataType = currDynamicDataType.value.find(d => d.value === ele.dataType || d.type === ele.dataType)
+        const currArrayDataType = currDynamicDataType.value.find(d => d.value === ele.arrayDataType || d.type === ele.arrayDataType)
+        const currcomponentType = currComponentTypes.value.find(d => d.value === ele.componentType || d.type === ele.componentType)
 
-        const currDataType = currDynamicDataType.value.find(d => d.value == itemDataType)
-        const currArrayDataType = currDynamicDataType.value.find(d => d.value == arrayItemDataType)
-        const currcomponentType = currComponentTypes.value.find(d => d.value == itemComponenType)
-        ele.componentGroup=currcomponentType?.group
+        ele.componentGroup = currcomponentType?.group
         ele.componentType = currcomponentType?.type
         ele.dataTypeName = currDataType?.type
         ele.arrayDataTypeName = currArrayDataType?.type
@@ -222,26 +235,22 @@ function recoverArrayData(item, valueData: any = null) {
     if (!item["arrayObjData"]) {
         let currData: any = [];
         item.data.forEach(ele => {
-            const itemDataType=dataTypeMapping&&dataTypeMapping[ele.dataType]?dataTypeMapping[ele.dataType] :ele.dataType
-            const arrayItemDataType=dataTypeMapping&&dataTypeMapping[ele.arrayDataType]?dataTypeMapping[ele.arrayDataType] :ele.arrayDataType
-            const itemComponenType=componentTypeMapping&&componentTypeMapping[ele.componentType]?componentTypeMapping[ele.componentType] :ele.componentType
-
-            const currDataType = currDynamicDataType.value.find(d => d.value == itemDataType)
-            const currArrayDataType = currDynamicDataType.value.find(d => d.value == arrayItemDataType)
-        const currcomponentType = currComponentTypes.value.find(d => d.value == itemComponenType)
+            const currDataType = currDynamicDataType.value.find(d => d.value === ele.dataType || d.type === ele.dataType)
+            const currArrayDataType = currDynamicDataType.value.find(d => d.value === ele.arrayDataType || d.type === ele.arrayDataType)
+            const currcomponentType = currComponentTypes.value.find(d => d.value === ele.componentType || d.type === ele.componentType)
 
             ele.dataTypeName = currDataType?.value
             ele.arrayDataTypeName = currArrayDataType?.value
             ele.componentName = currcomponentType?.componentName
             ele.componentType = currcomponentType?.type
-            ele.componentGroup=currcomponentType?.group
+            ele.componentGroup = currcomponentType?.group
             var currItem = Object.assign({}, ele)
             getDefaultValue(currItem);
 
 
             if (currDataType?.type == 'Array' && currArrayDataType?.type == 'Object') {
                 recoverArrayData(currItem)
-            } else if (currDataType?.type == 'Object'||currcomponentType?.type == 'Row') {
+            } else if (currDataType?.type == 'Object' || currcomponentType?.type == 'Row') {
                 recoverData(currItem.data)
             }
             currData.push(currItem)
@@ -294,21 +303,21 @@ function initShowConfig(data, showConfigData) {
     }
 }
 function handleReturnResult() {
-   
+
     //有配置再更新直
     if (props.config) {
         var currData = {};
         renderData.forEach(ele => {
-            if (ele.componentType !== 'Caption') {
-                if (ele.dataTypeName == 'Object'&&ele.keyCode) {
+            if (ele.componentGroup !== 'Desc') {
+                if (ele.dataTypeName == 'Object' && ele.keyCode) {
                     currData[ele.keyCode] = childResult(ele)
                 }
                 else if (ele.dataTypeName == 'None' && ele.componentType == 'Row') {
                     Object.assign(currData, childResult(ele))
                 }
-                else if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object'&&ele.keyCode) {
+                else if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object' && ele.keyCode) {
                     currData[ele.keyCode] = childResultList(ele)
-                } else if(ele.keyCode){
+                } else if (ele.keyCode) {
                     currData[ele.keyCode] = ele.value;
                 }
             }
@@ -328,18 +337,24 @@ function childResult(item) {
     if (currData === "" || !Array.isArray(currData)) {
         return "";
     }
-    if (!currData) { currData = item; }
+    if (!currData||!currData.length) {
+        if(item.value){
+            return item.value
+        }
+        return {}
+     }
+
     currData.forEach(ele => {
         if (ele.componentType !== 'Caption') {
-            if (ele.dataTypeName == 'Object'&&ele.keyCode) {
+            if (ele.dataTypeName == 'Object' && ele.keyCode) {
                 currItem[ele.keyCode] = childResult(ele)
             }
             else if (ele.dataTypeName == 'None' && ele.componentType == 'Row') {
                 Object.assign(currItem, childResult(ele))
             }
-            else if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object'&&ele.keyCode) {
+            else if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object' && ele.keyCode) {
                 currItem[ele.keyCode] = childResultList(ele)
-            } else if(ele.keyCode){
+            } else if (ele.keyCode) {
                 currItem[ele.keyCode] = ele.value;
             }
         }
@@ -384,92 +399,129 @@ function childResultList(item) {
 
 </script>
 <template>
+ 
     <div class="els-dynamic-render">
         <Suspense>
-          <template #default>
-            <DynamicRenderInner :data="renderData"></DynamicRenderInner>
-          </template>
-          <template #fallback >
-              <el-skeleton animated>
-              </el-skeleton>
-          </template>
+            <template #default>
+                <DynamicRenderInner :data="renderData"></DynamicRenderInner>
+            </template>
+            <template #fallback>
+                <el-skeleton animated>
+                </el-skeleton>
+            </template>
         </Suspense>
     </div>
 </template>
 <style lang="less">
-.el-row:has(div[class^=el-form-item]){
+.el-row:has(div[class^=el-form-item]) {
     margin-bottom: 0px;
 }
+
 .els-dynamic-r-item-child {
     .el-form-item__content {
         .el-form {
             flex-grow: 1;
-            .el-row:last-child{
+
+            .el-row:last-child {
                 margin-bottom: 0px;
             }
         }
-        .els_upload_container{
+
+        .els_upload_container {
             flex-grow: 1;
         }
     }
-    .el-form-item:has(form){
+
+    .el-form-item:has(form) {
         .el-form-item {
             margin-bottom: 18px;
         }
     }
 
 }
-.els-dynamic-obj{
-    .el-form-item{
+
+.els-dynamic-obj {
+    .el-form-item {
         margin-bottom: 18px !important;
     }
-    .el-form-item .el-form-item{
+
+    .el-form-item .el-form-item {
         margin-bottom: 0px !important;
     }
 }
-.els-dynamic-r-array{
+
+.els-dynamic-r-array {
     border: 1px solid #dcdfe6;
     padding: 5px 60px 5px 5px;
-    position:relative;
-    >.els-list-operate{
-    position: absolute;
-    right: 0;
-    top: 0;
-    background: #e5efff;
-    margin-left: 0px !important;
-}
-}
-.els-dynamic-r-array-container{
-    overflow: scroll;
-    flex-grow:1;
+    position: relative;
+
+    >.els-list-operate {
+        position: absolute;
+        right: 0;
+        top: 0;
+        background: #e5efff;
+        margin-left: 0px !important;
+    }
 }
 
-.els-dynamic-r-item,.els-dynamic-r-array{
-    .el-form-item__content>.els-caption{
+.els-dynamic-r-array-container {
+    overflow: scroll;
+    flex-grow: 1;
+}
+
+.els-dynamic-r-item,
+.els-dynamic-r-array {
+    .el-form-item__content>.els-caption {
         margin-bottom: 0px;
     }
-    .els-caption{
+
+    .els-caption {
         flex-grow: 1;
     }
+
     .listitem {
-        .els-list-operate{margin-bottom: 0;}
-        >form{
-            flex-grow:1;
-            .els-dynamic-r-item-child:has(label[class^=el-form-item__label]) {display: inherit}
-            .els-dynamic-r-item-child {display: flex;gap: 5px;}
+        .els-list-operate {
+            margin-bottom: 0;
         }
-        .els-dynamic-r-item-child {display: flex;gap: 5px;}
-        .els-dynamic-r-item{
+
+        >form {
+            flex-grow: 1;
+
+            .els-dynamic-r-item-child:has(label[class^=el-form-item__label]) {
+                display: inherit
+            }
+
+            .els-dynamic-r-item-child {
+                display: flex;
+                gap: 5px;
+            }
+        }
+
+        .els-dynamic-r-item-child {
+            display: flex;
+            gap: 5px;
+        }
+
+        .els-dynamic-r-item {
             display: flex;
         }
     }
 
 }
-.els-list>div>div:has(>div[class*=els-dynamic-r-array])
-{ margin-bottom:10px}
 
-::-webkit-scrollbar-track-piece{
-    background: none;
+.els-list>div>div:has(>div[class*=els-dynamic-r-array]) {
+    margin-bottom: 10px
 }
+.el-form-item__content>.els-dynamic-render>form>.els-dynamic-r-item>div>.el-form-item{
+    margin-bottom: 18px
+}
+.el-form-item__content > .els-dynamic-render > form > .els-dynamic-r-item > div:last-child>.el-form-item{
+    margin-bottom: 0px
+}
+.el-form-item__content>.els-dynamic-render{
+flex-grow: 1;
 
-</style>
+}
+::-webkit-scrollbar-track-piece {
+    background: none;
+}</style>

@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { ref, watch, nextTick, defineAsyncComponent, h } from "vue";
+import { ref, watch, nextTick, defineAsyncComponent, h ,useAttrs} from "vue";
 import VueJsonViewer from 'vue-json-viewer'
 
 defineOptions({
     name: 'ElsJsonViewer',
+    inheritAttrs:false
 })
 
 interface Props {
     data?: any,
 
 }
-
+const attrs=useAttrs()
 const props = defineProps<Props>()
 const currData = ref()
 const visible = ref(true)
@@ -33,7 +34,7 @@ watch(() => props.data, (val) => {
 </script>
 <template >
     <div class="json-viewer">
-        <vue-json-viewer v-if="currData && visible" :value="currData" copyable></vue-json-viewer>
+        <vue-json-viewer v-if="currData && visible" :value="currData" copyable v-bind="attrs"></vue-json-viewer>
 
     </div>
 </template>

@@ -28,14 +28,16 @@ watchEffect(() => {
     currValue.value = props.modelValue
 })
 
-
+watchEffect(() => {
+    console.info(currValue.value)
+})
 const getUploadUrl = inject<Function>('getUploadUrl', () => null)
 
 
 watch(currValue, (val) => {
     emits('update:modelValue', val)
     emits('valueChange', val)
-})
+},{deep:true})
 
 function handleClear() {
     if (props.item.dataTypeName == 'Number' || props.item.arrayDataTypeName == 'Number') {

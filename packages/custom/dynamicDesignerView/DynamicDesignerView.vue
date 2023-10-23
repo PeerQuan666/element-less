@@ -10,6 +10,7 @@ import property_array from '../../utlis/dynamicPropertys/array'
 import property_advanced from '../../utlis/dynamicPropertys/advanced'
 import property_arrayAndObject from '../../utlis/dynamicPropertys/arrayAndObject'
 import { useDesign } from '../../utlis/stateDesign.js'
+import {ElMessage} from 'element-plus'
 import lodash from 'lodash';
 const { debounce } = lodash;
 const useDesignStore = useDesign()
@@ -22,8 +23,6 @@ interface Props {
     dataTypes?: Array<Record<string, any>>,
     camelCase?: boolean,
     componentTypes?: Array<Record<string, any>>,
-    dataTypeMapping?: Record<string, any>,
-    componentTypeMapping?: Record<string, any>,
     appendComponentTypes?: Array<Record<string, any>>,
     componentRelateDataType?: Record<string, any>,
 }
@@ -56,21 +55,23 @@ if (props.componentTypes) {
 if (props.appendComponentTypes) {
     currComponentTypes.value.push(...props.appendComponentTypes)
 }
-if(props.componentRelateDataType){
-  currComponentTypes.forEach(ele=>{
-  const currRelate=props.componentRelateDataType?props.componentRelateDataType[ele.value]:undefined
-  if(currRelate){
-    ele.dataTypes=currRelate
-  }
-}) 
+if (props.componentRelateDataType) {
+    currComponentTypes.value.forEach(ele => {
+        const currRelate = props.componentRelateDataType ? props.componentRelateDataType[ele.type] : undefined
+        if (currRelate) {
+            ele.dataTypes = currRelate
+        }
+    })
 }
+provide('dataTypeData', currDynamicDataType.value)
+provide('componentData', currComponentTypes.value)
 const objectData = ref<any>([
     {
         keyID: "key_" + lessCom.randomNumber().toString(),
         keyName: 'Object',
-        keyCode: 'Object_' + (Math.random() * 100000).toString().toInt(),
+        keyCode: 'object_' + (Math.random() * 100000).toString().toInt(),
         data: [],
-        dataType: currDynamicDataType.value.find(cele => cele.value == 'Object')?.value,
+        dataType: currDynamicDataType.value.find(cele => cele.type == 'Object')?.value,
         dataTypeName: 'Object',
         arrayDataTypeName: '',
         arrayDataType: '',
@@ -84,14 +85,14 @@ const objectData = ref<any>([
             advancedConfig: {},
             arrayConfig: {}
         },
-        value: ''
+        value: {}
     },
     {
         keyID: "key_" + lessCom.randomNumber().toString(),
         keyName: 'Array',
-        keyCode: 'Array_' + (Math.random() * 100000).toString().toInt(),
+        keyCode: 'array_' + (Math.random() * 100000).toString().toInt(),
         data: [],
-        dataType: currDynamicDataType.value.find(cele => cele.value == 'Array')?.value,
+        dataType: currDynamicDataType.value.find(cele => cele.type == 'Array')?.value,
         dataTypeName: 'Array',
         componentGroup: 'Form',
         componentTypeName: 'Array<T>',
@@ -105,18 +106,19 @@ const objectData = ref<any>([
             advancedConfig: {},
             arrayConfig: {}
         },
-        value: ''
+        value: []
     }
 ])
 const importJSON = ref()
 
 currComponentTypes.value.forEach((ele) => {
+    const currType=currDynamicDataType.value.find(cele => cele.type == ele.dataTypes[0])
     controlData.value.push({
         keyID: "key_" + lessCom.randomNumber().toString(),
         keyName: ele.label,
-        keyCode: 'Key_' + (Math.random() * 100000).toString().toInt(),
+        keyCode: 'key_' + (Math.random() * 100000).toString().toInt(),
         data: [],
-        dataType: currDynamicDataType.value.find(cele => cele.value == ele.dataTypes[0])?.value,
+        dataType: currType?.value,
         dataTypeName: ele.dataTypes[0],
         arrayDataTypeName: '',
         arrayDataType: '',
@@ -130,9 +132,27 @@ currComponentTypes.value.forEach((ele) => {
             advancedConfig: {},
             arrayConfig: {}
         },
-        value: ''
+        value: initValue(currType?.type)
     })
 })
+function initValue(type){
+    switch(type){
+        case 'Number':
+               return 0
+                break
+            case 'Bool':
+              return false
+                break
+                case 'Object':
+              return {}
+                break
+                case 'Array':
+              return []
+                break
+            default:
+               return ''
+    }
+}
 const renderData = ref<any>([])
 function handleOpenImport() {
     const val = renderData.value
@@ -265,13 +285,10 @@ function recoverData(data, valueData: any = null) {
         } else {
             getDefaultValue(ele)
         }
-        const itemDataType = props.dataTypeMapping && props.dataTypeMapping[ele.dataType] ? props.dataTypeMapping[ele.dataType] : ele.dataType
-        const arrayItemDataType = props.dataTypeMapping && props.dataTypeMapping[ele.arrayDataType] ? props.dataTypeMapping[ele.arrayDataType] : ele.arrayDataType
-        const itemComponenType = props.componentTypeMapping && props.componentTypeMapping[ele.componentType] ? props.componentTypeMapping[ele.componentType] : ele.componentType
 
-        const currDataType = currDynamicDataType.value.find(d => d.value == itemDataType)
-        const currArrayDataType = currDynamicDataType.value.find(d => d.value == arrayItemDataType)
-        const currcomponentType = currComponentTypes.value.find(d => d.value == itemComponenType)
+        const currDataType = currDynamicDataType.value.find(d => d.value === ele.dataType || d.type === ele.dataType)
+        const currArrayDataType = currDynamicDataType.value.find(d => d.value === ele.arrayDataType || d.type === ele.arrayDataType)
+        const currcomponentType = currComponentTypes.value.find(d => d.value === ele.componentType || d.type === ele.componentType)
 
         ele.componentGroup = currcomponentType?.group
         ele.componentType = currcomponentType?.type
@@ -291,13 +308,10 @@ function recoverArrayData(item, valueData: any = null) {
     if (!item["arrayObjData"]) {
         let currData: any = [];
         item.data.forEach(ele => {
-            const itemDataType = props.dataTypeMapping && props.dataTypeMapping[ele.dataType] ? props.dataTypeMapping[ele.dataType] : ele.dataType
-            const arrayItemDataType = props.dataTypeMapping && props.dataTypeMapping[ele.arrayDataType] ? props.dataTypeMapping[ele.arrayDataType] : ele.arrayDataType
-            const itemComponenType = props.componentTypeMapping && props.componentTypeMapping[ele.componentType] ? props.componentTypeMapping[ele.componentType] : ele.componentType
 
-            const currDataType = currDynamicDataType.value.find(d => d.value == itemDataType)
-            const currArrayDataType = currDynamicDataType.value.find(d => d.value == arrayItemDataType)
-        const currcomponentType = currComponentTypes.value.find(d => d.value == itemComponenType)
+            const currDataType = currDynamicDataType.value.find(d => d.value === ele.dataType || d.type === ele.dataType)
+            const currArrayDataType = currDynamicDataType.value.find(d => d.value === ele.arrayDataType || d.type === ele.arrayDataType)
+            const currcomponentType = currComponentTypes.value.find(d => d.value === ele.componentType || d.type === ele.componentType)
             ele.componentType = currcomponentType?.type
             ele.dataTypeName = currDataType?.type
             ele.arrayDataTypeName = currArrayDataType?.type
@@ -350,9 +364,10 @@ function getUploadUrl(url, item) {
     return uploadUrl;
 }
 const currSelectItem = ref()
+const currSelectData=ref()
 const showPropertys = ref(false)
-function setSelectItem(item) {
-
+function setSelectItem(item,data=null) {
+    currSelectData.value=data
     if (!item) {
         currSelectItem.value = null
         showPropertys.value = false
@@ -390,8 +405,14 @@ const currPropertys = computed(() => {
             } else {
                 if (currComponentTypes.value) {
                     const currControlData = currComponentTypes.value.find(ele => ele.value == currSelectItem.value.componentType)
-                    if (currControlData) {
+                    if (currControlData&&currControlData.propertys&&currControlData.propertys.length) {
                         return currControlData.propertys
+                    }else    {
+                        const currVal = currDynamicDataType.value.find(ele => ele.value == currSelectItem.value.dataType)
+                         const arrayVal = currDynamicDataType.value.find(ele => ele.value == currSelectItem.value.arrayDataType)
+
+                        if (currVal?.type == 'Array' && arrayVal?.type === 'Object' || currVal?.type == 'Object')
+                        return lessCom.cloneObj(property_arrayAndObject)
                     }
                 }
             }
@@ -441,9 +462,10 @@ function getSelectItem() {
 
 function getDataTypeData(componentType) {
     if (!componentType) { return [] }
-    const currControl = currComponentTypes.value.find(ele => ele.value == componentType)
+
+    const currControl = currComponentTypes.value.find(ele => ele.value === componentType||ele.type===componentType)
     if (!currControl) { return [] }
-    return currDynamicDataType.value.filter(ele => currControl.dataTypes.includes(ele.value))
+    return currDynamicDataType.value.filter(ele => currControl.dataTypes.includes(ele.type))
 
 }
 
@@ -467,6 +489,22 @@ function clearAll() {
     useDesignStore.clear()
     renderData.value = []
     currSelectItem.value = null
+}
+function validationCode(rule, value, callback) {
+          console.log(rule)
+            if (value === '') {
+                callback(new Error('keyCode不能为空'))
+            } else if (currSelectData.value&&currSelectData.value.filter(ele => ele.keyCode == value).length>1) {
+              ElMessage.warning(`[${value}]重复`)
+                callback(new Error('keyCode重复'))
+            } else {
+                callback()
+            }
+        }
+function handleChangeKeyCode(keyCode) {
+  if (props.camelCase) {
+    currSelectItem.value.keyCode = keyCode.replace(keyCode[0], keyCode[0].toLowerCase())
+  }
 }
 
 provide("getUploadUrl", getUploadUrl)
@@ -588,12 +626,12 @@ provide("recordComponent", recordComponent)
                 <el-tab-pane label="基础属性" v-if="currSelectItem.dataType">
                     <els-form v-model="currSelectItem">
                         <els-input label="名称" prop="keyName" required></els-input>
-                        <els-input label="字段名" prop="keyCode" required></els-input>
+                        <els-input label="字段名" prop="keyCode" @input="handleChangeKeyCode" :validMethod="validationCode" required></els-input>
                         <els-select label="数据类型"
                             v-if="currSelectItem.dataTypeName != 'Array' && currSelectItem.dataTypeName != 'Object'"
                             required :data="getDataTypeData(currSelectItem.componentType)"
-                            v-model:select-label="currSelectItem.dataTypeName" valueField="value" labelField="label"
-                            placeholder="值类型" prop="dataType"></els-select>
+                            @select="currSelectItem.dataTypeName" valueField="value" labelField="label" placeholder="值类型"
+                            prop="dataType"></els-select>
                         <els-select label="数据类型"
                             v-if="currSelectItem.dataTypeName == 'Array' && currSelectItem.componentType" required
                             :data="getDataTypeData(currSelectItem.componentType)"
@@ -633,7 +671,7 @@ provide("recordComponent", recordComponent)
                 <ElsDynamicRender v-model="formValue" :config="renderData"></ElsDynamicRender>
             </el-tab-pane>
             <el-tab-pane label="表单属性">
-                <ElsJsonViewer :data="formValue"></ElsJsonViewer>
+                <ElsJsonViewer :data="formValue" :expandDepth="10"></ElsJsonViewer>
             </el-tab-pane>
         </el-tabs>
     </els-dialog>

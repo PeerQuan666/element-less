@@ -74,7 +74,7 @@ function handleValueChange(val, item) {
 }
 function getFormItemAttr(item) {
     const currFormConfig = lessCom.cloneObj(item.config.formConfig)
-    if ((item.dataTypeName == 'None' || item.config.baseConfig?.componentType == 'Caption' || item.componentType === 'Row')) {
+    if ((item.dataTypeName == 'None' || item.config.baseConfig?.componentName == 'ElsCaption' || item.componentType === 'Row')) {
         currFormConfig.labelWidth = '0px'
     } else if (item.dataTypeName == 'Object' || item.arrayDataTypeName == 'Object') {
         delete currFormConfig.labelWidth
@@ -112,12 +112,12 @@ const getSelectItem = inject<Function>('getSelectItem', () => { })
 const recordComponent = inject<Function>('recordComponent', () => { })
 
 
-function handleSelectItem(item) {
-    setSelectItem(item)
+function handleSelectItem(item,) {
+    setSelectItem(item,currData.value)
 }
 function handleAddComponent(e) {
     recordComponent()
-    setSelectItem(currData.value[e.newIndex])
+    setSelectItem(currData.value[e.newIndex],currData.value)
 
 }
 function initArrayChild(element){
@@ -212,8 +212,7 @@ currDepath.value += 1;
                                     :style="element.config.baseConfig?.componentName == 'ElsCaption' || element.dataTypeName == 'Object' ? 'margin-bottom:0 !important' : ''"
                                     :label="element.config.baseConfig?.componentName == 'ElsCaption' ? '' : element.keyName"
                                     :prop="`[${index}].value`">
-
-
+                              
                                     <template v-if="element.dataTypeName === 'Array' && !element.arrayDataTypeName">
                                         <draggable  tag="div" style="min-height:100px;margin:5px 0;width: 100%;z-index:10"
                                             :list="element.data" @add="handleAddArrayComponent()"  item-key="keyID"
@@ -223,8 +222,9 @@ currDepath.value += 1;
                                             </template>
                                         </draggable>
                                     </template>
+                              
                                     <DynamicDesignerViewItem :key="element.keyID"
-                                        v-else-if="element.dataTypeName != 'Array' && element.dataTypeName != 'Object' && element.componentType !== 'Row'"
+                                        v-else-if="element.componentType && element.componentGroup === 'Form'"
                                         :disabled="handleDisabledExpress(element)" :parent-node="parentNode"
                                         :curr-node="currNode" :item="element" v-model="element.value"
                                         :style="element.config.advancedConfig.style"

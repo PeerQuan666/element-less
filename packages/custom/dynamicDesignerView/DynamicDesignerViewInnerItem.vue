@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, inject, watchEffect, watch, useAttrs, computed } from 'vue'
-import { dynamicComponentType } from '../../utlis/lessConfig.js'
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom';
 interface Props {
@@ -47,11 +46,11 @@ function handleClear() {
     }
 }
 
-
+const controlData = inject<any>("componentData", [])
 
 const baseAttrs = computed(() => {
     let baseConfig={}
-    const currControl = dynamicComponentType.find(ele => ele.value == props.item.componentType)
+    const currControl = controlData.find(ele => ele.value == props.item.componentType)
     if (currControl?.defaultPropertys) {
         const currBaseConfig = Object.assign({}, currControl?.defaultPropertys, props.item.config.baseConfig)
         for (var key in currBaseConfig) {

@@ -63,8 +63,8 @@ if (props.appendComponentTypes) {
 }
 
 if (props.componentRelateDataType) {
-  currComponentTypes.forEach(ele => {
-    const currRelate = props.componentRelateDataType ? props.componentRelateDataType[ele.value] : undefined
+  currComponentTypes.value.forEach(ele => {
+    const currRelate = props.componentRelateDataType ? props.componentRelateDataType[ele.type] : undefined
     if (currRelate) {
       ele.dataTypes = currRelate
     }
@@ -127,7 +127,9 @@ function closeViewDialog() {
     </div>
     <DynamicDesignerInner v-if="designType === '精简模式'" :data="designerObj"></DynamicDesignerInner>
   </div>
+
   <template v-if="designType !== '精简模式'">
+
     <els-dialog :visible="true" @close="closeViewDialog" width="90%" :append-to-body="true">
       <DynamicDesignerView :dataTypes="dataTypes" :camelCase="camelCase" :componentTypes="componentTypes"
         :dataTypeMapping="dataTypeMapping" :componentTypeMapping="componentTypeMapping"

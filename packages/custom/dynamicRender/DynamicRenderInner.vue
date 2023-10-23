@@ -114,6 +114,7 @@ currDepath.value += 1;
 
 </script>
 <template>
+  
     <els-form v-model="currData" :label-width="labelWidth">
         <component :is="nodeItem?.componentType=='Row'?'ElsRow':'div'" :class="itemClassName"
             :style="nodeItem?.componentType === 'Row' ? nodeItem ? nodeItem.config.advancedConfig?.style : '' : ''">
@@ -139,7 +140,7 @@ currDepath.value += 1;
                             :prop="`[${index}].value`">
                             <DynamicRenderInnerItem
                                 :key="item.keyID"
-                                v-if="item.dataTypeName != 'Array' && item.dataTypeName != 'Object' && item.componentType !== 'Row'"
+                                v-if="item.componentType&& item.componentGroup === 'Form'"
                                 :disabled="handleDisabledExpress(item)" :parent-node="parentNode" :curr-node="currNode"
                                 :item="item" v-model="item.value" :style="item.config.advancedConfig.style"
                                 @valueChange="handleValueChange($event, item)">
@@ -156,7 +157,7 @@ currDepath.value += 1;
                                     @add="handleAddItem(item)" item-class-name="els-dynamic-r-array" :hasForm="false"
                                     :style="item.config.advancedConfig.style ? item.config.advancedConfig.style : [{ 'max-width': (item.config.baseConfig.maxWidth ? item.config.baseConfig.maxWidth + 'px' : '') }, { 'max-height': (item.config.baseConfig.maxHeight ? item.config.baseConfig.maxHeight + 'px' : '') }, { 'display': item.config.baseConfig.arrangementType === 'Horizontal' ? 'flex' : '' }, { 'flex-wrap': 'wrap' }]">
                                     <template #default="{ $item }">
-                                        <DynamicRenderInner :parent-node="currNode" :node-item="item" :data="$item" class="test1111111111"
+                                        <DynamicRenderInner :parent-node="currNode" :node-item="item" :data="$item" 
                                             :depath="currDepath">
                                         </DynamicRenderInner>
                                     </template>
