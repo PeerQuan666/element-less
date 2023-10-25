@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref ,inject} from "vue";
+import { onMounted, ref, inject, watch } from "vue";
 import ace from "ace-builds";
+
 import { FormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'
 
 defineOptions({ name: "ElsAceEditor" })
-const setModelValue=inject<Function>('setModelValue',()=>null)
-const getModelValue=inject<Function>('getModelValue',()=>null)
+const setModelValue = inject<Function>('setModelValue', () => null)
+const getModelValue = inject<Function>('getModelValue', () => null)
 const emits = defineEmits(['update:modelValue', 'formatter'])
 
 interface Props extends FormItemProps {
@@ -22,18 +23,26 @@ const props = withDefaults(defineProps<Props>(), {
     height: '300',
     width: '100%',
 })
+
+const editorValue = ref()
 const tagID = 'els-ace-' + lessCom.Guid32()
 const editor = ref<any>()
-function handleReturnResult(val){
+watch(() => props.modelValue, (val) => {
+    if (val != editorValue.value) {
+        editor.value.setValue(val)
+    }
+
+})
+function handleReturnResult(val) {
 
     emits('update:modelValue', val)
-    if(props.modelValue===undefined&&setModelValue&&props.prop!==undefined){
-        setModelValue(props.prop,val,props.aIndex)
+    if (props.modelValue === undefined && setModelValue && props.prop !== undefined) {
+        setModelValue(props.prop, val, props.aIndex)
     }
 }
-function initModelValue(){
-    if(props.modelValue===undefined&&getModelValue&&props.prop){
-      return  getModelValue(props.prop,props.aIndex)
+function initModelValue() {
+    if (props.modelValue === undefined && getModelValue && props.prop) {
+        return getModelValue(props.prop, props.aIndex)
     }
     return props.modelValue
 }
@@ -60,12 +69,13 @@ onMounted(() => {
             emits('formatter', editor.value)
         }
     })
-    const currValue=initModelValue()
+    const currValue = initModelValue()
     if (currValue) {
         editor.value.setValue(currValue)
     }
     editor.value.getSession().on('change', function () {
-        handleReturnResult(editor.value.getValue())
+        editorValue.value = editor.value.getValue()
+        handleReturnResult(editorValue.value)
     });
 })
 

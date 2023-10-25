@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref, computed, watch } from 'vue'
+import { inject, ref, computed, watch, nextTick } from 'vue'
 import lessCom from '../../utlis/lessCom'
 import { useVModel } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
@@ -21,6 +21,11 @@ interface Props {
 
 const emits = defineEmits(['update:item', 'update:data'])
 const camelCase = inject<boolean>('camelCase', false)
+const allowCreateType = inject<boolean>('allowCreateType', false)
+const allowCreateComponent = inject<boolean>('allowCreateComponent', false)
+const openCreateType=inject<Function>('openCreateType',()=>null)
+const openCreateComponent=inject<Function>('openCreateComponent',()=>null)
+const componentSettingVisible = inject<boolean>('componentSettingVisible', true)
 const props = defineProps<Props>()
 const dataTypeData = inject<any>("dataTypeData", null)
 const controlData = inject<any>("componentData", null)
@@ -36,9 +41,11 @@ function handleRemove(item) {
   currData.value.splice(index, 1)
 
 }
-function handleChangeKeyCode(keyCode) {
-  if (camelCase) {
+function handleChangeKeyCode() {
+  if (camelCase&&currItem.value.keyCode) {
+    const keyCode = currItem.value.keyCode
     currItem.value.keyCode = keyCode.replace(keyCode[0], keyCode[0].toLowerCase())
+
   }
 }
 
@@ -78,7 +85,6 @@ const currComponentType = computed(() => {
   }
   return {}
 })
-
 const currComponentTypeData = computed(() => {
   if (controlData) {
     return controlData.filter(ele => !currDataType.value || ele.dataTypes.includes(currDataType.value?.type))
@@ -155,10 +161,28 @@ watch(() => currItem.value.componentType, () => {
 })
 
 function handleChangeDataType() {
-  if(currItem.value.arrayDataType){
-    currItem.value.arrayDataType=undefined;
+  if (currItem.value.arrayDataType) {
+    currItem.value.arrayDataType = undefined;
   }
   currItem.value.componentType = undefined;
+  nextTick(() => {
+    if (currComponentTypeData.value.length) {
+      if (isObject.value) {
+        currItem.value.componentType = ''
+      }
+      else if (currDataType.value && currDataType.value.type !== 'Array') {
+
+        currItem.value.componentType = currComponentTypeData.value[0].value;
+
+
+      } else if (currItem.value.arrayDataType) {
+
+        currItem.value.componentType = currComponentTypeData.value[0].value;
+
+      }
+    }
+
+  })
   if (isObject.value) {
     currItem.value.data.length = 0
     currItem.value.data.push({
@@ -179,73 +203,96 @@ function handleChangeDataType() {
 }
 
 function validationCode(rule, value, callback) {
-          console.log(rule)
-            if (value === '') {
-                callback(new Error('keyCode不能为空'))
-            } else if (props.data.filter(ele => ele.keyCode == value).length>1) {
-              ElMessage.warning(`[${value}]重复`)
-                callback(new Error('keyCode重复'))
-            } else {
-                callback()
-            }
-        }
+  console.log(rule)
+  if (value === '') {
+    callback(new Error('keyCode不能为空'))
+  } else if (props.data.filter(ele => ele.keyCode == value).length > 1) {
+    ElMessage.warning(`[${value}]重复`)
+    callback(new Error('keyCode重复'))
+  } else {
+    callback()
+  }
+}
 </script>
 <template>
   <els-form v-model="currItem" labelWidth="0" inputWidth="100%"
-    :class="[{ 'els-dynamic-d-item-parentdiv': isObject }, { 'els-dynamic-d-item-container': isRow }]"
+    :class="[{ 'els-dynamic-d-item-parentdiv': isObject&&!currItem.componentType }, { 'els-dynamic-d-item-container': isRow }]"
     :show-message="false">
     <div class="els-dynamic-d-item-div" v-if="!isRow">
       <span class="keyName">
         <els-input clearable v-if="itemDataType.type != 'None'" placeholder="请输入名称" prop="keyName"></els-input>
       </span>
       <span class="keyCode">
-        <els-input placeholder="编码" v-if="itemDataType.type != 'None'" :validMethod="validationCode" required clearable :disabled="currItem.isModify"
-          @input="handleChangeKeyCode" prop="keyCode"></els-input>
+        <els-input placeholder="编码" v-if="itemDataType.type != 'None'" :validMethod="validationCode" required clearable
+          :disabled="currItem.isModify" @blur="handleChangeKeyCode" v-model="item.keyCode"></els-input>
       </span>
       <span class="dataType">
-        <els-select @click-option="handleChangeDataType" :initSelect="false" :data="dataTypeData" valueField="value"
-          labelField="label" placeholder="值类型" prop="dataType"></els-select>
-        <els-select @click-option="handleChangeDataType" v-if="itemDataType.type == 'Array'" :data="dataTypeData.filter(ele=>ele.type!='None'&&ele.type!='Array')"
-          valueField="value" labelField="label" prop="arrayDataType"></els-select>
-      </span>
-      <span class="componentType">
-        <els-select v-if="itemDataType.type != 'Object' && currArrayDataType.type != 'Object'" filterable required
-          :disabled="currItem.dataType === undefined" placeholder="控件" prop="componentType" :data="currComponentTypeData"
-          valueField="value" labelField="label">
+        <els-select @click-option="handleChangeDataType"  :initSelect="false" :data="dataTypeData" valueField="value"
+          labelField="label" placeholder="值类型" prop="dataType">
+        <template #extra v-if="allowCreateType">
+          <li class="dynamic-create-dtype" @click="openCreateType()">创建类型</li>
+        </template>
+        </els-select>
+        <els-select @click-option="handleChangeDataType" v-if="itemDataType.type == 'Array'"
+          :data="dataTypeData.filter(ele => ele.type != 'None' && ele.type != 'Array')" valueField="value"
+          labelField="label" prop="arrayDataType">
+          <template #extra v-if="allowCreateType">
+          <li class="dynamic-create-dtype"  @click="openCreateType()">创建类型</li>
+        </template>
         </els-select>
       </span>
-      <span class="config">
-        <el-popover placement="right-start" trigger="click" width="600">
-          <els-form labelWidth="120">
-            <el-tabs>
-              <el-tab-pane label="组件属性">
-                <ElsDynamicRender  v-model="currItem.config.baseConfig"
-                  :nodeType="{ dataType: currDataType?.type, componentName: currComponentType?.componentName }"
-                  :config="currPropertys" inputWidth="100%">
-                </ElsDynamicRender>
-              </el-tab-pane>
-              <el-tab-pane label="数组属性" v-if="itemDataType.type == 'Array'">
-                <ElsDynamicRender v-model="currItem.config.arrayConfig" :config="property_array" inputWidth="100%">
-                </ElsDynamicRender>
-              </el-tab-pane>
-              <el-tab-pane label="表单属性" v-if="itemDataType.type != 'None'">
-                <ElsDynamicRender v-model="currItem.config.formConfig" :config="property_form" inputWidth="100%">
-                </ElsDynamicRender>
-              </el-tab-pane>
-              <el-tab-pane label="高级属性">
-                <ElsDynamicRender v-model="currItem.config.advancedConfig" :config="property_advanced" inputWidth="100%">
-                </ElsDynamicRender>
-              </el-tab-pane>
-            </el-tabs>
-          </els-form>
-          <template #reference>
-            <el-link type="primary">配置</el-link>
-          </template>
-        </el-popover>
+      <template v-if="componentSettingVisible">
+        <span class="componentType">
+          <els-select
+            v-if="itemDataType.type != 'Object' && currArrayDataType.type != 'Object' || (isObject && currComponentTypeData.length)"
+            filterable :disabled="currItem.dataType === undefined" placeholder="组件" clearable prop="componentType"
+            :data="currComponentTypeData" valueField="value" labelField="label">
+            <template #extra v-if="allowCreateComponent">
+          <li class="dynamic-create-dtype"  @click="openCreateComponent()">创建组件</li>
+        </template>
+          </els-select>
+        </span>
+        <span class="config">
+          <el-popover placement="right-start" trigger="click" width="600">
+            <els-form labelWidth="120">
+              <el-tabs>
+                <el-tab-pane label="组件属性">
+                  <ElsDynamicRender v-model="currItem.config.baseConfig"
+                    :nodeType="{ dataType: currDataType?.type, componentName: currComponentType?.componentName }"
+                    :config="currPropertys" inputWidth="100%">
+                  </ElsDynamicRender>
+                </el-tab-pane>
+                <el-tab-pane label="数组属性" v-if="itemDataType.type == 'Array'">
+                  <ElsDynamicRender v-model="currItem.config.arrayConfig" :config="property_array" inputWidth="100%">
+                  </ElsDynamicRender>
+                </el-tab-pane>
+                <el-tab-pane label="表单属性" v-if="itemDataType.type != 'None'">
+                  <ElsDynamicRender v-model="currItem.config.formConfig" :config="property_form" inputWidth="100%">
+                  </ElsDynamicRender>
+                </el-tab-pane>
+                <el-tab-pane label="高级属性">
+                  <ElsDynamicRender v-model="currItem.config.advancedConfig" :config="property_advanced"
+                    inputWidth="100%">
+                  </ElsDynamicRender>
+                </el-tab-pane>
+              </el-tabs>
+            </els-form>
+            <template #reference>
+              <el-link type="primary">配置</el-link>
+            </template>
+          </el-popover>
+        </span>
+      </template>
+      <span class="required">
+        <els-switch  :active-value="true" :inactive-value="false" prop="required"></els-switch>
+      </span>
+      <span class="description">
+        <els-input placeholder="描述" clearable
+         prop="description"></els-input>
       </span>
       <span class="defaultValue">
         <els-input v-if="!isObject && itemDataType.type !== 'None'" placeholder="默认值" clearable
-          v-model="currItem.defaultValue"></els-input>
+          prop="defaultValue"></els-input>
       </span>
       <span class="oper">
         <span class="els-dynamic-d-oper">
@@ -260,8 +307,30 @@ function validationCode(rule, value, callback) {
         </span>
       </span>
     </div>
-    <DynamicDesignerInner :data="currItem.data" @removeItem="handleRemove(item)" v-if="isObject || isRow"
-      :config="currItem.config.advancedConfig" :is-container="isRow" :depath="currDepath">
+    <DynamicDesignerInner :data="currItem.data" @removeItem="handleRemove(item)"
+      v-if="!currItem.componentType && (isObject || isRow)" :config="currItem.config.advancedConfig" :is-container="isRow"
+      :depath="currDepath">
     </DynamicDesignerInner>
   </els-form>
-</template>../../utlis/dynamicPropertys/form.js
+</template>
+<style lang="less">
+.el-select-dropdown__list:has(>li[class^=dynamic-create-dtype]){
+
+    padding-bottom: 30px !important;
+
+}
+  .dynamic-create-dtype{
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    color: #409eff;
+    padding: 5px 0;
+    border-top: 1px solid #e8e8e8;
+}
+
+</style>

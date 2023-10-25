@@ -1,5 +1,5 @@
 <template>
-    <els-list :data="data">
+    <els-list v-model="data">
         <els-input label="城市" prop="key" width="200" required clearable></els-input>
         <els-select prop="isRelease">
             <els-option :value="1">发布</els-option>

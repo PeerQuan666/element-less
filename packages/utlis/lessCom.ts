@@ -495,6 +495,41 @@ const lessCom = {
             });
         })
     },
+    isSameObject(obj1, obj2) {
+        // 检查对象类型
+        if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
+          return false;
+        }
+      
+        // 获取对象的属性名
+        const keys1 = Object.keys(obj1);
+        const keys2 = Object.keys(obj2);
+      
+        // 检查属性数量是否相同
+        if (keys1.length !== keys2.length) {
+          return false;
+        }
+      
+        // 逐个属性递归比较
+        for (const key of keys1) {
+          if (!keys2.includes(key)) {
+            return false; // 对象2中缺少对象1的属性
+          }
+      
+          const value1 = obj1[key];
+          const value2 = obj2[key];
+      
+          if (typeof value1 === 'object' && typeof value2 === 'object') {
+            if (!this.isSameObject(value1, value2)) {
+              return false; // 递归比较子对象结构
+            }
+          } else if (typeof value1 !== typeof value2) {
+            return false; // 属性类型不同
+          }
+        }
+      
+        return true; // 所有属性和子对象结构相同
+      }
 
 }
 

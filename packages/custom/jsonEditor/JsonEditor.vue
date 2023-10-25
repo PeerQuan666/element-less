@@ -36,15 +36,11 @@ watch(currData, (val) => {
   
 },{deep:true})
 
-const validate = async (editor) => {
-    const res = await editor.validate();
-    // res 是错误列表，如果是空数组，则表示检测没有错误
-    console.log(res);
-};
+
 </script>
 <template >
     <div class="els-jsoneditor">
-        <JsonEditorVue v-model="currData" @blur="validate" v-bind="attrs" />
+        <JsonEditorVue v-model="currData" v-bind="attrs"  mode="text" />
     </div>
 </template>
 <style lang="less">

@@ -1,31 +1,40 @@
 <script setup lang="ts">
 import { provide, watch, ref } from 'vue'
+import { FormItemProps } from '../../utlis/interfaceCom'
 import '../../utlis/lessPrototype.js'
-import { dynamicDataType, dynamicComponentType } from '../../utlis/lessConfig.js'
+import { dynamicDataTypes, dynamicComponentTypes } from '../../utlis/lessConfig.js'
+import { DynamicHandler } from '../../utlis/lessConfig.js'
 import DynamicDesignerInner from './DynamicDesignerInner.vue'
 import DynamicDesignerView from '../dynamicDesignerView/DynamicDesignerView.vue'
+import DynamicCreate from '../dynamicCreate/DynamicCreate.vue'
+import  {DynamicComponentType,DynamicDataType} from '../../utlis/interfaceCom.js'
 
 import lessCom from '../../utlis/lessCom'
 defineOptions({
   name: 'ElsDynamicDesigner',
 })
-interface Props {
+interface Props extends FormItemProps {
   modelValue?: any,
   camelCase?: boolean,
-  dataTypes?: Array<Record<string, any>>,
-  componentTypes?: Array<Record<string, any>>,
-  dataTypeMapping?: Record<string, any>,
-  componentTypeMapping?: Record<string, any>,
-  appendComponentTypes?: Array<Record<string, any>>,
+  dataTypes?:Array<DynamicDataType>,
+  componentTypes?:  Array<DynamicComponentType>,
+  appendComponentTypes?: Array<DynamicComponentType>,
   componentRelateDataType?: Record<string, any>,
+  componentSettingVisible: boolean,
+  isReturnTemplateValue?: boolean,
+  templateValue?: any,
+  allowCreateType?: boolean,
+  createTypeMethod?:Function,
+  allowCreateComponent?: boolean,
+  createComponentMethod?:Function
 
 }
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'update:templateValue'])
 const designerJSON = ref()
 const importJSON = ref()
 const designerContainer = ref()
 const designerObj = ref([])
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), { componentSettingVisible: true })
 
 function initData() {
   if (props.modelValue && typeof (props.modelValue) === 'string') {
@@ -45,17 +54,20 @@ const currDynamicDataType = ref<any>([])
 if (props.dataTypes) {
   currDynamicDataType.value.push(...props.dataTypes)
 } else {
-  currDynamicDataType.value.push(...dynamicDataType)
+  currDynamicDataType.value.push(...dynamicDataTypes)
 }
 
 provide("tagID", 'els-dynamic-designer-' + lessCom.Guid32())
 provide('dataTypeData', currDynamicDataType.value)
+provide('allowCreateType', props.allowCreateType)
+provide('allowCreateComponent', props.allowCreateComponent)
+
 const currComponentTypes = ref<any>([])
 
 if (props.componentTypes) {
   currComponentTypes.value.push(...props.componentTypes)
 } else {
-  currComponentTypes.value.push(...dynamicComponentType)
+  currComponentTypes.value.push(...dynamicComponentTypes)
 }
 
 if (props.appendComponentTypes) {
@@ -70,11 +82,11 @@ if (props.componentRelateDataType) {
     }
   })
 }
+const dynamicHandler = new DynamicHandler(currDynamicDataType.value, currComponentTypes.value)
+const createVisible=ref(false)
+
 provide('componentData', currComponentTypes.value)
-provide('dataTypeMapping', props.dataTypeMapping)
-provide('componentTypeMapping', props.componentTypeMapping)
-
-
+provide('componentSettingVisible', props.componentSettingVisible)
 provide('camelCase', props.camelCase)
 
 function handleImportDesigner() {
@@ -91,8 +103,33 @@ function handleImportDesigner() {
 function handleOpenImport() {
   importJSON.value = designerObj.value
 }
+
+function openCreateType(typeValue){
+  if(props.createTypeMethod){
+    props.createTypeMethod(typeValue)
+  }else{
+    dynamicNewType.value={ componentName: 'ElsDynamicRender', config: {}, label: '名称', value: "Value", type: "Type", dataTypes: [], defaultPropertys: {config:[]}, propertys: [], group: 'Form' }
+    createVisible.value=true
+
+  }
+}
+function openCreateComponent(typeValue){
+  if(props.createComponentMethod){
+    props.createComponentMethod(typeValue)
+  }
+}
+
+const dynamicNewType=ref<any>({})
+
+provide('openCreateType',openCreateType)
+provide('openCreateComponent',openCreateComponent)
 watch(designerObj, (val) => {
   if (val) {
+    if (props.isReturnTemplateValue) {
+      emits('update:templateValue', dynamicHandler.configResult(val))
+
+    }
+
     if (typeof (props.modelValue) === 'object') {
       emits('update:modelValue', val)
 
@@ -108,37 +145,61 @@ const designType = ref('精简模式')
 function closeViewDialog() {
   designType.value = '精简模式'
 }
+
 </script>
 <template>
-  <div class="els-dynamic-config" ref="designerContainer">
-    <div class="els-dynamic-config-tool">
-      <ElsRadioButton v-model="designType">
-        <ElsOption value="精简模式"><el-icon>
-            <MoreFilled />
-          </el-icon></ElsOption>
-        <ElsOption value="设计模式"><el-icon>
-            <Grid />
-          </el-icon></ElsOption>
-      </ElsRadioButton>
-      <els-data-modal style="margin-left:5px;margin-bottom:5px;" title="导入配置" buttonLabel="导入配置" icon="Edit"
-        :hasInput="false" :open="handleOpenImport" :confirm="handleImportDesigner">
-        <ElsJsonEditor v-model="importJSON" style="height: 500px;"></ElsJsonEditor>
-      </els-data-modal>
-    </div>
-    <DynamicDesignerInner v-if="designType === '精简模式'" :data="designerObj"></DynamicDesignerInner>
+  <div >
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
+      <div class="els-dynamic-config" ref="designerContainer">
+        <div class="els-dynamic-config-tool">
+          <ElsRadioButton v-model="designType">
+            <ElsOption value="精简模式"><el-icon>
+                <MoreFilled />
+              </el-icon></ElsOption>
+            <ElsOption value="设计模式"><el-icon>
+                <Grid />
+              </el-icon></ElsOption>
+          </ElsRadioButton>
+          <els-data-modal style="margin-left:5px;margin-bottom:5px;" title="导入配置" buttonLabel="导入配置" icon="Edit"
+            :hasInput="false" :open="handleOpenImport" :confirm="handleImportDesigner">
+            <ElsJsonEditor v-model="importJSON" style="height: 500px;"></ElsJsonEditor>
+          </els-data-modal>
+        </div>
+        <DynamicDesignerInner v-if="designType === '精简模式'" :data="designerObj"></DynamicDesignerInner>
+      </div>
+      <template v-if="designType !== '精简模式'">
+        <els-dialog :visible="true" @close="closeViewDialog" width="90%"  :append-to-body="true">
+          <DynamicDesignerView :dataTypes="dataTypes" :camelCase="camelCase" :componentTypes="componentTypes"
+            :appendComponentTypes="appendComponentTypes" :componentRelateDataType="componentRelateDataType"
+            v-model="designerObj"></DynamicDesignerView>
+        </els-dialog>
+      </template>
+    </ElsFormNode>
+
+   <DynamicCreate  :visible="createVisible" v-model="dynamicNewType" :camelCase="camelCase" :componentTypes="currComponentTypes" :dataTypes="currDynamicDataType"></DynamicCreate>
+          
+    
   </div>
-
-  <template v-if="designType !== '精简模式'">
-
-    <els-dialog :visible="true" @close="closeViewDialog" width="90%" :append-to-body="true">
-      <DynamicDesignerView :dataTypes="dataTypes" :camelCase="camelCase" :componentTypes="componentTypes"
-        :dataTypeMapping="dataTypeMapping" :componentTypeMapping="componentTypeMapping"
-        :appendComponentTypes="appendComponentTypes" :componentRelateDataType="componentRelateDataType"
-        v-model="designerObj"></DynamicDesignerView>
-    </els-dialog>
-  </template>
 </template>
 <style lang="less">
+.els-dynamic-config{flex-grow: 1;
+.leo-list-add{
+  button{
+    height: 24px;
+    font-size: 12px;
+    padding: 7px;
+    background: #fff;
+    color: #575757;
+  }
+}
+.els-dynamicc-d-empty{
+  text-align: center;
+    font-size: 12px;
+    background: #f8f8f8;
+    padding: 5px;
+    font-style: italic;
+}
+}
 .els-dynamic-config-tool {
   display: flex;
   align-items: center;
@@ -159,7 +220,7 @@ function closeViewDialog() {
 }
 
 .els-dynamic-config {
-  min-width: 670px;
+  min-width: 870px;
 
   :has(div[class^='el-form-item']) {
     .leo-list-add {
@@ -196,7 +257,13 @@ function closeViewDialog() {
   .config {
     width: 40px;
   }
+  .required {
+    width: 60px;
 
+  }
+  .description {
+    width: 200px;
+  }
   .oper {
     width: 60px;
 
@@ -312,4 +379,5 @@ function closeViewDialog() {
 
 .els-dynamic-d-item-container>.els-dynamic-d-flat-item-child {
   margin-left: 0 !important;
-}</style>
+}
+</style>

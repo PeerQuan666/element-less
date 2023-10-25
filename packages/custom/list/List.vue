@@ -1,71 +1,96 @@
 <script setup lang="ts">
-import {useAttrs,h,watchEffect} from 'vue'
+import { useAttrs, h, watchEffect, ref, watch } from 'vue'
 import draggable from 'vuedraggable'
 import { useVModel } from '@vueuse/core'
 import ElsForm from '../../elementui/form/Form.vue';
+import lessCom from '../../utlis/lessCom'
+
 defineOptions({ name: "ElsList", inheritAttrs: false })
-const emits = defineEmits(['add'])
+const emits = defineEmits(['add', 'update:modelValue'])
 interface Props {
-    data: Array<Record<string, any>>,
+    modelValue: Array<Record<string, any>>,
     sortable?: boolean,
     isRemove?: boolean,
     isAdd?: boolean,
     isModify?: boolean,
     isConfirmRemove?: boolean,
     itemClassName?: string,
-    hasForm?:boolean,
-    onAdd?:Function,
-    itemKey?:string,
-    labelWidth?:string
+    hasForm?: boolean,
+    onAdd?: Function,
+    itemKey?: string,
+    labelWidth?: string
 }
 const props = withDefaults(defineProps<Props>(), {
     sortable: true,
     isRemove: true,
     isAdd: true,
     isModify: true,
-    hasForm:true,
+    hasForm: true,
     isConfirmRemove: true,
-    itemKey:''
+    itemKey: ''
 
 })
 
+const currData = useVModel(props, 'modelValue', emits)
+const dropData = ref<any>([])
+const currItemKey = ref(props.itemKey)
+if (!props.itemKey) {
+    currData.value.forEach(ele => {
+        dropData.value.push({ itemKey: lessCom.Guid32(), value: ele })
+    })
+    currItemKey.value = 'itemKey'
+    watch(dropData, (val) => {
 
-const currData=useVModel(props, 'data', emits) 
-const attrs=useAttrs()
+        emits('update:modelValue', val.map(ele => ele.value))
+    }, { deep: true })
+} else {
+    dropData.value = currData.value
+}
+
+const attrs = useAttrs()
+
 function handleAdd() {
-    if(props.onAdd){
-        props.onAdd(currData.value)
-    }else{
-        currData.value.push({})
+    if (props.onAdd) {
+        if(!props.itemKey){
+            dropData.value.push({itemKey: lessCom.Guid32(), value:props.onAdd(dropData.value)})
+
+        }else{
+            dropData.value.push(props.onAdd(dropData.value))
+
+        }
+    } else {
+        dropData.value.push({})
     }
 
 }
 function handleRemove(item) {
-    var index = currData.value.indexOf(item)
-    currData.value.splice(index, 1)
+    var index = dropData.value.indexOf(item)
+    dropData.value.splice(index, 1)
 }
-let container =h('div')
-let outContainer=h('div')
-watchEffect(()=>{
-    if(props.hasForm&&currData.value.length){
-        if(typeof(currData[0])!=='object'){
-            outContainer=h(ElsForm,{modelValue:currData})
-            container =h('div')
 
-        }else{
-            container= h(ElsForm)
-            outContainer=h('div')
+let container = h('div')
+let outContainer = h('div')
+watchEffect(() => {
+    if (props.hasForm && dropData.value.length) {
+        if (typeof (dropData[0]) !== 'object') {
+            outContainer = h(ElsForm, { modelValue: currData })
+            container = h('div')
+
+        } else {
+            container = h(ElsForm)
+            outContainer = h('div')
         }
     }
 })
 </script>
 <template >
     <component :is="outContainer" class="els-list" :labelWidth="labelWidth">
-        <draggable :list="currData" handle=".el-icon-rank" v-bind="attrs" :item-key="itemKey">
-            <template #item="{ element, index }">  
-                <component :is="container"  v-model="currData[index]"  inline :labelWidth="labelWidth">
+        <draggable :list="dropData" handle=".el-icon-rank" v-bind="attrs" :item-key="currItemKey">
+            <template #item="{ element, index }">
+                <component :is="container" v-model="dropData[index]" inline :labelWidth="labelWidth">
                     <div class="listitem flex" :class="itemClassName">
-                        <slot name="default" v-bind="{ item: element, index: index, $item: element, $index: index }" :key="element"></slot>
+                        <slot name="default" v-bind="{ item: element, index: index, $item: element, $index: index }">
+                        </slot>
                         <span class="els-list-operate" v-if="sortable || isRemove" style="margin-left:10px;">
                             <slot name="drag" v-if="sortable && isModify">
                                 <el-icon class="el-icon-rank">
@@ -106,21 +131,24 @@ watchEffect(()=>{
             display: flex;
             column-gap: 5px;
             cursor: pointer;
-            
+
         }
 
-        >.el-form-item{
+        >.els-node {
             flex-grow: 1;
         }
     }
-    .el-form-item{margin-bottom: 18px !important;}
+
+    .el-form-item {
+        margin-bottom: 18px !important;
+    }
 
     .listitem:has(div[class^=el-form-item]) {
         margin-bottom: 0px;
-        .els-list-operate{
+
+        .els-list-operate {
             margin-bottom: 18px;
         }
     }
 
-}
-</style>
+}</style>

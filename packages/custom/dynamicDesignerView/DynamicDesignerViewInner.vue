@@ -86,7 +86,14 @@ function getFormItemAttr(item) {
         } else {
             delete currFormConfig.validMethod
         }
-    } return currFormConfig
+    }
+    if(item.required){
+        currFormConfig['required']=true
+    }
+    if(item.description){
+        currFormConfig['description']=item.description
+    }
+    return currFormConfig
 }
 
 
@@ -164,6 +171,7 @@ currDepath.value += 1;
 
 </script>
 <template>
+
     <els-form v-model="currData" :label-width="labelWidth" style="width: 100%;">
         <component :is="nodeItem?.componentType=='Row'?'ElsRow':'div'" :gutter="5" :class="itemClassName"
             :style="nodeItem?.componentType === 'Row' ? nodeItem ? nodeItem.config.advancedConfig?.style : '' : ''">
@@ -172,7 +180,7 @@ currDepath.value += 1;
                 @add="handleAddComponent" item-key="keyID"
                 v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }" :sort="true" handle=".els-view-move">
                 <template #item="{ element, index }">
-
+   
                     <component :key="element.keyID" :is="nodeItem?.componentType==='Row'?'els-col':'div'">
                         <div  class="els-dynamic-d-v-item"
                             :class="{ 'selected': getSelectItem()?.keyID == element.keyID }"
@@ -200,7 +208,6 @@ currDepath.value += 1;
                                 :parentNode="currNode" :node-item="element" :depath="currDepath">
                             </DynamicDesignerViewInner>
                             <template v-else>
-
                                 <els-caption v-if="element.config.baseConfig?.componentName == 'ElsCaption'"
                                     v-bind="element.config.baseConfig"
                                     :title="!element.config.baseConfig.title ? element.keyName : element.config.baseConfig.title"></els-caption>
@@ -212,7 +219,7 @@ currDepath.value += 1;
                                     :style="element.config.baseConfig?.componentName == 'ElsCaption' || element.dataTypeName == 'Object' ? 'margin-bottom:0 !important' : ''"
                                     :label="element.config.baseConfig?.componentName == 'ElsCaption' ? '' : element.keyName"
                                     :prop="`[${index}].value`">
-                              
+                      
                                     <template v-if="element.dataTypeName === 'Array' && !element.arrayDataTypeName">
                                         <draggable  tag="div" style="min-height:100px;margin:5px 0;width: 100%;z-index:10"
                                             :list="element.data" @add="handleAddArrayComponent()"  item-key="keyID"
@@ -222,7 +229,8 @@ currDepath.value += 1;
                                             </template>
                                         </draggable>
                                     </template>
-                              
+                                   
+
                                     <DynamicDesignerViewItem :key="element.keyID"
                                         v-else-if="element.componentType && element.componentGroup === 'Form'"
                                         :disabled="handleDisabledExpress(element)" :parent-node="parentNode"

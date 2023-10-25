@@ -1,4 +1,5 @@
-import  {ValueType,QueryDataType,QueryMethod,ValidType} from './enumCom'
+import  {ValueType,QueryDataType,QueryMethod,ValidType,DynamicComponentGroup} from './enumCom'
+
 
 export interface FormItemProps extends ValidProps,QueryProps{
     prop?:string,
@@ -174,21 +175,37 @@ export interface DynamicConfig{
     keyID:string,
     keyName:string,
     keyCode:string,
-    sortIndex?:number,
-    dataType?: number,
-    arrayDataType?:number,
-    checkValueEmpty?:boolean,
+    dataType?: any,
+    arrayDataType?:any,
+    required?:boolean,
     validExpression?:string,
-    componentType?: number,
+    componentType?: any,
     data: Array<DynamicConfig>,
     isShow?:boolean,
     description?:string,
-    descriptionPosition?:string,
     isModify?:boolean,
     config:{formConfig:Record<string,any>,baseConfig:Record<string,any>,arrayConfig: Record<string,any>,advancedConfig:Record<string,any>},
     defaultValue?: any
 }
 
+export interface DynamicDataType{
+    label:string,
+    value:string,
+    type:string,
+    defaultValue?:any
+}
+
+export interface DynamicComponentType{
+    componentName:string,
+    label:string,
+    value:string,
+    type:string,
+    description?:string,
+    dataTypes?:Array<string>,
+    defaultPropertys?:Record<string,any>,
+    propertys?:Array<Record<string,any>>,
+    group?:DynamicComponentGroup
+}
 
 
 export interface ValidProps{

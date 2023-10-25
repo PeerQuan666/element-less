@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { watch, provide, ref, computed, nextTick } from 'vue'
-import { dynamicDataType, dynamicComponentType } from '../../utlis/lessConfig.js'
+
+import { FormItemProps } from '../../utlis/interfaceCom'
+import { dynamicDataTypes, dynamicComponentTypes, DynamicHandler } from '../../utlis/lessConfig.js'
 import DynamicDesignerViewInner from './DynamicDesignerViewInner.vue'
+
 import draggable from 'vuedraggable'
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom'
@@ -10,21 +13,23 @@ import property_array from '../../utlis/dynamicPropertys/array'
 import property_advanced from '../../utlis/dynamicPropertys/advanced'
 import property_arrayAndObject from '../../utlis/dynamicPropertys/arrayAndObject'
 import { useDesign } from '../../utlis/stateDesign.js'
-import {ElMessage} from 'element-plus'
+import { ElMessage } from 'element-plus'
 import lodash from 'lodash';
+import  {DynamicComponentType,DynamicDataType} from '../../utlis/interfaceCom.js'
 const { debounce } = lodash;
 const useDesignStore = useDesign()
 const emits = defineEmits(['update:modelValue'])
 defineOptions({
     name: 'ElsDynamicDesignerView'
 })
-interface Props {
+interface Props extends FormItemProps{
     modelValue: Array<Record<string, any>> | string,
-    dataTypes?: Array<Record<string, any>>,
     camelCase?: boolean,
-    componentTypes?: Array<Record<string, any>>,
-    appendComponentTypes?: Array<Record<string, any>>,
+    dataTypes?:Array<DynamicDataType>,
+    componentTypes?:  Array<DynamicComponentType>,
+    appendComponentTypes?: Array<DynamicComponentType>,
     componentRelateDataType?: Record<string, any>,
+
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -41,7 +46,7 @@ const currDynamicDataType = ref<any>([])
 if (props.dataTypes) {
     currDynamicDataType.value.push(...props.dataTypes)
 } else {
-    currDynamicDataType.value.push(...dynamicDataType)
+    currDynamicDataType.value.push(...dynamicDataTypes)
 }
 
 const currComponentTypes = ref<any>([])
@@ -49,7 +54,7 @@ const currComponentTypes = ref<any>([])
 if (props.componentTypes) {
     currComponentTypes.value.push(...props.componentTypes)
 } else {
-    currComponentTypes.value.push(...dynamicComponentType)
+    currComponentTypes.value.push(...dynamicComponentTypes)
 }
 
 if (props.appendComponentTypes) {
@@ -112,7 +117,7 @@ const objectData = ref<any>([
 const importJSON = ref()
 
 currComponentTypes.value.forEach((ele) => {
-    const currType=currDynamicDataType.value.find(cele => cele.type == ele.dataTypes[0])
+    const currType = currDynamicDataType.value.find(cele => cele.type == ele.dataTypes[0])
     controlData.value.push({
         keyID: "key_" + lessCom.randomNumber().toString(),
         keyName: ele.label,
@@ -135,29 +140,27 @@ currComponentTypes.value.forEach((ele) => {
         value: initValue(currType?.type)
     })
 })
-function initValue(type){
-    switch(type){
+function initValue(type) {
+    switch (type) {
         case 'Number':
-               return 0
-                break
-            case 'Bool':
-              return false
-                break
-                case 'Object':
-              return {}
-                break
-                case 'Array':
-              return []
-                break
-            default:
-               return ''
+            return 0
+        case 'Bool':
+            return false
+        case 'Object':
+            return {}
+        case 'Array':
+            return []
+        default:
+            return ''
     }
 }
+const dynamicHandler = new DynamicHandler(currDynamicDataType.value, currComponentTypes.value)
+
 const renderData = ref<any>([])
 function handleOpenImport() {
     const val = renderData.value
     const currVal = lessCom.cloneObj(val)
-    recoverConfig(currVal)
+    dynamicHandler.recoverConfig(currVal)
     importJSON.value = currVal
 }
 function initData() {
@@ -169,7 +172,7 @@ function initData() {
         } else {
             renderData.value = lessCom.cloneObj(JSON.parse(props.modelValue))
         }
-        recoverData(renderData.value)
+        dynamicHandler.initConfigType(renderData.value)
     }
 
 }
@@ -185,7 +188,7 @@ function returnResult() {
     const val = renderData.value
     if (val.length > 0) {
         const currVal = lessCom.cloneObj(val)
-        recoverConfig(currVal)
+        dynamicHandler.recoverConfig(currVal)
         if (typeof (val) === 'object') {
             emits('update:modelValue', currVal)
         } else {
@@ -206,168 +209,12 @@ watch(renderData, () => {
 
 }, { deep: true })
 
-function recoverConfig(data) {
-    data.forEach((ele) => {
 
-        if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
-            recoverArrayConfig(ele)
-        } else if (ele.dataTypeName == 'Object') {
-            recoverConfig(ele.data)
-        } else if (ele.dataTypeName == 'None' && ele.componentName == 'ElsRow') {
-            recoverConfig(ele.data)
-        }
-        delete ele.componentGroup
-        delete ele.dataTypeName
-        delete ele.arrayDataTypeName
-        delete ele.componentName
-        delete ele.componentTypeName
-        delete ele.value
-    })
-}
-function recoverArrayConfig(item) {
-    delete item.arrayObjData
-    delete item.value
-    item.data.forEach(ele => {
-
-        if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
-            recoverArrayConfig(ele)
-        } else if (ele.dataTypeName == 'Object') {
-            recoverConfig(ele.data)
-        } else if (ele.dataTypeName == 'None' && ele.componentName == 'ElsRow') {
-            recoverConfig(ele.data)
-        }
-    })
-
-}
-
-
-function getDefaultValue(item) {
-    const currDataType = currDynamicDataType.value.find(ele => ele.value == item.dataType)
-    if (currDataType) {
-        switch (currDataType.value) {
-            case 'Number':
-                if (item.defaultValue) {
-                    item.value = parseFloat(item.defaultValue)
-                } else {
-                    item.value = 0;
-                }
-                break
-            case 'Bool':
-                if (item.defaultValue?.toLowerCase() === 'true') {
-                    item.value = true;
-                } else {
-                    item.value = false
-                }
-                break
-            default:
-                if (item.defaultValue) {
-                    item.value = item.defaultValue.toString()
-                } else {
-                    item.value = ''
-                }
-        }
-    }
-
-}
-function recoverData(data, valueData: any = null) {
-    if (!valueData) {
-        valueData = {}
-    }
-    data.forEach((ele) => {
-        if (ele.keyCode) {
-            const currVal = valueData[ele.keyCode]
-            if (currVal === undefined) {
-                getDefaultValue(ele)
-
-            } else {
-                ele.value = currVal
-            }
-        } else {
-            getDefaultValue(ele)
-        }
-
-        const currDataType = currDynamicDataType.value.find(d => d.value === ele.dataType || d.type === ele.dataType)
-        const currArrayDataType = currDynamicDataType.value.find(d => d.value === ele.arrayDataType || d.type === ele.arrayDataType)
-        const currcomponentType = currComponentTypes.value.find(d => d.value === ele.componentType || d.type === ele.componentType)
-
-        ele.componentGroup = currcomponentType?.group
-        ele.componentType = currcomponentType?.type
-        ele.dataTypeName = currDataType?.type
-        ele.arrayDataTypeName = currArrayDataType?.type
-        ele.componentName = currcomponentType?.componentName
-        if (currDataType?.type == 'Array' && currArrayDataType?.type == 'Object') {
-            recoverArrayData(ele, valueData[ele.keyCode])
-        } else if (currDataType?.type == 'Object') {
-            recoverData(ele.data, valueData[ele.keyCode])
-        } else if (currDataType?.type == 'None' && currcomponentType?.type == 'Row') {
-            recoverData(ele.data, valueData)
-        }
-    })
-}
-function recoverArrayData(item, valueData: any = null) {
-    if (!item["arrayObjData"]) {
-        let currData: any = [];
-        item.data.forEach(ele => {
-
-            const currDataType = currDynamicDataType.value.find(d => d.value === ele.dataType || d.type === ele.dataType)
-            const currArrayDataType = currDynamicDataType.value.find(d => d.value === ele.arrayDataType || d.type === ele.arrayDataType)
-            const currcomponentType = currComponentTypes.value.find(d => d.value === ele.componentType || d.type === ele.componentType)
-            ele.componentType = currcomponentType?.type
-            ele.dataTypeName = currDataType?.type
-            ele.arrayDataTypeName = currArrayDataType?.type
-            ele.componentName = currcomponentType?.componentName
-            ele.componentGroup = currcomponentType?.group
-            var currItem = Object.assign({}, ele)
-            getDefaultValue(currItem);
-            if (currDataType?.type == 'Array' && currArrayDataType?.type == 'Object') {
-                recoverArrayData(currItem)
-            } else if (currDataType?.type == 'Object' || currcomponentType?.type == 'Row') {
-                recoverData(currItem.data)
-            }
-            currData.push(currItem)
-        })
-        item["arrayObjData"] = currData;
-    }
-    if (valueData) {
-        item.value = valueData
-        let arrayData: any = [];
-        valueData.forEach((ele) => {
-            let itemData: any = lessCom.cloneObj(item["arrayObjData"])
-            recoverData(itemData, ele)
-            arrayData.push(itemData)
-        })
-        item.data = arrayData
-    } else {
-        item.value = [];
-        let defaultArrayData: any = [];
-        if (item.config.baseConfig.arrayDefaultLength === undefined || item.config.baseConfig.arrayDefaultLength === '') {
-            defaultArrayData.push(lessCom.cloneObj(item["arrayObjData"]))
-        } else {
-            for (let i = 0; i < item.config.baseConfig.arrayDefaultLength; i++) {
-                defaultArrayData.push(lessCom.cloneObj(item["arrayObjData"]))
-            }
-        }
-        item.data = defaultArrayData
-    }
-}
-
-function getUploadUrl(url, item) {
-    let currUrl = url
-    let uploadParms = `&ResourcePicLimitType=${(item.config.baseConfig.picLimitType ?? '')}&ResourcePicWidth=${(item.config.baseConfig.picWidthLimit ?? 0)}&ResourcePicHeight=${(item.config.baseConfig.picHeightLimit ?? 0)}&HasMd5Parameter=${(item.config.baseConfig.hasMd5Parameter ? 1 : 0)}`
-    if (item.config.baseConfig.resourceCode) {
-        currUrl = currUrl.addUrlParameter('ResourceCode', item.config.baseConfig.resourceCode)
-    }
-    if (item.config.baseConfig.restrictCode) {
-        currUrl = currUrl.addUrlParameter('RestrictCode', item.config.baseConfig.restrictCode)
-    }
-    let uploadUrl = currUrl + uploadParms;
-    return uploadUrl;
-}
 const currSelectItem = ref()
-const currSelectData=ref()
+const currSelectData = ref()
 const showPropertys = ref(false)
-function setSelectItem(item,data=null) {
-    currSelectData.value=data
+function setSelectItem(item, data = null) {
+    currSelectData.value = data
     if (!item) {
         currSelectItem.value = null
         showPropertys.value = false
@@ -387,7 +234,7 @@ function setSelectItem(item,data=null) {
 function handleClone(item) {
     item = lessCom.cloneObj(item)
     item.keyID = "key_" + lessCom.randomNumber().toString(),
-        item.keyCode = 'Key_' + lessCom.randomNumber()
+        item.keyCode = 'key_' + lessCom.randomNumber()
     return item
 }
 
@@ -405,14 +252,17 @@ const currPropertys = computed(() => {
             } else {
                 if (currComponentTypes.value) {
                     const currControlData = currComponentTypes.value.find(ele => ele.value == currSelectItem.value.componentType)
-                    if (currControlData&&currControlData.propertys&&currControlData.propertys.length) {
+                    if (currControlData && currControlData.propertys && currControlData.propertys.length) {
                         return currControlData.propertys
-                    }else    {
+                    } else {
                         const currVal = currDynamicDataType.value.find(ele => ele.value == currSelectItem.value.dataType)
-                         const arrayVal = currDynamicDataType.value.find(ele => ele.value == currSelectItem.value.arrayDataType)
+                        const arrayVal = currDynamicDataType.value.find(ele => ele.value == currSelectItem.value.arrayDataType)
 
-                        if (currVal?.type == 'Array' && arrayVal?.type === 'Object' || currVal?.type == 'Object')
-                        return lessCom.cloneObj(property_arrayAndObject)
+                        if (currVal?.type == 'Array' && arrayVal?.type === 'Object' || currVal?.type == 'Object'){
+                            return lessCom.cloneObj(property_arrayAndObject)
+                        }else{
+                            return []
+                        }
                     }
                 }
             }
@@ -463,7 +313,7 @@ function getSelectItem() {
 function getDataTypeData(componentType) {
     if (!componentType) { return [] }
 
-    const currControl = currComponentTypes.value.find(ele => ele.value === componentType||ele.type===componentType)
+    const currControl = currComponentTypes.value.find(ele => ele.value === componentType || ele.type === componentType)
     if (!currControl) { return [] }
     return currDynamicDataType.value.filter(ele => currControl.dataTypes.includes(ele.type))
 
@@ -478,8 +328,7 @@ function handleImportDesigner() {
         renderData.value = importJSON.value
 
     }
-
-    recoverData(renderData.value)
+    dynamicHandler.initConfigType(renderData.value)
     recordComponent()
     return Promise.resolve(true)
 }
@@ -491,23 +340,23 @@ function clearAll() {
     currSelectItem.value = null
 }
 function validationCode(rule, value, callback) {
-          console.log(rule)
-            if (value === '') {
-                callback(new Error('keyCode不能为空'))
-            } else if (currSelectData.value&&currSelectData.value.filter(ele => ele.keyCode == value).length>1) {
-              ElMessage.warning(`[${value}]重复`)
-                callback(new Error('keyCode重复'))
-            } else {
-                callback()
-            }
-        }
+    console.log(rule)
+    if (value === '') {
+        callback(new Error('keyCode不能为空'))
+    } else if (currSelectData.value && currSelectData.value.filter(ele => ele.keyCode == value).length > 1) {
+        ElMessage.warning(`[${value}]重复`)
+        callback(new Error('keyCode重复'))
+    } else {
+        callback()
+    }
+}
 function handleChangeKeyCode(keyCode) {
-  if (props.camelCase) {
-    currSelectItem.value.keyCode = keyCode.replace(keyCode[0], keyCode[0].toLowerCase())
-  }
+    if (props.camelCase) {
+        currSelectItem.value.keyCode = keyCode.replace(keyCode[0], keyCode[0].toLowerCase())
+    }
 }
 
-provide("getUploadUrl", getUploadUrl)
+
 provide("setSelectItem", setSelectItem)
 provide("getSelectItem", getSelectItem)
 provide("recordComponent", recordComponent)
@@ -515,6 +364,8 @@ provide("recordComponent", recordComponent)
 
 </script>
 <template>
+          <div >
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
     <div style="display:flex;background:#f8f8f8;" class="els-dynamic-view">
         <div style="flex-basis:260px;flex-shrink: 0;background: #fff;" class="els-dynamic-view-components">
             <el-tabs stretch>
@@ -626,38 +477,39 @@ provide("recordComponent", recordComponent)
                 <el-tab-pane label="基础属性" v-if="currSelectItem.dataType">
                     <els-form v-model="currSelectItem">
                         <els-input label="名称" prop="keyName" required></els-input>
-                        <els-input label="字段名" prop="keyCode" @input="handleChangeKeyCode" :validMethod="validationCode" required></els-input>
+                        <els-input label="字段名" prop="keyCode" @input="handleChangeKeyCode" :validMethod="validationCode"
+                            required></els-input>
                         <els-select label="数据类型"
                             v-if="currSelectItem.dataTypeName != 'Array' && currSelectItem.dataTypeName != 'Object'"
                             required :data="getDataTypeData(currSelectItem.componentType)"
-                            @select="currSelectItem.dataTypeName" valueField="value" labelField="label" placeholder="值类型"
-                            prop="dataType"></els-select>
+                            @select="(sitem) => { currSelectItem.dataTypeName = sitem.selectItem.type }" valueField="value"
+                            labelField="label" placeholder="值类型" prop="dataType"></els-select>
                         <els-select label="数据类型"
                             v-if="currSelectItem.dataTypeName == 'Array' && currSelectItem.componentType" required
                             :data="getDataTypeData(currSelectItem.componentType)"
-                            v-model:select-label="currSelectItem.arrayDataTypeName" valueField="value" labelField="label"
-                            placeholder="值类型" prop="arrayDataType"></els-select>
+                            @select="(sitem) => { currSelectItem.arrayDataTypeName = sitem.selectItem.type }" valueField="value"
+                            labelField="label" placeholder="值类型" prop="arrayDataType"></els-select>
                         <els-input label="默认值" prop="defaultValue"></els-input>
 
                     </els-form>
                 </el-tab-pane>
-                <el-tab-pane label="组件属性">
-                    <ElsDynamicRender v-model="currSelectItem.config.baseConfig"
+                <el-tab-pane label="组件属性" v-if="currPropertys.length">
+                    <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.baseConfig"
                         :nodeType="{ dataType: currSelectItem.dataTypeName != 'Array' ? currSelectItem.dataTypeName : currSelectItem.arrayDataTypeName, componentName: currSelectItem.componentName }"
                         :config="currPropertys" inputWidth="100%">
                     </ElsDynamicRender>
                 </el-tab-pane>
-                <el-tab-pane label="数组属性" v-if="currSelectItem.dataTypeName == 'Array'">
+                <el-tab-pane label="数组属性" isAsyncComponent v-if="currSelectItem.dataTypeName == 'Array'">
                     <ElsDynamicRender v-model="currSelectItem.config.arrayConfig" :config="property_array"
                         inputWidth="100%">
                     </ElsDynamicRender>
                 </el-tab-pane>
-                <el-tab-pane label="表单属性" v-if="currSelectItem.dataTypeName != 'None'">
+                <el-tab-pane label="表单属性" isAsyncComponent v-if="currSelectItem.dataTypeName != 'None'">
                     <ElsDynamicRender v-model="currSelectItem.config.formConfig" :config="property_form" inputWidth="100%">
                     </ElsDynamicRender>
                 </el-tab-pane>
                 <el-tab-pane label="高级属性">
-                    <ElsDynamicRender v-model="currSelectItem.config.advancedConfig" :config="property_advanced"
+                    <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.advancedConfig" :config="property_advanced"
                         inputWidth="100%">
                     </ElsDynamicRender>
                 </el-tab-pane>
@@ -665,6 +517,7 @@ provide("recordComponent", recordComponent)
 
         </div>
     </div>
+    </ElsFormNode></div>
     <els-dialog v-model="viewPriview" width="70%" title="预览效果">
         <el-tabs>
             <el-tab-pane label="预览">
@@ -928,5 +781,13 @@ provide("recordComponent", recordComponent)
 
 .els-dynamic-d-v-item.selected:has(form) {
     border: 2px solid #409EFF !important;
+}
+.el-form-item__content>div:has(>div[class^=els-dynamic-render]) {
+    flex-grow: 1;
+ 
+
+}
+.els-dynamic-render>form>div>div:has([class^=el-form-item]){
+    margin-bottom: 18px;
 }
 </style>

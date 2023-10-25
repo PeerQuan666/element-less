@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, inject, watchEffect, watch, useAttrs, computed } from 'vue'
-
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom';
 interface Props {
@@ -15,24 +14,16 @@ interface Props {
 defineOptions({
     inheritAttrs: false
 })
-
-const props = withDefaults(defineProps<Props>(), {
-
-})
+const controlData = inject<any>("componentData", [])
+const dyProvideData = inject<any>('dyProvideData', null)
+const props = defineProps<Props>()
 const emits = defineEmits(['update:modelValue', 'valueChange'])
-
 const attrs = useAttrs()
 const currValue = ref()
 
 watchEffect(() => {
     currValue.value = props.modelValue
 })
-
-watchEffect(() => {
-    console.info(currValue.value)
-})
-const getUploadUrl = inject<Function>('getUploadUrl', () => null)
-
 
 watch(currValue, (val) => {
     emits('update:modelValue', val)
@@ -49,9 +40,6 @@ function handleClear() {
     }
 }
 
-const controlData = inject<any>("componentData", [])
-const dyProvideData = inject<any>('dyProvideData', null)
-
 const baseAttrs = computed(() => {
 
     let baseConfig = {}
@@ -66,37 +54,16 @@ const baseAttrs = computed(() => {
             }
         }
         baseConfig = currBaseConfig
-
     }
-
     const currAttrs = Object.assign(lessCom.cloneObj(baseConfig), { 'style': props.item.config.advancedConfig.style }, attrs);
+    const parseNumbers=['max','min','precision','step','rows']
 
-    if (currAttrs?.max) {
-        currAttrs.max = parseInt(currAttrs.max)
-    } else {
-        delete currAttrs.max
-    }
-    if (currAttrs?.min) {
-        currAttrs.min = parseInt(currAttrs.min)
-    } else {
-        delete currAttrs.min
-    }
-
-    if (currAttrs?.precision) {
-        currAttrs.precision = parseFloat(currAttrs.precision)
-    } else {
-        delete currAttrs.precision
-    }
-    if (currAttrs?.step) {
-        currAttrs.step = parseFloat(currAttrs.step)
-    } else {
-        delete currAttrs.step
-    }
-
-    if (currAttrs?.rows) {
-        currAttrs.rows = parseFloat(currAttrs.rows)
-    } else {
-        delete currAttrs.rows
+    for(const name of parseNumbers){
+        if(currAttrs[name]){
+            currAttrs[name]=parseInt(currAttrs[name])
+        }else{
+            delete currAttrs[name]
+        }
     }
 
     if (['ElsSelect', 'ElsRadio', 'ElsCheckBox', 'ElsCascader'].includes(props.item.componentName)) {
@@ -107,31 +74,18 @@ const baseAttrs = computed(() => {
             currAttrs.valueType = 'Bool'
         }
     }
-
-    //移除未设置字段
-    if (!currAttrs.labelField) {
-        delete currAttrs.labelField
-    }
-    if (!currAttrs.valueField) {
-        delete currAttrs.valueField
-    }
     return currAttrs
 })
 const componentAttrs = ref<any>(baseAttrs.value)
 const showText = ref('')
-
 const componentName = ref('')
 watchEffect(() => {
     componentName.value = props.item.componentName
-
 })
-
-
 
 
 //判断父节点类型
 watch(dyProvideData, (val) => {
-
     if (val&&['active-value','inactive-value','multiple','value'].includes(props.item.keyCode)) {
         const currNodeType = val.nodeType
         showText.value=''
@@ -209,14 +163,7 @@ watch(dyProvideData, (val) => {
 
 }, { immediate: true, deep: true })
 
-
-
-
-
-
-
-
-function getFileUploadUrl() {
+function getUrl() {
     let currUrl = props.item.config.baseConfig.url || props.item.config.baseConfig.modalUrl
     if (currUrl) {
         if (currUrl.startsWith(":")) {
@@ -224,22 +171,14 @@ function getFileUploadUrl() {
             let currEvent = new Function('parentNode,currNode', "return " + currUrl);
             currUrl = currEvent(props.parentNode, props.currNode);
         }
-        if (props.item.componentType === 'Upload') {
-            return getUploadUrl(currUrl, props.item);
-
-        } else {
-            return currUrl.setPowerPublicQuery()
-        }
+        return currUrl.setPowerPublicQuery()
     }
 }
-
-
-
 </script>
 <template>
     <template v-if="componentName">
         <el-tag v-if="showText">{{ showText }}</el-tag>
-        <component v-else :is="componentName" v-bind="componentAttrs" v-model="currValue" :url="getFileUploadUrl()"
+        <component v-else :is="componentName" v-bind="componentAttrs" v-model="currValue" :url="getUrl()"
             @clear="handleClear">
         </component>
     </template>

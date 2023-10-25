@@ -52,3 +52,8 @@ export enum UploadType {
     Pic='Pic',
     File='File',
 }  
+export enum DynamicComponentGroup{
+    Form='Form',
+    Desc='Desc',
+    Container='Container',
+}

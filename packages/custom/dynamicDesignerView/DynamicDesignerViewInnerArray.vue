@@ -116,7 +116,7 @@ watch(() => currData.value.config.arrayConfig.arrayDefaultLength, (val) => {
 </script>
 <template>
     <div :class="{ 'horizontal': currData.config.arrayConfig.arrangementType === 'Horizontal' }" style=" flex-grow:1">
-        <els-list :data="currData.value" @add="handleAddItem" item-key="" :style="[
+        <els-list v-model="currData.value" @add="handleAddItem" item-key="" :style="[
             { 'max-width': (currData.config.arrayConfig.maxWidth ? currData.config.arrayConfig.maxWidth + 'px' : '') },
             { 'max-height': (currData.config.arrayConfig.maxHeight ? currData.config.arrayConfig.maxHeight + 'px' : '') },
             { 'display': currData.config.arrayConfig.arrangementType === 'Horizontal' ? 'flex' : '' },

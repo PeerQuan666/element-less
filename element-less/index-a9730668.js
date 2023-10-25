@@ -4,7 +4,7 @@ var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
 };
-import { getCurrentInstance, defineComponent, inject, useSlots, useAttrs, ref, watchEffect, watch, resolveComponent, openBlock, createElementBlock, createVNode, normalizeProps, guardReactiveProps, unref, withCtx, mergeProps, createSlots, Fragment, renderList, renderSlot, createTextVNode, toDisplayString, createBlock, reactive, computed, provide, nextTick, createCommentVNode, resolveDynamicComponent, createElementVNode, normalizeClass, normalizeStyle, onMounted, onUnmounted, onBeforeUnmount, onErrorCaptured, h, resolveDirective, withDirectives, isRef, withModifiers, vShow, pushScopeId, popScopeId, defineAsyncComponent, Suspense, createStaticVNode } from "vue";
+import { getCurrentInstance, defineComponent, inject, useSlots, useAttrs, ref, watchEffect, watch, resolveComponent, openBlock, createElementBlock, createVNode, normalizeProps, guardReactiveProps, unref, withCtx, mergeProps, createSlots, Fragment, renderList, renderSlot, createTextVNode, toDisplayString, createBlock, reactive, computed, provide, nextTick, createCommentVNode, resolveDynamicComponent, createElementVNode, normalizeClass, normalizeStyle, onMounted, onUnmounted, onBeforeUnmount, onErrorCaptured, h, resolveDirective, withDirectives, isRef, withModifiers, vShow, pushScopeId, popScopeId, defineAsyncComponent, Suspense } from "vue";
 import axios from "axios";
 import pkg from "file-saver";
 import * as XLSX from "xlsx";
@@ -566,6 +566,12 @@ var UploadType = /* @__PURE__ */ ((UploadType2) => {
   UploadType2["File"] = "File";
   return UploadType2;
 })(UploadType || {});
+var DynamicComponentGroup = /* @__PURE__ */ ((DynamicComponentGroup2) => {
+  DynamicComponentGroup2["Form"] = "Form";
+  DynamicComponentGroup2["Desc"] = "Desc";
+  DynamicComponentGroup2["Container"] = "Container";
+  return DynamicComponentGroup2;
+})(DynamicComponentGroup || {});
 const lessCom = {
   jsonFormatter(obj) {
     if (!obj) {
@@ -1073,8 +1079,8 @@ const lessCom = {
   }
 };
 const lessCom$1 = lessCom;
-const _hoisted_1$G = { class: "els-node" };
-const _sfc_main$17 = /* @__PURE__ */ defineComponent({
+const _hoisted_1$I = { class: "els-node" };
+const _sfc_main$1b = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsInput",
     inheritAttrs: false
@@ -1170,7 +1176,7 @@ const _sfc_main$17 = /* @__PURE__ */ defineComponent({
     return (_ctx, _cache) => {
       const _component_el_input = resolveComponent("el-input");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
-      return openBlock(), createElementBlock("div", _hoisted_1$G, [
+      return openBlock(), createElementBlock("div", _hoisted_1$I, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => [
             createVNode(_component_el_input, mergeProps({
@@ -1220,10 +1226,10 @@ const _sfc_main$17 = /* @__PURE__ */ defineComponent({
   }
 });
 const Input_vue_vue_type_style_index_0_lang = "";
-_sfc_main$17.install = (app) => {
-  app.component(_sfc_main$17.__name, _sfc_main$17);
+_sfc_main$1b.install = (app) => {
+  app.component(_sfc_main$1b.__name, _sfc_main$1b);
 };
-const _sfc_main$16 = /* @__PURE__ */ defineComponent({
+const _sfc_main$1a = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsTextarea"
   },
@@ -1279,11 +1285,11 @@ const _sfc_main$16 = /* @__PURE__ */ defineComponent({
   }
 });
 const Textarea_vue_vue_type_style_index_0_lang = "";
-_sfc_main$16.install = (app) => {
-  app.component(_sfc_main$16.__name, _sfc_main$16);
+_sfc_main$1a.install = (app) => {
+  app.component(_sfc_main$1a.__name, _sfc_main$1a);
 };
-const _hoisted_1$F = { class: "els-node" };
-const _sfc_main$15 = /* @__PURE__ */ defineComponent({
+const _hoisted_1$H = { class: "els-node" };
+const _sfc_main$19 = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsInputRange",
     inheritAttrs: false
@@ -1413,7 +1419,7 @@ const _sfc_main$15 = /* @__PURE__ */ defineComponent({
       const _component_els_input = resolveComponent("els-input");
       const _component_el_space = resolveComponent("el-space");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
-      return openBlock(), createElementBlock("div", _hoisted_1$F, [
+      return openBlock(), createElementBlock("div", _hoisted_1$H, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => [
             createVNode(_component_el_space, { class: "els-range" }, {
@@ -1451,11 +1457,11 @@ const _sfc_main$15 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$15.install = (app) => {
-  app.component(_sfc_main$15.__name, _sfc_main$15);
+_sfc_main$19.install = (app) => {
+  app.component(_sfc_main$19.__name, _sfc_main$19);
 };
-const _hoisted_1$E = { class: "els-node" };
-const _hoisted_2$m = {
+const _hoisted_1$G = { class: "els-node" };
+const _hoisted_2$n = {
   key: 0,
   class: "check"
 };
@@ -1463,11 +1469,11 @@ const _hoisted_3$c = {
   key: 0,
   class: "check"
 };
-const _hoisted_4$7 = {
+const _hoisted_4$8 = {
   key: 0,
   class: "check"
 };
-const _sfc_main$14 = /* @__PURE__ */ defineComponent({
+const _sfc_main$18 = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsSelect",
     inheritAttrs: false
@@ -1827,7 +1833,7 @@ const _sfc_main$14 = /* @__PURE__ */ defineComponent({
       const _component_el_option_group = resolveComponent("el-option-group");
       const _component_el_select = resolveComponent("el-select");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
-      return openBlock(), createElementBlock("div", _hoisted_1$E, [
+      return openBlock(), createElementBlock("div", _hoisted_1$G, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => {
             var _a;
@@ -1855,7 +1861,7 @@ const _sfc_main$14 = /* @__PURE__ */ defineComponent({
                       value: item[_ctx.valueField]
                     }, {
                       default: withCtx(() => [
-                        _ctx.multiple ? (openBlock(), createElementBlock("i", _hoisted_2$m)) : createCommentVNode("", true),
+                        _ctx.multiple ? (openBlock(), createElementBlock("i", _hoisted_2$n)) : createCommentVNode("", true),
                         renderSlot(_ctx.$slots, "default", { item }, () => [
                           createTextVNode(toDisplayString(item[_ctx.labelField]), 1)
                         ], true)
@@ -1896,7 +1902,7 @@ const _sfc_main$14 = /* @__PURE__ */ defineComponent({
                       value: item[_ctx.valueField]
                     }, {
                       default: withCtx(() => [
-                        unref(attrs).multiple ? (openBlock(), createElementBlock("i", _hoisted_4$7)) : createCommentVNode("", true),
+                        unref(attrs).multiple ? (openBlock(), createElementBlock("i", _hoisted_4$8)) : createCommentVNode("", true),
                         createTextVNode(" " + toDisplayString(item[_ctx.labelField]), 1)
                       ]),
                       _: 2
@@ -1936,15 +1942,15 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const Select = /* @__PURE__ */ _export_sfc(_sfc_main$14, [["__scopeId", "data-v-16126be8"]]);
+const Select = /* @__PURE__ */ _export_sfc(_sfc_main$18, [["__scopeId", "data-v-16126be8"]]);
 Select.install = (app) => {
   app.component(Select.__name, Select);
 };
-const _hoisted_1$D = {
+const _hoisted_1$F = {
   key: 0,
   class: "check"
 };
-const _sfc_main$13 = /* @__PURE__ */ defineComponent({
+const _sfc_main$17 = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsOption" },
   __name: "Option",
   props: {
@@ -2009,7 +2015,7 @@ const _sfc_main$13 = /* @__PURE__ */ defineComponent({
         value: _ctx.value ?? currLabel.value
       }, unref(attrs)), {
         default: withCtx(() => [
-          multiple.value ? (openBlock(), createElementBlock("i", _hoisted_1$D)) : createCommentVNode("", true),
+          multiple.value ? (openBlock(), createElementBlock("i", _hoisted_1$F)) : createCommentVNode("", true),
           renderSlot(_ctx.$slots, "default", {}, () => [
             createTextVNode(toDisplayString(currLabel.value), 1)
           ])
@@ -2066,12 +2072,12 @@ const _sfc_main$13 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _hoisted_1$C = {
+const _hoisted_1$E = {
   key: 1,
   style: { "width": "100%" }
 };
-const _hoisted_2$l = { class: "els-radio-group-item" };
-const _sfc_main$12 = /* @__PURE__ */ defineComponent({
+const _hoisted_2$m = { class: "els-radio-group-item" };
+const _sfc_main$16 = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsOptionGroup" },
   __name: "OptionGroup",
   props: {
@@ -2094,18 +2100,18 @@ const _sfc_main$12 = /* @__PURE__ */ defineComponent({
           renderSlot(_ctx.$slots, "default", {}, void 0, true)
         ]),
         _: 3
-      }, 16, ["label"])) : (openBlock(), createElementBlock("div", _hoisted_1$C, [
-        createElementVNode("div", _hoisted_2$l, toDisplayString(_ctx.label), 1),
+      }, 16, ["label"])) : (openBlock(), createElementBlock("div", _hoisted_1$E, [
+        createElementVNode("div", _hoisted_2$m, toDisplayString(_ctx.label), 1),
         renderSlot(_ctx.$slots, "default", normalizeProps(guardReactiveProps(unref(attrs))), void 0, true)
       ]));
     };
   }
 });
 const OptionGroup_vue_vue_type_style_index_0_scoped_acf762c0_lang = "";
-const OptionGroup = /* @__PURE__ */ _export_sfc(_sfc_main$12, [["__scopeId", "data-v-acf762c0"]]);
-const _hoisted_1$B = { class: "els-node" };
-const _hoisted_2$k = { key: 0 };
-const _sfc_main$11 = /* @__PURE__ */ defineComponent({
+const OptionGroup = /* @__PURE__ */ _export_sfc(_sfc_main$16, [["__scopeId", "data-v-acf762c0"]]);
+const _hoisted_1$D = { class: "els-node" };
+const _hoisted_2$l = { key: 0 };
+const _sfc_main$15 = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsRadio",
     inheritAttrs: false
@@ -2397,14 +2403,14 @@ const _sfc_main$11 = /* @__PURE__ */ defineComponent({
       const _component_el_empty = resolveComponent("el-empty");
       const _component_el_radio_group = resolveComponent("el-radio-group");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
-      return openBlock(), createElementBlock("div", _hoisted_1$B, [
+      return openBlock(), createElementBlock("div", _hoisted_1$D, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => [
             createElementVNode("div", {
               class: normalizeClass(radioClass),
               style: normalizeStyle(radioStyle)
             }, [
-              props.filterable ? (openBlock(), createElementBlock("div", _hoisted_2$k, [
+              props.filterable ? (openBlock(), createElementBlock("div", _hoisted_2$l, [
                 _ctx.filterable ? (openBlock(), createBlock(_component_el_input, {
                   key: 0,
                   style: { "width": "200px" },
@@ -2434,7 +2440,7 @@ const _sfc_main$11 = /* @__PURE__ */ defineComponent({
                 default: withCtx(() => [
                   renderSlot(_ctx.$slots, "extra", {}, void 0, true),
                   filterText.value && !optionData.value.length ? (openBlock(), createBlock(_component_el_empty, { key: 0 })) : (_ctx.url || _ctx.data && _ctx.data.length > 0 || options.length) && !_ctx.groupField ? (openBlock(true), createElementBlock(Fragment, { key: 1 }, renderList(options, (item, index) => {
-                    return openBlock(), createBlock(_sfc_main$13, {
+                    return openBlock(), createBlock(_sfc_main$17, {
                       type: _ctx.type,
                       key: index,
                       value: item[_ctx.valueField],
@@ -2454,7 +2460,7 @@ const _sfc_main$11 = /* @__PURE__ */ defineComponent({
                     }, {
                       default: withCtx(() => [
                         (openBlock(true), createElementBlock(Fragment, null, renderList(gitem.value, (item, index) => {
-                          return openBlock(), createBlock(_sfc_main$13, {
+                          return openBlock(), createBlock(_sfc_main$17, {
                             type: _ctx.type,
                             key: index,
                             value: item[_ctx.valueField],
@@ -2474,7 +2480,7 @@ const _sfc_main$11 = /* @__PURE__ */ defineComponent({
                     }, 1032, ["label"]);
                   }), 256)) : renderSlot(_ctx.$slots, "default", { key: 3 }, void 0, true),
                   (openBlock(true), createElementBlock(Fragment, null, renderList(noExistOption, (item) => {
-                    return openBlock(), createBlock(_sfc_main$13, {
+                    return openBlock(), createBlock(_sfc_main$17, {
                       type: _ctx.type,
                       key: item[_ctx.valueField],
                       value: item[_ctx.valueField],
@@ -2498,16 +2504,16 @@ const _sfc_main$11 = /* @__PURE__ */ defineComponent({
   }
 });
 const Radio_vue_vue_type_style_index_0_scoped_e5576b34_lang = "";
-const ElsRadio = /* @__PURE__ */ _export_sfc(_sfc_main$11, [["__scopeId", "data-v-e5576b34"]]);
+const ElsRadio = /* @__PURE__ */ _export_sfc(_sfc_main$15, [["__scopeId", "data-v-e5576b34"]]);
 ElsRadio.install = (app) => {
   app.component(ElsRadio.__name, ElsRadio);
 };
-const _hoisted_1$A = { class: "els-node" };
-const _hoisted_2$j = {
+const _hoisted_1$C = { class: "els-node" };
+const _hoisted_2$k = {
   key: 0,
   style: { "margin-bottom": "15px", "text-align": "left" }
 };
-const _sfc_main$10 = /* @__PURE__ */ defineComponent({
+const _sfc_main$14 = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsCheckbox", inheritAttrs: false },
   __name: "Checkbox",
   props: {
@@ -2866,14 +2872,14 @@ const _sfc_main$10 = /* @__PURE__ */ defineComponent({
       const _component_els_option_group = resolveComponent("els-option-group");
       const _component_el_checkbox_group = resolveComponent("el-checkbox-group");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
-      return openBlock(), createElementBlock("div", _hoisted_1$A, [
+      return openBlock(), createElementBlock("div", _hoisted_1$C, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => [
             createElementVNode("div", {
               class: normalizeClass(checkboxClass),
               style: normalizeStyle(checkboxStyle)
             }, [
-              _ctx.showCheckall || _ctx.filterable ? (openBlock(), createElementBlock("div", _hoisted_2$j, [
+              _ctx.showCheckall || _ctx.filterable ? (openBlock(), createElementBlock("div", _hoisted_2$k, [
                 _ctx.showCheckall ? (openBlock(), createBlock(_component_el_checkbox, {
                   key: 0,
                   indeterminate: isIndeterminate.value,
@@ -2987,11 +2993,11 @@ const _sfc_main$10 = /* @__PURE__ */ defineComponent({
   }
 });
 const Checkbox_vue_vue_type_style_index_0_scoped_46400140_lang = "";
-const ElsCheckbox = /* @__PURE__ */ _export_sfc(_sfc_main$10, [["__scopeId", "data-v-46400140"]]);
+const ElsCheckbox = /* @__PURE__ */ _export_sfc(_sfc_main$14, [["__scopeId", "data-v-46400140"]]);
 ElsCheckbox.install = (app) => {
   app.component(ElsCheckbox.__name, ElsCheckbox);
 };
-const _sfc_main$$ = /* @__PURE__ */ defineComponent({
+const _sfc_main$13 = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsCheckboxButton"
   },
@@ -3071,10 +3077,10 @@ const _sfc_main$$ = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$$.install = (app) => {
-  app.component(_sfc_main$$.__name, _sfc_main$$);
+_sfc_main$13.install = (app) => {
+  app.component(_sfc_main$13.__name, _sfc_main$13);
 };
-const _sfc_main$_ = /* @__PURE__ */ defineComponent({
+const _sfc_main$12 = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsRadioButton"
   },
@@ -3154,16 +3160,16 @@ const _sfc_main$_ = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$_.install = (app) => {
-  app.component(_sfc_main$_.__name, _sfc_main$_);
+_sfc_main$12.install = (app) => {
+  app.component(_sfc_main$12.__name, _sfc_main$12);
 };
-_sfc_main$13.install = (app) => {
-  app.component(_sfc_main$13.__name, _sfc_main$13);
+_sfc_main$17.install = (app) => {
+  app.component(_sfc_main$17.__name, _sfc_main$17);
 };
 OptionGroup.install = (app) => {
   app.component(OptionGroup.__name, OptionGroup);
 };
-const _sfc_main$Z = /* @__PURE__ */ defineComponent({
+const _sfc_main$11 = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsRow"
   },
@@ -3201,10 +3207,10 @@ const _sfc_main$Z = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$Z.install = (app) => {
-  app.component(_sfc_main$Z.__name, _sfc_main$Z);
+_sfc_main$11.install = (app) => {
+  app.component(_sfc_main$11.__name, _sfc_main$11);
 };
-const _sfc_main$Y = /* @__PURE__ */ defineComponent({
+const _sfc_main$10 = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsCol"
   },
@@ -3250,10 +3256,10 @@ const _sfc_main$Y = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$Y.install = (app) => {
-  app.component(_sfc_main$Y.__name, _sfc_main$Y);
+_sfc_main$10.install = (app) => {
+  app.component(_sfc_main$10.__name, _sfc_main$10);
 };
-const _sfc_main$X = /* @__PURE__ */ defineComponent({
+const _sfc_main$$ = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsForm" },
   __name: "Form",
   props: {
@@ -3450,10 +3456,10 @@ const _sfc_main$X = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$X.install = (app) => {
-  app.component(_sfc_main$X.__name, _sfc_main$X);
+_sfc_main$$.install = (app) => {
+  app.component(_sfc_main$$.__name, _sfc_main$$);
 };
-const _sfc_main$W = /* @__PURE__ */ defineComponent({
+const _sfc_main$_ = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsFormQuery" },
   __name: "FormQuery",
   props: {
@@ -3705,14 +3711,14 @@ const _sfc_main$W = /* @__PURE__ */ defineComponent({
   }
 });
 const FormQuery_vue_vue_type_style_index_0_scoped_56d3df3a_lang = "";
-const FormQuery = /* @__PURE__ */ _export_sfc(_sfc_main$W, [["__scopeId", "data-v-56d3df3a"]]);
+const FormQuery = /* @__PURE__ */ _export_sfc(_sfc_main$_, [["__scopeId", "data-v-56d3df3a"]]);
 FormQuery.install = (app) => {
   app.component(FormQuery.__name, FormQuery);
 };
-const _hoisted_1$z = ["innerHTML"];
-const _hoisted_2$i = { class: "els-form-item-append" };
+const _hoisted_1$B = ["innerHTML"];
+const _hoisted_2$j = { class: "els-form-item-append" };
 const _hoisted_3$b = ["innerHTML"];
-const _sfc_main$V = /* @__PURE__ */ defineComponent({
+const _sfc_main$Z = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsFormItem" },
   __name: "FormItem",
   props: {
@@ -3888,10 +3894,10 @@ const _sfc_main$V = /* @__PURE__ */ defineComponent({
             placement: "top"
           }, {
             content: withCtx(() => [
-              createElementVNode("div", { innerHTML: _ctx.tip }, null, 8, _hoisted_1$z)
+              createElementVNode("div", { innerHTML: _ctx.tip }, null, 8, _hoisted_1$B)
             ]),
             default: withCtx(() => [
-              createElementVNode("span", _hoisted_2$i, [
+              createElementVNode("span", _hoisted_2$j, [
                 createVNode(_component_el_icon, { style: { "margin-left": "5px", "cursor": "pointer" } }, {
                   default: withCtx(() => [
                     createVNode(_component_Question_Filled)
@@ -3945,19 +3951,19 @@ const _sfc_main$V = /* @__PURE__ */ defineComponent({
   }
 });
 const FormItem_vue_vue_type_style_index_0_lang = "";
-_sfc_main$V.install = (app) => {
-  app.component(_sfc_main$V.__name, _sfc_main$V);
+_sfc_main$Z.install = (app) => {
+  app.component(_sfc_main$Z.__name, _sfc_main$Z);
 };
-const _hoisted_1$y = ["innerHTML"];
-const _hoisted_2$h = { key: 1 };
+const _hoisted_1$A = ["innerHTML"];
+const _hoisted_2$i = { key: 1 };
 const _hoisted_3$a = /* @__PURE__ */ createElementVNode("i", { class: "el-icon-question" }, null, -1);
-const _hoisted_4$6 = ["innerHTML"];
-const _hoisted_5$4 = ["innerHTML"];
-const _hoisted_6$3 = {
+const _hoisted_4$7 = ["innerHTML"];
+const _hoisted_5$5 = ["innerHTML"];
+const _hoisted_6$4 = {
   key: 0,
   class: "el-table-tr-split"
 };
-const _sfc_main$U = /* @__PURE__ */ defineComponent({
+const _sfc_main$Y = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsColumn" },
   __name: "TableColumn",
   props: {
@@ -4217,7 +4223,7 @@ const _sfc_main$U = /* @__PURE__ */ defineComponent({
               _ctx.headerFormatter ? (openBlock(), createElementBlock("span", {
                 key: 0,
                 innerHTML: _ctx.headerFormatter
-              }, null, 8, _hoisted_1$y)) : _ctx.tipContent ? (openBlock(), createElementBlock("span", _hoisted_2$h, [
+              }, null, 8, _hoisted_1$A)) : _ctx.tipContent ? (openBlock(), createElementBlock("span", _hoisted_2$i, [
                 createTextVNode(toDisplayString(unref(attrs)["label"]) + " ", 1),
                 createVNode(_component_el_tooltip, {
                   content: _ctx.tipContent,
@@ -4245,7 +4251,7 @@ const _sfc_main$U = /* @__PURE__ */ defineComponent({
               _ctx.prop ? (openBlock(), createElementBlock("span", {
                 key: 0,
                 innerHTML: row[_ctx.prop]
-              }, null, 8, _hoisted_4$6)) : createCommentVNode("", true)
+              }, null, 8, _hoisted_4$7)) : createCommentVNode("", true)
             ]) : (!row.edit || !_ctx.isEdit) && _ctx.prop ? (openBlock(), createElementBlock(Fragment, { key: 1 }, [
               _ctx.type == "image" ? (openBlock(), createBlock(_component_els_image, {
                 key: 0,
@@ -4295,7 +4301,7 @@ const _sfc_main$U = /* @__PURE__ */ defineComponent({
                 ], 64)) : _ctx.prop ? (openBlock(), createElementBlock("span", {
                   key: 3,
                   innerHTML: row[_ctx.prop]
-                }, null, 8, _hoisted_5$4)) : createCommentVNode("", true)
+                }, null, 8, _hoisted_5$5)) : createCommentVNode("", true)
               ])
             ], 64)) : !row.edit || !_ctx.isEdit ? (openBlock(), createElementBlock(Fragment, { key: 2 }, [
               _ctx.type == "operate" ? (openBlock(), createBlock(_component_els_menu_dropdown, {
@@ -4319,7 +4325,7 @@ const _sfc_main$U = /* @__PURE__ */ defineComponent({
                   column,
                   $index
                 }),
-                _ctx.hasBottomBorder ? (openBlock(), createElementBlock("div", _hoisted_6$3)) : createCommentVNode("", true)
+                _ctx.hasBottomBorder ? (openBlock(), createElementBlock("div", _hoisted_6$4)) : createCommentVNode("", true)
               ], 64)) : renderSlot(_ctx.$slots, "default", {
                 key: 3,
                 row,
@@ -4369,21 +4375,21 @@ const _sfc_main$U = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _hoisted_1$x = {
+const _hoisted_1$z = {
   key: 0,
   class: "select_container"
 };
-const _hoisted_2$g = { key: 0 };
+const _hoisted_2$h = { key: 0 };
 const _hoisted_3$9 = {
   key: 0,
   class: "leo-bottom-scroll-fixed"
 };
-const _hoisted_4$5 = {
+const _hoisted_4$6 = {
   key: 1,
   class: "pagination-container",
   style: { "margin-top": "10px" }
 };
-const _sfc_main$T = /* @__PURE__ */ defineComponent({
+const _sfc_main$X = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsTable", inheritAttrs: false },
   __name: "Table",
   props: {
@@ -4480,7 +4486,7 @@ const _sfc_main$T = /* @__PURE__ */ defineComponent({
     const tableForm = ref();
     const contentMenu = ref();
     let tableContainer = h("div", { class: "table-container" });
-    let tableFormContainer = h(_sfc_main$X, { modelValue: tableData, class: "table-form-container", labelWidth: "0", showMessage: false });
+    let tableFormContainer = h(_sfc_main$$, { modelValue: tableData, class: "table-form-container", labelWidth: "0", showMessage: false });
     watch(() => props.isLocaleString, (val) => {
       provideData.isLocaleString = val;
     }, { immediate: true });
@@ -5580,7 +5586,7 @@ const _sfc_main$T = /* @__PURE__ */ defineComponent({
       const _component_els_menu_context = resolveComponent("els-menu-context");
       const _directive_loading = resolveDirective("loading");
       return openBlock(), createElementBlock(Fragment, null, [
-        _ctx.showCheckField ? (openBlock(), createElementBlock("div", _hoisted_1$x, [
+        _ctx.showCheckField ? (openBlock(), createElementBlock("div", _hoisted_1$z, [
           createVNode(unref(draggable), {
             list: unref(tableCheckData).checkRows,
             "item-key": _ctx.rowKey.toString(),
@@ -5594,7 +5600,7 @@ const _sfc_main$T = /* @__PURE__ */ defineComponent({
               }, {
                 default: withCtx(() => [
                   renderSlot(_ctx.$slots, "checklabel", { checkItem: element }, () => [
-                    _ctx.showCheckField ? (openBlock(), createElementBlock("span", _hoisted_2$g, toDisplayString(element[_ctx.showCheckField]), 1)) : createCommentVNode("", true)
+                    _ctx.showCheckField ? (openBlock(), createElementBlock("span", _hoisted_2$h, toDisplayString(element[_ctx.showCheckField]), 1)) : createCommentVNode("", true)
                   ])
                 ]),
                 _: 2
@@ -5632,7 +5638,7 @@ const _sfc_main$T = /* @__PURE__ */ defineComponent({
             }, unref(attrs)), {
               default: withCtx(() => [
                 renderSlot(_ctx.$slots, "default"),
-                _ctx.showEditColumn && (isShowEditColumn.value || _ctx.dragRow) ? (openBlock(), createBlock(_sfc_main$U, {
+                _ctx.showEditColumn && (isShowEditColumn.value || _ctx.dragRow) ? (openBlock(), createBlock(_sfc_main$Y, {
                   key: 0,
                   label: "操作",
                   fixed: "right",
@@ -5712,7 +5718,7 @@ const _sfc_main$T = /* @__PURE__ */ defineComponent({
           ]),
           _: 3
         }, 512)),
-        _ctx.isClientPage || unref(currPageTotal) > 0 ? (openBlock(), createElementBlock("div", _hoisted_4$5, [
+        _ctx.isClientPage || unref(currPageTotal) > 0 ? (openBlock(), createElementBlock("div", _hoisted_4$6, [
           _ctx.hasPage ? (openBlock(), createBlock(_component_el_pagination, {
             key: 0,
             background: "",
@@ -5763,13 +5769,13 @@ const _sfc_main$T = /* @__PURE__ */ defineComponent({
   }
 });
 const Table_vue_vue_type_style_index_0_lang = "";
-_sfc_main$T.install = (app) => {
-  app.component(_sfc_main$T.__name, _sfc_main$T);
+_sfc_main$X.install = (app) => {
+  app.component(_sfc_main$X.__name, _sfc_main$X);
 };
-_sfc_main$U.install = (app) => {
-  app.component(_sfc_main$U.__name, _sfc_main$U);
+_sfc_main$Y.install = (app) => {
+  app.component(_sfc_main$Y.__name, _sfc_main$Y);
 };
-const _sfc_main$S = /* @__PURE__ */ defineComponent({
+const _sfc_main$W = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsColumnBool" },
   __name: "TableColumnBool",
   props: {
@@ -5781,7 +5787,7 @@ const _sfc_main$S = /* @__PURE__ */ defineComponent({
     const props = __props;
     const slots = useSlots();
     return (_ctx, _cache) => {
-      return openBlock(), createBlock(_sfc_main$U, mergeProps({ type: "bool" }, props), createSlots({ _: 2 }, [
+      return openBlock(), createBlock(_sfc_main$Y, mergeProps({ type: "bool" }, props), createSlots({ _: 2 }, [
         unref(slots).default ? {
           name: "default",
           fn: withCtx(({ row, $index }) => [
@@ -5806,18 +5812,147 @@ const _sfc_main$S = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$S.install = (app) => {
-  app.component(_sfc_main$S.__name, _sfc_main$S);
+_sfc_main$W.install = (app) => {
+  app.component(_sfc_main$W.__name, _sfc_main$W);
 };
-const _sfc_main$R = /* @__PURE__ */ defineComponent({
+const _sfc_main$V = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsColumnCheckbox" },
   __name: "TableColumnCheckbox",
   setup(__props) {
     const slots = useSlots();
     return (_ctx, _cache) => {
-      return openBlock(), createBlock(_sfc_main$U, {
+      return openBlock(), createBlock(_sfc_main$Y, {
         type: "selection",
         isExport: false
+      }, createSlots({ _: 2 }, [
+        unref(slots).default ? {
+          name: "default",
+          fn: withCtx(({ row, $index }) => [
+            renderSlot(_ctx.$slots, "default", {
+              row,
+              $index
+            })
+          ]),
+          key: "0"
+        } : void 0,
+        unref(slots).edit ? {
+          name: "edit",
+          fn: withCtx(({ row, $index }) => [
+            renderSlot(_ctx.$slots, "edit", {
+              row,
+              $index
+            })
+          ]),
+          key: "1"
+        } : void 0
+      ]), 1024);
+    };
+  }
+});
+_sfc_main$V.install = (app) => {
+  app.component(_sfc_main$V.__name, _sfc_main$V);
+};
+const _sfc_main$U = /* @__PURE__ */ defineComponent({
+  ...{ name: "ElsColumnEnum" },
+  __name: "TableColumnEnum",
+  props: {
+    enumData: {},
+    enumShowType: { default: "Description" },
+    enumEqualType: { default: "Value" },
+    enumNoneLabel: { default: "未知" }
+  },
+  setup(__props) {
+    const props = __props;
+    const slots = useSlots();
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(_sfc_main$Y, mergeProps({ type: "enum" }, props), createSlots({ _: 2 }, [
+        unref(slots).default ? {
+          name: "default",
+          fn: withCtx(({ row, $index }) => [
+            renderSlot(_ctx.$slots, "default", {
+              row,
+              $index
+            })
+          ]),
+          key: "0"
+        } : void 0,
+        unref(slots).edit ? {
+          name: "edit",
+          fn: withCtx(({ row, $index }) => [
+            renderSlot(_ctx.$slots, "edit", {
+              row,
+              $index
+            })
+          ]),
+          key: "1"
+        } : void 0
+      ]), 1040);
+    };
+  }
+});
+_sfc_main$U.install = (app) => {
+  app.component(_sfc_main$U.__name, _sfc_main$U);
+};
+const _sfc_main$T = /* @__PURE__ */ defineComponent({
+  ...{ name: "ElsColumnExpand" },
+  __name: "TableColumnExpand",
+  setup(__props) {
+    const slots = useSlots();
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(_sfc_main$Y, {
+        type: "expand",
+        isExport: false
+      }, createSlots({ _: 2 }, [
+        unref(slots).default ? {
+          name: "default",
+          fn: withCtx(({ row, $index }) => [
+            renderSlot(_ctx.$slots, "default", {
+              row,
+              $index
+            })
+          ]),
+          key: "0"
+        } : void 0
+      ]), 1024);
+    };
+  }
+});
+_sfc_main$T.install = (app) => {
+  app.component(_sfc_main$T.__name, _sfc_main$T);
+};
+const _sfc_main$S = /* @__PURE__ */ defineComponent({
+  ...{ name: "ElsColumnHeader" },
+  __name: "TableColumnHeader",
+  setup(__props) {
+    const slots = useSlots();
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(_sfc_main$Y, { type: "header" }, createSlots({ _: 2 }, [
+        unref(slots).default ? {
+          name: "default",
+          fn: withCtx(({ row, $index }) => [
+            renderSlot(_ctx.$slots, "default", {
+              row,
+              $index
+            })
+          ]),
+          key: "0"
+        } : void 0
+      ]), 1024);
+    };
+  }
+});
+_sfc_main$S.install = (app) => {
+  app.component(_sfc_main$S.__name, _sfc_main$S);
+};
+const _sfc_main$R = /* @__PURE__ */ defineComponent({
+  ...{ name: "ElsColumnImage" },
+  __name: "TableColumnImage",
+  setup(__props) {
+    const slots = useSlots();
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(_sfc_main$Y, {
+        type: "image",
+        width: "100"
       }, createSlots({ _: 2 }, [
         unref(slots).default ? {
           name: "default",
@@ -5847,135 +5982,6 @@ _sfc_main$R.install = (app) => {
   app.component(_sfc_main$R.__name, _sfc_main$R);
 };
 const _sfc_main$Q = /* @__PURE__ */ defineComponent({
-  ...{ name: "ElsColumnEnum" },
-  __name: "TableColumnEnum",
-  props: {
-    enumData: {},
-    enumShowType: { default: "Description" },
-    enumEqualType: { default: "Value" },
-    enumNoneLabel: { default: "未知" }
-  },
-  setup(__props) {
-    const props = __props;
-    const slots = useSlots();
-    return (_ctx, _cache) => {
-      return openBlock(), createBlock(_sfc_main$U, mergeProps({ type: "enum" }, props), createSlots({ _: 2 }, [
-        unref(slots).default ? {
-          name: "default",
-          fn: withCtx(({ row, $index }) => [
-            renderSlot(_ctx.$slots, "default", {
-              row,
-              $index
-            })
-          ]),
-          key: "0"
-        } : void 0,
-        unref(slots).edit ? {
-          name: "edit",
-          fn: withCtx(({ row, $index }) => [
-            renderSlot(_ctx.$slots, "edit", {
-              row,
-              $index
-            })
-          ]),
-          key: "1"
-        } : void 0
-      ]), 1040);
-    };
-  }
-});
-_sfc_main$Q.install = (app) => {
-  app.component(_sfc_main$Q.__name, _sfc_main$Q);
-};
-const _sfc_main$P = /* @__PURE__ */ defineComponent({
-  ...{ name: "ElsColumnExpand" },
-  __name: "TableColumnExpand",
-  setup(__props) {
-    const slots = useSlots();
-    return (_ctx, _cache) => {
-      return openBlock(), createBlock(_sfc_main$U, {
-        type: "expand",
-        isExport: false
-      }, createSlots({ _: 2 }, [
-        unref(slots).default ? {
-          name: "default",
-          fn: withCtx(({ row, $index }) => [
-            renderSlot(_ctx.$slots, "default", {
-              row,
-              $index
-            })
-          ]),
-          key: "0"
-        } : void 0
-      ]), 1024);
-    };
-  }
-});
-_sfc_main$P.install = (app) => {
-  app.component(_sfc_main$P.__name, _sfc_main$P);
-};
-const _sfc_main$O = /* @__PURE__ */ defineComponent({
-  ...{ name: "ElsColumnHeader" },
-  __name: "TableColumnHeader",
-  setup(__props) {
-    const slots = useSlots();
-    return (_ctx, _cache) => {
-      return openBlock(), createBlock(_sfc_main$U, { type: "header" }, createSlots({ _: 2 }, [
-        unref(slots).default ? {
-          name: "default",
-          fn: withCtx(({ row, $index }) => [
-            renderSlot(_ctx.$slots, "default", {
-              row,
-              $index
-            })
-          ]),
-          key: "0"
-        } : void 0
-      ]), 1024);
-    };
-  }
-});
-_sfc_main$O.install = (app) => {
-  app.component(_sfc_main$O.__name, _sfc_main$O);
-};
-const _sfc_main$N = /* @__PURE__ */ defineComponent({
-  ...{ name: "ElsColumnImage" },
-  __name: "TableColumnImage",
-  setup(__props) {
-    const slots = useSlots();
-    return (_ctx, _cache) => {
-      return openBlock(), createBlock(_sfc_main$U, {
-        type: "image",
-        width: "100"
-      }, createSlots({ _: 2 }, [
-        unref(slots).default ? {
-          name: "default",
-          fn: withCtx(({ row, $index }) => [
-            renderSlot(_ctx.$slots, "default", {
-              row,
-              $index
-            })
-          ]),
-          key: "0"
-        } : void 0,
-        unref(slots).edit ? {
-          name: "edit",
-          fn: withCtx(({ row, $index }) => [
-            renderSlot(_ctx.$slots, "edit", {
-              row,
-              $index
-            })
-          ]),
-          key: "1"
-        } : void 0
-      ]), 1024);
-    };
-  }
-});
-_sfc_main$N.install = (app) => {
-  app.component(_sfc_main$N.__name, _sfc_main$N);
-};
-const _sfc_main$M = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsColumnOperate" },
   __name: "TableColumnOperate",
   props: {
@@ -5985,7 +5991,7 @@ const _sfc_main$M = /* @__PURE__ */ defineComponent({
   setup(__props) {
     const slots = useSlots();
     return (_ctx, _cache) => {
-      return openBlock(), createBlock(_sfc_main$U, {
+      return openBlock(), createBlock(_sfc_main$Y, {
         label: "操作",
         type: "operate",
         width: "100",
@@ -6007,10 +6013,10 @@ const _sfc_main$M = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$M.install = (app) => {
-  app.component(_sfc_main$M.__name, _sfc_main$M);
+_sfc_main$Q.install = (app) => {
+  app.component(_sfc_main$Q.__name, _sfc_main$Q);
 };
-const _sfc_main$L = /* @__PURE__ */ defineComponent({
+const _sfc_main$P = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsColumnSelect" },
   __name: "TableColumnSelect",
   props: {
@@ -6019,7 +6025,7 @@ const _sfc_main$L = /* @__PURE__ */ defineComponent({
   setup(__props) {
     const slots = useSlots();
     return (_ctx, _cache) => {
-      return openBlock(), createBlock(_sfc_main$U, {
+      return openBlock(), createBlock(_sfc_main$Y, {
         type: "select",
         label: "操作",
         width: "120",
@@ -6040,12 +6046,12 @@ const _sfc_main$L = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$L.install = (app) => {
-  app.component(_sfc_main$L.__name, _sfc_main$L);
+_sfc_main$P.install = (app) => {
+  app.component(_sfc_main$P.__name, _sfc_main$P);
 };
-const _hoisted_1$w = { class: "els-node" };
-const _hoisted_2$f = ["onDblclick"];
-const _sfc_main$K = /* @__PURE__ */ defineComponent({
+const _hoisted_1$y = { class: "els-node" };
+const _hoisted_2$g = ["onDblclick"];
+const _sfc_main$O = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsTreeSelect", inheritAttrs: false },
   __name: "TreeSelect",
   props: {
@@ -6577,7 +6583,7 @@ const _sfc_main$K = /* @__PURE__ */ defineComponent({
       const _component_el_tree_select = resolveComponent("el-tree-select");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
       const _directive_loading = resolveDirective("loading");
-      return openBlock(), createElementBlock("div", _hoisted_1$w, [
+      return openBlock(), createElementBlock("div", _hoisted_1$y, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => [
             withDirectives((openBlock(), createBlock(_component_el_tree_select, mergeProps({
@@ -6608,7 +6614,7 @@ const _sfc_main$K = /* @__PURE__ */ defineComponent({
                   unref(currMultiple) ? (openBlock(), createElementBlock("span", {
                     key: 0,
                     onDblclick: ($event) => handleAllSelect(node)
-                  }, toDisplayString(node.label), 41, _hoisted_2$f)) : (openBlock(), createElementBlock("span", {
+                  }, toDisplayString(node.label), 41, _hoisted_2$g)) : (openBlock(), createElementBlock("span", {
                     key: 1,
                     class: normalizeClass({ "els-tree-selected": viewData.value && viewData.value[_ctx.valueField] == data.sourceData[_ctx.valueField] })
                   }, [
@@ -6634,13 +6640,13 @@ const _sfc_main$K = /* @__PURE__ */ defineComponent({
   }
 });
 const TreeSelect_vue_vue_type_style_index_0_scoped_4feb0803_lang = "";
-const TreeSelect = /* @__PURE__ */ _export_sfc(_sfc_main$K, [["__scopeId", "data-v-4feb0803"]]);
+const TreeSelect = /* @__PURE__ */ _export_sfc(_sfc_main$O, [["__scopeId", "data-v-4feb0803"]]);
 TreeSelect.install = (app) => {
   app.component(TreeSelect.__name, TreeSelect);
 };
-const _hoisted_1$v = { class: "els-node" };
-const _hoisted_2$e = ["onDblclick"];
-const _sfc_main$J = /* @__PURE__ */ defineComponent({
+const _hoisted_1$x = { class: "els-node" };
+const _hoisted_2$f = ["onDblclick"];
+const _sfc_main$N = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsTree", inheritAttrs: false },
   __name: "Tree",
   props: {
@@ -7225,7 +7231,7 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
       const _component_el_tree = resolveComponent("el-tree");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
       const _directive_loading = resolveDirective("loading");
-      return openBlock(), createElementBlock("div", _hoisted_1$v, [
+      return openBlock(), createElementBlock("div", _hoisted_1$x, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => [
             _ctx.filterable ? (openBlock(), createBlock(_component_el_input, {
@@ -7277,7 +7283,7 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
                   }, () => [
                     createTextVNode(toDisplayString(node.label), 1)
                   ], true)
-                ], 42, _hoisted_2$e)) : (openBlock(), createElementBlock("div", {
+                ], 42, _hoisted_2$f)) : (openBlock(), createElementBlock("div", {
                   key: 1,
                   class: normalizeClass({ "els-tree-selected ": viewData.value && viewData.value[_ctx.valueField] == data.sourceData[_ctx.valueField] })
                 }, [
@@ -7309,15 +7315,15 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
   }
 });
 const Tree_vue_vue_type_style_index_0_scoped_ab7b090f_lang = "";
-const Tree = /* @__PURE__ */ _export_sfc(_sfc_main$J, [["__scopeId", "data-v-ab7b090f"]]);
+const Tree = /* @__PURE__ */ _export_sfc(_sfc_main$N, [["__scopeId", "data-v-ab7b090f"]]);
 Tree.install = (app) => {
   app.component(Tree.__name, Tree);
 };
-const _hoisted_1$u = {
+const _hoisted_1$w = {
   key: 0,
   class: "menu-filterable"
 };
-const _sfc_main$I = /* @__PURE__ */ defineComponent({
+const _sfc_main$M = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsMenu" },
   __name: "Menu",
   props: {
@@ -7539,7 +7545,7 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
           renderSlot(_ctx.$slots, "default"),
           createVNode(_component_el_collapse_transition, null, {
             default: withCtx(() => [
-              _ctx.filterable ? (openBlock(), createElementBlock("span", _hoisted_1$u, [
+              _ctx.filterable ? (openBlock(), createElementBlock("span", _hoisted_1$w, [
                 createVNode(_component_el_input, {
                   modelValue: searchKey.value,
                   "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => searchKey.value = $event),
@@ -7565,14 +7571,14 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$I.install = (app) => {
-  app.component(_sfc_main$I.__name, _sfc_main$I);
+_sfc_main$M.install = (app) => {
+  app.component(_sfc_main$M.__name, _sfc_main$M);
 };
-const _hoisted_1$t = ["title"];
-const _hoisted_2$d = ["title"];
+const _hoisted_1$v = ["title"];
+const _hoisted_2$e = ["title"];
 const _hoisted_3$8 = { key: 0 };
-const _hoisted_4$4 = ["title"];
-const _sfc_main$H = /* @__PURE__ */ defineComponent({
+const _hoisted_4$5 = ["title"];
+const _sfc_main$L = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsMenuItem" },
   __name: "MenuItem",
   props: {
@@ -7609,7 +7615,7 @@ const _sfc_main$H = /* @__PURE__ */ defineComponent({
             _ctx.item.label ? (openBlock(), createElementBlock("span", {
               key: 0,
               title: _ctx.item.label
-            }, toDisplayString(_ctx.item.label), 9, _hoisted_1$t)) : createCommentVNode("", true)
+            }, toDisplayString(_ctx.item.label), 9, _hoisted_1$v)) : createCommentVNode("", true)
           ]),
           default: withCtx(() => [
             _ctx.item.icon ? (openBlock(), createElementBlock("i", {
@@ -7635,7 +7641,7 @@ const _sfc_main$H = /* @__PURE__ */ defineComponent({
               _ctx.item.label ? (openBlock(), createElementBlock("span", {
                 key: 1,
                 title: _ctx.item.label
-              }, toDisplayString(_ctx.item.label), 9, _hoisted_2$d)) : createCommentVNode("", true)
+              }, toDisplayString(_ctx.item.label), 9, _hoisted_2$e)) : createCommentVNode("", true)
             ], 2)
           ]),
           default: withCtx(() => [
@@ -7656,7 +7662,7 @@ const _sfc_main$H = /* @__PURE__ */ defineComponent({
                       citem.label ? (openBlock(), createElementBlock("span", {
                         key: 0,
                         title: citem.label
-                      }, toDisplayString(citem.label), 9, _hoisted_4$4)) : createCommentVNode("", true)
+                      }, toDisplayString(citem.label), 9, _hoisted_4$5)) : createCommentVNode("", true)
                     ]),
                     default: withCtx(() => [
                       _ctx.item.icon ? (openBlock(), createElementBlock("i", {
@@ -7676,10 +7682,10 @@ const _sfc_main$H = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$H.install = (app) => {
-  app.component(_sfc_main$H.__name, _sfc_main$H);
+_sfc_main$L.install = (app) => {
+  app.component(_sfc_main$L.__name, _sfc_main$L);
 };
-const _sfc_main$G = /* @__PURE__ */ defineComponent({
+const _sfc_main$K = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsSubMenu" },
   __name: "SubMenu",
   props: {
@@ -7702,11 +7708,11 @@ const _sfc_main$G = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$G.install = (app) => {
-  app.component(_sfc_main$G.__name, _sfc_main$G);
+_sfc_main$K.install = (app) => {
+  app.component(_sfc_main$K.__name, _sfc_main$K);
 };
-const _hoisted_1$s = { class: "els-node" };
-const _sfc_main$F = /* @__PURE__ */ defineComponent({
+const _hoisted_1$u = { class: "els-node" };
+const _sfc_main$J = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsSwitch",
     inheritAttrs: false
@@ -7764,7 +7770,7 @@ const _sfc_main$F = /* @__PURE__ */ defineComponent({
     return (_ctx, _cache) => {
       const _component_el_switch = resolveComponent("el-switch");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
-      return openBlock(), createElementBlock("div", _hoisted_1$s, [
+      return openBlock(), createElementBlock("div", _hoisted_1$u, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => [
             createVNode(_component_el_switch, mergeProps({
@@ -7780,14 +7786,14 @@ const _sfc_main$F = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$F.install = (app) => {
-  app.component(_sfc_main$F.__name, _sfc_main$F);
+_sfc_main$J.install = (app) => {
+  app.component(_sfc_main$J.__name, _sfc_main$J);
 };
-const _hoisted_1$r = {
+const _hoisted_1$t = {
   key: 0,
   class: "leo_image_empty"
 };
-const _hoisted_2$c = ["width"];
+const _hoisted_2$d = ["width"];
 const _hoisted_3$7 = /* @__PURE__ */ createElementVNode("path", {
   d: "M345.15968 357.80096a48.54784 48.54784 0 1 0 48.52736 48.54784 48.58368 48.58368 0 0 0-48.52736-48.54784zM844.68736 174.08H184.43264A102.656 102.656 0 0 0 81.92 276.64896v470.70208A102.656 102.656 0 0 0 184.43264 849.92h660.25472A102.65088 102.65088 0 0 0 947.2 747.35104V276.64896A102.65088 102.65088 0 0 0 844.68736 174.08zM345.15968 295.02976a111.32416 111.32416 0 1 1-111.2576 111.31904 111.42144 111.42144 0 0 1 111.2576-111.31904z m-72.45312 444.544l-42.496-46.17728 174.71488-161.0496L483.88096 611.328l-44.35968 44.39552-36.38272-36.4032z m517.6064-25.12896l-134.55872-151.552-171.12064 183.42912L438.784 703.488l218.112-233.82016 180.3264 203.10016z",
   fill: "#7da3cc",
@@ -7795,11 +7801,11 @@ const _hoisted_3$7 = /* @__PURE__ */ createElementVNode("path", {
   "data-spm-anchor-id": "a313x.7781069.0.i10",
   class: "selected"
 }, null, -1);
-const _hoisted_4$3 = [
+const _hoisted_4$4 = [
   _hoisted_3$7
 ];
-const _hoisted_5$3 = ["innerHTML"];
-const _sfc_main$E = /* @__PURE__ */ defineComponent({
+const _hoisted_5$4 = ["innerHTML"];
+const _sfc_main$I = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsImage", inheritAttrs: false },
   __name: "Image",
   props: {
@@ -7852,7 +7858,7 @@ const _sfc_main$E = /* @__PURE__ */ defineComponent({
       const _component_el_image = resolveComponent("el-image");
       const _component_els_image_viewer = resolveComponent("els-image-viewer");
       return openBlock(), createElementBlock(Fragment, null, [
-        !_ctx.url ? (openBlock(), createElementBlock("div", _hoisted_1$r, [
+        !_ctx.url ? (openBlock(), createElementBlock("div", _hoisted_1$t, [
           (openBlock(), createElementBlock("svg", {
             t: "1626166549727",
             class: "icon",
@@ -7861,12 +7867,12 @@ const _sfc_main$E = /* @__PURE__ */ defineComponent({
             xmlns: "http://www.w3.org/2000/svg",
             "p-id": "4592",
             width: _ctx.width
-          }, _hoisted_4$3, 8, _hoisted_2$c)),
+          }, _hoisted_4$4, 8, _hoisted_2$d)),
           _ctx.emptyDesc ? (openBlock(), createElementBlock("div", {
             key: 0,
             innerHTML: _ctx.emptyDesc,
             class: "leo_image_empty_desc"
-          }, null, 8, _hoisted_5$3)) : createCommentVNode("", true)
+          }, null, 8, _hoisted_5$4)) : createCommentVNode("", true)
         ])) : (openBlock(true), createElementBlock(Fragment, { key: 1 }, renderList(thumbnailPicUrls.value, (item, index) => {
           return openBlock(), createBlock(_component_el_image, mergeProps({ src: item }, unref(attrs), {
             style: [{ width: _ctx.width }, { height: _ctx.height }, { cursor: _ctx.isPreview ? "zoom-in" : "default" }],
@@ -7910,10 +7916,10 @@ const _sfc_main$E = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$E.install = (app) => {
-  app.component(_sfc_main$E.__name, _sfc_main$E);
+_sfc_main$I.install = (app) => {
+  app.component(_sfc_main$I.__name, _sfc_main$I);
 };
-const _sfc_main$D = /* @__PURE__ */ defineComponent({
+const _sfc_main$H = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsImageViewer" },
   __name: "ImageViewer",
   props: {
@@ -7950,11 +7956,11 @@ const _sfc_main$D = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$D.install = (app) => {
-  app.component(_sfc_main$D.__name, _sfc_main$D);
+_sfc_main$H.install = (app) => {
+  app.component(_sfc_main$H.__name, _sfc_main$H);
 };
-const _hoisted_1$q = { class: "els-node" };
-const _sfc_main$C = /* @__PURE__ */ defineComponent({
+const _hoisted_1$s = { class: "els-node" };
+const _sfc_main$G = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsAutocomplete", inheritAttrs: false },
   __name: "Autocomplete",
   props: {
@@ -8061,7 +8067,7 @@ const _sfc_main$C = /* @__PURE__ */ defineComponent({
     return (_ctx, _cache) => {
       const _component_el_autocomplete = resolveComponent("el-autocomplete");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
-      return openBlock(), createElementBlock("div", _hoisted_1$q, [
+      return openBlock(), createElementBlock("div", _hoisted_1$s, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => {
             var _a;
@@ -8117,11 +8123,11 @@ const _sfc_main$C = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$C.install = (app) => {
-  app.component(_sfc_main$C.__name, _sfc_main$C);
+_sfc_main$G.install = (app) => {
+  app.component(_sfc_main$G.__name, _sfc_main$G);
 };
-const _hoisted_1$p = { class: "els-node" };
-const _sfc_main$B = /* @__PURE__ */ defineComponent({
+const _hoisted_1$r = { class: "els-node" };
+const _sfc_main$F = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsCascader", inheritAttrs: false },
   __name: "Cascader",
   props: {
@@ -8392,7 +8398,7 @@ const _sfc_main$B = /* @__PURE__ */ defineComponent({
     }
     return (_ctx, _cache) => {
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
-      return openBlock(), createElementBlock("div", _hoisted_1$p, [
+      return openBlock(), createElementBlock("div", _hoisted_1$r, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => [
             (openBlock(), createBlock(resolveDynamicComponent(componentName.value), {
@@ -8421,10 +8427,10 @@ const _sfc_main$B = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$B.install = (app) => {
-  app.component(_sfc_main$B.__name, _sfc_main$B);
+_sfc_main$F.install = (app) => {
+  app.component(_sfc_main$F.__name, _sfc_main$F);
 };
-const _sfc_main$A = /* @__PURE__ */ defineComponent({
+const _sfc_main$E = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsCascaderPanel" },
   __name: "CascaderPannel",
   props: {
@@ -8487,12 +8493,12 @@ const _sfc_main$A = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$A.install = (app) => {
-  app.component(_sfc_main$A.__name, _sfc_main$A);
+_sfc_main$E.install = (app) => {
+  app.component(_sfc_main$E.__name, _sfc_main$E);
 };
-const _hoisted_1$o = { class: "dialog-content" };
-const _hoisted_2$b = ["src"];
-const _sfc_main$z = /* @__PURE__ */ defineComponent({
+const _hoisted_1$q = { class: "dialog-content" };
+const _hoisted_2$c = ["src"];
+const _sfc_main$D = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsDialog"
   },
@@ -8557,13 +8563,13 @@ const _sfc_main$z = /* @__PURE__ */ defineComponent({
       }, createSlots({
         default: withCtx(() => [
           renderSlot(_ctx.$slots, "default", {}, () => [
-            withDirectives((openBlock(), createElementBlock("div", _hoisted_1$o, [
+            withDirectives((openBlock(), createElementBlock("div", _hoisted_1$q, [
               _ctx.url ? (openBlock(), createElementBlock("iframe", {
                 key: 0,
                 src: dialogUrl.value,
                 frameborder: "0",
                 style: normalizeStyle(contentStyle.value)
-              }, null, 12, _hoisted_2$b)) : createCommentVNode("", true)
+              }, null, 12, _hoisted_2$c)) : createCommentVNode("", true)
             ])), [
               [_directive_loading, pageLoading.value]
             ])
@@ -8589,11 +8595,11 @@ const _sfc_main$z = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$z.install = (app) => {
-  app.component(_sfc_main$z.__name, _sfc_main$z);
+_sfc_main$D.install = (app) => {
+  app.component(_sfc_main$D.__name, _sfc_main$D);
 };
-const _hoisted_1$n = ["src"];
-const _sfc_main$y = /* @__PURE__ */ defineComponent({
+const _hoisted_1$p = ["src"];
+const _sfc_main$C = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsDrawer"
   },
@@ -8642,7 +8648,7 @@ const _sfc_main$y = /* @__PURE__ */ defineComponent({
               src: _ctx.url,
               frameborder: "0",
               style: { "height": "calc(100vh - 48px)", "width": "100%" }
-            }, null, 8, _hoisted_1$n)) : createCommentVNode("", true)
+            }, null, 8, _hoisted_1$p)) : createCommentVNode("", true)
           ])
         ]),
         _: 2
@@ -8665,11 +8671,11 @@ const _sfc_main$y = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$y.install = (app) => {
-  app.component(_sfc_main$y.__name, _sfc_main$y);
+_sfc_main$C.install = (app) => {
+  app.component(_sfc_main$C.__name, _sfc_main$C);
 };
-const _hoisted_1$m = { class: "el-dropdown-link" };
-const _sfc_main$x = /* @__PURE__ */ defineComponent({
+const _hoisted_1$o = { class: "el-dropdown-link" };
+const _sfc_main$B = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsDropdown"
   },
@@ -8748,7 +8754,7 @@ const _sfc_main$x = /* @__PURE__ */ defineComponent({
         ]),
         default: withCtx(() => [
           renderSlot(_ctx.$slots, "default", {}, () => [
-            createElementVNode("span", _hoisted_1$m, [
+            createElementVNode("span", _hoisted_1$o, [
               createTextVNode(toDisplayString(_ctx.title) + " ", 1),
               createVNode(_component_el_icon, { class: "el-icon--right" }, {
                 default: withCtx(() => [
@@ -8764,10 +8770,10 @@ const _sfc_main$x = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$x.install = (app) => {
-  app.component(_sfc_main$x.__name, _sfc_main$x);
+_sfc_main$B.install = (app) => {
+  app.component(_sfc_main$B.__name, _sfc_main$B);
 };
-const _sfc_main$w = /* @__PURE__ */ defineComponent({
+const _sfc_main$A = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsSlider" },
   __name: "Slider",
   props: {
@@ -8845,11 +8851,11 @@ const _sfc_main$w = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$w.install = (app) => {
-  app.component(_sfc_main$w.__name, _sfc_main$w);
+_sfc_main$A.install = (app) => {
+  app.component(_sfc_main$A.__name, _sfc_main$A);
 };
-const _hoisted_1$l = { class: "els-node" };
-const _sfc_main$v = /* @__PURE__ */ defineComponent({
+const _hoisted_1$n = { class: "els-node" };
+const _sfc_main$z = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsInputNumber",
     inheritAttrs: false
@@ -8909,7 +8915,7 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
     return (_ctx, _cache) => {
       const _component_el_input_number = resolveComponent("el-input-number");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
-      return openBlock(), createElementBlock("div", _hoisted_1$l, [
+      return openBlock(), createElementBlock("div", _hoisted_1$n, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => {
             var _a;
@@ -8927,17 +8933,17 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$v.install = (app) => {
-  app.component(_sfc_main$v.__name, _sfc_main$v);
+_sfc_main$z.install = (app) => {
+  app.component(_sfc_main$z.__name, _sfc_main$z);
 };
-const _hoisted_1$k = { class: "els-node" };
-const _hoisted_2$a = { class: "els_upload_container" };
+const _hoisted_1$m = { class: "els-node" };
+const _hoisted_2$b = { class: "els_upload_container" };
 const _hoisted_3$6 = { class: "elsupload-img" };
-const _hoisted_4$2 = ["src"];
-const _hoisted_5$2 = { class: "els_upload-menus" };
-const _hoisted_6$2 = ["width", "height", "src"];
-const _hoisted_7$2 = { class: "els_upload-menus" };
-const _sfc_main$u = /* @__PURE__ */ defineComponent({
+const _hoisted_4$3 = ["src"];
+const _hoisted_5$3 = { class: "els_upload-menus" };
+const _hoisted_6$3 = ["width", "height", "src"];
+const _hoisted_7$3 = { class: "els_upload-menus" };
+const _sfc_main$y = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsUpload",
     inheritAttrs: false
@@ -9223,10 +9229,10 @@ const _sfc_main$u = /* @__PURE__ */ defineComponent({
       const _component_el_upload = resolveComponent("el-upload");
       const _component_els_image_viewer = resolveComponent("els-image-viewer");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
-      return openBlock(), createElementBlock("div", _hoisted_1$k, [
+      return openBlock(), createElementBlock("div", _hoisted_1$m, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => [
-            createElementVNode("div", _hoisted_2$a, [
+            createElementVNode("div", _hoisted_2$b, [
               createVNode(_component_el_upload, mergeProps({
                 ref_key: "fileUpload",
                 ref: fileUpload,
@@ -9282,9 +9288,9 @@ const _sfc_main$u = /* @__PURE__ */ defineComponent({
                           createElementVNode("img", {
                             src: fileUrl.value,
                             class: "avatar"
-                          }, null, 8, _hoisted_4$2)
+                          }, null, 8, _hoisted_4$3)
                         ]),
-                        createElementVNode("div", _hoisted_5$2, [
+                        createElementVNode("div", _hoisted_5$3, [
                           createVNode(_component_el_icon, {
                             onClick: _cache[1] || (_cache[1] = withModifiers(($event) => showVisible.value = true, ["stop"]))
                           }, {
@@ -9381,8 +9387,8 @@ const _sfc_main$u = /* @__PURE__ */ defineComponent({
                           width: _ctx.width,
                           height: _ctx.height,
                           src: file.url
-                        }, null, 8, _hoisted_6$2),
-                        createElementVNode("span", _hoisted_7$2, [
+                        }, null, 8, _hoisted_6$3),
+                        createElementVNode("span", _hoisted_7$3, [
                           createVNode(_component_el_icon, {
                             onClick: ($event) => handlePreview(file)
                           }, {
@@ -9437,11 +9443,11 @@ const _sfc_main$u = /* @__PURE__ */ defineComponent({
   }
 });
 const Upload_vue_vue_type_style_index_0_lang = "";
-_sfc_main$u.install = (app) => {
-  app.component(_sfc_main$u.__name, _sfc_main$u);
+_sfc_main$y.install = (app) => {
+  app.component(_sfc_main$y.__name, _sfc_main$y);
 };
-const _hoisted_1$j = { class: "els-node" };
-const _sfc_main$t = /* @__PURE__ */ defineComponent({
+const _hoisted_1$l = { class: "els-node" };
+const _sfc_main$x = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsTimePicker",
     inheritAttrs: false
@@ -9715,7 +9721,7 @@ const _sfc_main$t = /* @__PURE__ */ defineComponent({
     return (_ctx, _cache) => {
       const _component_el_time_picker = resolveComponent("el-time-picker");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
-      return openBlock(), createElementBlock("div", _hoisted_1$j, [
+      return openBlock(), createElementBlock("div", _hoisted_1$l, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => [
             createVNode(_component_el_time_picker, {
@@ -9735,11 +9741,11 @@ const _sfc_main$t = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$t.install = (app) => {
-  app.component(_sfc_main$t.__name, _sfc_main$t);
+_sfc_main$x.install = (app) => {
+  app.component(_sfc_main$x.__name, _sfc_main$x);
 };
-const _hoisted_1$i = { class: "els-node" };
-const _sfc_main$s = /* @__PURE__ */ defineComponent({
+const _hoisted_1$k = { class: "els-node" };
+const _sfc_main$w = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsTimePickerRange", inheritAttrs: false },
   __name: "TimePickerRange",
   props: {
@@ -9845,7 +9851,7 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
       const _component_els_time_picker = resolveComponent("els-time-picker");
       const _component_el_space = resolveComponent("el-space");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
-      return openBlock(), createElementBlock("div", _hoisted_1$i, [
+      return openBlock(), createElementBlock("div", _hoisted_1$k, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => [
             _ctx.single ? (openBlock(), createBlock(_component_els_time_picker, mergeProps({
@@ -9900,11 +9906,11 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$s.install = (app) => {
-  app.component(_sfc_main$s.__name, _sfc_main$s);
+_sfc_main$w.install = (app) => {
+  app.component(_sfc_main$w.__name, _sfc_main$w);
 };
-const _hoisted_1$h = { class: "els-node" };
-const _sfc_main$r = /* @__PURE__ */ defineComponent({
+const _hoisted_1$j = { class: "els-node" };
+const _sfc_main$v = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsDatePicker", inheritAttrs: false },
   __name: "DatePicker",
   props: {
@@ -10339,7 +10345,7 @@ const _sfc_main$r = /* @__PURE__ */ defineComponent({
     return (_ctx, _cache) => {
       const _component_el_date_picker = resolveComponent("el-date-picker");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
-      return openBlock(), createElementBlock("div", _hoisted_1$h, [
+      return openBlock(), createElementBlock("div", _hoisted_1$j, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => [
             createVNode(_component_el_date_picker, mergeProps({
@@ -10368,11 +10374,11 @@ const _sfc_main$r = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$r.install = (app) => {
-  app.component(_sfc_main$r.__name, _sfc_main$r);
+_sfc_main$v.install = (app) => {
+  app.component(_sfc_main$v.__name, _sfc_main$v);
 };
-const _hoisted_1$g = { class: "els-node" };
-const _sfc_main$q = /* @__PURE__ */ defineComponent({
+const _hoisted_1$i = { class: "els-node" };
+const _sfc_main$u = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsDatePickerRange", inheritAttrs: false },
   __name: "DatePickerRange",
   props: {
@@ -10468,7 +10474,7 @@ const _sfc_main$q = /* @__PURE__ */ defineComponent({
       const _component_els_date_picker = resolveComponent("els-date-picker");
       const _component_el_space = resolveComponent("el-space");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
-      return openBlock(), createElementBlock("div", _hoisted_1$g, [
+      return openBlock(), createElementBlock("div", _hoisted_1$i, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => [
             _ctx.single ? (openBlock(), createBlock(_component_els_date_picker, mergeProps({
@@ -10520,11 +10526,11 @@ const _sfc_main$q = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$q.install = (app) => {
-  app.component(_sfc_main$q.__name, _sfc_main$q);
+_sfc_main$u.install = (app) => {
+  app.component(_sfc_main$u.__name, _sfc_main$u);
 };
-const _hoisted_1$f = { key: 0 };
-const _sfc_main$p = /* @__PURE__ */ defineComponent({
+const _hoisted_1$h = { key: 0 };
+const _sfc_main$t = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsCollapseTransition" },
   __name: "CollapseTransition",
   props: {
@@ -10535,7 +10541,7 @@ const _sfc_main$p = /* @__PURE__ */ defineComponent({
       const _component_el_collapse_transition = resolveComponent("el-collapse-transition");
       return openBlock(), createBlock(_component_el_collapse_transition, null, {
         default: withCtx(() => [
-          _ctx.visible ? (openBlock(), createElementBlock("div", _hoisted_1$f, [
+          _ctx.visible ? (openBlock(), createElementBlock("div", _hoisted_1$h, [
             renderSlot(_ctx.$slots, "default")
           ])) : createCommentVNode("", true)
         ]),
@@ -10544,12 +10550,12 @@ const _sfc_main$p = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$p.install = (app) => {
-  app.component(_sfc_main$p.__name, _sfc_main$p);
+_sfc_main$t.install = (app) => {
+  app.component(_sfc_main$t.__name, _sfc_main$t);
 };
-const _hoisted_1$e = ["onClick"];
-const _hoisted_2$9 = { class: "air-table__context--info" };
-const _sfc_main$o = /* @__PURE__ */ defineComponent({
+const _hoisted_1$g = ["onClick"];
+const _hoisted_2$a = { class: "air-table__context--info" };
+const _sfc_main$s = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsMenuContext" },
   __name: "MenuContext",
   props: {
@@ -10623,8 +10629,8 @@ const _sfc_main$o = /* @__PURE__ */ defineComponent({
             createElementVNode("i", {
               class: normalizeClass(item[unref(iconFieldname)])
             }, null, 2),
-            createElementVNode("span", _hoisted_2$9, toDisplayString(item[unref(nameFieldname)]), 1)
-          ], 8, _hoisted_1$e);
+            createElementVNode("span", _hoisted_2$a, toDisplayString(item[unref(nameFieldname)]), 1)
+          ], 8, _hoisted_1$g);
         }), 128))
       ], 6)), [
         [vShow, _ctx.visible]
@@ -10633,17 +10639,17 @@ const _sfc_main$o = /* @__PURE__ */ defineComponent({
   }
 });
 const MenuContext_vue_vue_type_style_index_0_scoped_6cd6ce9d_lang = "";
-const MenuContext = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["__scopeId", "data-v-6cd6ce9d"]]);
+const MenuContext = /* @__PURE__ */ _export_sfc(_sfc_main$s, [["__scopeId", "data-v-6cd6ce9d"]]);
 MenuContext.install = (app) => {
   app.component(MenuContext.__name, MenuContext);
 };
-const _hoisted_1$d = {
+const _hoisted_1$f = {
   key: 0,
   class: "els-table-operate"
 };
-const _hoisted_2$8 = { class: "els-table-operate-link" };
+const _hoisted_2$9 = { class: "els-table-operate-link" };
 const _hoisted_3$5 = ["onClick"];
-const _sfc_main$n = /* @__PURE__ */ defineComponent({
+const _sfc_main$r = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsMenuDropdown" },
   __name: "MenuDropdown",
   props: {
@@ -10699,7 +10705,7 @@ const _sfc_main$n = /* @__PURE__ */ defineComponent({
       const _component_el_dropdown_menu = resolveComponent("el-dropdown-menu");
       const _component_el_dropdown = resolveComponent("el-dropdown");
       const _component_el_dialog = resolveComponent("el-dialog");
-      return unref(nameFieldname) ? (openBlock(), createElementBlock("div", _hoisted_1$d, [
+      return unref(nameFieldname) ? (openBlock(), createElementBlock("div", _hoisted_1$f, [
         _ctx.isMobile ? (openBlock(), createBlock(_component_el_link, {
           key: 0,
           type: "primary",
@@ -10749,7 +10755,7 @@ const _sfc_main$n = /* @__PURE__ */ defineComponent({
               })
             ]),
             default: withCtx(() => [
-              createElementVNode("span", _hoisted_2$8, [
+              createElementVNode("span", _hoisted_2$9, [
                 createTextVNode(toDisplayString(_ctx.unFoldCount > 0 ? "更多操作" : "操作") + " ", 1),
                 createVNode(_component_el_icon, { class: "el-icon--right" }, {
                   default: withCtx(() => [
@@ -10799,26 +10805,26 @@ const _sfc_main$n = /* @__PURE__ */ defineComponent({
   }
 });
 const MenuDropdown_vue_vue_type_style_index_0_scoped_3e5f0c8f_lang = "";
-const MenuDropdown = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["__scopeId", "data-v-3e5f0c8f"]]);
+const MenuDropdown = /* @__PURE__ */ _export_sfc(_sfc_main$r, [["__scopeId", "data-v-3e5f0c8f"]]);
 MenuDropdown.install = (app) => {
   app.component(MenuDropdown.__name, MenuDropdown);
 };
-const _hoisted_1$c = { class: "els-tool-menu" };
-const _hoisted_2$7 = { class: "els-tool-menu-button" };
+const _hoisted_1$e = { class: "els-tool-menu" };
+const _hoisted_2$8 = { class: "els-tool-menu-button" };
 const _hoisted_3$4 = {
   key: 0,
   class: "operationlog"
 };
-const _hoisted_4$1 = /* @__PURE__ */ createElementVNode("i", { class: "el-icon-s-operation" }, null, -1);
-const _hoisted_5$1 = /* @__PURE__ */ createElementVNode("i", { class: "el-icon-check" }, null, -1);
-const _hoisted_6$1 = /* @__PURE__ */ createElementVNode("i", { class: "el-icon-close" }, null, -1);
-const _hoisted_7$1 = { style: { "text-align": "center", "margin-top": "20px" } };
-const _hoisted_8$1 = /* @__PURE__ */ createElementVNode("i", { class: "el-icon-upload" }, null, -1);
-const _hoisted_9$1 = /* @__PURE__ */ createElementVNode("div", { class: "el-upload__text" }, [
+const _hoisted_4$2 = /* @__PURE__ */ createElementVNode("i", { class: "el-icon-s-operation" }, null, -1);
+const _hoisted_5$2 = /* @__PURE__ */ createElementVNode("i", { class: "el-icon-check" }, null, -1);
+const _hoisted_6$2 = /* @__PURE__ */ createElementVNode("i", { class: "el-icon-close" }, null, -1);
+const _hoisted_7$2 = { style: { "text-align": "center", "margin-top": "20px" } };
+const _hoisted_8$2 = /* @__PURE__ */ createElementVNode("i", { class: "el-icon-upload" }, null, -1);
+const _hoisted_9$2 = /* @__PURE__ */ createElementVNode("div", { class: "el-upload__text" }, [
   /* @__PURE__ */ createTextVNode("将文件拖到此处，或"),
   /* @__PURE__ */ createElementVNode("em", null, "点击上传")
 ], -1);
-const _sfc_main$m = /* @__PURE__ */ defineComponent({
+const _sfc_main$q = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsMenuTool" },
   __name: "MenuTool",
   props: {
@@ -11003,8 +11009,8 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
       const _component_el_upload = resolveComponent("el-upload");
       const _component_el_dialog = resolveComponent("el-dialog");
       const _component_els_dialog = resolveComponent("els-dialog");
-      return openBlock(), createElementBlock("div", _hoisted_1$c, [
-        createElementVNode("div", _hoisted_2$7, [
+      return openBlock(), createElementBlock("div", _hoisted_1$e, [
+        createElementVNode("div", _hoisted_2$8, [
           (openBlock(true), createElementBlock(Fragment, null, renderList(menuData, (menu) => {
             return openBlock(), createBlock(_component_el_button, {
               type: menu[unref(buttonColorFieldname)],
@@ -11124,7 +11130,7 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
                 type: "primary"
               }, {
                 default: withCtx(() => [
-                  _hoisted_4$1,
+                  _hoisted_4$2,
                   createTextVNode("批量编辑 ")
                 ]),
                 _: 1
@@ -11138,7 +11144,7 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
               loading: saveDataLoading.value
             }, {
               default: withCtx(() => [
-                _hoisted_5$1,
+                _hoisted_5$2,
                 createTextVNode("批量保存 ")
               ]),
               _: 1
@@ -11148,7 +11154,7 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
               type: "info"
             }, {
               default: withCtx(() => [
-                _hoisted_6$1,
+                _hoisted_6$2,
                 createTextVNode("取消批量 ")
               ]),
               _: 1
@@ -11235,7 +11241,7 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
               ]),
               _: 1
             }, 8, ["href"])),
-            createElementVNode("div", _hoisted_7$1, [
+            createElementVNode("div", _hoisted_7$2, [
               createVNode(_component_el_upload, {
                 multiple: "",
                 drag: "",
@@ -11243,8 +11249,8 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
                 action: uploadInfo.value.uploadUrl
               }, {
                 default: withCtx(() => [
-                  _hoisted_8$1,
-                  _hoisted_9$1
+                  _hoisted_8$2,
+                  _hoisted_9$2
                 ]),
                 _: 1
               }, 8, ["action"])
@@ -11281,10 +11287,10 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
   }
 });
 const MenuTool_vue_vue_type_style_index_0_lang = "";
-_sfc_main$m.install = (app) => {
-  app.component(_sfc_main$m.__name, _sfc_main$m);
+_sfc_main$q.install = (app) => {
+  app.component(_sfc_main$q.__name, _sfc_main$q);
 };
-const _sfc_main$l = /* @__PURE__ */ defineComponent({
+const _sfc_main$p = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsMdPreview" },
   __name: "ElsMdPreview",
   props: {
@@ -11306,19 +11312,19 @@ const _sfc_main$l = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$l.install = (app) => {
-  app.component(_sfc_main$l.__name, _sfc_main$l);
+_sfc_main$p.install = (app) => {
+  app.component(_sfc_main$p.__name, _sfc_main$p);
 };
 const _withScopeId = (n) => (pushScopeId("data-v-ba015752"), n = n(), popScopeId(), n);
-const _hoisted_1$b = {
+const _hoisted_1$d = {
   key: 0,
   class: "els-caption-sub-header"
 };
-const _hoisted_2$6 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createElementVNode("i", { class: "dec" }, null, -1));
+const _hoisted_2$7 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createElementVNode("i", { class: "dec" }, null, -1));
 const _hoisted_3$3 = [
-  _hoisted_2$6
+  _hoisted_2$7
 ];
-const _sfc_main$k = /* @__PURE__ */ defineComponent({
+const _sfc_main$o = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsCaption" },
   __name: "Caption",
   props: {
@@ -11330,7 +11336,7 @@ const _sfc_main$k = /* @__PURE__ */ defineComponent({
       return openBlock(), createElementBlock("div", {
         class: normalizeClass(["els-caption", { "els-left-caption": _ctx.type == "left" }])
       }, [
-        _ctx.type == "left" ? (openBlock(), createElementBlock("span", _hoisted_1$b, _hoisted_3$3)) : createCommentVNode("", true),
+        _ctx.type == "left" ? (openBlock(), createElementBlock("span", _hoisted_1$d, _hoisted_3$3)) : createCommentVNode("", true),
         createElementVNode("span", null, [
           renderSlot(_ctx.$slots, "default", {}, () => [
             createTextVNode(toDisplayString(_ctx.title), 1)
@@ -11341,13 +11347,13 @@ const _sfc_main$k = /* @__PURE__ */ defineComponent({
   }
 });
 const Caption_vue_vue_type_style_index_0_scoped_ba015752_lang = "";
-const Caption = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["__scopeId", "data-v-ba015752"]]);
+const Caption = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["__scopeId", "data-v-ba015752"]]);
 Caption.install = (app) => {
   app.component(Caption.__name, Caption);
 };
-const _hoisted_1$a = { style: { "display": "flex" } };
-const _hoisted_2$5 = { class: "dialog-footer" };
-const _sfc_main$j = /* @__PURE__ */ defineComponent({
+const _hoisted_1$c = { style: { "display": "flex" } };
+const _hoisted_2$6 = { class: "dialog-footer" };
+const _sfc_main$n = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsDataModal" },
   __name: "DataModal",
   props: {
@@ -11505,7 +11511,7 @@ const _sfc_main$j = /* @__PURE__ */ defineComponent({
       const _component_el_button = resolveComponent("el-button");
       const _component_els_dialog = resolveComponent("els-dialog");
       return openBlock(), createElementBlock(Fragment, null, [
-        createElementVNode("span", _hoisted_1$a, [
+        createElementVNode("span", _hoisted_1$c, [
           _ctx.hasInput ? (openBlock(), createBlock(_component_el_input, {
             key: 0,
             modelValue: currSelectValue.value,
@@ -11545,7 +11551,7 @@ const _sfc_main$j = /* @__PURE__ */ defineComponent({
           !modalUrl.value ? {
             name: "footer",
             fn: withCtx(() => [
-              createElementVNode("span", _hoisted_2$5, [
+              createElementVNode("span", _hoisted_2$6, [
                 createVNode(_component_el_button, {
                   onClick: _cache[1] || (_cache[1] = ($event) => dialogVisible.value = false)
                 }, {
@@ -11574,11 +11580,11 @@ const _sfc_main$j = /* @__PURE__ */ defineComponent({
   }
 });
 const DataModal_vue_vue_type_style_index_0_scoped_65d2efb5_lang = "";
-const DataModal = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["__scopeId", "data-v-65d2efb5"]]);
+const DataModal = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["__scopeId", "data-v-65d2efb5"]]);
 DataModal.install = (app) => {
   app.component(DataModal.__name, DataModal);
 };
-const _sfc_main$i = /* @__PURE__ */ defineComponent({
+const _sfc_main$m = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsButtonSelect" },
   __name: "ButtonSelect",
   props: {
@@ -11612,10 +11618,10 @@ const _sfc_main$i = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$i.install = (app) => {
-  app.component(_sfc_main$i.__name, _sfc_main$i);
+_sfc_main$m.install = (app) => {
+  app.component(_sfc_main$m.__name, _sfc_main$m);
 };
-const _sfc_main$h = /* @__PURE__ */ defineComponent({
+const _sfc_main$l = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsButtonSearch" },
   __name: "ButtonSearch",
   emits: ["search"],
@@ -11650,10 +11656,10 @@ const _sfc_main$h = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$h.install = (app) => {
-  app.component(_sfc_main$h.__name, _sfc_main$h);
+_sfc_main$l.install = (app) => {
+  app.component(_sfc_main$l.__name, _sfc_main$l);
 };
-const _sfc_main$g = /* @__PURE__ */ defineComponent({
+const _sfc_main$k = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsButtonExport" },
   __name: "ButtonExport",
   props: {
@@ -11691,23 +11697,23 @@ const _sfc_main$g = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$g.install = (app) => {
-  app.component(_sfc_main$g.__name, _sfc_main$g);
+_sfc_main$k.install = (app) => {
+  app.component(_sfc_main$k.__name, _sfc_main$k);
 };
-const _hoisted_1$9 = {
-  key: 0,
+const _hoisted_1$b = {
+  key: 2,
   class: "els-list-operate",
   style: { "margin-left": "10px" }
 };
-const _hoisted_2$4 = {
+const _hoisted_2$5 = {
   key: 0,
   class: "leo-list-add"
 };
-const _sfc_main$f = /* @__PURE__ */ defineComponent({
+const _sfc_main$j = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsList", inheritAttrs: false },
   __name: "List",
   props: {
-    data: {},
+    modelValue: {},
     sortable: { type: Boolean, default: true },
     isRemove: { type: Boolean, default: true },
     isAdd: { type: Boolean, default: true },
@@ -11719,31 +11725,48 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
     itemKey: { default: "" },
     labelWidth: {}
   },
-  emits: ["add"],
+  emits: ["add", "update:modelValue"],
   setup(__props, { emit: emits }) {
     const props = __props;
-    const currData = useVModel(props, "data", emits);
+    const currData = useVModel(props, "modelValue", emits);
+    const dropData = ref([]);
+    const currItemKey = ref(props.itemKey);
+    if (!props.itemKey) {
+      currData.value.forEach((ele) => {
+        dropData.value.push({ itemKey: lessCom$1.Guid32(), value: ele });
+      });
+      currItemKey.value = "itemKey";
+      watch(dropData, (val) => {
+        emits("update:modelValue", val.map((ele) => ele.value));
+      }, { deep: true });
+    } else {
+      dropData.value = currData.value;
+    }
     const attrs = useAttrs();
     function handleAdd() {
       if (props.onAdd) {
-        props.onAdd(currData.value);
+        if (!props.itemKey) {
+          dropData.value.push({ itemKey: lessCom$1.Guid32(), value: props.onAdd(dropData.value) });
+        } else {
+          dropData.value.push(props.onAdd(dropData.value));
+        }
       } else {
-        currData.value.push({});
+        dropData.value.push({});
       }
     }
     function handleRemove(item) {
-      var index = currData.value.indexOf(item);
-      currData.value.splice(index, 1);
+      var index = dropData.value.indexOf(item);
+      dropData.value.splice(index, 1);
     }
     let container = h("div");
     let outContainer = h("div");
     watchEffect(() => {
-      if (props.hasForm && currData.value.length) {
-        if (typeof currData[0] !== "object") {
-          outContainer = h(_sfc_main$X, { modelValue: currData });
+      if (props.hasForm && dropData.value.length) {
+        if (typeof dropData[0] !== "object") {
+          outContainer = h(_sfc_main$$, { modelValue: currData });
           container = h("div");
         } else {
-          container = h(_sfc_main$X);
+          container = h(_sfc_main$$);
           outContainer = h("div");
         }
       }
@@ -11760,13 +11783,13 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
       }, {
         default: withCtx(() => [
           createVNode(unref(draggable), mergeProps({
-            list: unref(currData),
+            list: dropData.value,
             handle: ".el-icon-rank"
-          }, unref(attrs), { "item-key": _ctx.itemKey }), {
+          }, unref(attrs), { "item-key": currItemKey.value }), {
             item: withCtx(({ element, index }) => [
               (openBlock(), createBlock(resolveDynamicComponent(unref(container)), {
-                modelValue: unref(currData)[index],
-                "onUpdate:modelValue": ($event) => unref(currData)[index] = $event,
+                modelValue: dropData.value[index],
+                "onUpdate:modelValue": ($event) => dropData.value[index] = $event,
                 inline: "",
                 labelWidth: _ctx.labelWidth
               }, {
@@ -11774,8 +11797,8 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
                   createElementVNode("div", {
                     class: normalizeClass(["listitem flex", _ctx.itemClassName])
                   }, [
-                    renderSlot(_ctx.$slots, "default", mergeProps({ item: element, index, $item: element, $index: index }, { key: element })),
-                    _ctx.sortable || _ctx.isRemove ? (openBlock(), createElementBlock("span", _hoisted_1$9, [
+                    _ctx.itemKey ? renderSlot(_ctx.$slots, "default", normalizeProps(mergeProps({ key: 0 }, { item: element, index, $item: element, $index: index }))) : renderSlot(_ctx.$slots, "default", normalizeProps(mergeProps({ key: 1 }, { item: element.value, index, $item: element.value, $index: index }))),
+                    _ctx.sortable || _ctx.isRemove ? (openBlock(), createElementBlock("span", _hoisted_1$b, [
                       _ctx.sortable && _ctx.isModify ? renderSlot(_ctx.$slots, "drag", { key: 0 }, () => [
                         createVNode(_component_el_icon, { class: "el-icon-rank" }, {
                           default: withCtx(() => [
@@ -11818,7 +11841,7 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
             ]),
             _: 3
           }, 16, ["list", "item-key"]),
-          _ctx.isModify && _ctx.isAdd ? (openBlock(), createElementBlock("div", _hoisted_2$4, [
+          _ctx.isModify && _ctx.isAdd ? (openBlock(), createElementBlock("div", _hoisted_2$5, [
             renderSlot(_ctx.$slots, "add", {}, () => [
               createVNode(_component_el_button, {
                 type: "info",
@@ -11839,11 +11862,11 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
   }
 });
 const List_vue_vue_type_style_index_0_lang = "";
-_sfc_main$f.install = (app) => {
-  app.component(_sfc_main$f.__name, _sfc_main$f);
+_sfc_main$j.install = (app) => {
+  app.component(_sfc_main$j.__name, _sfc_main$j);
 };
-const _hoisted_1$8 = { class: "custom-block-title" };
-const _sfc_main$e = /* @__PURE__ */ defineComponent({
+const _hoisted_1$a = { class: "custom-block-title" };
+const _sfc_main$i = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsTip" },
   __name: "Tip",
   props: {
@@ -11855,7 +11878,7 @@ const _sfc_main$e = /* @__PURE__ */ defineComponent({
       return openBlock(), createElementBlock("div", {
         class: normalizeClass(["custom-block", _ctx.type == "warning" ? "warning" : "tip"])
       }, [
-        createElementVNode("p", _hoisted_1$8, [
+        createElementVNode("p", _hoisted_1$a, [
           renderSlot(_ctx.$slots, "title", {}, () => [
             createTextVNode(toDisplayString(_ctx.title ?? (_ctx.type == "warning" ? "WARNING" : "TIP")), 1)
           ], true)
@@ -11866,11 +11889,11 @@ const _sfc_main$e = /* @__PURE__ */ defineComponent({
   }
 });
 const Tip_vue_vue_type_style_index_0_scoped_fafd2227_lang = "";
-const Tip = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["__scopeId", "data-v-fafd2227"]]);
+const Tip = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["__scopeId", "data-v-fafd2227"]]);
 Tip.install = (app) => {
   app.component(Tip.__name, Tip);
 };
-const _sfc_main$d = /* @__PURE__ */ defineComponent({
+const _sfc_main$h = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsFormNode" },
   __name: "FormNode",
   props: {
@@ -11931,8 +11954,8 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$d.install = (app) => {
-  app.component(_sfc_main$d.__name, _sfc_main$d);
+_sfc_main$h.install = (app) => {
+  app.component(_sfc_main$h.__name, _sfc_main$h);
 };
 const property_input = [
   {
@@ -13435,7 +13458,7 @@ const property_radio = [
   {
     "keyID": "67cecb440365abb61e4aace2d5686cb9",
     "keyName": "数据列表",
-    "keyCode": "data",
+    "keyCode": "modelValue",
     "data": [
       {
         "keyID": "6f3b17406d7edb401dcecddcb764c7e4",
@@ -13964,7 +13987,7 @@ const property_checkbox = [
   {
     "keyID": "67cecb440365abb61e4aace2d5686cb9",
     "keyName": "数据列表",
-    "keyCode": "data",
+    "keyCode": "modelValue",
     "data": [
       {
         "keyID": "6f3b17406d7edb401dcecddcb764c7e4",
@@ -14318,7 +14341,7 @@ const property_select = [
   {
     "keyID": "67cecb440365abb61e4aace2d5686cb9",
     "keyName": "数据列表",
-    "keyCode": "data",
+    "keyCode": "modelValue",
     "data": [
       {
         "keyID": "6f3b17406d7edb401dcecddcb764c7e4",
@@ -17487,50 +17510,369 @@ const property_row = [
     "dataType": "String"
   }
 ];
-const dynamicDataType = [
-  { label: "无", value: 0 },
-  { label: "字符串", value: 1 },
-  { label: "数字", value: 2 },
-  { label: "Bool", value: 3 },
-  { label: "Object", value: 4 },
-  { label: "Array", value: 5 }
+const dynamicDataTypes = [
+  { label: "无", value: "None", type: "None" },
+  { label: "字符串", value: "String", type: "String" },
+  { label: "数字", value: "Number", type: "Number" },
+  { label: "Bool", value: "Bool", type: "Bool" },
+  { label: "Object", value: "Object", type: "Object" },
+  { label: "Array", value: "Array", type: "Array" }
 ];
-const dynamicArrayDataType = [
-  { label: "字符串", value: 1 },
-  { label: "数字", value: 2 },
-  { label: "Bool", value: 3 },
-  { label: "Object", value: 4 }
+const dynamicComponentTypes = [
+  { componentName: "ElsInput", label: "输入框", value: "Input", type: "Input", dataTypes: ["String"], defaultPropertys: {}, propertys: property_input, group: DynamicComponentGroup.Form },
+  { componentName: "ElsTextarea", label: "文本域", value: "Textarea", type: "Textarea", dataTypes: ["String"], defaultPropertys: {}, propertys: property_textarea, group: DynamicComponentGroup.Form },
+  { componentName: "ElsInputNumber", label: "数字输入框", value: "InputNumber", type: "InputNumber", dataTypes: ["Number"], defaultPropertys: {}, propertys: property_inputNumber, group: DynamicComponentGroup.Form },
+  { componentName: "ElsSwitch", label: "开关", value: "Switch", type: "Switch", dataTypes: ["Bool", "String", "Number"], defaultPropertys: {}, propertys: property_switch, group: DynamicComponentGroup.Form },
+  { componentName: "ElsCheckbox", label: "多选列表", value: "Checkbox", type: "Checkbox", dataTypes: ["String"], defaultPropertys: {}, propertys: property_checkbox, group: DynamicComponentGroup.Form },
+  { componentName: "ElsSelect", label: "下拉列表", value: "Select", type: "Select", dataTypes: ["String", "Number", "Bool"], defaultPropertys: {}, propertys: property_select, group: DynamicComponentGroup.Form },
+  { componentName: "ElsRadio", label: "单选列表", value: "Radio", type: "Radio", dataTypes: ["String", "Number", "Bool"], defaultPropertys: {}, propertys: property_radio, group: DynamicComponentGroup.Form },
+  { componentName: "ElsUpload", label: "图片", value: "UploadPic", type: "UploadPic", dataTypes: ["String"], defaultPropertys: { "type": "Pic" }, propertys: property_pic, group: DynamicComponentGroup.Form },
+  { componentName: "ElsUpload", label: "图集", value: "UploadMutiPic", type: "UploadMutiPic", dataTypes: ["String"], defaultPropertys: { "type": "Pic", "multiple": true }, propertys: property_pic, group: DynamicComponentGroup.Form },
+  { componentName: "ElsUpload", label: "文件", value: "UploadFile", type: "UploadFile", dataTypes: ["String"], defaultPropertys: { "type": "File" }, propertys: property_file, group: DynamicComponentGroup.Form },
+  { componentName: "ElsDataModal", label: "弹窗", value: "DataModal", type: "DataModal", dataTypes: ["String"], defaultPropertys: {}, propertys: property_datamodal, group: DynamicComponentGroup.Form },
+  { componentName: "ElsDatePicker", label: "日期选择器", value: "DatePicker", type: "DatePicker", dataTypes: ["String", "Number"], defaultPropertys: {}, propertys: property_date, group: DynamicComponentGroup.Form },
+  { componentName: "ElsTimePicker", label: "时间选择器", value: "TimePicker", type: "TimePicker", dataTypes: ["String", "Number"], defaultPropertys: {}, propertys: property_time, group: DynamicComponentGroup.Form },
+  { componentName: "ElsCaption", label: "分隔描述", value: "Caption", type: "Caption", dataTypes: ["None"], defaultPropertys: {}, propertys: property_caption, group: DynamicComponentGroup.Desc },
+  { componentName: "ElsRow", label: "栅格", value: "Row", type: "Row", dataTypes: ["None"], defaultPropertys: {}, propertys: property_row, group: DynamicComponentGroup.Container }
 ];
-const dynamicControlType = [
-  { componentName: "ElsInput", config: {}, label: "输入框", value: 1, dataTypes: ["字符串"], defaultPropertys: {}, propertys: property_input, group: "Form" },
-  { componentName: "ElsTextarea", config: {}, label: "文本域", value: 2, dataTypes: ["字符串"], defaultPropertys: {}, propertys: property_textarea, group: "Form" },
-  { componentName: "ElsInputNumber", config: {}, label: "数字输入框", value: 3, dataTypes: ["数字"], defaultPropertys: {}, propertys: property_inputNumber, group: "Form" },
-  { componentName: "ElsSwitch", config: {}, label: "开关", value: 4, dataTypes: ["Bool", "字符串", "数字"], defaultPropertys: {}, propertys: property_switch, group: "Form" },
-  { componentName: "ElsCheckbox", config: {}, label: "多选列表", value: 5, dataTypes: ["字符串"], defaultPropertys: {}, propertys: property_checkbox, group: "Form" },
-  { componentName: "ElsSelect", config: {}, label: "下拉列表", value: 6, dataTypes: ["字符串", "数字", "Bool"], defaultPropertys: {}, propertys: property_select, group: "Form" },
-  { componentName: "ElsRadio", config: {}, label: "单选列表", value: 7, dataTypes: ["字符串", "数字", "Bool"], defaultPropertys: {}, propertys: property_radio, group: "Form" },
-  { componentName: "ElsUpload", config: {}, label: "图片", value: 8, dataTypes: ["字符串"], defaultPropertys: { "type": "Pic" }, propertys: property_pic, group: "Form" },
-  { componentName: "ElsUpload", config: {}, label: "图集", value: 9, dataTypes: ["字符串"], defaultPropertys: { "type": "Pic", "multiple": true }, propertys: property_pic, group: "Form" },
-  { componentName: "ElsUpload", config: {}, label: "文件", value: 10, dataTypes: ["字符串"], defaultPropertys: { "type": "File" }, propertys: property_file, group: "Form" },
-  { componentName: "ElsDataModal", config: {}, label: "弹窗", value: 11, dataTypes: ["字符串"], defaultPropertys: {}, propertys: property_datamodal, group: "Form" },
-  { componentName: "ElsDatePicker", config: {}, label: "日期选择器", value: 12, dataTypes: ["字符串", "数字"], defaultPropertys: {}, propertys: property_date, group: "Form" },
-  { componentName: "ElsTimePicker", config: {}, label: "时间选择器", value: 13, dataTypes: ["字符串", "数字"], defaultPropertys: {}, propertys: property_time, group: "Form" },
-  { componentName: "ElsCaption", config: {}, label: "分隔描述", value: 50, dataTypes: ["无"], defaultPropertys: {}, propertys: property_caption, group: "Desc" },
-  { componentName: "ElsRow", config: {}, label: "栅格", value: 100, dataTypes: ["无"], defaultPropertys: {}, propertys: property_row, group: "Container" }
-];
-const _hoisted_1$7 = {
+class DynamicHandler {
+  constructor(dataTypes, componentTypes, appendUrlParams = [], uploadUrl = "", resourceCode = "", restrictCode = "") {
+    __publicField(this, "componentTypes", []);
+    __publicField(this, "dataTypes", []);
+    __publicField(this, "appendUrlParams", []);
+    __publicField(this, "uploadUrl", "");
+    __publicField(this, "resourceCode", "");
+    __publicField(this, "restrictCode", "");
+    if (componentTypes) {
+      this.componentTypes = componentTypes;
+    } else {
+      this.componentTypes.push(...dynamicComponentTypes);
+    }
+    if (dataTypes) {
+      this.dataTypes = dataTypes;
+    } else {
+      this.dataTypes.push(...dynamicDataTypes);
+    }
+    this.appendUrlParams = appendUrlParams;
+    this.uploadUrl = uploadUrl;
+    this.resourceCode = resourceCode;
+    this.restrictCode = restrictCode;
+  }
+  initTypeName(item) {
+    const currDataType = this.dataTypes.find((d) => d.value === item.dataType || d.type === item.dataType);
+    const currArrayDataType = this.dataTypes.find((d) => d.value === item.arrayDataType || d.type === item.arrayDataType);
+    const currcomponentType = this.componentTypes.find((d) => d.value === item.componentType || d.type === item.componentType);
+    if ((currDataType == null ? void 0 : currDataType.type) === "Object" || (currDataType == null ? void 0 : currDataType.type) === "Array") {
+      item.componentGroup = "Form";
+    } else {
+      item.componentGroup = currcomponentType == null ? void 0 : currcomponentType.group;
+    }
+    item.componentType = currcomponentType == null ? void 0 : currcomponentType.type;
+    item.dataTypeName = currDataType == null ? void 0 : currDataType.type;
+    item.arrayDataTypeName = currArrayDataType == null ? void 0 : currArrayDataType.type;
+    item.componentName = currcomponentType == null ? void 0 : currcomponentType.componentName;
+  }
+  initConfigType(data) {
+    data.forEach((ele) => {
+      this.initTypeName(ele);
+      if (ele.dataTypeName == "Object" || ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object") {
+        this.initConfigType(ele.data);
+      } else if (ele.dataTypeName == "None" && ele.componentType == "Row") {
+        this.initConfigType(ele.data);
+      } else {
+        this.getDefaultValue(ele);
+      }
+    });
+  }
+  recoverConfig(data) {
+    data.forEach((ele) => {
+      if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object") {
+        this.recoverArrayConfig(ele);
+      } else if (ele.dataTypeName == "Object") {
+        this.recoverConfig(ele.data);
+      } else if (ele.dataTypeName == "None" && ele.componentName == "ElsRow") {
+        this.recoverConfig(ele.data);
+      }
+      delete ele.componentGroup;
+      delete ele.dataTypeName;
+      delete ele.arrayDataTypeName;
+      delete ele.componentName;
+      delete ele.componentTypeName;
+      delete ele.value;
+    });
+  }
+  recoverArrayConfig(item) {
+    delete item.arrayObjData;
+    delete item.value;
+    item.data.forEach((ele) => {
+      if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object") {
+        this.recoverArrayConfig(ele);
+      } else if (ele.dataTypeName == "Object") {
+        this.recoverConfig(ele.data);
+      } else if (ele.dataTypeName == "None" && ele.componentName == "ElsRow") {
+        this.recoverConfig(ele.data);
+      }
+    });
+  }
+  recoverData(data, valueData = null) {
+    if (!valueData) {
+      valueData = {};
+    }
+    data.forEach((ele) => {
+      if (ele.keyCode) {
+        const currVal = valueData[ele.keyCode];
+        if (currVal === void 0) {
+          this.getDefaultValue(ele);
+        } else {
+          ele.value = currVal;
+        }
+      } else {
+        this.getDefaultValue(ele);
+      }
+      this.initTypeName(ele);
+      if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object" && !ele.componentType) {
+        this.recoverArrayData(ele, valueData[ele.keyCode]);
+      } else if (ele.dataTypeName == "Object") {
+        this.recoverData(ele.data, valueData[ele.keyCode]);
+      } else if (ele.dataTypeName == "None" && ele.componentType == "Row") {
+        this.recoverData(ele.data, valueData);
+      }
+      if (this.appendUrlParams && ["Checkbox", "Select", "Radio", "Upload", "DataModal"].includes(ele.componentType ?? "") && ele.config.baseConfig && (ele.config.baseConfig.url || ele.config.baseConfig.modalUrl)) {
+        this.appendCommonParams(ele);
+        if (ele.componentType === "Upload") {
+          this.appendUploadParams(ele);
+        }
+      }
+    });
+  }
+  appendUploadParams(item) {
+    let currUrl = this.uploadUrl;
+    if (item.config.baseConfig.url) {
+      currUrl = item.config.baseConfig.url;
+    }
+    let uploadParms = `&ResourcePicLimitType=${item.config.baseConfig.picLimitType ?? ""}&ResourcePicWidth=${item.config.baseConfig.picWidthLimit ?? 0}&ResourcePicHeight=${item.config.baseConfig.picHeightLimit ?? 0}&HasMd5Parameter=${item.config.baseConfig.hasMd5Parameter ? 1 : 0}`;
+    if (!item.config.baseConfig.resourceCode) {
+      item.config.baseConfig.resourceCode = this.resourceCode;
+    }
+    if (!item.config.baseConfig.restrictCode) {
+      item.config.baseConfig.restrictCode = this.restrictCode;
+    }
+    if (item.config.baseConfig.resourceCode) {
+      currUrl = currUrl.addUrlParameter("ResourceCode", item.config.baseConfig.resourceCode);
+    }
+    if (item.config.baseConfig.restrictCode) {
+      currUrl = currUrl.addUrlParameter("RestrictCode", item.config.baseConfig.restrictCode);
+    }
+    let uploadUrl = currUrl + uploadParms;
+    return uploadUrl;
+  }
+  appendCommonParams(item) {
+    if (!this.appendUrlParams) {
+      return;
+    }
+    let currAppendQuery = this.appendUrlParams.find((ele) => ele.Key == item.keyCode);
+    if (!currAppendQuery) {
+      currAppendQuery = this.appendUrlParams.find((ele) => ele.Key === "");
+    }
+    let currUrl = item.config.baseConfig.url;
+    if (currAppendQuery) {
+      if (currUrl.indexOf("?") > -1) {
+        currUrl += "&";
+      } else {
+        currUrl += "?";
+      }
+      currUrl += currAppendQuery.Value;
+    }
+    item.config.baseConfig.url = currUrl;
+  }
+  recoverArrayData(item, valueData = null) {
+    if (!item["arrayObjData"]) {
+      let currData = [];
+      item.data.forEach((ele) => {
+        this.initTypeName(ele);
+        var currItem = Object.assign({}, ele);
+        this.getDefaultValue(currItem);
+        if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object") {
+          this.recoverArrayData(currItem);
+        } else if (ele.dataTypeName == "Object" || ele.componentType == "Row") {
+          this.recoverData(currItem.data);
+        }
+        currData.push(currItem);
+      });
+      item["arrayObjData"] = currData;
+    }
+    if (valueData) {
+      item.value = valueData;
+      let arrayData = [];
+      valueData.forEach((ele) => {
+        let itemData = lessCom$1.cloneObj(item["arrayObjData"]);
+        this.recoverData(itemData, ele);
+        arrayData.push(itemData);
+      });
+      item.data = arrayData;
+    } else {
+      item.value = [];
+      let defaultArrayData = [];
+      if (item.config.baseConfig.arrayDefaultLength === void 0 || item.config.baseConfig.arrayDefaultLength === "") {
+        defaultArrayData.push(lessCom$1.cloneObj(item["arrayObjData"]));
+      } else {
+        for (let i = 0; i < item.config.baseConfig.arrayDefaultLength; i++) {
+          defaultArrayData.push(lessCom$1.cloneObj(item["arrayObjData"]));
+        }
+      }
+      item.data = defaultArrayData;
+    }
+  }
+  configResult(config) {
+    const currConfig = lessCom$1.cloneObj(config);
+    this.initConfigType(currConfig);
+    return this.getConfigValue(currConfig);
+  }
+  getConfigValue(data) {
+    let currData = {};
+    data.forEach((ele) => {
+      if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object") {
+        currData[ele.keyCode] = this.getArrayConfigValue(ele);
+      } else if (ele.dataTypeName == "Object") {
+        currData[ele.keyCode] = this.getConfigValue(ele.data);
+      } else if (ele.dataTypeName == "None" && ele.componentName == "ElsRow") {
+        currData = Object.assign(currData, this.getConfigValue(ele.data));
+      } else if (ele.keyCode) {
+        currData[ele.keyCode] = ele.value;
+      }
+    });
+    return currData;
+  }
+  getArrayConfigValue(item) {
+    let currValue = {};
+    item.data.forEach((ele) => {
+      if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object") {
+        currValue[ele.keyCode] = this.getArrayConfigValue(ele);
+      } else if (ele.dataTypeName == "Object") {
+        currValue[ele.keyCode] = this.getArrayConfigValue(ele.data);
+      } else if (ele.dataTypeName == "None" && ele.componentName == "ElsRow") {
+        currValue = Object.assign(currValue, this.getArrayConfigValue(ele.data));
+      } else if (ele.keyCode) {
+        currValue[ele.keyCode] = ele.value;
+      }
+    });
+    return [currValue];
+  }
+  getDefaultValue(item) {
+    var _a;
+    const currDataType = this.dataTypes.find((ele) => ele.value === item.dataType || ele.type === item.dataType);
+    if (currDataType) {
+      switch (currDataType.type) {
+        case "Number":
+          if (item.defaultValue) {
+            item.value = parseFloat(item.defaultValue);
+          } else {
+            item.value = 0;
+          }
+          break;
+        case "Bool":
+          if (((_a = item.defaultValue) == null ? void 0 : _a.toLowerCase()) === "true") {
+            item.value = true;
+          } else {
+            item.value = false;
+          }
+          break;
+        case "Object":
+          item.value = {};
+          break;
+        default:
+          if (item.defaultValue) {
+            item.value = item.defaultValue.toString();
+          } else {
+            item.value = "";
+          }
+      }
+    }
+  }
+  result(renderData) {
+    var currData = {};
+    renderData.forEach((ele) => {
+      if (ele.componentGroup !== "Desc") {
+        if (ele.dataTypeName == "Object" && ele.keyCode) {
+          currData[ele.keyCode] = this.childResult(ele);
+        } else if (ele.dataTypeName == "None" && ele.componentType == "Row") {
+          Object.assign(currData, this.childResult(ele));
+        } else if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object" && ele.keyCode) {
+          currData[ele.keyCode] = this.childResultList(ele);
+        } else if (ele.keyCode) {
+          currData[ele.keyCode] = ele.value;
+        }
+      }
+    });
+    return currData;
+  }
+  childResult(item) {
+    var currItem = {};
+    var currData = item.data;
+    if (currData === "" || !Array.isArray(currData)) {
+      return "";
+    }
+    if (!currData || !currData.length) {
+      if (item.value) {
+        return item.value;
+      }
+      return {};
+    }
+    currData.forEach((ele) => {
+      if (ele.componentType !== "Caption") {
+        if (ele.dataTypeName == "Object" && ele.keyCode) {
+          currItem[ele.keyCode] = this.childResult(ele);
+        } else if (ele.dataTypeName == "None" && ele.componentType == "Row") {
+          Object.assign(currItem, this.childResult(ele));
+        } else if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object" && ele.keyCode) {
+          currItem[ele.keyCode] = this.childResultList(ele);
+        } else if (ele.keyCode) {
+          currItem[ele.keyCode] = ele.value;
+        }
+      }
+    });
+    return currItem;
+  }
+  childResultList(item) {
+    if (!item.data || !item.data.length) {
+      if (item.value) {
+        return item.value;
+      }
+      return [];
+    }
+    let currList = [];
+    item.data.forEach((ele) => {
+      if (Array.isArray(ele)) {
+        let currData = {};
+        ele.forEach((cele) => {
+          if (cele.dataTypeName === "Array") {
+            currData[cele.keyCode] = this.childResultList(cele);
+          } else {
+            currData[cele.keyCode] = this.childResult(cele);
+          }
+        });
+        currList.push(currData);
+      }
+    });
+    return currList;
+  }
+}
+const _hoisted_1$9 = {
   key: 0,
   class: "tag-name"
 };
-const _hoisted_2$3 = {
+const _hoisted_2$4 = {
   key: 1,
   class: "els-dynamicc-d-head"
 };
-const _hoisted_3$2 = /* @__PURE__ */ createStaticVNode('<span class="keyName">名称</span><span class="keyCode">编码</span><span class="dataType">类型</span><span class="controlType">控件</span><span class="config">配置</span><span class="defaultValue">默认值</span><span class="oper">操作</span>', 7);
-const _hoisted_10$1 = [
-  _hoisted_3$2
-];
-const _sfc_main$c = /* @__PURE__ */ defineComponent({
+const _hoisted_3$2 = /* @__PURE__ */ createElementVNode("span", { class: "keyName" }, "名称", -1);
+const _hoisted_4$1 = /* @__PURE__ */ createElementVNode("span", { class: "keyCode" }, "编码", -1);
+const _hoisted_5$1 = /* @__PURE__ */ createElementVNode("span", { class: "dataType" }, "类型", -1);
+const _hoisted_6$1 = /* @__PURE__ */ createElementVNode("span", { class: "componentType" }, "组件", -1);
+const _hoisted_7$1 = /* @__PURE__ */ createElementVNode("span", { class: "config" }, "配置", -1);
+const _hoisted_8$1 = /* @__PURE__ */ createElementVNode("span", { class: "defaultValue" }, "默认值", -1);
+const _hoisted_9$1 = /* @__PURE__ */ createElementVNode("span", { class: "oper" }, "操作", -1);
+const _sfc_main$g = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsDynamicDesigner"
   },
@@ -17545,28 +17887,27 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
   setup(__props, { emit: emits }) {
     const props = __props;
     const DynamicDesignerInnerItem = defineAsyncComponent(() => {
-      return import("./DynamicDesignerInnerItem-5e363b74.js");
+      return import("./DynamicDesignerInnerItem-383188bc.js");
     });
+    const componentSettingVisible = inject("componentSettingVisible", true);
     const currData = useVModel(props, "data", emits);
     const currConfig = ref(props.config ?? {});
     function handleRemove() {
       emits("removeItem");
     }
     function handleAddItem() {
-      currData.value.push(
-        {
-          keyID: "key_" + lessCom$1.randomNumber().toString(),
-          keyName: "",
-          keyCode: "",
-          data: [],
-          config: {
-            formConfig: {},
-            baseConfig: {},
-            advancedConfig: {},
-            arrayConfig: {}
-          }
+      return {
+        keyID: "key_" + lessCom$1.randomNumber().toString(),
+        keyName: "",
+        keyCode: "",
+        data: [],
+        config: {
+          formConfig: {},
+          baseConfig: {},
+          advancedConfig: {},
+          arrayConfig: {}
         }
-      );
+      };
     }
     const tagID = inject("tagID");
     return (_ctx, _cache) => {
@@ -17583,14 +17924,14 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
       return openBlock(), createElementBlock("div", {
         class: normalizeClass([{ "els-dynamic-d-flat-item-child": _ctx.depath && _ctx.depath > 0 }])
       }, [
-        _ctx.isContainer ? (openBlock(), createElementBlock("span", _hoisted_1$7, [
+        _ctx.isContainer ? (openBlock(), createElementBlock("span", _hoisted_1$9, [
           createVNode(_component_el_popover, {
             placement: "top-start",
             width: "500",
             trigger: "click"
           }, {
             reference: withCtx(() => [
-              createElementVNode("span", null, "(1行" + toDisplayString(_ctx.data.length) + "列)", 1)
+              createElementVNode("span", null, "(1行" + toDisplayString(unref(currData).length) + "列)", 1)
             ]),
             default: withCtx(() => [
               createVNode(_component_els_form_item, {
@@ -17640,9 +17981,20 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
             ]),
             _: 1
           })
-        ])) : _ctx.data.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_2$3, _hoisted_10$1)) : createCommentVNode("", true),
+        ])) : unref(currData).length > 0 ? (openBlock(), createElementBlock("div", _hoisted_2$4, [
+          _hoisted_3$2,
+          _hoisted_4$1,
+          _hoisted_5$1,
+          unref(componentSettingVisible) ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
+            _hoisted_6$1,
+            _hoisted_7$1
+          ], 64)) : createCommentVNode("", true),
+          _hoisted_8$1,
+          _hoisted_9$1
+        ])) : createCommentVNode("", true),
         createVNode(_component_els_list, mergeProps({
-          data: _ctx.data,
+          modelValue: unref(currData),
+          "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => isRef(currData) ? currData.value = $event : null),
           onAdd: handleAddItem,
           sortable: false,
           "is-remove": false,
@@ -17654,7 +18006,7 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
             (openBlock(), createBlock(Suspense, null, {
               default: withCtx(() => [
                 (openBlock(), createBlock(unref(DynamicDesignerInnerItem), {
-                  data: _ctx.data,
+                  data: unref(currData),
                   item: $item,
                   depath: _ctx.depath,
                   key: $index
@@ -17675,12 +18027,12 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
             }, 1024))
           ]),
           _: 1
-        }, 16, ["data"])
+        }, 16, ["modelValue"])
       ], 2);
     };
   }
 });
-const _sfc_main$b = /* @__PURE__ */ defineComponent({
+const _sfc_main$f = /* @__PURE__ */ defineComponent({
   ...{
     inheritAttrs: false
   },
@@ -17696,18 +18048,18 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
   emits: ["update:modelValue", "valueChange"],
   setup(__props, { emit: emits }) {
     const props = __props;
+    const controlData = inject("componentData", []);
     const attrs = useAttrs();
     const currValue = ref();
     watchEffect(() => {
       currValue.value = props.modelValue;
     });
-    const getUploadUrl = inject("getUploadUrl", () => null);
     watch(currValue, (val) => {
       emits("update:modelValue", val);
       emits("valueChange", val);
     });
     function handleClear() {
-      if (props.item.dataTypeName == "数字" || props.item.arrayDataTypeName == "数字") {
+      if (props.item.dataTypeName == "Number" || props.item.arrayDataTypeName == "Number") {
         currValue.value = 0;
       }
       if (props.item.dataTypeName == "Bool" || props.item.arrayDataTypeName == "Bool") {
@@ -17718,7 +18070,7 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
     }
     const baseAttrs = computed(() => {
       let baseConfig = {};
-      const currControl = dynamicControlType.find((ele) => ele.value == props.item.controlType);
+      const currControl = controlData.find((ele) => ele.value == props.item.componentType);
       if (currControl == null ? void 0 : currControl.defaultPropertys) {
         const currBaseConfig = Object.assign({}, currControl == null ? void 0 : currControl.defaultPropertys, props.item.config.baseConfig);
         for (var key in currBaseConfig) {
@@ -17731,86 +18083,38 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
         baseConfig = currBaseConfig;
       }
       const currAttrs = Object.assign(lessCom$1.cloneObj(baseConfig), { "style": props.item.config.advancedConfig.style }, attrs);
-      if (currAttrs == null ? void 0 : currAttrs.max) {
-        currAttrs.max = parseInt(currAttrs.max);
-      } else {
-        delete currAttrs.max;
+      const parseNumbers = ["max", "min", "precision", "step", "rows"];
+      for (const name of parseNumbers) {
+        if (currAttrs[name]) {
+          currAttrs[name] = parseInt(currAttrs[name]);
+        } else {
+          delete currAttrs[name];
+        }
       }
-      if (currAttrs == null ? void 0 : currAttrs.min) {
-        currAttrs.min = parseInt(currAttrs.min);
-      } else {
-        delete currAttrs.min;
-      }
-      if (currAttrs == null ? void 0 : currAttrs.precision) {
-        currAttrs.precision = parseFloat(currAttrs.precision);
-      } else {
-        delete currAttrs.precision;
-      }
-      if (currAttrs == null ? void 0 : currAttrs.step) {
-        currAttrs.step = parseFloat(currAttrs.step);
-      } else {
-        delete currAttrs.step;
-      }
-      if (currAttrs == null ? void 0 : currAttrs.rows) {
-        currAttrs.rows = parseFloat(currAttrs.rows);
-      } else {
-        delete currAttrs.rows;
-      }
-      if (["ElsSelect", "ElsRadio", "ElsCheckBox", "ElsCascader"].includes(props.item.componentName)) {
-        if (props.item.dataTypeName == "数字" || props.item.arrayDataTypeName == "数字") {
+      if (["Select", "Radio", "CheckBox", "Cascader"].includes(props.item.componentType)) {
+        if (props.item.dataTypeName == "String" || props.item.arrayDataTypeName == "Number") {
           currAttrs.valueType = "Number";
         } else if (props.item.dataTypeName == "Bool" || props.item.arrayDataTypeName == "Bool") {
           currAttrs.valueType = "Bool";
         }
       }
-      if (!currAttrs.labelField) {
-        delete currAttrs.labelField;
-      }
-      if (!currAttrs.valueField) {
-        delete currAttrs.valueField;
-      }
       return currAttrs;
     });
     const componentAttrs = ref(baseAttrs);
-    const showText = ref("");
     const componentName = ref("");
     watchEffect(() => {
       componentName.value = props.item.componentName;
     });
-    function getFileUploadUrl() {
-      let currUrl = props.item.config.baseConfig.url || props.item.config.baseConfig.modalUrl;
-      if (currUrl) {
-        if (currUrl.startsWith(":")) {
-          currUrl = currUrl.substr(1);
-          let currEvent = new Function("parentNode,currNode", "return " + currUrl);
-          currUrl = currEvent(props.parentNode, props.currNode);
-        }
-        if (props.item.componentName === "ElsUpload") {
-          return getUploadUrl(currUrl, props.item);
-        } else {
-          return currUrl.setPowerPublicQuery();
-        }
-      }
-    }
     return (_ctx, _cache) => {
-      const _component_el_tag = resolveComponent("el-tag");
-      return componentName.value ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
-        showText.value ? (openBlock(), createBlock(_component_el_tag, { key: 0 }, {
-          default: withCtx(() => [
-            createTextVNode(toDisplayString(showText.value), 1)
-          ]),
-          _: 1
-        })) : (openBlock(), createBlock(resolveDynamicComponent(componentName.value), mergeProps({ key: 1 }, componentAttrs.value, {
-          modelValue: currValue.value,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => currValue.value = $event),
-          url: getFileUploadUrl(),
-          onClear: handleClear
-        }), null, 16, ["modelValue", "url"]))
-      ], 64)) : createCommentVNode("", true);
+      return componentName.value ? (openBlock(), createBlock(resolveDynamicComponent(componentName.value), mergeProps({ key: 0 }, componentAttrs.value, {
+        modelValue: currValue.value,
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => currValue.value = $event),
+        onClear: handleClear
+      }), null, 16, ["modelValue"])) : createCommentVNode("", true);
     };
   }
 });
-const _sfc_main$a = /* @__PURE__ */ defineComponent({
+const _sfc_main$e = /* @__PURE__ */ defineComponent({
   __name: "DynamicDesignerViewInnerArray",
   props: {
     item: {},
@@ -17840,7 +18144,7 @@ const _sfc_main$a = /* @__PURE__ */ defineComponent({
         } else {
           return false;
         }
-      } else if (currData.value.arrayDataTypeName === "数字") {
+      } else if (currData.value.arrayDataTypeName === "Number") {
         if (currData.value.defaultValue != void 0 && currData.value.defaultValue !== "") {
           return parseFloat(currData.value.defaultValue);
         } else {
@@ -17872,7 +18176,7 @@ const _sfc_main$a = /* @__PURE__ */ defineComponent({
       var _a;
       let defaultArrayData = [];
       let defaultValue = (_a = currData.value) == null ? void 0 : _a.defaultValue;
-      if (currData.value.arrayDataTypeName === "数字") {
+      if (currData.value.arrayDataTypeName === "Number") {
         if (defaultValue && defaultValue !== "") {
           defaultValue = parseFloat(defaultValue);
         } else {
@@ -17911,7 +18215,8 @@ const _sfc_main$a = /* @__PURE__ */ defineComponent({
         style: { "flex-grow": "1" }
       }, [
         createVNode(_component_els_list, {
-          data: unref(currData).value,
+          modelValue: unref(currData).value,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(currData).value = $event),
           onAdd: handleAddItem,
           "item-key": "",
           style: normalizeStyle([
@@ -17923,7 +18228,7 @@ const _sfc_main$a = /* @__PURE__ */ defineComponent({
           ])
         }, {
           default: withCtx(({ index }) => [
-            createVNode(_sfc_main$b, mergeProps(formAttrs.value, {
+            createVNode(_sfc_main$f, mergeProps(formAttrs.value, {
               "parent-node": _ctx.parentNode,
               "curr-node": unref(currData),
               disabled: handleDisabledExpress(),
@@ -17934,18 +18239,18 @@ const _sfc_main$a = /* @__PURE__ */ defineComponent({
             }), null, 16, ["parent-node", "curr-node", "disabled", "prop", "item", "style"])
           ]),
           _: 1
-        }, 8, ["data", "style"])
+        }, 8, ["modelValue", "style"])
       ], 2);
     };
   }
 });
-const _hoisted_1$6 = ["onClick"];
-const _hoisted_2$2 = {
+const _hoisted_1$8 = ["onClick"];
+const _hoisted_2$3 = {
   key: 0,
   class: "els-dynamic-d-v-item-type"
 };
 const _hoisted_3$1 = { class: "els-dynamic-d-v-item-move" };
-const _sfc_main$9 = /* @__PURE__ */ defineComponent({
+const _sfc_main$d = /* @__PURE__ */ defineComponent({
   __name: "DynamicDesignerViewInner",
   props: {
     nodeItem: {},
@@ -17965,7 +18270,7 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
     const currNode = computed(() => {
       let currData2 = {};
       props.data.forEach((ele) => {
-        if (ele.componentName == "ElsRow") {
+        if (ele.componentType == "Row") {
           ele.data.forEach((cele) => {
             currData2[cele.keyCode] = cele;
           });
@@ -18002,7 +18307,7 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
     function getFormItemAttr(item) {
       var _a;
       const currFormConfig = lessCom$1.cloneObj(item.config.formConfig);
-      if (item.dataTypeName == "无" || ((_a = item.config.baseConfig) == null ? void 0 : _a.componentName) == "ElsCaption" || item.componentName === "ElsRow") {
+      if (item.dataTypeName == "None" || ((_a = item.config.baseConfig) == null ? void 0 : _a.componentName) == "ElsCaption" || item.componentType === "Row") {
         currFormConfig.labelWidth = "0px";
       } else if (item.dataTypeName == "Object" || item.arrayDataTypeName == "Object") {
         delete currFormConfig.labelWidth;
@@ -18039,11 +18344,11 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
     const recordComponent = inject("recordComponent", () => {
     });
     function handleSelectItem(item) {
-      setSelectItem(item);
+      setSelectItem(item, currData.value);
     }
     function handleAddComponent(e) {
       recordComponent();
-      setSelectItem(currData.value[e.newIndex]);
+      setSelectItem(currData.value[e.newIndex], currData.value);
     }
     function initArrayChild(element) {
       if (element.data.length > 0) {
@@ -18053,7 +18358,7 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
           element.data.splice(0, 1);
           return;
         }
-        if (child.dataTypeName == "无") {
+        if (child.dataTypeName == "None") {
           ElMessage.warning("数组中不能展示组件");
           element.data.splice(0, 1);
           return;
@@ -18062,8 +18367,8 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
         element.arrayDataTypeName = child.dataTypeName;
         element.componentName = child.componentName;
         element.componentGroup = child.componentGroup;
-        element.controlType = child.controlType;
-        element.controlTypeName = child.controlTypeName;
+        element.componentType = child.componentType;
+        element.componentTypeName = child.componentTypeName;
         element.data = child.data;
         element.value = [];
       }
@@ -18099,17 +18404,17 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
         default: withCtx(() => {
           var _a, _b, _c;
           return [
-            (openBlock(), createBlock(resolveDynamicComponent(((_a = _ctx.nodeItem) == null ? void 0 : _a.componentName) == "ElsRow" ? "ElsRow" : "div"), {
+            (openBlock(), createBlock(resolveDynamicComponent(((_a = _ctx.nodeItem) == null ? void 0 : _a.componentType) == "Row" ? "ElsRow" : "div"), {
               gutter: 5,
               class: normalizeClass(itemClassName.value),
-              style: normalizeStyle(((_b = _ctx.nodeItem) == null ? void 0 : _b.componentName) === "ElsRow" ? _ctx.nodeItem ? (_c = _ctx.nodeItem.config.advancedConfig) == null ? void 0 : _c.style : "" : "")
+              style: normalizeStyle(((_b = _ctx.nodeItem) == null ? void 0 : _b.componentType) === "Row" ? _ctx.nodeItem ? (_c = _ctx.nodeItem.config.advancedConfig) == null ? void 0 : _c.style : "" : "")
             }, {
               default: withCtx(() => {
                 var _a2;
                 return [
                   createVNode(unref(draggable), mergeProps({
                     tag: "div",
-                    class: ((_a2 = _ctx.nodeItem) == null ? void 0 : _a2.componentName) === "ElsRow" ? "els-row-drag" : "",
+                    class: ((_a2 = _ctx.nodeItem) == null ? void 0 : _a2.componentType) === "Row" ? "els-row-drag" : "",
                     style: [[{ "min-height": _ctx.depath ? "50px" : "650px" }], { "margin": "5px 0", "width": "100%" }],
                     list: unref(currData),
                     onAdd: handleAddComponent,
@@ -18121,7 +18426,7 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
                     item: withCtx(({ element, index }) => {
                       var _a3;
                       return [
-                        (openBlock(), createBlock(resolveDynamicComponent(((_a3 = _ctx.nodeItem) == null ? void 0 : _a3.componentName) === "ElsRow" ? "els-col" : "div"), {
+                        (openBlock(), createBlock(resolveDynamicComponent(((_a3 = _ctx.nodeItem) == null ? void 0 : _a3.componentType) === "Row" ? "els-col" : "div"), {
                           key: element.keyID
                         }, {
                           default: withCtx(() => {
@@ -18131,7 +18436,7 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
                                 class: normalizeClass(["els-dynamic-d-v-item", { "selected": ((_a4 = unref(getSelectItem)()) == null ? void 0 : _a4.keyID) == element.keyID }]),
                                 onClick: withModifiers(($event) => handleSelectItem(element), ["stop"])
                               }, [
-                                element.componentGroup == "Form" ? (openBlock(), createElementBlock("span", _hoisted_2$2, [
+                                element.componentGroup == "Form" ? (openBlock(), createElementBlock("span", _hoisted_2$3, [
                                   createElementVNode("span", null, toDisplayString(element.keyCode), 1),
                                   createElementVNode("span", null, toDisplayString(element.dataTypeName === "Array" ? `Array
                                     <${element.arrayDataTypeName ? element.arrayDataTypeName : "T"}>` : element.dataTypeName), 1)
@@ -18164,7 +18469,7 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
                                     _: 1
                                   })
                                 ]),
-                                element.componentName == "ElsRow" ? (openBlock(), createBlock(_sfc_main$9, {
+                                element.componentType == "Row" ? (openBlock(), createBlock(_sfc_main$d, {
                                   key: 1,
                                   data: element.data,
                                   parentNode: currNode.value,
@@ -18196,7 +18501,7 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
                                           initArrayChild(element) ? (openBlock(), createBlock(_component_el_empty, { key: 0 })) : createCommentVNode("", true)
                                         ]),
                                         _: 2
-                                      }, 1040, ["list"])) : element.dataTypeName != "Array" && element.dataTypeName != "Object" && element.componentName !== "ElsRow" ? (openBlock(), createBlock(_sfc_main$b, {
+                                      }, 1040, ["list"])) : element.componentType && element.componentGroup === "Form" ? (openBlock(), createBlock(_sfc_main$f, {
                                         key: element.keyID,
                                         disabled: handleDisabledExpress(element),
                                         "parent-node": _ctx.parentNode,
@@ -18206,13 +18511,13 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
                                         "onUpdate:modelValue": ($event) => element.value = $event,
                                         style: normalizeStyle(element.config.advancedConfig.style),
                                         onValueChange: ($event) => handleValueChange($event, element)
-                                      }, null, 8, ["disabled", "parent-node", "curr-node", "item", "modelValue", "onUpdate:modelValue", "style", "onValueChange"])) : element.dataTypeName == "Object" || element.dataTypeName == "Array" && element.arrayDataTypeName == "Object" ? (openBlock(), createBlock(_sfc_main$9, {
+                                      }, null, 8, ["disabled", "parent-node", "curr-node", "item", "modelValue", "onUpdate:modelValue", "style", "onValueChange"])) : element.dataTypeName == "Object" || element.dataTypeName == "Array" && element.arrayDataTypeName == "Object" ? (openBlock(), createBlock(_sfc_main$d, {
                                         key: 2,
                                         data: element.data,
                                         parentNode: currNode.value,
                                         "node-item": element,
                                         depath: currDepath.value
-                                      }, null, 8, ["data", "parentNode", "node-item", "depath"])) : element.dataTypeName == "Array" && element.arrayDataType && element.arrayDataTypeName != "Object" ? (openBlock(), createBlock(_sfc_main$a, {
+                                      }, null, 8, ["data", "parentNode", "node-item", "depath"])) : element.dataTypeName == "Array" && element.arrayDataType && element.arrayDataTypeName != "Object" ? (openBlock(), createBlock(_sfc_main$e, {
                                         key: 3,
                                         "parent-node": _ctx.parentNode,
                                         item: element,
@@ -18221,14 +18526,14 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
                                     ]),
                                     _: 2
                                   }, 1040, ["class", "style", "label", "prop"])) : createCommentVNode("", true),
-                                  element.componentGroup === "Desc" && element.componentName == "ElsCaption" ? (openBlock(), createBlock(_component_els_caption, normalizeProps(mergeProps({ key: 2 }, element.config.baseConfig)), {
+                                  element.componentGroup === "Desc" && element.componentType == "Caption" ? (openBlock(), createBlock(_component_els_caption, normalizeProps(mergeProps({ key: 2 }, element.config.baseConfig)), {
                                     default: withCtx(() => [
                                       createTextVNode(toDisplayString(element.config.baseConfig.title ?? "描述"), 1)
                                     ]),
                                     _: 2
                                   }, 1040)) : createCommentVNode("", true)
                                 ], 64))
-                              ], 10, _hoisted_1$6)
+                              ], 10, _hoisted_1$8)
                             ];
                           }),
                           _: 2
@@ -19372,11 +19677,11 @@ const useDesign = defineStore("design", () => {
     clear
   };
 });
-const _hoisted_1$5 = {
+const _hoisted_1$7 = {
   style: { "display": "flex", "background": "#f8f8f8" },
   class: "els-dynamic-view"
 };
-const _hoisted_2$1 = {
+const _hoisted_2$2 = {
   style: { "flex-basis": "260px", "flex-shrink": "0", "background": "#fff" },
   class: "els-dynamic-view-components"
 };
@@ -19422,13 +19727,41 @@ const _hoisted_11 = {
   style: { "flex-basis": "400px", "width": "400px", "flex-shrink": "0", "background": "#fff", "padding": "0 5px" },
   class: "els-dynamic-view-propertys"
 };
-const _sfc_main$8 = /* @__PURE__ */ defineComponent({
+const _sfc_main$c = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsDynamicDesignerView"
   },
   __name: "DynamicDesignerView",
   props: {
-    modelValue: {}
+    modelValue: {},
+    camelCase: { type: Boolean },
+    dataTypes: {},
+    componentTypes: {},
+    appendComponentTypes: {},
+    componentRelateDataType: {},
+    prop: {},
+    label: {},
+    hasFormItem: { type: Boolean },
+    span: {},
+    aIndex: {},
+    tip: {},
+    tipPosition: {},
+    suffixContent: {},
+    required: { type: Boolean },
+    requiredMessage: {},
+    validType: {},
+    validExpression: {},
+    validMessage: {},
+    validMethod: {},
+    validTrigger: {},
+    queryField: {},
+    queryMethod: {},
+    queryDataType: {},
+    queryDefaultValue: {},
+    queryAutoReadData: { type: Boolean },
+    queryAroundComma: { type: Boolean },
+    queryRange: { type: Boolean },
+    queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue"],
   setup(__props, { emit: emits }) {
@@ -19442,39 +19775,64 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
     const viewPriview = ref(false);
     const formValue = ref();
     const controlData = ref([]);
+    const currDynamicDataType = ref([]);
+    if (props.dataTypes) {
+      currDynamicDataType.value.push(...props.dataTypes);
+    } else {
+      currDynamicDataType.value.push(...dynamicDataTypes);
+    }
+    const currComponentTypes = ref([]);
+    if (props.componentTypes) {
+      currComponentTypes.value.push(...props.componentTypes);
+    } else {
+      currComponentTypes.value.push(...dynamicComponentTypes);
+    }
+    if (props.appendComponentTypes) {
+      currComponentTypes.value.push(...props.appendComponentTypes);
+    }
+    if (props.componentRelateDataType) {
+      currComponentTypes.value.forEach((ele) => {
+        const currRelate = props.componentRelateDataType ? props.componentRelateDataType[ele.type] : void 0;
+        if (currRelate) {
+          ele.dataTypes = currRelate;
+        }
+      });
+    }
+    provide("dataTypeData", currDynamicDataType.value);
+    provide("componentData", currComponentTypes.value);
     const objectData = ref([
       {
         keyID: "key_" + lessCom$1.randomNumber().toString(),
         keyName: "Object",
-        keyCode: "Object_" + (Math.random() * 1e5).toString().toInt(),
+        keyCode: "object_" + (Math.random() * 1e5).toString().toInt(),
         data: [],
-        dataType: (_a = dynamicDataType.find((cele) => cele.label == "Object")) == null ? void 0 : _a.value,
+        dataType: (_a = currDynamicDataType.value.find((cele) => cele.type == "Object")) == null ? void 0 : _a.value,
         dataTypeName: "Object",
         arrayDataTypeName: "",
         arrayDataType: "",
         componentGroup: "Form",
-        controlTypeName: "Object",
+        componentTypeName: "Object",
         componentName: "",
-        controlType: 0,
+        componentType: 0,
         config: {
           formConfig: {},
           baseConfig: {},
           advancedConfig: {},
           arrayConfig: {}
         },
-        value: ""
+        value: {}
       },
       {
         keyID: "key_" + lessCom$1.randomNumber().toString(),
         keyName: "Array",
-        keyCode: "Array_" + (Math.random() * 1e5).toString().toInt(),
+        keyCode: "array_" + (Math.random() * 1e5).toString().toInt(),
         data: [],
-        dataType: (_b = dynamicDataType.find((cele) => cele.label == "Array")) == null ? void 0 : _b.value,
+        dataType: (_b = currDynamicDataType.value.find((cele) => cele.type == "Array")) == null ? void 0 : _b.value,
         dataTypeName: "Array",
         componentGroup: "Form",
-        controlTypeName: "Array<T>",
+        componentTypeName: "Array<T>",
         componentName: "",
-        controlType: 0,
+        componentType: 0,
         arrayDataTypeName: "",
         arrayDataType: "",
         config: {
@@ -19483,37 +19841,55 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
           advancedConfig: {},
           arrayConfig: {}
         },
-        value: ""
+        value: []
       }
     ]);
     const importJSON = ref();
-    dynamicControlType.forEach((ele) => {
-      var _a2;
+    currComponentTypes.value.forEach((ele) => {
+      const currType = currDynamicDataType.value.find((cele) => cele.type == ele.dataTypes[0]);
       controlData.value.push({
         keyID: "key_" + lessCom$1.randomNumber().toString(),
         keyName: ele.label,
-        keyCode: "Key_" + (Math.random() * 1e5).toString().toInt(),
+        keyCode: "key_" + (Math.random() * 1e5).toString().toInt(),
         data: [],
-        dataType: (_a2 = dynamicDataType.find((cele) => cele.label == ele.dataTypes[0])) == null ? void 0 : _a2.value,
+        dataType: currType == null ? void 0 : currType.value,
         dataTypeName: ele.dataTypes[0],
         arrayDataTypeName: "",
         arrayDataType: "",
         componentGroup: ele.group,
-        controlTypeName: ele.label,
+        componentTypeName: ele.label,
         componentName: ele.componentName,
-        controlType: ele.value,
+        componentType: ele.value,
         config: {
           formConfig: {},
           baseConfig: {},
           advancedConfig: {},
           arrayConfig: {}
         },
-        value: ""
+        value: initValue(currType == null ? void 0 : currType.type)
       });
     });
+    function initValue(type) {
+      switch (type) {
+        case "Number":
+          return 0;
+        case "Bool":
+          return false;
+        case "Object":
+          return {};
+        case "Array":
+          return [];
+        default:
+          return "";
+      }
+    }
+    const dynamicHandler = new DynamicHandler(currDynamicDataType.value, currComponentTypes.value);
     const renderData = ref([]);
     function handleOpenImport() {
-      importJSON.value = renderData.value;
+      const val = renderData.value;
+      const currVal = lessCom$1.cloneObj(val);
+      dynamicHandler.recoverConfig(currVal);
+      importJSON.value = currVal;
     }
     function initData() {
       if (props.modelValue) {
@@ -19522,7 +19898,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
         } else {
           renderData.value = lessCom$1.cloneObj(JSON.parse(props.modelValue));
         }
-        recoverData(renderData.value);
+        dynamicHandler.initConfigType(renderData.value);
       }
     }
     initData();
@@ -19533,7 +19909,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
       const val = renderData.value;
       if (val.length > 0) {
         const currVal = lessCom$1.cloneObj(val);
-        recoverConfig(currVal);
+        dynamicHandler.recoverConfig(currVal);
         if (typeof val === "object") {
           emits("update:modelValue", currVal);
         } else {
@@ -19550,154 +19926,11 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
     watch(renderData, () => {
       debouncedReturnResult.value();
     }, { deep: true });
-    function recoverConfig(data) {
-      data.forEach((ele) => {
-        if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object") {
-          recoverArrayConfig(ele);
-        } else if (ele.dataTypeName == "Object") {
-          recoverConfig(ele.data);
-        } else if (ele.dataTypeName == "无" && ele.componentName == "ElsRow") {
-          recoverConfig(ele.data);
-        }
-        delete ele.componentGroup;
-        delete ele.dataTypeName;
-        delete ele.arrayDataTypeName;
-        delete ele.componentName;
-        delete ele.controlTypeName;
-        delete ele.value;
-      });
-    }
-    function recoverArrayConfig(item) {
-      delete item.arrayObjData;
-      delete item.value;
-      item.data.forEach((ele) => {
-        if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object") {
-          recoverArrayConfig(ele);
-        } else if (ele.dataTypeName == "Object") {
-          recoverConfig(ele.data);
-        } else if (ele.dataTypeName == "无" && ele.componentName == "ElsRow") {
-          recoverConfig(ele.data);
-        }
-      });
-    }
-    function getDefaultValue(item) {
-      var _a2;
-      const currDataType = dynamicDataType.find((ele) => ele.value == item.dataType);
-      if (currDataType) {
-        switch (currDataType.label) {
-          case "数字":
-            if (item.defaultValue) {
-              item.value = parseFloat(item.defaultValue);
-            } else {
-              item.value = 0;
-            }
-            break;
-          case "Bool":
-            if (((_a2 = item.defaultValue) == null ? void 0 : _a2.toLowerCase()) === "true") {
-              item.value = true;
-            } else {
-              item.value = false;
-            }
-            break;
-          default:
-            if (item.defaultValue) {
-              item.value = item.defaultValue.toString();
-            } else {
-              item.value = "";
-            }
-        }
-      }
-    }
-    function recoverData(data, valueData = null) {
-      if (!valueData) {
-        valueData = {};
-      }
-      data.forEach((ele) => {
-        if (ele.keyCode) {
-          const currVal = valueData[ele.keyCode];
-          if (currVal === void 0) {
-            getDefaultValue(ele);
-          } else {
-            ele.value = currVal;
-          }
-        } else {
-          getDefaultValue(ele);
-        }
-        const currDataType = dynamicDataType.find((d) => d.value == ele.dataType);
-        const currArrayDataType = dynamicDataType.find((d) => d.value == ele.arrayDataType);
-        const currControlType = dynamicControlType.find((d) => d.value == ele.controlType);
-        ele.componentGroup = currControlType == null ? void 0 : currControlType.group;
-        ele.dataTypeName = currDataType == null ? void 0 : currDataType.label;
-        ele.arrayDataTypeName = currArrayDataType == null ? void 0 : currArrayDataType.label;
-        ele.componentName = currControlType == null ? void 0 : currControlType.componentName;
-        if ((currDataType == null ? void 0 : currDataType.label) == "Array" && (currArrayDataType == null ? void 0 : currArrayDataType.label) == "Object") {
-          recoverArrayData(ele, valueData[ele.keyCode]);
-        } else if ((currDataType == null ? void 0 : currDataType.label) == "Object") {
-          recoverData(ele.data, valueData[ele.keyCode]);
-        } else if ((currDataType == null ? void 0 : currDataType.label) == "无" && (currControlType == null ? void 0 : currControlType.componentName) == "ElsRow") {
-          recoverData(ele.data, valueData);
-        }
-      });
-    }
-    function recoverArrayData(item, valueData = null) {
-      if (!item["arrayObjData"]) {
-        let currData = [];
-        item.data.forEach((ele) => {
-          const currDataType = dynamicDataType.find((d) => d.value == ele.dataType);
-          const currArrayDataType = dynamicDataType.find((d) => d.value == ele.arrayDataType);
-          const currControlType = dynamicControlType.find((d) => d.value == ele.controlType);
-          ele.dataTypeName = currDataType == null ? void 0 : currDataType.label;
-          ele.arrayDataTypeName = currArrayDataType == null ? void 0 : currArrayDataType.label;
-          ele.componentName = currControlType == null ? void 0 : currControlType.componentName;
-          ele.componentGroup = currControlType == null ? void 0 : currControlType.group;
-          var currItem = Object.assign({}, ele);
-          getDefaultValue(currItem);
-          if ((currDataType == null ? void 0 : currDataType.label) == "Array" && (currArrayDataType == null ? void 0 : currArrayDataType.label) == "Object") {
-            recoverArrayData(currItem);
-          } else if ((currDataType == null ? void 0 : currDataType.label) == "Object" || (currControlType == null ? void 0 : currControlType.componentName) == "ElsRow") {
-            recoverData(currItem.data);
-          }
-          currData.push(currItem);
-        });
-        item["arrayObjData"] = currData;
-      }
-      if (valueData) {
-        item.value = valueData;
-        let arrayData = [];
-        valueData.forEach((ele) => {
-          let itemData = lessCom$1.cloneObj(item["arrayObjData"]);
-          recoverData(itemData, ele);
-          arrayData.push(itemData);
-        });
-        item.data = arrayData;
-      } else {
-        item.value = [];
-        let defaultArrayData = [];
-        if (item.config.baseConfig.arrayDefaultLength === void 0 || item.config.baseConfig.arrayDefaultLength === "") {
-          defaultArrayData.push(lessCom$1.cloneObj(item["arrayObjData"]));
-        } else {
-          for (let i = 0; i < item.config.baseConfig.arrayDefaultLength; i++) {
-            defaultArrayData.push(lessCom$1.cloneObj(item["arrayObjData"]));
-          }
-        }
-        item.data = defaultArrayData;
-      }
-    }
-    function getUploadUrl(url, item) {
-      let currUrl = url;
-      let uploadParms = `&ResourcePicLimitType=${item.config.baseConfig.picLimitType ?? ""}&ResourcePicWidth=${item.config.baseConfig.picWidthLimit ?? 0}&ResourcePicHeight=${item.config.baseConfig.picHeightLimit ?? 0}&HasMd5Parameter=${item.config.baseConfig.hasMd5Parameter ? 1 : 0}`;
-      if (item.config.baseConfig.resourceCode) {
-        currUrl = currUrl.addUrlParameter("ResourceCode", item.config.baseConfig.resourceCode);
-      }
-      if (item.config.baseConfig.restrictCode) {
-        currUrl = currUrl.addUrlParameter("RestrictCode", item.config.baseConfig.restrictCode);
-      }
-      let uploadUrl = currUrl + uploadParms;
-      return uploadUrl;
-    }
     const currSelectItem = ref();
+    const currSelectData = ref();
     const showPropertys = ref(false);
-    function setSelectItem(item) {
+    function setSelectItem(item, data = null) {
+      currSelectData.value = data;
       if (!item) {
         currSelectItem.value = null;
         showPropertys.value = false;
@@ -19713,28 +19946,33 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
     }
     function handleClone(item) {
       item = lessCom$1.cloneObj(item);
-      item.keyID = "key_" + lessCom$1.randomNumber().toString(), item.keyCode = "Key_" + lessCom$1.randomNumber();
+      item.keyID = "key_" + lessCom$1.randomNumber().toString(), item.keyCode = "key_" + lessCom$1.randomNumber();
       return item;
     }
     const currPropertys = computed(() => {
       if (currSelectItem.value) {
         if (currSelectItem.value.dataType !== void 0) {
-          if (!currSelectItem.value.controlType) {
-            const currVal = dynamicDataType.find((ele) => ele.value == currSelectItem.value.dataType);
-            const arrayVal = dynamicDataType.find((ele) => ele.value == currSelectItem.value.arrayDataType);
-            if ((currVal == null ? void 0 : currVal.label) == "Array" && (arrayVal == null ? void 0 : arrayVal.label) === "Object" || (currVal == null ? void 0 : currVal.label) == "Object") {
+          if (!currSelectItem.value.componentType) {
+            const currVal = currDynamicDataType.value.find((ele) => ele.value == currSelectItem.value.dataType);
+            const arrayVal = currDynamicDataType.value.find((ele) => ele.value == currSelectItem.value.arrayDataType);
+            if ((currVal == null ? void 0 : currVal.type) == "Array" && (arrayVal == null ? void 0 : arrayVal.type) === "Object" || (currVal == null ? void 0 : currVal.type) == "Object") {
               return lessCom$1.cloneObj(property_arrayAndObject);
             }
           } else {
-            if (dynamicControlType) {
-              const currControlData = dynamicControlType.find((ele) => ele.value == currSelectItem.value.controlType);
-              if (currControlData) {
+            if (currComponentTypes.value) {
+              const currControlData = currComponentTypes.value.find((ele) => ele.value == currSelectItem.value.componentType);
+              if (currControlData && currControlData.propertys && currControlData.propertys.length) {
                 return currControlData.propertys;
+              } else {
+                const currVal = currDynamicDataType.value.find((ele) => ele.value == currSelectItem.value.dataType);
+                const arrayVal = currDynamicDataType.value.find((ele) => ele.value == currSelectItem.value.arrayDataType);
+                if ((currVal == null ? void 0 : currVal.type) == "Array" && (arrayVal == null ? void 0 : arrayVal.type) === "Object" || (currVal == null ? void 0 : currVal.type) == "Object")
+                  return lessCom$1.cloneObj(property_arrayAndObject);
               }
             }
           }
         } else {
-          if (!currSelectItem.value.controlType) {
+          if (!currSelectItem.value.componentType) {
             currSelectItem.value.config = {
               formConfig: {},
               baseConfig: {},
@@ -19770,15 +20008,15 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
     function getSelectItem() {
       return currSelectItem.value;
     }
-    function getDataTypeData(controlType) {
-      if (!controlType) {
+    function getDataTypeData(componentType) {
+      if (!componentType) {
         return [];
       }
-      const currControl = dynamicControlType.find((ele) => ele.value == controlType);
+      const currControl = currComponentTypes.value.find((ele) => ele.value === componentType || ele.type === componentType);
       if (!currControl) {
         return [];
       }
-      return dynamicDataType.filter((ele) => currControl.dataTypes.includes(ele.label));
+      return currDynamicDataType.value.filter((ele) => currControl.dataTypes.includes(ele.type));
     }
     function handleImportDesigner() {
       if (typeof importJSON.value === "string") {
@@ -19786,7 +20024,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
       } else {
         renderData.value = importJSON.value;
       }
-      recoverData(renderData.value);
+      dynamicHandler.initConfigType(renderData.value);
       recordComponent();
       return Promise.resolve(true);
     }
@@ -19797,7 +20035,22 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
       renderData.value = [];
       currSelectItem.value = null;
     }
-    provide("getUploadUrl", getUploadUrl);
+    function validationCode(rule, value, callback) {
+      console.log(rule);
+      if (value === "") {
+        callback(new Error("keyCode不能为空"));
+      } else if (currSelectData.value && currSelectData.value.filter((ele) => ele.keyCode == value).length > 1) {
+        ElMessage.warning(`[${value}]重复`);
+        callback(new Error("keyCode重复"));
+      } else {
+        callback();
+      }
+    }
+    function handleChangeKeyCode(keyCode) {
+      if (props.camelCase) {
+        currSelectItem.value.keyCode = keyCode.replace(keyCode[0], keyCode[0].toLowerCase());
+      }
+    }
     provide("setSelectItem", setSelectItem);
     provide("getSelectItem", getSelectItem);
     provide("recordComponent", recordComponent);
@@ -19818,345 +20071,361 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
       const _component_els_select = resolveComponent("els-select");
       const _component_els_form = resolveComponent("els-form");
       const _component_ElsDynamicRender = resolveComponent("ElsDynamicRender");
+      const _component_ElsFormNode = resolveComponent("ElsFormNode");
       const _component_ElsJsonViewer = resolveComponent("ElsJsonViewer");
       const _component_els_dialog = resolveComponent("els-dialog");
       return openBlock(), createElementBlock(Fragment, null, [
-        createElementVNode("div", _hoisted_1$5, [
-          createElementVNode("div", _hoisted_2$1, [
-            createVNode(_component_el_tabs, { stretch: "" }, {
-              default: withCtx(() => [
-                createVNode(_component_el_tab_pane, { label: "表单组件" }, {
-                  default: withCtx(() => [
-                    createVNode(_component_el_collapse, {
-                      modelValue: activeNames.value,
-                      "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => activeNames.value = $event)
+        createElementVNode("div", null, [
+          createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
+            default: withCtx(() => [
+              createElementVNode("div", _hoisted_1$7, [
+                createElementVNode("div", _hoisted_2$2, [
+                  createVNode(_component_el_tabs, { stretch: "" }, {
+                    default: withCtx(() => [
+                      createVNode(_component_el_tab_pane, { label: "表单组件" }, {
+                        default: withCtx(() => [
+                          createVNode(_component_el_collapse, {
+                            modelValue: activeNames.value,
+                            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => activeNames.value = $event)
+                          }, {
+                            default: withCtx(() => [
+                              createVNode(_component_el_collapse_item, {
+                                title: "基础类型",
+                                name: "1"
+                              }, {
+                                default: withCtx(() => [
+                                  createVNode(unref(draggable), {
+                                    tag: "ul",
+                                    list: controlData.value.filter((ele) => ele.componentGroup === "Form"),
+                                    "item-key": "keyID",
+                                    group: { name: "dragGroup", pull: "clone", put: false },
+                                    clone: handleClone,
+                                    sort: false
+                                  }, {
+                                    item: withCtx(({ element, index }) => [
+                                      (openBlock(), createElementBlock("li", {
+                                        class: "container-widget-item",
+                                        key: index
+                                      }, toDisplayString(element.componentTypeName), 1))
+                                    ]),
+                                    _: 1
+                                  }, 8, ["list"])
+                                ]),
+                                _: 1
+                              }),
+                              createVNode(_component_el_collapse_item, {
+                                title: "对象类型",
+                                name: "2"
+                              }, {
+                                default: withCtx(() => [
+                                  createVNode(unref(draggable), {
+                                    tag: "ul",
+                                    list: objectData.value,
+                                    "item-key": "keyID",
+                                    group: { name: "dragGroup", pull: "clone", put: false },
+                                    clone: handleClone,
+                                    sort: false
+                                  }, {
+                                    item: withCtx(({ element, index }) => [
+                                      (openBlock(), createElementBlock("li", {
+                                        class: "container-widget-item",
+                                        key: index
+                                      }, toDisplayString(element.componentTypeName), 1))
+                                    ]),
+                                    _: 1
+                                  }, 8, ["list"])
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          }, 8, ["modelValue"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(_component_el_tab_pane, { label: "展示组件" }, {
+                        default: withCtx(() => [
+                          createVNode(_component_el_collapse, {
+                            modelValue: activeNames.value,
+                            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => activeNames.value = $event)
+                          }, {
+                            default: withCtx(() => [
+                              createVNode(_component_el_collapse_item, {
+                                title: "容器",
+                                name: "1"
+                              }, {
+                                default: withCtx(() => [
+                                  createVNode(unref(draggable), {
+                                    tag: "ul",
+                                    list: controlData.value.filter((ele) => ele.componentGroup === "Container"),
+                                    "item-key": "keyID",
+                                    group: { name: "dragGroup", pull: "clone", put: false },
+                                    clone: handleClone,
+                                    sort: false
+                                  }, {
+                                    item: withCtx(({ element, index }) => [
+                                      (openBlock(), createElementBlock("li", {
+                                        class: "container-widget-item",
+                                        key: index
+                                      }, toDisplayString(element.componentTypeName), 1))
+                                    ]),
+                                    _: 1
+                                  }, 8, ["list"])
+                                ]),
+                                _: 1
+                              }),
+                              createVNode(_component_el_collapse_item, {
+                                title: "展示",
+                                name: "2"
+                              }, {
+                                default: withCtx(() => [
+                                  createVNode(unref(draggable), {
+                                    tag: "ul",
+                                    list: controlData.value.filter((ele) => ele.componentGroup === "Desc"),
+                                    "item-key": "keyID",
+                                    group: { name: "dragGroup", pull: "clone", put: false },
+                                    clone: handleClone,
+                                    sort: false
+                                  }, {
+                                    item: withCtx(({ element, index }) => [
+                                      (openBlock(), createElementBlock("li", {
+                                        class: "container-widget-item",
+                                        key: index
+                                      }, toDisplayString(element.componentTypeName), 1))
+                                    ]),
+                                    _: 1
+                                  }, 8, ["list"])
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          }, 8, ["modelValue"])
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  })
+                ]),
+                createElementVNode("div", _hoisted_3, [
+                  createElementVNode("div", _hoisted_4, [
+                    createElementVNode("span", _hoisted_5, [
+                      createVNode(_component_el_button, {
+                        link: "",
+                        onClick: unDoComponent,
+                        disabled: isDisabledUndo.value
+                      }, {
+                        default: withCtx(() => [
+                          _hoisted_6
+                        ]),
+                        _: 1
+                      }, 8, ["disabled"]),
+                      createVNode(_component_el_button, {
+                        link: "",
+                        onClick: reDoComponent,
+                        disabled: isDisabledReDo.value
+                      }, {
+                        default: withCtx(() => [
+                          _hoisted_7
+                        ]),
+                        _: 1
+                      }, 8, ["disabled"])
+                    ]),
+                    createElementVNode("span", _hoisted_8, [
+                      createVNode(_component_el_link, {
+                        type: "primary",
+                        onClick: clearAll
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(_component_el_icon, null, {
+                            default: withCtx(() => [
+                              createVNode(_component_Delete)
+                            ]),
+                            _: 1
+                          }),
+                          createTextVNode("清空 ")
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(_component_els_data_modal, {
+                        title: "导入配置",
+                        open: handleOpenImport,
+                        componentName: "el-link",
+                        buttonLabel: "导入配置",
+                        hasInput: false,
+                        link: "",
+                        confirm: handleImportDesigner,
+                        icon: "DocumentAdd"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(_component_ElsJsonEditor, {
+                            modelValue: importJSON.value,
+                            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => importJSON.value = $event),
+                            style: { "height": "500px" }
+                          }, null, 8, ["modelValue"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(_component_el_link, {
+                        type: "primary",
+                        onClick: _cache[3] || (_cache[3] = ($event) => viewPriview.value = !viewPriview.value)
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(_component_el_icon, null, {
+                            default: withCtx(() => [
+                              createVNode(_component_View)
+                            ]),
+                            _: 1
+                          }),
+                          createTextVNode("预览 ")
+                        ]),
+                        _: 1
+                      })
+                    ])
+                  ]),
+                  createElementVNode("div", _hoisted_9, [
+                    createVNode(_sfc_main$d, { data: renderData.value }, null, 8, ["data"]),
+                    !renderData.value.length ? (openBlock(), createBlock(_component_el_empty, {
+                      key: 0,
+                      style: { "margin-top": "-650px" }
                     }, {
-                      default: withCtx(() => [
-                        createVNode(_component_el_collapse_item, {
-                          title: "基础类型",
-                          name: "1"
-                        }, {
-                          default: withCtx(() => [
-                            createVNode(unref(draggable), {
-                              tag: "ul",
-                              list: controlData.value.filter((ele) => ele.componentGroup === "Form"),
-                              "item-key": "keyID",
-                              group: { name: "dragGroup", pull: "clone", put: false },
-                              clone: handleClone,
-                              sort: false
-                            }, {
-                              item: withCtx(({ element, index }) => [
-                                (openBlock(), createElementBlock("li", {
-                                  class: "container-widget-item",
-                                  key: index
-                                }, toDisplayString(element.controlTypeName), 1))
-                              ]),
-                              _: 1
-                            }, 8, ["list"])
-                          ]),
-                          _: 1
-                        }),
-                        createVNode(_component_el_collapse_item, {
-                          title: "对象类型",
-                          name: "2"
-                        }, {
-                          default: withCtx(() => [
-                            createVNode(unref(draggable), {
-                              tag: "ul",
-                              list: objectData.value,
-                              "item-key": "keyID",
-                              group: { name: "dragGroup", pull: "clone", put: false },
-                              clone: handleClone,
-                              sort: false
-                            }, {
-                              item: withCtx(({ element, index }) => [
-                                (openBlock(), createElementBlock("li", {
-                                  class: "container-widget-item",
-                                  key: index
-                                }, toDisplayString(element.controlTypeName), 1))
-                              ]),
-                              _: 1
-                            }, 8, ["list"])
-                          ]),
-                          _: 1
-                        })
+                      description: withCtx(() => [
+                        createTextVNode("请点击拖动"),
+                        _hoisted_10,
+                        createTextVNode("组件到此处")
                       ]),
                       _: 1
-                    }, 8, ["modelValue"])
-                  ]),
-                  _: 1
-                }),
-                createVNode(_component_el_tab_pane, { label: "展示组件" }, {
-                  default: withCtx(() => [
-                    createVNode(_component_el_collapse, {
-                      modelValue: activeNames.value,
-                      "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => activeNames.value = $event)
-                    }, {
-                      default: withCtx(() => [
-                        createVNode(_component_el_collapse_item, {
-                          title: "容器",
-                          name: "1"
-                        }, {
-                          default: withCtx(() => [
-                            createVNode(unref(draggable), {
-                              tag: "ul",
-                              list: controlData.value.filter((ele) => ele.componentGroup === "Container"),
-                              "item-key": "keyID",
-                              group: { name: "dragGroup", pull: "clone", put: false },
-                              clone: handleClone,
-                              sort: false
-                            }, {
-                              item: withCtx(({ element, index }) => [
-                                (openBlock(), createElementBlock("li", {
-                                  class: "container-widget-item",
-                                  key: index
-                                }, toDisplayString(element.controlTypeName), 1))
-                              ]),
-                              _: 1
-                            }, 8, ["list"])
-                          ]),
-                          _: 1
-                        }),
-                        createVNode(_component_el_collapse_item, {
-                          title: "展示",
-                          name: "2"
-                        }, {
-                          default: withCtx(() => [
-                            createVNode(unref(draggable), {
-                              tag: "ul",
-                              list: controlData.value.filter((ele) => ele.componentGroup === "Desc"),
-                              "item-key": "keyID",
-                              group: { name: "dragGroup", pull: "clone", put: false },
-                              clone: handleClone,
-                              sort: false
-                            }, {
-                              item: withCtx(({ element, index }) => [
-                                (openBlock(), createElementBlock("li", {
-                                  class: "container-widget-item",
-                                  key: index
-                                }, toDisplayString(element.controlTypeName), 1))
-                              ]),
-                              _: 1
-                            }, 8, ["list"])
-                          ]),
-                          _: 1
-                        })
-                      ]),
-                      _: 1
-                    }, 8, ["modelValue"])
-                  ]),
-                  _: 1
-                })
-              ]),
-              _: 1
-            })
-          ]),
-          createElementVNode("div", _hoisted_3, [
-            createElementVNode("div", _hoisted_4, [
-              createElementVNode("span", _hoisted_5, [
-                createVNode(_component_el_button, {
-                  link: "",
-                  onClick: unDoComponent,
-                  disabled: isDisabledUndo.value
-                }, {
-                  default: withCtx(() => [
-                    _hoisted_6
-                  ]),
-                  _: 1
-                }, 8, ["disabled"]),
-                createVNode(_component_el_button, {
-                  link: "",
-                  onClick: reDoComponent,
-                  disabled: isDisabledReDo.value
-                }, {
-                  default: withCtx(() => [
-                    _hoisted_7
-                  ]),
-                  _: 1
-                }, 8, ["disabled"])
-              ]),
-              createElementVNode("span", _hoisted_8, [
-                createVNode(_component_el_link, {
-                  type: "primary",
-                  onClick: clearAll
-                }, {
-                  default: withCtx(() => [
-                    createVNode(_component_el_icon, null, {
-                      default: withCtx(() => [
-                        createVNode(_component_Delete)
-                      ]),
-                      _: 1
-                    }),
-                    createTextVNode("清空 ")
-                  ]),
-                  _: 1
-                }),
-                createVNode(_component_els_data_modal, {
-                  title: "导入配置",
-                  open: handleOpenImport,
-                  componentName: "el-link",
-                  buttonLabel: "导入配置",
-                  hasInput: false,
-                  link: "",
-                  confirm: handleImportDesigner,
-                  icon: "DocumentAdd"
-                }, {
-                  default: withCtx(() => [
-                    createVNode(_component_ElsJsonEditor, {
-                      modelValue: importJSON.value,
-                      "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => importJSON.value = $event),
-                      style: { "height": "500px" }
-                    }, null, 8, ["modelValue"])
-                  ]),
-                  _: 1
-                }),
-                createVNode(_component_el_link, {
-                  type: "primary",
-                  onClick: _cache[3] || (_cache[3] = ($event) => viewPriview.value = !viewPriview.value)
-                }, {
-                  default: withCtx(() => [
-                    createVNode(_component_el_icon, null, {
-                      default: withCtx(() => [
-                        createVNode(_component_View)
-                      ]),
-                      _: 1
-                    }),
-                    createTextVNode("预览 ")
-                  ]),
-                  _: 1
-                })
+                    })) : createCommentVNode("", true)
+                  ])
+                ]),
+                createElementVNode("div", _hoisted_11, [
+                  currSelectItem.value && currPropertys.value && showPropertys.value ? (openBlock(), createBlock(_component_el_tabs, {
+                    key: 0,
+                    stretch: ""
+                  }, {
+                    default: withCtx(() => [
+                      currSelectItem.value.dataType ? (openBlock(), createBlock(_component_el_tab_pane, {
+                        key: 0,
+                        label: "基础属性"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(_component_els_form, {
+                            modelValue: currSelectItem.value,
+                            "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => currSelectItem.value = $event)
+                          }, {
+                            default: withCtx(() => [
+                              createVNode(_component_els_input, {
+                                label: "名称",
+                                prop: "keyName",
+                                required: ""
+                              }),
+                              createVNode(_component_els_input, {
+                                label: "字段名",
+                                prop: "keyCode",
+                                onInput: handleChangeKeyCode,
+                                validMethod: validationCode,
+                                required: ""
+                              }),
+                              currSelectItem.value.dataTypeName != "Array" && currSelectItem.value.dataTypeName != "Object" ? (openBlock(), createBlock(_component_els_select, {
+                                key: 0,
+                                label: "数据类型",
+                                required: "",
+                                data: getDataTypeData(currSelectItem.value.componentType),
+                                onSelect: _cache[4] || (_cache[4] = (sitem) => {
+                                  currSelectItem.value.dataTypeName = sitem.selectItem.type;
+                                }),
+                                valueField: "value",
+                                labelField: "label",
+                                placeholder: "值类型",
+                                prop: "dataType"
+                              }, null, 8, ["data"])) : createCommentVNode("", true),
+                              currSelectItem.value.dataTypeName == "Array" && currSelectItem.value.componentType ? (openBlock(), createBlock(_component_els_select, {
+                                key: 1,
+                                label: "数据类型",
+                                required: "",
+                                data: getDataTypeData(currSelectItem.value.componentType),
+                                onSelect: _cache[5] || (_cache[5] = (sitem) => {
+                                  currSelectItem.value.arrayDataTypeName = sitem.selectItem.type;
+                                }),
+                                valueField: "value",
+                                labelField: "label",
+                                placeholder: "值类型",
+                                prop: "arrayDataType"
+                              }, null, 8, ["data"])) : createCommentVNode("", true),
+                              createVNode(_component_els_input, {
+                                label: "默认值",
+                                prop: "defaultValue"
+                              })
+                            ]),
+                            _: 1
+                          }, 8, ["modelValue"])
+                        ]),
+                        _: 1
+                      })) : createCommentVNode("", true),
+                      createVNode(_component_el_tab_pane, { label: "组件属性" }, {
+                        default: withCtx(() => [
+                          createVNode(_component_ElsDynamicRender, {
+                            isAsyncComponent: "",
+                            modelValue: currSelectItem.value.config.baseConfig,
+                            "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => currSelectItem.value.config.baseConfig = $event),
+                            nodeType: { dataType: currSelectItem.value.dataTypeName != "Array" ? currSelectItem.value.dataTypeName : currSelectItem.value.arrayDataTypeName, componentName: currSelectItem.value.componentName },
+                            config: currPropertys.value,
+                            inputWidth: "100%"
+                          }, null, 8, ["modelValue", "nodeType", "config"])
+                        ]),
+                        _: 1
+                      }),
+                      currSelectItem.value.dataTypeName == "Array" ? (openBlock(), createBlock(_component_el_tab_pane, {
+                        key: 1,
+                        label: "数组属性",
+                        isAsyncComponent: ""
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(_component_ElsDynamicRender, {
+                            modelValue: currSelectItem.value.config.arrayConfig,
+                            "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => currSelectItem.value.config.arrayConfig = $event),
+                            config: unref(property_array),
+                            inputWidth: "100%"
+                          }, null, 8, ["modelValue", "config"])
+                        ]),
+                        _: 1
+                      })) : createCommentVNode("", true),
+                      currSelectItem.value.dataTypeName != "None" ? (openBlock(), createBlock(_component_el_tab_pane, {
+                        key: 2,
+                        label: "表单属性",
+                        isAsyncComponent: ""
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(_component_ElsDynamicRender, {
+                            modelValue: currSelectItem.value.config.formConfig,
+                            "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => currSelectItem.value.config.formConfig = $event),
+                            config: unref(property_form),
+                            inputWidth: "100%"
+                          }, null, 8, ["modelValue", "config"])
+                        ]),
+                        _: 1
+                      })) : createCommentVNode("", true),
+                      createVNode(_component_el_tab_pane, { label: "高级属性" }, {
+                        default: withCtx(() => [
+                          createVNode(_component_ElsDynamicRender, {
+                            isAsyncComponent: "",
+                            modelValue: currSelectItem.value.config.advancedConfig,
+                            "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => currSelectItem.value.config.advancedConfig = $event),
+                            config: unref(property_advanced),
+                            inputWidth: "100%"
+                          }, null, 8, ["modelValue", "config"])
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  })) : createCommentVNode("", true)
+                ])
               ])
             ]),
-            createElementVNode("div", _hoisted_9, [
-              createVNode(_sfc_main$9, { data: renderData.value }, null, 8, ["data"]),
-              !renderData.value.length ? (openBlock(), createBlock(_component_el_empty, {
-                key: 0,
-                style: { "margin-top": "-650px" }
-              }, {
-                description: withCtx(() => [
-                  createTextVNode("请点击拖动"),
-                  _hoisted_10,
-                  createTextVNode("组件到此处")
-                ]),
-                _: 1
-              })) : createCommentVNode("", true)
-            ])
-          ]),
-          createElementVNode("div", _hoisted_11, [
-            currSelectItem.value && currPropertys.value && showPropertys.value ? (openBlock(), createBlock(_component_el_tabs, {
-              key: 0,
-              stretch: ""
-            }, {
-              default: withCtx(() => [
-                currSelectItem.value.dataType ? (openBlock(), createBlock(_component_el_tab_pane, {
-                  key: 0,
-                  label: "基础属性"
-                }, {
-                  default: withCtx(() => [
-                    createVNode(_component_els_form, {
-                      modelValue: currSelectItem.value,
-                      "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => currSelectItem.value = $event)
-                    }, {
-                      default: withCtx(() => [
-                        createVNode(_component_els_input, {
-                          label: "名称",
-                          prop: "keyName",
-                          required: ""
-                        }),
-                        createVNode(_component_els_input, {
-                          label: "字段名",
-                          prop: "keyCode",
-                          required: ""
-                        }),
-                        currSelectItem.value.dataTypeName != "Array" && currSelectItem.value.dataTypeName != "Object" ? (openBlock(), createBlock(_component_els_select, {
-                          key: 0,
-                          label: "数据类型",
-                          required: "",
-                          data: getDataTypeData(currSelectItem.value.controlType),
-                          "select-label": currSelectItem.value.dataTypeName,
-                          "onUpdate:selectLabel": _cache[4] || (_cache[4] = ($event) => currSelectItem.value.dataTypeName = $event),
-                          valueField: "value",
-                          labelField: "label",
-                          placeholder: "值类型",
-                          prop: "dataType"
-                        }, null, 8, ["data", "select-label"])) : createCommentVNode("", true),
-                        currSelectItem.value.dataTypeName == "Array" && currSelectItem.value.controlType ? (openBlock(), createBlock(_component_els_select, {
-                          key: 1,
-                          label: "数据类型",
-                          required: "",
-                          data: getDataTypeData(currSelectItem.value.controlType),
-                          "select-label": currSelectItem.value.arrayDataTypeName,
-                          "onUpdate:selectLabel": _cache[5] || (_cache[5] = ($event) => currSelectItem.value.arrayDataTypeName = $event),
-                          valueField: "value",
-                          labelField: "label",
-                          placeholder: "值类型",
-                          prop: "arrayDataType"
-                        }, null, 8, ["data", "select-label"])) : createCommentVNode("", true),
-                        createVNode(_component_els_input, {
-                          label: "默认值",
-                          prop: "defaultValue"
-                        })
-                      ]),
-                      _: 1
-                    }, 8, ["modelValue"])
-                  ]),
-                  _: 1
-                })) : createCommentVNode("", true),
-                createVNode(_component_el_tab_pane, { label: "组件属性" }, {
-                  default: withCtx(() => [
-                    createVNode(_component_ElsDynamicRender, {
-                      modelValue: currSelectItem.value.config.baseConfig,
-                      "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => currSelectItem.value.config.baseConfig = $event),
-                      nodeType: { dataType: currSelectItem.value.dataTypeName != "Array" ? currSelectItem.value.dataTypeName : currSelectItem.value.arrayDataTypeName, componentName: currSelectItem.value.componentName },
-                      config: currPropertys.value,
-                      inputWidth: "100%"
-                    }, null, 8, ["modelValue", "nodeType", "config"])
-                  ]),
-                  _: 1
-                }),
-                currSelectItem.value.dataTypeName == "Array" ? (openBlock(), createBlock(_component_el_tab_pane, {
-                  key: 1,
-                  label: "数组属性"
-                }, {
-                  default: withCtx(() => [
-                    createVNode(_component_ElsDynamicRender, {
-                      modelValue: currSelectItem.value.config.arrayConfig,
-                      "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => currSelectItem.value.config.arrayConfig = $event),
-                      config: unref(property_array),
-                      inputWidth: "100%"
-                    }, null, 8, ["modelValue", "config"])
-                  ]),
-                  _: 1
-                })) : createCommentVNode("", true),
-                currSelectItem.value.dataTypeName != "无" ? (openBlock(), createBlock(_component_el_tab_pane, {
-                  key: 2,
-                  label: "表单属性"
-                }, {
-                  default: withCtx(() => [
-                    createVNode(_component_ElsDynamicRender, {
-                      modelValue: currSelectItem.value.config.formConfig,
-                      "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => currSelectItem.value.config.formConfig = $event),
-                      config: unref(property_form),
-                      inputWidth: "100%"
-                    }, null, 8, ["modelValue", "config"])
-                  ]),
-                  _: 1
-                })) : createCommentVNode("", true),
-                createVNode(_component_el_tab_pane, { label: "高级属性" }, {
-                  default: withCtx(() => [
-                    createVNode(_component_ElsDynamicRender, {
-                      modelValue: currSelectItem.value.config.advancedConfig,
-                      "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => currSelectItem.value.config.advancedConfig = $event),
-                      config: unref(property_advanced),
-                      inputWidth: "100%"
-                    }, null, 8, ["modelValue", "config"])
-                  ]),
-                  _: 1
-                })
-              ]),
-              _: 1
-            })) : createCommentVNode("", true)
-          ])
+            _: 1
+          }, 16)
         ]),
         createVNode(_component_els_dialog, {
           modelValue: viewPriview.value,
@@ -20179,7 +20448,10 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
                 }),
                 createVNode(_component_el_tab_pane, { label: "表单属性" }, {
                   default: withCtx(() => [
-                    createVNode(_component_ElsJsonViewer, { data: formValue.value }, null, 8, ["data"])
+                    createVNode(_component_ElsJsonViewer, {
+                      data: formValue.value,
+                      expandDepth: 10
+                    }, null, 8, ["data"])
                   ]),
                   _: 1
                 })
@@ -20194,21 +20466,119 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
   }
 });
 const DynamicDesignerView_vue_vue_type_style_index_0_lang = "";
-const _hoisted_1$4 = { class: "els-dynamic-config-tool" };
-const _sfc_main$7 = /* @__PURE__ */ defineComponent({
+const _hoisted_1$6 = { class: "els-dynamic-create" };
+const _sfc_main$b = /* @__PURE__ */ defineComponent({
+  ...{
+    name: "ElsDynamicCreate"
+  },
+  __name: "DynamicCreate",
+  props: {
+    modelValue: {},
+    camelCase: { type: Boolean },
+    dataTypes: {},
+    componentTypes: {}
+  },
+  emits: ["update:modelValue"],
+  setup(__props, { emit: emits }) {
+    const props = __props;
+    const currData = useVModel(props, "modelValue", emits);
+    if (!currData.value) {
+      currData.value = {
+        componentName: "ElsDynamicRender",
+        label: "",
+        value: "",
+        type: "",
+        dataTypes: [],
+        defaultPropertys: { config: [] }
+      };
+    } else if (!currData.value.defaultPropertys) {
+      currData.value.defaultPropertys = { config: [] };
+    }
+    watchEffect(() => {
+      var _a, _b;
+      if (currData.value) {
+        currData.value.value = ((_a = currData.value) == null ? void 0 : _a.label) ?? "";
+        currData.value.type = ((_b = currData.value) == null ? void 0 : _b.label) ?? "";
+        currData.value.dataTypes = [currData.value.value];
+      }
+    });
+    return (_ctx, _cache) => {
+      const _component_els_input = resolveComponent("els-input");
+      const _component_ElsDynamicDesigner = resolveComponent("ElsDynamicDesigner");
+      const _component_els_form = resolveComponent("els-form");
+      return openBlock(), createElementBlock("div", _hoisted_1$6, [
+        createVNode(_component_els_form, {
+          modelValue: unref(currData),
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => isRef(currData) ? currData.value = $event : null)
+        }, {
+          default: withCtx(() => [
+            createVNode(_component_els_input, {
+              label: "名称",
+              prop: "label",
+              required: ""
+            }),
+            createVNode(_component_ElsDynamicDesigner, {
+              label: "配置",
+              modelValue: unref(currData).defaultPropertys.config,
+              "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(currData).defaultPropertys.config = $event),
+              dataTypes: _ctx.dataTypes,
+              componentTypes: _ctx.componentTypes,
+              camelCase: _ctx.camelCase,
+              componentSettingVisible: false
+            }, null, 8, ["modelValue", "dataTypes", "componentTypes", "camelCase"])
+          ]),
+          _: 1
+        }, 8, ["modelValue"])
+      ]);
+    };
+  }
+});
+const _hoisted_1$5 = { class: "els-dynamic-config-tool" };
+const _hoisted_2$1 = { class: "dialog-footer" };
+const _sfc_main$a = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsDynamicDesigner"
   },
   __name: "DynamicDesigner",
   props: {
     modelValue: {},
-    showConfig: { type: Boolean },
     camelCase: { type: Boolean },
-    dataType: {},
-    arrayDataType: {},
-    controlType: {}
+    dataTypes: {},
+    componentTypes: {},
+    appendComponentTypes: {},
+    componentRelateDataType: {},
+    componentSettingVisible: { type: Boolean, default: true },
+    isReturnValueTemplate: { type: Boolean },
+    initValue: {},
+    allowCreateType: { type: Boolean },
+    createTypeMethod: {},
+    allowCreateComponent: { type: Boolean },
+    createComponentMethod: {},
+    prop: {},
+    label: {},
+    hasFormItem: { type: Boolean },
+    span: {},
+    aIndex: {},
+    tip: {},
+    tipPosition: {},
+    suffixContent: {},
+    required: { type: Boolean },
+    requiredMessage: {},
+    validType: {},
+    validExpression: {},
+    validMessage: {},
+    validMethod: {},
+    validTrigger: {},
+    queryField: {},
+    queryMethod: {},
+    queryDataType: {},
+    queryDefaultValue: {},
+    queryAutoReadData: { type: Boolean },
+    queryAroundComma: { type: Boolean },
+    queryRange: { type: Boolean },
+    queryRangeOrEqual: { type: Boolean }
   },
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "update:initValue"],
   setup(__props, { emit: emits }) {
     const props = __props;
     const designerJSON = ref();
@@ -20227,10 +20597,37 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
       }
     }
     initData();
+    const currDynamicDataType = ref([]);
+    if (props.dataTypes) {
+      currDynamicDataType.value.push(...props.dataTypes);
+    } else {
+      currDynamicDataType.value.push(...dynamicDataTypes);
+    }
     provide("tagID", "els-dynamic-designer-" + lessCom$1.Guid32());
-    provide("dataTypeData", !props.dataType ? dynamicDataType : props.dataType);
-    provide("arrayObjectType", !props.arrayDataType ? dynamicArrayDataType : props.arrayDataType);
-    provide("controlData", !props.componentType ? dynamicControlType : props.componentType);
+    provide("dataTypeData", currDynamicDataType.value);
+    provide("allowCreateType", props.allowCreateType);
+    provide("allowCreateComponent", props.allowCreateComponent);
+    const currComponentTypes = ref([]);
+    if (props.componentTypes) {
+      currComponentTypes.value.push(...props.componentTypes);
+    } else {
+      currComponentTypes.value.push(...dynamicComponentTypes);
+    }
+    if (props.appendComponentTypes) {
+      currComponentTypes.value.push(...props.appendComponentTypes);
+    }
+    if (props.componentRelateDataType) {
+      currComponentTypes.value.forEach((ele) => {
+        const currRelate = props.componentRelateDataType ? props.componentRelateDataType[ele.type] : void 0;
+        if (currRelate) {
+          ele.dataTypes = currRelate;
+        }
+      });
+    }
+    const dynamicHandler = new DynamicHandler(currDynamicDataType.value, currComponentTypes.value);
+    const createVisible = ref(false);
+    provide("componentData", currComponentTypes.value);
+    provide("componentSettingVisible", props.componentSettingVisible);
     provide("camelCase", props.camelCase);
     function handleImportDesigner() {
       if (typeof importJSON.value === "string") {
@@ -20243,8 +20640,35 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
     function handleOpenImport() {
       importJSON.value = designerObj.value;
     }
+    function openCreateType(typeValue) {
+      if (props.createTypeMethod) {
+        props.createTypeMethod(typeValue);
+      } else {
+        dynamicNewType.value = { componentName: "ElsDynamicRender", config: {}, label: "名称", value: "Value", type: "Type", dataTypes: [], defaultPropertys: { config: [] }, propertys: [], group: "Form" };
+        createVisible.value = true;
+      }
+    }
+    function openCreateComponent(typeValue) {
+      if (props.createComponentMethod) {
+        props.createComponentMethod(typeValue);
+      } else {
+        dynamicNewType.value = { componentName: "ElsDynamicRender", config: {}, label: "名称", value: "Value", type: "Type", dataTypes: [], defaultPropertys: { config: [] }, propertys: [], group: "Form" };
+      }
+    }
+    const createResult = ref();
+    const createResultVisible = ref(false);
+    const dynamicNewType = ref({});
+    function handleSaveType() {
+      createResultVisible.value = true;
+      createResult.value = JSON.stringify(dynamicNewType.value);
+    }
+    provide("openCreateType", openCreateType);
+    provide("openCreateComponent", openCreateComponent);
     watch(designerObj, (val) => {
       if (val) {
+        if (props.isReturnValueTemplate) {
+          emits("update:initValue", dynamicHandler.configResult(val));
+        }
         if (typeof props.modelValue === "object") {
           emits("update:modelValue", val);
         } else {
@@ -20265,90 +20689,645 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
       const _component_ElsJsonEditor = resolveComponent("ElsJsonEditor");
       const _component_els_data_modal = resolveComponent("els-data-modal");
       const _component_els_dialog = resolveComponent("els-dialog");
-      return openBlock(), createElementBlock(Fragment, null, [
-        createElementVNode("div", {
-          class: "els-dynamic-config",
-          ref_key: "designerContainer",
-          ref: designerContainer
-        }, [
-          createElementVNode("div", _hoisted_1$4, [
-            createVNode(_component_ElsRadioButton, {
-              modelValue: designType.value,
-              "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => designType.value = $event)
-            }, {
-              default: withCtx(() => [
-                createVNode(_component_ElsOption, { value: "精简模式" }, {
+      const _component_ElsFormNode = resolveComponent("ElsFormNode");
+      const _component_els_ace_editor = resolveComponent("els-ace-editor");
+      const _component_el_button = resolveComponent("el-button");
+      return openBlock(), createElementBlock("div", null, [
+        createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
+          default: withCtx(() => [
+            createElementVNode("div", {
+              class: "els-dynamic-config",
+              ref_key: "designerContainer",
+              ref: designerContainer
+            }, [
+              createElementVNode("div", _hoisted_1$5, [
+                createVNode(_component_ElsRadioButton, {
+                  modelValue: designType.value,
+                  "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => designType.value = $event)
+                }, {
                   default: withCtx(() => [
-                    createVNode(_component_el_icon, null, {
+                    createVNode(_component_ElsOption, { value: "精简模式" }, {
                       default: withCtx(() => [
-                        createVNode(_component_MoreFilled)
+                        createVNode(_component_el_icon, null, {
+                          default: withCtx(() => [
+                            createVNode(_component_MoreFilled)
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    }),
+                    createVNode(_component_ElsOption, { value: "设计模式" }, {
+                      default: withCtx(() => [
+                        createVNode(_component_el_icon, null, {
+                          default: withCtx(() => [
+                            createVNode(_component_Grid)
+                          ]),
+                          _: 1
+                        })
                       ]),
                       _: 1
                     })
                   ]),
                   _: 1
-                }),
-                createVNode(_component_ElsOption, { value: "设计模式" }, {
+                }, 8, ["modelValue"]),
+                createVNode(_component_els_data_modal, {
+                  style: { "margin-left": "5px", "margin-bottom": "5px" },
+                  title: "导入配置",
+                  buttonLabel: "导入配置",
+                  icon: "Edit",
+                  hasInput: false,
+                  open: handleOpenImport,
+                  confirm: handleImportDesigner
+                }, {
                   default: withCtx(() => [
-                    createVNode(_component_el_icon, null, {
-                      default: withCtx(() => [
-                        createVNode(_component_Grid)
-                      ]),
-                      _: 1
-                    })
+                    createVNode(_component_ElsJsonEditor, {
+                      modelValue: importJSON.value,
+                      "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => importJSON.value = $event),
+                      style: { "height": "500px" }
+                    }, null, 8, ["modelValue"])
                   ]),
                   _: 1
                 })
               ]),
-              _: 1
-            }, 8, ["modelValue"]),
-            createVNode(_component_els_data_modal, {
-              style: { "margin-left": "5px", "margin-bottom": "5px" },
-              title: "导入配置",
-              buttonLabel: "导入配置",
-              icon: "Edit",
-              hasInput: false,
-              open: handleOpenImport,
-              confirm: handleImportDesigner
+              designType.value === "精简模式" ? (openBlock(), createBlock(_sfc_main$g, {
+                key: 0,
+                data: designerObj.value
+              }, null, 8, ["data"])) : createCommentVNode("", true)
+            ], 512),
+            designType.value !== "精简模式" ? (openBlock(), createBlock(_component_els_dialog, {
+              key: 0,
+              visible: true,
+              onClose: closeViewDialog,
+              width: "90%",
+              "append-to-body": true
             }, {
               default: withCtx(() => [
-                createVNode(_component_ElsJsonEditor, {
-                  modelValue: importJSON.value,
-                  "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => importJSON.value = $event),
-                  style: { "height": "500px" }
-                }, null, 8, ["modelValue"])
+                createVNode(_sfc_main$c, {
+                  dataTypes: _ctx.dataTypes,
+                  camelCase: _ctx.camelCase,
+                  componentTypes: _ctx.componentTypes,
+                  appendComponentTypes: _ctx.appendComponentTypes,
+                  componentRelateDataType: _ctx.componentRelateDataType,
+                  modelValue: designerObj.value,
+                  "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => designerObj.value = $event)
+                }, null, 8, ["dataTypes", "camelCase", "componentTypes", "appendComponentTypes", "componentRelateDataType", "modelValue"])
               ]),
               _: 1
-            })
+            })) : createCommentVNode("", true)
           ]),
-          designType.value === "精简模式" ? (openBlock(), createBlock(_sfc_main$c, {
-            key: 0,
-            data: designerObj.value
-          }, null, 8, ["data"])) : createCommentVNode("", true)
-        ], 512),
-        designType.value !== "精简模式" ? (openBlock(), createBlock(_component_els_dialog, {
-          key: 0,
-          visible: true,
-          onClose: closeViewDialog,
-          width: "90%",
-          "append-to-body": true
+          _: 1
+        }, 16),
+        createVNode(_component_els_dialog, {
+          modelValue: createVisible.value,
+          "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => createVisible.value = $event),
+          width: "60%",
+          "append-to-body": true,
+          title: "创建类型"
         }, {
+          footer: withCtx(() => [
+            createElementVNode("span", _hoisted_2$1, [
+              createVNode(_component_el_button, {
+                onClick: _cache[5] || (_cache[5] = ($event) => createVisible.value = false)
+              }, {
+                default: withCtx(() => [
+                  createTextVNode("取消")
+                ]),
+                _: 1
+              }),
+              createVNode(_component_el_button, {
+                type: "primary",
+                onClick: handleSaveType
+              }, {
+                default: withCtx(() => [
+                  createTextVNode(" 提交 ")
+                ]),
+                _: 1
+              })
+            ])
+          ]),
           default: withCtx(() => [
-            createVNode(_sfc_main$8, {
-              modelValue: designerObj.value,
-              "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => designerObj.value = $event)
+            createTextVNode(toDisplayString(createResult.value) + " ", 1),
+            createVNode(_sfc_main$b, {
+              dataTypes: _ctx.dataTypes,
+              modelValue: dynamicNewType.value,
+              "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => dynamicNewType.value = $event),
+              camelCase: _ctx.camelCase,
+              componentTypes: _ctx.componentTypes
+            }, null, 8, ["dataTypes", "modelValue", "camelCase", "componentTypes"]),
+            createVNode(_component_els_ace_editor, {
+              modelValue: createResult.value,
+              "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => createResult.value = $event),
+              language: "json"
             }, null, 8, ["modelValue"])
           ]),
           _: 1
-        })) : createCommentVNode("", true)
-      ], 64);
+        }, 8, ["modelValue"])
+      ]);
     };
   }
 });
 const DynamicDesigner_vue_vue_type_style_index_0_lang = "";
-_sfc_main$7.install = (app) => {
-  app.component(_sfc_main$7.__name, _sfc_main$7);
+_sfc_main$a.install = (app) => {
+  app.component(_sfc_main$a.__name, _sfc_main$a);
 };
+const _sfc_main$9 = /* @__PURE__ */ defineComponent({
+  ...{
+    inheritAttrs: false
+  },
+  __name: "DynamicRenderInnerItem",
+  props: {
+    modelValue: {},
+    item: {},
+    currDepath: {},
+    parentNode: {},
+    currNode: {},
+    nodeType: {}
+  },
+  emits: ["update:modelValue", "valueChange"],
+  setup(__props, { emit: emits }) {
+    const props = __props;
+    const controlData = inject("componentData", []);
+    const dyProvideData = inject("dyProvideData", null);
+    const attrs = useAttrs();
+    const currValue = ref();
+    watchEffect(() => {
+      currValue.value = props.modelValue;
+    });
+    watch(currValue, (val) => {
+      emits("update:modelValue", val);
+      emits("valueChange", val);
+    }, { deep: true });
+    function handleClear() {
+      if (props.item.dataTypeName == "Number" || props.item.arrayDataTypeName == "Number") {
+        currValue.value = 0;
+      }
+      if (props.item.dataTypeName == "Bool" || props.item.arrayDataTypeName == "Bool") {
+        currValue.value = false;
+      } else {
+        currValue.value = "";
+      }
+    }
+    const baseAttrs = computed(() => {
+      let baseConfig = {};
+      const currControl = controlData.find((ele) => ele.value == props.item.componentType);
+      if (currControl == null ? void 0 : currControl.defaultPropertys) {
+        const currBaseConfig = Object.assign({}, currControl == null ? void 0 : currControl.defaultPropertys, props.item.config.baseConfig);
+        for (var key in currBaseConfig) {
+          if (key) {
+            if (currBaseConfig[key] === void 0 || currBaseConfig[key] === "") {
+              delete currBaseConfig[key];
+            }
+          }
+        }
+        baseConfig = currBaseConfig;
+      }
+      const currAttrs = Object.assign(lessCom$1.cloneObj(baseConfig), { "style": props.item.config.advancedConfig.style }, attrs);
+      const parseNumbers = ["max", "min", "precision", "step", "rows"];
+      for (const name of parseNumbers) {
+        if (currAttrs[name]) {
+          currAttrs[name] = parseInt(currAttrs[name]);
+        } else {
+          delete currAttrs[name];
+        }
+      }
+      if (["ElsSelect", "ElsRadio", "ElsCheckBox", "ElsCascader"].includes(props.item.componentName)) {
+        if (props.item.dataTypeName == "Number" || props.item.arrayDataTypeName == "Number") {
+          currAttrs.valueType = "Number";
+        } else if (props.item.dataTypeName == "Bool" || props.item.arrayDataTypeName == "Bool") {
+          currAttrs.valueType = "Bool";
+        }
+      }
+      return currAttrs;
+    });
+    const componentAttrs = ref(baseAttrs.value);
+    const showText = ref("");
+    const componentName = ref("");
+    watchEffect(() => {
+      componentName.value = props.item.componentName;
+    });
+    watch(dyProvideData, (val) => {
+      if (val && ["active-value", "inactive-value", "multiple", "value"].includes(props.item.keyCode)) {
+        const currNodeType = val.nodeType;
+        showText.value = "";
+        if (currNodeType && currNodeType.componentName == "ElsSwitch") {
+          if (props.item.keyCode == "active-value" || props.item.keyCode == "inactive-value") {
+            if (currNodeType.dataType == "Bool") {
+              componentAttrs.value = Object.assign({}, baseAttrs.value, { "disabled": true });
+              if (props.item.keyCode == "active-value") {
+                currValue.value = true;
+                showText.value = "true";
+              } else {
+                currValue.value = false;
+                showText.value = "false";
+              }
+            } else if (currNodeType.dataType == "Number") {
+              componentAttrs.value = Object.assign({}, baseAttrs.value, { "disabled": false });
+              if (props.item.keyCode == "active-value") {
+                showText.value = "1";
+                currValue.value = 1;
+              } else {
+                currValue.value = 0;
+                showText.value = "0";
+              }
+            } else {
+              componentAttrs.value = Object.assign({}, baseAttrs.value, { "disabled": false });
+              if (props.item.keyCode == "active-value") {
+                if (typeof currValue.value !== "string") {
+                  currValue.value = "true";
+                }
+              } else {
+                if (typeof currValue.value !== "string") {
+                  currValue.value = "false";
+                }
+              }
+            }
+          }
+        } else if (currNodeType && ["ElsSelect", "ElsRadio", "ElsCheckBox", "ElsCascader"].includes(currNodeType.componentName)) {
+          if (props.item.keyCode === "multiple" && currNodeType.dataType === "Number") {
+            currValue.value = false;
+            showText.value = "false";
+          } else if (props.item.keyCode === "value") {
+            if (currNodeType.dataType == "Bool") {
+              if (typeof currValue.value !== "boolean") {
+                currValue.value = false;
+              }
+              componentName.value = "ElsSelect";
+              componentAttrs.value = Object.assign({ "teleported": false, "width": "80", "data": [{ label: "true", value: true }, { label: "false", value: false }], "type": "radio" }, baseAttrs.value);
+            } else if (currNodeType.dataType === "Number") {
+              if (typeof currValue.value !== "number") {
+                currValue.value = 0;
+              }
+              componentName.value = "ElsInputNumber";
+              componentAttrs.value = Object.assign({}, baseAttrs.value, { "controls-position": "right", "width": "80" });
+            }
+          }
+        }
+      }
+    }, { immediate: true, deep: true });
+    function getUrl() {
+      let currUrl = props.item.config.baseConfig.url || props.item.config.baseConfig.modalUrl;
+      if (currUrl) {
+        if (currUrl.startsWith(":")) {
+          currUrl = currUrl.substr(1);
+          let currEvent = new Function("parentNode,currNode", "return " + currUrl);
+          currUrl = currEvent(props.parentNode, props.currNode);
+        }
+        return currUrl.setPowerPublicQuery();
+      }
+    }
+    return (_ctx, _cache) => {
+      const _component_el_tag = resolveComponent("el-tag");
+      return componentName.value ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
+        showText.value ? (openBlock(), createBlock(_component_el_tag, { key: 0 }, {
+          default: withCtx(() => [
+            createTextVNode(toDisplayString(showText.value), 1)
+          ]),
+          _: 1
+        })) : (openBlock(), createBlock(resolveDynamicComponent(componentName.value), mergeProps({ key: 1 }, componentAttrs.value, {
+          modelValue: currValue.value,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => currValue.value = $event),
+          url: getUrl(),
+          onClear: handleClear
+        }), null, 16, ["modelValue", "url"]))
+      ], 64)) : createCommentVNode("", true);
+    };
+  }
+});
+const _sfc_main$8 = /* @__PURE__ */ defineComponent({
+  __name: "DynamicRenderInnerArray",
+  props: {
+    item: {},
+    parentNode: {}
+  },
+  emits: ["update:data"],
+  setup(__props, { emit: emits }) {
+    const props = __props;
+    const currData = useVModel(props, "item", emits);
+    function handleDisabledExpress() {
+      if (currData.value.config.advancedConfig && currData.value.config.advancedConfig.disabled) {
+        let currEvent = new Function("parentNode,currNode", "return " + currData.value.config.advancedConfig.disabled);
+        return currEvent(props.parentNode, currData.value);
+      }
+      return false;
+    }
+    function handleValueChange(val) {
+      if (currData.value.config.advancedConfig && currData.value.config.advancedConfig.eventChange) {
+        let currEvent = new Function("val,parentNode,currNode", currData.value.config.advancedConfig.eventChange);
+        currEvent(val, props.parentNode, currData.value);
+      }
+    }
+    function getItemDefaultValue() {
+      if (currData.value.arrayDataTypeName == "Bool") {
+        if (currData.value.defaultValue === "true") {
+          return true;
+        } else {
+          return false;
+        }
+      } else if (currData.value.arrayDataTypeName === "Number") {
+        if (currData.value.defaultValue != void 0 && currData.value.defaultValue !== "") {
+          return parseFloat(currData.value.defaultValue);
+        } else {
+          return 0;
+        }
+      } else if (currData.value.arrayDataTypeName === "Object") {
+        return {};
+      } else if (currData.value.arrayDataTypeName === "Array") {
+        return [];
+      }
+      if (currData.value.defaultValue) {
+        return currData.value.defaultValue;
+      }
+      return "";
+    }
+    function handleAddItem() {
+      return getItemDefaultValue();
+    }
+    const formAttrs = computed(() => {
+      const currFormConfig = lessCom$1.cloneObj(currData.value.config.formConfig);
+      currFormConfig.labelWidth = "0px";
+      if (currFormConfig) {
+        if (currFormConfig.validMethod) {
+          let currEvent = new Function("parentNode,currNode", "return " + currFormConfig.validMethod);
+          currFormConfig.validMethod = currEvent(props.parentNode, currData.value);
+        } else {
+          delete currFormConfig.validMethod;
+        }
+      }
+      return currFormConfig;
+    });
+    function initDefault(val) {
+      let defaultArrayData = [];
+      let defaultValue = getItemDefaultValue();
+      if (val === void 0 || val === "") {
+        defaultArrayData.push(defaultValue);
+      } else {
+        for (let i = 0; i < val; i++) {
+          defaultArrayData.push(defaultValue);
+        }
+      }
+      currData.value.value = defaultArrayData;
+    }
+    watch(() => currData.value.value, (val) => {
+      if (!val || !Array.isArray(val)) {
+        initDefault(currData.value.config.arrayConfig.arrayDefaultLength);
+      }
+    }, { immediate: true });
+    watch(() => currData.value.config.arrayConfig.arrayDefaultLength, (val) => {
+      initDefault(val);
+    });
+    return (_ctx, _cache) => {
+      const _component_els_list = resolveComponent("els-list");
+      return openBlock(), createElementBlock("div", {
+        class: normalizeClass({ "horizontal": unref(currData).config.arrayConfig.arrangementType === "Horizontal" }),
+        style: { "flex-grow": "1" }
+      }, [
+        createVNode(_component_els_list, {
+          modelValue: unref(currData).value,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(currData).value = $event),
+          onAdd: handleAddItem,
+          "item-class-name": { "els-dynamic-r-array": _ctx.item.arrayDataTypeName === "Object" },
+          style: normalizeStyle([
+            { "max-width": unref(currData).config.arrayConfig.maxWidth ? unref(currData).config.arrayConfig.maxWidth + "px" : "" },
+            { "max-height": unref(currData).config.arrayConfig.maxHeight ? unref(currData).config.arrayConfig.maxHeight + "px" : "" },
+            { "display": unref(currData).config.arrayConfig.arrangementType === "Horizontal" ? "flex" : "" },
+            { "flex-wrap": "wrap" },
+            { "gap": "5px" },
+            { "overflow": "scroll" },
+            { "padding-right": "20px" }
+          ])
+        }, {
+          default: withCtx(({ $item, index }) => [
+            (openBlock(), createBlock(_sfc_main$9, mergeProps({ class: "els-dynamic-r-array-item" }, formAttrs.value, {
+              key: index,
+              "parent-node": _ctx.parentNode,
+              "curr-node": unref(currData),
+              disabled: handleDisabledExpress(),
+              modelValue: $item.value,
+              "onUpdate:modelValue": ($event) => $item.value = $event,
+              item: unref(currData),
+              style: _ctx.item.config.advancedConfig.style,
+              onValueChange: handleValueChange
+            }), null, 16, ["parent-node", "curr-node", "disabled", "modelValue", "onUpdate:modelValue", "item", "style"]))
+          ]),
+          _: 1
+        }, 8, ["modelValue", "item-class-name", "style"])
+      ], 2);
+    };
+  }
+});
+const _hoisted_1$4 = {
+  key: 3,
+  class: "els-dynamic-r-array-container"
+};
+const _sfc_main$7 = /* @__PURE__ */ defineComponent({
+  __name: "DynamicRenderInner",
+  props: {
+    nodeItem: {},
+    data: {},
+    depath: {},
+    containerName: {},
+    parentNode: {}
+  },
+  emits: ["update:data"],
+  setup(__props, { emit: emits }) {
+    const props = __props;
+    const currData = useVModel(props, "data", emits);
+    const defaultLabelWidth = inject("labelWidth", void 0);
+    const labelWidth = ref();
+    const currDepath = ref(0);
+    const itemClassName = ref("");
+    const currNode = computed(() => {
+      let currData2 = {};
+      props.data.forEach((ele) => {
+        if (ele.componentType == "Row") {
+          ele.data.forEach((cele) => {
+            currData2[cele.keyCode] = cele;
+          });
+        } else {
+          currData2[ele.keyCode] = ele;
+        }
+      });
+      return currData2;
+    });
+    function handleDisabledExpress(item) {
+      if (item.config.baseConfig && item.config.advancedConfig.disabled) {
+        let currEvent = new Function("parentNode,currNode", "return " + item.config.advancedConfig.disabled);
+        return currEvent(props.parentNode, currNode.value);
+      }
+      return false;
+    }
+    function handleIfExpress(item) {
+      try {
+        if (item.config.advancedConfig && item.config.advancedConfig.vif) {
+          let currEvent = new Function("parentNode,currNode", "return " + item.config.advancedConfig.vif);
+          return currEvent(props.parentNode, currNode.value);
+        }
+      } catch (err) {
+        console.error(err);
+        debugger;
+      }
+      return true;
+    }
+    function handleValueChange(val, item) {
+      if (item.config.advancedConfig && item.config.advancedConfig.eventChange) {
+        let currEvent = new Function("val,parentNode,currNode", item.config.advancedConfig.eventChange);
+        currEvent(val, props.parentNode, currNode.value);
+      }
+    }
+    function getFormItemAttr(item) {
+      var _a;
+      const currFormConfig = lessCom$1.cloneObj(item.config.formConfig);
+      if (item.dataTypeName == "None" || ((_a = item.config.baseConfig) == null ? void 0 : _a.componentName) == "ElsCaption" || item.componentType === "Row") {
+        currFormConfig.labelWidth = "0px";
+      } else if (item.dataTypeName == "Array" && item.arrayDataTypeName == "Object") {
+        delete currFormConfig.labelWidth;
+      }
+      if (currFormConfig) {
+        if (currFormConfig.validMethod) {
+          let currEvent = new Function("parentNode,currNode", "return " + currFormConfig.validMethod);
+          currFormConfig.validMethod = currEvent(props.parentNode, currNode.value);
+        } else {
+          delete currFormConfig.validMethod;
+        }
+      }
+      return currFormConfig;
+    }
+    function handleAddItem(item) {
+      return lessCom$1.cloneObj(item.arrayObjData);
+    }
+    if (props.depath && props.depath > 0) {
+      itemClassName.value = "els-dynamic-r-item-child";
+    } else {
+      itemClassName.value = "els-dynamic-r-item";
+    }
+    watchEffect(() => {
+      var _a;
+      const formConfig = (_a = props.nodeItem) == null ? void 0 : _a.config.formConfig;
+      if (props.nodeItem && formConfig) {
+        labelWidth.value = formConfig.labelWidth ? formConfig.labelWidth : void 0;
+      }
+      if (!labelWidth.value && defaultLabelWidth) {
+        labelWidth.value = defaultLabelWidth.value;
+      }
+    });
+    currDepath.value += 1;
+    return (_ctx, _cache) => {
+      const _component_els_caption = resolveComponent("els-caption");
+      const _component_els_list = resolveComponent("els-list");
+      const _component_els_form_item = resolveComponent("els-form-item");
+      const _component_els_form = resolveComponent("els-form");
+      return openBlock(), createBlock(_component_els_form, {
+        modelValue: unref(currData),
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => isRef(currData) ? currData.value = $event : null),
+        "label-width": labelWidth.value
+      }, {
+        default: withCtx(() => {
+          var _a, _b, _c;
+          return [
+            (openBlock(), createBlock(resolveDynamicComponent(((_a = _ctx.nodeItem) == null ? void 0 : _a.componentType) == "Row" ? "ElsRow" : "div"), {
+              class: normalizeClass(itemClassName.value),
+              style: normalizeStyle(((_b = _ctx.nodeItem) == null ? void 0 : _b.componentType) === "Row" ? _ctx.nodeItem ? (_c = _ctx.nodeItem.config.advancedConfig) == null ? void 0 : _c.style : "" : "")
+            }, {
+              default: withCtx(() => [
+                (openBlock(true), createElementBlock(Fragment, null, renderList(unref(currData), (item, index) => {
+                  var _a2;
+                  return openBlock(), createBlock(resolveDynamicComponent(((_a2 = _ctx.nodeItem) == null ? void 0 : _a2.componentType) === "Row" ? "els-col" : "div"), null, {
+                    default: withCtx(() => {
+                      var _a3, _b2, _c2;
+                      return [
+                        handleIfExpress(item) ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
+                          item.componentType == "Row" ? (openBlock(), createBlock(_sfc_main$7, {
+                            key: 0,
+                            data: item.data,
+                            parentNode: currNode.value,
+                            "node-item": item,
+                            depath: currDepath.value
+                          }, null, 8, ["data", "parentNode", "node-item", "depath"])) : (openBlock(), createElementBlock(Fragment, { key: 1 }, [
+                            ((_a3 = item.config.baseConfig) == null ? void 0 : _a3.componentName) == "ElsCaption" ? (openBlock(), createBlock(_component_els_caption, mergeProps({ key: 0 }, item.config.baseConfig, {
+                              title: !item.config.baseConfig.title ? item.keyName : item.config.baseConfig.title
+                            }), null, 16, ["title"])) : createCommentVNode("", true),
+                            item.componentGroup === "Form" || item.dataTypeName === "Array" || item.dataTypeName == "Object" ? (openBlock(), createBlock(_component_els_form_item, mergeProps({
+                              hasFormItem: false,
+                              key: item.keyID
+                            }, getFormItemAttr(item), {
+                              class: item.dataTypeName == "Object" ? "els-dynamic-obj" : "",
+                              style: ((_b2 = item.config.baseConfig) == null ? void 0 : _b2.componentName) == "ElsCaption" || item.dataTypeName == "Object" ? "margin-bottom:0 !important" : "",
+                              label: ((_c2 = item.config.baseConfig) == null ? void 0 : _c2.componentName) == "ElsCaption" ? "" : item.keyName,
+                              prop: `[${index}].value`
+                            }), {
+                              default: withCtx(() => [
+                                item.dataTypeName !== "Array" && item.componentType && item.componentGroup === "Form" ? (openBlock(), createBlock(_sfc_main$9, {
+                                  key: item.keyID,
+                                  disabled: handleDisabledExpress(item),
+                                  "parent-node": _ctx.parentNode,
+                                  "curr-node": currNode.value,
+                                  item,
+                                  modelValue: item.value,
+                                  "onUpdate:modelValue": ($event) => item.value = $event,
+                                  style: normalizeStyle(item.config.advancedConfig.style),
+                                  onValueChange: ($event) => handleValueChange($event, item)
+                                }, null, 8, ["disabled", "parent-node", "curr-node", "item", "modelValue", "onUpdate:modelValue", "style", "onValueChange"])) : item.dataTypeName == "Object" ? (openBlock(), createBlock(_sfc_main$7, {
+                                  key: 1,
+                                  data: item.data,
+                                  parentNode: currNode.value,
+                                  "node-item": item,
+                                  depath: currDepath.value
+                                }, null, 8, ["data", "parentNode", "node-item", "depath"])) : item.dataTypeName == "Array" && item.arrayDataType && item.componentType ? (openBlock(), createBlock(_sfc_main$8, {
+                                  key: 2,
+                                  "parent-node": _ctx.parentNode,
+                                  item,
+                                  depath: currDepath.value
+                                }, null, 8, ["parent-node", "item", "depath"])) : item.dataTypeName == "Array" && item.arrayDataTypeName == "Object" ? (openBlock(), createElementBlock("div", _hoisted_1$4, [
+                                  createVNode(_component_els_list, {
+                                    labelWidth: item.config.formConfig.labelWidth,
+                                    modelValue: item.data,
+                                    "onUpdate:modelValue": ($event) => item.data = $event,
+                                    onAdd: ($event) => handleAddItem(item),
+                                    "item-class-name": "els-dynamic-r-array",
+                                    hasForm: false,
+                                    style: normalizeStyle(item.config.advancedConfig.style ? item.config.advancedConfig.style : [
+                                      { "max-width": item.config.arrayConfig.maxWidth ? item.config.arrayConfig.maxWidth + "px" : "" },
+                                      { "max-height": item.config.arrayConfig.maxHeight ? item.config.arrayConfig.maxHeight + "px" : "" },
+                                      { "display": item.config.arrayConfig.arrangementType === "Horizontal" ? "flex" : "" },
+                                      { "flex-wrap": "wrap" },
+                                      { "gap": "5px" },
+                                      { "overflow": "scroll" },
+                                      { "padding-right": "20px" }
+                                    ])
+                                  }, {
+                                    default: withCtx(({ $item }) => [
+                                      createVNode(_sfc_main$7, {
+                                        "parent-node": currNode.value,
+                                        "node-item": item,
+                                        data: $item,
+                                        depath: currDepath.value
+                                      }, null, 8, ["parent-node", "node-item", "data", "depath"])
+                                    ]),
+                                    _: 2
+                                  }, 1032, ["labelWidth", "modelValue", "onUpdate:modelValue", "onAdd", "style"])
+                                ])) : createCommentVNode("", true)
+                              ]),
+                              _: 2
+                            }, 1040, ["class", "style", "label", "prop"])) : createCommentVNode("", true),
+                            item.componentGroup === "Desc" && item.componentType == "Caption" ? (openBlock(), createBlock(_component_els_caption, normalizeProps(mergeProps({ key: 2 }, item.config.baseConfig)), null, 16)) : createCommentVNode("", true)
+                          ], 64))
+                        ], 64)) : createCommentVNode("", true)
+                      ];
+                    }),
+                    _: 2
+                  }, 1024);
+                }), 256))
+              ]),
+              _: 1
+            }, 8, ["class", "style"]))
+          ];
+        }),
+        _: 1
+      }, 8, ["modelValue", "label-width"]);
+    };
+  }
+});
 const _hoisted_1$3 = { class: "els-dynamic-render" };
 const _sfc_main$6 = /* @__PURE__ */ defineComponent({
   ...{
@@ -20364,26 +21343,76 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
     restrictCode: {},
     appendUrlParams: {},
     inputWidth: {},
-    nodeType: {}
+    nodeType: {},
+    dataTypes: {},
+    componentTypes: {},
+    appendComponentTypes: {},
+    isAsyncComponent: { type: Boolean },
+    prop: {},
+    label: {},
+    hasFormItem: { type: Boolean },
+    span: {},
+    aIndex: {},
+    tip: {},
+    tipPosition: {},
+    suffixContent: {},
+    required: { type: Boolean },
+    requiredMessage: {},
+    validType: {},
+    validExpression: {},
+    validMessage: {},
+    validMethod: { type: Function },
+    validTrigger: {},
+    queryField: {},
+    queryMethod: {},
+    queryDataType: {},
+    queryDefaultValue: {},
+    queryAutoReadData: { type: Boolean },
+    queryAroundComma: { type: Boolean },
+    queryRange: { type: Boolean },
+    queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue"],
   setup(__props, { emit: emits }) {
     const props = __props;
-    const DynamicRenderInner = defineAsyncComponent(() => {
-      return import("./DynamicRenderInner-9c607011.js");
+    const DynamicRenderInnerAsync = defineAsyncComponent(() => {
+      return import("./DynamicRenderInner-809afa99.js");
     });
-    provide("inputWidth", props.inputWidth);
-    provide("tagID", "els-dynamic-render-" + lessCom$1.Guid32());
-    provide("getUploadUrl", getUploadUrl);
+    const idataTypes = inject("dataTypeData", null);
+    const icomponentTypes = inject("componentData", null);
     const renderData = reactive([]);
     const valueData = ref({});
     const provideData = ref({ nodeType: props.nodeType });
+    const currDynamicDataType = ref([]);
+    if (idataTypes) {
+      currDynamicDataType.value.push(...idataTypes);
+    } else if (props.dataTypes) {
+      currDynamicDataType.value.push(...props.dataTypes);
+    } else {
+      currDynamicDataType.value.push(...dynamicDataTypes);
+    }
+    const currComponentTypes = ref([]);
+    if (icomponentTypes) {
+      currComponentTypes.value.push(...icomponentTypes);
+    } else if (props.componentTypes) {
+      currComponentTypes.value.push(...props.componentTypes);
+    } else {
+      currComponentTypes.value.push(...dynamicComponentTypes);
+    }
+    if (props.appendComponentTypes) {
+      currComponentTypes.value.push(...props.appendComponentTypes);
+    }
+    const dynamicHandler = new DynamicHandler(currDynamicDataType.value, currComponentTypes.value, props.appendUrlParams, props.uploadUrl, props.resourceCode, props.restrictCode);
+    provide("componentData", currComponentTypes.value);
+    provide("dyProvideData", provideData);
+    provide("inputWidth", props.inputWidth);
+    provide("tagID", "els-dynamic-render-" + lessCom$1.Guid32());
+    provide("dataTypeData", currDynamicDataType.value);
     watch(() => props.nodeType, (val, old) => {
       if (val != old) {
         provideData.value.nodeType = val;
       }
     });
-    provide("dyProvideData", provideData);
     watch(renderData, () => {
       handleReturnResult();
     }, { deep: true });
@@ -20407,162 +21436,9 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
         currData = lessCom$1.cloneObj(props.config);
       }
       initShowConfig(currData, props.showConfig);
-      recoverData(currData, valueData.value);
+      dynamicHandler.recoverData(currData, valueData.value);
       renderData.length = 0;
       renderData.push(...currData.filter((ele) => ele.isShow == 1));
-    }
-    function getUploadUrl(url, item) {
-      let currUrl = url;
-      if (!currUrl) {
-        currUrl = props.uploadUrl;
-      }
-      let uploadParms = `&ResourcePicLimitType=${item.config.baseConfig.picLimitType ?? ""}&ResourcePicWidth=${item.config.baseConfig.picWidthLimit ?? 0}&ResourcePicHeight=${item.config.baseConfig.picHeightLimit ?? 0}&HasMd5Parameter=${item.config.baseConfig.hasMd5Parameter ? 1 : 0}`;
-      if (!item.config.baseConfig.resourceCode) {
-        item.config.baseConfig.resourceCode = props.resourceCode;
-      }
-      if (!item.config.baseConfig.restrictCode) {
-        item.config.baseConfig.restrictCode = props.restrictCode;
-      }
-      if (item.config.baseConfig.resourceCode) {
-        currUrl = currUrl.addUrlParameter("ResourceCode", item.config.baseConfig.resourceCode);
-      }
-      if (item.config.baseConfig.restrictCode) {
-        currUrl = currUrl.addUrlParameter("RestrictCode", item.config.baseConfig.restrictCode);
-      }
-      let uploadUrl = currUrl + uploadParms;
-      return uploadUrl;
-    }
-    function getDefaultValue(item) {
-      var _a;
-      const currDataType = dynamicDataType.find((ele) => ele.value == item.dataType);
-      if (currDataType) {
-        switch (currDataType.label) {
-          case "数字":
-            if (item.defaultValue) {
-              item.value = parseFloat(item.defaultValue);
-            } else {
-              item.value = 0;
-            }
-            break;
-          case "Bool":
-            if (((_a = item.defaultValue) == null ? void 0 : _a.toLowerCase()) === "true") {
-              item.value = true;
-            } else {
-              item.value = false;
-            }
-            break;
-          default:
-            if (item.defaultValue) {
-              item.value = item.defaultValue.toString();
-            } else {
-              item.value = "";
-            }
-        }
-      }
-    }
-    function handleAppendQuery(item) {
-      if (!props.appendUrlParams) {
-        return;
-      }
-      let currAppendQuery = props.appendUrlParams.find((ele) => ele.Key == item.keyCode);
-      if (!currAppendQuery) {
-        currAppendQuery = props.appendUrlParams.find((ele) => ele.Key === "");
-      }
-      let currUrl = item.config.baseConfig.url;
-      if (item.config.baseConfig.modalUrl) {
-        currUrl = item.config.baseConfig.modalUrl;
-      }
-      if (currAppendQuery) {
-        if (currUrl.indexOf("?") > -1) {
-          currUrl += "&";
-        } else {
-          currUrl += "?";
-        }
-        currUrl += currAppendQuery.Value;
-      }
-      if (item.config.baseConfig.modalUrl) {
-        item.config.baseConfig.modalUrl = currUrl;
-      } else {
-        item.config.baseConfig.url = currUrl;
-      }
-    }
-    function recoverData(data, valueData2 = null) {
-      if (!valueData2) {
-        valueData2 = {};
-      }
-      data.forEach((ele) => {
-        if (ele.keyCode) {
-          const currVal = valueData2[ele.keyCode];
-          if (currVal === void 0) {
-            getDefaultValue(ele);
-          } else {
-            ele.value = currVal;
-          }
-        } else {
-          getDefaultValue(ele);
-        }
-        const currDataType = dynamicDataType.find((d) => d.value == ele.dataType);
-        const currArrayDataType = dynamicDataType.find((d) => d.value == ele.arrayDataType);
-        const currControlType = dynamicControlType.find((d) => d.value == ele.controlType);
-        ele.componentGroup = currControlType == null ? void 0 : currControlType.group;
-        ele.dataTypeName = currDataType == null ? void 0 : currDataType.label;
-        ele.arrayDataTypeName = currArrayDataType == null ? void 0 : currArrayDataType.label;
-        ele.componentName = currControlType == null ? void 0 : currControlType.componentName;
-        if ((currDataType == null ? void 0 : currDataType.label) == "Array" && (currArrayDataType == null ? void 0 : currArrayDataType.label) == "Object") {
-          recoverArrayData(ele, valueData2[ele.keyCode]);
-        } else if ((currDataType == null ? void 0 : currDataType.label) == "Object") {
-          recoverData(ele.data, valueData2[ele.keyCode]);
-        } else if ((currDataType == null ? void 0 : currDataType.label) == "无" && (currControlType == null ? void 0 : currControlType.componentName) == "ElsRow") {
-          recoverData(ele.data, valueData2);
-        }
-        if (props.appendUrlParams && ["ElsCheckbox", "ElsSelect", "ElsRadio", "ElsUpload", "ElsDataModal"].includes((currControlType == null ? void 0 : currControlType.componentName) ?? "") && ele.config.baseConfig && (ele.config.baseConfig.url || ele.config.baseConfig.modalUrl)) {
-          handleAppendQuery(ele);
-        }
-      });
-    }
-    function recoverArrayData(item, valueData2 = null) {
-      if (!item["arrayObjData"]) {
-        let currData = [];
-        item.data.forEach((ele) => {
-          const currDataType = dynamicDataType.find((d) => d.value == ele.dataType);
-          const currArrayDataType = dynamicDataType.find((d) => d.value == ele.arrayDataType);
-          const currControlType = dynamicControlType.find((d) => d.value == ele.controlType);
-          ele.dataTypeName = currDataType == null ? void 0 : currDataType.label;
-          ele.arrayDataTypeName = currArrayDataType == null ? void 0 : currArrayDataType.label;
-          ele.componentName = currControlType == null ? void 0 : currControlType.componentName;
-          ele.componentGroup = currControlType == null ? void 0 : currControlType.group;
-          var currItem = Object.assign({}, ele);
-          getDefaultValue(currItem);
-          if ((currDataType == null ? void 0 : currDataType.label) == "Array" && (currArrayDataType == null ? void 0 : currArrayDataType.label) == "Object") {
-            recoverArrayData(currItem);
-          } else if ((currDataType == null ? void 0 : currDataType.label) == "Object" || (currControlType == null ? void 0 : currControlType.componentName) == "ElsRow") {
-            recoverData(currItem.data);
-          }
-          currData.push(currItem);
-        });
-        item["arrayObjData"] = currData;
-      }
-      if (valueData2) {
-        item.value = valueData2;
-        let arrayData = [];
-        valueData2.forEach((ele) => {
-          let itemData = lessCom$1.cloneObj(item["arrayObjData"]);
-          recoverData(itemData, ele);
-          arrayData.push(itemData);
-        });
-        item.data = arrayData;
-      } else {
-        item.value = [];
-        let defaultArrayData = [];
-        if (item.config.baseConfig.arrayDefaultLength === void 0 || item.config.baseConfig.arrayDefaultLength === "") {
-          defaultArrayData.push(lessCom$1.cloneObj(item["arrayObjData"]));
-        } else {
-          for (let i = 0; i < item.config.baseConfig.arrayDefaultLength; i++) {
-            defaultArrayData.push(lessCom$1.cloneObj(item["arrayObjData"]));
-          }
-        }
-        item.data = defaultArrayData;
-      }
     }
     function initShowConfig(data, showConfigData) {
       if (showConfigData) {
@@ -20587,20 +21463,7 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
     }
     function handleReturnResult() {
       if (props.config) {
-        var currData = {};
-        renderData.forEach((ele) => {
-          if (ele.componentName !== "ElsCaption") {
-            if (ele.dataTypeName == "Object" && ele.keyCode) {
-              currData[ele.keyCode] = childResult(ele);
-            } else if (ele.dataTypeName == "无" && ele.componentName == "ElsRow") {
-              Object.assign(currData, childResult(ele));
-            } else if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object" && ele.keyCode) {
-              currData[ele.keyCode] = childResultList(ele);
-            } else if (ele.keyCode) {
-              currData[ele.keyCode] = ele.value;
-            }
-          }
-        });
+        const currData = dynamicHandler.result(renderData);
         if (typeof props.modelValue == "object") {
           emits("update:modelValue", currData);
           return;
@@ -20608,74 +21471,29 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
         emits("update:modelValue", JSON.stringify(currData));
       }
     }
-    function childResult(item) {
-      var currItem = {};
-      var currData = item.data;
-      if (currData === "" || !Array.isArray(currData)) {
-        return "";
-      }
-      if (!currData) {
-        currData = item;
-      }
-      currData.forEach((ele) => {
-        if (ele.componentName !== "ElsCaption") {
-          if (ele.dataTypeName == "Object" && ele.keyCode) {
-            currItem[ele.keyCode] = childResult(ele);
-          } else if (ele.dataTypeName == "无" && ele.componentName == "ElsRow") {
-            Object.assign(currItem, childResult(ele));
-          } else if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object" && ele.keyCode) {
-            currItem[ele.keyCode] = childResultList(ele);
-          } else if (ele.keyCode) {
-            currItem[ele.keyCode] = ele.value;
-          }
-        }
-      });
-      return currItem;
-    }
-    function childResultList(item) {
-      if (item.dataTypeName == "Array" && item.arrayDataTypeName == "Object") {
-        let currList = [];
-        item.data.forEach((ele) => {
-          if (Array.isArray(ele)) {
-            let currData = {};
-            ele.forEach((cele) => {
-              if (cele.dataTypeName == "无" && cele.componentName == "ElsRow") {
-                Object.assign(currData, childResult(cele));
-              } else {
-                var currItemData = childResultList(cele);
-                if (!Array.isArray(currItemData)) {
-                  currData[cele.keyCode] = currItemData[cele.keyCode];
-                } else {
-                  currData[cele.keyCode] = currItemData;
-                }
-              }
-            });
-            currList.push(currData);
-          }
-        });
-        return currList;
-      } else if (item.dataTypeName == "Object") {
-        let currData = {};
-        currData[item.keyCode] = childResult(item);
-        return currData;
-      } else {
-        let currData = {};
-        currData[item.keyCode] = item.value;
-        return currData;
-      }
-    }
     return (_ctx, _cache) => {
       const _component_el_skeleton = resolveComponent("el-skeleton");
-      return openBlock(), createElementBlock("div", _hoisted_1$3, [
-        (openBlock(), createBlock(Suspense, null, {
+      const _component_ElsFormNode = resolveComponent("ElsFormNode");
+      return openBlock(), createElementBlock("div", null, [
+        createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => [
-            createVNode(unref(DynamicRenderInner), { data: renderData }, null, 8, ["data"])
-          ]),
-          fallback: withCtx(() => [
-            createVNode(_component_el_skeleton, { animated: "" })
+            createElementVNode("div", _hoisted_1$3, [
+              _ctx.isAsyncComponent ? (openBlock(), createBlock(Suspense, { key: 0 }, {
+                default: withCtx(() => [
+                  createVNode(unref(DynamicRenderInnerAsync), { data: renderData }, null, 8, ["data"])
+                ]),
+                fallback: withCtx(() => [
+                  createVNode(_component_el_skeleton, { animated: "" })
+                ]),
+                _: 1
+              })) : (openBlock(), createBlock(_sfc_main$7, {
+                key: 1,
+                data: renderData
+              }, null, 8, ["data"]))
+            ])
           ]),
           _: 1
-        }))
+        }, 16)
       ]);
     };
   }
@@ -21139,8 +21957,8 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-_sfc_main$8.install = (app) => {
-  app.component(_sfc_main$8.__name, _sfc_main$8);
+_sfc_main$c.install = (app) => {
+  app.component(_sfc_main$c.__name, _sfc_main$c);
 };
 const _sfc_main$4 = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsUEditor" },
@@ -21304,8 +22122,14 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     const props = __props;
     const setModelValue = inject("setModelValue", () => null);
     const getModelValue = inject("getModelValue", () => null);
+    const editorValue = ref();
     const tagID = "els-ace-" + lessCom$1.Guid32();
     const editor = ref();
+    watch(() => props.modelValue, (val) => {
+      if (val != editorValue.value) {
+        editor.value.setValue(val);
+      }
+    });
     function handleReturnResult(val) {
       emits("update:modelValue", val);
       if (props.modelValue === void 0 && setModelValue && props.prop !== void 0) {
@@ -21319,6 +22143,32 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
       return props.modelValue;
     }
     onMounted(() => {
+      if (props.language === "json") {
+        const currModule = import("./mode-json-2bcb8c2a.js").then((n) => n.m);
+        currModule.then((res) => {
+          ace.config.setModuleUrl("ace/mode/json", res);
+        });
+      } else if (props.language === "javascript") {
+        const currModule = import("./mode-javascript-9ce3a2c2.js").then((n) => n.m);
+        currModule.then((res) => {
+          ace.config.setModuleUrl("ace/mode/javascript", res);
+        });
+      } else if (props.language === "csharp") {
+        const currModule = import("./mode-csharp-918d6b6c.js").then((n) => n.m);
+        currModule.then((res) => {
+          ace.config.setModuleUrl("ace/mode/csharp", res);
+        });
+      } else if (props.language === "mysql") {
+        const currModule = import("./mode-mysql-a6065d0a.js").then((n) => n.m);
+        currModule.then((res) => {
+          ace.config.setModuleUrl("ace/mode/mysql", res);
+        });
+      } else if (props.language === "css") {
+        const currModule = import("./mode-css-4dc29fac.js").then((n) => n.m);
+        currModule.then((res) => {
+          ace.config.setModuleUrl("ace/mode/css", res);
+        });
+      }
       let options = {
         theme: "ace/theme/" + (props.theme ? props.theme : "xcode"),
         mode: "ace/mode/" + (props.language ? props.language : "javascript"),
@@ -21346,7 +22196,8 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
         editor.value.setValue(currValue);
       }
       editor.value.getSession().on("change", function() {
-        handleReturnResult(editor.value.getValue());
+        editorValue.value = editor.value.getValue();
+        handleReturnResult(editorValue.value);
       });
     });
     return (_ctx, _cache) => {
@@ -21457,7 +22308,8 @@ _sfc_main$2.install = (app) => {
 const _hoisted_1$1 = { class: "json-viewer" };
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   ...{
-    name: "ElsJsonViewer"
+    name: "ElsJsonViewer",
+    inheritAttrs: false
   },
   __name: "JsonViewer",
   props: {
@@ -21465,6 +22317,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   },
   setup(__props) {
     const props = __props;
+    const attrs = useAttrs();
     const currData = ref();
     const visible = ref(true);
     watch(() => props.data, (val) => {
@@ -21482,11 +22335,11 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     }, { immediate: true, deep: true });
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", _hoisted_1$1, [
-        currData.value && visible.value ? (openBlock(), createBlock(unref(VueJsonViewer), {
+        currData.value && visible.value ? (openBlock(), createBlock(unref(VueJsonViewer), mergeProps({
           key: 0,
           value: currData.value,
           copyable: ""
-        }, null, 8, ["value"])) : createCommentVNode("", true)
+        }, unref(attrs)), null, 16, ["value"])) : createCommentVNode("", true)
       ]);
     };
   }
@@ -21525,17 +22378,12 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
       emits("update:modelValue", JSON.stringify(val));
     }, { deep: true });
-    const validate = async (editor) => {
-      const res = await editor.validate();
-      console.log(res);
-    };
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", _hoisted_1, [
         createVNode(unref(JsonEditorVue), mergeProps({
           modelValue: currData.value,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => currData.value = $event),
-          onBlur: validate
-        }, unref(attrs)), null, 16, ["modelValue"])
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => currData.value = $event)
+        }, unref(attrs), { mode: "text" }), null, 16, ["modelValue"])
       ]);
     };
   }
@@ -21545,73 +22393,73 @@ _sfc_main.install = (app) => {
   app.component(_sfc_main.__name, _sfc_main);
 };
 const components = [
-  _sfc_main$17,
+  _sfc_main$1b,
   Select,
   ElsRadio,
-  _sfc_main$_,
+  _sfc_main$12,
   ElsCheckbox,
-  _sfc_main$$,
   _sfc_main$13,
+  _sfc_main$17,
   OptionGroup,
-  _sfc_main$Z,
-  _sfc_main$Y,
-  _sfc_main$X,
+  _sfc_main$11,
+  _sfc_main$10,
+  _sfc_main$$,
   FormQuery,
+  _sfc_main$Z,
+  _sfc_main$X,
+  _sfc_main$Y,
+  _sfc_main$W,
   _sfc_main$V,
-  _sfc_main$T,
   _sfc_main$U,
+  _sfc_main$T,
   _sfc_main$S,
   _sfc_main$R,
   _sfc_main$Q,
   _sfc_main$P,
-  _sfc_main$O,
-  _sfc_main$N,
-  _sfc_main$M,
-  _sfc_main$L,
-  _sfc_main$E,
-  _sfc_main$D,
   _sfc_main$I,
   _sfc_main$H,
+  _sfc_main$M,
+  _sfc_main$L,
+  _sfc_main$K,
   _sfc_main$G,
+  _sfc_main$F,
+  _sfc_main$E,
+  _sfc_main$t,
+  _sfc_main$D,
+  _sfc_main$x,
+  _sfc_main$w,
+  _sfc_main$v,
+  _sfc_main$u,
+  _sfc_main$y,
+  Tree,
+  TreeSelect,
+  _sfc_main$19,
+  _sfc_main$1a,
   _sfc_main$C,
   _sfc_main$B,
   _sfc_main$A,
-  _sfc_main$p,
-  _sfc_main$z,
-  _sfc_main$t,
-  _sfc_main$s,
-  _sfc_main$r,
-  _sfc_main$q,
-  _sfc_main$u,
-  Tree,
-  TreeSelect,
-  _sfc_main$15,
-  _sfc_main$16,
-  _sfc_main$y,
-  _sfc_main$x,
-  _sfc_main$w,
-  _sfc_main$F,
-  _sfc_main$7,
+  _sfc_main$J,
+  _sfc_main$a,
   MenuContext,
   MenuDropdown,
   DataModal,
+  _sfc_main$q,
+  _sfc_main$k,
+  _sfc_main$l,
   _sfc_main$m,
-  _sfc_main$g,
-  _sfc_main$h,
-  _sfc_main$i,
-  _sfc_main$f,
+  _sfc_main$j,
   Tip,
   _sfc_main$5,
   Caption,
-  _sfc_main$d,
-  _sfc_main$l,
+  _sfc_main$h,
+  _sfc_main$p,
   _sfc_main$4,
   _sfc_main$6,
-  _sfc_main$v,
+  _sfc_main$z,
   _sfc_main$1,
   _sfc_main$2,
   _sfc_main$3,
-  _sfc_main$8,
+  _sfc_main$c,
   _sfc_main
 ];
 const ElementLess = {
@@ -21626,11 +22474,11 @@ components.forEach((item) => {
 });
 export {
   ElementLess as E,
-  _sfc_main$c as _,
+  _sfc_main$7 as _,
   property_array as a,
   property_form as b,
   property_advanced as c,
-  dynamicControlType as d,
+  _sfc_main$g as d,
   lessCom$1 as l,
   property_arrayAndObject as p
 };

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, computed } from 'vue'
+import { watch, computed,ref } from 'vue'
 import { useVModel } from '@vueuse/core'
 import DynamicRenderInnerItem from './DynamicRenderInnerItem.vue'
 import '../../utlis/lessPrototype.js'
@@ -47,6 +47,11 @@ function getItemDefaultValue() {
             return 0;
         }
     }
+    else if(currData.value.arrayDataTypeName==='Object'){
+        return {}
+    }else if(currData.value.arrayDataTypeName==='Array'){
+        return []
+    }
     if (currData.value.defaultValue) {
         return currData.value.defaultValue
     }
@@ -54,7 +59,7 @@ function getItemDefaultValue() {
 
 }
 function handleAddItem() {
-    currData.value.value.push(getItemDefaultValue())
+    return getItemDefaultValue()
 }
 const formAttrs = computed(() => {
     const currFormConfig = lessCom.cloneObj(currData.value.config.formConfig)
@@ -72,27 +77,10 @@ const formAttrs = computed(() => {
 
 function initDefault(val) {
     let defaultArrayData: any = [];
-    let defaultValue=currData.value?.defaultValue
-    
-    if(currData.value.arrayDataTypeName==='Number'){
-        if(defaultValue&&defaultValue!==''){
-            defaultValue=parseFloat(defaultValue)
-        }else{
-            defaultValue=0
-        }
-    }else if(currData.value.arrayDataTypeName==='Bool'){
-        if(defaultValue&&defaultValue?.toLowerCase() === 'true'){
-            defaultValue=parseFloat(defaultValue)
-        }
-        else{
-            defaultValue=false
-        }
-    }else if(!defaultValue){
-        defaultValue=''
-    }
+
+    let defaultValue=getItemDefaultValue()
 
     if (val === undefined || val === '') {
-
         defaultArrayData.push(defaultValue)
     } else {
         for (let i = 0; i < val; i++) {
@@ -101,29 +89,31 @@ function initDefault(val) {
     }
     currData.value.value=defaultArrayData
 }
-watch(()=>currData.value,(val)=>{
+
+watch(()=>currData.value.value,(val)=>{
     if(!val||!Array.isArray(val)){
         initDefault(currData.value.config.arrayConfig.arrayDefaultLength)
+ 
     }
 },{immediate:true})
+
 watch(() => currData.value.config.arrayConfig.arrayDefaultLength, (val) => {
     initDefault(val)
 })
 
 
 
-
 </script>
 <template>
     <div :class="{ 'horizontal': currData.config.arrayConfig.arrangementType === 'Horizontal' }" style=" flex-grow:1">
-        <els-list :data="currData.value" @add="handleAddItem" item-key="" :style="[
+        <els-list v-model="currData.value" @add="handleAddItem" :item-class-name="{'els-dynamic-r-array':item.arrayDataTypeName==='Object'}"  :style="[
             { 'max-width': (currData.config.arrayConfig.maxWidth ? currData.config.arrayConfig.maxWidth + 'px' : '') },
             { 'max-height': (currData.config.arrayConfig.maxHeight ? currData.config.arrayConfig.maxHeight + 'px' : '') },
             { 'display': currData.config.arrayConfig.arrangementType === 'Horizontal' ? 'flex' : '' },
-            { 'flex-wrap': 'wrap' }, { 'gap': '5px' }]">
-            <template #default="{ index }">
-                <DynamicRenderInnerItem v-bind="formAttrs" :key="index" :parent-node="parentNode" :curr-node="currData"
-                    :disabled="handleDisabledExpress()" :prop="index.toString()" :item="currData"
+            { 'flex-wrap': 'wrap' }, { 'gap': '5px' }, { 'overflow': 'scroll' },{'padding-right':'20px'}]">
+            <template #default="{ $item,index }">
+                <DynamicRenderInnerItem class="els-dynamic-r-array-item" v-bind="formAttrs" :key="index" :parent-node="parentNode" :curr-node="currData"
+                    :disabled="handleDisabledExpress()" v-model="$item.value"  :item="currData"
                     :style="item.config.advancedConfig.style" @valueChange="handleValueChange">
                 </DynamicRenderInnerItem>
             </template>
