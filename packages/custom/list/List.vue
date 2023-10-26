@@ -34,17 +34,20 @@ const props = withDefaults(defineProps<Props>(), {
 const currData = useVModel(props, 'modelValue', emits)
 const dropData = ref<any>([])
 const currItemKey = ref(props.itemKey)
+watch(()=>props.modelValue,(val)=>{
+    if(props.itemKey){
+        dropData.value = val
+    }
+},{immediate:true})
+
 if (!props.itemKey) {
     currData.value.forEach(ele => {
         dropData.value.push({ itemKey: lessCom.Guid32(), value: ele })
     })
     currItemKey.value = 'itemKey'
     watch(dropData, (val) => {
-
         emits('update:modelValue', val.map(ele => ele.value))
     }, { deep: true })
-} else {
-    dropData.value = currData.value
 }
 
 const attrs = useAttrs()
@@ -72,8 +75,8 @@ let container = h('div')
 let outContainer = h('div')
 watchEffect(() => {
     if (props.hasForm && dropData.value.length) {
-        if (typeof (dropData[0]) !== 'object') {
-            outContainer = h(ElsForm, { modelValue: currData })
+        if (typeof (dropData.value[0]) !== 'object') {
+            outContainer = h(ElsForm, { modelValue: dropData })
             container = h('div')
 
         } else {
@@ -89,7 +92,9 @@ watchEffect(() => {
             <template #item="{ element, index }">
                 <component :is="container" v-model="dropData[index]" inline :labelWidth="labelWidth">
                     <div class="listitem flex" :class="itemClassName">
-                        <slot name="default" v-bind="{ item: element, index: index, $item: element, $index: index }">
+                        <slot v-if="itemKey" name="default" v-bind="{ item: element, index: index, $item: element, $index: index,element:element }">
+                        </slot>
+                        <slot v-else name="default" v-bind="{ item: element.value, index: index, $item: element.value, $index: index,element:element }">
                         </slot>
                         <span class="els-list-operate" v-if="sortable || isRemove" style="margin-left:10px;">
                             <slot name="drag" v-if="sortable && isModify">

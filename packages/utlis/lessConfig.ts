@@ -1,5 +1,5 @@
-import  {DynamicComponentType,DynamicConfig,DynamicDataType} from './interfaceCom'
-import  {DynamicComponentGroup} from './enumCom'
+import { DynamicComponentType, DynamicConfig, DynamicDataType } from './interfaceCom'
+import { DynamicComponentGroup } from './enumCom'
 import property_input from './dynamicPropertys/input'
 import property_switch from './dynamicPropertys/switch'
 import property_inputNumber from './dynamicPropertys/inputNumber'
@@ -19,7 +19,7 @@ import lessCom from './lessCom'
 import { ElMessage } from 'element-plus'
 
 
-export const dynamicDataTypes:Array<DynamicDataType> = [
+export const dynamicDataTypes: Array<DynamicDataType> = [
     { label: '无', value: 'None', type: 'None' },
     { label: '字符串', value: 'String', type: 'String' },
     { label: '数字', value: 'Number', type: 'Number' },
@@ -29,20 +29,20 @@ export const dynamicDataTypes:Array<DynamicDataType> = [
 ]
 
 
-export const dynamicComponentTypes:Array<DynamicComponentType> = [
-    { componentName: 'ElsInput',  label: '输入框', value: "Input", type: "Input", dataTypes: ['String'], defaultPropertys: {}, propertys: property_input, group: DynamicComponentGroup.Form },
+export const dynamicComponentTypes: Array<DynamicComponentType> = [
+    { componentName: 'ElsInput', label: '输入框', value: "Input", type: "Input", dataTypes: ['String'], defaultPropertys: {}, propertys: property_input, group: DynamicComponentGroup.Form },
     { componentName: 'ElsTextarea', label: '文本域', value: 'Textarea', type: "Textarea", dataTypes: ['String'], defaultPropertys: {}, propertys: property_textarea, group: DynamicComponentGroup.Form },
     { componentName: 'ElsInputNumber', label: '数字输入框', value: 'InputNumber', type: "InputNumber", dataTypes: ['Number'], defaultPropertys: {}, propertys: property_inputNumber, group: DynamicComponentGroup.Form },
     { componentName: 'ElsSwitch', label: '开关', value: 'Switch', type: "Switch", dataTypes: ['Bool', 'String', 'Number'], defaultPropertys: {}, propertys: property_switch, group: DynamicComponentGroup.Form },
     { componentName: 'ElsCheckbox', label: '多选列表', value: 'Checkbox', type: "Checkbox", dataTypes: ['String'], defaultPropertys: {}, propertys: property_checkbox, group: DynamicComponentGroup.Form },
     { componentName: 'ElsSelect', label: '下拉列表', value: 'Select', type: "Select", dataTypes: ['String', 'Number', 'Bool'], defaultPropertys: {}, propertys: property_select, group: DynamicComponentGroup.Form },
     { componentName: 'ElsRadio', label: '单选列表', value: 'Radio', type: "Radio", dataTypes: ['String', 'Number', 'Bool'], defaultPropertys: {}, propertys: property_radio, group: DynamicComponentGroup.Form },
-    { componentName: 'ElsUpload',label: '图片', value: 'UploadPic', type: "UploadPic", dataTypes: ['String'], defaultPropertys: { 'type': 'Pic' }, propertys: property_pic, group: DynamicComponentGroup.Form },
+    { componentName: 'ElsUpload', label: '图片', value: 'UploadPic', type: "UploadPic", dataTypes: ['String'], defaultPropertys: { 'type': 'Pic' }, propertys: property_pic, group: DynamicComponentGroup.Form },
     { componentName: 'ElsUpload', label: '图集', value: 'UploadMutiPic', type: "UploadMutiPic", dataTypes: ['String'], defaultPropertys: { 'type': 'Pic', 'multiple': true }, propertys: property_pic, group: DynamicComponentGroup.Form },
     { componentName: 'ElsUpload', label: '文件', value: 'UploadFile', type: "UploadFile", dataTypes: ['String'], defaultPropertys: { 'type': 'File' }, propertys: property_file, group: DynamicComponentGroup.Form },
     { componentName: 'ElsDataModal', label: '弹窗', value: 'DataModal', type: "DataModal", dataTypes: ['String'], defaultPropertys: {}, propertys: property_datamodal, group: DynamicComponentGroup.Form },
-    { componentName: 'ElsDatePicker',  label: '日期选择器', value: 'DatePicker', type: "DatePicker", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_date, group: DynamicComponentGroup.Form },
-    { componentName: 'ElsTimePicker',  label: '时间选择器', value: 'TimePicker', type: "TimePicker", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_time, group: DynamicComponentGroup.Form },
+    { componentName: 'ElsDatePicker', label: '日期选择器', value: 'DatePicker', type: "DatePicker", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_date, group: DynamicComponentGroup.Form },
+    { componentName: 'ElsTimePicker', label: '时间选择器', value: 'TimePicker', type: "TimePicker", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_time, group: DynamicComponentGroup.Form },
     { componentName: 'ElsCaption', label: '分隔描述', value: 'Caption', type: "Caption", dataTypes: ['None'], defaultPropertys: {}, propertys: property_caption, group: DynamicComponentGroup.Desc },
     { componentName: 'ElsRow', label: '栅格', value: 'Row', type: "Row", dataTypes: ['None'], defaultPropertys: {}, propertys: property_row, group: DynamicComponentGroup.Container },
 ]
@@ -72,31 +72,55 @@ export class DynamicHandler {
         this.resourceCode = resourceCode
         this.restrictCode = restrictCode
     }
-    jsonValueType(val){
-      const currType= typeof(val)
-     const currDataType= this.dataTypes.find(ele=>ele.type.toLowerCase()===currType)[0]
-     return currDataType
+    jsonValueType(val) {
+        let currType: any = typeof (val)
+        if (Array.isArray(val)) {
+            currType = 'array'
+        }
+        if (currType === 'object') {
+            const currDataType = this.dataTypes.find(ele => lessCom.isSameObject(val, ele.defaultValue))
+            if (currDataType) { return currDataType }
+        }
+        const currDataType = this.dataTypes.find(ele => lessCom.isSameObject(val, ele.defaultValue) || ele.type.toLowerCase() === currType || (ele.type === 'Bool' && currType === 'boolean'))
+        return currDataType
     }
-    jsonToConfig(jsonData){
-        if(JSON.stringify(jsonData)==="{}"){
+    jsonToConfig(jsonData) {
+        if (JSON.stringify(jsonData) === "{}") {
             return []
         }
-        if(Array.isArray(jsonData)){
+        if (Array.isArray(jsonData)) {
             ElMessage.warning('不支持数组类型')
             return []
         }
-        const importData:Array<DynamicConfig>=[]
+        const importData: Array<DynamicConfig> = []
         for (let key in jsonData) {
-            if(key){
-                const currType=this.jsonValueType(jsonData[key]) 
-                let arrayDataType=''
-                let currData:any=[]
-                if(currType.type==='Array'&&jsonData[key].length){
-                    const currArrayType=this.jsonValueType(jsonData[key][0]) 
-                    arrayDataType=currArrayType?.value
-                    if(currArrayType?.type==='Object'){
+            if (key) {
+                const currType = this.jsonValueType(jsonData[key])
+                let currArrayType:any = {}
+                let currData: any = []
+                if (currType?.type === 'Array' && jsonData[key].length) {
+                     currArrayType = this.jsonValueType(jsonData[key][0])
+                    if (currArrayType?.type === 'Object') {
                         currData.push(...this.jsonToConfig(jsonData[key][0]))
                     }
+                }else if(currType.type==='Object'){
+                    currArrayType = this.jsonValueType(jsonData[key])
+                    if (currArrayType?.type === 'Object') {
+                        currData.push(...this.jsonToConfig(jsonData[key]))
+                    }
+                }
+                let componentName = ''
+                if(currType?.type === 'Object' || currArrayType?.type === 'Object'){
+                    componentName=''
+                }
+                else if (currType?.type === 'Number' || currArrayType?.type === 'Number') {
+                    componentName = this.componentTypes.find(ele => ele.type == 'InputNumber').value
+                } else if (currType?.type === 'Bool' || currArrayType?.type === 'Bool') {
+                    componentName = this.componentTypes.find(ele => ele.type == 'Switch').value
+                } else if (currType?.type === 'String' || currArrayType?.type === 'String') {
+                    componentName = this.componentTypes.find(ele => ele.type == 'Input').value
+                } else {
+                    componentName = this.componentTypes.find(ele => ele.dataTypes.includes(currType.value)||ele.dataTypes.includes(currArrayType?.value))?.value
                 }
                 importData.push({
                     "keyID": "key_" + lessCom.randomNumber().toString(),
@@ -104,19 +128,19 @@ export class DynamicHandler {
                     "keyCode": key,
                     "data": currData,
                     "dataType": currType?.value,
-                    "arrayDataType": arrayDataType,
-                    "componentType": "Input",
-                    "required":false,
-                    "description":'',
+                    "arrayDataType": currArrayType?.value,
+                    "componentType": componentName,
+                    "required": false,
+                    "description": '',
                     "config": {
-                      "formConfig": {},
-                      "baseConfig": {},
-                      "advancedConfig": {},
-                      "arrayConfig": {}
+                        "formConfig": {},
+                        "baseConfig": {},
+                        "advancedConfig": {},
+                        "arrayConfig": {}
                     }
-                  })
+                })
             }
-           
+
         }
         return importData
     }
@@ -129,7 +153,7 @@ export class DynamicHandler {
         } else {
             item.componentGroup = currcomponentType?.group
         }
-        item.componentType = currcomponentType?.type
+        item.componentTypeName = currcomponentType?.type
         item.dataTypeName = currDataType?.type
         item.arrayDataTypeName = currArrayDataType?.type
         item.componentName = currcomponentType?.componentName
@@ -139,7 +163,7 @@ export class DynamicHandler {
             this.initTypeName(ele)
             if (ele.dataTypeName == 'Object' || (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object')) {
                 this.initConfigType(ele.data)
-            } else if (ele.dataTypeName == 'None' && ele.componentType == 'Row') {
+            } else if (ele.dataTypeName == 'None' && ele.componentTypeName == 'Row') {
                 this.initConfigType(ele.data)
             } else {
                 this.getDefaultValue(ele)
@@ -147,14 +171,28 @@ export class DynamicHandler {
             }
         })
     }
-    recoverConfig(data) {
+    initConfig(data){
         data.forEach((ele) => {
             if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
-                this.recoverArrayConfig(ele)
+                this.initConfig(ele.data)
             } else if (ele.dataTypeName == 'Object') {
-                this.recoverConfig(ele.data)
+                this.initConfig(ele.data)
             } else if (ele.dataTypeName == 'None' && ele.componentName == 'ElsRow') {
-                this.recoverConfig(ele.data)
+                this.initConfig(ele.data)
+            }
+            if(!ele.keyID){
+                ele.keyID="key_" + lessCom.randomNumber().toString()
+            }
+        })
+    }
+    returnConfig(data) {
+        data.forEach((ele) => {
+            if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
+                this.returnArrayConfig(ele)
+            } else if (ele.dataTypeName == 'Object') {
+                this.returnConfig(ele.data)
+            } else if (ele.dataTypeName == 'None' && ele.componentName == 'ElsRow') {
+                this.returnConfig(ele.data)
             }
             delete ele.componentGroup
             delete ele.dataTypeName
@@ -164,16 +202,16 @@ export class DynamicHandler {
             delete ele.value
         })
     }
-    recoverArrayConfig(item) {
+    returnArrayConfig(item) {
         delete item.arrayObjData
         delete item.value
         item.data.forEach(ele => {
             if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
-                this.recoverArrayConfig(ele)
+                this.returnArrayConfig(ele)
             } else if (ele.dataTypeName == 'Object') {
-                this.recoverConfig(ele.data)
+                this.returnConfig(ele.data)
             } else if (ele.dataTypeName == 'None' && ele.componentName == 'ElsRow') {
-                this.recoverConfig(ele.data)
+                this.returnConfig(ele.data)
             }
         })
 
@@ -197,16 +235,16 @@ export class DynamicHandler {
 
             this.initTypeName(ele)
 
-            if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object'&&!ele.componentType) {
+            if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object' && !ele.componentTypeName) {
                 this.recoverArrayData(ele, valueData[ele.keyCode])
             } else if (ele.dataTypeName == 'Object') {
                 this.recoverData(ele.data, valueData[ele.keyCode])
-            } else if (ele.dataTypeName == 'None' && ele.componentType == 'Row') {
+            } else if (ele.dataTypeName == 'None' && ele.componentTypeName == 'Row') {
                 this.recoverData(ele.data, valueData)
             }
-            if (this.appendUrlParams && ['Checkbox', 'Select', 'Radio', 'Upload', 'DataModal'].includes(ele.componentType ?? '') && ele.config.baseConfig && (ele.config.baseConfig.url || ele.config.baseConfig.modalUrl)) {
+            if (this.appendUrlParams && ['Checkbox', 'Select', 'Radio', 'Upload', 'DataModal'].includes(ele.componentTypeName ?? '') && ele.config.baseConfig && (ele.config.baseConfig.url || ele.config.baseConfig.modalUrl)) {
                 this.appendCommonParams(ele)
-                if (ele.componentType === 'Upload') {
+                if (ele.componentTypeName === 'Upload') {
                     this.appendUploadParams(ele)
                 }
 
@@ -268,7 +306,7 @@ export class DynamicHandler {
 
                 if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
                     this.recoverArrayData(currItem)
-                } else if (ele.dataTypeName == 'Object' || ele.componentType == 'Row') {
+                } else if (ele.dataTypeName == 'Object' || ele.componentTypeName == 'Row') {
                     this.recoverData(currItem.data)
                 }
                 currData.push(currItem)
@@ -338,7 +376,7 @@ export class DynamicHandler {
     }
     getDefaultValue(item) {
         const currDataType = this.dataTypes.find(ele => ele.value === item.dataType || ele.type === item.dataType)
-     
+
         if (currDataType) {
             switch (currDataType.type) {
                 case 'Number':
@@ -366,13 +404,13 @@ export class DynamicHandler {
                     }
                     break
                 default:
-                    try{
+                    try {
                         if (item.defaultValue) {
-                            item.value =JSON.parse(item.defaultValue)
-                        }else if(currDataType.defaultValue){
-                            item.value=currDataType.defaultValue
+                            item.value = JSON.parse(item.defaultValue)
+                        } else if (currDataType.defaultValue) {
+                            item.value = currDataType.defaultValue
                         }
-                    }catch(err){
+                    } catch (err) {
                         console.error(err)
                     }
             }
@@ -385,7 +423,7 @@ export class DynamicHandler {
                 if (ele.dataTypeName == 'Object' && ele.keyCode) {
                     currData[ele.keyCode] = this.childResult(ele)
                 }
-                else if (ele.dataTypeName == 'None' && ele.componentType == 'Row') {
+                else if (ele.dataTypeName == 'None' && ele.componentTypeName == 'Row') {
                     Object.assign(currData, this.childResult(ele))
                 }
                 else if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object' && ele.keyCode) {
@@ -414,11 +452,11 @@ export class DynamicHandler {
         }
 
         currData.forEach(ele => {
-            if (ele.componentType !== 'Caption') {
+            if (ele.componentTypeName !== 'Caption') {
                 if (ele.dataTypeName == 'Object' && ele.keyCode) {
                     currItem[ele.keyCode] = this.childResult(ele)
                 }
-                else if (ele.dataTypeName == 'None' && ele.componentType == 'Row') {
+                else if (ele.dataTypeName == 'None' && ele.componentTypeName == 'Row') {
                     Object.assign(currItem, this.childResult(ele))
                 }
                 else if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object' && ele.keyCode) {
@@ -442,11 +480,12 @@ export class DynamicHandler {
             if (Array.isArray(ele)) {
                 let currData = {}
                 ele.forEach(cele => {
-                    if(cele.dataTypeName==='Array'){
-                        currData[cele.keyCode]=  this.childResultList(cele)
-                    }else{
-                        currData[cele.keyCode]= this.childResult(cele);
-
+                    if (cele.dataTypeName === 'Array') {
+                        currData[cele.keyCode] = this.childResultList(cele)
+                    } else if (cele.dataTypeName === 'Object') {
+                        currData[cele.keyCode] = this.childResult(cele);
+                    } else {
+                        currData[cele.keyCode] = cele.value
                     }
 
                 })

@@ -589,6 +589,7 @@ const lessCom = {
       tip,
       tipPosition,
       suffixContent,
+      labelWidth,
       required,
       requiredMessage,
       validType,
@@ -613,6 +614,7 @@ const lessCom = {
       tip,
       tipPosition,
       suffixContent,
+      labelWidth,
       required,
       requiredMessage,
       validType,
@@ -1076,6 +1078,31 @@ const lessCom = {
         reject(action);
       });
     });
+  },
+  isSameObject(obj1, obj2) {
+    if (typeof obj1 !== "object" || typeof obj2 !== "object") {
+      return false;
+    }
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+    if (keys1.length !== keys2.length) {
+      return false;
+    }
+    for (const key of keys1) {
+      if (!keys2.includes(key)) {
+        return false;
+      }
+      const value1 = obj1[key];
+      const value2 = obj2[key];
+      if (typeof value1 === "object" && typeof value2 === "object") {
+        if (!this.isSameObject(value1, value2)) {
+          return false;
+        }
+      } else if (typeof value1 !== typeof value2) {
+        return false;
+      }
+    }
+    return true;
   }
 };
 const lessCom$1 = lessCom;
@@ -1102,6 +1129,7 @@ const _sfc_main$1b = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -1247,6 +1275,7 @@ const _sfc_main$1a = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -1315,6 +1344,7 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -1465,7 +1495,7 @@ const _hoisted_2$n = {
   key: 0,
   class: "check"
 };
-const _hoisted_3$c = {
+const _hoisted_3$d = {
   key: 0,
   class: "check"
 };
@@ -1509,6 +1539,7 @@ const _sfc_main$18 = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -1882,7 +1913,7 @@ const _sfc_main$18 = /* @__PURE__ */ defineComponent({
                             value: item[_ctx.valueField]
                           }, {
                             default: withCtx(() => [
-                              _ctx.multiple ? (openBlock(), createElementBlock("i", _hoisted_3$c)) : createCommentVNode("", true),
+                              _ctx.multiple ? (openBlock(), createElementBlock("i", _hoisted_3$d)) : createCommentVNode("", true),
                               renderSlot(_ctx.$slots, "default", { item }, () => [
                                 createTextVNode(toDisplayString(item[_ctx.labelField]), 1)
                               ], true)
@@ -2145,6 +2176,7 @@ const _sfc_main$15 = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -2544,6 +2576,7 @@ const _sfc_main$14 = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -3030,6 +3063,7 @@ const _sfc_main$13 = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -3113,6 +3147,7 @@ const _sfc_main$12 = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -3717,7 +3752,7 @@ FormQuery.install = (app) => {
 };
 const _hoisted_1$B = ["innerHTML"];
 const _hoisted_2$j = { class: "els-form-item-append" };
-const _hoisted_3$b = ["innerHTML"];
+const _hoisted_3$c = ["innerHTML"];
 const _sfc_main$Z = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsFormItem" },
   __name: "FormItem",
@@ -3733,6 +3768,7 @@ const _sfc_main$Z = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: { default: "left" },
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -3873,6 +3909,7 @@ const _sfc_main$Z = /* @__PURE__ */ defineComponent({
         ref_key: "formItem",
         ref: formItem,
         label: _ctx.label,
+        labelWidth: _ctx.labelWidth,
         prop: defaultProp.value,
         rules: itemRules.value
       }, createSlots({
@@ -3912,7 +3949,7 @@ const _sfc_main$Z = /* @__PURE__ */ defineComponent({
             key: 2,
             innerHTML: _ctx.suffixContent,
             class: "els-form-item-append"
-          }, null, 8, _hoisted_3$b)) : createCommentVNode("", true),
+          }, null, 8, _hoisted_3$c)) : createCommentVNode("", true),
           unref(slots).error ? renderSlot(_ctx.$slots, "error", { key: 3 }) : createCommentVNode("", true)
         ]),
         _: 2
@@ -3946,7 +3983,7 @@ const _sfc_main$Z = /* @__PURE__ */ defineComponent({
           ]),
           key: "1"
         } : void 0
-      ]), 1032, ["label", "prop", "rules"]);
+      ]), 1032, ["label", "labelWidth", "prop", "rules"]);
     };
   }
 });
@@ -3956,7 +3993,7 @@ _sfc_main$Z.install = (app) => {
 };
 const _hoisted_1$A = ["innerHTML"];
 const _hoisted_2$i = { key: 1 };
-const _hoisted_3$a = /* @__PURE__ */ createElementVNode("i", { class: "el-icon-question" }, null, -1);
+const _hoisted_3$b = /* @__PURE__ */ createElementVNode("i", { class: "el-icon-question" }, null, -1);
 const _hoisted_4$7 = ["innerHTML"];
 const _hoisted_5$5 = ["innerHTML"];
 const _hoisted_6$4 = {
@@ -4230,7 +4267,7 @@ const _sfc_main$Y = /* @__PURE__ */ defineComponent({
                   placement: "right"
                 }, {
                   default: withCtx(() => [
-                    _hoisted_3$a
+                    _hoisted_3$b
                   ]),
                   _: 1
                 }, 8, ["content"])
@@ -4380,7 +4417,7 @@ const _hoisted_1$z = {
   class: "select_container"
 };
 const _hoisted_2$h = { key: 0 };
-const _hoisted_3$9 = {
+const _hoisted_3$a = {
   key: 0,
   class: "leo-bottom-scroll-fixed"
 };
@@ -5697,7 +5734,7 @@ const _sfc_main$X = /* @__PURE__ */ defineComponent({
               target: "." + tagID
             }, {
               default: withCtx(() => [
-                !unref(dataLoading) ? (openBlock(), createElementBlock("div", _hoisted_3$9, [
+                !unref(dataLoading) ? (openBlock(), createElementBlock("div", _hoisted_3$a, [
                   createVNode(_component_el_scrollbar, {
                     ref_key: "bottomScroll",
                     ref: bottomScroll,
@@ -6092,6 +6129,7 @@ const _sfc_main$O = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -6688,6 +6726,7 @@ const _sfc_main$N = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -7576,7 +7615,7 @@ _sfc_main$M.install = (app) => {
 };
 const _hoisted_1$v = ["title"];
 const _hoisted_2$e = ["title"];
-const _hoisted_3$8 = { key: 0 };
+const _hoisted_3$9 = { key: 0 };
 const _hoisted_4$5 = ["title"];
 const _sfc_main$L = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsMenuItem" },
@@ -7645,7 +7684,7 @@ const _sfc_main$L = /* @__PURE__ */ defineComponent({
             ], 2)
           ]),
           default: withCtx(() => [
-            unref(provideData) && unref(provideData).openMenuData.indexOf(_ctx.item.id) > -1 ? (openBlock(), createElementBlock("div", _hoisted_3$8, [
+            unref(provideData) && unref(provideData).openMenuData.indexOf(_ctx.item.id) > -1 ? (openBlock(), createElementBlock("div", _hoisted_3$9, [
               (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.item.children.filter((ele) => ele.visible), (citem, index) => {
                 return openBlock(), createElementBlock(Fragment, null, [
                   citem.children && citem.children.length > 0 ? (openBlock(), createBlock(_component_els_menu_item, {
@@ -7719,7 +7758,7 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
   },
   __name: "Switch",
   props: {
-    modelValue: { type: [Boolean, String, Number] },
+    modelValue: {},
     prop: {},
     label: {},
     hasFormItem: { type: Boolean },
@@ -7728,6 +7767,7 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -7748,7 +7788,7 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
   setup(__props, { emit: emits }) {
     const props = __props;
     const attrs = useAttrs();
-    const currValue = useVModel(props, "modelValue", emits);
+    const currValue = ref();
     const getModelValue = inject("getModelValue", () => null);
     function initModelValue() {
       if (props.modelValue === void 0 && getModelValue && props.prop) {
@@ -7765,6 +7805,8 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
     watch(currValue, (val) => {
       if (props.modelValue === void 0 && setModelValue && props.prop) {
         setModelValue(props.prop, val, props.aIndex);
+      } else {
+        emits("update:modelValue", val);
       }
     });
     return (_ctx, _cache) => {
@@ -7774,8 +7816,8 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => [
             createVNode(_component_el_switch, mergeProps({
-              modelValue: unref(currValue),
-              "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => isRef(currValue) ? currValue.value = $event : null),
+              modelValue: currValue.value,
+              "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => currValue.value = $event),
               "active-value": 1,
               "inactive-value": 0
             }, unref(attrs)), null, 16, ["modelValue"])
@@ -7794,7 +7836,7 @@ const _hoisted_1$t = {
   class: "leo_image_empty"
 };
 const _hoisted_2$d = ["width"];
-const _hoisted_3$7 = /* @__PURE__ */ createElementVNode("path", {
+const _hoisted_3$8 = /* @__PURE__ */ createElementVNode("path", {
   d: "M345.15968 357.80096a48.54784 48.54784 0 1 0 48.52736 48.54784 48.58368 48.58368 0 0 0-48.52736-48.54784zM844.68736 174.08H184.43264A102.656 102.656 0 0 0 81.92 276.64896v470.70208A102.656 102.656 0 0 0 184.43264 849.92h660.25472A102.65088 102.65088 0 0 0 947.2 747.35104V276.64896A102.65088 102.65088 0 0 0 844.68736 174.08zM345.15968 295.02976a111.32416 111.32416 0 1 1-111.2576 111.31904 111.42144 111.42144 0 0 1 111.2576-111.31904z m-72.45312 444.544l-42.496-46.17728 174.71488-161.0496L483.88096 611.328l-44.35968 44.39552-36.38272-36.4032z m517.6064-25.12896l-134.55872-151.552-171.12064 183.42912L438.784 703.488l218.112-233.82016 180.3264 203.10016z",
   fill: "#7da3cc",
   "p-id": "4593",
@@ -7802,7 +7844,7 @@ const _hoisted_3$7 = /* @__PURE__ */ createElementVNode("path", {
   class: "selected"
 }, null, -1);
 const _hoisted_4$4 = [
-  _hoisted_3$7
+  _hoisted_3$8
 ];
 const _hoisted_5$4 = ["innerHTML"];
 const _sfc_main$I = /* @__PURE__ */ defineComponent({
@@ -7979,6 +8021,7 @@ const _sfc_main$G = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -8162,6 +8205,7 @@ const _sfc_main$F = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -8444,6 +8488,7 @@ const _sfc_main$E = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -8788,6 +8833,7 @@ const _sfc_main$A = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -8872,6 +8918,7 @@ const _sfc_main$z = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -8938,7 +8985,7 @@ _sfc_main$z.install = (app) => {
 };
 const _hoisted_1$m = { class: "els-node" };
 const _hoisted_2$b = { class: "els_upload_container" };
-const _hoisted_3$6 = { class: "elsupload-img" };
+const _hoisted_3$7 = { class: "elsupload-img" };
 const _hoisted_4$3 = ["src"];
 const _hoisted_5$3 = { class: "els_upload-menus" };
 const _hoisted_6$3 = ["width", "height", "src"];
@@ -8979,6 +9026,7 @@ const _sfc_main$y = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -9284,7 +9332,7 @@ const _sfc_main$y = /* @__PURE__ */ defineComponent({
                           style: normalizeStyle([{ width: _ctx.width.appendPx() }, { height: _ctx.height.appendPx() }])
                         }, null, 8, ["percentage", "style"])) : createCommentVNode("", true)
                       ], 64)) : fileUrl.value ? (openBlock(), createElementBlock(Fragment, { key: 2 }, [
-                        createElementVNode("span", _hoisted_3$6, [
+                        createElementVNode("span", _hoisted_3$7, [
                           createElementVNode("img", {
                             src: fileUrl.value,
                             class: "avatar"
@@ -9476,6 +9524,7 @@ const _sfc_main$x = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -9772,6 +9821,7 @@ const _sfc_main$w = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -9936,6 +9986,7 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -10405,6 +10456,7 @@ const _sfc_main$u = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -10648,7 +10700,7 @@ const _hoisted_1$f = {
   class: "els-table-operate"
 };
 const _hoisted_2$9 = { class: "els-table-operate-link" };
-const _hoisted_3$5 = ["onClick"];
+const _hoisted_3$6 = ["onClick"];
 const _sfc_main$r = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsMenuDropdown" },
   __name: "MenuDropdown",
@@ -10795,7 +10847,7 @@ const _sfc_main$r = /* @__PURE__ */ defineComponent({
                 class: "center",
                 onClick: ($event) => menuCommand(item),
                 style: { "line-height": "50px", "border-bottom": "1px solid #dcdcdc" }
-              }, toDisplayString(item.MenuName), 9, _hoisted_3$5);
+              }, toDisplayString(item.MenuName), 9, _hoisted_3$6);
             }), 256))
           ]),
           _: 1
@@ -10811,7 +10863,7 @@ MenuDropdown.install = (app) => {
 };
 const _hoisted_1$e = { class: "els-tool-menu" };
 const _hoisted_2$8 = { class: "els-tool-menu-button" };
-const _hoisted_3$4 = {
+const _hoisted_3$5 = {
   key: 0,
   class: "operationlog"
 };
@@ -11117,7 +11169,7 @@ const _sfc_main$q = /* @__PURE__ */ defineComponent({
             ]), 1032, ["type", "icon", "native-type", "plain", "round", "circle", "loading", "onClick"]);
           }), 128))
         ]),
-        _ctx.mutiSaveUrl || _ctx.logUrl || _ctx.docUrl || _ctx.noteUrl ? (openBlock(), createElementBlock("div", _hoisted_3$4, [
+        _ctx.mutiSaveUrl || _ctx.logUrl || _ctx.docUrl || _ctx.noteUrl ? (openBlock(), createElementBlock("div", _hoisted_3$5, [
           _ctx.mutiSaveUrl && !isTableEdit.value ? (openBlock(), createBlock(_component_el_tooltip, {
             key: 0,
             placement: "bottom-end",
@@ -11321,7 +11373,7 @@ const _hoisted_1$d = {
   class: "els-caption-sub-header"
 };
 const _hoisted_2$7 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createElementVNode("i", { class: "dec" }, null, -1));
-const _hoisted_3$3 = [
+const _hoisted_3$4 = [
   _hoisted_2$7
 ];
 const _sfc_main$o = /* @__PURE__ */ defineComponent({
@@ -11336,7 +11388,7 @@ const _sfc_main$o = /* @__PURE__ */ defineComponent({
       return openBlock(), createElementBlock("div", {
         class: normalizeClass(["els-caption", { "els-left-caption": _ctx.type == "left" }])
       }, [
-        _ctx.type == "left" ? (openBlock(), createElementBlock("span", _hoisted_1$d, _hoisted_3$3)) : createCommentVNode("", true),
+        _ctx.type == "left" ? (openBlock(), createElementBlock("span", _hoisted_1$d, _hoisted_3$4)) : createCommentVNode("", true),
         createElementVNode("span", null, [
           renderSlot(_ctx.$slots, "default", {}, () => [
             createTextVNode(toDisplayString(_ctx.title), 1)
@@ -11384,6 +11436,7 @@ const _sfc_main$n = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -11731,6 +11784,11 @@ const _sfc_main$j = /* @__PURE__ */ defineComponent({
     const currData = useVModel(props, "modelValue", emits);
     const dropData = ref([]);
     const currItemKey = ref(props.itemKey);
+    watch(() => props.modelValue, (val) => {
+      if (props.itemKey) {
+        dropData.value = val;
+      }
+    }, { immediate: true });
     if (!props.itemKey) {
       currData.value.forEach((ele) => {
         dropData.value.push({ itemKey: lessCom$1.Guid32(), value: ele });
@@ -11739,8 +11797,6 @@ const _sfc_main$j = /* @__PURE__ */ defineComponent({
       watch(dropData, (val) => {
         emits("update:modelValue", val.map((ele) => ele.value));
       }, { deep: true });
-    } else {
-      dropData.value = currData.value;
     }
     const attrs = useAttrs();
     function handleAdd() {
@@ -11797,7 +11853,7 @@ const _sfc_main$j = /* @__PURE__ */ defineComponent({
                   createElementVNode("div", {
                     class: normalizeClass(["listitem flex", _ctx.itemClassName])
                   }, [
-                    _ctx.itemKey ? renderSlot(_ctx.$slots, "default", normalizeProps(mergeProps({ key: 0 }, { item: element, index, $item: element, $index: index }))) : renderSlot(_ctx.$slots, "default", normalizeProps(mergeProps({ key: 1 }, { item: element.value, index, $item: element.value, $index: index }))),
+                    _ctx.itemKey ? renderSlot(_ctx.$slots, "default", normalizeProps(mergeProps({ key: 0 }, { item: element, index, $item: element, $index: index, element }))) : renderSlot(_ctx.$slots, "default", normalizeProps(mergeProps({ key: 1 }, { item: element.value, index, $item: element.value, $index: index, element }))),
                     _ctx.sortable || _ctx.isRemove ? (openBlock(), createElementBlock("span", _hoisted_1$b, [
                       _ctx.sortable && _ctx.isModify ? renderSlot(_ctx.$slots, "drag", { key: 0 }, () => [
                         createVNode(_component_el_icon, { class: "el-icon-rank" }, {
@@ -11905,6 +11961,7 @@ const _sfc_main$h = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -13458,7 +13515,7 @@ const property_radio = [
   {
     "keyID": "67cecb440365abb61e4aace2d5686cb9",
     "keyName": "数据列表",
-    "keyCode": "modelValue",
+    "keyCode": "data",
     "data": [
       {
         "keyID": "6f3b17406d7edb401dcecddcb764c7e4",
@@ -13987,7 +14044,7 @@ const property_checkbox = [
   {
     "keyID": "67cecb440365abb61e4aace2d5686cb9",
     "keyName": "数据列表",
-    "keyCode": "modelValue",
+    "keyCode": "data",
     "data": [
       {
         "keyID": "6f3b17406d7edb401dcecddcb764c7e4",
@@ -14341,7 +14398,7 @@ const property_select = [
   {
     "keyID": "67cecb440365abb61e4aace2d5686cb9",
     "keyName": "数据列表",
-    "keyCode": "modelValue",
+    "keyCode": "data",
     "data": [
       {
         "keyID": "6f3b17406d7edb401dcecddcb764c7e4",
@@ -17558,6 +17615,79 @@ class DynamicHandler {
     this.resourceCode = resourceCode;
     this.restrictCode = restrictCode;
   }
+  jsonValueType(val) {
+    let currType = typeof val;
+    if (Array.isArray(val)) {
+      currType = "array";
+    }
+    if (currType === "object") {
+      const currDataType2 = this.dataTypes.find((ele) => lessCom$1.isSameObject(val, ele.defaultValue));
+      if (currDataType2) {
+        return currDataType2;
+      }
+    }
+    const currDataType = this.dataTypes.find((ele) => lessCom$1.isSameObject(val, ele.defaultValue) || ele.type.toLowerCase() === currType || ele.type === "Bool" && currType === "boolean");
+    return currDataType;
+  }
+  jsonToConfig(jsonData) {
+    var _a;
+    if (JSON.stringify(jsonData) === "{}") {
+      return [];
+    }
+    if (Array.isArray(jsonData)) {
+      ElMessage.warning("不支持数组类型");
+      return [];
+    }
+    const importData = [];
+    for (let key in jsonData) {
+      if (key) {
+        const currType = this.jsonValueType(jsonData[key]);
+        let currArrayType = {};
+        let currData = [];
+        if ((currType == null ? void 0 : currType.type) === "Array" && jsonData[key].length) {
+          currArrayType = this.jsonValueType(jsonData[key][0]);
+          if ((currArrayType == null ? void 0 : currArrayType.type) === "Object") {
+            currData.push(...this.jsonToConfig(jsonData[key][0]));
+          }
+        } else if (currType.type === "Object") {
+          currArrayType = this.jsonValueType(jsonData[key]);
+          if ((currArrayType == null ? void 0 : currArrayType.type) === "Object") {
+            currData.push(...this.jsonToConfig(jsonData[key]));
+          }
+        }
+        let componentName = "";
+        if ((currType == null ? void 0 : currType.type) === "Object" || (currArrayType == null ? void 0 : currArrayType.type) === "Object") {
+          componentName = "";
+        } else if ((currType == null ? void 0 : currType.type) === "Number" || (currArrayType == null ? void 0 : currArrayType.type) === "Number") {
+          componentName = this.componentTypes.find((ele) => ele.type == "InputNumber").value;
+        } else if ((currType == null ? void 0 : currType.type) === "Bool" || (currArrayType == null ? void 0 : currArrayType.type) === "Bool") {
+          componentName = this.componentTypes.find((ele) => ele.type == "Switch").value;
+        } else if ((currType == null ? void 0 : currType.type) === "String" || (currArrayType == null ? void 0 : currArrayType.type) === "String") {
+          componentName = this.componentTypes.find((ele) => ele.type == "Input").value;
+        } else {
+          componentName = (_a = this.componentTypes.find((ele) => ele.dataTypes.includes(currType.value) || ele.dataTypes.includes(currArrayType == null ? void 0 : currArrayType.value))) == null ? void 0 : _a.value;
+        }
+        importData.push({
+          "keyID": "key_" + lessCom$1.randomNumber().toString(),
+          "keyName": key,
+          "keyCode": key,
+          "data": currData,
+          "dataType": currType == null ? void 0 : currType.value,
+          "arrayDataType": currArrayType == null ? void 0 : currArrayType.value,
+          "componentType": componentName,
+          "required": false,
+          "description": "",
+          "config": {
+            "formConfig": {},
+            "baseConfig": {},
+            "advancedConfig": {},
+            "arrayConfig": {}
+          }
+        });
+      }
+    }
+    return importData;
+  }
   initTypeName(item) {
     const currDataType = this.dataTypes.find((d) => d.value === item.dataType || d.type === item.dataType);
     const currArrayDataType = this.dataTypes.find((d) => d.value === item.arrayDataType || d.type === item.arrayDataType);
@@ -17567,7 +17697,7 @@ class DynamicHandler {
     } else {
       item.componentGroup = currcomponentType == null ? void 0 : currcomponentType.group;
     }
-    item.componentType = currcomponentType == null ? void 0 : currcomponentType.type;
+    item.componentTypeName = currcomponentType == null ? void 0 : currcomponentType.type;
     item.dataTypeName = currDataType == null ? void 0 : currDataType.type;
     item.arrayDataTypeName = currArrayDataType == null ? void 0 : currArrayDataType.type;
     item.componentName = currcomponentType == null ? void 0 : currcomponentType.componentName;
@@ -17577,22 +17707,37 @@ class DynamicHandler {
       this.initTypeName(ele);
       if (ele.dataTypeName == "Object" || ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object") {
         this.initConfigType(ele.data);
-      } else if (ele.dataTypeName == "None" && ele.componentType == "Row") {
+      } else if (ele.dataTypeName == "None" && ele.componentTypeName == "Row") {
         this.initConfigType(ele.data);
       } else {
         this.getDefaultValue(ele);
       }
     });
   }
-  recoverConfig(data) {
+  initConfig(data) {
     data.forEach((ele) => {
       if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object") {
-        this.recoverArrayConfig(ele);
+        this.initConfig(ele.data);
       } else if (ele.dataTypeName == "Object") {
-        this.recoverConfig(ele.data);
+        this.initConfig(ele.data);
       } else if (ele.dataTypeName == "None" && ele.componentName == "ElsRow") {
-        this.recoverConfig(ele.data);
+        this.initConfig(ele.data);
       }
+      if (!ele.keyID) {
+        ele.keyID = "key_" + lessCom$1.randomNumber().toString();
+      }
+    });
+  }
+  returnConfig(data) {
+    data.forEach((ele) => {
+      if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object") {
+        this.returnArrayConfig(ele);
+      } else if (ele.dataTypeName == "Object") {
+        this.returnConfig(ele.data);
+      } else if (ele.dataTypeName == "None" && ele.componentName == "ElsRow") {
+        this.returnConfig(ele.data);
+      }
+      delete ele.keyID;
       delete ele.componentGroup;
       delete ele.dataTypeName;
       delete ele.arrayDataTypeName;
@@ -17601,16 +17746,16 @@ class DynamicHandler {
       delete ele.value;
     });
   }
-  recoverArrayConfig(item) {
+  returnArrayConfig(item) {
     delete item.arrayObjData;
     delete item.value;
     item.data.forEach((ele) => {
       if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object") {
-        this.recoverArrayConfig(ele);
+        this.returnArrayConfig(ele);
       } else if (ele.dataTypeName == "Object") {
-        this.recoverConfig(ele.data);
+        this.returnConfig(ele.data);
       } else if (ele.dataTypeName == "None" && ele.componentName == "ElsRow") {
-        this.recoverConfig(ele.data);
+        this.returnConfig(ele.data);
       }
     });
   }
@@ -17630,16 +17775,16 @@ class DynamicHandler {
         this.getDefaultValue(ele);
       }
       this.initTypeName(ele);
-      if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object" && !ele.componentType) {
+      if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object" && !ele.componentTypeName) {
         this.recoverArrayData(ele, valueData[ele.keyCode]);
       } else if (ele.dataTypeName == "Object") {
         this.recoverData(ele.data, valueData[ele.keyCode]);
-      } else if (ele.dataTypeName == "None" && ele.componentType == "Row") {
+      } else if (ele.dataTypeName == "None" && ele.componentTypeName == "Row") {
         this.recoverData(ele.data, valueData);
       }
-      if (this.appendUrlParams && ["Checkbox", "Select", "Radio", "Upload", "DataModal"].includes(ele.componentType ?? "") && ele.config.baseConfig && (ele.config.baseConfig.url || ele.config.baseConfig.modalUrl)) {
+      if (this.appendUrlParams && ["Checkbox", "Select", "Radio", "Upload", "DataModal"].includes(ele.componentTypeName ?? "") && ele.config.baseConfig && (ele.config.baseConfig.url || ele.config.baseConfig.modalUrl)) {
         this.appendCommonParams(ele);
-        if (ele.componentType === "Upload") {
+        if (ele.componentTypeName === "Upload") {
           this.appendUploadParams(ele);
         }
       }
@@ -17694,7 +17839,7 @@ class DynamicHandler {
         this.getDefaultValue(currItem);
         if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object") {
           this.recoverArrayData(currItem);
-        } else if (ele.dataTypeName == "Object" || ele.componentType == "Row") {
+        } else if (ele.dataTypeName == "Object" || ele.componentTypeName == "Row") {
           this.recoverData(currItem.data);
         }
         currData.push(currItem);
@@ -17780,11 +17925,22 @@ class DynamicHandler {
         case "Object":
           item.value = {};
           break;
-        default:
+        case "String":
           if (item.defaultValue) {
-            item.value = item.defaultValue.toString();
+            item.value = item.defaultValue;
           } else {
             item.value = "";
+          }
+          break;
+        default:
+          try {
+            if (item.defaultValue) {
+              item.value = JSON.parse(item.defaultValue);
+            } else if (currDataType.defaultValue) {
+              item.value = currDataType.defaultValue;
+            }
+          } catch (err) {
+            console.error(err);
           }
       }
     }
@@ -17795,7 +17951,7 @@ class DynamicHandler {
       if (ele.componentGroup !== "Desc") {
         if (ele.dataTypeName == "Object" && ele.keyCode) {
           currData[ele.keyCode] = this.childResult(ele);
-        } else if (ele.dataTypeName == "None" && ele.componentType == "Row") {
+        } else if (ele.dataTypeName == "None" && ele.componentTypeName == "Row") {
           Object.assign(currData, this.childResult(ele));
         } else if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object" && ele.keyCode) {
           currData[ele.keyCode] = this.childResultList(ele);
@@ -17819,10 +17975,10 @@ class DynamicHandler {
       return {};
     }
     currData.forEach((ele) => {
-      if (ele.componentType !== "Caption") {
+      if (ele.componentTypeName !== "Caption") {
         if (ele.dataTypeName == "Object" && ele.keyCode) {
           currItem[ele.keyCode] = this.childResult(ele);
-        } else if (ele.dataTypeName == "None" && ele.componentType == "Row") {
+        } else if (ele.dataTypeName == "None" && ele.componentTypeName == "Row") {
           Object.assign(currItem, this.childResult(ele));
         } else if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object" && ele.keyCode) {
           currItem[ele.keyCode] = this.childResultList(ele);
@@ -17847,8 +18003,10 @@ class DynamicHandler {
         ele.forEach((cele) => {
           if (cele.dataTypeName === "Array") {
             currData[cele.keyCode] = this.childResultList(cele);
-          } else {
+          } else if (cele.dataTypeName === "Object") {
             currData[cele.keyCode] = this.childResult(cele);
+          } else {
+            currData[cele.keyCode] = cele.value;
           }
         });
         currList.push(currData);
@@ -17861,17 +18019,21 @@ const _hoisted_1$9 = {
   key: 0,
   class: "tag-name"
 };
-const _hoisted_2$4 = {
-  key: 1,
-  class: "els-dynamicc-d-head"
-};
-const _hoisted_3$2 = /* @__PURE__ */ createElementVNode("span", { class: "keyName" }, "名称", -1);
+const _hoisted_2$4 = { class: "els-dynamicc-d-head" };
+const _hoisted_3$3 = /* @__PURE__ */ createElementVNode("span", { class: "keyName" }, "名称", -1);
 const _hoisted_4$1 = /* @__PURE__ */ createElementVNode("span", { class: "keyCode" }, "编码", -1);
 const _hoisted_5$1 = /* @__PURE__ */ createElementVNode("span", { class: "dataType" }, "类型", -1);
 const _hoisted_6$1 = /* @__PURE__ */ createElementVNode("span", { class: "componentType" }, "组件", -1);
 const _hoisted_7$1 = /* @__PURE__ */ createElementVNode("span", { class: "config" }, "配置", -1);
-const _hoisted_8$1 = /* @__PURE__ */ createElementVNode("span", { class: "defaultValue" }, "默认值", -1);
-const _hoisted_9$1 = /* @__PURE__ */ createElementVNode("span", { class: "oper" }, "操作", -1);
+const _hoisted_8$1 = /* @__PURE__ */ createElementVNode("span", { class: "required" }, "必需", -1);
+const _hoisted_9$1 = /* @__PURE__ */ createElementVNode("span", { class: "description" }, "描述", -1);
+const _hoisted_10$1 = /* @__PURE__ */ createElementVNode("span", { class: "defaultValue" }, "默认值", -1);
+const _hoisted_11$1 = /* @__PURE__ */ createElementVNode("span", { class: "oper" }, "操作", -1);
+const _hoisted_12 = {
+  key: 1,
+  class: "els-dynamicc-d-empty"
+};
+const _hoisted_13 = { class: "dialog-footer" };
 const _sfc_main$g = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsDynamicDesigner"
@@ -17887,8 +18049,9 @@ const _sfc_main$g = /* @__PURE__ */ defineComponent({
   setup(__props, { emit: emits }) {
     const props = __props;
     const DynamicDesignerInnerItem = defineAsyncComponent(() => {
-      return import("./DynamicDesignerInnerItem-383188bc.js");
+      return import("./DynamicDesignerInnerItem-adeb1b0f.js");
     });
+    const getConverToJsonResult = inject("getConverToJsonResult", () => null);
     const componentSettingVisible = inject("componentSettingVisible", true);
     const currData = useVModel(props, "data", emits);
     const currConfig = ref(props.config ?? {});
@@ -17896,18 +18059,31 @@ const _sfc_main$g = /* @__PURE__ */ defineComponent({
       emits("removeItem");
     }
     function handleAddItem() {
-      return {
+      currData.value.push({
         keyID: "key_" + lessCom$1.randomNumber().toString(),
         keyName: "",
         keyCode: "",
         data: [],
+        required: false,
         config: {
           formConfig: {},
           baseConfig: {},
           advancedConfig: {},
           arrayConfig: {}
         }
-      };
+      });
+    }
+    const jsonVisible = ref(false);
+    const jsonObj = ref({});
+    function handleAddJSON() {
+      if (getConverToJsonResult) {
+        const currResult = getConverToJsonResult(jsonObj.value);
+        if (currResult.length) {
+          currData.value.push(...currResult);
+        }
+      }
+      jsonObj.value = {};
+      jsonVisible.value = false;
     }
     const tagID = inject("tagID");
     return (_ctx, _cache) => {
@@ -17920,115 +18096,182 @@ const _sfc_main$g = /* @__PURE__ */ defineComponent({
       const _component_el_popconfirm = resolveComponent("el-popconfirm");
       const _component_el_skeleton_item = resolveComponent("el-skeleton-item");
       const _component_el_skeleton = resolveComponent("el-skeleton");
+      const _component_el_button = resolveComponent("el-button");
       const _component_els_list = resolveComponent("els-list");
-      return openBlock(), createElementBlock("div", {
-        class: normalizeClass([{ "els-dynamic-d-flat-item-child": _ctx.depath && _ctx.depath > 0 }])
-      }, [
-        _ctx.isContainer ? (openBlock(), createElementBlock("span", _hoisted_1$9, [
-          createVNode(_component_el_popover, {
-            placement: "top-start",
-            width: "500",
-            trigger: "click"
-          }, {
-            reference: withCtx(() => [
-              createElementVNode("span", null, "(1行" + toDisplayString(unref(currData).length) + "列)", 1)
-            ]),
-            default: withCtx(() => [
-              createVNode(_component_els_form_item, {
-                label: "样式",
-                "label-width": "60px"
-              }, {
-                default: withCtx(() => [
-                  createVNode(_component_el_input, {
-                    modelValue: currConfig.value.style,
-                    "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => currConfig.value.style = $event)
-                  }, null, 8, ["modelValue"])
-                ]),
-                _: 1
-              }),
-              createVNode(_component_els_form_item, {
-                label: "v-if",
-                "label-width": "60px"
-              }, {
-                default: withCtx(() => [
-                  createVNode(_component_el_input, {
-                    modelValue: currConfig.value.vif,
-                    "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => currConfig.value.vif = $event)
-                  }, null, 8, ["modelValue"])
-                ]),
-                _: 1
-              })
-            ]),
-            _: 1
-          }),
-          createVNode(_component_el_icon, { class: "el-icon-rank" }, {
-            default: withCtx(() => [
-              createVNode(_component_Rank)
-            ]),
-            _: 1
-          }),
-          createVNode(_component_el_popconfirm, {
-            title: "确定删除吗？",
-            onConfirm: handleRemove
-          }, {
-            reference: withCtx(() => [
-              createVNode(_component_el_icon, { class: "el-icon-remove" }, {
-                default: withCtx(() => [
-                  createVNode(_component_Remove)
-                ]),
-                _: 1
-              })
-            ]),
-            _: 1
-          })
-        ])) : unref(currData).length > 0 ? (openBlock(), createElementBlock("div", _hoisted_2$4, [
-          _hoisted_3$2,
-          _hoisted_4$1,
-          _hoisted_5$1,
-          unref(componentSettingVisible) ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
-            _hoisted_6$1,
-            _hoisted_7$1
-          ], 64)) : createCommentVNode("", true),
-          _hoisted_8$1,
-          _hoisted_9$1
-        ])) : createCommentVNode("", true),
-        createVNode(_component_els_list, mergeProps({
-          modelValue: unref(currData),
-          "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => isRef(currData) ? currData.value = $event : null),
-          onAdd: handleAddItem,
-          sortable: false,
-          "is-remove": false,
-          item: "",
-          hasForm: false,
-          itemKey: "keyID"
-        }, { group: unref(tagID), animation: 300 }), {
-          default: withCtx(({ $item, $index }) => [
-            (openBlock(), createBlock(Suspense, null, {
-              default: withCtx(() => [
-                (openBlock(), createBlock(unref(DynamicDesignerInnerItem), {
-                  data: unref(currData),
-                  item: $item,
-                  depath: _ctx.depath,
-                  key: $index
-                }, null, 8, ["data", "item", "depath"]))
+      const _component_ElsJsonEditor = resolveComponent("ElsJsonEditor");
+      const _component_els_dialog = resolveComponent("els-dialog");
+      return openBlock(), createElementBlock(Fragment, null, [
+        createElementVNode("div", {
+          class: normalizeClass([{ "els-dynamic-d-flat-item-child": _ctx.depath && _ctx.depath > 0 }])
+        }, [
+          _ctx.isContainer ? (openBlock(), createElementBlock("span", _hoisted_1$9, [
+            createVNode(_component_el_popover, {
+              placement: "top-start",
+              width: "500",
+              trigger: "click"
+            }, {
+              reference: withCtx(() => [
+                createElementVNode("span", null, "(1行" + toDisplayString(unref(currData).length) + "列)", 1)
               ]),
-              fallback: withCtx(() => [
-                createVNode(_component_el_skeleton, { animated: "" }, {
-                  template: withCtx(() => [
-                    createVNode(_component_el_skeleton_item, {
-                      variant: "text",
-                      style: { "width": "100%" }
-                    })
+              default: withCtx(() => [
+                createVNode(_component_els_form_item, {
+                  label: "样式",
+                  "label-width": "60px"
+                }, {
+                  default: withCtx(() => [
+                    createVNode(_component_el_input, {
+                      modelValue: currConfig.value.style,
+                      "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => currConfig.value.style = $event)
+                    }, null, 8, ["modelValue"])
+                  ]),
+                  _: 1
+                }),
+                createVNode(_component_els_form_item, {
+                  label: "v-if",
+                  "label-width": "60px"
+                }, {
+                  default: withCtx(() => [
+                    createVNode(_component_el_input, {
+                      modelValue: currConfig.value.vif,
+                      "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => currConfig.value.vif = $event)
+                    }, null, 8, ["modelValue"])
                   ]),
                   _: 1
                 })
               ]),
-              _: 2
-            }, 1024))
+              _: 1
+            }),
+            createVNode(_component_el_icon, { class: "el-icon-rank" }, {
+              default: withCtx(() => [
+                createVNode(_component_Rank)
+              ]),
+              _: 1
+            }),
+            createVNode(_component_el_popconfirm, {
+              title: "确定删除吗？",
+              onConfirm: handleRemove
+            }, {
+              reference: withCtx(() => [
+                createVNode(_component_el_icon, { class: "el-icon-remove" }, {
+                  default: withCtx(() => [
+                    createVNode(_component_Remove)
+                  ]),
+                  _: 1
+                })
+              ]),
+              _: 1
+            })
+          ])) : createCommentVNode("", true),
+          createElementVNode("div", _hoisted_2$4, [
+            _hoisted_3$3,
+            _hoisted_4$1,
+            _hoisted_5$1,
+            unref(componentSettingVisible) ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
+              _hoisted_6$1,
+              _hoisted_7$1
+            ], 64)) : createCommentVNode("", true),
+            _hoisted_8$1,
+            _hoisted_9$1,
+            _hoisted_10$1,
+            _hoisted_11$1
+          ]),
+          !unref(currData).length ? (openBlock(), createElementBlock("div", _hoisted_12, "没有数据")) : createCommentVNode("", true),
+          createVNode(_component_els_list, mergeProps({
+            modelValue: unref(currData),
+            "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => isRef(currData) ? currData.value = $event : null),
+            sortable: false,
+            "is-remove": false,
+            item: "",
+            hasForm: false,
+            itemKey: "keyID"
+          }, { group: unref(tagID), animation: 300 }), {
+            default: withCtx(({ $item, $index }) => [
+              (openBlock(), createBlock(Suspense, null, {
+                default: withCtx(() => [
+                  (openBlock(), createBlock(unref(DynamicDesignerInnerItem), {
+                    data: unref(currData),
+                    item: $item,
+                    depath: _ctx.depath,
+                    key: $index
+                  }, null, 8, ["data", "item", "depath"]))
+                ]),
+                fallback: withCtx(() => [
+                  createVNode(_component_el_skeleton, { animated: "" }, {
+                    template: withCtx(() => [
+                      createVNode(_component_el_skeleton_item, {
+                        variant: "text",
+                        style: { "width": "100%" }
+                      })
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 2
+              }, 1024))
+            ]),
+            add: withCtx(() => [
+              createVNode(_component_el_button, {
+                type: "info",
+                icon: "edit",
+                onClick: handleAddItem
+              }, {
+                default: withCtx(() => [
+                  createTextVNode("添加")
+                ]),
+                _: 1
+              }),
+              createVNode(_component_el_button, {
+                type: "info",
+                icon: "edit",
+                onClick: _cache[2] || (_cache[2] = ($event) => jsonVisible.value = !jsonVisible.value)
+              }, {
+                default: withCtx(() => [
+                  createTextVNode("JSON导入")
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          }, 16, ["modelValue"])
+        ], 2),
+        createVNode(_component_els_dialog, {
+          modelValue: jsonVisible.value,
+          "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => jsonVisible.value = $event),
+          title: "JSON导入",
+          "destroy-on-close": ""
+        }, {
+          footer: withCtx(() => [
+            createElementVNode("span", _hoisted_13, [
+              createVNode(_component_el_button, {
+                onClick: _cache[5] || (_cache[5] = ($event) => jsonVisible.value = false)
+              }, {
+                default: withCtx(() => [
+                  createTextVNode("取消")
+                ]),
+                _: 1
+              }),
+              createVNode(_component_el_button, {
+                type: "primary",
+                onClick: handleAddJSON
+              }, {
+                default: withCtx(() => [
+                  createTextVNode(" 提交 ")
+                ]),
+                _: 1
+              })
+            ])
+          ]),
+          default: withCtx(() => [
+            createVNode(_component_ElsJsonEditor, {
+              mainMenuBar: false,
+              modelValue: jsonObj.value,
+              "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => jsonObj.value = $event),
+              style: { "height": "500px" }
+            }, null, 8, ["modelValue"])
           ]),
           _: 1
-        }, 16, ["modelValue"])
-      ], 2);
+        }, 8, ["modelValue"])
+      ], 64);
     };
   }
 });
@@ -18091,7 +18334,7 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
           delete currAttrs[name];
         }
       }
-      if (["Select", "Radio", "CheckBox", "Cascader"].includes(props.item.componentType)) {
+      if (["Select", "Radio", "CheckBox", "Cascader"].includes(props.item.componentTypeName)) {
         if (props.item.dataTypeName == "String" || props.item.arrayDataTypeName == "Number") {
           currAttrs.valueType = "Number";
         } else if (props.item.dataTypeName == "Bool" || props.item.arrayDataTypeName == "Bool") {
@@ -18249,7 +18492,7 @@ const _hoisted_2$3 = {
   key: 0,
   class: "els-dynamic-d-v-item-type"
 };
-const _hoisted_3$1 = { class: "els-dynamic-d-v-item-move" };
+const _hoisted_3$2 = { class: "els-dynamic-d-v-item-move" };
 const _sfc_main$d = /* @__PURE__ */ defineComponent({
   __name: "DynamicDesignerViewInner",
   props: {
@@ -18270,7 +18513,7 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
     const currNode = computed(() => {
       let currData2 = {};
       props.data.forEach((ele) => {
-        if (ele.componentType == "Row") {
+        if (ele.componentTypeName == "Row") {
           ele.data.forEach((cele) => {
             currData2[cele.keyCode] = cele;
           });
@@ -18307,7 +18550,7 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
     function getFormItemAttr(item) {
       var _a;
       const currFormConfig = lessCom$1.cloneObj(item.config.formConfig);
-      if (item.dataTypeName == "None" || ((_a = item.config.baseConfig) == null ? void 0 : _a.componentName) == "ElsCaption" || item.componentType === "Row") {
+      if (item.dataTypeName == "None" || ((_a = item.config.baseConfig) == null ? void 0 : _a.componentName) == "ElsCaption" || item.componentTypeName === "Row") {
         currFormConfig.labelWidth = "0px";
       } else if (item.dataTypeName == "Object" || item.arrayDataTypeName == "Object") {
         delete currFormConfig.labelWidth;
@@ -18319,6 +18562,12 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
         } else {
           delete currFormConfig.validMethod;
         }
+      }
+      if (item.required) {
+        currFormConfig["required"] = true;
+      }
+      if (item.description) {
+        currFormConfig["description"] = item.description;
       }
       return currFormConfig;
     }
@@ -18404,17 +18653,17 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
         default: withCtx(() => {
           var _a, _b, _c;
           return [
-            (openBlock(), createBlock(resolveDynamicComponent(((_a = _ctx.nodeItem) == null ? void 0 : _a.componentType) == "Row" ? "ElsRow" : "div"), {
+            (openBlock(), createBlock(resolveDynamicComponent(((_a = _ctx.nodeItem) == null ? void 0 : _a.componentTypeName) == "Row" ? "ElsRow" : "div"), {
               gutter: 5,
               class: normalizeClass(itemClassName.value),
-              style: normalizeStyle(((_b = _ctx.nodeItem) == null ? void 0 : _b.componentType) === "Row" ? _ctx.nodeItem ? (_c = _ctx.nodeItem.config.advancedConfig) == null ? void 0 : _c.style : "" : "")
+              style: normalizeStyle(((_b = _ctx.nodeItem) == null ? void 0 : _b.componentTypeName) === "Row" ? _ctx.nodeItem ? (_c = _ctx.nodeItem.config.advancedConfig) == null ? void 0 : _c.style : "" : "")
             }, {
               default: withCtx(() => {
                 var _a2;
                 return [
                   createVNode(unref(draggable), mergeProps({
                     tag: "div",
-                    class: ((_a2 = _ctx.nodeItem) == null ? void 0 : _a2.componentType) === "Row" ? "els-row-drag" : "",
+                    class: ((_a2 = _ctx.nodeItem) == null ? void 0 : _a2.componentTypeName) === "Row" ? "els-row-drag" : "",
                     style: [[{ "min-height": _ctx.depath ? "50px" : "650px" }], { "margin": "5px 0", "width": "100%" }],
                     list: unref(currData),
                     onAdd: handleAddComponent,
@@ -18426,7 +18675,7 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
                     item: withCtx(({ element, index }) => {
                       var _a3;
                       return [
-                        (openBlock(), createBlock(resolveDynamicComponent(((_a3 = _ctx.nodeItem) == null ? void 0 : _a3.componentType) === "Row" ? "els-col" : "div"), {
+                        (openBlock(), createBlock(resolveDynamicComponent(((_a3 = _ctx.nodeItem) == null ? void 0 : _a3.componentTypeName) === "Row" ? "els-col" : "div"), {
                           key: element.keyID
                         }, {
                           default: withCtx(() => {
@@ -18441,7 +18690,7 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
                                   createElementVNode("span", null, toDisplayString(element.dataTypeName === "Array" ? `Array
                                     <${element.arrayDataTypeName ? element.arrayDataTypeName : "T"}>` : element.dataTypeName), 1)
                                 ])) : createCommentVNode("", true),
-                                createElementVNode("span", _hoisted_3$1, [
+                                createElementVNode("span", _hoisted_3$2, [
                                   !handleIfExpress(element) ? (openBlock(), createBlock(_component_el_icon, { key: 0 }, {
                                     default: withCtx(() => [
                                       createVNode(_component_Hide)
@@ -18469,7 +18718,7 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
                                     _: 1
                                   })
                                 ]),
-                                element.componentType == "Row" ? (openBlock(), createBlock(_sfc_main$d, {
+                                element.componentTypeName == "Row" ? (openBlock(), createBlock(_sfc_main$d, {
                                   key: 1,
                                   data: element.data,
                                   parentNode: currNode.value,
@@ -18501,7 +18750,7 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
                                           initArrayChild(element) ? (openBlock(), createBlock(_component_el_empty, { key: 0 })) : createCommentVNode("", true)
                                         ]),
                                         _: 2
-                                      }, 1040, ["list"])) : element.componentType && element.componentGroup === "Form" ? (openBlock(), createBlock(_sfc_main$f, {
+                                      }, 1040, ["list"])) : element.componentTypeName && element.componentGroup === "Form" ? (openBlock(), createBlock(_sfc_main$f, {
                                         key: element.keyID,
                                         disabled: handleDisabledExpress(element),
                                         "parent-node": _ctx.parentNode,
@@ -18526,7 +18775,7 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
                                     ]),
                                     _: 2
                                   }, 1040, ["class", "style", "label", "prop"])) : createCommentVNode("", true),
-                                  element.componentGroup === "Desc" && element.componentType == "Caption" ? (openBlock(), createBlock(_component_els_caption, normalizeProps(mergeProps({ key: 2 }, element.config.baseConfig)), {
+                                  element.componentGroup === "Desc" && element.componentTypeName == "Caption" ? (openBlock(), createBlock(_component_els_caption, normalizeProps(mergeProps({ key: 2 }, element.config.baseConfig)), {
                                     default: withCtx(() => [
                                       createTextVNode(toDisplayString(element.config.baseConfig.title ?? "描述"), 1)
                                     ]),
@@ -19685,7 +19934,7 @@ const _hoisted_2$2 = {
   style: { "flex-basis": "260px", "flex-shrink": "0", "background": "#fff" },
   class: "els-dynamic-view-components"
 };
-const _hoisted_3 = { style: { "flex-grow": "1" } };
+const _hoisted_3$1 = { style: { "flex-grow": "1" } };
 const _hoisted_4 = { class: "main-tool" };
 const _hoisted_5 = { style: { "display": "flex", "align-items": "center", "cursor": "pointer" } };
 const _hoisted_6 = /* @__PURE__ */ createElementVNode("svg", {
@@ -19747,6 +19996,7 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -19811,9 +20061,10 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
         arrayDataTypeName: "",
         arrayDataType: "",
         componentGroup: "Form",
-        componentTypeName: "Object",
+        componentTypeName: "",
+        componentTypeLabel: "Object",
         componentName: "",
-        componentType: 0,
+        componentType: "",
         config: {
           formConfig: {},
           baseConfig: {},
@@ -19830,9 +20081,10 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
         dataType: (_b = currDynamicDataType.value.find((cele) => cele.type == "Array")) == null ? void 0 : _b.value,
         dataTypeName: "Array",
         componentGroup: "Form",
-        componentTypeName: "Array<T>",
+        componentTypeName: "",
+        componentTypeLabel: "Array<T>",
         componentName: "",
-        componentType: 0,
+        componentType: "",
         arrayDataTypeName: "",
         arrayDataType: "",
         config: {
@@ -19857,7 +20109,8 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
         arrayDataTypeName: "",
         arrayDataType: "",
         componentGroup: ele.group,
-        componentTypeName: ele.label,
+        componentTypeLabel: ele.label,
+        componentTypeName: ele.type,
         componentName: ele.componentName,
         componentType: ele.value,
         config: {
@@ -19888,7 +20141,7 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
     function handleOpenImport() {
       const val = renderData.value;
       const currVal = lessCom$1.cloneObj(val);
-      dynamicHandler.recoverConfig(currVal);
+      dynamicHandler.returnConfig(currVal);
       importJSON.value = currVal;
     }
     function initData() {
@@ -19909,7 +20162,7 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
       const val = renderData.value;
       if (val.length > 0) {
         const currVal = lessCom$1.cloneObj(val);
-        dynamicHandler.recoverConfig(currVal);
+        dynamicHandler.returnConfig(currVal);
         if (typeof val === "object") {
           emits("update:modelValue", currVal);
         } else {
@@ -19966,8 +20219,11 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
               } else {
                 const currVal = currDynamicDataType.value.find((ele) => ele.value == currSelectItem.value.dataType);
                 const arrayVal = currDynamicDataType.value.find((ele) => ele.value == currSelectItem.value.arrayDataType);
-                if ((currVal == null ? void 0 : currVal.type) == "Array" && (arrayVal == null ? void 0 : arrayVal.type) === "Object" || (currVal == null ? void 0 : currVal.type) == "Object")
+                if ((currVal == null ? void 0 : currVal.type) == "Array" && (arrayVal == null ? void 0 : arrayVal.type) === "Object" || (currVal == null ? void 0 : currVal.type) == "Object" || currControlData.type === "DynamicRender") {
                   return lessCom$1.cloneObj(property_arrayAndObject);
+                } else {
+                  return [];
+                }
               }
             }
           }
@@ -20106,7 +20362,7 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
                                       (openBlock(), createElementBlock("li", {
                                         class: "container-widget-item",
                                         key: index
-                                      }, toDisplayString(element.componentTypeName), 1))
+                                      }, toDisplayString(element.componentTypeLabel), 1))
                                     ]),
                                     _: 1
                                   }, 8, ["list"])
@@ -20130,7 +20386,7 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
                                       (openBlock(), createElementBlock("li", {
                                         class: "container-widget-item",
                                         key: index
-                                      }, toDisplayString(element.componentTypeName), 1))
+                                      }, toDisplayString(element.componentTypeLabel), 1))
                                     ]),
                                     _: 1
                                   }, 8, ["list"])
@@ -20167,7 +20423,7 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
                                       (openBlock(), createElementBlock("li", {
                                         class: "container-widget-item",
                                         key: index
-                                      }, toDisplayString(element.componentTypeName), 1))
+                                      }, toDisplayString(element.componentTypeLabel), 1))
                                     ]),
                                     _: 1
                                   }, 8, ["list"])
@@ -20191,7 +20447,7 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
                                       (openBlock(), createElementBlock("li", {
                                         class: "container-widget-item",
                                         key: index
-                                      }, toDisplayString(element.componentTypeName), 1))
+                                      }, toDisplayString(element.componentTypeLabel), 1))
                                     ]),
                                     _: 1
                                   }, 8, ["list"])
@@ -20208,7 +20464,7 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
                     _: 1
                   })
                 ]),
-                createElementVNode("div", _hoisted_3, [
+                createElementVNode("div", _hoisted_3$1, [
                   createElementVNode("div", _hoisted_4, [
                     createElementVNode("span", _hoisted_5, [
                       createVNode(_component_el_button, {
@@ -20363,7 +20619,10 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
                         ]),
                         _: 1
                       })) : createCommentVNode("", true),
-                      createVNode(_component_el_tab_pane, { label: "组件属性" }, {
+                      currPropertys.value.length ? (openBlock(), createBlock(_component_el_tab_pane, {
+                        key: 1,
+                        label: "组件属性"
+                      }, {
                         default: withCtx(() => [
                           createVNode(_component_ElsDynamicRender, {
                             isAsyncComponent: "",
@@ -20375,9 +20634,9 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
                           }, null, 8, ["modelValue", "nodeType", "config"])
                         ]),
                         _: 1
-                      }),
+                      })) : createCommentVNode("", true),
                       currSelectItem.value.dataTypeName == "Array" ? (openBlock(), createBlock(_component_el_tab_pane, {
-                        key: 1,
+                        key: 2,
                         label: "数组属性",
                         isAsyncComponent: ""
                       }, {
@@ -20392,7 +20651,7 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
                         _: 1
                       })) : createCommentVNode("", true),
                       currSelectItem.value.dataTypeName != "None" ? (openBlock(), createBlock(_component_el_tab_pane, {
-                        key: 2,
+                        key: 3,
                         label: "表单属性",
                         isAsyncComponent: ""
                       }, {
@@ -20467,12 +20726,15 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
 });
 const DynamicDesignerView_vue_vue_type_style_index_0_lang = "";
 const _hoisted_1$6 = { class: "els-dynamic-create" };
+const _hoisted_2$1 = { style: { "margin-bottom": "10px" } };
+const _hoisted_3 = { class: "dialog-footer" };
 const _sfc_main$b = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsDynamicCreate"
   },
   __name: "DynamicCreate",
   props: {
+    visible: { type: Boolean },
     modelValue: {},
     camelCase: { type: Boolean },
     dataTypes: {},
@@ -20487,54 +20749,123 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
         componentName: "ElsDynamicRender",
         label: "",
         value: "",
-        type: "",
+        type: "Object",
         dataTypes: [],
-        defaultPropertys: { config: [] }
+        defaultPropertys: { config: [] },
+        templateValue: {}
       };
     } else if (!currData.value.defaultPropertys) {
       currData.value.defaultPropertys = { config: [] };
     }
+    const createVisible = ref(false);
     watchEffect(() => {
       var _a, _b;
+      createVisible.value = props.visible;
       if (currData.value) {
         currData.value.value = ((_a = currData.value) == null ? void 0 : _a.label) ?? "";
         currData.value.type = ((_b = currData.value) == null ? void 0 : _b.label) ?? "";
         currData.value.dataTypes = [currData.value.value];
       }
     });
+    const createResult = ref();
+    const createResultVisible = ref(false);
+    function handleSaveType() {
+      createResultVisible.value = true;
+      const { label, value, type, templateValue } = currData.value;
+      const currComponentType = lessCom$1.cloneObj(currData.value);
+      delete currComponentType.templateValue;
+      createResult.value = { dataType: { label, value, type, defaultValue: templateValue }, componentType: currComponentType };
+    }
     return (_ctx, _cache) => {
       const _component_els_input = resolveComponent("els-input");
       const _component_ElsDynamicDesigner = resolveComponent("ElsDynamicDesigner");
       const _component_els_form = resolveComponent("els-form");
-      return openBlock(), createElementBlock("div", _hoisted_1$6, [
-        createVNode(_component_els_form, {
-          modelValue: unref(currData),
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => isRef(currData) ? currData.value = $event : null)
-        }, {
-          default: withCtx(() => [
-            createVNode(_component_els_input, {
-              label: "名称",
-              prop: "label",
-              required: ""
+      const _component_el_link = resolveComponent("el-link");
+      const _component_ElsJsonEditor = resolveComponent("ElsJsonEditor");
+      const _component_el_button = resolveComponent("el-button");
+      const _component_els_dialog = resolveComponent("els-dialog");
+      return openBlock(), createBlock(_component_els_dialog, {
+        modelValue: createVisible.value,
+        "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => createVisible.value = $event),
+        width: "60%",
+        "append-to-body": true,
+        title: "创建类型"
+      }, {
+        footer: withCtx(() => [
+          createElementVNode("span", _hoisted_3, [
+            createVNode(_component_el_button, {
+              onClick: _cache[5] || (_cache[5] = ($event) => createVisible.value = false)
+            }, {
+              default: withCtx(() => [
+                createTextVNode("取消")
+              ]),
+              _: 1
             }),
-            createVNode(_component_ElsDynamicDesigner, {
-              label: "配置",
-              modelValue: unref(currData).defaultPropertys.config,
-              "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(currData).defaultPropertys.config = $event),
-              dataTypes: _ctx.dataTypes,
-              componentTypes: _ctx.componentTypes,
-              camelCase: _ctx.camelCase,
-              componentSettingVisible: false
-            }, null, 8, ["modelValue", "dataTypes", "componentTypes", "camelCase"])
-          ]),
-          _: 1
-        }, 8, ["modelValue"])
-      ]);
+            createVNode(_component_el_button, {
+              type: "primary",
+              onClick: handleSaveType
+            }, {
+              default: withCtx(() => [
+                createTextVNode(" 提交 ")
+              ]),
+              _: 1
+            })
+          ])
+        ]),
+        default: withCtx(() => [
+          createElementVNode("div", _hoisted_1$6, [
+            !createResultVisible.value ? (openBlock(), createBlock(_component_els_form, {
+              key: 0,
+              modelValue: unref(currData),
+              "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => isRef(currData) ? currData.value = $event : null)
+            }, {
+              default: withCtx(() => [
+                createVNode(_component_els_input, {
+                  label: "名称",
+                  prop: "label",
+                  required: ""
+                }),
+                createVNode(_component_ElsDynamicDesigner, {
+                  label: "配置",
+                  modelValue: unref(currData).defaultPropertys.config,
+                  "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(currData).defaultPropertys.config = $event),
+                  isReturnTemplateValue: "",
+                  templateValue: unref(currData).templateValue,
+                  "onUpdate:templateValue": _cache[1] || (_cache[1] = ($event) => unref(currData).templateValue = $event),
+                  dataTypes: _ctx.dataTypes,
+                  componentTypes: _ctx.componentTypes,
+                  camelCase: _ctx.camelCase,
+                  componentSettingVisible: false
+                }, null, 8, ["modelValue", "templateValue", "dataTypes", "componentTypes", "camelCase"])
+              ]),
+              _: 1
+            }, 8, ["modelValue"])) : (openBlock(), createElementBlock(Fragment, { key: 1 }, [
+              createElementVNode("div", _hoisted_2$1, [
+                createVNode(_component_el_link, {
+                  type: "primary",
+                  onClick: _cache[3] || (_cache[3] = ($event) => createResultVisible.value = !createResultVisible.value)
+                }, {
+                  default: withCtx(() => [
+                    createTextVNode("《返回")
+                  ]),
+                  _: 1
+                })
+              ]),
+              createVNode(_component_ElsJsonEditor, {
+                mainMenuBar: false,
+                modelValue: createResult.value,
+                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => createResult.value = $event),
+                style: { "height": "500px" }
+              }, null, 8, ["modelValue"])
+            ], 64))
+          ])
+        ]),
+        _: 1
+      }, 8, ["modelValue"]);
     };
   }
 });
 const _hoisted_1$5 = { class: "els-dynamic-config-tool" };
-const _hoisted_2$1 = { class: "dialog-footer" };
 const _sfc_main$a = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsDynamicDesigner"
@@ -20548,8 +20879,8 @@ const _sfc_main$a = /* @__PURE__ */ defineComponent({
     appendComponentTypes: {},
     componentRelateDataType: {},
     componentSettingVisible: { type: Boolean, default: true },
-    isReturnValueTemplate: { type: Boolean },
-    initValue: {},
+    isReturnTemplateValue: { type: Boolean },
+    templateValue: {},
     allowCreateType: { type: Boolean },
     createTypeMethod: {},
     allowCreateComponent: { type: Boolean },
@@ -20562,6 +20893,7 @@ const _sfc_main$a = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -20578,25 +20910,13 @@ const _sfc_main$a = /* @__PURE__ */ defineComponent({
     queryRange: { type: Boolean },
     queryRangeOrEqual: { type: Boolean }
   },
-  emits: ["update:modelValue", "update:initValue"],
+  emits: ["update:modelValue", "update:templateValue"],
   setup(__props, { emit: emits }) {
     const props = __props;
     const designerJSON = ref();
     const importJSON = ref();
     const designerContainer = ref();
     const designerObj = ref([]);
-    function initData() {
-      if (props.modelValue && typeof props.modelValue === "string") {
-        if (props.modelValue != JSON.stringify(designerObj.value)) {
-          designerJSON.value = props.modelValue;
-          designerObj.value = JSON.parse(props.modelValue);
-        }
-      } else if (props.modelValue && typeof props.modelValue === "object") {
-        designerJSON.value = JSON.stringify(props.modelValue);
-        designerObj.value = props.modelValue;
-      }
-    }
-    initData();
     const currDynamicDataType = ref([]);
     if (props.dataTypes) {
       currDynamicDataType.value.push(...props.dataTypes);
@@ -20607,6 +20927,7 @@ const _sfc_main$a = /* @__PURE__ */ defineComponent({
     provide("dataTypeData", currDynamicDataType.value);
     provide("allowCreateType", props.allowCreateType);
     provide("allowCreateComponent", props.allowCreateComponent);
+    provide("getConverToJsonResult", getConverToJsonResult);
     const currComponentTypes = ref([]);
     if (props.componentTypes) {
       currComponentTypes.value.push(...props.componentTypes);
@@ -20629,12 +20950,29 @@ const _sfc_main$a = /* @__PURE__ */ defineComponent({
     provide("componentData", currComponentTypes.value);
     provide("componentSettingVisible", props.componentSettingVisible);
     provide("camelCase", props.camelCase);
+    function initData() {
+      if (props.modelValue && typeof props.modelValue === "string") {
+        if (props.modelValue != JSON.stringify(designerObj.value)) {
+          designerJSON.value = props.modelValue;
+          designerObj.value = JSON.parse(props.modelValue);
+        }
+      } else if (props.modelValue && typeof props.modelValue === "object") {
+        designerJSON.value = JSON.stringify(props.modelValue);
+        designerObj.value = props.modelValue;
+      }
+      dynamicHandler.initConfig(designerObj.value);
+    }
+    initData();
+    function getConverToJsonResult(obj) {
+      return dynamicHandler.jsonToConfig(obj);
+    }
     function handleImportDesigner() {
       if (typeof importJSON.value === "string") {
         designerObj.value = JSON.parse(importJSON.value);
       } else {
         designerObj.value = importJSON.value;
       }
+      dynamicHandler.initConfig(designerObj.value);
       return Promise.resolve(true);
     }
     function handleOpenImport() {
@@ -20651,23 +20989,15 @@ const _sfc_main$a = /* @__PURE__ */ defineComponent({
     function openCreateComponent(typeValue) {
       if (props.createComponentMethod) {
         props.createComponentMethod(typeValue);
-      } else {
-        dynamicNewType.value = { componentName: "ElsDynamicRender", config: {}, label: "名称", value: "Value", type: "Type", dataTypes: [], defaultPropertys: { config: [] }, propertys: [], group: "Form" };
       }
     }
-    const createResult = ref();
-    const createResultVisible = ref(false);
     const dynamicNewType = ref({});
-    function handleSaveType() {
-      createResultVisible.value = true;
-      createResult.value = JSON.stringify(dynamicNewType.value);
-    }
     provide("openCreateType", openCreateType);
     provide("openCreateComponent", openCreateComponent);
     watch(designerObj, (val) => {
       if (val) {
-        if (props.isReturnValueTemplate) {
-          emits("update:initValue", dynamicHandler.configResult(val));
+        if (props.isReturnTemplateValue) {
+          emits("update:templateValue", dynamicHandler.configResult(val));
         }
         if (typeof props.modelValue === "object") {
           emits("update:modelValue", val);
@@ -20690,8 +21020,6 @@ const _sfc_main$a = /* @__PURE__ */ defineComponent({
       const _component_els_data_modal = resolveComponent("els-data-modal");
       const _component_els_dialog = resolveComponent("els-dialog");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
-      const _component_els_ace_editor = resolveComponent("els-ace-editor");
-      const _component_el_button = resolveComponent("el-button");
       return openBlock(), createElementBlock("div", null, [
         createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
           default: withCtx(() => [
@@ -20778,51 +21106,14 @@ const _sfc_main$a = /* @__PURE__ */ defineComponent({
           ]),
           _: 1
         }, 16),
-        createVNode(_component_els_dialog, {
-          modelValue: createVisible.value,
-          "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => createVisible.value = $event),
-          width: "60%",
-          "append-to-body": true,
-          title: "创建类型"
-        }, {
-          footer: withCtx(() => [
-            createElementVNode("span", _hoisted_2$1, [
-              createVNode(_component_el_button, {
-                onClick: _cache[5] || (_cache[5] = ($event) => createVisible.value = false)
-              }, {
-                default: withCtx(() => [
-                  createTextVNode("取消")
-                ]),
-                _: 1
-              }),
-              createVNode(_component_el_button, {
-                type: "primary",
-                onClick: handleSaveType
-              }, {
-                default: withCtx(() => [
-                  createTextVNode(" 提交 ")
-                ]),
-                _: 1
-              })
-            ])
-          ]),
-          default: withCtx(() => [
-            createTextVNode(toDisplayString(createResult.value) + " ", 1),
-            createVNode(_sfc_main$b, {
-              dataTypes: _ctx.dataTypes,
-              modelValue: dynamicNewType.value,
-              "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => dynamicNewType.value = $event),
-              camelCase: _ctx.camelCase,
-              componentTypes: _ctx.componentTypes
-            }, null, 8, ["dataTypes", "modelValue", "camelCase", "componentTypes"]),
-            createVNode(_component_els_ace_editor, {
-              modelValue: createResult.value,
-              "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => createResult.value = $event),
-              language: "json"
-            }, null, 8, ["modelValue"])
-          ]),
-          _: 1
-        }, 8, ["modelValue"])
+        createVNode(_sfc_main$b, {
+          visible: createVisible.value,
+          modelValue: dynamicNewType.value,
+          "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => dynamicNewType.value = $event),
+          camelCase: _ctx.camelCase,
+          componentTypes: currComponentTypes.value,
+          dataTypes: currDynamicDataType.value
+        }, null, 8, ["visible", "modelValue", "camelCase", "componentTypes", "dataTypes"])
       ]);
     };
   }
@@ -21004,6 +21295,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
   setup(__props, { emit: emits }) {
     const props = __props;
     const currData = useVModel(props, "item", emits);
+    const dataTypes = inject("dataTypeData", []);
     function handleDisabledExpress() {
       if (currData.value.config.advancedConfig && currData.value.config.advancedConfig.disabled) {
         let currEvent = new Function("parentNode,currNode", "return " + currData.value.config.advancedConfig.disabled);
@@ -21018,7 +21310,16 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
       }
     }
     function getItemDefaultValue() {
-      if (currData.value.arrayDataTypeName == "Bool") {
+      const currDataType = dataTypes.find((ele) => ele.value === currData.value.arrayDataType);
+      if (currDataType && currDataType.defaultValue) {
+        return currDataType.defaultValue;
+      }
+      if (currData.value.arrayDataTypeName == "String") {
+        if (currData.value.defaultValue) {
+          return currData.value.defaultValue;
+        }
+        return "";
+      } else if (currData.value.arrayDataTypeName == "Bool") {
         if (currData.value.defaultValue === "true") {
           return true;
         } else {
@@ -21035,10 +21336,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
       } else if (currData.value.arrayDataTypeName === "Array") {
         return [];
       }
-      if (currData.value.defaultValue) {
-        return currData.value.defaultValue;
-      }
-      return "";
+      return {};
     }
     function handleAddItem() {
       return getItemDefaultValue();
@@ -21097,14 +21395,14 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
             { "padding-right": "20px" }
           ])
         }, {
-          default: withCtx(({ $item, index }) => [
+          default: withCtx(({ element, index }) => [
             (openBlock(), createBlock(_sfc_main$9, mergeProps({ class: "els-dynamic-r-array-item" }, formAttrs.value, {
               key: index,
               "parent-node": _ctx.parentNode,
               "curr-node": unref(currData),
               disabled: handleDisabledExpress(),
-              modelValue: $item.value,
-              "onUpdate:modelValue": ($event) => $item.value = $event,
+              modelValue: element.value,
+              "onUpdate:modelValue": ($event) => element.value = $event,
               item: unref(currData),
               style: _ctx.item.config.advancedConfig.style,
               onValueChange: handleValueChange
@@ -21140,7 +21438,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
     const currNode = computed(() => {
       let currData2 = {};
       props.data.forEach((ele) => {
-        if (ele.componentType == "Row") {
+        if (ele.componentTypeName == "Row") {
           ele.data.forEach((cele) => {
             currData2[cele.keyCode] = cele;
           });
@@ -21178,7 +21476,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
     function getFormItemAttr(item) {
       var _a;
       const currFormConfig = lessCom$1.cloneObj(item.config.formConfig);
-      if (item.dataTypeName == "None" || ((_a = item.config.baseConfig) == null ? void 0 : _a.componentName) == "ElsCaption" || item.componentType === "Row") {
+      if (item.dataTypeName == "None" || ((_a = item.config.baseConfig) == null ? void 0 : _a.componentName) == "ElsCaption" || item.componentTypeName === "Row") {
         currFormConfig.labelWidth = "0px";
       } else if (item.dataTypeName == "Array" && item.arrayDataTypeName == "Object") {
         delete currFormConfig.labelWidth;
@@ -21190,6 +21488,12 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
         } else {
           delete currFormConfig.validMethod;
         }
+      }
+      if (item.required) {
+        currFormConfig["required"] = true;
+      }
+      if (item.description) {
+        currFormConfig["description"] = item.description;
       }
       return currFormConfig;
     }
@@ -21225,19 +21529,19 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
         default: withCtx(() => {
           var _a, _b, _c;
           return [
-            (openBlock(), createBlock(resolveDynamicComponent(((_a = _ctx.nodeItem) == null ? void 0 : _a.componentType) == "Row" ? "ElsRow" : "div"), {
+            (openBlock(), createBlock(resolveDynamicComponent(((_a = _ctx.nodeItem) == null ? void 0 : _a.componentTypeName) == "Row" ? "ElsRow" : "div"), {
               class: normalizeClass(itemClassName.value),
-              style: normalizeStyle(((_b = _ctx.nodeItem) == null ? void 0 : _b.componentType) === "Row" ? _ctx.nodeItem ? (_c = _ctx.nodeItem.config.advancedConfig) == null ? void 0 : _c.style : "" : "")
+              style: normalizeStyle(((_b = _ctx.nodeItem) == null ? void 0 : _b.componentTypeName) === "Row" ? _ctx.nodeItem ? (_c = _ctx.nodeItem.config.advancedConfig) == null ? void 0 : _c.style : "" : "")
             }, {
               default: withCtx(() => [
                 (openBlock(true), createElementBlock(Fragment, null, renderList(unref(currData), (item, index) => {
                   var _a2;
-                  return openBlock(), createBlock(resolveDynamicComponent(((_a2 = _ctx.nodeItem) == null ? void 0 : _a2.componentType) === "Row" ? "els-col" : "div"), null, {
+                  return openBlock(), createBlock(resolveDynamicComponent(((_a2 = _ctx.nodeItem) == null ? void 0 : _a2.componentTypeName) === "Row" ? "els-col" : "div"), null, {
                     default: withCtx(() => {
                       var _a3, _b2, _c2;
                       return [
                         handleIfExpress(item) ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
-                          item.componentType == "Row" ? (openBlock(), createBlock(_sfc_main$7, {
+                          item.componentTypeName == "Row" ? (openBlock(), createBlock(_sfc_main$7, {
                             key: 0,
                             data: item.data,
                             parentNode: currNode.value,
@@ -21257,7 +21561,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                               prop: `[${index}].value`
                             }), {
                               default: withCtx(() => [
-                                item.dataTypeName !== "Array" && item.componentType && item.componentGroup === "Form" ? (openBlock(), createBlock(_sfc_main$9, {
+                                item.dataTypeName !== "Array" && item.componentTypeName && item.componentGroup === "Form" ? (openBlock(), createBlock(_sfc_main$9, {
                                   key: item.keyID,
                                   disabled: handleDisabledExpress(item),
                                   "parent-node": _ctx.parentNode,
@@ -21273,7 +21577,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                                   parentNode: currNode.value,
                                   "node-item": item,
                                   depath: currDepath.value
-                                }, null, 8, ["data", "parentNode", "node-item", "depath"])) : item.dataTypeName == "Array" && item.arrayDataType && item.componentType ? (openBlock(), createBlock(_sfc_main$8, {
+                                }, null, 8, ["data", "parentNode", "node-item", "depath"])) : item.dataTypeName == "Array" && item.arrayDataType && item.componentTypeName ? (openBlock(), createBlock(_sfc_main$8, {
                                   key: 2,
                                   "parent-node": _ctx.parentNode,
                                   item,
@@ -21310,7 +21614,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                               ]),
                               _: 2
                             }, 1040, ["class", "style", "label", "prop"])) : createCommentVNode("", true),
-                            item.componentGroup === "Desc" && item.componentType == "Caption" ? (openBlock(), createBlock(_component_els_caption, normalizeProps(mergeProps({ key: 2 }, item.config.baseConfig)), null, 16)) : createCommentVNode("", true)
+                            item.componentGroup === "Desc" && item.componentTypeName == "Caption" ? (openBlock(), createBlock(_component_els_caption, normalizeProps(mergeProps({ key: 2 }, item.config.baseConfig)), null, 16)) : createCommentVNode("", true)
                           ], 64))
                         ], 64)) : createCommentVNode("", true)
                       ];
@@ -21348,6 +21652,7 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
     componentTypes: {},
     appendComponentTypes: {},
     isAsyncComponent: { type: Boolean },
+    labelWidth: {},
     prop: {},
     label: {},
     hasFormItem: { type: Boolean },
@@ -21376,7 +21681,7 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
   setup(__props, { emit: emits }) {
     const props = __props;
     const DynamicRenderInnerAsync = defineAsyncComponent(() => {
-      return import("./DynamicRenderInner-809afa99.js");
+      return import("./DynamicRenderInner-5b7e2eb7.js");
     });
     const idataTypes = inject("dataTypeData", null);
     const icomponentTypes = inject("componentData", null);
@@ -21475,7 +21780,7 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
       const _component_el_skeleton = resolveComponent("el-skeleton");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
       return openBlock(), createElementBlock("div", null, [
-        createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom$1).getFormNodeProps(props))), {
+        createVNode(_component_ElsFormNode, mergeProps(unref(lessCom$1).getFormNodeProps(props), { labelWidth: "0px" }), {
           default: withCtx(() => [
             createElementVNode("div", _hoisted_1$3, [
               _ctx.isAsyncComponent ? (openBlock(), createBlock(Suspense, { key: 0 }, {
@@ -21984,6 +22289,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -22101,6 +22407,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -22143,32 +22450,6 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
       return props.modelValue;
     }
     onMounted(() => {
-      if (props.language === "json") {
-        const currModule = import("./mode-json-2bcb8c2a.js").then((n) => n.m);
-        currModule.then((res) => {
-          ace.config.setModuleUrl("ace/mode/json", res);
-        });
-      } else if (props.language === "javascript") {
-        const currModule = import("./mode-javascript-9ce3a2c2.js").then((n) => n.m);
-        currModule.then((res) => {
-          ace.config.setModuleUrl("ace/mode/javascript", res);
-        });
-      } else if (props.language === "csharp") {
-        const currModule = import("./mode-csharp-918d6b6c.js").then((n) => n.m);
-        currModule.then((res) => {
-          ace.config.setModuleUrl("ace/mode/csharp", res);
-        });
-      } else if (props.language === "mysql") {
-        const currModule = import("./mode-mysql-a6065d0a.js").then((n) => n.m);
-        currModule.then((res) => {
-          ace.config.setModuleUrl("ace/mode/mysql", res);
-        });
-      } else if (props.language === "css") {
-        const currModule = import("./mode-css-4dc29fac.js").then((n) => n.m);
-        currModule.then((res) => {
-          ace.config.setModuleUrl("ace/mode/css", res);
-        });
-      }
       let options = {
         theme: "ace/theme/" + (props.theme ? props.theme : "xcode"),
         mode: "ace/mode/" + (props.language ? props.language : "javascript"),
@@ -22235,6 +22516,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     tip: {},
     tipPosition: {},
     suffixContent: {},
+    labelWidth: {},
     required: { type: Boolean },
     requiredMessage: {},
     validType: {},
@@ -22372,18 +22654,32 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     }, { immediate: true, deep: true });
     watch(currData, (val) => {
+      console.info(jsonEditor);
       if (typeof props.modelValue === "object") {
-        emits("update:modelValue", val);
+        if (typeof val === "string") {
+          try {
+            const currValue = JSON.parse(val);
+            emits("update:modelValue", currValue);
+          } catch (err) {
+          }
+        } else {
+          emits("update:modelValue", val);
+        }
         return;
       }
       emits("update:modelValue", JSON.stringify(val));
     }, { deep: true });
+    const jsonEditor = ref();
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", _hoisted_1, [
         createVNode(unref(JsonEditorVue), mergeProps({
           modelValue: currData.value,
           "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => currData.value = $event)
-        }, unref(attrs), { mode: "text" }), null, 16, ["modelValue"])
+        }, unref(attrs), {
+          ref_key: "jsonEditor",
+          ref: jsonEditor,
+          mode: "text"
+        }), null, 16, ["modelValue"])
       ]);
     };
   }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, computed,ref } from 'vue'
+import { watch, computed,ref ,inject} from 'vue'
 import { useVModel } from '@vueuse/core'
 import DynamicRenderInnerItem from './DynamicRenderInnerItem.vue'
 import '../../utlis/lessPrototype.js'
@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emits = defineEmits(['update:data'])
 
 const currData = useVModel(props, 'item', emits)
-
+const dataTypes=inject<any>('dataTypeData', [])
 function handleDisabledExpress() {
     if (currData.value.config.advancedConfig && currData.value.config.advancedConfig.disabled) {
         let currEvent = new Function('parentNode,currNode', "return " + currData.value.config.advancedConfig.disabled);
@@ -32,7 +32,18 @@ function handleValueChange(val) {
 }
 
 function getItemDefaultValue() {
-    if (currData.value.arrayDataTypeName == 'Bool') {
+
+    const currDataType=dataTypes.find(ele=>ele.value===currData.value.arrayDataType)
+        if(currDataType&&currDataType.defaultValue){
+        return currDataType.defaultValue
+        }
+    if (currData.value.arrayDataTypeName == 'String') {
+        if (currData.value.defaultValue) {
+        return currData.value.defaultValue
+    }
+    return '';
+    }
+   else if (currData.value.arrayDataTypeName == 'Bool') {
         if (currData.value.defaultValue === 'true') {
             return true;
 
@@ -52,10 +63,8 @@ function getItemDefaultValue() {
     }else if(currData.value.arrayDataTypeName==='Array'){
         return []
     }
-    if (currData.value.defaultValue) {
-        return currData.value.defaultValue
-    }
-    return '';
+    return {}
+
 
 }
 function handleAddItem() {
@@ -111,9 +120,9 @@ watch(() => currData.value.config.arrayConfig.arrayDefaultLength, (val) => {
             { 'max-height': (currData.config.arrayConfig.maxHeight ? currData.config.arrayConfig.maxHeight + 'px' : '') },
             { 'display': currData.config.arrayConfig.arrangementType === 'Horizontal' ? 'flex' : '' },
             { 'flex-wrap': 'wrap' }, { 'gap': '5px' }, { 'overflow': 'scroll' },{'padding-right':'20px'}]">
-            <template #default="{ $item,index }">
+            <template #default="{ element,index }">
                 <DynamicRenderInnerItem class="els-dynamic-r-array-item" v-bind="formAttrs" :key="index" :parent-node="parentNode" :curr-node="currData"
-                    :disabled="handleDisabledExpress()" v-model="$item.value"  :item="currData"
+                    :disabled="handleDisabledExpress()" v-model="element.value"  :item="currData"
                     :style="item.config.advancedConfig.style" @valueChange="handleValueChange">
                 </DynamicRenderInnerItem>
             </template>

@@ -1,5 +1,5 @@
 import { defineComponent, inject, ref, computed, watch, resolveComponent, openBlock, createBlock, unref, isRef, normalizeClass, withCtx, createElementBlock, createElementVNode, createCommentVNode, createVNode, createSlots, Fragment, createTextVNode, nextTick } from "vue";
-import { l as lessCom, p as property_arrayAndObject, a as property_array, b as property_form, c as property_advanced, d as _sfc_main$1 } from "./index-a9730668.js";
+import { l as lessCom, p as property_arrayAndObject, a as property_array, b as property_form, c as property_advanced, d as _sfc_main$1 } from "./index-43e432e6.js";
 import { useVModel } from "@vueuse/core";
 import { ElMessage } from "element-plus";
 import "axios";
@@ -22,9 +22,11 @@ const _hoisted_3 = { class: "keyCode" };
 const _hoisted_4 = { class: "dataType" };
 const _hoisted_5 = { class: "componentType" };
 const _hoisted_6 = { class: "config" };
-const _hoisted_7 = { class: "defaultValue" };
-const _hoisted_8 = { class: "oper" };
-const _hoisted_9 = { class: "els-dynamic-d-oper" };
+const _hoisted_7 = { class: "required" };
+const _hoisted_8 = { class: "description" };
+const _hoisted_9 = { class: "defaultValue" };
+const _hoisted_10 = { class: "oper" };
+const _hoisted_11 = { class: "els-dynamic-d-oper" };
 const _sfc_main = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsDynamicDesigner"
@@ -54,7 +56,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       currData.value.splice(index, 1);
     }
     function handleChangeKeyCode() {
-      if (camelCase) {
+      if (camelCase && currItem.value.keyCode) {
         const keyCode = currItem.value.keyCode;
         currItem.value.keyCode = keyCode.replace(keyCode[0], keyCode[0].toLowerCase());
       }
@@ -208,16 +210,17 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       const _component_els_form = resolveComponent("els-form");
       const _component_el_link = resolveComponent("el-link");
       const _component_el_popover = resolveComponent("el-popover");
+      const _component_els_switch = resolveComponent("els-switch");
       const _component_Rank = resolveComponent("Rank");
       const _component_el_icon = resolveComponent("el-icon");
       const _component_Remove = resolveComponent("Remove");
       const _component_el_popconfirm = resolveComponent("el-popconfirm");
       return openBlock(), createBlock(_component_els_form, {
         modelValue: unref(currItem),
-        "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => isRef(currItem) ? currItem.value = $event : null),
+        "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => isRef(currItem) ? currItem.value = $event : null),
         labelWidth: "0",
         inputWidth: "100%",
-        class: normalizeClass([{ "els-dynamic-d-item-parentdiv": isObject.value }, { "els-dynamic-d-item-container": isRow.value }]),
+        class: normalizeClass([{ "els-dynamic-d-item-parentdiv": isObject.value && !unref(currItem).componentType }, { "els-dynamic-d-item-container": isRow.value }]),
         "show-message": false
       }, {
         default: withCtx(() => [
@@ -394,16 +397,29 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               ])
             ], 64)) : createCommentVNode("", true),
             createElementVNode("span", _hoisted_7, [
+              createVNode(_component_els_switch, {
+                "active-value": true,
+                "inactive-value": false,
+                prop: "required"
+              })
+            ]),
+            createElementVNode("span", _hoisted_8, [
+              createVNode(_component_els_input, {
+                placeholder: "描述",
+                clearable: "",
+                prop: "description"
+              })
+            ]),
+            createElementVNode("span", _hoisted_9, [
               !isObject.value && itemDataType.value.type !== "None" ? (openBlock(), createBlock(_component_els_input, {
                 key: 0,
                 placeholder: "默认值",
                 clearable: "",
-                modelValue: unref(currItem).defaultValue,
-                "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => unref(currItem).defaultValue = $event)
-              }, null, 8, ["modelValue"])) : createCommentVNode("", true)
+                prop: "defaultValue"
+              })) : createCommentVNode("", true)
             ]),
-            createElementVNode("span", _hoisted_8, [
-              createElementVNode("span", _hoisted_9, [
+            createElementVNode("span", _hoisted_10, [
+              createElementVNode("span", _hoisted_11, [
                 createVNode(_component_el_icon, { class: "el-icon-rank" }, {
                   default: withCtx(() => [
                     createVNode(_component_Rank)
@@ -412,7 +428,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                 }),
                 createVNode(_component_el_popconfirm, {
                   title: "确定删除吗？",
-                  onConfirm: _cache[9] || (_cache[9] = ($event) => handleRemove(_ctx.item))
+                  onConfirm: _cache[8] || (_cache[8] = ($event) => handleRemove(_ctx.item))
                 }, {
                   reference: withCtx(() => [
                     createVNode(_component_el_icon, { class: "el-icon-remove" }, {
@@ -427,10 +443,10 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               ])
             ])
           ])) : createCommentVNode("", true),
-          !unref(currItem).componentType && (isObject.value || isRow.value) ? (openBlock(), createBlock(_sfc_main$1, {
+          isObject.value && !unref(currItem).componentType || isRow.value ? (openBlock(), createBlock(_sfc_main$1, {
             key: 1,
             data: unref(currItem).data,
-            onRemoveItem: _cache[10] || (_cache[10] = ($event) => handleRemove(_ctx.item)),
+            onRemoveItem: _cache[9] || (_cache[9] = ($event) => handleRemove(_ctx.item)),
             config: unref(currItem).config.advancedConfig,
             "is-container": isRow.value,
             depath: currDepath.value

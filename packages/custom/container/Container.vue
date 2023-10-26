@@ -433,6 +433,7 @@ function elsExportAll() {
 
 
 }
+provide("elsValidForm", validate)
 provide("elsSaveTable", elsSaveTable)
 provide("elsExportAll", elsExportAll)
 provide("elsExport", elsExport)
@@ -453,7 +454,9 @@ if (slots.default) {
 onMounted(() => {
     query(true)
 })
-
+defineExpose({
+    validate
+})
 </script>
 <template>
     <component :is="componentName" class="page_container" :class="{ 'is-vertical': isVertical }">

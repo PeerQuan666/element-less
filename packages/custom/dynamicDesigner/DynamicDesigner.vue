@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { provide, watch, ref } from 'vue'
+import { provide, watch, ref,nextTick } from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 import '../../utlis/lessPrototype.js'
 import { dynamicDataTypes, dynamicComponentTypes } from '../../utlis/lessConfig.js'
@@ -36,19 +36,7 @@ const designerContainer = ref()
 const designerObj = ref([])
 const props = withDefaults(defineProps<Props>(), { componentSettingVisible: true })
 
-function initData() {
-  if (props.modelValue && typeof (props.modelValue) === 'string') {
-    if (props.modelValue != JSON.stringify(designerObj.value)) {
-      designerJSON.value = props.modelValue
-      designerObj.value = JSON.parse(props.modelValue)
-    }
-  } else if (props.modelValue && typeof (props.modelValue) === 'object') {
-    designerJSON.value = JSON.stringify(props.modelValue)
-    designerObj.value = props.modelValue
-  }
-}
 
-initData()
 
 const currDynamicDataType = ref<any>([])
 if (props.dataTypes) {
@@ -61,6 +49,9 @@ provide("tagID", 'els-dynamic-designer-' + lessCom.Guid32())
 provide('dataTypeData', currDynamicDataType.value)
 provide('allowCreateType', props.allowCreateType)
 provide('allowCreateComponent', props.allowCreateComponent)
+provide('getConverToJsonResult', getConverToJsonResult)
+
+
 
 const currComponentTypes = ref<any>([])
 
@@ -88,7 +79,25 @@ const createVisible=ref(false)
 provide('componentData', currComponentTypes.value)
 provide('componentSettingVisible', props.componentSettingVisible)
 provide('camelCase', props.camelCase)
+function initData() {
+  if (props.modelValue && typeof (props.modelValue) === 'string') {
+    if (props.modelValue != JSON.stringify(designerObj.value)) {
+      designerJSON.value = props.modelValue
+      designerObj.value =  JSON.parse(props.modelValue)
 
+    }
+  } else if (props.modelValue && typeof (props.modelValue) === 'object') {
+    designerJSON.value = JSON.stringify(props.modelValue)
+    designerObj.value = props.modelValue
+  }
+  dynamicHandler.initConfig(designerObj.value)
+}
+
+initData()
+
+function getConverToJsonResult(obj){
+ return dynamicHandler.jsonToConfig(obj)
+}
 function handleImportDesigner() {
   if (typeof (importJSON.value) === 'string') {
     designerObj.value = JSON.parse(importJSON.value)
@@ -97,7 +106,7 @@ function handleImportDesigner() {
     designerObj.value = importJSON.value
 
   }
-
+  dynamicHandler.initConfig(designerObj.value)
   return Promise.resolve(true)
 }
 function handleOpenImport() {
@@ -119,7 +128,7 @@ function openCreateComponent(typeValue){
   }
 }
 
-const dynamicNewType=ref<any>({})
+const dynamicNewType=ref<any>()
 
 provide('openCreateType',openCreateType)
 provide('openCreateComponent',openCreateComponent)
@@ -140,7 +149,17 @@ watch(designerObj, (val) => {
   }
 
 }, { deep: true })
+function handleSaveCreate(result){
+  currDynamicDataType.value.push(result.dataType)
+  currComponentTypes.value.push(result.componentType)
 
+}
+function handleCloseCreate(){
+  nextTick(()=>{
+    createVisible.value=false
+
+  })
+}
 const designType = ref('精简模式')
 function closeViewDialog() {
   designType.value = '精简模式'
@@ -168,15 +187,14 @@ function closeViewDialog() {
         <DynamicDesignerInner v-if="designType === '精简模式'" :data="designerObj"></DynamicDesignerInner>
       </div>
       <template v-if="designType !== '精简模式'">
-        <els-dialog :visible="true" @close="closeViewDialog" width="90%"  :append-to-body="true">
-          <DynamicDesignerView :dataTypes="dataTypes" :camelCase="camelCase" :componentTypes="componentTypes"
+        <els-dialog :visible="true" @close="closeViewDialog" width="90%" destroy-on-close  :append-to-body="true">
+          <DynamicDesignerView :dataTypes="currDynamicDataType" :camelCase="camelCase" :componentTypes="currComponentTypes"
             :appendComponentTypes="appendComponentTypes" :componentRelateDataType="componentRelateDataType"
             v-model="designerObj"></DynamicDesignerView>
         </els-dialog>
       </template>
     </ElsFormNode>
-
-   <DynamicCreate  :visible="createVisible" v-model="dynamicNewType" :camelCase="camelCase" :componentTypes="currComponentTypes" :dataTypes="currDynamicDataType"></DynamicCreate>
+   <DynamicCreate  v-model:visible="createVisible" v-model="dynamicNewType" :camelCase="camelCase" :componentTypes="currComponentTypes" :dataTypes="currDynamicDataType" @save="handleSaveCreate" ></DynamicCreate>
           
     
   </div>
@@ -220,7 +238,6 @@ function closeViewDialog() {
 }
 
 .els-dynamic-config {
-  min-width: 870px;
 
   :has(div[class^='el-form-item']) {
     .leo-list-add {

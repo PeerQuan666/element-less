@@ -87,7 +87,7 @@ const currComponentType = computed(() => {
 })
 const currComponentTypeData = computed(() => {
   if (controlData) {
-    return controlData.filter(ele => !currDataType.value || ele.dataTypes.includes(currDataType.value?.type))
+    return controlData.filter(ele => !currDataType.value || ele.dataTypes.includes(currDataType.value?.value)||ele.dataTypes.includes(currDataType.value?.type))
 
   }
   return []
@@ -223,17 +223,17 @@ function validationCode(rule, value, callback) {
         <els-input clearable v-if="itemDataType.type != 'None'" placeholder="请输入名称" prop="keyName"></els-input>
       </span>
       <span class="keyCode">
-        <els-input placeholder="编码" v-if="itemDataType.type != 'None'" :validMethod="validationCode" required clearable
-          :disabled="currItem.isModify" @blur="handleChangeKeyCode" v-model="item.keyCode"></els-input>
+        <els-input placeholder="编码"  v-if="itemDataType.type != 'None'" :validMethod="validationCode" required clearable
+          :disabled="currItem.isModify" @blur="handleChangeKeyCode" prop="keyCode"></els-input>
       </span>
       <span class="dataType">
-        <els-select @click-option="handleChangeDataType"  :initSelect="false" :data="dataTypeData" valueField="value"
+        <els-select @click-option="handleChangeDataType" required :initSelect="false" :data="dataTypeData" valueField="value"
           labelField="label" placeholder="值类型" prop="dataType">
         <template #extra v-if="allowCreateType">
           <li class="dynamic-create-dtype" @click="openCreateType()">创建类型</li>
         </template>
         </els-select>
-        <els-select @click-option="handleChangeDataType" v-if="itemDataType.type == 'Array'"
+        <els-select @click-option="handleChangeDataType" required v-if="itemDataType.type == 'Array'"
           :data="dataTypeData.filter(ele => ele.type != 'None' && ele.type != 'Array')" valueField="value"
           labelField="label" prop="arrayDataType">
           <template #extra v-if="allowCreateType">
@@ -308,7 +308,7 @@ function validationCode(rule, value, callback) {
       </span>
     </div>
     <DynamicDesignerInner :data="currItem.data" @removeItem="handleRemove(item)"
-      v-if="!currItem.componentType && (isObject || isRow)" :config="currItem.config.advancedConfig" :is-container="isRow"
+      v-if="(isObject&&!currItem.componentType) || isRow" :config="currItem.config.advancedConfig" :is-container="isRow"
       :depath="currDepath">
     </DynamicDesignerInner>
   </els-form>

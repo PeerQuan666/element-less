@@ -110,8 +110,8 @@ watch(() => props.url, () => {
     readData();
 })
 watch(() => props.data, (val, oldVal) => {
-    if (val === undefined && oldVal === undefined) { return; }
-    if (val != oldVal && JSON.stringify(val) != JSON.stringify(oldVal) && val) {
+    if (val === undefined) { return; }
+    if (JSON.stringify(val) != JSON.stringify(options) ) {
         if (props.resetValueByChangeData) {
             if (props.multiple) {
                 selectValue.value = [];
@@ -124,7 +124,7 @@ watch(() => props.data, (val, oldVal) => {
         initNoExistData();
         initSelectIndex();
     }
-})
+},{deep:true})
 
 watch(selectValue, (val: any) => {
     if (props.multiple) {

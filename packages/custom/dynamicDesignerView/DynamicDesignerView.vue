@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, provide, ref, computed, nextTick } from 'vue'
+import { watch, provide, ref, computed, nextTick,inject } from 'vue'
 
 import { FormItemProps } from '../../utlis/interfaceCom'
 import { dynamicDataTypes, dynamicComponentTypes, DynamicHandler } from '../../utlis/lessConfig.js'
@@ -37,21 +37,32 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const isDisabledUndo = ref(true)
 const isDisabledReDo = ref(true)
-const activeNames = ref<any>(['1', '2'])
+const activeNames = ref<any>(['1', '2','3'])
 const viewPriview = ref(false)
 const formValue = ref()
 const controlData = ref<any>([])
+    const diyData = ref<any>([])
+
+const dataTypeData=inject("dataTypeData")
+const componentData=inject("componentData")
 
 const currDynamicDataType = ref<any>([])
-if (props.dataTypes) {
+if(dataTypeData){
+    currDynamicDataType.value=dataTypeData
+}else{
+    if (props.dataTypes) {
     currDynamicDataType.value.push(...props.dataTypes)
 } else {
     currDynamicDataType.value.push(...dynamicDataTypes)
 }
+}
+
 
 const currComponentTypes = ref<any>([])
-
-if (props.componentTypes) {
+if(componentData){
+    currComponentTypes.value=componentData
+}else{
+    if (props.componentTypes) {
     currComponentTypes.value.push(...props.componentTypes)
 } else {
     currComponentTypes.value.push(...dynamicComponentTypes)
@@ -68,6 +79,8 @@ if (props.componentRelateDataType) {
         }
     })
 }
+}
+
 provide('dataTypeData', currDynamicDataType.value)
 provide('componentData', currComponentTypes.value)
 const objectData = ref<any>([
@@ -81,9 +94,10 @@ const objectData = ref<any>([
         arrayDataTypeName: '',
         arrayDataType: '',
         componentGroup: 'Form',
-        componentTypeName: 'Object',
+        componentTypeName: '',
+        componentTypeLabel:'Object',
         componentName: '',
-        componentType: 0,
+        componentType: '',
         config: {
             formConfig: {},
             baseConfig: {},
@@ -100,9 +114,10 @@ const objectData = ref<any>([
         dataType: currDynamicDataType.value.find(cele => cele.type == 'Array')?.value,
         dataTypeName: 'Array',
         componentGroup: 'Form',
-        componentTypeName: 'Array<T>',
+        componentTypeName: '',
+            componentTypeLabel:'Array<T>',   
         componentName: '',
-        componentType: 0,
+        componentType: '',
         arrayDataTypeName: '',
         arrayDataType: '',
         config: {
@@ -117,8 +132,8 @@ const objectData = ref<any>([
 const importJSON = ref()
 
 currComponentTypes.value.forEach((ele) => {
-    const currType = currDynamicDataType.value.find(cele => cele.type == ele.dataTypes[0])
-    controlData.value.push({
+    const currType = currDynamicDataType.value.find(cele =>cele.value==ele.dataTypes[0]|| cele.type == ele.dataTypes[0])
+    const currComponent={
         keyID: "key_" + lessCom.randomNumber().toString(),
         keyName: ele.label,
         keyCode: 'key_' + (Math.random() * 100000).toString().toInt(),
@@ -128,7 +143,8 @@ currComponentTypes.value.forEach((ele) => {
         arrayDataTypeName: '',
         arrayDataType: '',
         componentGroup: ele.group,
-        componentTypeName: ele.label,
+        componentTypeLabel:ele.label,
+        componentTypeName: ele.type,
         componentName: ele.componentName,
         componentType: ele.value,
         config: {
@@ -138,7 +154,13 @@ currComponentTypes.value.forEach((ele) => {
             arrayConfig: {}
         },
         value: initValue(currType?.type)
-    })
+    }
+    if(['String','Number','Bool','Object','Array'].includes(currType.type)||currComponent.componentGroup==='Container'||currComponent.componentGroup==='Desc'){
+        controlData.value.push(currComponent)
+    }else{
+        diyData.value.push(currComponent)
+    }
+    
 })
 function initValue(type) {
     switch (type) {
@@ -160,7 +182,7 @@ const renderData = ref<any>([])
 function handleOpenImport() {
     const val = renderData.value
     const currVal = lessCom.cloneObj(val)
-    dynamicHandler.recoverConfig(currVal)
+    dynamicHandler.returnConfig(currVal)
     importJSON.value = currVal
 }
 function initData() {
@@ -188,7 +210,7 @@ function returnResult() {
     const val = renderData.value
     if (val.length > 0) {
         const currVal = lessCom.cloneObj(val)
-        dynamicHandler.recoverConfig(currVal)
+        dynamicHandler.returnConfig(currVal)
         if (typeof (val) === 'object') {
             emits('update:modelValue', currVal)
         } else {
@@ -258,7 +280,7 @@ const currPropertys = computed(() => {
                         const currVal = currDynamicDataType.value.find(ele => ele.value == currSelectItem.value.dataType)
                         const arrayVal = currDynamicDataType.value.find(ele => ele.value == currSelectItem.value.arrayDataType)
 
-                        if (currVal?.type == 'Array' && arrayVal?.type === 'Object' || currVal?.type == 'Object'){
+                        if (currVal?.type == 'Array' && arrayVal?.type === 'Object' || currVal?.type == 'Object'||currControlData.type==='DynamicRender'){
                             return lessCom.cloneObj(property_arrayAndObject)
                         }else{
                             return []
@@ -315,7 +337,7 @@ function getDataTypeData(componentType) {
 
     const currControl = currComponentTypes.value.find(ele => ele.value === componentType || ele.type === componentType)
     if (!currControl) { return [] }
-    return currDynamicDataType.value.filter(ele => currControl.dataTypes.includes(ele.type))
+    return currDynamicDataType.value.filter(ele => currControl.dataTypes.includes(ele.type)||currControl.dataTypes.includes(ele.value))
 
 }
 
@@ -364,7 +386,7 @@ provide("recordComponent", recordComponent)
 
 </script>
 <template>
-          <div >
+ <div >
     <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
     <div style="display:flex;background:#f8f8f8;" class="els-dynamic-view">
         <div style="flex-basis:260px;flex-shrink: 0;background: #fff;" class="els-dynamic-view-components">
@@ -377,7 +399,7 @@ provide("recordComponent", recordComponent)
                                 :clone="handleClone" :sort="false">
                                 <template #item="{ element, index }">
                                     <li class="container-widget-item" :key="index">
-                                        {{ element.componentTypeName }}
+                                        {{ element.componentTypeLabel }}
                                     </li>
                                 </template>
                             </draggable>
@@ -388,7 +410,18 @@ provide("recordComponent", recordComponent)
                                 :sort="false">
                                 <template #item="{ element, index }">
                                     <li class="container-widget-item" :key="index">
-                                        {{ element.componentTypeName }}
+                                        {{ element.componentTypeLabel }}
+                                    </li>
+                                </template>
+                            </draggable>
+                        </el-collapse-item>
+                        <el-collapse-item title="自定义类型" name="3">
+                            <draggable tag="ul" :list="diyData" item-key="keyID"
+                                :group="{ name: 'dragGroup', pull: 'clone', put: false }" :clone="handleClone"
+                                :sort="false">
+                                <template #item="{ element, index }">
+                                    <li class="container-widget-item" :key="index">
+                                        {{ element.componentTypeLabel }}
                                     </li>
                                 </template>
                             </draggable>
@@ -403,7 +436,7 @@ provide("recordComponent", recordComponent)
                                 :clone="handleClone" :sort="false">
                                 <template #item="{ element, index }">
                                     <li class="container-widget-item" :key="index">
-                                        {{ element.componentTypeName }}
+                                        {{ element.componentTypeLabel }}
                                     </li>
                                 </template>
                             </draggable>
@@ -414,7 +447,7 @@ provide("recordComponent", recordComponent)
                                 :clone="handleClone" :sort="false">
                                 <template #item="{ element, index }">
                                     <li class="container-widget-item" :key="index">
-                                        {{ element.componentTypeName }}
+                                        {{ element.componentTypeLabel }}
                                     </li>
                                 </template>
                             </draggable>
@@ -787,7 +820,5 @@ provide("recordComponent", recordComponent)
  
 
 }
-.els-dynamic-render>form>div>div:has([class^=el-form-item]){
-    margin-bottom: 18px;
-}
+
 </style>

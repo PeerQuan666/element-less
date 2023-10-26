@@ -33,7 +33,7 @@ const itemClassName = ref('')
 const currNode = computed(() => {
     let currData = {}
     props.data.forEach(ele => {
-        if (ele.componentType == 'Row') {
+        if (ele.componentTypeName == 'Row') {
             ele.data.forEach(cele => {
                 currData[cele.keyCode] = cele
             })
@@ -73,7 +73,7 @@ function handleValueChange(val, item) {
 }
 function getFormItemAttr(item) {
     const currFormConfig = lessCom.cloneObj(item.config.formConfig)
-    if ((item.dataTypeName == 'None' || item.config.baseConfig?.componentName == 'ElsCaption' || item.componentType === 'Row')) {
+    if ((item.dataTypeName == 'None' || item.config.baseConfig?.componentName == 'ElsCaption' || item.componentTypeName === 'Row')) {
         currFormConfig.labelWidth = '0px'
     } else if (item.dataTypeName == 'Array' && item.arrayDataTypeName == 'Object') {
         delete currFormConfig.labelWidth
@@ -123,14 +123,14 @@ currDepath.value += 1;
 </script>
 <template>
     <els-form v-model="currData" :label-width="labelWidth">
-        <component :is="nodeItem?.componentType=='Row'?'ElsRow':'div'" :class="itemClassName"
-            :style="nodeItem?.componentType === 'Row' ? nodeItem ? nodeItem.config.advancedConfig?.style : '' : ''">
+        <component :is="nodeItem?.componentTypeName=='Row'?'ElsRow':'div'" :class="itemClassName"
+            :style="nodeItem?.componentTypeName === 'Row' ? nodeItem ? nodeItem.config.advancedConfig?.style : '' : ''">
 
-            <component :is="nodeItem?.componentType==='Row'?'els-col':'div'" v-for="(item, index) in currData">
+            <component :is="nodeItem?.componentTypeName==='Row'?'els-col':'div'" v-for="(item, index) in currData">
 
                 <template v-if="handleIfExpress(item)">
 
-                    <DynamicRenderInner v-if="item.componentType == 'Row'" :data="item.data" :parentNode="currNode"
+                    <DynamicRenderInner v-if="item.componentTypeName == 'Row'" :data="item.data" :parentNode="currNode"
                         :node-item="item" :depath="currDepath">
                     </DynamicRenderInner>
                     <template v-else>
@@ -146,7 +146,7 @@ currDepath.value += 1;
                             :label="item.config.baseConfig?.componentName == 'ElsCaption' ? '' : item.keyName"
                             :prop="`[${index}].value`">
                             <DynamicRenderInnerItem :key="item.keyID"
-                                v-if="item.dataTypeName !== 'Array' && item.componentType && item.componentGroup === 'Form'"
+                                v-if="item.dataTypeName !== 'Array' && item.componentTypeName && item.componentGroup === 'Form'"
                                 :disabled="handleDisabledExpress(item)" :parent-node="parentNode" :curr-node="currNode"
                                 :item="item" v-model="item.value" :style="item.config.advancedConfig.style"
                                 @valueChange="handleValueChange($event, item)">
@@ -156,7 +156,7 @@ currDepath.value += 1;
                                 :parentNode="currNode" :node-item="item" :depath="currDepath">
                             </DynamicRenderInner>
                             <DynamicRenderInnerArray
-                                v-else-if="item.dataTypeName == 'Array' && item.arrayDataType && item.componentType"
+                                v-else-if="item.dataTypeName == 'Array' && item.arrayDataType && item.componentTypeName"
                                 :parent-node="parentNode" :item="item" :depath="currDepath">
                             </DynamicRenderInnerArray>
                             <div v-else-if="item.dataTypeName == 'Array' && item.arrayDataTypeName == 'Object'"
@@ -179,7 +179,7 @@ currDepath.value += 1;
                          
 
                         </els-form-item>
-                        <els-caption v-if="item.componentGroup === 'Desc' && item.componentType == 'Caption'"
+                        <els-caption v-if="item.componentGroup === 'Desc' && item.componentTypeName == 'Caption'"
                             v-bind="item.config.baseConfig"></els-caption>
                     </template>
                 </template>

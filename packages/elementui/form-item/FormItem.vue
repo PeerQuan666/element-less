@@ -141,7 +141,7 @@ let endKey: any = attrs['propEnd']
 
 </script>
 <template>
-    <el-form-item ref="formItem" :label="label" :prop="defaultProp" :rules="itemRules">
+    <el-form-item ref="formItem" :label="label" :labelWidth="labelWidth" :prop="defaultProp" :rules="itemRules">
 
         <template v-if="slots.label" #label>
             <slot name="label"></slot>

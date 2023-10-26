@@ -2,12 +2,11 @@
 
     <el-tabs>
         <el-tab-pane label="配置">
-            <ElsDynamicDesigner  v-model="config" 
+            <ElsDynamicDesigner style="overflow: scroll;" v-model="config" 
             allowCreateType
-             isReturnValueTemplate 
+            :componentSettingVisible="false"
              v-model:initValue="initValue" 
              :dataTypes="dataTypes" :camelCase="true" 
-             :componentSettingVisible="false" 
              :appendComponentTypes="appendComponentTypes" 
              :componentRelateDataType="componentRelateDataType">
             </ElsDynamicDesigner>
@@ -160,7 +159,7 @@ const appendComponentTypes=ref([
     "config": {},
     "label": "MyModel",
     "value": "MyModel",
-    "type": "MyModel",
+    "type": "DynamicRender",
     "dataTypes": [
       "MyModel"
     ],
@@ -258,27 +257,83 @@ const appendComponentTypes=ref([
     },
     "propertys": [],
     "group": "Form"
+  },
+  {
+    "componentName": "ElsSelect",
+    "label": "aaa",
+    "value": "aaa",
+    "type": "Select",
+    "dataTypes": [
+      "aaa"
+    ],
+    "defaultPropertys": {
+      "data": [
+        {
+          "label": "a",
+          "value": "a"
+        },
+        {
+          "label": "b",
+          "value": "b"
+        }
+      ]
+    },
+    "group": "Form"
+  },
+  {
+    "componentName": "ElsSelect",
+    "label": "bbb",
+    "value": "bbb",
+    "type": "Select",
+    "dataTypes": [
+      "bbb"
+    ],
+    "defaultPropertys": {
+      "data": [
+        {
+          "label": "a",
+          "value": "a"
+        },
+        {
+          "label": "b",
+          "value": "b"
+        }
+      ]
+    },
+    "group": "Form"
   }
 
 ])
 
 const dataTypes=[
-                { label: '无', value: 0,type:'None' },
-                { label: '字符串', value: 1,type:'String'  },
-                { label: '数字', value: 2,type:'Number'  },
-                { label: 'Bool', value: 8,type:'Bool'  },
-                { label: '时间', value: 3,type:'String'  },
-                { label: '文件', value: 4,type:'String'  },
-                { label: 'Object', value: 5,type:'Object'  },
-                { label: 'Array', value: 7,type:'Array'  },
+                { label: '无', value: "None",type:'None' },
+                { label: '字符串', value: "String",type:'String'  },
+                { label: '数字', value: "Number",type:'Number'  },
+                { label: 'Bool', value: "Bool",type:'Bool'  },
+                { label: '时间', value: "Date",type:'String'  },
+                { label: '文件', value: "File",type:'String'  },
+                { label: 'Object', value: "Object",type:'Object'  },
+                { label: 'Array', value: "Array",type:'Array'  },
                 {
                   "label": "MyModel",
                   "value": "MyModel",
                   "type": "MyModel",
                   "defaultValue": {
-                    "Key_51079": "",
-                    "Key_6745": ""
+                    "Key_16118": "12",
+                    "Key_76938": "22"
                   }
+                },
+                {
+                  "label": "aaa",
+                  "value": "aaa",
+                  "type": "Enum",
+                  "defaultValue": ""
+                },
+                {
+                  "label": "bbb",
+                  "value": "bbb",
+                  "type": "Enum",
+                  "defaultValue": ""
                 }
             ]
 </script>

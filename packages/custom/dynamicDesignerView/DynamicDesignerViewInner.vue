@@ -35,7 +35,7 @@ const itemClassName = ref('')
 const currNode = computed<any>(() => {
     let currData = {}
     props.data.forEach(ele => {
-        if (ele.componentType == 'Row') {
+        if (ele.componentTypeName == 'Row') {
             ele.data.forEach(cele => {
                 currData[cele.keyCode] = cele
             })
@@ -74,7 +74,7 @@ function handleValueChange(val, item) {
 }
 function getFormItemAttr(item) {
     const currFormConfig = lessCom.cloneObj(item.config.formConfig)
-    if ((item.dataTypeName == 'None' || item.config.baseConfig?.componentName == 'ElsCaption' || item.componentType === 'Row')) {
+    if ((item.dataTypeName == 'None' || item.config.baseConfig?.componentName == 'ElsCaption' || item.componentTypeName === 'Row')) {
         currFormConfig.labelWidth = '0px'
     } else if (item.dataTypeName == 'Object' || item.arrayDataTypeName == 'Object') {
         delete currFormConfig.labelWidth
@@ -173,15 +173,15 @@ currDepath.value += 1;
 <template>
 
     <els-form v-model="currData" :label-width="labelWidth" style="width: 100%;">
-        <component :is="nodeItem?.componentType=='Row'?'ElsRow':'div'" :gutter="5" :class="itemClassName"
-            :style="nodeItem?.componentType === 'Row' ? nodeItem ? nodeItem.config.advancedConfig?.style : '' : ''">
-            <draggable tag="div" :class="nodeItem?.componentType === 'Row' ? 'els-row-drag' : ''"
+        <component :is="nodeItem?.componentTypeName=='Row'?'ElsRow':'div'" :gutter="5" :class="itemClassName"
+            :style="nodeItem?.componentTypeName === 'Row' ? nodeItem ? nodeItem.config.advancedConfig?.style : '' : ''">
+            <draggable tag="div" :class="nodeItem?.componentTypeName === 'Row' ? 'els-row-drag' : ''"
                 :style="[{ 'min-height': depath ? '50px' : '650px' }]" style="margin:5px 0;width: 100%;" :list="currData"
                 @add="handleAddComponent" item-key="keyID"
                 v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }" :sort="true" handle=".els-view-move">
                 <template #item="{ element, index }">
    
-                    <component :key="element.keyID" :is="nodeItem?.componentType==='Row'?'els-col':'div'">
+                    <component :key="element.keyID" :is="nodeItem?.componentTypeName==='Row'?'els-col':'div'">
                         <div  class="els-dynamic-d-v-item"
                             :class="{ 'selected': getSelectItem()?.keyID == element.keyID }"
                             @click.stop="handleSelectItem(element)">
@@ -204,7 +204,7 @@ currDepath.value += 1;
                                     <Rank />
                                 </el-icon>
                             </span>
-                            <DynamicDesignerViewInner v-if="element.componentType == 'Row'" :data="element.data"
+                            <DynamicDesignerViewInner v-if="element.componentTypeName == 'Row'" :data="element.data"
                                 :parentNode="currNode" :node-item="element" :depath="currDepath">
                             </DynamicDesignerViewInner>
                             <template v-else>
@@ -232,7 +232,7 @@ currDepath.value += 1;
                                    
 
                                     <DynamicDesignerViewItem :key="element.keyID"
-                                        v-else-if="element.componentType && element.componentGroup === 'Form'"
+                                        v-else-if="element.componentTypeName && element.componentGroup === 'Form'"
                                         :disabled="handleDisabledExpress(element)" :parent-node="parentNode"
                                         :curr-node="currNode" :item="element" v-model="element.value"
                                         :style="element.config.advancedConfig.style"
@@ -252,7 +252,7 @@ currDepath.value += 1;
 
                                 </els-form-item>
                                 <els-caption
-                                    v-if="element.componentGroup === 'Desc' && element.componentType == 'Caption'"
+                                    v-if="element.componentGroup === 'Desc' && element.componentTypeName == 'Caption'"
                                     v-bind="element.config.baseConfig">{{ element.config.baseConfig.title ?? '描述'
                                     }}</els-caption>
                             </template>

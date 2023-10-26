@@ -65,7 +65,7 @@ const baseAttrs = computed(() => {
         }
     }
 
-    if (['Select', 'Radio', 'CheckBox', 'Cascader'].includes(props.item.componentType)) {
+    if (['Select', 'Radio', 'CheckBox', 'Cascader'].includes(props.item.componentTypeName)) {
         if (props.item.dataTypeName == 'String' || props.item.arrayDataTypeName == 'Number') {
             currAttrs.valueType = 'Number'
         } else if (props.item.dataTypeName == 'Bool' || props.item.arrayDataTypeName == 'Bool') {

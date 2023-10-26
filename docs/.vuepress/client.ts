@@ -11,7 +11,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import ElementLess from '../../packages'
 import pinia  from '../../packages/utlis/pinia'
 import 'element-plus/dist/index.css'
-import   '../../element-less/style.css'
 library.add(far,fas)
 
 export  default   defineClientConfig ({

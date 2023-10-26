@@ -230,7 +230,7 @@ export default[
 	{
 		"keyID": "67cecb440365abb61e4aace2d5686cb9",
 		"keyName": "数据列表",
-		"keyCode": "modelValue",
+		"keyCode": "data",
 		"data": [
 			{
 				"keyID": "6f3b17406d7edb401dcecddcb764c7e4",

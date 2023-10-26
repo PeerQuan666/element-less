@@ -18,6 +18,7 @@ interface Props {
   config?: Record<string, any>
 
 }
+const getConverToJsonResult = inject<Function>('getConverToJsonResult', ()=>null)
 const componentSettingVisible = inject<boolean>('componentSettingVisible', true)
 const emits = defineEmits(['update:data', 'removeItem'])
 const props = withDefaults(defineProps<Props>(), { depath: 0 })
@@ -45,8 +46,14 @@ function handleAddItem() {
 const jsonVisible=ref(false)
 const jsonObj=ref({})
 function handleAddJSON(){
-  jsonVisible.value=true
-  
+  if(getConverToJsonResult){
+    const currResult=getConverToJsonResult(jsonObj.value)
+    if(currResult.length){
+      currData.value.push(...currResult)
+    }
+  }
+  jsonObj.value={}
+  jsonVisible.value=false
 }
 
 const tagID = inject('tagID')
@@ -88,6 +95,7 @@ const tagID = inject('tagID')
       <span class="oper">操作</span>
     </div>
     <div v-if="!currData.length" class="els-dynamicc-d-empty">没有数据</div>
+
     <els-list v-model="currData"  :sortable="false" :is-remove="false" item :hasForm="false" itemKey="keyID"
       v-bind="{ group: tagID, animation: 300 }">
       <template #default="{ $item, $index }">
@@ -111,7 +119,7 @@ const tagID = inject('tagID')
       </template>
     </els-list>
   </div>
-  <els-dialog v-model="jsonVisible" title="JSON导入">
+  <els-dialog v-model="jsonVisible" title="JSON导入" destroy-on-close>
     <ElsJsonEditor :mainMenuBar="false" v-model="jsonObj" style="height: 500px;"></ElsJsonEditor>
     <template #footer>
             <span class="dialog-footer">

@@ -28,19 +28,30 @@ watch(() => props.modelValue, (val) => {
 }, { immediate: true, deep: true })
 
 watch(currData, (val) => {
+    console.info(jsonEditor)
     if (typeof (props.modelValue) === 'object') {
-        emits('update:modelValue', val)
+        if(typeof(val)==='string'){
+            try{
+               const currValue= JSON.parse(val)
+               emits('update:modelValue', currValue)
+            }catch(err){
+                
+            }
+        }else{
+            emits('update:modelValue', val)
+        }
+    
         return
     }
     emits('update:modelValue', JSON.stringify(val))
   
 },{deep:true})
-
+const jsonEditor=ref()
 
 </script>
 <template >
     <div class="els-jsoneditor">
-        <JsonEditorVue v-model="currData" v-bind="attrs"  mode="text" />
+        <JsonEditorVue v-model="currData" v-bind="attrs" ref="jsonEditor" mode="text" />
     </div>
 </template>
 <style lang="less">

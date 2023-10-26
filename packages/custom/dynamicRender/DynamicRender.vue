@@ -26,7 +26,8 @@ interface Props extends FormItemProps {
     dataTypes?:Array<DynamicDataType>,
     componentTypes?:  Array<DynamicComponentType>,
     appendComponentTypes?: Array<DynamicComponentType>,
-    isAsyncComponent?: boolean
+    isAsyncComponent?: boolean,
+    labelWidth?:string
 }
 const props = defineProps<Props>()
 const emits = defineEmits(['update:modelValue'])
@@ -147,7 +148,7 @@ function handleReturnResult() {
 </script>
 <template>
     <div>
-        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
+        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)" labelWidth="0px">
             <div class="els-dynamic-render">
                 <suspense v-if="isAsyncComponent">
                     <template #default>
@@ -167,7 +168,19 @@ function handleReturnResult() {
 .el-row:has(div[class^=el-form-item]) {
     margin-bottom: 0px;
 }
-
+.el-form-item:has(div[class^=els-dynamic-render]){
+    margin-bottom: 0;
+}
+.els-dynamic-render{
+    .el-form-item__content {
+    >.el-form {
+        flex-grow: 1;
+    }
+    }
+    .el-col>.el-form-item{
+    margin-bottom: 18px;
+}
+}
 .els-dynamic-r-item-child {
     .el-form-item__content {
         .el-form {
@@ -288,6 +301,13 @@ function handleReturnResult() {
     flex-grow: 1;
 
 }
+.els-dynamic-render>form>div>div:has([class^=el-form-item]){
+    margin-bottom: 18px;
+}
+.els-dynamic-render>form>div>div:has(form){
+    margin-bottom: 0px !important;
+}
+
 
 ::-webkit-scrollbar-track-piece {
     background: none;
