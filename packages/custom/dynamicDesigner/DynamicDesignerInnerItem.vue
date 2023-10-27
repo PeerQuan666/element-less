@@ -283,11 +283,11 @@ function validationCode(rule, value, callback) {
           </el-popover>
         </span>
       </template>
-      <span class="required">
-        <els-switch  :active-value="true" :inactive-value="false" prop="required"></els-switch>
+      <span class="required" >
+        <els-switch v-if="itemDataType.type !== 'None'" :active-value="true" :inactive-value="false" prop="required"></els-switch>
       </span>
       <span class="description">
-        <els-input placeholder="描述" clearable
+        <els-input v-if="itemDataType.type !== 'None'" placeholder="描述" clearable
          prop="description"></els-input>
       </span>
       <span class="defaultValue">

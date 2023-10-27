@@ -64,5 +64,8 @@ const jsonEditor=ref()
     .jsoneditor-poweredBy {
         display: none;
     }
+    .cm-content{
+        padding: 0;
+    }
 }
 </style>

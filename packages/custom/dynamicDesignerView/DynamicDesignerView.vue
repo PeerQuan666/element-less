@@ -219,7 +219,7 @@ function returnResult() {
         }
     } else {
         if (typeof (val) === 'object') {
-            emits('update:modelValue', {})
+            emits('update:modelValue', [])
         } else {
             emits('update:modelValue', '')
 

@@ -1,4 +1,4 @@
-import { _ as _sfc_main } from "./index-43e432e6.js";
+import { _ as _sfc_main } from "./index-56786fde.js";
 import "vue";
 import "axios";
 import "file-saver";
@@ -12,7 +12,6 @@ import "md-editor-v3";
 import "pinia";
 import "ace-builds";
 import "vue-json-viewer";
-import "json-editor-vue";
 export {
   _sfc_main as default
 };

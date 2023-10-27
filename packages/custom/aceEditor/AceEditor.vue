@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, inject, watch } from "vue";
 import ace from "ace-builds";
-
 import { FormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'
 
@@ -29,7 +28,12 @@ const tagID = 'els-ace-' + lessCom.Guid32()
 const editor = ref<any>()
 watch(() => props.modelValue, (val) => {
     if (val != editorValue.value) {
-        editor.value.setValue(val)
+        if(props.language==='json'){
+            editor.value.setValue(lessCom.jsonFormatter(val))
+        }else{
+            editor.value.setValue(val)
+        }
+       
     }
 
 })
@@ -46,7 +50,7 @@ function initModelValue() {
     }
     return props.modelValue
 }
-onMounted(() => {
+function init(){
     let options = {
         theme: "ace/theme/" + (props.theme ? props.theme : "xcode"),
         mode: "ace/mode/" + (props.language ? props.language : "javascript"),
@@ -77,6 +81,48 @@ onMounted(() => {
         editorValue.value = editor.value.getValue()
         handleReturnResult(editorValue.value)
     });
+}
+onMounted(() => {
+    if(props.language==='json'){
+        const currModule =  import("ace-builds/src-noconflict/mode-json")
+        currModule.then(res=>{
+            ace.config.setModuleUrl('ace/mode/json', res);
+            init()
+        })
+     
+    }else if(props.language==='javascript'){
+        const currModule =  import("ace-builds/src-noconflict/mode-javascript")
+        currModule.then(res=>{
+            ace.config.setModuleUrl('ace/mode/javascript', res);
+            init()
+        })
+      
+    }
+    else if(props.language==='csharp'){
+        const currModule =  import("ace-builds/src-noconflict/mode-csharp")
+        currModule.then(res=>{
+            ace.config.setModuleUrl('ace/mode/csharp', res);
+            init()
+        })
+      
+    }
+    else if(props.language==='mysql'){
+        const currModule =  import("ace-builds/src-noconflict/mode-mysql")
+        currModule.then(res=>{
+            ace.config.setModuleUrl('ace/mode/mysql', res);
+            init()
+        })
+      
+    }
+    else if(props.language==='css'){
+        const currModule =  import("ace-builds/src-noconflict/mode-css")
+        currModule.then(res=>{
+            ace.config.setModuleUrl('ace/mode/css', res);
+            init()
+        })
+      
+    }
+   
 })
 
 </script>

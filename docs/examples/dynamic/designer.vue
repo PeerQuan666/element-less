@@ -1,5 +1,4 @@
 <template>
-
     <el-tabs>
         <el-tab-pane label="配置">
             <ElsDynamicDesigner style="overflow: scroll;" v-model="config" 
@@ -8,7 +7,9 @@
              v-model:initValue="initValue" 
              :dataTypes="dataTypes" :camelCase="true" 
              :appendComponentTypes="appendComponentTypes" 
-             :componentRelateDataType="componentRelateDataType">
+             :componentRelateDataType="componentRelateDataType"
+             saveTypeUrl="sss"
+             >
             </ElsDynamicDesigner>
 
         </el-tab-pane>
@@ -22,6 +23,7 @@
 
 <script setup>
 import { ref } from 'vue'
+const test=ref()
 const value = ref()
 const config=ref()
 const initValue=ref()

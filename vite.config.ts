@@ -49,8 +49,7 @@ export default defineConfig({
 			'element-less',
 			'vite-plugin-compression',
 			'vue-json-viewer',
-			'ace-builds',
-			'json-editor-vue',
+			'ace-builds'
 		],
 			output: {
 				name: 'ElementLess',
@@ -68,9 +67,9 @@ export default defineConfig({
 					axios:'axios',
 					XLSX:'XLSX',
 					lodash:'_',
+					"ace-builds":'ace',
 					'file-saver':'fileSave',
 					'vue-json-viewer':'JsonView.default',
-					'json-editor-vue':'JsonEditor'
 				},
 			},
 		}, 

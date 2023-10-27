@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { provide, watch, ref,nextTick } from 'vue'
+import { provide, watch, ref, nextTick } from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 import '../../utlis/lessPrototype.js'
 import { dynamicDataTypes, dynamicComponentTypes } from '../../utlis/lessConfig.js'
@@ -7,26 +7,31 @@ import { DynamicHandler } from '../../utlis/lessConfig.js'
 import DynamicDesignerInner from './DynamicDesignerInner.vue'
 import DynamicDesignerView from '../dynamicDesignerView/DynamicDesignerView.vue'
 import DynamicCreate from '../dynamicCreate/DynamicCreate.vue'
-import  {DynamicComponentType,DynamicDataType} from '../../utlis/interfaceCom.js'
+import { DynamicComponentType, DynamicDataType } from '../../utlis/interfaceCom.js'
 
 import lessCom from '../../utlis/lessCom'
+import { reject } from 'lodash'
+import { ElMessage } from 'element-plus'
 defineOptions({
   name: 'ElsDynamicDesigner',
 })
 interface Props extends FormItemProps {
   modelValue?: any,
   camelCase?: boolean,
-  dataTypes?:Array<DynamicDataType>,
-  componentTypes?:  Array<DynamicComponentType>,
+  dataTypes?: Array<DynamicDataType>,
+  componentTypes?: Array<DynamicComponentType>,
   appendComponentTypes?: Array<DynamicComponentType>,
   componentRelateDataType?: Record<string, any>,
   componentSettingVisible: boolean,
+  designerVisible: boolean,
   isReturnTemplateValue?: boolean,
   templateValue?: any,
   allowCreateType?: boolean,
-  createTypeMethod?:Function,
+  createTypeMethod?: Function,
   allowCreateComponent?: boolean,
-  createComponentMethod?:Function
+  createComponentMethod?: Function,
+  saveTypeUrl?: string,
+  saveComponentUrl?: string,
 
 }
 const emits = defineEmits(['update:modelValue', 'update:templateValue'])
@@ -34,7 +39,7 @@ const designerJSON = ref()
 const importJSON = ref()
 const designerContainer = ref()
 const designerObj = ref([])
-const props = withDefaults(defineProps<Props>(), { componentSettingVisible: true })
+const props = withDefaults(defineProps<Props>(), { componentSettingVisible: true, designerVisible: true })
 
 
 
@@ -44,7 +49,7 @@ if (props.dataTypes) {
 } else {
   currDynamicDataType.value.push(...dynamicDataTypes)
 }
-
+const { $codeField, $messageField, $success } = lessCom.getApiConfig()
 provide("tagID", 'els-dynamic-designer-' + lessCom.Guid32())
 provide('dataTypeData', currDynamicDataType.value)
 provide('allowCreateType', props.allowCreateType)
@@ -74,7 +79,7 @@ if (props.componentRelateDataType) {
   })
 }
 const dynamicHandler = new DynamicHandler(currDynamicDataType.value, currComponentTypes.value)
-const createVisible=ref(false)
+const createVisible = ref(false)
 
 provide('componentData', currComponentTypes.value)
 provide('componentSettingVisible', props.componentSettingVisible)
@@ -83,7 +88,7 @@ function initData() {
   if (props.modelValue && typeof (props.modelValue) === 'string') {
     if (props.modelValue != JSON.stringify(designerObj.value)) {
       designerJSON.value = props.modelValue
-      designerObj.value =  JSON.parse(props.modelValue)
+      designerObj.value = JSON.parse(props.modelValue)
 
     }
   } else if (props.modelValue && typeof (props.modelValue) === 'object') {
@@ -95,8 +100,8 @@ function initData() {
 
 initData()
 
-function getConverToJsonResult(obj){
- return dynamicHandler.jsonToConfig(obj)
+function getConverToJsonResult(obj) {
+  return dynamicHandler.jsonToConfig(obj)
 }
 function handleImportDesigner() {
   if (typeof (importJSON.value) === 'string') {
@@ -113,31 +118,27 @@ function handleOpenImport() {
   importJSON.value = designerObj.value
 }
 
-function openCreateType(typeValue){
-  if(props.createTypeMethod){
+function openCreateType(typeValue) {
+  if (props.createTypeMethod) {
     props.createTypeMethod(typeValue)
-  }else{
-    dynamicNewType.value={ componentName: 'ElsDynamicRender', config: {}, label: '名称', value: "Value", type: "Type", dataTypes: [], defaultPropertys: {config:[]}, propertys: [], group: 'Form' }
-    createVisible.value=true
+  } else {
+    dynamicNewType.value = { componentName: 'ElsDynamicRender', config: {}, label: '名称', value: "Value", type: "Type", dataTypes: [], defaultPropertys: { config: [] }, propertys: [], group: 'Form' }
+    createVisible.value = true
 
   }
 }
-function openCreateComponent(typeValue){
-  if(props.createComponentMethod){
+function openCreateComponent(typeValue) {
+  if (props.createComponentMethod) {
     props.createComponentMethod(typeValue)
   }
 }
 
-const dynamicNewType=ref<any>()
+const dynamicNewType = ref<any>()
 
-provide('openCreateType',openCreateType)
-provide('openCreateComponent',openCreateComponent)
+provide('openCreateType', openCreateType)
+provide('openCreateComponent', openCreateComponent)
 watch(designerObj, (val) => {
   if (val) {
-    if (props.isReturnTemplateValue) {
-      emits('update:templateValue', dynamicHandler.configResult(val))
-
-    }
 
     if (typeof (props.modelValue) === 'object') {
       emits('update:modelValue', val)
@@ -146,32 +147,64 @@ watch(designerObj, (val) => {
       emits('update:modelValue', JSON.stringify(val))
 
     }
+    returnTemplateValue()
   }
+}, { deep: true, immediate: true })
 
-}, { deep: true })
-function handleSaveCreate(result){
-  currDynamicDataType.value.push(result.dataType)
-  currComponentTypes.value.push(result.componentType)
+function returnTemplateValue() {
 
+  if (props.isReturnTemplateValue) {
+    if (typeof (props.modelValue) === 'object') {
+      emits('update:templateValue', dynamicHandler.configResult(designerObj.value))
+
+    } else {
+      emits('update:templateValue', JSON.stringify(dynamicHandler.configResult(designerObj.value)))
+
+    }
+  }
 }
-function handleCloseCreate(){
-  nextTick(()=>{
-    createVisible.value=false
 
-  })
-}
+
 const designType = ref('精简模式')
 function closeViewDialog() {
   designType.value = '精简模式'
 }
+function handleSaveNewType(data) {
+  return new Promise((resolve, reject) => {
+    if (!props.saveTypeUrl) {
+      currDynamicDataType.value.push(data.dataType)
+      currComponentTypes.value.push(data.componentType)
+      resolve(true)
+
+    } else {
+      props.saveTypeUrl.post({ data: JSON.stringify(data) }).then(res => {
+        if (res[$codeField] == $success) {
+          currDynamicDataType.value.push(data.dataType)
+          currComponentTypes.value.push(data.componentType)
+          resolve(true)
+        } else {
+          ElMessage.warning(res[$messageField])
+          resolve(false)
+        }
+      }).catch(res => {
+        console.log(res)
+        resolve(false)
+      })
+    }
+  })
+
+}
+defineExpose({
+  returnTemplateValue
+})
 
 </script>
 <template>
-  <div >
+  <div>
     <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
       <div class="els-dynamic-config" ref="designerContainer">
         <div class="els-dynamic-config-tool">
-          <ElsRadioButton v-model="designType">
+          <ElsRadioButton v-model="designType" v-if="designerVisible">
             <ElsOption value="精简模式"><el-icon>
                 <MoreFilled />
               </el-icon></ElsOption>
@@ -187,37 +220,43 @@ function closeViewDialog() {
         <DynamicDesignerInner v-if="designType === '精简模式'" :data="designerObj"></DynamicDesignerInner>
       </div>
       <template v-if="designType !== '精简模式'">
-        <els-dialog :visible="true" @close="closeViewDialog" width="90%" destroy-on-close  :append-to-body="true">
-          <DynamicDesignerView :dataTypes="currDynamicDataType" :camelCase="camelCase" :componentTypes="currComponentTypes"
-            :appendComponentTypes="appendComponentTypes" :componentRelateDataType="componentRelateDataType"
-            v-model="designerObj"></DynamicDesignerView>
+        <els-dialog :visible="true" @close="closeViewDialog" width="90%" destroy-on-close :append-to-body="true">
+          <DynamicDesignerView :dataTypes="currDynamicDataType" :camelCase="camelCase"
+            :componentTypes="currComponentTypes" :appendComponentTypes="appendComponentTypes"
+            :componentRelateDataType="componentRelateDataType" v-model="designerObj"></DynamicDesignerView>
         </els-dialog>
       </template>
     </ElsFormNode>
-   <DynamicCreate  v-model:visible="createVisible" v-model="dynamicNewType" :camelCase="camelCase" :componentTypes="currComponentTypes" :dataTypes="currDynamicDataType" @save="handleSaveCreate" ></DynamicCreate>
-          
-    
+    <DynamicCreate :save="handleSaveNewType"  v-model:visible="createVisible" v-model="dynamicNewType"
+      :camelCase="camelCase" :componentTypes="currComponentTypes" :dataTypes="currDynamicDataType"></DynamicCreate>
+
+
   </div>
 </template>
 <style lang="less">
-.els-dynamic-config{flex-grow: 1;
-.leo-list-add{
-  button{
-    height: 24px;
-    font-size: 12px;
-    padding: 7px;
-    background: #fff;
-    color: #575757;
+.els-dynamic-config {
+  flex-grow: 1;
+
+  .leo-list-add {
+    button {
+      height: 24px;
+      font-size: 12px;
+      padding: 7px;
+      background: #fff;
+      color: #575757;
+    }
   }
-}
-.els-dynamicc-d-empty{
-  text-align: center;
+
+  .els-dynamicc-d-empty {
+    text-align: center;
     font-size: 12px;
     background: #f8f8f8;
     padding: 5px;
     font-style: italic;
+    margin-bottom: 5px;
+  }
 }
-}
+
 .els-dynamic-config-tool {
   display: flex;
   align-items: center;
@@ -260,6 +299,10 @@ function closeViewDialog() {
   .dataType {
     width: 190px;
     display: flex;
+
+    .els-node {
+      flex-grow: 1;
+    }
   }
 
   .componentType {
@@ -274,13 +317,16 @@ function closeViewDialog() {
   .config {
     width: 40px;
   }
+
   .required {
     width: 60px;
 
   }
+
   .description {
     width: 200px;
   }
+
   .oper {
     width: 60px;
 
@@ -371,7 +417,7 @@ function closeViewDialog() {
   .els-dynamic-d-flat-item-child {
     margin-left: 0px !important;
     border: 0 !important;
-    padding: 10px 5px !important;
+    padding: 10px 60px 5px 5px !important;
     position: relative;
   }
 

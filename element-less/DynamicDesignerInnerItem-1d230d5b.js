@@ -1,5 +1,5 @@
 import { defineComponent, inject, ref, computed, watch, resolveComponent, openBlock, createBlock, unref, isRef, normalizeClass, withCtx, createElementBlock, createElementVNode, createCommentVNode, createVNode, createSlots, Fragment, createTextVNode, nextTick } from "vue";
-import { l as lessCom, p as property_arrayAndObject, a as property_array, b as property_form, c as property_advanced, d as _sfc_main$1 } from "./index-43e432e6.js";
+import { l as lessCom, p as property_arrayAndObject, a as property_array, b as property_form, c as property_advanced, d as _sfc_main$1 } from "./index-56786fde.js";
 import { useVModel } from "@vueuse/core";
 import { ElMessage } from "element-plus";
 import "axios";
@@ -12,7 +12,6 @@ import "md-editor-v3";
 import "pinia";
 import "ace-builds";
 import "vue-json-viewer";
-import "json-editor-vue";
 const _hoisted_1 = {
   key: 0,
   class: "els-dynamic-d-item-div"
@@ -94,8 +93,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     const currComponentTypeData = computed(() => {
       if (controlData) {
         return controlData.filter((ele) => {
-          var _a;
-          return !currDataType.value || ele.dataTypes.includes((_a = currDataType.value) == null ? void 0 : _a.type);
+          var _a, _b;
+          return !currDataType.value || ele.dataTypes.includes((_a = currDataType.value) == null ? void 0 : _a.value) || ele.dataTypes.includes((_b = currDataType.value) == null ? void 0 : _b.type);
         });
       }
       return [];
@@ -217,7 +216,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       const _component_el_popconfirm = resolveComponent("el-popconfirm");
       return openBlock(), createBlock(_component_els_form, {
         modelValue: unref(currItem),
-        "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => isRef(currItem) ? currItem.value = $event : null),
+        "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => isRef(currItem) ? currItem.value = $event : null),
         labelWidth: "0",
         inputWidth: "100%",
         class: normalizeClass([{ "els-dynamic-d-item-parentdiv": isObject.value && !unref(currItem).componentType }, { "els-dynamic-d-item-container": isRow.value }]),
@@ -242,13 +241,13 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                 clearable: "",
                 disabled: unref(currItem).isModify,
                 onBlur: handleChangeKeyCode,
-                modelValue: _ctx.item.keyCode,
-                "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.item.keyCode = $event)
-              }, null, 8, ["disabled", "modelValue"])) : createCommentVNode("", true)
+                prop: "keyCode"
+              }, null, 8, ["disabled"])) : createCommentVNode("", true)
             ]),
             createElementVNode("span", _hoisted_4, [
               createVNode(_component_els_select, {
                 onClickOption: handleChangeDataType,
+                required: "",
                 initSelect: false,
                 data: unref(dataTypeData),
                 valueField: "value",
@@ -261,7 +260,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                   fn: withCtx(() => [
                     createElementVNode("li", {
                       class: "dynamic-create-dtype",
-                      onClick: _cache[1] || (_cache[1] = ($event) => unref(openCreateType)())
+                      onClick: _cache[0] || (_cache[0] = ($event) => unref(openCreateType)())
                     }, "创建类型")
                   ]),
                   key: "0"
@@ -270,6 +269,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               itemDataType.value.type == "Array" ? (openBlock(), createBlock(_component_els_select, {
                 key: 0,
                 onClickOption: handleChangeDataType,
+                required: "",
                 data: unref(dataTypeData).filter((ele) => ele.type != "None" && ele.type != "Array"),
                 valueField: "value",
                 labelField: "label",
@@ -280,7 +280,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                   fn: withCtx(() => [
                     createElementVNode("li", {
                       class: "dynamic-create-dtype",
-                      onClick: _cache[2] || (_cache[2] = ($event) => unref(openCreateType)())
+                      onClick: _cache[1] || (_cache[1] = ($event) => unref(openCreateType)())
                     }, "创建类型")
                   ]),
                   key: "0"
@@ -305,7 +305,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                     fn: withCtx(() => [
                       createElementVNode("li", {
                         class: "dynamic-create-dtype",
-                        onClick: _cache[3] || (_cache[3] = ($event) => unref(openCreateComponent)())
+                        onClick: _cache[2] || (_cache[2] = ($event) => unref(openCreateComponent)())
                       }, "创建组件")
                     ]),
                     key: "0"
@@ -337,7 +337,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                                 return [
                                   createVNode(_component_ElsDynamicRender, {
                                     modelValue: unref(currItem).config.baseConfig,
-                                    "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => unref(currItem).config.baseConfig = $event),
+                                    "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => unref(currItem).config.baseConfig = $event),
                                     nodeType: { dataType: (_a = currDataType.value) == null ? void 0 : _a.type, componentName: (_b = currComponentType.value) == null ? void 0 : _b.componentName },
                                     config: currPropertys.value,
                                     inputWidth: "100%"
@@ -353,7 +353,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                               default: withCtx(() => [
                                 createVNode(_component_ElsDynamicRender, {
                                   modelValue: unref(currItem).config.arrayConfig,
-                                  "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => unref(currItem).config.arrayConfig = $event),
+                                  "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => unref(currItem).config.arrayConfig = $event),
                                   config: unref(property_array),
                                   inputWidth: "100%"
                                 }, null, 8, ["modelValue", "config"])
@@ -367,7 +367,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                               default: withCtx(() => [
                                 createVNode(_component_ElsDynamicRender, {
                                   modelValue: unref(currItem).config.formConfig,
-                                  "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => unref(currItem).config.formConfig = $event),
+                                  "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => unref(currItem).config.formConfig = $event),
                                   config: unref(property_form),
                                   inputWidth: "100%"
                                 }, null, 8, ["modelValue", "config"])
@@ -378,7 +378,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                               default: withCtx(() => [
                                 createVNode(_component_ElsDynamicRender, {
                                   modelValue: unref(currItem).config.advancedConfig,
-                                  "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => unref(currItem).config.advancedConfig = $event),
+                                  "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => unref(currItem).config.advancedConfig = $event),
                                   config: unref(property_advanced),
                                   inputWidth: "100%"
                                 }, null, 8, ["modelValue", "config"])
@@ -397,18 +397,20 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               ])
             ], 64)) : createCommentVNode("", true),
             createElementVNode("span", _hoisted_7, [
-              createVNode(_component_els_switch, {
+              itemDataType.value.type !== "None" ? (openBlock(), createBlock(_component_els_switch, {
+                key: 0,
                 "active-value": true,
                 "inactive-value": false,
                 prop: "required"
-              })
+              })) : createCommentVNode("", true)
             ]),
             createElementVNode("span", _hoisted_8, [
-              createVNode(_component_els_input, {
+              itemDataType.value.type !== "None" ? (openBlock(), createBlock(_component_els_input, {
+                key: 0,
                 placeholder: "描述",
                 clearable: "",
                 prop: "description"
-              })
+              })) : createCommentVNode("", true)
             ]),
             createElementVNode("span", _hoisted_9, [
               !isObject.value && itemDataType.value.type !== "None" ? (openBlock(), createBlock(_component_els_input, {
@@ -428,7 +430,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                 }),
                 createVNode(_component_el_popconfirm, {
                   title: "确定删除吗？",
-                  onConfirm: _cache[8] || (_cache[8] = ($event) => handleRemove(_ctx.item))
+                  onConfirm: _cache[7] || (_cache[7] = ($event) => handleRemove(_ctx.item))
                 }, {
                   reference: withCtx(() => [
                     createVNode(_component_el_icon, { class: "el-icon-remove" }, {
@@ -446,7 +448,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
           isObject.value && !unref(currItem).componentType || isRow.value ? (openBlock(), createBlock(_sfc_main$1, {
             key: 1,
             data: unref(currItem).data,
-            onRemoveItem: _cache[9] || (_cache[9] = ($event) => handleRemove(_ctx.item)),
+            onRemoveItem: _cache[8] || (_cache[8] = ($event) => handleRemove(_ctx.item)),
             config: unref(currItem).config.advancedConfig,
             "is-container": isRow.value,
             depath: currDepath.value

@@ -1,10 +1,4 @@
 import {
-  config$1,
-  icon,
-  parse$1,
-  text
-} from "./chunk-KGKNMYPW.js";
-import {
   computed2 as computed,
   defineComponent,
   h,
@@ -12,6 +6,12 @@ import {
   watch
 } from "./chunk-3XCZATPT.js";
 import "./chunk-ATDA5F66.js";
+import {
+  config$1,
+  icon,
+  parse$1,
+  text
+} from "./chunk-KGKNMYPW.js";
 import "./chunk-7REXU52E.js";
 
 // node_modules/@fortawesome/vue-fontawesome/index.es.js

@@ -155,5 +155,8 @@ watchEffect(() => {
             margin-bottom: 18px;
         }
     }
+    .leo-list-add button{
+        cursor: pointer;
+    }
 
 }</style>
