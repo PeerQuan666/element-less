@@ -42,7 +42,7 @@ watch(()=>props.modelValue,(val)=>{
 
 if (!props.itemKey) {
     currData.value.forEach(ele => {
-        dropData.value.push({ itemKey: lessCom.Guid32(), value: ele })
+        dropData.value.push({ itemKey: lessCom.generateID(), value: ele })
     })
     currItemKey.value = 'itemKey'
     watch(dropData, (val) => {
@@ -55,7 +55,7 @@ const attrs = useAttrs()
 function handleAdd() {
     if (props.onAdd) {
         if(!props.itemKey){
-            dropData.value.push({itemKey: lessCom.Guid32(), value:props.onAdd(dropData.value)})
+            dropData.value.push({itemKey: lessCom.generateID(), value:props.onAdd(dropData.value)})
 
         }else{
             dropData.value.push(props.onAdd(dropData.value))
@@ -90,7 +90,7 @@ watchEffect(() => {
     <component :is="outContainer" class="els-list" :labelWidth="labelWidth">
         <draggable :list="dropData" handle=".el-icon-rank" v-bind="attrs" :item-key="currItemKey">
             <template #item="{ element, index }">
-                <component :is="container" v-model="dropData[index]" inline :labelWidth="labelWidth">
+                <component :is="container" v-model="dropData[index]"  :labelWidth="labelWidth">
                     <div class="listitem flex" :class="itemClassName">
                         <slot v-if="itemKey" name="default" v-bind="{ item: element, index: index, $item: element, $index: index,element:element }">
                         </slot>
@@ -136,6 +136,9 @@ watchEffect(() => {
             display: flex;
             column-gap: 5px;
             cursor: pointer;
+            .el-icon-remove{
+                color: red;
+            }
 
         }
 

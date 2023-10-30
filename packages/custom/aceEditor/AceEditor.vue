@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const editorValue = ref()
-const tagID = 'els-ace-' + lessCom.Guid32()
+const tagID = 'els-ace-' + lessCom.generateID()
 const editor = ref<any>()
 watch(() => props.modelValue, (val) => {
     if (val != editorValue.value) {

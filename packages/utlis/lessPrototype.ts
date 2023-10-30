@@ -22,18 +22,18 @@ declare global {
     setPowerPublicQuery():string
     md5():string
     }
-    interface Array<T> {
-        remove(item: T): Array<T>;
-    }
+    // interface Array<T> {
+    //     remove(item: T): Array<T>;
+    // }
 }
 
-Array.prototype.remove=function remove(item){
-    let index = this.indexOf(item)
-    if (index > -1) {
-        this.splice(index, 1)
-    }
-    return this
-}
+// Array.prototype.remove=function remove(item){
+//     let index = this.indexOf(item)
+//     if (index > -1) {
+//         this.splice(index, 1)
+//     }
+//     return this
+// }
 Number.prototype.toFixedNumber = function toFixedNumber(digits=2) {
     return parseFloat(this.toFixed(digits))
 };

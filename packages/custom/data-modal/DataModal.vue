@@ -38,7 +38,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 })
 
-const tagID = ref('data-modal-' + lessCom.Guid32())
+const tagID = ref('data-modal-' + lessCom.generateID())
 const currSelectValue = ref('')
 const currSelectLabel = ref()
 const currSelectData = ref<any>()

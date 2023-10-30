@@ -5,7 +5,7 @@ import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom'
 import DynamicRenderInner from './DynamicRenderInner.vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
-import  {DynamicComponentType,DynamicDataType} from '../../utlis/interfaceCom.js'
+import { DynamicComponentType, DynamicDataType } from '../../utlis/interfaceCom.js'
 
 const DynamicRenderInnerAsync = defineAsyncComponent(() => {
     return import('./DynamicRenderInner.vue')
@@ -23,11 +23,12 @@ interface Props extends FormItemProps {
     appendUrlParams?: Array<Record<string, any>>,
     inputWidth?: string,
     nodeType?: any,
-    dataTypes?:Array<DynamicDataType>,
-    componentTypes?:  Array<DynamicComponentType>,
+    dataTypes?: Array<DynamicDataType>,
+    appendDataTypes?: Array<DynamicDataType>,
+    componentTypes?: Array<DynamicComponentType>,
     appendComponentTypes?: Array<DynamicComponentType>,
     isAsyncComponent?: boolean,
-    labelWidth?:string
+    labelWidth?: string
 }
 const props = defineProps<Props>()
 const emits = defineEmits(['update:modelValue'])
@@ -43,25 +44,32 @@ const currDynamicDataType = ref<any>([])
 if (idataTypes) {
     currDynamicDataType.value.push(...idataTypes)
 }
-else if (props.dataTypes) {
-    currDynamicDataType.value.push(...props.dataTypes)
-} else {
-    currDynamicDataType.value.push(...dynamicDataTypes)
+else {
+    if (props.dataTypes) {
+        currDynamicDataType.value.push(...props.dataTypes)
+    } else {
+        currDynamicDataType.value.push(...dynamicDataTypes)
+    }
+    if (props.appendDataTypes) {
+        currDynamicDataType.value.push(...props.appendDataTypes)
+    }
 }
-
 
 const currComponentTypes = ref<any>([])
 if (icomponentTypes) {
     currComponentTypes.value.push(...icomponentTypes)
 
-} else if (props.componentTypes) {
-    currComponentTypes.value.push(...props.componentTypes)
 } else {
-    currComponentTypes.value.push(...dynamicComponentTypes)
+    if (props.componentTypes) {
+        currComponentTypes.value.push(...props.componentTypes)
+    } else {
+        currComponentTypes.value.push(...dynamicComponentTypes)
+    }
+    if (props.appendComponentTypes) {
+        currComponentTypes.value.push(...props.appendComponentTypes)
+    }
 }
-if (props.appendComponentTypes) {
-    currComponentTypes.value.push(...props.appendComponentTypes)
-}
+
 
 const dynamicHandler = new DynamicHandler(currDynamicDataType.value, currComponentTypes.value, props.appendUrlParams, props.uploadUrl, props.resourceCode, props.restrictCode)
 
@@ -69,7 +77,7 @@ const dynamicHandler = new DynamicHandler(currDynamicDataType.value, currCompone
 provide('componentData', currComponentTypes.value)
 provide('dyProvideData', provideData)
 provide('inputWidth', props.inputWidth)
-provide("tagID", 'els-dynamic-render-' + lessCom.Guid32())
+provide("tagID", 'els-dynamic-render-' + lessCom.generateID())
 provide('dataTypeData', currDynamicDataType.value)
 
 
@@ -168,19 +176,23 @@ function handleReturnResult() {
 .el-row:has(div[class^=el-form-item]) {
     margin-bottom: 0px;
 }
-.el-form-item:has(div[class^=els-dynamic-render]){
+
+.el-form-item:has(div[class^=els-dynamic-render]) {
     margin-bottom: 0;
 }
-.els-dynamic-render{
+
+.els-dynamic-render {
     .el-form-item__content {
-    >.el-form {
-        flex-grow: 1;
+        >.el-form {
+            flex-grow: 1;
+        }
     }
+
+    .el-col>.el-form-item {
+        margin-bottom: 18px;
     }
-    .el-col>.el-form-item{
-    margin-bottom: 18px;
 }
-}
+
 .els-dynamic-r-item-child {
     .el-form-item__content {
         .el-form {
@@ -284,10 +296,12 @@ function handleReturnResult() {
 .el-form-item__content>.els-dynamic-render>form>.els-dynamic-r-item>div:last-child>.el-form-item {
     margin-bottom: 0px
 }
+
 .el-form-item__content>.els-dynamic-render>form>.els-dynamic-r-item {
     display: unset;
 
 }
+
 .el-form-item__content>.els-dynamic-render {
     flex-grow: 1;
 
@@ -301,10 +315,12 @@ function handleReturnResult() {
     flex-grow: 1;
 
 }
-.els-dynamic-render>form>div>div:has([class^=el-form-item]){
+
+.els-dynamic-render>form>div>div:has([class^=el-form-item]) {
     margin-bottom: 18px;
 }
-.els-dynamic-render>form>div>div:has(form){
+
+.els-dynamic-render>form>div>div:has(form) {
     margin-bottom: 0px !important;
 }
 

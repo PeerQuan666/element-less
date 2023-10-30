@@ -26,6 +26,7 @@ interface Props extends FormItemProps{
     modelValue: Array<Record<string, any>> | string,
     camelCase?: boolean,
     dataTypes?:Array<DynamicDataType>,
+    appendDataTypes?: Array<DynamicDataType>,
     componentTypes?:  Array<DynamicComponentType>,
     appendComponentTypes?: Array<DynamicComponentType>,
     componentRelateDataType?: Record<string, any>,
@@ -55,6 +56,9 @@ if(dataTypeData){
 } else {
     currDynamicDataType.value.push(...dynamicDataTypes)
 }
+if (props.appendDataTypes) {
+  currDynamicDataType.value.push(...props.appendDataTypes)
+}
 }
 
 
@@ -67,10 +71,10 @@ if(componentData){
 } else {
     currComponentTypes.value.push(...dynamicComponentTypes)
 }
-
 if (props.appendComponentTypes) {
     currComponentTypes.value.push(...props.appendComponentTypes)
 }
+
 if (props.componentRelateDataType) {
     currComponentTypes.value.forEach(ele => {
         const currRelate = props.componentRelateDataType ? props.componentRelateDataType[ele.type] : undefined
@@ -79,6 +83,7 @@ if (props.componentRelateDataType) {
         }
     })
 }
+
 }
 
 provide('dataTypeData', currDynamicDataType.value)
@@ -126,7 +131,6 @@ const objectData = ref<any>([
             advancedConfig: {},
             arrayConfig: {}
         },
-        value: []
     }
 ])
 const importJSON = ref()

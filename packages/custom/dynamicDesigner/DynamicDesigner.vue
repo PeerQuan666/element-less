@@ -19,6 +19,7 @@ interface Props extends FormItemProps {
   modelValue?: any,
   camelCase?: boolean,
   dataTypes?: Array<DynamicDataType>,
+  appendDataTypes?: Array<DynamicDataType>,
   componentTypes?: Array<DynamicComponentType>,
   appendComponentTypes?: Array<DynamicComponentType>,
   componentRelateDataType?: Record<string, any>,
@@ -49,8 +50,11 @@ if (props.dataTypes) {
 } else {
   currDynamicDataType.value.push(...dynamicDataTypes)
 }
+if (props.appendDataTypes) {
+  currDynamicDataType.value.push(...props.appendDataTypes)
+}
 const { $codeField, $messageField, $success } = lessCom.getApiConfig()
-provide("tagID", 'els-dynamic-designer-' + lessCom.Guid32())
+provide("tagID", 'els-dynamic-designer-' + lessCom.generateID())
 provide('dataTypeData', currDynamicDataType.value)
 provide('allowCreateType', props.allowCreateType)
 provide('allowCreateComponent', props.allowCreateComponent)
@@ -118,14 +122,28 @@ function handleOpenImport() {
   importJSON.value = designerObj.value
 }
 
-function openCreateType(typeValue) {
+function openCreateType(typeID) {
+  dynamicNewType.value = null
   if (props.createTypeMethod) {
-    props.createTypeMethod(typeValue)
+    props.createTypeMethod(typeID)
   } else {
-    dynamicNewType.value = { componentName: 'ElsDynamicRender', config: {}, label: '名称', value: "Value", type: "Type", dataTypes: [], defaultPropertys: { config: [] }, propertys: [], group: 'Form' }
-    createVisible.value = true
-
+    if (typeID) {
+      const cDataType = currDynamicDataType.value.find(ele => ele.id === typeID)
+      if (cDataType) {
+        const { label, value, type, description } = cDataType
+        const { defaultPropertys } = cDataType.componentType
+        dynamicNewType.value = {
+          id: typeID,
+          label: label,
+          value: value,
+          type: type,
+          description: description,
+          defaultPropertys: defaultPropertys
+        }
+      }
+    }
   }
+  createVisible.value = true
 }
 function openCreateComponent(typeValue) {
   if (props.createComponentMethod) {
@@ -171,15 +189,60 @@ function closeViewDialog() {
 }
 function handleSaveNewType(data) {
   return new Promise((resolve, reject) => {
+    const id = lessCom.generateID()
     if (!props.saveTypeUrl) {
-      currDynamicDataType.value.push(data.dataType)
+
+      if (data.id) {
+        const index = currDynamicDataType.value.findIndex(ele => ele.id == data.id)
+        if (index > -1) {
+          currDynamicDataType.value.splice(index, 1)
+        }
+      } else {
+        data.id = id
+      }
+      if (data.componentType.id) {
+        const index = currComponentTypes.value.findIndex(ele => ele.id == data.componentType.id)
+        if (index > -1) {
+          currComponentTypes.value.splice(index, 1)
+        }
+      } else {
+        data.componentType.id = id
+      }
+      currDynamicDataType.value.push(data)
       currComponentTypes.value.push(data.componentType)
       resolve(true)
 
     } else {
-      props.saveTypeUrl.post({ data: JSON.stringify(data) }).then(res => {
+      const { label, type, description, id } = data
+      props.saveTypeUrl.setPowerPublicQuery().post({
+        id: id,
+        name: label,
+        type: type === 'Enum' ? 'Enum' : 'Object',
+        description: description,
+        data: JSON.stringify(data)
+      }).then(res => {
         if (res[$codeField] == $success) {
-          currDynamicDataType.value.push(data.dataType)
+          //判断是否返回主键ID
+          if (res.Data?.ID) {
+            data.id = res.Data?.ID
+            data.componentType.id = res.Data?.ID
+          } else {
+            data.id = id
+            data.componentType.id = id
+          }
+          if (data.id) {
+            const index = currDynamicDataType.value.findIndex(ele => ele.id == data.id)
+            if (index > -1) {
+              currDynamicDataType.value.splice(index, 1)
+            }
+          }
+          if (data.componentType.id) {
+            const index = currComponentTypes.value.findIndex(ele => ele.id == data.componentType.id)
+            if (index > -1) {
+              currComponentTypes.value.splice(index, 1)
+            }
+          }
+          currDynamicDataType.value.push(data)
           currComponentTypes.value.push(data.componentType)
           resolve(true)
         } else {
@@ -227,7 +290,8 @@ defineExpose({
         </els-dialog>
       </template>
     </ElsFormNode>
-    <DynamicCreate :save="handleSaveNewType"  v-model:visible="createVisible" v-model="dynamicNewType"
+
+    <DynamicCreate :save="handleSaveNewType" v-model:visible="createVisible" v-model="dynamicNewType"
       :camelCase="camelCase" :componentTypes="currComponentTypes" :dataTypes="currDynamicDataType"></DynamicCreate>
 
 
@@ -276,6 +340,16 @@ defineExpose({
 
 }
 
+.dataType-detail-t {
+  display: flex;
+  justify-content: space-between;
+
+  span+span {
+    cursor: pointer;
+  }
+
+}
+
 .els-dynamic-config {
 
   :has(div[class^='el-form-item']) {
@@ -287,6 +361,11 @@ defineExpose({
   border: 1px solid #dcdfe6;
   padding: 10px;
 
+  .txt-blue-light {
+    .el-input__inner {
+      color: #409eff;
+    }
+  }
 
   .keyName {
     width: 120px;

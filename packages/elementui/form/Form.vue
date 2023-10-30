@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 })
 const emits = defineEmits(['update:modelValue'])
-const tagID = 'els-form' + lessCom.Guid32();
+const tagID = 'els-form' + lessCom.generateID();
 const attrs = useAttrs()
 const dataForm = ref()
 const submitButton = ref()
@@ -87,8 +87,8 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     if (elsPageStore) {
-        elsPageStore.value.saveForms.remove(saveStore)
-        elsPageStore.value.validates.remove(validateStore)
+        lessCom.removeArrayItem(elsPageStore.value.saveForms,saveStore)
+        lessCom.removeArrayItem(elsPageStore.value.validates,validateStore)
     }
 })
 function saveData(url) {

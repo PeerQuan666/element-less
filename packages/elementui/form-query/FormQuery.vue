@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const queryForm = ref()
 const submitButton = ref()
-const tagID = 'els-form' + lessCom.Guid32();
+const tagID = 'els-form' + lessCom.generateID();
 const attrs = useAttrs();
 const elsPageStore = inject<any>('elsPageStore',undefined)
 const elsQuery = inject<Function>('elsQuery',()=>null)
@@ -68,8 +68,8 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     if (elsPageStore) {
-        elsPageStore.value.queryForms.remove(queryStore)
-        elsPageStore.value.validates.remove(validateStore)
+        lessCom.removeArrayItem(elsPageStore.value.queryForms,queryStore)
+        lessCom.removeArrayItem(elsPageStore.value.validates,validateStore)
     }
 })
 function getQueryData() {

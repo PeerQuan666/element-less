@@ -132,6 +132,7 @@ export class DynamicHandler {
                     "componentType": componentName,
                     "required": false,
                     "description": '',
+                    "defaultValue":jsonData[key],
                     "config": {
                         "formConfig": {},
                         "baseConfig": {},

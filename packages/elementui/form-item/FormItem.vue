@@ -89,11 +89,11 @@ function initRules() {
 
 function initQuery() {
     if (getQueryData && (props.queryField || props.prop)) {
-        let currKey = props.prop ?? lessCom.Guid32()
+        let currKey = props.prop ?? lessCom.generateID()
         const currQueryData: any = getQueryData()
         if (currQueryData) {
             if (currQueryData[currKey]) {
-                currKey += '_' + lessCom.Guid32()
+                currKey += '_' + lessCom.generateID()
             }
         }
         const queryInfo: QueryInfo =

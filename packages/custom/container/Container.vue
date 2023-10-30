@@ -459,9 +459,12 @@ defineExpose({
 })
 </script>
 <template>
-    <component :is="componentName" class="page_container" :class="{ 'is-vertical': isVertical }">
+    <div  class="page_container" >
+        <component :is="componentName" :class="{ 'is-vertical': isVertical }">
         <slot></slot>
-    </component>
-    <els-dialog :url="dialogUrl" v-model="dialogVisible" :destroy-on-close="true"></els-dialog>
-    <els-drawer :url="drawerUrl" v-model="drawerVisible" :destroy-on-close="true"></els-drawer>
+        </component>
+        <els-dialog :url="dialogUrl" v-model="dialogVisible" :destroy-on-close="true"></els-dialog>
+        <els-drawer :url="drawerUrl" v-model="drawerVisible" :destroy-on-close="true"></els-drawer>
+    </div>
+   
 </template>

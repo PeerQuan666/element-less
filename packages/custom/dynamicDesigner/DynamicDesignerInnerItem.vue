@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref, computed, watch, nextTick } from 'vue'
+import { inject, ref, computed, watch, nextTick, watchEffect } from 'vue'
 import lessCom from '../../utlis/lessCom'
 import { useVModel } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
@@ -23,8 +23,8 @@ const emits = defineEmits(['update:item', 'update:data'])
 const camelCase = inject<boolean>('camelCase', false)
 const allowCreateType = inject<boolean>('allowCreateType', false)
 const allowCreateComponent = inject<boolean>('allowCreateComponent', false)
-const openCreateType=inject<Function>('openCreateType',()=>null)
-const openCreateComponent=inject<Function>('openCreateComponent',()=>null)
+const openCreateType = inject<Function>('openCreateType', () => null)
+const openCreateComponent = inject<Function>('openCreateComponent', () => null)
 const componentSettingVisible = inject<boolean>('componentSettingVisible', true)
 const props = defineProps<Props>()
 const dataTypeData = inject<any>("dataTypeData", null)
@@ -32,7 +32,8 @@ const controlData = inject<any>("componentData", null)
 const currDepath = ref(props.depath + 1)
 const currData = useVModel(props, 'data', emits)
 const currItem = useVModel(props, 'item', emits)
-
+const selectDataTypeItem = ref()
+const selectArrayDataTypeItem = ref()
 
 
 
@@ -42,7 +43,7 @@ function handleRemove(item) {
 
 }
 function handleChangeKeyCode() {
-  if (camelCase&&currItem.value.keyCode) {
+  if (camelCase && currItem.value.keyCode) {
     const keyCode = currItem.value.keyCode
     currItem.value.keyCode = keyCode.replace(keyCode[0], keyCode[0].toLowerCase())
 
@@ -87,7 +88,7 @@ const currComponentType = computed(() => {
 })
 const currComponentTypeData = computed(() => {
   if (controlData) {
-    return controlData.filter(ele => !currDataType.value || ele.dataTypes.includes(currDataType.value?.value)||ele.dataTypes.includes(currDataType.value?.type))
+    return controlData.filter(ele => !currDataType.value || ele.dataTypes.includes(currDataType.value?.value) || ele.dataTypes.includes(currDataType.value?.type))
 
   }
   return []
@@ -143,7 +144,7 @@ watch(() => currItem.value.componentType, () => {
     currItem.value.dataType = 0;
     currItem.value.data.push(
       {
-        keyID: lessCom.Guid32(),
+        keyID: lessCom.generateID(),
         keyName: '',
         keyCode: '',
         data: [],
@@ -186,7 +187,7 @@ function handleChangeDataType() {
   if (isObject.value) {
     currItem.value.data.length = 0
     currItem.value.data.push({
-      keyID: lessCom.Guid32(),
+      keyID: lessCom.generateID(),
       keyName: '',
       keyCode: '',
       data: [],
@@ -202,6 +203,14 @@ function handleChangeDataType() {
   }
 }
 
+watch(dataTypeData,(val)=>{
+if(currItem.value.dataType){
+  selectDataTypeItem.value=val.find(ele=>ele.value===currItem.value.dataType)
+}
+if(currItem.value.arrayDataType){
+  selectArrayDataTypeItem.value=val.find(ele=>ele.value===currItem.value.arrayDataType)
+}
+})
 function validationCode(rule, value, callback) {
   console.log(rule)
   if (value === '') {
@@ -216,30 +225,108 @@ function validationCode(rule, value, callback) {
 </script>
 <template>
   <els-form v-model="currItem" labelWidth="0" inputWidth="100%"
-    :class="[{ 'els-dynamic-d-item-parentdiv': isObject&&!currItem.componentType }, { 'els-dynamic-d-item-container': isRow }]"
+    :class="[{ 'els-dynamic-d-item-parentdiv': isObject && !currItem.componentType }, { 'els-dynamic-d-item-container': isRow }]"
     :show-message="false">
     <div class="els-dynamic-d-item-div" v-if="!isRow">
       <span class="keyName">
         <els-input clearable v-if="itemDataType.type != 'None'" placeholder="请输入名称" prop="keyName"></els-input>
       </span>
       <span class="keyCode">
-        <els-input placeholder="编码"  v-if="itemDataType.type != 'None'" :validMethod="validationCode" required clearable
+        <els-input placeholder="编码" v-if="itemDataType.type != 'None'" :validMethod="validationCode" required clearable
           :disabled="currItem.isModify" @blur="handleChangeKeyCode" prop="keyCode"></els-input>
       </span>
       <span class="dataType">
-        <els-select @click-option="handleChangeDataType" required :initSelect="false" :data="dataTypeData" valueField="value"
-          labelField="label" placeholder="值类型" prop="dataType">
-        <template #extra v-if="allowCreateType">
-          <li class="dynamic-create-dtype" @click="openCreateType()">创建类型</li>
-        </template>
-        </els-select>
-        <els-select @click-option="handleChangeDataType" required v-if="itemDataType.type == 'Array'"
-          :data="dataTypeData.filter(ele => ele.type != 'None' && ele.type != 'Array')" valueField="value"
-          labelField="label" prop="arrayDataType">
+
+        <el-popover v-if="selectDataTypeItem && selectDataTypeItem.id"  width="400" placement="right">
+          <div >
+            <div class="dataType-detail-t"><span>{{ selectDataTypeItem.type==='Enum'?'Enum':'Object' }}</span><span
+                @click="openCreateType(selectDataTypeItem.id)">查看详细</span></div>
+            <div v-if="selectDataTypeItem.type === 'Enum'">
+              <el-table :data="selectDataTypeItem.componentType.defaultPropertys.data">
+                <el-table-column prop="label" label="label"></el-table-column>
+                <el-table-column prop="value" label="value"></el-table-column>
+              </el-table>
+            </div>
+            <div v-else>
+              <el-table :data="selectDataTypeItem.componentType.defaultPropertys.config">
+                <el-table-column prop="keyName" label="keyName"></el-table-column>
+                <el-table-column prop="keyCode" label="keyCode"></el-table-column>
+                <el-table-column prop="dataType" label="类型"></el-table-column>
+              </el-table>
+            </div>
+          </div>
+          <template #reference>
+            <els-select  @click-option="handleChangeDataType" class="txt-blue-light" filterable v-model:select="selectDataTypeItem" required
+              :initSelect="false" :data="dataTypeData" valueField="value" labelField="label" placeholder="值类型"
+              prop="dataType">
+              <template #extra v-if="allowCreateType">
+                <li class="dynamic-create-dtype" @click="openCreateType()">创建类型</li>
+              </template>
+              <template #default="{ item }">
+                <span :title="item.description"> {{ item.label }}</span>
+              </template>
+            </els-select>
+          </template>
+        </el-popover>
+
+        <els-select v-else @click-option="handleChangeDataType" filterable v-model:select="selectDataTypeItem" required
+          :initSelect="false" :data="dataTypeData" valueField="value" labelField="label" placeholder="值类型"
+          prop="dataType">
           <template #extra v-if="allowCreateType">
-          <li class="dynamic-create-dtype"  @click="openCreateType()">创建类型</li>
-        </template>
+            <li class="dynamic-create-dtype" @click="openCreateType()">创建类型</li>
+          </template>
+          <template #default="{ item }">
+            <span :title="item.description"> {{ item.label }}</span>
+          </template>
         </els-select>
+
+        <template v-if="itemDataType.type == 'Array'">
+
+          <el-popover v-if="selectArrayDataTypeItem && selectArrayDataTypeItem.id" placement="right" width="400">
+            <div>
+              <div class="dataType-detail-t"><span>{{ selectArrayDataTypeItem.type==='Enum'?'Enum':'Object' }}</span><span
+                  @click="openCreateType(selectArrayDataTypeItem.id)">查看详细</span></div>
+              <div v-if="selectArrayDataTypeItem.type === 'Enum'">
+                <el-table :data="selectArrayDataTypeItem.componentType.defaultPropertys.data">
+                  <el-table-column prop="label" label="label"></el-table-column>
+                  <el-table-column prop="value" label="value"></el-table-column>
+                </el-table>
+              </div>
+              <div v-else>
+                <el-table :data="selectArrayDataTypeItem.componentType.defaultPropertys.config">
+                  <el-table-column prop="keyName" label="keyName"></el-table-column>
+                  <el-table-column prop="keyCode" label="keyCode"></el-table-column>
+                  <el-table-column prop="dataType" label="类型"></el-table-column>
+                </el-table>
+              </div>
+            </div>
+            <template #reference>
+
+              <els-select @click-option="handleChangeDataType"  filterable class="txt-blue-light"  v-model:select="selectArrayDataTypeItem" required
+                :data="dataTypeData.filter(ele => ele.type != 'None' && ele.type != 'Array')" valueField="value"
+                labelField="label" prop="arrayDataType">
+                <template #extra v-if="allowCreateType">
+                  <li class="dynamic-create-dtype" @click="openCreateType()">创建类型</li>
+                </template>
+                <template #default="{ item }">
+                  <span :title="item.description"> {{ item.type }}</span>
+                </template>
+              </els-select>
+            </template>
+          </el-popover>
+
+          <els-select v-else @click-option="handleChangeDataType" filterable v-model:select="selectArrayDataTypeItem" required
+            :data="dataTypeData.filter(ele => ele.type != 'None' && ele.type != 'Array')" valueField="value"
+            labelField="label" prop="arrayDataType">
+            <template #extra v-if="allowCreateType">
+              <li class="dynamic-create-dtype" @click="openCreateType()">创建类型</li>
+            </template>
+            <template #default="{ item }">
+              <span :title="item.description"> {{ item.type }}</span>
+            </template>
+          </els-select>
+
+        </template>
       </span>
       <template v-if="componentSettingVisible">
         <span class="componentType">
@@ -248,8 +335,8 @@ function validationCode(rule, value, callback) {
             filterable :disabled="currItem.dataType === undefined" placeholder="组件" clearable prop="componentType"
             :data="currComponentTypeData" valueField="value" labelField="label">
             <template #extra v-if="allowCreateComponent">
-          <li class="dynamic-create-dtype"  @click="openCreateComponent()">创建组件</li>
-        </template>
+              <li class="dynamic-create-dtype" @click="openCreateComponent()">创建组件</li>
+            </template>
           </els-select>
         </span>
         <span class="config">
@@ -283,12 +370,12 @@ function validationCode(rule, value, callback) {
           </el-popover>
         </span>
       </template>
-      <span class="required" >
-        <els-switch v-if="itemDataType.type !== 'None'" :active-value="true" :inactive-value="false" prop="required"></els-switch>
+      <span class="required">
+        <els-switch v-if="itemDataType.type !== 'None'" :active-value="true" :inactive-value="false"
+          prop="required"></els-switch>
       </span>
       <span class="description">
-        <els-input v-if="itemDataType.type !== 'None'" placeholder="描述" clearable
-         prop="description"></els-input>
+        <els-input v-if="itemDataType.type !== 'None'" placeholder="描述" clearable prop="description"></els-input>
       </span>
       <span class="defaultValue">
         <els-input v-if="!isObject && itemDataType.type !== 'None'" placeholder="默认值" clearable
@@ -308,29 +395,29 @@ function validationCode(rule, value, callback) {
       </span>
     </div>
     <DynamicDesignerInner :data="currItem.data" @removeItem="handleRemove(item)"
-      v-if="(isObject&&!currItem.componentType) || isRow" :config="currItem.config.advancedConfig" :is-container="isRow"
+      v-if="(isObject && !currItem.componentType) || isRow" :config="currItem.config.advancedConfig" :is-container="isRow"
       :depath="currDepath">
     </DynamicDesignerInner>
   </els-form>
 </template>
 <style lang="less">
-.el-select-dropdown__list:has(>li[class^=dynamic-create-dtype]){
+.el-select-dropdown__list:has(>li[class^=dynamic-create-dtype]) {
 
-    padding-bottom: 30px !important;
+  padding-bottom: 30px !important;
 
 }
-  .dynamic-create-dtype{
-    cursor: pointer;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    z-index: 1;
-    background: #fff;
-    display: flex;
-    justify-content: center;
-    color: #409eff;
-    padding: 5px 0;
-    border-top: 1px solid #e8e8e8;
-}
 
+.dynamic-create-dtype {
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  color: #409eff;
+  padding: 5px 0;
+  border-top: 1px solid #e8e8e8;
+}
 </style>

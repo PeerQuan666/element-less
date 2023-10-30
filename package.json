@@ -36,6 +36,7 @@
     "path": "^0.12.7",
     "pinia": "^2.1.7",
     "prismjs": "^1.29.0",
+    "shortid": "^2.2.16",
     "sortablejs": "^1.15.0",
     "vite-plugin-compression": "^0.5.1",
     "vue": "^3.3.4",

@@ -10,7 +10,7 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
 })
-const tagID = 'els-col-' + lessCom.Guid32()
+const tagID = 'els-col-' + lessCom.generateID()
 provide('layer', 'col')
 const currSpan = ref(24)
 const colData = inject<any>("colData", null)

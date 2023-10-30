@@ -3,6 +3,7 @@ import { getCurrentInstance} from 'vue'
 import { exportJsonToExcel, exportTableToExcelEl, exportTableToExcelElMuti } from './Export2Excel.js'
 import {  QueryMethod } from './enumCom';
 import { ElMessage } from 'element-plus'
+import shortid from 'shortid'
 
 
 
@@ -420,6 +421,9 @@ const lessCom = {
     },
     Guid32() {
         return lessCom.Guid().replace(/-/g, "")
+    },
+    generateID(){
+        return shortid.generate();
     },
     cloneObj(obj: any) {
         if (!obj) { return {}; }

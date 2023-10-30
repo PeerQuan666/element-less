@@ -84,7 +84,7 @@ const {$idField,$actionNameField} =lessCom.getMenuConfig()
 
 const {$pageDataField,$menuField,$pageSizeField,$currentPageField,$totalField,$pageCountField,$avgDayField} =lessCom.getTableConfig()
 
-const tagID = "els_table_" + lessCom.Guid32()
+const tagID = "els_table_" + lessCom.generateID()
 const wrapTagID = 'els-wrap-' + tagID
 const queryFormData = ref({})
 let currSaveUrl = ref('')

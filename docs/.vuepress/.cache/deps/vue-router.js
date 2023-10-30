@@ -1,7 +1,4 @@
 import {
-  setupDevtoolsPlugin
-} from "./chunk-J4VLYDXT.js";
-import {
   computed2 as computed,
   defineComponent,
   getCurrentInstance,
@@ -21,6 +18,9 @@ import {
   watch,
   watchEffect
 } from "./chunk-3XCZATPT.js";
+import {
+  setupDevtoolsPlugin
+} from "./chunk-J4VLYDXT.js";
 import "./chunk-ATDA5F66.js";
 import "./chunk-7REXU52E.js";
 

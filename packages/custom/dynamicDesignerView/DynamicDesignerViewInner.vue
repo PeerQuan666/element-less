@@ -91,7 +91,7 @@ function getFormItemAttr(item) {
         currFormConfig['required']=true
     }
     if(item.description){
-        currFormConfig['description']=item.description
+        currFormConfig['tip']=item.description
     }
     return currFormConfig
 }
@@ -147,7 +147,6 @@ function initArrayChild(element){
         element.componentType = child.componentType
         element.componentTypeName = child.componentTypeName
         element.data = child.data
-        element.value = []
     }
     recordComponent()
     return true
@@ -219,7 +218,6 @@ currDepath.value += 1;
                                     :style="element.config.baseConfig?.componentName == 'ElsCaption' || element.dataTypeName == 'Object' ? 'margin-bottom:0 !important' : ''"
                                     :label="element.config.baseConfig?.componentName == 'ElsCaption' ? '' : element.keyName"
                                     :prop="`[${index}].value`">
-                      
                                     <template v-if="element.dataTypeName === 'Array' && !element.arrayDataTypeName">
                                         <draggable  tag="div" style="min-height:100px;margin:5px 0;width: 100%;z-index:10"
                                             :list="element.data" @add="handleAddArrayComponent()"  item-key="keyID"

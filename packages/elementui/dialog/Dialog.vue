@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
     contentHeight: "60%"
 })
 
-const tagID = "less_dialog_" + lessCom.Guid32()
+const tagID = "less_dialog_" + lessCom.generateID()
 const pageLoading = ref(false)
 const dialogUrl = ref()
 const dialogVisible = ref(false)

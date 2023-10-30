@@ -190,13 +190,16 @@ export interface DynamicConfig{
 }
 
 export interface DynamicDataType{
+    id?:string,
     label:string,
     value:string,
     type:string,
-    defaultValue?:any
+    defaultValue?:any,
+    description?:string
 }
 
 export interface DynamicComponentType{
+    id?:string,
     componentName:string,
     label:string,
     value:string,

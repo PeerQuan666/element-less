@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<Props>(), {
   
 })
 
-const tagID = "less_drawer_" + lessCom.Guid32()
+const tagID = "less_drawer_" + lessCom.generateID()
 const pageLoading = ref(false)
 const drawerUrl = ref()
 const drawerVisible = ref(false)

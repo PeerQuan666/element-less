@@ -122,7 +122,7 @@ watch(() => currData.value.config.arrayConfig.arrayDefaultLength, (val) => {
             { 'flex-wrap': 'wrap' }, { 'gap': '5px' }, { 'overflow': 'scroll' },{'padding-right':'20px'}]">
             <template #default="{ element,index }">
                 <DynamicRenderInnerItem class="els-dynamic-r-array-item" v-bind="formAttrs" :key="index" :parent-node="parentNode" :curr-node="currData"
-                    :disabled="handleDisabledExpress()" v-model="element.value"  :item="currData"
+                    :disabled="handleDisabledExpress()" v-model="element.value" prop="value" requiredMessage="不能为空" :item="currData"
                     :style="item.config.advancedConfig.style" @valueChange="handleValueChange">
                 </DynamicRenderInnerItem>
             </template>

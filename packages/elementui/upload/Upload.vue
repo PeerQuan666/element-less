@@ -125,7 +125,7 @@ function handleError(err, file) {
     console.log(err)
 }
 function handleRemove(file) {
-    fileList.value.remove(file)
+    lessCom.removeArrayItem(fileList.value,file)
     setFileUrl();
 }
 function handleSuccess(res, file, fileList) {

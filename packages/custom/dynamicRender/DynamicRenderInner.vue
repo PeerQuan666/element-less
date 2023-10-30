@@ -90,7 +90,7 @@ function getFormItemAttr(item) {
         currFormConfig['required']=true
     }
     if(item.description){
-        currFormConfig['description']=item.description
+        currFormConfig['tip']=item.description
     }
     return currFormConfig
 }
