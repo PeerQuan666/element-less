@@ -397,6 +397,7 @@ export class DynamicHandler {
                 case 'Object':
                     item.value = {}
                     break
+                case 'Enum':
                 case 'String':
                     if (item.defaultValue) {
                         item.value = item.defaultValue;

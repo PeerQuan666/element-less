@@ -1,0 +1,14 @@
+export const data = JSON.parse("{\"key\":\"v-4282153c\",\"path\":\"/demo/aceeditor.html\",\"title\":\"AceEditor编辑器\",\"lang\":\"zh-CN\",\"frontmatter\":{\"title\":\"AceEditor编辑器\",\"order\":20,\"date\":\"2023-08-29T00:00:00.000Z\",\"category\":[\"ElementUI\"],\"tag\":[\"Form\",\"编辑器\"],\"sticky\":true,\"star\":true,\"description\":\"AceEditor编辑器 使用方式 :::vuefile-demo aceeditor/base :::\",\"head\":[[\"meta\",{\"property\":\"og:url\",\"content\":\"https://vuepress-theme-hope-docs-demo.netlify.app/element-less/demo/aceeditor.html\"}],[\"meta\",{\"property\":\"og:site_name\",\"content\":\"Element-Less\"}],[\"meta\",{\"property\":\"og:title\",\"content\":\"AceEditor编辑器\"}],[\"meta\",{\"property\":\"og:description\",\"content\":\"AceEditor编辑器 使用方式 :::vuefile-demo aceeditor/base :::\"}],[\"meta\",{\"property\":\"og:type\",\"content\":\"article\"}],[\"meta\",{\"property\":\"og:locale\",\"content\":\"zh-CN\"}],[\"meta\",{\"property\":\"article:author\",\"content\":\"PeerQuan\"}],[\"meta\",{\"property\":\"article:tag\",\"content\":\"Form\"}],[\"meta\",{\"property\":\"article:tag\",\"content\":\"编辑器\"}],[\"meta\",{\"property\":\"article:published_time\",\"content\":\"2023-08-29T00:00:00.000Z\"}],[\"script\",{\"type\":\"application/ld+json\"},\"{\\\"@context\\\":\\\"https://schema.org\\\",\\\"@type\\\":\\\"Article\\\",\\\"headline\\\":\\\"AceEditor编辑器\\\",\\\"image\\\":[\\\"\\\"],\\\"datePublished\\\":\\\"2023-08-29T00:00:00.000Z\\\",\\\"dateModified\\\":null,\\\"author\\\":[{\\\"@type\\\":\\\"Person\\\",\\\"name\\\":\\\"PeerQuan\\\"}]}\"]]},\"headers\":[{\"level\":2,\"title\":\"使用方式\",\"slug\":\"使用方式\",\"link\":\"#使用方式\",\"children\":[]}],\"readingTime\":{\"minutes\":0.15,\"words\":45},\"filePathRelative\":\"demo/aceeditor.md\",\"localizedDate\":\"2023年8月29日\",\"autoDesc\":true,\"excerpt\":\"\"}")
+
+if (import.meta.webpackHot) {
+  import.meta.webpackHot.accept()
+  if (__VUE_HMR_RUNTIME__.updatePageData) {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  }
+}
+
+if (import.meta.hot) {
+  import.meta.hot.accept(({ data }) => {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  })
+}
