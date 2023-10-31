@@ -1345,11 +1345,12 @@ const _sfc_main$1b = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     const props = __props;
     const setModelValue = inject("setModelValue", () => null);
     const getModelValue = inject("getModelValue", () => null);
     const formInputWidth = inject("inputWidth", "");
+    const emits = __emit;
     const slots = useSlots();
     const attrs = useAttrs();
     const slotNames = [];
@@ -1491,8 +1492,9 @@ const _sfc_main$1a = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     const props = __props;
+    const emits = __emit;
     useSlots();
     const inputValue = ref();
     watch(() => props.modelValue, (val) => {
@@ -1560,7 +1562,8 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean, default: true }
   },
   emits: ["update:modelValue", "update:start", "update:end"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
+    const emits = __emit;
     const props = __props;
     const setModelValue = inject("setModelValue", () => {
     });
@@ -1755,10 +1758,11 @@ const _sfc_main$18 = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue", "update:select", "update:select-label", "change", "click-option", "select", "blur", "clear", "readdataed"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     const props = __props;
     const slots = useSlots();
     const attrs = useAttrs();
+    const emits = __emit;
     const { $codeField, $messageField, $dataField, $success } = lessCom$1.getApiConfig();
     const initSelect = ref(false);
     const preSelectValue = ref("");
@@ -2392,7 +2396,7 @@ const _sfc_main$15 = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["select", "readdataed", "click-option", "update:modelValue", "update:select", "update:select-label", "change"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     const props = __props;
     const { $codeField, $messageField, $dataField, $success } = lessCom$1.getApiConfig();
     const selectValue = ref();
@@ -2408,6 +2412,7 @@ const _sfc_main$15 = /* @__PURE__ */ defineComponent({
     const queryData = reactive({ searchKey: "", idString: "" });
     const attrs = useAttrs();
     const radioStyle = reactive([]);
+    const emits = __emit;
     const optionData = computed(() => {
       return options.concat(extraOption).concat(noExistOption);
     });
@@ -2792,9 +2797,10 @@ const _sfc_main$14 = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue", "update:select", "update:select-label", "change", "click-option", "select", "blur", "clear", "readdataed"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     const props = __props;
     const attrs = useAttrs();
+    const emits = __emit;
     const setModelValue = inject("setModelValue", () => null);
     const { $codeField, $messageField, $dataField, $success } = lessCom$1.getApiConfig();
     let initSelect = ref(false);
@@ -3279,10 +3285,11 @@ const _sfc_main$13 = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue"],
-  setup(__props, { emit: emits }) {
-    const props = __props;
+  setup(__props, { emit: __emit }) {
     const slots = useSlots();
+    const emits = __emit;
     const selectValue = ref("");
+    const props = __props;
     selectValue.value = props.modelValue ?? "";
     watch(() => props.modelValue, (val) => {
       selectValue.value = val ?? "";
@@ -3363,10 +3370,11 @@ const _sfc_main$12 = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue"],
-  setup(__props, { emit: emits }) {
-    const props = __props;
+  setup(__props, { emit: __emit }) {
     const slots = useSlots();
+    const emits = __emit;
     const selectValue = ref("");
+    const props = __props;
     selectValue.value = props.modelValue;
     watch(() => props.modelValue, (val) => {
       selectValue.value = val;
@@ -3509,8 +3517,9 @@ const _sfc_main$$ = /* @__PURE__ */ defineComponent({
     inputWidth: {}
   },
   emits: ["update:modelValue"],
-  setup(__props, { expose: __expose, emit: emits }) {
+  setup(__props, { expose: __expose, emit: __emit }) {
     const props = __props;
+    const emits = __emit;
     const tagID = "els-form" + lessCom$1.generateID();
     const attrs = useAttrs();
     const dataForm = ref();
@@ -3701,9 +3710,9 @@ const _sfc_main$_ = /* @__PURE__ */ defineComponent({
     parameterType: { default: "Query" }
   },
   emits: ["update:modelValue", "search"],
-  setup(__props, { expose: __expose, emit: emits }) {
-    const props = __props;
+  setup(__props, { expose: __expose, emit: __emit }) {
     const { debounce } = lodash;
+    const props = __props;
     const queryForm = ref();
     const submitButton = ref();
     const tagID = "els-form" + lessCom$1.generateID();
@@ -3724,6 +3733,7 @@ const _sfc_main$_ = /* @__PURE__ */ defineComponent({
         return elsQuery(false, props.tableRef);
       }
     }
+    const emits = __emit;
     provide("setQueryData", setQueryData);
     provide("getQueryData", getQueryData);
     provide("labelWidth", attrs["label-width"]);
@@ -4259,7 +4269,6 @@ const _sfc_main$Y = /* @__PURE__ */ defineComponent({
     validTrigger: {}
   },
   setup(__props) {
-    const props = __props;
     const setEditData = inject("setEditData", () => null);
     const setSortData = inject("setSortData", () => null);
     const setMergeRowData = inject("setMergeRowData", () => null);
@@ -4270,6 +4279,7 @@ const _sfc_main$Y = /* @__PURE__ */ defineComponent({
     const tableCheckData = inject("tableCheckData", []);
     const provideData = inject("provideData", {});
     const slots = useSlots();
+    const props = __props;
     const attrs = useAttrs();
     const currColumnKey = ref("");
     const columnSortable = ref(false);
@@ -4675,9 +4685,10 @@ const _sfc_main$X = /* @__PURE__ */ defineComponent({
     hasContextMenu: { type: Boolean, default: true }
   },
   emits: ["update:check-rows", "update:check-row-keys", "dragMove", "dragEnd", "update:editStatus"],
-  setup(__props, { expose: __expose, emit: emits }) {
-    const props = __props;
+  setup(__props, { expose: __expose, emit: __emit }) {
+    const emits = __emit;
     const attrs = useAttrs();
+    const props = __props;
     const { $codeField, $messageField, $dataField, $success } = lessCom$1.getApiConfig();
     const { $idField, $actionNameField } = lessCom$1.getMenuConfig();
     const { $pageDataField, $menuField, $pageSizeField, $currentPageField, $totalField, $pageCountField, $avgDayField } = lessCom$1.getTableConfig();
@@ -6345,7 +6356,7 @@ const _sfc_main$O = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue", "update:select", "update:select-label", "select"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     const props = __props;
     const { $codeField, $messageField, $dataField, $success } = lessCom$1.getApiConfig();
     const attrs = useAttrs();
@@ -6409,6 +6420,7 @@ const _sfc_main$O = /* @__PURE__ */ defineComponent({
       initModelValue();
       initSelectValue();
     });
+    const emits = __emit;
     function handleHasLazyChild(item, data = null) {
       if (attrs["lazy"] && props.lazyNoChild) {
         item.noChild = props.lazyNoChild(item, data);
@@ -6942,7 +6954,7 @@ const _sfc_main$N = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue", "update:select", "update:select-label", "select"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     const props = __props;
     const { $codeField, $messageField, $dataField, $success } = lessCom$1.getApiConfig();
     const attrs = useAttrs();
@@ -7006,6 +7018,7 @@ const _sfc_main$N = /* @__PURE__ */ defineComponent({
       initModelValue();
       initSelectValue();
     });
+    const emits = __emit;
     function handleHasLazyChild(item, data = null) {
       if (attrs["lazy"] && props.lazyNoChild) {
         item.noChild = props.lazyNoChild(item, data);
@@ -7579,7 +7592,8 @@ const _sfc_main$M = /* @__PURE__ */ defineComponent({
     filterable: { type: Boolean }
   },
   emits: ["menuClick"],
-  setup(__props, { expose: __expose, emit: emits }) {
+  setup(__props, { expose: __expose, emit: __emit }) {
+    const emits = __emit;
     const props = __props;
     const { $codeField, $messageField, $dataField, $success } = lessCom$1.getApiConfig();
     const searchKey = ref("");
@@ -7983,8 +7997,9 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     const props = __props;
+    const emits = __emit;
     const attrs = useAttrs();
     const currValue = ref();
     const getModelValue = inject("getModelValue", () => null);
@@ -8237,8 +8252,9 @@ const _sfc_main$G = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     const props = __props;
+    const emits = __emit;
     const setModelValue = inject("setModelValue", () => {
     });
     const { $codeField, $messageField, $dataField, $success } = lessCom$1.getApiConfig();
@@ -8421,7 +8437,7 @@ const _sfc_main$F = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue", "update:select", "update:select-label"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     const props = __props;
     const { $codeField, $messageField, $dataField, $success } = lessCom$1.getApiConfig();
     const initSelect = ref(false);
@@ -8464,6 +8480,7 @@ const _sfc_main$F = /* @__PURE__ */ defineComponent({
       }
     }, { immediate: true });
     const attrs = useAttrs();
+    const emits = __emit;
     const setModelValue = inject("setModelValue", () => {
     });
     function initSelectValue() {
@@ -8704,8 +8721,9 @@ const _sfc_main$E = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     const props = __props;
+    const emits = __emit;
     const selectValue = ref();
     watch(selectValue, (val) => {
       emits("update:modelValue", val);
@@ -8755,9 +8773,10 @@ const _sfc_main$D = /* @__PURE__ */ defineComponent({
     visible: { type: Boolean }
   },
   emits: ["update:modelValue"],
-  setup(__props, { emit: emits }) {
-    const props = __props;
+  setup(__props, { emit: __emit }) {
+    const emits = __emit;
     const slots = useSlots();
+    const props = __props;
     const tagID = "less_dialog_" + lessCom$1.generateID();
     const pageLoading = ref(false);
     const dialogUrl = ref();
@@ -8852,9 +8871,10 @@ const _sfc_main$C = /* @__PURE__ */ defineComponent({
     url: {}
   },
   emits: ["update:modelValue"],
-  setup(__props, { emit: emits }) {
-    const props = __props;
+  setup(__props, { emit: __emit }) {
+    const emits = __emit;
     const slots = useSlots();
+    const props = __props;
     const tagID = "less_drawer_" + lessCom$1.generateID();
     const pageLoading = ref(false);
     const drawerUrl = ref();
@@ -8933,9 +8953,9 @@ const _sfc_main$B = /* @__PURE__ */ defineComponent({
     title: {}
   },
   setup(__props) {
-    const props = __props;
     const { $codeField, $messageField, $dataField, $success } = lessCom$1.getApiConfig();
     provide("type", "dropdown");
+    const props = __props;
     const options = reactive([]);
     watch(() => props.url, (val) => {
       if (val) {
@@ -9049,7 +9069,8 @@ const _sfc_main$A = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
+    const emits = __emit;
     const props = __props;
     const selectValue = ref();
     function handleReturnResult(value) {
@@ -9134,8 +9155,9 @@ const _sfc_main$z = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     const props = __props;
+    const emits = __emit;
     const attrs = useAttrs();
     const currValue = ref();
     const getModelValue = inject("getModelValue", () => null);
@@ -9242,9 +9264,10 @@ const _sfc_main$y = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue", "uploaded", "completed"],
-  setup(__props, { expose: __expose, emit: emits }) {
-    const props = __props;
+  setup(__props, { expose: __expose, emit: __emit }) {
     const attrs = useAttrs();
+    const emits = __emit;
+    const props = __props;
     const apiConfig = lessCom$1.getApiConfig();
     const { $dataField, $pathField, $uploadUrl, $md5Field } = lessCom$1.getUploadConfig();
     const currShowInput = ref(false);
@@ -9740,8 +9763,9 @@ const _sfc_main$x = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue", "update:start", "update:end", "visible-change"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     var _a2;
+    const emits = __emit;
     const props = __props;
     const attrs = useAttrs();
     const timeValue = ref();
@@ -10039,7 +10063,8 @@ const _sfc_main$w = /* @__PURE__ */ defineComponent({
     propEnd: {}
   },
   emits: ["update:modelValue", "update:start", "update:end"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
+    const emits = __emit;
     const props = __props;
     const attrs = useAttrs();
     const dateValue = ref();
@@ -10202,7 +10227,8 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue", "update:start", "update:end"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
+    const emits = __emit;
     const props = __props;
     const attrs = useAttrs();
     const currValueFormat = ref();
@@ -10674,7 +10700,8 @@ const _sfc_main$u = /* @__PURE__ */ defineComponent({
     propEnd: {}
   },
   emits: ["update:modelValue", "update:start", "update:end"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
+    const emits = __emit;
     const props = __props;
     const attrs = useAttrs();
     const currDefaultTime = ref(props.defaultTime);
@@ -10817,8 +10844,8 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
   },
   setup(__props) {
     var _a2;
-    const props = __props;
     const { proxy } = getCurrentInstance();
+    const props = __props;
     const elsMenuCommand = inject("elsMenuCommand", () => null);
     const menuData = reactive([]);
     let idFieldname = "";
@@ -10911,8 +10938,8 @@ const _sfc_main$r = /* @__PURE__ */ defineComponent({
   },
   setup(__props) {
     var _a2, _b2;
-    const props = __props;
     const { proxy } = getCurrentInstance();
+    const props = __props;
     const dialogVisible = ref(false);
     const unFoldMenus = reactive([]);
     const menuData = reactive([]);
@@ -11092,8 +11119,8 @@ const _sfc_main$q = /* @__PURE__ */ defineComponent({
   },
   setup(__props, { expose: __expose }) {
     var _a2, _b2;
-    const props = __props;
     const { proxy } = getCurrentInstance();
+    const props = __props;
     if (!((_a2 = proxy.$lessConfig) == null ? void 0 : _a2.menu)) {
       console.log("未设置全局配置$lessConfig，无法使用菜单");
     }
@@ -11547,8 +11574,8 @@ const _sfc_main$p = /* @__PURE__ */ defineComponent({
     modelValue: {}
   },
   setup(__props) {
-    const props = __props;
     const markDownContent = ref();
+    const props = __props;
     onMounted(() => {
       if (props.modelValue) {
         markDownContent.value = props.modelValue;
@@ -11652,7 +11679,8 @@ const _sfc_main$n = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:select", "update:modelValue", "update:select-label"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
+    const emits = __emit;
     const props = __props;
     const tagID = ref("data-modal-" + lessCom$1.generateID());
     const currSelectValue = ref("");
@@ -11876,7 +11904,8 @@ const _sfc_main$l = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsButtonSearch" },
   __name: "ButtonSearch",
   emits: ["search"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
+    const emits = __emit;
     const loading = ref(false);
     const tableRef = inject("queryTableRef", "");
     const elsQuery = inject("elsQuery", () => null);
@@ -11977,7 +12006,8 @@ const _sfc_main$j = /* @__PURE__ */ defineComponent({
     labelWidth: {}
   },
   emits: ["add", "update:modelValue"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
+    const emits = __emit;
     const props = __props;
     const currData = useVModel(props, "modelValue", emits);
     const dropData = ref([]);
@@ -18122,6 +18152,7 @@ class DynamicHandler {
         case "Object":
           item.value = {};
           break;
+        case "Enum":
         case "String":
           if (item.defaultValue) {
             item.value = item.defaultValue;
@@ -18243,13 +18274,14 @@ const _sfc_main$g = /* @__PURE__ */ defineComponent({
     config: {}
   },
   emits: ["update:data", "removeItem"],
-  setup(__props, { emit: emits }) {
-    const props = __props;
+  setup(__props, { emit: __emit }) {
     const DynamicDesignerInnerItem = defineAsyncComponent(() => {
-      return import("./DynamicDesignerInnerItem-2e461a88.js");
+      return import("./DynamicDesignerInnerItem-2f4a8650.js");
     });
     const getConverToJsonResult = inject("getConverToJsonResult", () => null);
     const componentSettingVisible = inject("componentSettingVisible", true);
+    const emits = __emit;
+    const props = __props;
     const currData = useVModel(props, "data", emits);
     const currConfig = ref(props.config ?? {});
     function handleRemove() {
@@ -18486,9 +18518,10 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
     nodeType: {}
   },
   emits: ["update:modelValue", "valueChange"],
-  setup(__props, { emit: emits }) {
-    const props = __props;
+  setup(__props, { emit: __emit }) {
     const controlData = inject("componentData", []);
+    const props = __props;
+    const emits = __emit;
     const attrs = useAttrs();
     const currValue = ref();
     watchEffect(() => {
@@ -18561,8 +18594,9 @@ const _sfc_main$e = /* @__PURE__ */ defineComponent({
     parentNode: {}
   },
   emits: ["update:data"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     const props = __props;
+    const emits = __emit;
     const currData = useVModel(props, "item", emits);
     function handleDisabledExpress() {
       if (currData.value.config.advancedConfig && currData.value.config.advancedConfig.disabled) {
@@ -18700,8 +18734,9 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
     parentNode: {}
   },
   emits: ["update:data"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     const props = __props;
+    const emits = __emit;
     const currData = useVModel(props, "data", emits);
     const defaultLabelWidth = inject("labelWidth", void 0);
     const labelWidth = ref();
@@ -20211,11 +20246,12 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     var _a2, _b2;
-    const props = __props;
     const { debounce } = lodash;
     const useDesignStore = useDesign();
+    const emits = __emit;
+    const props = __props;
     const isDisabledUndo = ref(true);
     const isDisabledReDo = ref(true);
     const activeNames = ref(["1", "2", "3"]);
@@ -21442,7 +21478,8 @@ const _sfc_main$a = /* @__PURE__ */ defineComponent({
     save: { type: Function }
   },
   emits: ["save", "close", "visible"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
+    const emits = __emit;
     const props = __props;
     const currData = ref();
     watch(() => props.modelValue, (val) => {
@@ -21777,12 +21814,13 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue", "update:templateValue"],
-  setup(__props, { expose: __expose, emit: emits }) {
-    const props = __props;
+  setup(__props, { expose: __expose, emit: __emit }) {
+    const emits = __emit;
     const designerJSON = ref();
     const importJSON = ref();
     const designerContainer = ref();
     const designerObj = ref([]);
+    const props = __props;
     const currDynamicDataType = ref([]);
     if (props.dataTypes) {
       currDynamicDataType.value.push(...props.dataTypes);
@@ -22102,10 +22140,11 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
     nodeType: {}
   },
   emits: ["update:modelValue", "valueChange"],
-  setup(__props, { emit: emits }) {
-    const props = __props;
+  setup(__props, { emit: __emit }) {
     const controlData = inject("componentData", []);
     const dyProvideData = inject("dyProvideData", null);
+    const props = __props;
+    const emits = __emit;
     const attrs = useAttrs();
     const currValue = ref();
     watchEffect(() => {
@@ -22258,8 +22297,9 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
     parentNode: {}
   },
   emits: ["update:data"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     const props = __props;
+    const emits = __emit;
     const currData = useVModel(props, "item", emits);
     const dataTypes = inject("dataTypeData", []);
     function handleDisabledExpress() {
@@ -22398,8 +22438,9 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
     parentNode: {}
   },
   emits: ["update:data"],
-  setup(__props, { emit: emits }) {
+  setup(__props, { emit: __emit }) {
     const props = __props;
+    const emits = __emit;
     const currData = useVModel(props, "data", emits);
     const defaultLabelWidth = inject("labelWidth", void 0);
     const labelWidth = ref();
@@ -22649,11 +22690,12 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue"],
-  setup(__props, { emit: emits }) {
-    const props = __props;
+  setup(__props, { emit: __emit }) {
     const DynamicRenderInnerAsync = defineAsyncComponent(() => {
-      return import("./DynamicRenderInner-a5751c9b.js");
+      return import("./DynamicRenderInner-ae1421f8.js");
     });
+    const props = __props;
+    const emits = __emit;
     const idataTypes = inject("dataTypeData", null);
     const icomponentTypes = inject("componentData", null);
     const renderData = reactive([]);
@@ -22830,9 +22872,10 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue", "update:html"],
-  setup(__props, { emit: emits }) {
-    const props = __props;
+  setup(__props, { emit: __emit }) {
     const { $serverUrl, $homeUrl } = lessCom$1.getUEditorConfig();
+    const emits = __emit;
+    const props = __props;
     const setModelValue = inject("setModelValue", () => null);
     const getModelValue = inject("getModelValue", () => null);
     const editorContent = ref();
@@ -22948,10 +22991,11 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue", "formatter"],
-  setup(__props, { emit: emits }) {
-    const props = __props;
+  setup(__props, { emit: __emit }) {
     const setModelValue = inject("setModelValue", () => null);
     const getModelValue = inject("getModelValue", () => null);
+    const emits = __emit;
+    const props = __props;
     const editorValue = ref();
     const tagID = "els-ace-" + lessCom$1.generateID();
     const editor = ref();
@@ -23010,31 +23054,31 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     }
     onMounted(() => {
       if (props.language === "json") {
-        const currModule = import("./mode-json-04650ba4.js").then((n10) => n10.m);
+        const currModule = import("./mode-json-6c0a7062.js").then((n10) => n10.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/json", res);
           init();
         });
       } else if (props.language === "javascript") {
-        const currModule = import("./mode-javascript-ebd7dd41.js").then((n10) => n10.m);
+        const currModule = import("./mode-javascript-c465770b.js").then((n10) => n10.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/javascript", res);
           init();
         });
       } else if (props.language === "csharp") {
-        const currModule = import("./mode-csharp-379fd0c2.js").then((n10) => n10.m);
+        const currModule = import("./mode-csharp-35e39120.js").then((n10) => n10.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/csharp", res);
           init();
         });
       } else if (props.language === "mysql") {
-        const currModule = import("./mode-mysql-9b3e12f6.js").then((n10) => n10.m);
+        const currModule = import("./mode-mysql-f5f6da06.js").then((n10) => n10.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/mysql", res);
           init();
         });
       } else if (props.language === "css") {
-        const currModule = import("./mode-css-2dbaf785.js").then((n10) => n10.m);
+        const currModule = import("./mode-css-7c5fe298.js").then((n10) => n10.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/css", res);
           init();
@@ -23094,9 +23138,10 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue", "update:html"],
-  setup(__props, { emit: emits }) {
-    const props = __props;
+  setup(__props, { emit: __emit }) {
     const { $uploadUrl } = lessCom$1.getUploadConfig();
+    const emits = __emit;
+    const props = __props;
     const setModelValue = inject("setModelValue", () => null);
     const getModelValue = inject("getModelValue", () => null);
     const htmlContent = ref();
@@ -23158,8 +23203,8 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     data: {}
   },
   setup(__props) {
-    const props = __props;
     const attrs = useAttrs();
+    const props = __props;
     const currData = ref();
     const visible = ref(true);
     watch(() => props.data, (val) => {
@@ -62488,9 +62533,10 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     modelValue: {}
   },
   emits: ["update:modelValue"],
-  setup(__props, { emit: emits }) {
-    const props = __props;
+  setup(__props, { emit: __emit }) {
     const attrs = useAttrs();
+    const emits = __emit;
+    const props = __props;
     const currData = ref({});
     watch(() => props.modelValue, (val) => {
       if (val) {

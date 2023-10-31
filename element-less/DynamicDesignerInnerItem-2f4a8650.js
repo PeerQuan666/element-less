@@ -1,5 +1,5 @@
 import { defineComponent, inject, ref, computed, watch, resolveComponent, openBlock, createBlock, unref, isRef, normalizeClass, withCtx, createElementBlock, createElementVNode, createCommentVNode, createVNode, createSlots, toDisplayString, Fragment, createTextVNode, nextTick } from "vue";
-import { l as lessCom, p as property_arrayAndObject, a as property_array, b as property_form, c as property_advanced, d as _sfc_main$1 } from "./index-ecd65dcf.js";
+import { l as lessCom, p as property_arrayAndObject, a as property_array, b as property_form, c as property_advanced, d as _sfc_main$1 } from "./index-8124f90e.js";
 import { useVModel } from "@vueuse/core";
 import { ElMessage } from "element-plus";
 import "axios";
@@ -47,14 +47,15 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     item: {}
   },
   emits: ["update:item", "update:data"],
-  setup(__props, { emit: emits }) {
-    const props = __props;
+  setup(__props, { emit: __emit }) {
+    const emits = __emit;
     const camelCase = inject("camelCase", false);
     const allowCreateType = inject("allowCreateType", false);
     const allowCreateComponent = inject("allowCreateComponent", false);
     const openCreateType = inject("openCreateType", () => null);
     const openCreateComponent = inject("openCreateComponent", () => null);
     const componentSettingVisible = inject("componentSettingVisible", true);
+    const props = __props;
     const dataTypeData = inject("dataTypeData", null);
     const controlData = inject("componentData", null);
     const currDepath = ref(props.depath + 1);
