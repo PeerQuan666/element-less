@@ -158,7 +158,8 @@ watchEffect(() => {
             margin-bottom: 18px;
         }
     }
-    .leo-list-add button{
+    .leo-list-add{
+        margin-bottom: 10px;
         cursor: pointer;
     }
 

@@ -115,13 +115,13 @@ watch(() => currData.value.config.arrayConfig.arrayDefaultLength, (val) => {
 </script>
 <template>
     <div :class="{ 'horizontal': currData.config.arrayConfig.arrangementType === 'Horizontal' }" style=" flex-grow:1">
-        <els-list v-model="currData.value" @add="handleAddItem" :item-class-name="{'els-dynamic-r-array':item.arrayDataTypeName==='Object'}"  :style="[
+        <els-list v-model="currData.value" @add="handleAddItem" :item-class-name="{'els-dynamic-r-array':item.arrayDataTypeName==='Object'||item.componentTypeName==='DynamicRender'}"  :style="[
             { 'max-width': (currData.config.arrayConfig.maxWidth ? currData.config.arrayConfig.maxWidth + 'px' : '') },
             { 'max-height': (currData.config.arrayConfig.maxHeight ? currData.config.arrayConfig.maxHeight + 'px' : '') },
             { 'display': currData.config.arrayConfig.arrangementType === 'Horizontal' ? 'flex' : '' },
             { 'flex-wrap': 'wrap' }, { 'gap': '5px' }, { 'overflow': 'scroll' },{'padding-right':'20px'}]">
             <template #default="{ element,index }">
-                <DynamicRenderInnerItem class="els-dynamic-r-array-item" v-bind="formAttrs" :key="index" :parent-node="parentNode" :curr-node="currData"
+                <DynamicRenderInnerItem :class="{'els-dynamic-r-array-item':item.componentName==='ElsDynamicRender'}" v-bind="formAttrs" :key="index" :parent-node="parentNode" :curr-node="currData"
                     :disabled="handleDisabledExpress()" v-model="element.value" prop="value" requiredMessage="不能为空" :item="currData"
                     :style="item.config.advancedConfig.style" @valueChange="handleValueChange">
                 </DynamicRenderInnerItem>

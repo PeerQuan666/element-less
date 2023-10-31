@@ -8,7 +8,7 @@
              :dataTypes="dataTypes" :camelCase="true" 
              :appendComponentTypes="appendComponentTypes" 
              :componentRelateDataType="componentRelateDataType"
-          
+             saveTypeUrl="sss"
              >
             </ElsDynamicDesigner>
 

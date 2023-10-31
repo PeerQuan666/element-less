@@ -178,7 +178,7 @@ function handleReturnResult() {
 }
 
 .el-form-item:has(div[class^=els-dynamic-render]) {
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
 }
 
 .els-dynamic-render {
@@ -285,7 +285,7 @@ function handleReturnResult() {
 
 }
 
-.els-list>div>div:has(>div[class*=els-dynamic-r-array]) {
+.els-list>div>div:has(>div[class*=els-dynamic-r-array]),.els-list > div > form:has(>div[class*=els-dynamic-r-array]) {
     margin-bottom: 10px
 }
 

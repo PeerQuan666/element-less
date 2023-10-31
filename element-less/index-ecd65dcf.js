@@ -12044,7 +12044,6 @@ const _sfc_main$j = /* @__PURE__ */ defineComponent({
               (openBlock(), createBlock(resolveDynamicComponent(unref(container)), {
                 modelValue: dropData.value[index],
                 "onUpdate:modelValue": ($event) => dropData.value[index] = $event,
-                inline: "",
                 labelWidth: _ctx.labelWidth
               }, {
                 default: withCtx(() => [
@@ -17875,6 +17874,7 @@ class DynamicHandler {
           "componentType": componentName,
           "required": false,
           "description": "",
+          "defaultValue": jsonData[key],
           "config": {
             "formConfig": {},
             "baseConfig": {},
@@ -18246,7 +18246,7 @@ const _sfc_main$g = /* @__PURE__ */ defineComponent({
   setup(__props, { emit: emits }) {
     const props = __props;
     const DynamicDesignerInnerItem = defineAsyncComponent(() => {
-      return import("./DynamicDesignerInnerItem-e80f8674.js");
+      return import("./DynamicDesignerInnerItem-2e461a88.js");
     });
     const getConverToJsonResult = inject("getConverToJsonResult", () => null);
     const componentSettingVisible = inject("componentSettingVisible", true);
@@ -18816,7 +18816,6 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
         element.componentType = child.componentType;
         element.componentTypeName = child.componentTypeName;
         element.data = child.data;
-        element.value = [];
       }
       recordComponent();
       return true;
@@ -20304,8 +20303,7 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
           baseConfig: {},
           advancedConfig: {},
           arrayConfig: {}
-        },
-        value: []
+        }
       }
     ]);
     const importJSON = ref();
@@ -20610,7 +20608,8 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
                                 ]),
                                 _: 1
                               }),
-                              createVNode(_component_el_collapse_item, {
+                              diyData.value.length ? (openBlock(), createBlock(_component_el_collapse_item, {
+                                key: 0,
                                 title: "自定义类型",
                                 name: "3"
                               }, {
@@ -20633,7 +20632,7 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
                                   }, 8, ["list"])
                                 ]),
                                 _: 1
-                              })
+                              })) : createCommentVNode("", true)
                             ]),
                             _: 1
                           }, 8, ["modelValue"])
@@ -22351,7 +22350,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
           modelValue: unref(currData).value,
           "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(currData).value = $event),
           onAdd: handleAddItem,
-          "item-class-name": { "els-dynamic-r-array": _ctx.item.arrayDataTypeName === "Object" },
+          "item-class-name": { "els-dynamic-r-array": _ctx.item.arrayDataTypeName === "Object" || _ctx.item.componentTypeName === "DynamicRender" },
           style: normalizeStyle([
             { "max-width": unref(currData).config.arrayConfig.maxWidth ? unref(currData).config.arrayConfig.maxWidth + "px" : "" },
             { "max-height": unref(currData).config.arrayConfig.maxHeight ? unref(currData).config.arrayConfig.maxHeight + "px" : "" },
@@ -22363,17 +22362,21 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
           ])
         }, {
           default: withCtx(({ element, index }) => [
-            (openBlock(), createBlock(_sfc_main$8, mergeProps({ class: "els-dynamic-r-array-item" }, formAttrs.value, {
+            (openBlock(), createBlock(_sfc_main$8, mergeProps({
+              class: { "els-dynamic-r-array-item": _ctx.item.componentName === "ElsDynamicRender" }
+            }, formAttrs.value, {
               key: index,
               "parent-node": _ctx.parentNode,
               "curr-node": unref(currData),
               disabled: handleDisabledExpress(),
               modelValue: element.value,
               "onUpdate:modelValue": ($event) => element.value = $event,
+              prop: "value",
+              requiredMessage: "不能为空",
               item: unref(currData),
               style: _ctx.item.config.advancedConfig.style,
               onValueChange: handleValueChange
-            }), null, 16, ["parent-node", "curr-node", "disabled", "modelValue", "onUpdate:modelValue", "item", "style"]))
+            }), null, 16, ["class", "parent-node", "curr-node", "disabled", "modelValue", "onUpdate:modelValue", "item", "style"]))
           ]),
           _: 1
         }, 8, ["modelValue", "item-class-name", "style"])
@@ -22649,7 +22652,7 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
   setup(__props, { emit: emits }) {
     const props = __props;
     const DynamicRenderInnerAsync = defineAsyncComponent(() => {
-      return import("./DynamicRenderInner-2ff528e2.js");
+      return import("./DynamicRenderInner-a5751c9b.js");
     });
     const idataTypes = inject("dataTypeData", null);
     const icomponentTypes = inject("componentData", null);
@@ -23007,31 +23010,31 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     }
     onMounted(() => {
       if (props.language === "json") {
-        const currModule = import("./mode-json-42eb3fbf.js").then((n10) => n10.m);
+        const currModule = import("./mode-json-04650ba4.js").then((n10) => n10.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/json", res);
           init();
         });
       } else if (props.language === "javascript") {
-        const currModule = import("./mode-javascript-e80c22b0.js").then((n10) => n10.m);
+        const currModule = import("./mode-javascript-ebd7dd41.js").then((n10) => n10.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/javascript", res);
           init();
         });
       } else if (props.language === "csharp") {
-        const currModule = import("./mode-csharp-69cdc5a3.js").then((n10) => n10.m);
+        const currModule = import("./mode-csharp-379fd0c2.js").then((n10) => n10.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/csharp", res);
           init();
         });
       } else if (props.language === "mysql") {
-        const currModule = import("./mode-mysql-1dd7fc43.js").then((n10) => n10.m);
+        const currModule = import("./mode-mysql-9b3e12f6.js").then((n10) => n10.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/mysql", res);
           init();
         });
       } else if (props.language === "css") {
-        const currModule = import("./mode-css-b2e0a0e9.js").then((n10) => n10.m);
+        const currModule = import("./mode-css-2dbaf785.js").then((n10) => n10.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/css", res);
           init();

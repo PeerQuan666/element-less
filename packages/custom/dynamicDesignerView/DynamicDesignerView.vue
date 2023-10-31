@@ -419,7 +419,7 @@ provide("recordComponent", recordComponent)
                                 </template>
                             </draggable>
                         </el-collapse-item>
-                        <el-collapse-item title="自定义类型" name="3">
+                        <el-collapse-item title="自定义类型" name="3" v-if="diyData.length">
                             <draggable tag="ul" :list="diyData" item-key="keyID"
                                 :group="{ name: 'dragGroup', pull: 'clone', put: false }" :clone="handleClone"
                                 :sort="false">
