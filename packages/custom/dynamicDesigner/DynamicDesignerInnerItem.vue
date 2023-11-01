@@ -309,7 +309,7 @@ function validationCode(rule, value, callback) {
                   <li class="dynamic-create-dtype" @click="openCreateType()">创建类型</li>
                 </template>
                 <template #default="{ item }">
-                  <span :title="item.description"> {{ item.type }}</span>
+                  <span :title="item.description"> {{ item.label }}</span>
                 </template>
               </els-select>
             </template>
@@ -322,7 +322,7 @@ function validationCode(rule, value, callback) {
               <li class="dynamic-create-dtype" @click="openCreateType()">创建类型</li>
             </template>
             <template #default="{ item }">
-              <span :title="item.description"> {{ item.type }}</span>
+              <span :title="item.description"> {{ item.label }}</span>
             </template>
           </els-select>
 

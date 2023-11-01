@@ -625,9 +625,9 @@ provide("recordComponent", recordComponent)
             background: #F1F2F3;
             border-color: #409eff;
         }
-
+        word-wrap: break-word;
         display: inline-block;
-        height: 32px;
+        min-height: 32px;
         line-height: 32px;
         width: 98px;
         cursor: move;
