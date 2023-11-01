@@ -151,7 +151,7 @@ function validName(rules, value, callback) {
 </script>
 <template>
     <ElsContainer ref="elsContainer">
-        <els-dialog v-model="createVisible" width="60%" :append-to-body="true" title="类型" destroy-on-close :close-on-click-modal="false">
+        <els-dialog v-model="createVisible" width="70%" :append-to-body="true" title="类型"  destroy-on-close :close-on-click-modal="false">
             <div class="els-dynamic-create">
                 <els-form v-model="currData" v-if="!createResultVisible" ref="editForm">
                     <els-input label="名称" prop="label" :disabled="currData.id!==''" required :validMethod="validName" v-model="currData.label"></els-input>

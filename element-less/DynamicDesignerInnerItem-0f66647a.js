@@ -1,5 +1,5 @@
 import { defineComponent, inject, ref, computed, watch, resolveComponent, openBlock, createBlock, unref, isRef, normalizeClass, withCtx, createElementBlock, createElementVNode, createCommentVNode, createVNode, createSlots, toDisplayString, Fragment, createTextVNode, nextTick } from "vue";
-import { l as lessCom, p as property_arrayAndObject, a as property_array, b as property_form, c as property_advanced, d as _sfc_main$1 } from "./index-8124f90e.js";
+import { l as lessCom, p as property_arrayAndObject, a as property_array, b as property_form, c as property_advanced, d as _sfc_main$1 } from "./index-261eecea.js";
 import { useVModel } from "@vueuse/core";
 import { ElMessage } from "element-plus";
 import "axios";
@@ -233,6 +233,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       const _component_els_form = resolveComponent("els-form");
       const _component_el_link = resolveComponent("el-link");
       const _component_els_switch = resolveComponent("els-switch");
+      const _component_els_textarea = resolveComponent("els-textarea");
       const _component_Rank = resolveComponent("Rank");
       const _component_el_icon = resolveComponent("el-icon");
       const _component_Remove = resolveComponent("Remove");
@@ -262,10 +263,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                 validMethod: validationCode,
                 required: "",
                 clearable: "",
-                disabled: unref(currItem).isModify,
                 onBlur: handleChangeKeyCode,
                 prop: "keyCode"
-              }, null, 8, ["disabled"])) : createCommentVNode("", true)
+              })) : createCommentVNode("", true)
             ]),
             createElementVNode("span", _hoisted_4, [
               selectDataTypeItem.value && selectDataTypeItem.value.id ? (openBlock(), createBlock(_component_el_popover, {
@@ -409,7 +409,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                       default: withCtx(({ item }) => [
                         createElementVNode("span", {
                           title: item.description
-                        }, toDisplayString(item.type), 9, _hoisted_13)
+                        }, toDisplayString(item.label), 9, _hoisted_13)
                       ]),
                       _: 2
                     }, [
@@ -488,7 +488,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                   default: withCtx(({ item }) => [
                     createElementVNode("span", {
                       title: item.description
-                    }, toDisplayString(item.type), 9, _hoisted_14)
+                    }, toDisplayString(item.label), 9, _hoisted_14)
                   ]),
                   _: 2
                 }, [
@@ -631,11 +631,28 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               })) : createCommentVNode("", true)
             ]),
             createElementVNode("span", _hoisted_19, [
-              !isObject.value && itemDataType.value.type !== "None" ? (openBlock(), createBlock(_component_els_input, {
+              !isObject.value && itemDataType.value.type !== "None" ? (openBlock(), createBlock(_component_el_popover, {
                 key: 0,
-                placeholder: "默认值",
-                clearable: "",
-                prop: "defaultValue"
+                placement: "top-start",
+                width: "400",
+                trigger: "click"
+              }, {
+                reference: withCtx(() => [
+                  createVNode(_component_els_input, {
+                    placeholder: "默认值",
+                    clearable: "",
+                    prop: "defaultValue"
+                  })
+                ]),
+                default: withCtx(() => [
+                  createVNode(_component_els_textarea, {
+                    placeholder: "默认值",
+                    clearable: "",
+                    prop: "defaultValue",
+                    rows: 3
+                  })
+                ]),
+                _: 1
               })) : createCommentVNode("", true)
             ]),
             createElementVNode("span", _hoisted_20, [

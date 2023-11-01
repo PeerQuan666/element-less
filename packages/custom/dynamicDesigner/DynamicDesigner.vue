@@ -152,6 +152,27 @@ function openCreateComponent(typeValue) {
 }
 
 const dynamicNewType = ref<any>()
+  const currItemKey = ref()
+
+  function getMouseOverItem() {
+  return currItemKey.value
+}
+function setMouseOverItem(keyID) {
+  currItemKey.value = keyID
+}
+const currSelectItemKey = ref()
+
+function getSelectItem() {
+return currSelectItemKey.value
+}
+function setSelectItem(keyID) {
+  currItemKey.value = keyID
+  currSelectItemKey.value = keyID
+}
+provide('getMouseOverItem', getMouseOverItem)
+provide('setMouseOverItem', setMouseOverItem)
+provide('getSelectItem', getSelectItem)
+provide('setSelectItem', setSelectItem)
 
 provide('openCreateType', openCreateType)
 provide('openCreateComponent', openCreateComponent)
@@ -265,7 +286,7 @@ defineExpose({
 <template>
   <div>
     <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-      <div class="els-dynamic-config" ref="designerContainer">
+      <div class="els-dynamic-config" ref="designerContainer" >
         <div class="els-dynamic-config-tool">
           <ElsRadioButton v-model="designType" v-if="designerVisible">
             <ElsOption value="精简模式"><el-icon>
@@ -357,7 +378,9 @@ defineExpose({
       margin-left: 5px
     }
   }
-
+  .selected{
+  border: 1px dashed #aaaaaabf;
+}
   border: 1px solid #dcdfe6;
   padding: 10px;
 
@@ -431,6 +454,16 @@ defineExpose({
   }
 }
 
+.els-dynamic-d-item-div.virtual{
+  span{display: flex;}
+  font-size: 12px;
+  .el-input__wrapper{width: 100%;margin-right: 5px;overflow: hidden;}
+  .el-input__wrapper:hover{box-shadow:0 0 0 1px var(--el-input-border-color,var(--el-border-color)) inset;}
+  .el-input__inner{
+    overflow: hidden;
+  }
+  
+}
 .els-dynamic-d-item-div {
   margin-bottom: 2px;
   display: flex;

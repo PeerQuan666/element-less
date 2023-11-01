@@ -366,9 +366,9 @@ export class DynamicHandler {
             if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
                 currValue[ele.keyCode] = this.getArrayConfigValue(ele)
             } else if (ele.dataTypeName == 'Object') {
-                currValue[ele.keyCode] = this.getArrayConfigValue(ele.data)
+                currValue[ele.keyCode] = this.getConfigValue(ele.data)
             } else if (ele.dataTypeName == 'None' && ele.componentName == 'ElsRow') {
-                currValue = Object.assign(currValue, this.getArrayConfigValue(ele.data))
+                currValue = Object.assign(currValue, this.getConfigValue(ele.data))
             } else if (ele.keyCode) {
                 currValue[ele.keyCode] = ele.value
             }

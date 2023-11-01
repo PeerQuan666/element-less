@@ -18121,9 +18121,9 @@ class DynamicHandler {
       if (ele.dataTypeName == "Array" && ele.arrayDataTypeName == "Object") {
         currValue[ele.keyCode] = this.getArrayConfigValue(ele);
       } else if (ele.dataTypeName == "Object") {
-        currValue[ele.keyCode] = this.getArrayConfigValue(ele.data);
+        currValue[ele.keyCode] = this.getConfigValue(ele.data);
       } else if (ele.dataTypeName == "None" && ele.componentName == "ElsRow") {
-        currValue = Object.assign(currValue, this.getArrayConfigValue(ele.data));
+        currValue = Object.assign(currValue, this.getConfigValue(ele.data));
       } else if (ele.keyCode) {
         currValue[ele.keyCode] = ele.value;
       }
@@ -18261,7 +18261,35 @@ const _hoisted_12 = {
   key: 1,
   class: "els-dynamicc-d-empty"
 };
-const _hoisted_13 = { class: "dialog-footer" };
+const _hoisted_13 = ["onClick"];
+const _hoisted_14 = { class: "keyName" };
+const _hoisted_15 = { class: "el-input__wrapper" };
+const _hoisted_16 = { class: "el-input__inner" };
+const _hoisted_17 = { class: "keyCode" };
+const _hoisted_18 = { class: "el-input__wrapper" };
+const _hoisted_19 = { class: "el-input__inner" };
+const _hoisted_20 = { class: "dataType" };
+const _hoisted_21 = { class: "el-input__wrapper" };
+const _hoisted_22 = { class: "el-input__inner" };
+const _hoisted_23 = {
+  key: 0,
+  class: "el-input__wrapper"
+};
+const _hoisted_24 = { class: "el-input__inner" };
+const _hoisted_25 = { class: "componentType" };
+const _hoisted_26 = { class: "el-input__wrapper" };
+const _hoisted_27 = { class: "el-input__inner" };
+const _hoisted_28 = { class: "config" };
+const _hoisted_29 = { class: "required" };
+const _hoisted_30 = { class: "description" };
+const _hoisted_31 = { class: "el-input__wrapper" };
+const _hoisted_32 = { class: "el-input__inner" };
+const _hoisted_33 = { class: "defaultValue" };
+const _hoisted_34 = { class: "el-input__wrapper" };
+const _hoisted_35 = { class: "el-input__inner" };
+const _hoisted_36 = { class: "oper" };
+const _hoisted_37 = { class: "els-dynamic-d-oper" };
+const _hoisted_38 = { class: "dialog-footer" };
 const _sfc_main$g = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsDynamicDesigner"
@@ -18276,7 +18304,7 @@ const _sfc_main$g = /* @__PURE__ */ defineComponent({
   emits: ["update:data", "removeItem"],
   setup(__props, { emit: __emit }) {
     const DynamicDesignerInnerItem = defineAsyncComponent(() => {
-      return import("./DynamicDesignerInnerItem-2f4a8650.js");
+      return import("./DynamicDesignerInnerItem-0f66647a.js");
     });
     const getConverToJsonResult = inject("getConverToJsonResult", () => null);
     const componentSettingVisible = inject("componentSettingVisible", true);
@@ -18288,8 +18316,9 @@ const _sfc_main$g = /* @__PURE__ */ defineComponent({
       emits("removeItem");
     }
     function handleAddItem() {
+      const keyID = "key_" + lessCom$1.randomNumber().toString();
       currData.value.push({
-        keyID: "key_" + lessCom$1.randomNumber().toString(),
+        keyID,
         keyName: "",
         keyCode: "",
         data: [],
@@ -18299,9 +18328,18 @@ const _sfc_main$g = /* @__PURE__ */ defineComponent({
           baseConfig: {},
           advancedConfig: {},
           arrayConfig: {}
-        }
+        },
+        isAdd: true
       });
+      setSelectItem(keyID);
     }
+    const tagID = inject("tagID");
+    const dataTypeData = inject("dataTypeData", null);
+    const controlData = inject("componentData", null);
+    inject("setMouseOverItem", () => null);
+    inject("getMouseOverItem", () => null);
+    const setSelectItem = inject("setSelectItem", () => null);
+    const getSelectItem = inject("getSelectItem", () => null);
     const jsonVisible = ref(false);
     const jsonObj = ref({});
     function handleAddJSON() {
@@ -18314,7 +18352,18 @@ const _sfc_main$g = /* @__PURE__ */ defineComponent({
       jsonObj.value = {};
       jsonVisible.value = false;
     }
-    const tagID = inject("tagID");
+    function getDataTypeName(val) {
+      if (dataTypeData) {
+        return dataTypeData.find((ele) => ele.value == val);
+      }
+      return "";
+    }
+    function getComponentType(val) {
+      if (controlData) {
+        return controlData.find((ele) => ele.value == val);
+      }
+      return "";
+    }
     return (_ctx, _cache) => {
       const _component_el_input = resolveComponent("el-input");
       const _component_els_form_item = resolveComponent("els-form-item");
@@ -18323,6 +18372,8 @@ const _sfc_main$g = /* @__PURE__ */ defineComponent({
       const _component_el_icon = resolveComponent("el-icon");
       const _component_Remove = resolveComponent("Remove");
       const _component_el_popconfirm = resolveComponent("el-popconfirm");
+      const _component_el_link = resolveComponent("el-link");
+      const _component_els_switch = resolveComponent("els-switch");
       const _component_el_skeleton_item = resolveComponent("el-skeleton-item");
       const _component_el_skeleton = resolveComponent("el-skeleton");
       const _component_el_button = resolveComponent("el-button");
@@ -18416,14 +18467,89 @@ const _sfc_main$g = /* @__PURE__ */ defineComponent({
           }, { group: unref(tagID), animation: 300 }), {
             default: withCtx(({ $item, $index }) => [
               (openBlock(), createBlock(Suspense, null, {
-                default: withCtx(() => [
-                  (openBlock(), createBlock(unref(DynamicDesignerInnerItem), {
-                    data: unref(currData),
-                    item: $item,
-                    depath: _ctx.depath,
-                    key: $index
-                  }, null, 8, ["data", "item", "depath"]))
-                ]),
+                default: withCtx(() => {
+                  var _a2, _b2, _c2, _d2, _e2;
+                  return [
+                    unref(getSelectItem)() != $item.keyID && !$item.isAdd && !["None", "Object"].includes((_a2 = getDataTypeName($item.dataType)) == null ? void 0 : _a2.type) && !["None", "Object"].includes((_b2 = getDataTypeName($item.arrayDataType)) == null ? void 0 : _b2.type) ? (openBlock(), createElementBlock("div", {
+                      key: 0,
+                      class: "els-dynamic-d-item-div virtual",
+                      onClick: ($event) => unref(setSelectItem)($item.keyID)
+                    }, [
+                      createElementVNode("span", _hoisted_14, [
+                        createElementVNode("div", _hoisted_15, [
+                          createElementVNode("div", _hoisted_16, toDisplayString($item.keyName), 1)
+                        ])
+                      ]),
+                      createElementVNode("span", _hoisted_17, [
+                        createElementVNode("div", _hoisted_18, [
+                          createElementVNode("div", _hoisted_19, toDisplayString($item.keyCode), 1)
+                        ])
+                      ]),
+                      createElementVNode("span", _hoisted_20, [
+                        createElementVNode("div", _hoisted_21, [
+                          createElementVNode("div", _hoisted_22, toDisplayString((_c2 = getDataTypeName($item.dataType)) == null ? void 0 : _c2.label), 1)
+                        ]),
+                        $item.arrayDataType ? (openBlock(), createElementBlock("div", _hoisted_23, [
+                          createElementVNode("div", _hoisted_24, toDisplayString((_d2 = getDataTypeName($item.arrayDataType)) == null ? void 0 : _d2.label), 1)
+                        ])) : createCommentVNode("", true)
+                      ]),
+                      unref(componentSettingVisible) ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
+                        createElementVNode("span", _hoisted_25, [
+                          createElementVNode("div", _hoisted_26, [
+                            createElementVNode("div", _hoisted_27, toDisplayString((_e2 = getComponentType($item.componentType)) == null ? void 0 : _e2.label), 1)
+                          ])
+                        ]),
+                        createElementVNode("span", _hoisted_28, [
+                          createVNode(_component_el_link, { type: "primary" }, {
+                            default: withCtx(() => [
+                              createTextVNode("配置")
+                            ]),
+                            _: 1
+                          })
+                        ])
+                      ], 64)) : createCommentVNode("", true),
+                      createElementVNode("span", _hoisted_29, [
+                        createVNode(_component_els_switch, {
+                          modelValue: $item.required,
+                          "onUpdate:modelValue": ($event) => $item.required = $event,
+                          "active-value": true,
+                          "inactive-value": false
+                        }, null, 8, ["modelValue", "onUpdate:modelValue"])
+                      ]),
+                      createElementVNode("span", _hoisted_30, [
+                        createElementVNode("div", _hoisted_31, [
+                          createElementVNode("div", _hoisted_32, toDisplayString($item.description), 1)
+                        ])
+                      ]),
+                      createElementVNode("span", _hoisted_33, [
+                        createElementVNode("div", _hoisted_34, [
+                          createElementVNode("div", _hoisted_35, toDisplayString($item.defaultValue), 1)
+                        ])
+                      ]),
+                      createElementVNode("span", _hoisted_36, [
+                        createElementVNode("span", _hoisted_37, [
+                          createVNode(_component_el_icon, { class: "el-icon-rank" }, {
+                            default: withCtx(() => [
+                              createVNode(_component_Rank)
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(_component_el_icon, { class: "el-icon-remove" }, {
+                            default: withCtx(() => [
+                              createVNode(_component_Remove)
+                            ]),
+                            _: 1
+                          })
+                        ])
+                      ])
+                    ], 8, _hoisted_13)) : (openBlock(), createBlock(unref(DynamicDesignerInnerItem), {
+                      data: unref(currData),
+                      item: $item,
+                      depath: _ctx.depath,
+                      key: $index
+                    }, null, 8, ["data", "item", "depath"]))
+                  ];
+                }),
                 fallback: withCtx(() => [
                   createVNode(_component_el_skeleton, { animated: "" }, {
                     template: withCtx(() => [
@@ -18470,7 +18596,7 @@ const _sfc_main$g = /* @__PURE__ */ defineComponent({
           "destroy-on-close": ""
         }, {
           footer: withCtx(() => [
-            createElementVNode("span", _hoisted_13, [
+            createElementVNode("span", _hoisted_38, [
               createVNode(_component_el_button, {
                 onClick: _cache[5] || (_cache[5] = ($event) => jsonVisible.value = false)
               }, {
@@ -20576,6 +20702,7 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
       const _component_el_empty = resolveComponent("el-empty");
       const _component_els_input = resolveComponent("els-input");
       const _component_els_select = resolveComponent("els-select");
+      const _component_els_textarea = resolveComponent("els-textarea");
       const _component_els_form = resolveComponent("els-form");
       const _component_ElsDynamicRender = resolveComponent("ElsDynamicRender");
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
@@ -20885,9 +21012,10 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
                                 placeholder: "值类型",
                                 prop: "arrayDataType"
                               }, null, 8, ["data"])) : createCommentVNode("", true),
-                              createVNode(_component_els_input, {
+                              createVNode(_component_els_textarea, {
                                 label: "默认值",
-                                prop: "defaultValue"
+                                prop: "defaultValue",
+                                rows: 3
                               })
                             ]),
                             _: 1
@@ -21619,7 +21747,7 @@ const _sfc_main$a = /* @__PURE__ */ defineComponent({
           createVNode(_component_els_dialog, {
             modelValue: unref(createVisible),
             "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => isRef(createVisible) ? createVisible.value = $event : null),
-            width: "60%",
+            width: "70%",
             "append-to-body": true,
             title: "类型",
             "destroy-on-close": "",
@@ -21915,6 +22043,25 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
       }
     }
     const dynamicNewType = ref();
+    const currItemKey = ref();
+    function getMouseOverItem() {
+      return currItemKey.value;
+    }
+    function setMouseOverItem(keyID) {
+      currItemKey.value = keyID;
+    }
+    const currSelectItemKey = ref();
+    function getSelectItem() {
+      return currSelectItemKey.value;
+    }
+    function setSelectItem(keyID) {
+      currItemKey.value = keyID;
+      currSelectItemKey.value = keyID;
+    }
+    provide("getMouseOverItem", getMouseOverItem);
+    provide("setMouseOverItem", setMouseOverItem);
+    provide("getSelectItem", getSelectItem);
+    provide("setSelectItem", setSelectItem);
     provide("openCreateType", openCreateType);
     provide("openCreateComponent", openCreateComponent);
     watch(designerObj, (val) => {
@@ -22692,7 +22839,7 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
   emits: ["update:modelValue"],
   setup(__props, { emit: __emit }) {
     const DynamicRenderInnerAsync = defineAsyncComponent(() => {
-      return import("./DynamicRenderInner-ae1421f8.js");
+      return import("./DynamicRenderInner-36eccad0.js");
     });
     const props = __props;
     const emits = __emit;
@@ -23054,31 +23201,31 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     }
     onMounted(() => {
       if (props.language === "json") {
-        const currModule = import("./mode-json-6c0a7062.js").then((n10) => n10.m);
+        const currModule = import("./mode-json-12434126.js").then((n10) => n10.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/json", res);
           init();
         });
       } else if (props.language === "javascript") {
-        const currModule = import("./mode-javascript-c465770b.js").then((n10) => n10.m);
+        const currModule = import("./mode-javascript-9046c0e0.js").then((n10) => n10.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/javascript", res);
           init();
         });
       } else if (props.language === "csharp") {
-        const currModule = import("./mode-csharp-35e39120.js").then((n10) => n10.m);
+        const currModule = import("./mode-csharp-7f05e703.js").then((n10) => n10.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/csharp", res);
           init();
         });
       } else if (props.language === "mysql") {
-        const currModule = import("./mode-mysql-f5f6da06.js").then((n10) => n10.m);
+        const currModule = import("./mode-mysql-6d3b5488.js").then((n10) => n10.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/mysql", res);
           init();
         });
       } else if (props.language === "css") {
-        const currModule = import("./mode-css-7c5fe298.js").then((n10) => n10.m);
+        const currModule = import("./mode-css-7c5cffdb.js").then((n10) => n10.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/css", res);
           init();

@@ -3,11 +3,11 @@
         <el-tab-pane label="配置">
             <ElsDynamicDesigner style="overflow: scroll;" v-model="config" 
             allowCreateType
-            :componentSettingVisible="false"
              v-model:initValue="initValue" 
              :dataTypes="dataTypes" :camelCase="true" 
              :appendComponentTypes="appendComponentTypes" 
              :componentRelateDataType="componentRelateDataType"
+             :componentSettingVisible="false"
              saveTypeUrl="sss"
              >
             </ElsDynamicDesigner>
