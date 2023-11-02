@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../node_modules/ace-builds/src-noconflict/snippets/mysql.js"],
-  "sourcesContent": ["\n;                (function() {\n                    ace.require([\"ace/snippets/mysql\"], function(m) {\n                        if (typeof module == \"object\" && typeof exports == \"object\" && module) {\n                            module.exports = m;\n                        }\n                    });\n                })();\n            "],
-  "mappings": ";;;;;AAAA;AAAA;AACiB,KAAC,WAAW;AACT,UAAI,QAAQ,CAAC,oBAAoB,GAAG,SAAS,GAAG;AAC5C,YAAI,OAAO,UAAU,YAAY,OAAO,WAAW,YAAY,QAAQ;AACnE,iBAAO,UAAU;AAAA,QACrB;AAAA,MACJ,CAAC;AAAA,IACL,GAAG;AAAA;AAAA;",
-  "names": []
-}

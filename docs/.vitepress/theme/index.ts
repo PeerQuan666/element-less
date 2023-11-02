@@ -5,15 +5,9 @@ import VpDemo from '../components/vp-demo.vue'
 import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import VueUeditorWrap from "vue-ueditor-wrap"
-import { library, config } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { far } from '@fortawesome/free-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import ElementLess from '../../../packages'
-
 import pinia from '../../../packages/utlis/pinia'
 import 'element-plus/dist/index.css'
-library.add(far, fas)
 import DefaultTheme from 'vitepress/theme'
 export default {
     ...DefaultTheme,
@@ -23,7 +17,6 @@ export default {
         for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
             app.component(key, component)
         }
-        app.component('font-awesome-icon', FontAwesomeIcon)
         app.config.globalProperties.$lessConfig = {
             api: {
                 code: 'ResultCode',

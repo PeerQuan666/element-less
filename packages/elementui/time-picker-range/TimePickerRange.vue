@@ -61,7 +61,7 @@ watch(() => props.end, (val) => {
 }, { immediate: true })
 
 watch(dateStartValue, (val) => {
-    console.info(val)
+
     if (!props.single) {
 
         dateValue.value = [val, dateEndValue.value ?? ''].join(props.valueSeparator)

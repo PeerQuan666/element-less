@@ -221,8 +221,6 @@ function initSelectValue() {
     if (currValue === '' || currValue === undefined|| selectValue.value.toString() ===  currValue.toString()) {
         return
     }
-
-    
     if (currMultiple) {
         if (props.valueType === ValueType.Number) {
             selectValue.value =currValue.toString().toListNumber(props.valueSeparator)
