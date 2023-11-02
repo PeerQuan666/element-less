@@ -1,5 +1,5 @@
 ---
-title: Slider 滑块
+title: Slider滑块
 order: 7
 date: 2023-08-24
 category:
@@ -10,8 +10,9 @@ tag:
 sticky: true
 star: true
 ---
+# Slider滑块
 
-通过拖动滑块在一个固定区间内进行选择
+*滑动型输入器，展示当前值和可选范围*
 
 
 

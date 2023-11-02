@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
     noExistOptionPrefix: '未知选项',
     hasNoExistOption: true,
     resetValueByChangeData: true,
-    type: 'checkboxbutton'
+    type: 'button'
 })
 selectValue.value = props.modelValue ?? ''
 watch(() => props.modelValue, (val) => {
@@ -40,4 +40,3 @@ for (const slotItem in slots) {
         </template>
     </els-checkbox>
 </template>
-../../utlis/lessPrototype.js

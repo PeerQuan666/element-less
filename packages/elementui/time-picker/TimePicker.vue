@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useAttrs, watch, inject, watchEffect } from 'vue'
+import { ref, useAttrs, watch, inject, watchEffect,computed } from 'vue'
 import '../../utlis/lessPrototype.js'
 import { TimePickerProps } from '../../utlis/interfaceCom'
 const emits = defineEmits(['update:modelValue', 'update:start', 'update:end', 'visible-change'])
@@ -34,32 +34,25 @@ function initModelValue() {
     }
     return props.modelValue
 }
-function initStartModelValue() {
-    if (props.start===undefined && getModelValue && attrs.propStart!==undefined) {
-        return getModelValue(attrs.propStart)
-    }
-    return props.start
-}
-function initEndModelValue() {
-    if (props.end===undefined && getModelValue && attrs.propEnd!==undefined) {
-        return getModelValue(attrs.propEnd)
-    }
-    return props.modelValue
-}
-watchEffect(() => {
-    if (attrs["is-range"]) {
-        const startValue = initStartModelValue()
-        const endValue = initEndModelValue()
-        timeValue.value = [startValue, endValue]
+
+watch(timeValue, (val,oldVal) => {
+
+    if(val==undefined||oldVal==undefined||val.toString()!=oldVal.toString()){
+        handleReturnResult(val)
     }
 
 })
-watchEffect(() => {
-    const val = initModelValue()
+const currModelValue=computed(()=>{
+return initModelValue()
+})
+
+watch(currModelValue,(val)=>{
     if (val !== undefined) {
-        if (attrs["is-range"]) {
+        if (props.isRange) {
             if (val) {
-                timeValue.value = val.split(props.valueSeparator)
+                if(timeValue.value.toString()!=val.toString()){
+                    timeValue.value = val.split(props.valueSeparator)
+                }
             }
         } else {
             timeValue.value = val
@@ -67,10 +60,6 @@ watchEffect(() => {
     }
 })
 
-
-watch(timeValue, (val) => {
-    handleReturnResult(val)
-})
 
 function makeRange(start, end) {
     const result: any = []
@@ -101,7 +90,7 @@ function disabledHourFn() {
     }
     initLessData();
     initGreaterData();
-    if (attrs["is-range"] && !timeValue) { return [] }
+    if (props.isRange && !timeValue) { return [] }
     let hours = []
     if (props.lessThan) {
         if (lessMinute.value == 0 && lessSecond.value == 0) {
@@ -129,7 +118,7 @@ function disabledMinutesFn(selectedHour) {
     }
     initLessData();
     initGreaterData();
-    if (attrs["is-range"] && !timeValue) { return [] }
+    if (props.isRange && !timeValue) { return [] }
     let minutes = []
     if (props.lessThan) {
         if (selectedHour == lessHour.value && lessHour.value == 0) {
@@ -156,7 +145,7 @@ function disabledSecondsFn(selectedHour, selectedMinute) {
     }
     initLessData();
     initGreaterData();
-    if (attrs["is-range"] && !timeValue.value) { return [] }
+    if (props.isRange && !timeValue.value) { return [] }
     let seconds = []
     if (props.lessThan) {
         if (selectedHour == lessHour.value && selectedMinute == lessMinute.value) {
@@ -180,9 +169,9 @@ function handleVisible(visible) {
 const setModelValue = inject<Function>('setModelValue', () => { })
 function handleReturnModelValue(value) {
     emits('update:modelValue', value);
-    if (props.modelValue===undefined&&setModelValue && props.prop!==undefined) {
-        setModelValue(props.prop, value,props.aIndex)
-    }
+        if (props.modelValue===undefined&&setModelValue && props.prop!==undefined) {
+            setModelValue(props.prop, value,props.aIndex)
+        }
 }
 function handleReturnStartValue(value) {
     emits('update:start', value);
@@ -202,7 +191,7 @@ function handleReturnResult(val) {
         handleReturnEndValue('')
         handleReturnModelValue('')
     } else {
-        if (attrs["is-range"] === true) {
+        if (props.isRange === true) {
             let startDate = val[0]
             let endDate = val[1]
             handleReturnStartValue(startDate)
@@ -223,7 +212,7 @@ function handleReturnResult(val) {
     }
 }
 
-if (attrs["is-range"]) {
+if (props.isRange) {
     if (props.start || props.end) {
         if (props.end) {
             timeValue.value = [props.start, props.end];
@@ -242,7 +231,7 @@ const pickerStyle = ref<any>([])
 if (currWidth.value) {
     pickerStyle.value.push({ width: currWidth.value?.appendPx() })
 }
-if (attrs['is-range'] !== undefined) {
+if (props.isRange !== undefined) {
     pickerStyle.value.push({ "flex-grow": 0 })
 }
 
@@ -251,7 +240,7 @@ if (attrs['is-range'] !== undefined) {
 <template>
        <div class="els-node">
     <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-        <el-time-picker v-model="timeValue" :value-format="valueFormat" :style="pickerStyle"
+        <el-time-picker v-model="timeValue" :value-format="valueFormat" v-bind="attrs" :isRange="isRange" :style="pickerStyle"
             :disabled-hours="disabledHourFn" :disabled-minutes="disabledMinutesFn" :disabled-seconds="disabledSecondsFn"
             @visible-change="handleVisible">
         </el-time-picker>

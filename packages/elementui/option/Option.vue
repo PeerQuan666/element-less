@@ -79,7 +79,7 @@ if (setExtraOption) {
     </el-tab-pane>
     <el-dropdown-item v-else-if="currType == 'dropdown'" :command="value ?? currLabel" v-bind="attrs">
         <template #default>
-            <slot name="default">{{ currLabel }}</slot>
+            <slot name="default">{{ value }}</slot>
         </template>
         <template #dropdown v-if="slots.dropdown">
             <slot name="dropdown"></slot>

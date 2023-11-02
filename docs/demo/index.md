@@ -2,9 +2,12 @@
 title: 组件
 index: false
 icon: laptop-code
+order: 10
 category:
   - 使用指南
 ---
+
+# 组件
 
 :::tip 提示
 
@@ -42,4 +45,6 @@ category:
 - [Menu 导航菜单](menu.md)
 
 - [Menu 页面菜单](menu-tool.md)
+
+- [其他不写了...]
 

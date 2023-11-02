@@ -2,9 +2,10 @@
 import { onMounted, ref, watch, inject } from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'
+import 'md-editor-v3/lib/style.css';
 import { MdEditor } from 'md-editor-v3';
 defineOptions({ name: "ElsMdEditor" })
-const { $uploadUrl } = lessCom.getUploadConfig()
+const { $uploadUrl } = lessCom.getUploadConfig() 
 const emits = defineEmits(['update:modelValue', 'update:html'])
 interface Props extends FormItemProps {
     modelValue?: string,

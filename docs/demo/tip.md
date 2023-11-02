@@ -10,7 +10,9 @@ sticky: true
 star: true
 ---
 
-根据vuepress提示的样式 自定义的组件
+# Tip提示
+
+*自定义的提示组件*
 
 <!-- more -->
 

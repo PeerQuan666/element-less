@@ -1,5 +1,5 @@
 ---
-title: Input 输入框
+title: Input输入框
 order: 7
 date: 2023-08-24
 category:
@@ -10,6 +10,8 @@ tag:
 sticky: true
 star: true
 ---
+
+# Input输入框
 
 通过鼠标或键盘输入字符
 

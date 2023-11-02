@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, useAttrs, computed } from 'vue'
+import { ref, watch, useAttrs, computed ,inject} from 'vue'
 import '../../utlis/lessPrototype.js'
 import { TimePickerProps, RangeFormItemProps } from '../../utlis/interfaceCom'
 import { QueryDataType } from '../../utlis/enumCom';
@@ -17,6 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
     valueSeparator: ',',
     queryRangeOrEqual: true,
     queryDataType: QueryDataType.Date,
+    isRange:true
 
 })
 
@@ -24,53 +25,59 @@ const attrs = useAttrs()
 const dateValue = ref<any>()
 const dateStartValue = ref()
 const dateEndValue = ref()
+const setModelValue = inject<Function>('setModelValue', () => { })
+
+
+function handleReturnModelValue(value) {
+    emits('update:modelValue', value);
+    if (props.modelValue === undefined && setModelValue && props.prop !== undefined) {
+        setModelValue(props.prop, value, props.aIndex)
+    }
+}
+function handleReturnStartValue(value) {
+    emits('update:start', value);
+    if (props.start === undefined && setModelValue && props.propStart !== undefined) {
+        setModelValue(props.propStart, value, props.aIndex)
+    }
+}
+function handleReturnEndValue(value) {
+    emits('update:end', value);
+    if (props.end === undefined && setModelValue && props.propEnd !== undefined) {
+        setModelValue(props.propEnd, value, props.aIndex)
+    }
+}
+
 
 watch(dateValue, (val) => {
-    emits('update:modelValue', val)
+    handleReturnModelValue(val)
 })
 
 watch(() => props.start, (val) => {
     dateStartValue.value = val
-})
-
+}, { immediate: true })
 
 watch(() => props.end, (val) => {
     dateEndValue.value = val
 }, { immediate: true })
 
-
-
 watch(dateStartValue, (val) => {
+    console.info(val)
     if (!props.single) {
-        if (!val && !dateStartValue.value) {
-            dateValue.value = ''
-        } else {
-            dateValue.value = [val, dateEndValue.value ?? ''].join(props.valueSeparator)
 
+        dateValue.value = [val, dateEndValue.value ?? ''].join(props.valueSeparator)
 
-        }
     }
-    emits('update:start', val)
+    handleReturnStartValue(val)
 })
 
 watch(dateEndValue, (val) => {
     if (!props.single) {
-        if (!val && !dateStartValue.value) {
-            dateValue.value = ''
-        } else {
-            dateValue.value = [dateStartValue.value ?? '', val].join(props.valueSeparator)
-
-        }
+        dateValue.value = [dateStartValue.value ?? '', val].join(props.valueSeparator)
 
     }
-    emits('update:end', val)
+    handleReturnEndValue(val)
 })
 
-
-watch(() => props.modelValue, (val) => {
-    dateValue.value = val
-
-}, { immediate: true })
 
 
 const startLessThanCpt = computed(() => {
@@ -93,12 +100,19 @@ const endGreaterThanCpt = computed(() => {
     }
     return '';
 })
+
+watch(() => props.modelValue, (val) => {
+    if (val) {
+        dateValue.value = val
+    }
+}, { immediate: true })
 </script>
 
 <template>
        <div class="els-node">
+        {{ dateValue }}
     <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-        <els-time-picker v-if="single" :is-range="true" v-model="dateValue" v-bind="props" width="200"
+        <els-time-picker v-if="single"  v-model="dateValue" v-bind="props" width="200"
             :defaultValue="defaultValue" v-model:start="dateStartValue" v-model:end="dateEndValue">
             <template #default="cell">
                 <slot name="default" :cell="cell"></slot>

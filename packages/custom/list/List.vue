@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAttrs, h, watchEffect, ref, watch } from 'vue'
+import { useAttrs, h, watchEffect, ref, watch,inject, onMounted } from 'vue'
 import draggable from 'vuedraggable'
 import { useVModel } from '@vueuse/core'
 import ElsForm from '../../elementui/form/Form.vue';
@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<Props>(), {
     itemKey: ''
 
 })
-
+const parentLabelWidth = inject<string>('labelWidth', '')
 const currData = useVModel(props, 'modelValue', emits)
 const dropData = ref<any>([])
 const currItemKey = ref(props.itemKey)
@@ -73,6 +73,12 @@ function handleRemove(item) {
 
 let container = h('div')
 let outContainer = h('div')
+const currLabelWidth = ref()
+watch(()=>props.labelWidth,(val)=>{
+    if(val){
+        currLabelWidth.value = props.labelWidth
+    }
+})
 watchEffect(() => {
     if (props.hasForm && dropData.value.length) {
         if (typeof (dropData.value[0]) !== 'object') {
@@ -85,12 +91,21 @@ watchEffect(() => {
         }
     }
 })
+onMounted(()=>{
+    if (props.labelWidth) {
+        currLabelWidth.value = props.labelWidth
+    }
+    if ((currLabelWidth.value === undefined || currLabelWidth.value === '') && parentLabelWidth) {
+        currLabelWidth.value = parentLabelWidth
+    }
+
+})
 </script>
 <template >
-    <component :is="outContainer" class="els-list" :labelWidth="labelWidth">
+    <component :is="outContainer" class="els-list" :labelWidth="currLabelWidth">
         <draggable :list="dropData" handle=".el-icon-rank" v-bind="attrs" :item-key="currItemKey">
             <template #item="{ element, index }">
-                <component :is="container" v-model="dropData[index]"  :labelWidth="labelWidth">
+                <component :is="container" v-model="dropData[index]"  :labelWidth="currLabelWidth">
                     <div class="listitem flex" :class="itemClassName">
                         <slot v-if="itemKey" name="default" v-bind="{ item: element, index: index, $item: element, $index: index,element:element }">
                         </slot>
@@ -119,7 +134,7 @@ watchEffect(() => {
                 </component>
             </template>
         </draggable>
-        <div v-if="isModify && isAdd" class="leo-list-add">
+        <div v-if="isModify && isAdd" class="leo-list-add" :style="`--marginleft:${currLabelWidth??100}px`">
             <slot name="add"><el-button type="info" icon="edit" @click="handleAdd">添加</el-button></slot>
         </div>
     </component>
@@ -159,6 +174,7 @@ watchEffect(() => {
         }
     }
     .leo-list-add{
+        margin-left: var(--marginleft);
         margin-bottom: 10px;
         cursor: pointer;
     }

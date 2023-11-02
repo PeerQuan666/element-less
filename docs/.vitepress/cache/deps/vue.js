@@ -21,7 +21,7 @@ import {
   cloneVNode,
   compatUtils,
   compile,
-  computed,
+  computed2 as computed,
   createApp,
   createBaseVNode,
   createBlock,
@@ -59,6 +59,7 @@ import {
   hydrate,
   initCustomFormatter,
   initDirectivesForSSR,
+  init_vue_runtime_esm_bundler,
   inject,
   isMemoSame,
   isProxy,
@@ -153,7 +154,9 @@ import {
   withMemo,
   withModifiers,
   withScopeId
-} from "./chunk-YW53L7UT.js";
+} from "./chunk-2CABAPV2.js";
+import "./chunk-J32WSRGE.js";
+init_vue_runtime_esm_bundler();
 export {
   BaseTransition,
   BaseTransitionPropsValidators,

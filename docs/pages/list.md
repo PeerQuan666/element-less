@@ -11,7 +11,9 @@ sticky: true
 star: true
 ---
 
-一个基础页面包含顶部菜单栏、查询Form表单、Table数据表格、右键菜单
+# 列表页
+
+*一个基础页面包含顶部菜单栏、查询Form表单、Table数据表格、右键菜单*
 
 :::tip
 默认使用<code>els-container</code>组件包含，可省去很多复杂的操作

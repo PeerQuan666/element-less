@@ -122,17 +122,20 @@ watch(() => props.data, (val, oldVal) => {
 
     }
 })
-watchEffect(()=>{
-   initModelValue()
-   initSelectValue()
-})
+
 watch(selectValue, (val) => {
-    initNoExistData()
     handleReturnResult(val);
     checkAllStatus();
 })
 watch(singleSelectValue, (val) => {
     handleReturnResult(val);
+})
+const currModelValue=computed(()=>{
+return initModelValue()
+})
+watch(currModelValue,(val)=>{
+    initSelectValue()
+
 })
 
 function initData() {
@@ -149,7 +152,6 @@ function initData() {
             originalData.push(...props.data)
         }
         initSelectValue()
-        initNoExistData();
         checkAllStatus();
 
     }
@@ -199,37 +201,38 @@ function handleCheckAllChange(val) {
 }
 function initSelectValue() {
     let currValueType = props.valueType;
-    let currModelValue = initModelValue()
-    if (typeof (currModelValue) == "string") {
-        currModelValue = currModelValue.replace(/^,+/, "").replace(/,+$/, "");
+    let currValue = currModelValue.value
+    if (typeof (currValue) == "string") {
+        currValue = currValue.replace(/^,+/, "").replace(/,+$/, "");
     }
-    if (currModelValue === '' || currModelValue === undefined) {
+    if (currValue === '' || currValue === undefined|| selectValue.value.toString() ===  currValue.toString()) {
         return
     }
     if (!multiple.value) {
         if (currValueType === ValueType.Number) {
-            singleSelectValue.value = parseFloat(currModelValue);
+            singleSelectValue.value = parseFloat(currValue);
         }
         else if (currValueType === ValueType.String) {
-            singleSelectValue.value = currModelValue.toString();
+            singleSelectValue.value = currValue.toString();
         }
-        else if (optionData.value.length && currModelValue.length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
-            singleSelectValue.value = parseFloat(currModelValue);
+        else if (optionData.value.length && currValue.length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
+            singleSelectValue.value = parseFloat(currValue);
         } else {
-            singleSelectValue.value = currModelValue;
+            singleSelectValue.value = currValue;
         }
         return;
     } else {
         if (currValueType === ValueType.Number) {
-            selectValue.value = currModelValue.split(',').map(ele => parseFloat(ele));
-        } else if (currValueType === ValueType.String && currModelValue !== "") {
-            selectValue.value = currModelValue.split(',')
+            selectValue.value = currValue.split(',').map(ele => parseFloat(ele));
+        } else if (currValueType === ValueType.String && currValue !== "") {
+            selectValue.value = currValue.split(',')
         } else if (optionData.value.length && typeof (optionData.value[0][props.valueField]) === "number") {
-            selectValue.value = currModelValue.split(',').map(ele => parseFloat(ele));
-        } else if (currModelValue) {
-            selectValue.value = currModelValue.split(',')
+            selectValue.value = currValue.split(',').map(ele => parseFloat(ele));
+        } else if (currValue) {
+            selectValue.value = currValue.split(',')
         }
     }
+    initNoExistData();
 
 }
 function readData() {
@@ -242,7 +245,7 @@ function readData() {
                 originalData.length = 0;
                 originalData.push(...res[$dataField])
                 initSelectValue();
-                initNoExistData();
+               
                 checkAllStatus();
                 emits("readdataed", options)
             }

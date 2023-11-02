@@ -7,11 +7,11 @@ category:
 tag:
   - Form
   - 布局
-sticky: true
-star: true
 ---
 
-通过基础的 24 分栏，迅速简便地创建布局
+# Layout 布局
+
+*通过基础的 24 分栏，迅速简便地创建布局*
 
 
 ## 基础用法

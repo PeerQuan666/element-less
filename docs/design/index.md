@@ -3,6 +3,7 @@ title: 使用指南
 index: false
 icon: laptop-code
 ---
+# 使用指南
 
 :::tip 提示
 
@@ -11,10 +12,11 @@ Element-Less中涉及到了请求接口、导入、导出、拖动、图标功�
 :::
 
 
+
 ## 目录
 
 - [开始使用](start.md)
 
-- [全局配置](config.md)
+- [页面配置](config.md)
 
 

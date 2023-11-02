@@ -13,13 +13,16 @@ star: true
 
 ---
 
-MdEditor编辑器
+# MdEditor编辑器
+
+*Markdown编辑器Vue3版本，使用jsx和typescript语法开发，支持切换主题、prettier美化文本等*
+
 
 
 ## 基础用法
 
 :::tip
-对md-editor-v3的二次封装,使用方式请参考:(https://imzbf.github.io/md-editor-v3)
+对md-editor-v3的二次封装,使用方式请参考:[语法](https://imzbf.github.io/md-editor-v3/en-US/grammar)
 预览请使用<code>els-md-preview</code>
 :::
 

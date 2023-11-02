@@ -9,7 +9,7 @@
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
-    "docs:dev": "vitepress dev docs",
+    "docs:dev": "vitepress dev docs --port 8080",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
     "docs:update-package": "npx vp-update"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, reactive, provide } from 'vue'
+import { watch, reactive, provide,ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import lessCom from '../../utlis/lessCom.js'
 const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig()
@@ -27,7 +27,9 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const options = reactive<Array<Record<string, any>>>([])
+const provideOptionData=ref<any>({type:'dropdown',optionWidth:''})
 
+provide('provideOption',provideOptionData)
 watch(() => props.url, (val) => {
     if (val) {
         readData();

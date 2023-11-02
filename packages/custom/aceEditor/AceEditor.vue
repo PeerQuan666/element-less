@@ -21,6 +21,7 @@ interface Props extends FormItemProps {
 const props = withDefaults(defineProps<Props>(), {
     height: '300',
     width: '100%',
+    language:'javascript'
 })
 
 const editorValue = ref()

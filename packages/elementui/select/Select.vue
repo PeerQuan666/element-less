@@ -133,61 +133,62 @@ watch(selectValue, (val: any) => {
     }
     handleReturnResult(val);
 })
-watchEffect(() => {
 
-    initSelectValue()
-    initNoExistData();
-
-
-})
 
 const provideOptionData = ref<any>({ type: 'select' })
 provide('provideOption', provideOptionData)
 
 provide('multiple', props.multiple)
 provide('setExtraOption', setExtraOption)
+const currModelValue=computed(()=>{
+return initModelValue()
+})
+
+watch(currModelValue,(val)=>{
+    initSelectValue()
+
+})
 
 function initSelectValue() {
-
     let currValueType = props.valueType;
     if (props.allowCreate) {
         currValueType = ValueType.String
     }
-    const currModelValue = initModelValue()
+     currModelValue.value
 
 
-    if (currModelValue === '' || currModelValue === undefined || selectValue.value === currModelValue) {
+    if ( currModelValue.value === '' ||  currModelValue.value === undefined || selectValue.value.toString() ===  currModelValue.value.toString()) {
         return
     }
-
     if (props.multiple) {
         if (currValueType === ValueType.Number) {
-            selectValue.value = currModelValue.toString().toListNumber(props.valueSeparator)
+            selectValue.value =  currModelValue.value.toString().toListNumber(props.valueSeparator)
         } else if (currValueType === ValueType.String) {
-            selectValue.value = currModelValue.toString().toList(props.valueSeparator)
+            selectValue.value =  currModelValue.value.toString().toList(props.valueSeparator)
         } else if (optionData.value.length && typeof (optionData.value[0][props.valueField]) === "number") {
-            selectValue.value = currModelValue.toString().toListNumber(props.valueSeparator)
-        } else if (currModelValue) {
-            selectValue.value = currModelValue.toString().toList(props.valueSeparator)
+            selectValue.value =  currModelValue.value.toString().toListNumber(props.valueSeparator)
+        } else if ( currModelValue.value) {
+            selectValue.value =  currModelValue.value.toString().toList(props.valueSeparator)
         }
     } else {
         if (currValueType === ValueType.Number) {
-            selectValue.value = parseFloat(currModelValue.toString());
+            selectValue.value = parseFloat( currModelValue.value.toString());
         }
         else if (currValueType === ValueType.String) {
-            selectValue.value = currModelValue.toString();
+            selectValue.value =  currModelValue.value.toString();
         }
-        else if (optionData.value.length && currModelValue.toString().length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
-            selectValue.value = parseFloat(currModelValue.toString());
+        else if (optionData.value.length &&  currModelValue.value.toString().length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
+            selectValue.value = parseFloat( currModelValue.value.toString());
         } else {
-            selectValue.value = currModelValue;
+            selectValue.value =  currModelValue.value;
         }
     }
+    initNoExistData();
 }
 
+
 function initSelectIndex() {
-    const currModelValue = initModelValue()
-    if (props.selectIndex > -1 && !currModelValue) {
+    if (props.selectIndex > -1 && ! currModelValue.value) {
         if (optionData.value.length) {
             selectValue.value = optionData.value[props.selectIndex][props.valueField];
             if (props.multiple) {
@@ -307,7 +308,6 @@ function readData() {
                 options.length = 0;
                 options.push(...res[$dataField])
                 initSelectValue();
-                initNoExistData();
                 initSelectIndex();
                 emits("readdataed", options)
             }
@@ -380,7 +380,6 @@ if (props.url) {
         options.push(...props.data)
     }
     initSelectValue()
-    initNoExistData();
     initSelectIndex();
 }
 

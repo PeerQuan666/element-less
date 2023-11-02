@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watch, useAttrs, inject, watchEffect } from 'vue'
+import { ref, reactive, watch, useAttrs, inject, computed } from 'vue'
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
@@ -67,9 +67,12 @@ watch(selectValue, (val: any) => {
     handleReturnResult(val);
 })
 
-watchEffect(() => {
-    initModelValue()
+const currModelValue=computed(()=>{
+return initModelValue()
+})
+watch(currModelValue,(val)=>{
     initSelectValue()
+
 })
 
 watch(() => props.url, () => {
@@ -94,10 +97,11 @@ const emits = defineEmits(['update:modelValue', 'update:select', 'update:select-
 const setModelValue = inject<Function>('setModelValue', () => { })
 
 function initSelectValue() {
-    const currValue = initModelValue()
-    if (currValue === '' || currValue === undefined) {
+    const currValue = currModelValue.value
+    if (currValue === '' || currValue === undefined|| selectValue.value.toString() ===  currValue.toString()) {
         return
     }
+
     if (props.multiple && props.emitPath) {
         if (currValue && props.emitPath) {
             selectValue.value.length = 0;

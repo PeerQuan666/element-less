@@ -1,7 +1,6 @@
 <template>
     <els-tree 
     width="200"
-    v-model="selectValue"
     multiple
     :data="menuData" 
     valueField="MenuID"

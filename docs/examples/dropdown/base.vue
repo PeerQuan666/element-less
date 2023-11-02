@@ -1,5 +1,5 @@
 <template>
-    <els-dropdown v-model="selectValue" title="下拉">
+    <els-dropdown v-model="selectValue" title="下拉" @command="handleCommand">
         <template #dropdown>
             <els-option :value="1">北京</els-option>
             <els-option :value="2">天津</els-option>
@@ -10,6 +10,10 @@
 </template>
 
 <script setup lang="ts">
+import { ElMessage } from 'element-plus';
 import { ref } from 'vue'
 const selectValue = ref('')
+function handleCommand(com){
+ElMessage.success(com.toString())
+}
 </script>

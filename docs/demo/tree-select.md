@@ -1,5 +1,5 @@
 ---
-title: TreeSelect 树形选择
+title: TreeSelect树形选择
 order: 15
 date: 2023-08-29
 category:
@@ -13,7 +13,9 @@ star: true
 
 ---
 
-含有下拉菜单的树形选择器，跟Tree组件一样用法
+# TreeSelect树形选择
+
+*含有下拉菜单的树形选择器，跟Tree组件一样用法*
 
 
 ## 基础用法

@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<RadioProps>(), ({
 }))
 
 const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig()
-const selectValue = ref<any>()
+const selectValue = ref<any>('')
 const preSelectValue = ref<any>('')
 const selectItem = ref<any>()
 const selectLabel = ref('')
@@ -54,16 +54,12 @@ function initModelValue(){
 }
 
 watch(selectValue, (val) => {
-    initNoExistData()
     handleReturnResult(val);
 })
 watch(() => props.selectIndex, () => {
     initSelectIndex();
 })
-watchEffect(()=>{
-   initModelValue()
-   initSelectValue()
-})
+
 
 watch(() => props.url, () => {
     if (props.resetValueByChangeData) {
@@ -133,10 +129,21 @@ if (props.height) {
 
 }
 
+const currModelValue=computed(()=>{
+return initModelValue()
+})
+watch(currModelValue,(val)=>{
+    initSelectValue()
+
+})
+
 function initSelectValue() {
-    const currValue=initModelValue()
+
+    const currValue=currModelValue.value
     let currValueType = props.valueType;
-    if (currValue === '' || currValue === undefined) { selectValue.value = ''; return }
+    if (currValue === '' || currValue === undefined || selectValue.value.toString() ===  currValue.toString()) {
+        
+        return }
     if (currValueType === ValueType.Number) {
         selectValue.value = parseFloat(currValue.toString());
     }
@@ -148,7 +155,7 @@ function initSelectValue() {
     } else {
         selectValue.value = currValue;
     }
-
+    initNoExistData()
 }
 function initSelectIndex() {
     const currValue=initModelValue()
@@ -222,7 +229,6 @@ function readData() {
                 originalData.push(...res[$dataField])
 
                 initSelectValue();
-                initNoExistData();
                 initSelectIndex();
                 emits("readdataed", options)
             }
@@ -246,7 +252,7 @@ function handleReturnModelValue(value){
         setModelValue(props.prop,value,props.aIndex)
     }
 }
-function handleReturnResult(value: number | string | boolean) {
+function handleReturnResult(value) {
     if (value === undefined) { value = ''; }
     handleReturnModelValue(value)
     if (initSelect.value) {
@@ -281,7 +287,6 @@ if (props.url) {
         originalData.push(...props.data)
     }
     initSelectValue()
-    initNoExistData();
     initSelectIndex();
 }
 

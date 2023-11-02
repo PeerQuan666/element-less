@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useAttrs, watch, inject, watchEffect } from 'vue'
+import { ref, useAttrs, watch, inject, watchEffect,computed } from 'vue'
 import '../../utlis/lessPrototype.js'
 import { DatePickerProps } from '../../utlis/interfaceCom'
 const emits = defineEmits(['update:modelValue', 'update:start', 'update:end'])
@@ -28,15 +28,24 @@ let pickerOptions = ref<Array<{ text: string, value: Date | Function }>>([])
 
 function initValue() {
     if (props.type == "daterange" || props.type == "datetimerange" || props.type == "monthrange" || props.type == 'dates') {
+        let currValue=['','']
         if (props.start && props.end) {
-            dateValue.value = [props.start.toString(), props.end.toString()];
+            currValue=[props.start.toString(), props.end.toString()]
         } else if (props.start) {
-            dateValue.value = [props.start.toString(), props.start.toString()];
+            currValue=[props.start.toString(), props.start.toString()]
         } else if (props.modelValue) {
-            dateValue.value = props.modelValue.toString().split(props.valueSeparator)
+            currValue= props.modelValue.toString().split(props.valueSeparator)
+        }
+        if(!dateValue.value){
+            dateValue.value =currValue ;
+        }
+       else if(currValue.toString()!=dateValue.value.toString()){
+          dateValue.value =currValue ;
         }
     } else {
-        dateValue.value = props.modelValue
+        if(dateValue.value != props.modelValue){
+            dateValue.value = props.modelValue
+        }
     }
 
 }
@@ -297,35 +306,27 @@ function initModelValue() {
     }
     return props.modelValue
 }
-function initStartModelValue() {
-    if (props.start===undefined && getModelValue && attrs.propStart) {
-        return getModelValue(attrs.propStart)
-    }
-    return props.start
-}
-function initEndModelValue() {
-    if (props.end===undefined && getModelValue && attrs.propEnd) {
-        return getModelValue(attrs.propEnd)
-    }
-    return props.modelValue
-}
-watchEffect(() => {
-    if (props.type.indexOf('range') > -1 && (props.start !== undefined && props.end !== undefined) || (attrs.propStart && attrs.propEnd)) {
-        const startValue = initStartModelValue()
-        const endValue = initEndModelValue()
-        dateValue.value = [startValue, endValue]
-    }
+
+
+watch(dateValue, (val,oldVal) => {
+    handleReturnResult(val)
 })
 
+const currModelValue=computed(()=>{
+return initModelValue()
+})
 
-watchEffect(() => {
-    const currValue = initModelValue()
+watch(currModelValue,(currValue)=>{
     if (typeof (currValue) === 'string' && (props.type.indexOf('range') > -1 || props.type == 'dates')) {
-        dateValue.value = currValue.split(props.valueSeparator)
+        if(!dateValue.value||currValue.toString()!=dateValue.value.toString()){
+            dateValue.value = currValue.split(props.valueSeparator)
+       }
+       
     } else {
         dateValue.value = currValue
     }
 })
+
 
 watch(() => props.modelValue, (val) => {
     if (typeof (val) === 'string' && (props.type.indexOf('range') > -1 || props.type == 'dates')) {
@@ -335,9 +336,8 @@ watch(() => props.modelValue, (val) => {
     }
 }, { immediate: true })
 
-watch(dateValue, (val) => {
-    handleReturnResult(val)
-})
+
+
 const pickerStyle = ref<any>([])
 watchEffect(() => {
     currValueFormat.value = props.valueFormat;

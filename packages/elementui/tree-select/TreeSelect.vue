@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, useAttrs, onMounted,inject ,watchEffect} from 'vue'
+import { ref, watch, useAttrs, onMounted,inject ,computed} from 'vue'
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
@@ -116,10 +116,14 @@ function initModelValue() {
     return props.modelValue
 }
 
-watchEffect(()=>{
-  initModelValue()
-  initSelectValue()
+const currModelValue=computed(()=>{
+return initModelValue()
 })
+watch(currModelValue,(val)=>{
+    initSelectValue()
+
+})
+
 
 
 const emits = defineEmits(['update:modelValue', 'update:select', 'update:select-label', 'select'])
@@ -213,31 +217,32 @@ onMounted(() => {
     initSelectValue();
 })
 function initSelectValue() {
-    if (props.modelValue === '' || props.modelValue === undefined) {
+    const currValue = currModelValue.value
+    if (currValue === '' || currValue === undefined|| selectValue.value.toString() ===  currValue.toString()) {
         return
     }
     if (currMultiple) {
         if (props.valueType === ValueType.Number) {
-            selectValue.value = props.modelValue.toString().toListNumber(props.valueSeparator)
+            selectValue.value = currValue.toString().toListNumber(props.valueSeparator)
         } else if (props.valueType === ValueType.String) {
-            selectValue.value = props.modelValue.toString().toList(props.valueSeparator)
+            selectValue.value = currValue.toString().toList(props.valueSeparator)
         } else if (optionData.value.length && typeof (optionData.value[0][props.valueField]) === "number") {
-            selectValue.value = props.modelValue.toString().toListNumber(props.valueSeparator)
-        } else if (props.modelValue) {
-            selectValue.value = props.modelValue.toString().toList(props.valueSeparator)
+            selectValue.value = currValue.toString().toListNumber(props.valueSeparator)
+        } else if (currValue) {
+            selectValue.value =currValue.toString().toList(props.valueSeparator)
         }
         dataTree.value.setCheckedKeys(selectValue.value);
     } else {
         if (props.valueType === ValueType.Number) {
-            selectValue.value = parseFloat(props.modelValue.toString());
+            selectValue.value = parseFloat(currValue.toString());
         }
         else if (props.valueType === ValueType.String) {
-            selectValue.value = props.modelValue.toString();
+            selectValue.value = currValue.toString();
         }
-        else if (optionData.value.length && props.modelValue.toString().length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
-            selectValue.value = parseFloat(props.modelValue.toString());
+        else if (optionData.value.length && currValue.toString().length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
+            selectValue.value = parseFloat(currValue.toString());
         } else {
-            selectValue.value = props.modelValue;
+            selectValue.value = currValue;
         }
         selectOptionData.value.forEach(ele => {
             pushExpendData(ele)

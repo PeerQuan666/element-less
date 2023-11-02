@@ -160,7 +160,7 @@ const modalUrl = computed(() => {
 </script>
 <template >
     
-    <span style="display: flex;">
+    <span class="els-datamodal">
         <el-input v-model="currSelectValue" v-if="hasInput" 
             :style="(inputWidth ? 'width:' + inputWidth.appendPx() : '')"></el-input>
         <component :is="componentName" type="primary" v-bind="attrs" v-if="hasButton" @click.native="handleOpenModal" >{{ buttonLabel?buttonLabel:'选择' }}</component>
@@ -183,4 +183,5 @@ const modalUrl = computed(() => {
 .dialog-footer button:first-child {
     margin-right: 10px;
 }
+.els-datamodal{display: flex;align-items: center;gap: 5px;}
 </style>

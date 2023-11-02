@@ -17,7 +17,7 @@ const colData = inject<any>("colData", null)
 const getSpan = inject<Function>("getSpan", () => null)
 const setSpan = inject<Function>("setSpan", () => null)
 const removeSpan = inject<Function>("removeSpan", () => null)
-
+const col=ref()
 watch(()=>props.span,(val)=>{
     setSpan(tagID, val)
 
@@ -30,9 +30,14 @@ watch(colData.value, () => {
     }
 }, { deep: true })
 onMounted(() => {
+    if(col.value.$el.parentNode.className.includes('els-node')){
+        col.value.$el.parentNode.style.display='none'
+        col.value.$el.parentNode.parentNode.appendChild(col.value.$el)
+    }
     if (getSpan) {
         currSpan.value = getSpan()
     }
+    
 })
 onUnmounted(() => {
     if (removeSpan) {
@@ -42,7 +47,7 @@ onUnmounted(() => {
 })
 </script>
 <template>
-    <el-col :span="currSpan">
+    <el-col :span="currSpan" ref="col">
         <slot ></slot>
     </el-col>
 </template>

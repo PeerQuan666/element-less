@@ -51,7 +51,8 @@ export interface TimePickerProps extends FormItemProps {
     disabledMinutes?: Function|Array<any>,
     disabledSeconds?: Function|Array<any>,
     valueSeparator?:string,
-    valueFormat?:string
+    valueFormat?:string,
+    isRange?:boolean
 }
 
 

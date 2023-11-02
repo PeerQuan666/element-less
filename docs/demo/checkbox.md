@@ -12,7 +12,13 @@ sticky: true
 star: true
 ---
 
-多选组件
+# CheckBox多选
+
+:::tip
+在一组可选项中进行多项选择时
+单独使用可以表示两种状态之间的切换，和 Switch 类似
+:::
+
 
 <!-- more -->
 
