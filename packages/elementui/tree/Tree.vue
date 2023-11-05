@@ -5,7 +5,9 @@ import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
 import { FormItemProps } from '../../utlis/interfaceCom'
 import { ValueType } from '../../utlis/enumCom'
-defineOptions({ name: 'ElsTree',inheritAttrs:false })
+import { useModel } from '../../utlis/componentCom.js'
+
+defineOptions({ name: 'ElsTree', inheritAttrs: false })
 interface Props extends FormItemProps {
     modelValue?: string,
     checkStrictly?: boolean,
@@ -109,18 +111,13 @@ watch(() => props.data, (val: any) => {
 
 
 
-const getModelValue = inject<Function>('getModelValue', () => null)
-function initModelValue() {
-    if (props.modelValue===undefined && getModelValue && props.prop) {
-        return getModelValue(props.prop,props.aIndex)
-    }
-    return props.modelValue
-}
+const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
 
-const currModelValue=computed(()=>{
-return initModelValue()
-})
-watch(currModelValue,(val)=>{
+
+watch(currModelValue, (val) => {
     initSelectValue()
 
 })
@@ -218,18 +215,18 @@ onMounted(() => {
 })
 function initSelectValue() {
     const currValue = currModelValue.value
-    if (currValue === '' || currValue === undefined|| selectValue.value.toString() ===  currValue.toString()) {
+    if (currValue === '' || currValue === undefined || selectValue.value.toString() === currValue.toString()) {
         return
     }
     if (currMultiple) {
         if (props.valueType === ValueType.Number) {
-            selectValue.value =currValue.toString().toListNumber(props.valueSeparator)
+            selectValue.value = currValue.toString().toListNumber(props.valueSeparator)
         } else if (props.valueType === ValueType.String) {
             selectValue.value = currValue.toString().toList(props.valueSeparator)
         } else if (optionData.value.length && typeof (optionData.value[0][props.valueField]) === "number") {
             selectValue.value = currValue.toString().toListNumber(props.valueSeparator)
         } else if (currValue) {
-            selectValue.value =currValue.toString().toList(props.valueSeparator)
+            selectValue.value = currValue.toString().toList(props.valueSeparator)
         }
         dataTree.value.setCheckedKeys(selectValue.value);
     } else {
@@ -415,20 +412,15 @@ function handleComitSelect(value) {
         console.log(err)
     }
 }
-const setModelValue = inject<Function>('setModelValue', () => { })
-function handleReturnModelValue(value) {
-    emits('update:modelValue', value);
-    if (props.modelValue===undefined&&setModelValue && props.prop) {
-        setModelValue(props.prop, value,props.aIndex)
-    }
-}
+
+
 function handleReturnResult(value) {
     if (value === undefined) { value = []; }
     if (currMultiple) {
-        handleReturnModelValue(value.join(props.valueSeparator))
+        returnModelValue(value.join(props.valueSeparator))
 
     } else {
-        handleReturnModelValue(value.toString())
+        returnModelValue(value.toString())
 
     }
     if (attrs['onUpdate:select'] || attrs['onUpdate:select-label'] || attrs["onSelect"]) {
@@ -613,39 +605,44 @@ function handleNodeClick(data) {
 </script>
 
 <template>
-       <div class="els-node">
-    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-        <el-input v-if="filterable" placeholder="输入关键字进行过滤" v-model="filterText" suffix-icon="Search" clearable></el-input>
-        <el-checkbox v-if="currMultiple && showCheckAll" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-        <el-tree ref="dataTree" v-loading="dataLoading" :load="handleLoadNode" node-key="id" :props="currProps"
-            :data="options" :default-checked-keys="selectValue" @check-change="handleChange" @node-click="handleNodeClick"
-            @node-expand="handleNodeExpand" @node-collapse="handleNodeCollapse" :default-expanded-keys="expendData"
-            :check-strictly="checkStrictly" :expand-on-click-node="!currMultiple ? true : expandOnClickNode"
-            :filter-node-method="filterNode" :show-checkbox="currMultiple" v-bind="attrs">
-            <template #default="{ node, data }">
-                <div @dblclick="handleAllSelect(node)" v-if="currMultiple"
-                    :class="!node.childNodes.length ? 'els-tree-last-node' : 'els-tree-node'">
-                    <slot name="default" :node="node" :data="data.sourceData">
-                        {{ node.label }}
-                    </slot>
-                </div>
-                <div :class="{ 'els-tree-selected ': viewData && viewData[valueField] == data.sourceData[valueField] }"
-                    v-else>
-                    <span>
-                        <slot name="default" :node="node" :data="data.sourceData">{{ node.label }}</slot>
-                    </span>
-                    <el-icon
-                        v-if="viewData && viewData[valueField] == data.sourceData[valueField] && !currMultiple && showSelect">
-                        <Check />
-                    </el-icon>
-                </div>
-            </template>
-        </el-tree>
-     </ElsFormNode>
+    <div class="els-node">
+        <div class="els-tree">
+            <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
+                <el-input v-if="filterable" placeholder="输入关键字进行过滤" v-model="filterText" suffix-icon="Search"
+                    clearable></el-input>
+                <el-checkbox v-if="currMultiple && showCheckAll" v-model="checkAll"
+                    @change="handleCheckAllChange">全选</el-checkbox>
+                <el-tree ref="dataTree" v-loading="dataLoading" :load="handleLoadNode" node-key="id" :props="currProps"
+                    :data="options" :default-checked-keys="selectValue" @check-change="handleChange"
+                    @node-click="handleNodeClick" @node-expand="handleNodeExpand" @node-collapse="handleNodeCollapse"
+                    :default-expanded-keys="expendData" :check-strictly="checkStrictly"
+                    :expand-on-click-node="!currMultiple ? true : expandOnClickNode" :filter-node-method="filterNode"
+                    :show-checkbox="currMultiple" v-bind="attrs">
+                    <template #default="{ node, data }">
+                        <div @dblclick="handleAllSelect(node)" v-if="currMultiple"
+                            :class="!node.childNodes.length ? 'els-tree-last-node' : 'els-tree-node'">
+                            <slot name="default" :node="node" :data="data.sourceData">
+                                {{ node.label }}
+                            </slot>
+                        </div>
+                        <div :class="{ 'els-tree-selected ': viewData && viewData[valueField] == data.sourceData[valueField] }"
+                            v-else>
+                            <span>
+                                <slot name="default" :node="node" :data="data.sourceData">{{ node.label }}</slot>
+                            </span>
+                            <el-icon
+                                v-if="viewData && viewData[valueField] == data.sourceData[valueField] && !currMultiple && showSelect">
+                                <Check />
+                            </el-icon>
+                        </div>
+                    </template>
+                </el-tree>
+            </ElsFormNode>
+        </div>
+
     </div>
 </template>
 <style scoped>
 .els-tree-selected {
     color: #409eff;
-}
-</style>
+}</style>

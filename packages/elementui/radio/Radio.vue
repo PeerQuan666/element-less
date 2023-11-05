@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watch, useAttrs, computed, nextTick, provide,inject,watchEffect } from 'vue'
+import { ref, reactive, watch, useAttrs, computed, nextTick, provide,inject,watchEffect, onMounted } from 'vue'
 import { ElMessage } from 'element-plus';
 import ElsOption from '../option/Option.vue';
 import ElsOptionGroup from '../option-group/OptionGroup.vue';
@@ -7,6 +7,7 @@ import lessCom from '../../utlis/lessCom.js'
 import '../../utlis/lessPrototype.js'
 import { ValueType } from '../../utlis/enumCom'
 import { RadioProps } from '../../utlis/interfaceCom'
+import {useModel} from '../../utlis/componentCom.js'
 defineOptions({
     name: 'ElsRadio',
     inheritAttrs:false
@@ -45,13 +46,12 @@ const optionData = computed<Array<Record<string, any>>>(() => {
     return options.concat(extraOption).concat(noExistOption);
 })
 
-const getModelValue=inject<Function>('getModelValue',()=>null)
-function initModelValue(){
-    if(props.modelValue===undefined&&getModelValue&&props.prop){
-      return  getModelValue(props.prop,props.aIndex)
-    }
-    return props.modelValue
-}
+const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
+
+
 
 watch(selectValue, (val) => {
     handleReturnResult(val);
@@ -129,9 +129,7 @@ if (props.height) {
 
 }
 
-const currModelValue=computed(()=>{
-return initModelValue()
-})
+
 watch(currModelValue,(val)=>{
     initSelectValue()
 
@@ -158,7 +156,7 @@ function initSelectValue() {
     initNoExistData()
 }
 function initSelectIndex() {
-    const currValue=initModelValue()
+    const currValue=currModelValue.value
     if (props.selectIndex > -1 && !currValue) {
         if (optionData.value.length) {
             selectValue.value = optionData.value[props.selectIndex][props.valueField];
@@ -245,16 +243,11 @@ function readData() {
 function handleClickOption(item: any) {
     emits("click-option", item)
 }
-const setModelValue=inject<Function>('setModelValue',()=>null)
-function handleReturnModelValue(value){
-    emits('update:modelValue', value);
-    if(props.modelValue===undefined&&setModelValue&&props.prop!==undefined){
-        setModelValue(props.prop,value,props.aIndex)
-    }
-}
+
+
 function handleReturnResult(value) {
     if (value === undefined) { value = ''; }
-    handleReturnModelValue(value)
+    returnModelValue(value)
     if (initSelect.value) {
         if (value || value === 0) {
             if (props.valueField && props.labelField) {
@@ -279,7 +272,8 @@ initSelect.value = props.isInitTriggerSelect;
 if (props.modelValue === '') {
     initSelect.value = true;
 }
-if (props.url) {
+onMounted(()=>{
+    if (props.url) {
     readData()
 } else {
     if (props.data) {
@@ -289,6 +283,8 @@ if (props.url) {
     initSelectValue()
     initSelectIndex();
 }
+})
+
 
 </script>
 <template>

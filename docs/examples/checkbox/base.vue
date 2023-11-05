@@ -10,6 +10,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-const selectValue = ref('')
+const selectValue = ref('1,2')
 const singleValue = ref()
 </script>

@@ -149,3 +149,14 @@ table/merge
 
 :::
 
+## 绑定列
+
+:::tip
+设置<code>columns</code>属性
+:::
+
+:::vuefile-demo
+
+table/columndata
+
+:::

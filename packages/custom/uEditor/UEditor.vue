@@ -2,7 +2,7 @@
 import { onMounted, ref, watch ,inject} from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'
-
+import {useModel} from '../../utlis/componentCom.js'
 defineOptions({ name: "ElsUEditor" })
 const { $serverUrl,$homeUrl } = lessCom.getUEditorConfig()
 const emits = defineEmits(['update:modelValue', 'update:html'])
@@ -25,8 +25,10 @@ const props = withDefaults(defineProps<Props>(), {
     height: '500',
     width: '100%'
 })
-const setModelValue=inject<Function>('setModelValue',()=>null)
-const getModelValue=inject<Function>('getModelValue',()=>null)
+const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
 const editorContent = ref()
 const currServerUrl = ref<any>(props.serverUrl ?? $serverUrl)
 if (currServerUrl.value) {
@@ -77,25 +79,14 @@ function addXiumiDialog(editorId) {
     }
 
 }
-function initModelValue() {
-    if (props.modelValue===undefined && getModelValue && props.prop) {
-        return getModelValue(props.prop, props.aIndex)
-    }
-    return props.modelValue
-}
 
-function handleReturnResult(val) {
-    emits('update:modelValue', val)
-    if (props.modelValue===undefined&&setModelValue && props.prop) {
-        setModelValue(props.prop, val, props.aIndex)
-    }
-}
+
 watch(editorContent, (val) => {
-    handleReturnResult(val)
+   returnModelValue(val)
 })
 onMounted(() => {
     if (props.modelValue) {
-        editorContent.value =initModelValue()
+        editorContent.value =currModelValue.value
     }
 })
 

@@ -5,6 +5,8 @@ import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
 import { FormItemProps } from '../../utlis/interfaceCom'
 import { ValueType } from '../../utlis/enumCom'
+import {useModel} from '../../utlis/componentCom.js'
+
 defineOptions({ name: 'ElsTreeSelect',inheritAttrs:false })
 interface Props extends FormItemProps {
     modelValue?: string,
@@ -108,17 +110,10 @@ watch(() => props.data, (val: any) => {
     }
 }, { immediate: true })
 
-const getModelValue = inject<Function>('getModelValue', () => null)
-function initModelValue() {
-    if (props.modelValue===undefined&& getModelValue && props.prop) {
-        return getModelValue(props.prop,props.aIndex)
-    }
-    return props.modelValue
-}
-
-const currModelValue=computed(()=>{
-return initModelValue()
-})
+const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
 watch(currModelValue,(val)=>{
     initSelectValue()
 
@@ -410,20 +405,14 @@ function handleComitSelect(value) {
         console.log(err)
     }
 }
-const setModelValue=inject<Function>('setModelValue',()=>{})
-function handleReturnModelValue(value){
-    emits('update:modelValue', value);
-    if(props.modelValue===undefined&&setModelValue&&props.prop!==undefined){
-        setModelValue(props.prop,value,props.aIndex)
-    }
-}
+
 function handleReturnResult(value) {
     if (value === undefined) { value = []; }
     if (currMultiple) {
-        handleReturnModelValue(value.join(props.valueSeparator))
+        returnModelValue(value.join(props.valueSeparator))
 
     } else {
-        handleReturnModelValue(value.toString())
+        returnModelValue(value.toString())
 
     }
     if (attrs['onUpdate:select'] || attrs['onUpdate:select-label'] || attrs["onSelect"]) {

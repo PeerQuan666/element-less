@@ -4,5 +4,5 @@
 
 <script setup>
 import { ref } from 'vue'
-const selectValue = ref()
+const selectValue = ref(33)
 </script>

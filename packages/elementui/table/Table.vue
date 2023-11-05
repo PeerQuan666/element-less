@@ -57,6 +57,7 @@ interface Props {
     editStatus?: boolean,
     beforeTriggerContextMenu?: Function,
     contextMenus?:Array<Record<string,any>>,
+    columns?:Array<Record<string,any>>,
     hasContextMenu?: boolean
 
 
@@ -79,6 +80,7 @@ const props = withDefaults(defineProps<Props>(), {
     hasContextMenu: true,
     queryData: {},
 })
+
 const {$codeField,$messageField,$dataField,$success}=lessCom.getApiConfig()
 const {$idField,$actionNameField} =lessCom.getMenuConfig()
 
@@ -1330,7 +1332,14 @@ defineExpose({
             @select-all="handleTableSelectAll" :span-method="currSpanMethod" :summary-method="currSummaryMethod"
             v-bind="attrs">
             <template #default>
-                <slot name="default"></slot>
+                <template v-if="columns&&columns.length">
+                    <els-table-column  v-for="column in columns" v-bind="column">
+                        <template #default="{ row, $index }">
+                          <slot :name="column.prop" v-bind="{row:row,$index:$index}" >{{ row[column.prop] }}</slot>
+                        </template>
+                    </els-table-column>
+                </template>
+                <slot name="default" v-else></slot>
                 <els-table-column label="操作" v-if="showEditColumn && (isShowEditColumn || dragRow)" fixed="right"
                     :width="isShowEditColumn ? '200' : '80'">
                     <template #default="{ row, $index }">

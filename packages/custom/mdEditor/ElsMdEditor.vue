@@ -4,6 +4,7 @@ import { FormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'
 import 'md-editor-v3/lib/style.css';
 import { MdEditor } from 'md-editor-v3';
+import {useModel} from '../../utlis/componentCom.js'
 defineOptions({ name: "ElsMdEditor" })
 const { $uploadUrl } = lessCom.getUploadConfig() 
 const emits = defineEmits(['update:modelValue', 'update:html'])
@@ -24,8 +25,10 @@ const props = withDefaults(defineProps<Props>(), {
 
 
 })
-const setModelValue = inject<Function>('setModelValue', () => null)
-const getModelValue = inject<Function>('getModelValue', () => null)
+const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
 
 const htmlContent = ref()
 const markDownContent = ref()
@@ -44,25 +47,15 @@ function returnHtml(res) {
     emits("update:html", htmlContent.value)
 
 }
-function handleReturnResult(val) {
-    emits('update:modelValue', val)
-    if (props.modelValue===undefined&&setModelValue && props.prop) {
-        setModelValue(props.prop, val, props.aIndex)
-    }
-}
+
 watch(markDownContent, (val) => {
-    handleReturnResult(val)
+    returnModelValue(val)
 })
-function initModelValue() {
-    if (props.modelValue===undefined && getModelValue && props.prop) {
-        return getModelValue(props.prop, props.aIndex)
-    }
-    return props.modelValue
-}
+
 
 onMounted(() => {
     if (props.modelValue) {
-        markDownContent.value = initModelValue()
+        markDownContent.value = currModelValue.value
     }
 })
 

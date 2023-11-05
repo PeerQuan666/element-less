@@ -272,7 +272,7 @@ defineExpose({
 
 <template>
     <el-form :model="formData" class="queryForm" ref="queryForm" onsubmit="return false;" inline :show-message="false">
-        <slot></slot>
+        <slot v-bind="{formData:formData}"></slot>
     </el-form>
 </template>
 <style lang="less" scoped>

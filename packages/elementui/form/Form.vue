@@ -215,7 +215,7 @@ defineExpose({
 <template>
 
     <el-form :model="modelData" ref="dataForm" onsubmit="return false;" :label-width="currLabelWidth">
-        <slot></slot>
+        <slot v-bind="{formData:modelData}"></slot>
     </el-form>
 </template>
 

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, useAttrs, watch, inject, watchEffect,computed } from 'vue'
+import { ref, useAttrs, watch, inject, watchEffect, computed } from 'vue'
 import '../../utlis/lessPrototype.js'
 import { DatePickerProps } from '../../utlis/interfaceCom'
 const emits = defineEmits(['update:modelValue', 'update:start', 'update:end'])
 import lessCom from '../../utlis/lessCom.js'
-
-defineOptions({ name: 'ElsDatePicker',inheritAttrs:false })
+import {useModel} from '../../utlis/componentCom.js'
+defineOptions({ name: 'ElsDatePicker', inheritAttrs: false })
 
 const props = withDefaults(defineProps<DatePickerProps>(), {
     type: 'date',
@@ -25,26 +25,29 @@ if (props.defaultTime) {
     }
 }
 let pickerOptions = ref<Array<{ text: string, value: Date | Function }>>([])
+const {
+    currModelValue,
+    returnModelValue,
+    returnStartValue,
+    returnEndValue
+} = useModel(props)
 
 function initValue() {
     if (props.type == "daterange" || props.type == "datetimerange" || props.type == "monthrange" || props.type == 'dates') {
-        let currValue=['','']
-        if (props.start && props.end) {
-            currValue=[props.start.toString(), props.end.toString()]
-        } else if (props.start) {
-            currValue=[props.start.toString(), props.start.toString()]
-        } else if (props.modelValue) {
-            currValue= props.modelValue.toString().split(props.valueSeparator)
-        }
-        if(!dateValue.value){
-            dateValue.value =currValue ;
-        }
-       else if(currValue.toString()!=dateValue.value.toString()){
-          dateValue.value =currValue ;
+        let currValue = ['', '']
+        if (!currModelValue.value) {
+            if (props.start && props.end) {
+                currValue = [props.start.toString(), props.end.toString()]
+            } else if (props.start) {
+                currValue = [props.start.toString(), props.start.toString()]
+            }
+            if (!dateValue.value) {
+                dateValue.value = currValue;
+            }
         }
     } else {
-        if(dateValue.value != props.modelValue){
-            dateValue.value = props.modelValue
+        if (dateValue.value != currModelValue.value) {
+            dateValue.value =  currModelValue.value
         }
     }
 
@@ -254,88 +257,48 @@ if (props.shortcuts) {
         ]
     }
 }
-const setModelValue = inject<Function>('setModelValue', () => { })
-function handleReturnModelValue(value) {
-    emits('update:modelValue', value);
-    if (props.modelValue===undefined&&setModelValue && props.prop !== undefined) {
-        setModelValue(props.prop, value, props.aIndex)
-    }
-}
-function handleReturnStartValue(value) {
-    emits('update:start', value);
-    if (props.start===undefined&&setModelValue && attrs.propStart !== undefined) {
-        setModelValue(attrs.propStart, value, props.aIndex)
-    }
-}
-function handleReturnEndValue(value) {
-    emits('update:end', value);
-    if (props.end===undefined&&setModelValue && attrs.propEnd !== undefined) {
-        setModelValue(attrs.propEnd, value, props.aIndex)
-    }
-}
+
+
+
 function handleReturnResult(val) {
     if (!val) {
-        handleReturnStartValue('')
-        handleReturnEndValue('')
-        handleReturnModelValue('')
+       returnStartValue('')
+       returnEndValue('')
+       returnModelValue('')
     } else {
         if (props.type.indexOf('range') > -1) {
-            handleReturnStartValue(val[0])
-            handleReturnEndValue(val[1])
+            returnStartValue(val[0])
+            returnEndValue(val[1])
             if (!val[0] && !val[1]) {
-                handleReturnModelValue('')
+                returnModelValue('')
             } else {
-                handleReturnModelValue(val.join(props.valueSeparator))
+                returnModelValue(val.join(props.valueSeparator))
             }
         }
         else if (props.type == 'dates' && Array.isArray(val)) {
-            handleReturnModelValue(val.join(props.valueSeparator))
+            returnModelValue(val.join(props.valueSeparator))
         }
         else {
-            handleReturnModelValue(val)
+            returnModelValue(val)
         }
     }
 }
 
 
-
-const getModelValue = inject<Function>('getModelValue', () => null)
-function initModelValue() {
-    if (props.modelValue===undefined && getModelValue && props.prop) {
-        return getModelValue(props.prop, props.aIndex)
-    }
-    return props.modelValue
-}
-
-
-watch(dateValue, (val,oldVal) => {
+watch(dateValue, (val, oldVal) => {
     handleReturnResult(val)
 })
 
-const currModelValue=computed(()=>{
-return initModelValue()
-})
-
-watch(currModelValue,(currValue)=>{
+watch(currModelValue, (currValue) => {
     if (typeof (currValue) === 'string' && (props.type.indexOf('range') > -1 || props.type == 'dates')) {
-        if(!dateValue.value||currValue.toString()!=dateValue.value.toString()){
+        if (!dateValue.value || currValue.toString() != dateValue.value.toString()) {
             dateValue.value = currValue.split(props.valueSeparator)
-       }
-       
+        }
+
     } else {
         dateValue.value = currValue
     }
-})
-
-
-watch(() => props.modelValue, (val) => {
-    if (typeof (val) === 'string' && (props.type.indexOf('range') > -1 || props.type == 'dates')) {
-        dateValue.value = val.split(props.valueSeparator)
-    } else {
-        dateValue.value = val
-    }
 }, { immediate: true })
-
 
 
 const pickerStyle = ref<any>([])
@@ -368,8 +331,9 @@ watchEffect(() => {
                 if (!currWidth.value) {
                     currWidth.value = '160'
                 }
+
                 if (props.defaultTime) {
-                    currValueFormat.value = "YYYY-MM-DD HH:mm:ss"
+                    currValueFormat.value = "YYYY-M M-DD HH:mm:ss"
                 }
                 break;
             case 'datetimerange':
@@ -411,21 +375,23 @@ watchEffect(() => {
 })
 
 initValue();
+
 </script>
 
 <template>
-       <div class="els-node">
-    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-        <el-date-picker v-model="dateValue" v-bind="attrs" :type="type" :value-format="currValueFormat"
-            :defaultTime="currDefaultTime" :disabled-date="currDisabledDate" :shortcuts="pickerOptions"
-            :style="pickerStyle">
-            <template #default="cell">
-                <slot name="default" :cell="cell"></slot>
-            </template>
-            <template #range-separator>
-                <slot name="range-separator"></slot>
-            </template>
-        </el-date-picker>
-     </ElsFormNode>
-    </div></template>
+    <div class="els-node">
+        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
+            <el-date-picker v-model="dateValue" v-bind="attrs" :type="type" :value-format="currValueFormat"
+                :defaultTime="currDefaultTime" :disabled-date="currDisabledDate" :shortcuts="pickerOptions"
+                :style="pickerStyle">
+                <template #default="cell">
+                    <slot name="default" :cell="cell"></slot>
+                </template>
+                <template #range-separator>
+                    <slot name="range-separator"></slot>
+                </template>
+            </el-date-picker>
+        </ElsFormNode>
+    </div>
+</template>
 

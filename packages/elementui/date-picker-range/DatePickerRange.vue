@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, watch, useAttrs, inject, watchEffect } from 'vue'
+import { ref, watch, useAttrs, inject, computed } from 'vue'
 import '../../utlis/lessPrototype.js'
 import { DatePickerProps, RangeFormItemProps } from '../../utlis/interfaceCom'
 import { QueryDataType } from '../../utlis/enumCom';
 const emits = defineEmits(['update:modelValue', 'update:start', 'update:end'])
 import lessCom from '../../utlis/lessCom.js'
-
+import {useRangeModel} from '../../utlis/componentCom.js'
 defineOptions({ name: 'ElsDatePickerRange', inheritAttrs: false })
 
 interface Props extends DatePickerProps, RangeFormItemProps {
@@ -27,72 +27,15 @@ const currDefaultTime = ref(props.defaultTime)
 if (props.type == 'datetime' && !currDefaultTime.value) {
     currDefaultTime.value = ['00:00:00', '23:59:59']
 }
-if (!currDefaultTime.value) {
-    currDefaultTime.value = ['', '']
-}
+
 const currType = props.single ? props.type + 'range' : props.type
 const dateValue = ref<any>('')
 const dateStartValue = ref()
 const dateEndValue = ref()
 
-
-const setModelValue = inject<Function>('setModelValue', () => { })
-
-function handleReturnModelValue(value) {
-    emits('update:modelValue', value);
-    if (props.modelValue === undefined && setModelValue && props.prop !== undefined) {
-        setModelValue(props.prop, value, props.aIndex)
-    }
-}
-function handleReturnStartValue(value) {
-    emits('update:start', value);
-    if (props.start === undefined && setModelValue && props.propStart !== undefined) {
-        setModelValue(props.propStart, value, props.aIndex)
-    }
-}
-function handleReturnEndValue(value) {
-    emits('update:end', value);
-    if (props.end === undefined && setModelValue && props.propEnd !== undefined) {
-        setModelValue(props.propEnd, value, props.aIndex)
-    }
-}
+ useRangeModel(props, dateValue, dateStartValue, dateEndValue)
 
 
-watch(dateValue, (val) => {
-    handleReturnModelValue(val)
-})
-
-watch(() => props.start, (val) => {
-    dateStartValue.value = val
-}, { immediate: true })
-
-watch(() => props.end, (val) => {
-    dateEndValue.value = val
-}, { immediate: true })
-
-watch(dateStartValue, (val) => {
-    if (!props.single) {
-
-        dateValue.value = [val, dateEndValue.value ?? ''].join(props.valueSeparator)
-
-    }
-    handleReturnStartValue(val)
-})
-
-watch(dateEndValue, (val) => {
-    if (!props.single) {
-        dateValue.value = [dateStartValue.value ?? '', val].join(props.valueSeparator)
-
-    }
-    handleReturnEndValue(val)
-})
-
-
-watch(() => props.modelValue, (val) => {
-    if (val) {
-        dateValue.value = val
-    }
-}, { immediate: true })
 
 </script>
 

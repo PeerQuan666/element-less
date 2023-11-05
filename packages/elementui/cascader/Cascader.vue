@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, reactive, watch, useAttrs, inject, computed } from 'vue'
+import { ref, reactive, watch, useAttrs, inject, computed,onMounted } from 'vue'
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
 import { FormItemProps } from '../../utlis/interfaceCom'
 import { ValueType } from '../../utlis/enumCom'
+import {useModel} from '../../utlis/componentCom.js'
 defineOptions({ name: 'ElsCascader' ,inheritAttrs:false})
 interface Props extends FormItemProps {
     modelValue?: string,
@@ -56,20 +57,16 @@ const dataProps = ref<any>({})
 const tableData = reactive<Array<Record<string, any>>>([])
 const optionData = reactive<Array<Record<string, any>>>([])
 const selectValue = ref<any>([])
-const getModelValue = inject<Function>('getModelValue', () => null)
-function initModelValue() {
-    if (props.modelValue===undefined&& getModelValue && props.prop) {
-        return getModelValue(props.prop,props.aIndex)
-    }
-    return props.modelValue
-}
+    const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
+
 watch(selectValue, (val: any) => {
     handleReturnResult(val);
 })
 
-const currModelValue=computed(()=>{
-return initModelValue()
-})
+
 watch(currModelValue,(val)=>{
     initSelectValue()
 
@@ -94,7 +91,6 @@ watch(() => props.data, (val: any) => {
 
 const attrs = useAttrs()
 const emits = defineEmits(['update:modelValue', 'update:select', 'update:select-label'])
-const setModelValue = inject<Function>('setModelValue', () => { })
 
 function initSelectValue() {
     const currValue = currModelValue.value
@@ -190,17 +186,12 @@ function searchChildData(item) {
         item[props.childrenField].push(currOption)
     })
 }
-function handleReturnModelValue(value) {
-    emits('update:modelValue', value);
-    if (props.modelValue===undefined&&setModelValue && props.prop) {
-        setModelValue(props.prop, value,props.aIndex)
-    }
-}
+
 function handleReturnResult(value) {
     if (value === undefined) { value = ''; }
 
     if (!value || value.length == 0) {
-        handleReturnModelValue("")
+        returnModelValue("")
         if (initSelect.value) {
             emits('update:select', {})
             emits('update:select-label', '')
@@ -214,7 +205,7 @@ function handleReturnResult(value) {
 
     if (props.multiple && props.emitPath) {
         const currValue = value.map(ele => ele.join(props.valueSeparator)).join(props.pathSeparator)
-        handleReturnModelValue(currValue)
+        returnModelValue(currValue)
 
         if (initSelect && tableData.length) {
             let selectData = value.map(ele => tableData.filter(cele => ele.includes(cele[props.valueField])))
@@ -232,7 +223,7 @@ function handleReturnResult(value) {
     }
 
     if (props.emitPath || props.multiple) {
-        handleReturnModelValue(value.join(props.valueSeparator))
+       returnModelValue(value.join(props.valueSeparator))
 
         if (initSelect.value && tableData.length) {
             let selectData = tableData.filter(cele => value.indexOf(cele[props.valueField]) > -1)
@@ -247,7 +238,7 @@ function handleReturnResult(value) {
         }
         return
     }
-    handleReturnModelValue(value)
+    returnModelValue(value)
 
     if (initSelect.value && tableData.length) {
         let selectData = tableData.find(cele => value == cele[props.valueField])
@@ -285,7 +276,9 @@ if (attrs['props']) {
     }
 }
 
-
+onMounted(()=>{
+    initSelectValue()
+})
 </script>
 
 <template>

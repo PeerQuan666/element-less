@@ -61,10 +61,14 @@ const lessCom = {
             queryAroundComma,
             queryRange,
             queryRangeOrEqual}))(props)
+            
             for(const key in param){
                 if(param[key]===undefined){
                     delete param[key]
                 }
+            }
+            if(!props.prop&&props.propStart){
+                param['prop']=props.propStart
             }
         return param;
     },

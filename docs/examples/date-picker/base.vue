@@ -7,5 +7,5 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-const editData = ref({ date1: '', date2: '', date3: '', date4: '', start: '', end: '' })
+const editData = ref({ date1: '2022-09-10', date2: '', date3: '', date4: '', start: '', end: '' })
 </script>

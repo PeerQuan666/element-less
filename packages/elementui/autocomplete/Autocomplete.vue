@@ -3,6 +3,7 @@ import { ref, reactive, watch, inject, watchEffect } from 'vue'
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
+import {useModel} from '../../utlis/componentCom.js'
 import { FormItemProps } from '../../utlis/interfaceCom'
 defineOptions({ name: 'ElsAutocomplete',inheritAttrs:false })
 interface Props extends FormItemProps {
@@ -19,25 +20,21 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emits = defineEmits(['update:modelValue'])
-const setModelValue = inject<Function>('setModelValue', () => { })
+const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
 const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig()
 const selectValue = ref()
 const tableData: Array<Record<string, any>> = reactive([])
 const queryData = reactive<any>({ searchKey: '', idString: '' })
-const getModelValue = inject<Function>('getModelValue', () => null)
-function initModelValue() {
-    if (props.modelValue===undefined && getModelValue && props.prop) {
-        return getModelValue(props.prop,props.aIndex)
-    }
-    return props.modelValue
-}
+
 watch(selectValue, (val) => {
-    handleReturnResult(val)
+    returnModelValue(val)
 })
-watchEffect(() => {
-    const currValue = initModelValue()
-    selectValue.value = currValue
-})
+watch(currModelValue,(val)=>{
+    selectValue.value = val
+},{immediate:true})
 
 watch(() => props.data, (val) => {
     tableData.length = 0
@@ -81,14 +78,7 @@ function readData() {
     })
 }
 
-function handleReturnResult(value) {
-    if (value === undefined) { value = ''; }
-    emits('update:modelValue', value)
-    if (props.modelValue===undefined&&setModelValue && props.prop) {
-        setModelValue(props.prop, value,props.aIndex)
-    }
 
-}
 
 </script>
 

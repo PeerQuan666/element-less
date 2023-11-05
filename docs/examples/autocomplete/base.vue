@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { ref ,reactive} from 'vue'
-const selectValue = ref('')
+const selectValue = ref('北京')
 const data = reactive([
     { key: '北京', value: 1, group: '分组1' }, 
     { key: '天津', value: 2, group: '分组1' }, 

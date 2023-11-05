@@ -2,7 +2,7 @@
 import { watch, inject ,watchEffect,useAttrs,ref} from 'vue'
 import lessCom from '../../utlis/lessCom.js'
 import { FormItemProps } from '../../utlis/interfaceCom'
-
+import {useModel} from '../../utlis/componentCom.js'
 defineOptions({
     name: 'ElsInputNumber',
     inheritAttrs:false
@@ -16,27 +16,23 @@ const emits = defineEmits(['update:modelValue'])
 const attrs=useAttrs()
 const currValue = ref()
 
-const getModelValue = inject<Function>('getModelValue', () => null)
-function initModelValue() {
-    if (props.modelValue===undefined&& getModelValue && props.prop) {
-        return getModelValue(props.prop,props.aIndex)
+
+
+
+const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
+
+watch(currModelValue,(val)=>{
+    if(currValue.value!==val){
+        currValue.value=val
     }
-    return props.modelValue
-}
 
-watchEffect(()=>{
-  const val= initModelValue()
-  currValue.value=val
-})
-
-const setModelValue = inject<Function>('setModelValue', () => { })
-
-
+},{immediate:true})
 watch(currValue, (val) => {
     emits('update:modelValue', val)
-    if (props.modelValue===undefined&&setModelValue && props.prop) {
-        setModelValue(props.prop, val,props.aIndex)
-    }
+    returnModelValue(val)
 })
 
 </script>

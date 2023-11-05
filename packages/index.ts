@@ -71,11 +71,13 @@ import ElsDynamicRender from './custom/dynamicRender'
 import ElsContainer from './custom/container/Container.vue'
 import ElsDynamicDesignerView  from './custom/dynamicDesignerView'
 
+import ElsHighlight from './custom/highlight'
 import ElsUEditor from './custom/uEditor'
 import ElsAceEditor from './custom/aceEditor'
 import ElsMdEditor from './custom/mdEditor'
 import ElsJsonViewer from './custom/jsonViewer'
 import ElsJsonEditor from './custom/jsonEditor'
+import ElsWorkPlan from './custom/workPlan'
 
 const components = [
     ElsInput,
@@ -132,7 +134,9 @@ const components = [
     ElsMdEditor,
     ElsAceEditor,
     ElsDynamicDesignerView,
-    ElsJsonEditor
+    ElsJsonEditor,
+    ElsHighlight,
+    ElsWorkPlan
     
 ]
 

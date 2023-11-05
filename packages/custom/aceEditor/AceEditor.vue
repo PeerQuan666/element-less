@@ -3,10 +3,9 @@ import { onMounted, ref, inject, watch } from "vue";
 import ace from "ace-builds";
 import { FormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'
-
+import {useModel} from '../../utlis/componentCom.js'
 defineOptions({ name: "ElsAceEditor" })
-const setModelValue = inject<Function>('setModelValue', () => null)
-const getModelValue = inject<Function>('getModelValue', () => null)
+
 const emits = defineEmits(['update:modelValue', 'formatter'])
 
 interface Props extends FormItemProps {
@@ -27,6 +26,10 @@ const props = withDefaults(defineProps<Props>(), {
 const editorValue = ref()
 const tagID = 'els-ace-' + lessCom.generateID()
 const editor = ref<any>()
+    const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
 watch(() => props.modelValue, (val) => {
     if (val != editorValue.value) {
         if(props.language==='json'){
@@ -39,18 +42,10 @@ watch(() => props.modelValue, (val) => {
 
 })
 function handleReturnResult(val) {
+    returnModelValue(val)
+ 
+}
 
-    emits('update:modelValue', val)
-    if (props.modelValue === undefined && setModelValue && props.prop !== undefined) {
-        setModelValue(props.prop, val, props.aIndex)
-    }
-}
-function initModelValue() {
-    if (props.modelValue === undefined && getModelValue && props.prop) {
-        return getModelValue(props.prop, props.aIndex)
-    }
-    return props.modelValue
-}
 function init(){
     let options = {
         theme: "ace/theme/" + (props.theme ? props.theme : "xcode"),
@@ -74,7 +69,7 @@ function init(){
             emits('formatter', editor.value)
         }
     })
-    const currValue = initModelValue()
+    const currValue = currModelValue.value
     if (currValue) {
         editor.value.setValue(currValue)
     }

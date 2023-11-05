@@ -5,6 +5,8 @@ import { UploadType } from '../../utlis/enumCom'
 import lessCom from '../../utlis/lessCom.js'
 import Sortable from 'sortablejs'
 import { ElNotification, ElMessage } from 'element-plus'
+import {useModel} from '../../utlis/componentCom.js'
+
 import '../../utlis/lessPrototype'
 defineOptions({
     name: 'ElsUpload',
@@ -72,15 +74,12 @@ watchEffect(()=>{
 function submitUpload() {
     fileUpload.value.submit();
 }
-const getModelValue = inject<Function>('getModelValue', () => null)
-function initModelValue() {
-    if (props.modelValue===undefined&& getModelValue && props.prop) {
-        return getModelValue(props.prop,props.aIndex)
-    }
-    return props.modelValue
-}
+const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
 function initFileUrl() {
-    fileUrl.value = initModelValue();
+    fileUrl.value = currModelValue.value;
     if (fileUrl.value) {
         fileList.value = fileUrl.value.split(props.valueSeparator).map(ele => {
             return { name: ele, status: "success", url: ele }
@@ -243,18 +242,13 @@ function setFileUrl() {
     fileUrl.value = fileList.value.filter(ele => ele.status == 'success').map(ele => ele.url).join(props.valueSeparator)
 
 }
-const setModelValue = inject<Function>('setModelValue', () => { })
-function handleReturnModelValue(value) {
-    emits('update:modelValue', value);
-    if (props.modelValue===undefined&&setModelValue && props.prop) {
-        setModelValue(props.prop, value,props.aIndex)
-    }
-}
+
+
 function handleReturnResult() {
     if (!fileUrl.value) {
         fileUrl.value = ''
     }
-    handleReturnModelValue(fileUrl.value)
+    returnModelValue(fileUrl.value)
 }
 const fontSize = parseFloat(props.width) / 3 + "px";
 
@@ -262,7 +256,7 @@ const fontSize = parseFloat(props.width) / 3 + "px";
 
 watch(fileUrl, () => {
     handleReturnResult()
-}, { immediate: true })
+})
 
 watch(() => props.url, () => {
     initUrl()

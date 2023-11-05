@@ -1,0 +1,21 @@
+
+<template>
+  <els-table :data="data" :columns="columns">
+  </els-table>
+</template>
+
+<script setup lang="ts">
+import {  reactive } from 'vue'
+const columns=reactive([
+  {label:'key',prop:'key',width:100},
+  {label:'value',prop:'value',width:100},
+  {label:'group',prop:'group'},
+])
+const data = reactive([
+  { key: '北京', value: 1, group: '分组1' },
+  { key: '天津', value: 2, group: '分组1' },
+  { key: '福州', value: 3, group: '分组2' },
+  { key: '厦门', value: 4, group: '分组2' }
+])
+
+</script>

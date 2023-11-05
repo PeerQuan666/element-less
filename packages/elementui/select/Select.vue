@@ -2,12 +2,13 @@
     
 <script lang="ts" setup>
 
-import { ref, reactive, watch, useAttrs, computed, nextTick, provide, useSlots, inject, watchEffect, Fragment } from 'vue'
+import { ref, reactive, watch, useAttrs, computed, nextTick, provide, useSlots, inject, watchEffect, Fragment, onMounted } from 'vue'
 import { ElMessage } from 'element-plus';
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom.js'
 import { ValueType } from '../../utlis/enumCom'
 import { FormItemProps } from '../../utlis/interfaceCom'
+import {useModel} from '../../utlis/componentCom.js'
 defineOptions({
     name: 'ElsSelect',
     inheritAttrs: false
@@ -84,14 +85,12 @@ if (!currWidth.value) {
     }
 
 }
-const getModelValue = inject<Function>('getModelValue', () => null)
+const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
 
-function initModelValue() {
-    if (props.modelValue === undefined && getModelValue && props.prop) {
-        return getModelValue(props.prop, props.aIndex)
-    }
-    return props.modelValue
-}
+
 
 const optionData = computed<Array<Record<string, any>>>(() => {
     return options.concat(extraOption).concat(noExistOption);
@@ -140,13 +139,10 @@ provide('provideOption', provideOptionData)
 
 provide('multiple', props.multiple)
 provide('setExtraOption', setExtraOption)
-const currModelValue=computed(()=>{
-return initModelValue()
-})
+
 
 watch(currModelValue,(val)=>{
     initSelectValue()
-
 })
 
 function initSelectValue() {
@@ -167,7 +163,12 @@ function initSelectValue() {
             selectValue.value =  currModelValue.value.toString().toList(props.valueSeparator)
         } else if (optionData.value.length && typeof (optionData.value[0][props.valueField]) === "number") {
             selectValue.value =  currModelValue.value.toString().toListNumber(props.valueSeparator)
-        } else if ( currModelValue.value) {
+        }
+        else if (optionData.value.length &&  currModelValue.value.toString().length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
+            selectValue.value =  currModelValue.value.toString().toListNumber(props.valueSeparator)
+
+        } 
+         else if ( currModelValue.value) {
             selectValue.value =  currModelValue.value.toString().toList(props.valueSeparator)
         }
     } else {
@@ -327,18 +328,11 @@ function handleClickOption(item: any) {
     emits("click-option", item)
 }
 
-const setModelValue = inject<Function>('setModelValue', () => null)
-function handleReturnModelValue(value) {
-    emits('update:modelValue', value);
-    if (props.modelValue === undefined && setModelValue && props.prop !== undefined) {
-        setModelValue(props.prop, value, props.aIndex)
-    }
-}
 
 
 function handleReturnResult(value: number | string | boolean) {
     if (value === undefined) { value = ''; }
-    handleReturnModelValue(value)
+    returnModelValue(value)
     if (initSelect) {
         if (value || value === 0) {
             if (props.valueField && props.labelField) {
@@ -372,7 +366,9 @@ if ((attrs["remote"] === true || attrs["remote"] === '') && props.url) {
     }
 }
 currLoading.value = props.loading
-if (props.url) {
+
+onMounted(()=>{
+    if (props.url) {
     readData()
 } else {
     options.length = 0
@@ -382,6 +378,8 @@ if (props.url) {
     initSelectValue()
     initSelectIndex();
 }
+})
+
 
 
 </script>

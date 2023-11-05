@@ -3,6 +3,7 @@ import { ref, computed, watch, useAttrs, inject,watchEffect} from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'
 import '../../utlis/lessPrototype.js'
+import {useModel} from '../../utlis/componentCom.js'
 defineOptions({ name: "ElsDataModal" })
 const emits = defineEmits(['update:select', 'update:modelValue', 'update:select-label'])
 
@@ -45,17 +46,13 @@ const currSelectData = ref<any>()
 
 const dialogVisible = ref(false)
 const attrs = useAttrs()
-
-const setModelValue=inject<Function>('setModelValue',()=>null)
-const getModelValue=inject<Function>('getModelValue',()=>null)
- function initModelValue(){
-    if(props.modelValue===undefined&&getModelValue&&props.prop){
-      return  getModelValue(props.prop,props.aIndex)
-    }
-    return props.modelValue
-}
+const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
+ 
 watchEffect(()=>{
-    const currValue=initModelValue()
+    const currValue=currModelValue.value
     currSelectValue.value = currValue ?? ''
 })
 
@@ -106,12 +103,6 @@ function handleConfirm() {
 
     }
 }
-function handleReturnModelValue(val){
-    emits('update:modelValue', val)
-    if(props.modelValue===undefined&&setModelValue&&props.prop){
-        setModelValue(props.prop,val,props.aIndex)
-    }
-}
 
 function handleReturnResult() {
     if (currSelectData.value) {
@@ -124,11 +115,11 @@ function handleReturnResult() {
                 currSelectValue.value = currSelectData.value[props.valueField]
                 currSelectLabel.value = currSelectData.value[props.labelField]
             }
-            handleReturnModelValue(currSelectValue.value)
+            returnModelValue(currSelectValue.value)
             emits("update:select-label", currSelectLabel.value)
         } else {
             currSelectValue.value = currSelectData.value
-            handleReturnModelValue(currSelectValue.value)
+            returnModelValue(currSelectValue.value)
         }
         emits("update:select", currSelectData.value)
     }
@@ -136,7 +127,7 @@ function handleReturnResult() {
         currSelectValue.value=''
         currSelectLabel.value=''
         emits("update:select-label", '')
-        handleReturnModelValue('')
+        returnModelValue('')
         emits("update:select", null)
 
     }

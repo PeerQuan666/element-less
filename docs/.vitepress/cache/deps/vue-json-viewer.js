@@ -1,11 +1,11 @@
 import {
   init_vue_runtime_esm_bundler,
   vue_runtime_esm_bundler_exports
-} from "./chunk-2CABAPV2.js";
+} from "./chunk-G6VUBZVV.js";
 import {
   __commonJS,
   __toCommonJS
-} from "./chunk-J32WSRGE.js";
+} from "./chunk-7REXU52E.js";
 
 // node_modules/clipboard/dist/clipboard.js
 var require_clipboard = __commonJS({

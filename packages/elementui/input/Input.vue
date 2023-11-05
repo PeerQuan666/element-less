@@ -2,7 +2,7 @@
 import { ref, watch, useAttrs, useSlots, inject, watchEffect, Fragment } from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'
-
+import {useModel} from '../../utlis/componentCom.js'
 defineOptions({
     name: 'ElsInput',
     inheritAttrs: false
@@ -21,8 +21,10 @@ const props = withDefaults(defineProps<Props>(), {
     encodeType: 'url',
     validTrigger: 'blur',
 })
-const setModelValue = inject<Function>('setModelValue', () => null)
-const getModelValue = inject<Function>('getModelValue', () => null)
+const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
 const formInputWidth = inject<string>('inputWidth', '')
 const emits = defineEmits(['update:modelValue'])
 
@@ -46,17 +48,8 @@ watchEffect(() => {
     }
 })
 
-
-
-function initModelValue() {
-    if (props.modelValue === undefined && getModelValue && props.prop) {
-        return getModelValue(props.prop, props.aIndex)
-    }
-    return props.modelValue
-}
-
-watchEffect(() => {
-    const currValue = initModelValue()
+watch(currModelValue,(val)=>{
+    const currValue = val
     if (currValue) {
         if (props.encode) {
             encodeValue.value = currValue;
@@ -67,7 +60,8 @@ watchEffect(() => {
             inputValue.value = currValue
         }
     }
-})
+},{immediate:true})
+
 
 
 
@@ -79,10 +73,7 @@ function handleReturnResult(val) {
     if (props.encode) {
         currValue = encodeURIComponent(val)
     }
-    emits('update:modelValue', currValue)
-    if (props.modelValue === undefined && setModelValue && props.prop !== undefined) {
-        setModelValue(props.prop, currValue, props.aIndex)
-    }
+    returnModelValue(currValue)
 }
 </script>
 <template>

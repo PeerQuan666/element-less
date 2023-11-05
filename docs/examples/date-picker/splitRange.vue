@@ -1,6 +1,7 @@
 <template>
+    {{ editData }}
     <els-form v-model="editData">
-        <els-date-picker-range type="date" v-model="editData.date2" v-model:start="editData.start"  propEnd="end" required  label="日期范围" :single="false"></els-date-picker-range>
+        <els-date-picker-range type="date" v-model="editData.date2" v-model:start="editData.start"  prop="start" required  label="日期范围" :single="false"></els-date-picker-range>
         <els-date-picker-range type="datetime" prop="date4"   label="日期时间范围" :single="false"></els-date-picker-range>
     </els-form>
 </template>

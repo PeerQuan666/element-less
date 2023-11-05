@@ -4,7 +4,7 @@ import '../../utlis/lessPrototype.js'
 import { TimePickerProps } from '../../utlis/interfaceCom'
 const emits = defineEmits(['update:modelValue', 'update:start', 'update:end', 'visible-change'])
 import lessCom from '../../utlis/lessCom.js'
-
+import {useModel} from '../../utlis/componentCom.js'
 defineOptions({ name: 'ElsTimePicker' ,
     inheritAttrs:false})
 
@@ -27,13 +27,12 @@ const greaterSecond = ref(0)
 
 
 
-const getModelValue = inject<Function>('getModelValue', () => null)
-function initModelValue() {
-    if (props.modelValue===undefined&&getModelValue && props.prop!==undefined) {
-        return getModelValue(props.prop,props.aIndex)
-    }
-    return props.modelValue
-}
+const {
+    currModelValue,
+    returnModelValue,
+    returnStartValue,
+    returnEndValue
+} = useModel(props)
 
 watch(timeValue, (val,oldVal) => {
 
@@ -42,9 +41,7 @@ watch(timeValue, (val,oldVal) => {
     }
 
 })
-const currModelValue=computed(()=>{
-return initModelValue()
-})
+
 
 watch(currModelValue,(val)=>{
     if (val !== undefined) {
@@ -166,48 +163,30 @@ function handleVisible(visible) {
     selectVisible.value = visible
     emits('visible-change', visible)
 }
-const setModelValue = inject<Function>('setModelValue', () => { })
-function handleReturnModelValue(value) {
-    emits('update:modelValue', value);
-        if (props.modelValue===undefined&&setModelValue && props.prop!==undefined) {
-            setModelValue(props.prop, value,props.aIndex)
-        }
-}
-function handleReturnStartValue(value) {
-    emits('update:start', value);
-    if (props.start===undefined&&setModelValue && attrs.propStart!==undefined) {
-        setModelValue(attrs.propStart, value,props.aIndex)
-    }
-}
-function handleReturnEndValue(value) {
-    emits('update:end', value);
-    if (props.end===undefined&&setModelValue && attrs.propEnd!==undefined) {
-        setModelValue(attrs.propEnd, value,props.aIndex)
-    }
-}
+
 function handleReturnResult(val) {
     if (!val) {
-        handleReturnStartValue('')
-        handleReturnEndValue('')
-        handleReturnModelValue('')
+        returnStartValue('')
+        returnEndValue('')
+        returnModelValue('')
     } else {
         if (props.isRange === true) {
             let startDate = val[0]
             let endDate = val[1]
-            handleReturnStartValue(startDate)
-            handleReturnEndValue(endDate)
+            returnStartValue(startDate)
+            returnEndValue(endDate)
 
             if (!startDate && !endDate) {
-                handleReturnModelValue('')
+                returnModelValue('')
             } else {
-                handleReturnModelValue(startDate + props.valueSeparator + endDate)
+                returnModelValue(startDate + props.valueSeparator + endDate)
 
             }
         }
         else if (val) {
-            handleReturnModelValue(val)
+           returnModelValue(val)
         } else {
-            handleReturnModelValue('')
+            returnModelValue('')
         }
     }
 }

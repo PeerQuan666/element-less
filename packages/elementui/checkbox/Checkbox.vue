@@ -4,6 +4,7 @@ import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick,
 import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
 import { CheckboxProps } from '../../utlis/interfaceCom'
+import {useModel} from '../../utlis/componentCom.js'
 defineOptions({ name: 'ElsCheckbox' ,inheritAttrs:false})
 const props = withDefaults(defineProps<CheckboxProps>(), {
     labelField: 'label',
@@ -12,11 +13,15 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
     noExistOptionPrefix: '未知选项',
     hasNoExistOption: true,
     resetValueByChangeData: true,
-    type: 'checkbox'
+    type: 'checkbox',
+    validTrigger:"change"
 })
 const attrs = useAttrs()
 const emits = defineEmits(['update:modelValue', 'update:select', 'update:select-label', 'change', 'click-option', 'select', 'blur', 'clear', 'readdataed'])
-const setModelValue=inject<Function>('setModelValue',()=>null)
+const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
 
 const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig()
 let initSelect = ref(false)
@@ -38,13 +43,7 @@ const queryData = reactive({ searchKey: '', idString: '' })
 const optionData = computed<Array<Record<string, any>>>(() => {
     return options.concat(extraOption).concat(noExistOption);
 })
-const getModelValue=inject<Function>('getModelValue',()=>null)
-function initModelValue(){
-    if(props.modelValue===undefined&&getModelValue&&props.prop){
-      return  getModelValue(props.prop,props.aIndex)
-    }
-    return props.modelValue
-}
+
 const checkboxClass: string[] = reactive([])
 const checkboxStyle: any = reactive([]);
 const provideOptionData=ref<any>({type:'checkbox',optionWidth:''})
@@ -130,9 +129,7 @@ watch(selectValue, (val) => {
 watch(singleSelectValue, (val) => {
     handleReturnResult(val);
 })
-const currModelValue=computed(()=>{
-return initModelValue()
-})
+
 watch(currModelValue,(val)=>{
     initSelectValue()
 
@@ -291,18 +288,13 @@ function handleComitSelect(value) {
 function handleClickOption(item) {
     emits("click-option", item)
 }
-function handleReturnModelValue(value){
-    emits('update:modelValue', value);
-    if(props.modelValue===undefined&&setModelValue&&props.prop!==undefined){
-        setModelValue(props.prop,value,props.aIndex)
-    }
-}
+
 function handleReturnResult(value) {
     if (value === undefined) { value = ''; }
     if (multiple.value) {
-        handleReturnModelValue(value.toString())
+        returnModelValue(value.toString())
     } else {
-        handleReturnModelValue(value)
+        returnModelValue(value)
     }
     if (initSelect) {
         if (value) {
