@@ -571,13 +571,13 @@ onMounted(() => {
                                     周
                                 </els-form-item>
                                 <els-checkbox label="从本周的" v-model="week.dayOfWeek.specificSpecific">
-                                    <els-option label="2">周一</els-option>
-                                    <els-option label="3">周二</els-option>
-                                    <els-option label="4">周三</els-option>
-                                    <els-option label="5">周四</els-option>
-                                    <els-option label="6">周五</els-option>
-                                    <els-option label="7">周六</els-option>
-                                    <els-option label="1">周日</els-option>
+                                    <els-option value="2">周一</els-option>
+                                    <els-option value="3">周二</els-option>
+                                    <els-option value="4">周三</els-option>
+                                    <els-option value="5">周四</els-option>
+                                    <els-option value="6">周五</els-option>
+                                    <els-option value="7">周六</els-option>
+                                    <els-option value="1">周日</els-option>
                                 </els-checkbox>
                                 <els-form-item label="开始">
                                     <els-input-number width="100" :min="0" :max="23" controls-position="right"

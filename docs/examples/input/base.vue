@@ -1,5 +1,5 @@
 <template>
-    <els-input v-model="inputValue"></els-input>
+    <els-input v-model="inputValue" style="margin-bottom: 10px;"></els-input>
    
     <els-textarea v-model="inputValue"></els-textarea>
 </template>

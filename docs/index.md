@@ -28,7 +28,7 @@ features:
     details: 合并表单组件，Form下默认嵌套Form-Item组件
   - icon: ⚡️
     title: 数据添加接口请求
-    details: 只许传入接口地址，不用再去手动调用接口赋值
+    details: 只需传入接口地址，不用再去手动调用接口赋值
   - icon: 🛠️
     title: 支持扁平化数据
     details: 树组件支持扁平化数据，不再为结构复杂而烦扰

@@ -1,18 +1,13 @@
 import {
   init_vue_runtime_esm_bundler,
   vue_runtime_esm_bundler_exports
-<<<<<<< HEAD:docs/.vitepress/cache/deps/vuedraggable.js
-} from "./chunk-G6VUBZVV.js";
-=======
-} from "./chunk-XDCO6JMW.js";
-import "./chunk-MXHPZMJB.js";
->>>>>>> master:docs/.vuepress/.cache/deps/vuedraggable.js
+} from "./chunk-2CABAPV2.js";
 import {
   __commonJS,
   __esm,
   __export,
   __toCommonJS
-} from "./chunk-7REXU52E.js";
+} from "./chunk-J32WSRGE.js";
 
 // node_modules/vuedraggable/node_modules/sortablejs/modular/sortable.esm.js
 var sortable_esm_exports = {};

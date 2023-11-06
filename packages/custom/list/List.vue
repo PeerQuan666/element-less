@@ -134,7 +134,7 @@ onMounted(()=>{
                 </component>
             </template>
         </draggable>
-        <div v-if="isModify && isAdd" class="leo-list-add" :style="`--marginleft:${currLabelWidth??100}px`">
+        <div v-if="isModify && isAdd" class="els-list-add" :style="`--marginleft:${currLabelWidth??100}px`">
             <slot name="add"><el-button type="info" icon="edit" @click="handleAdd">添加</el-button></slot>
         </div>
     </component>
@@ -173,7 +173,7 @@ onMounted(()=>{
             margin-bottom: 18px;
         }
     }
-    .leo-list-add{
+    .els-list-add{
         margin-left: var(--marginleft);
         margin-bottom: 10px;
         cursor: pointer;

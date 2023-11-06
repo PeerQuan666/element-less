@@ -322,7 +322,8 @@ defineExpose({
 .els-dynamic-config {
   flex-grow: 1;
 
-  .leo-list-add {
+  .els-list-add {
+    margin-left: 0;
     button {
       height: 24px;
       font-size: 12px;
@@ -374,7 +375,12 @@ defineExpose({
 .els-dynamic-config {
 
   :has(div[class^='el-form-item']) {
-    .leo-list-add {
+    .els-list-add {
+      margin-left: 5px
+    }
+  }
+  :has(div[class*='virtual']) {
+    .els-list-add {
       margin-left: 5px
     }
   }
@@ -505,7 +511,7 @@ defineExpose({
 }
 
 .els-dynamic-d-flat-item-child {
-  .leo-list-add {
+  .els-list-add {
     margin-left: 0px;
   }
 
