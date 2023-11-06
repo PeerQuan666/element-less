@@ -70,6 +70,7 @@ export default defineConfig({
 					"ace-builds":'ace',
 					'file-saver':'fileSave',
 					'vue-json-viewer':'JsonView.default',
+					'prismjs':'Prism'
 				},
 			},
 		}, 

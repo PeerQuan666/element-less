@@ -166,8 +166,9 @@ export class DynamicHandler {
                 this.initConfigType(ele.data)
             } else if (ele.dataTypeName == 'None' && ele.componentTypeName == 'Row') {
                 this.initConfigType(ele.data)
-            } else {
-                this.getDefaultValue(ele)
+            } 
+            else {
+                this.getTemplateDefaultValue(ele)
 
             }
         })
@@ -345,14 +346,16 @@ export class DynamicHandler {
     getConfigValue(data) {
         let currData = {}
         data.forEach((ele) => {
-
             if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
                 currData[ele.keyCode] = this.getArrayConfigValue(ele)
-            } else if (ele.dataTypeName == 'Object') {
+            }
+            else if(ele.dataTypeName==='Array'&&!ele.arrayDataTypeName){
+                currData[ele.keyCode] = [ele.defaultValue]
+            }
+            else if (ele.dataTypeName == 'Object') {
                 currData[ele.keyCode] = this.getConfigValue(ele.data)
             } else if (ele.dataTypeName == 'None' && ele.componentName == 'ElsRow') {
                 currData = Object.assign(currData, this.getConfigValue(ele.data))
-
             }
             else if (ele.keyCode) {
                 currData[ele.keyCode] = ele.value
@@ -374,6 +377,58 @@ export class DynamicHandler {
             }
         })
         return [currValue]
+    }
+    getTemplateDefaultValue(item) {
+        const currDataType = this.dataTypes.find(ele => ele.value === item.dataType || ele.type === item.dataType)
+
+        if (currDataType) {
+            switch (currDataType.type) {
+                case 'Number':
+                    if (item.defaultValue) {
+                        item.value = parseFloat(item.defaultValue)
+                    } else {
+                        item.value = 0;
+                    }
+                    break
+                case 'Bool':
+                    if (item.defaultValue?.toLowerCase() === 'true') {
+                        item.value = true;
+                    } else {
+                        item.value = false
+                    }
+                    break
+                case 'Object':
+                    item.value = {}
+                    break
+                case 'Enum':
+                case 'String':
+                    if (item.defaultValue) {
+                        item.value = item.defaultValue;
+                    } else {
+                        item.value = ''
+                    }
+                    break
+                case 'Array':
+                    const currArrayDataType = this.dataTypes.find(ele => ele.value === item.arrayDataType || ele.type === item.arrayDataType)
+                    if (item.defaultValue) {
+                        item.value = JSON.parse(item.defaultValue)
+                    } else if (currArrayDataType.defaultValue) {
+                        item.value = [currArrayDataType.defaultValue]
+                    }else{
+                        item.value=[]
+                    }
+                default:
+                    try {
+                        if (item.defaultValue) {
+                            item.value = JSON.parse(item.defaultValue)
+                        } else if (currDataType.defaultValue) {
+                            item.value = currDataType.defaultValue
+                        }
+                    } catch (err) {
+                        console.error(err)
+                    }
+            }
+        }
     }
     getDefaultValue(item) {
         const currDataType = this.dataTypes.find(ele => ele.value === item.dataType || ele.type === item.dataType)

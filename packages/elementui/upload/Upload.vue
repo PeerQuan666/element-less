@@ -257,7 +257,7 @@ const fontSize = parseFloat(props.width) / 3 + "px";
 watch(fileUrl, () => {
     handleReturnResult()
 })
-
+    
 watch(() => props.url, () => {
     initUrl()
 }, { immediate: true })

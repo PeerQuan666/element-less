@@ -78,6 +78,8 @@ import ElsMdEditor from './custom/mdEditor'
 import ElsJsonViewer from './custom/jsonViewer'
 import ElsJsonEditor from './custom/jsonEditor'
 import ElsWorkPlan from './custom/workPlan'
+import ElsCron from './custom/cron'
+
 
 const components = [
     ElsInput,
@@ -136,7 +138,8 @@ const components = [
     ElsDynamicDesignerView,
     ElsJsonEditor,
     ElsHighlight,
-    ElsWorkPlan
+    ElsWorkPlan,
+    ElsCron
     
 ]
 

@@ -21,7 +21,7 @@ multiple.value = inject('multiple', false)
 
 
 watchEffect(() => {
-    if (provideOption.value) { 
+    if (provideOption&&provideOption.value) { 
         const optionWidth = provideOption.value.optionWidth
         if (optionWidth) {
             optionStyle.push({ 'width': optionWidth.appendPx() })

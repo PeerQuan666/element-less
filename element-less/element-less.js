@@ -1,4 +1,4 @@
-import { E } from "./index-771ddedf.js";
+import { E } from "./index-be0fec40.js";
 import "vue";
 import "axios";
 import "file-saver";
@@ -10,6 +10,7 @@ import "vuedraggable";
 import "sortablejs";
 import "md-editor-v3";
 import "pinia";
+import "prismjs";
 import "ace-builds";
 import "vue-json-viewer";
 export {
