@@ -292,8 +292,14 @@ import {
   wind_power_default,
   zoom_in_default,
   zoom_out_default
+<<<<<<< HEAD:docs/.vitepress/cache/deps/@element-plus_icons-vue.js
 } from "./chunk-5R444SGN.js";
 import "./chunk-G6VUBZVV.js";
+=======
+} from "./chunk-TUPFQGMT.js";
+import "./chunk-XDCO6JMW.js";
+import "./chunk-MXHPZMJB.js";
+>>>>>>> master:docs/.vuepress/.cache/deps/@element-plus_icons-vue.js
 import "./chunk-7REXU52E.js";
 export {
   add_location_default as AddLocation,

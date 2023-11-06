@@ -526,7 +526,7 @@ provide("recordComponent", recordComponent)
                             :data="getDataTypeData(currSelectItem.componentType)"
                             @select="(sitem) => { currSelectItem.arrayDataTypeName = sitem.selectItem.type }" valueField="value"
                             labelField="label" placeholder="值类型" prop="arrayDataType"></els-select>
-                        <els-input label="默认值" prop="defaultValue"></els-input>
+                        <els-textarea label="默认值" prop="defaultValue" :rows="3"></els-textarea>
 
                     </els-form>
                 </el-tab-pane>

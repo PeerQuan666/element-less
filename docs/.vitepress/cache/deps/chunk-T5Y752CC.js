@@ -34,7 +34,13 @@ import {
   version,
   watch,
   watchEffect
+<<<<<<< HEAD:docs/.vitepress/cache/deps/chunk-T5Y752CC.js
 } from "./chunk-G6VUBZVV.js";
+=======
+} from "./chunk-XDCO6JMW.js";
+import "./chunk-MXHPZMJB.js";
+import "./chunk-7REXU52E.js";
+>>>>>>> master:docs/.vuepress/.cache/deps/@vueuse_core.js
 
 // node_modules/@vueuse/shared/node_modules/vue-demi/lib/index.mjs
 init_vue_runtime_esm_bundler();
@@ -8501,10 +8507,46 @@ export {
   createSharedComposable,
   extendRef,
   get,
+<<<<<<< HEAD:docs/.vitepress/cache/deps/chunk-T5Y752CC.js
+=======
+  getSSRHandler,
+  hasOwn,
+  hyphenate,
+  identity,
+  watchIgnorable as ignorableWatch,
+  increaseWithUnit,
+  injectLocal,
+  invoke,
+  isClient,
+  isDef,
+>>>>>>> master:docs/.vuepress/.cache/deps/@vueuse_core.js
   isDefined,
   makeDestructurable,
+<<<<<<< HEAD:docs/.vitepress/cache/deps/chunk-T5Y752CC.js
   toValue,
   resolveUnref,
+=======
+  mapGamepadToXbox360Controller,
+  noop,
+  normalizeDate,
+  notNullish,
+  now,
+  objectEntries,
+  objectOmit,
+  objectPick,
+  onClickOutside,
+  onKeyDown,
+  onKeyPressed,
+  onKeyStroke,
+  onKeyUp,
+  onLongPress,
+  onStartTyping,
+  pausableFilter,
+  watchPausable as pausableWatch,
+  promiseTimeout,
+  provideLocal,
+  rand,
+>>>>>>> master:docs/.vuepress/.cache/deps/@vueuse_core.js
   reactify,
   reactifyObject,
   toReactive,

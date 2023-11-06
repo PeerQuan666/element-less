@@ -41,7 +41,15 @@ import {
   warning_filled_default,
   zoom_in_default,
   zoom_out_default
+<<<<<<< HEAD:docs/.vitepress/cache/deps/element-plus.js
 } from "./chunk-5R444SGN.js";
+=======
+} from "./chunk-TUPFQGMT.js";
+import {
+  memoize_default,
+  require_dayjs_min
+} from "./chunk-NXNFSYLV.js";
+>>>>>>> master:docs/.vuepress/.cache/deps/element-plus.js
 import {
   Comment,
   Fragment,
@@ -131,7 +139,30 @@ import {
   withDirectives,
   withKeys,
   withModifiers
+<<<<<<< HEAD:docs/.vitepress/cache/deps/element-plus.js
 } from "./chunk-G6VUBZVV.js";
+=======
+} from "./chunk-XDCO6JMW.js";
+import {
+  NOOP,
+  camelize,
+  capitalize,
+  hasOwn,
+  hyphenate,
+  init_shared_esm_bundler,
+  isArray,
+  isDate,
+  isFunction,
+  isObject,
+  isPromise,
+  isString,
+  normalizeClass,
+  normalizeProps,
+  normalizeStyle,
+  toDisplayString,
+  toRawType
+} from "./chunk-MXHPZMJB.js";
+>>>>>>> master:docs/.vuepress/.cache/deps/element-plus.js
 import {
   __commonJS,
   __toESM

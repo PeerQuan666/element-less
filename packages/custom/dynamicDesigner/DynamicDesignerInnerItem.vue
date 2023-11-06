@@ -232,8 +232,7 @@ function validationCode(rule, value, callback) {
         <els-input clearable v-if="itemDataType.type != 'None'" placeholder="请输入名称" prop="keyName"></els-input>
       </span>
       <span class="keyCode">
-        <els-input placeholder="编码" v-if="itemDataType.type != 'None'" :validMethod="validationCode" required clearable
-          :disabled="currItem.isModify" @blur="handleChangeKeyCode" prop="keyCode"></els-input>
+        <els-input placeholder="编码" v-if="itemDataType.type != 'None'" :validMethod="validationCode" required clearable @blur="handleChangeKeyCode" prop="keyCode"></els-input>
       </span>
       <span class="dataType">
 
@@ -378,8 +377,12 @@ function validationCode(rule, value, callback) {
         <els-input v-if="itemDataType.type !== 'None'" placeholder="描述" clearable prop="description"></els-input>
       </span>
       <span class="defaultValue">
-        <els-input v-if="!isObject && itemDataType.type !== 'None'" placeholder="默认值" clearable
-          prop="defaultValue"></els-input>
+        <el-popover placement="top-start" width="400" trigger="click"   v-if="!isObject && itemDataType.type !== 'None'">
+          <els-textarea placeholder="默认值" clearable prop="defaultValue" :rows="3"></els-textarea>
+              <template #reference>
+                <els-input placeholder="默认值" clearable prop="defaultValue"></els-input>
+              </template>
+          </el-popover>
       </span>
       <span class="oper">
         <span class="els-dynamic-d-oper">

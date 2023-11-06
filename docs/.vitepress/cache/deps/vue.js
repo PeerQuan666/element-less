@@ -154,7 +154,20 @@ import {
   withMemo,
   withModifiers,
   withScopeId
+<<<<<<< HEAD:docs/.vitepress/cache/deps/vue.js
 } from "./chunk-G6VUBZVV.js";
+=======
+} from "./chunk-XDCO6JMW.js";
+import {
+  camelize,
+  capitalize,
+  normalizeClass,
+  normalizeProps,
+  normalizeStyle,
+  toDisplayString,
+  toHandlerKey
+} from "./chunk-MXHPZMJB.js";
+>>>>>>> master:docs/.vuepress/.cache/deps/vue.js
 import "./chunk-7REXU52E.js";
 init_vue_runtime_esm_bundler();
 export {

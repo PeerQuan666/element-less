@@ -1,7 +1,12 @@
 import {
   init_vue_runtime_esm_bundler,
   vue_runtime_esm_bundler_exports
+<<<<<<< HEAD:docs/.vitepress/cache/deps/vuedraggable.js
 } from "./chunk-G6VUBZVV.js";
+=======
+} from "./chunk-XDCO6JMW.js";
+import "./chunk-MXHPZMJB.js";
+>>>>>>> master:docs/.vuepress/.cache/deps/vuedraggable.js
 import {
   __commonJS,
   __esm,
