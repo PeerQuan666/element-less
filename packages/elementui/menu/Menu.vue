@@ -3,7 +3,7 @@
 import { ref, reactive, watch, nextTick,provide } from 'vue';
 import lessCom from '../../utlis/lessCom.js'
 import { ElMenu, ElMessage } from 'element-plus'
-const emits = defineEmits(['menuClick'])
+const emits = defineEmits(['click'])
 
 defineOptions({ name: 'ElsMenu' })
 interface Props {
@@ -14,7 +14,6 @@ interface Props {
     parentIdField?: string,
     rootParentValue?: number | string,
     iconField?: string,
-    targetFrameName?: string,
     width?: string,
     url?: string,
     data?: string | Array<Record<string, any>>,
@@ -38,22 +37,38 @@ let hiddenMenuIds = ref<any>([])
 const optionData: Array<Record<string, any>> = reactive([])
 const sourceData: Array<Record<string, any>> = reactive([])
 const menuData: Array<Record<string, any>> = reactive([])
-const provideData = reactive<any>({ openMenuData: [] })
+const provideData = reactive<any>({ openMenuData: [],filterable:props.filterable })
 const searchOpenMenuData: Array<Record<string, any>> = reactive([])
 const preMenuItem = ref<any>()
 const currMenuID = ref()
 const elMenu = ref()
 const searchInput = ref()
+const currStyle=ref<any>([])
 
+watch(()=>props.collapse,(val)=>{
+    isCollapse.value=val
+    if(val){
+        currStyle.value.length=0
+    }else if(props.width){
+        currStyle.value.push({'width':props.width.appendPx()})
+    }
+
+},{immediate:true})
 watch(searchKey, (val) => {
+    //关闭Menu
+    searchOpenMenuData.reverse()
+    searchOpenMenuData.forEach(ele => {
+        elMenu.value.close(ele)
+    })
     searchOpenMenuData.length = 0
-    provideData.openMenuData = []
-    provideData.openMenuData.push(...searchOpenMenuData)
+    provideData.openMenuData.length=0
+    nextTick(() => {
     let currSearchData = lessCom.cloneObj(sourceData)
     if (val) {
         searchTree(currSearchData)
     }
     nextTick(() => {
+        searchOpenMenuData.reverse()
         searchOpenMenuData.forEach(ele => {
             elMenu.value.open(ele)
         })
@@ -62,6 +77,7 @@ watch(searchKey, (val) => {
             menuData.push(...currSearchData)
         })
     })
+})
 })
 watch(() => props.filterable, (val) => {
     if (val) {
@@ -110,6 +126,13 @@ function handleOpen(index) {
     if (provideData.openMenuData.indexOf(index) > -1) { return; }
     provideData.openMenuData.push(index)
 }
+function handleClose(index){
+    const menuIndex=provideData.openMenuData.indexOf(index)
+    if (menuIndex > -1) { 
+        provideData.openMenuData.splice(menuIndex,1)
+     }
+
+}
 function handleMenuClick(item) {
     if (preMenuItem.value) {
         preMenuItem.value.active = false
@@ -117,7 +140,8 @@ function handleMenuClick(item) {
     item.active = true
     preMenuItem.value = item
     currMenuID.value = item.id
-    emits("menuClick", item)
+    emits("click", item)
+
 
 }
 
@@ -207,7 +231,7 @@ function searchTree(tree) {
     var isMatching = false;
     tree.forEach(ele => {
         let childVisible = false
-        let currVisible = ele.label.indexOf(searchKey) > -1
+        let currVisible = ele.label.indexOf(searchKey.value) > -1
         if (ele.children) {
             childVisible = searchTree(ele.children)
         }
@@ -234,14 +258,27 @@ defineExpose({
 })
 </script>
 <template>
-    <ElMenu ref="elMenu" :default-openeds="provideData.openMenuData" @open="handleOpen" :default-active="currMenuID"
-        :collapse="isCollapse" :style="[{ 'width': width?.appendPx() }]">
-        <slot></slot>
+    <ElMenu ref="elMenu" :default-openeds="provideData.openMenuData" @open="handleOpen" @close="handleClose" :default-active="currMenuID"
+        :collapse="isCollapse" :style="currStyle">
         <el-collapse-transition>
-            <span v-if="filterable" class="menu-filterable"><el-input v-model="searchKey" ref="searchInput"
+            <span v-if="filterable&&(url||data)" class="menu-filterable"><el-input v-model="searchKey" ref="searchInput"
                     suffix-icon="Search" clearable></el-input></span>
         </el-collapse-transition>
+        <slot></slot>
         <els-menu-item v-for="(item, index) in menuData.filter(ele => ele.visible)" :key="index"  :isRootMenu="true" :item="item"></els-menu-item>
     </ElMenu>
 </template>
 
+<style lang="less">
+
+.menu-filterable {
+    padding: 10px;
+    display: inline-block;
+    border-bottom: 1px solid #e3e3e3;
+    .el-input__wrapper {
+    border: 1px solid #b7b1b1;
+    box-shadow: 0 0 0;
+    border-radius: 15px;
+    padding: 1px 12px !important;
+}
+}</style>

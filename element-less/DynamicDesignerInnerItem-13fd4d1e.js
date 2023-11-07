@@ -1,5 +1,5 @@
 import { defineComponent, inject, ref, computed, watch, resolveComponent, openBlock, createBlock, unref, isRef, normalizeClass, withCtx, createElementBlock, createElementVNode, createCommentVNode, createVNode, createSlots, toDisplayString, Fragment, createTextVNode, nextTick } from "vue";
-import { l as lessCom, p as property_arrayAndObject, a as property_array, b as property_form, c as property_advanced, d as _sfc_main$1 } from "./index-7e2bcef8.js";
+import { l as lessCom, p as property_arrayAndObject, a as property_array, b as property_form, c as property_advanced, d as _sfc_main$1 } from "./index-a86386c7.js";
 import { useVModel } from "@vueuse/core";
 import { ElMessage } from "element-plus";
 import "axios";
@@ -318,7 +318,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                     ]),
                     selectDataTypeItem.value.type === "Enum" ? (openBlock(), createElementBlock("div", _hoisted_6, [
                       createVNode(_component_el_table, {
-                        data: selectDataTypeItem.value.componentType.defaultPropertys.data
+                        data: selectDataTypeItem.value.componentType.defaultPropertys.data,
+                        "max-height": "250"
                       }, {
                         default: withCtx(() => [
                           createVNode(_component_el_table_column, {
@@ -334,7 +335,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                       }, 8, ["data"])
                     ])) : (openBlock(), createElementBlock("div", _hoisted_7, [
                       createVNode(_component_el_table, {
-                        data: selectDataTypeItem.value.componentType.defaultPropertys.config
+                        data: selectDataTypeItem.value.componentType.defaultPropertys.config,
+                        "max-height": "250"
                       }, {
                         default: withCtx(() => [
                           createVNode(_component_el_table_column, {
@@ -436,7 +438,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                       ]),
                       selectArrayDataTypeItem.value.type === "Enum" ? (openBlock(), createElementBlock("div", _hoisted_11, [
                         createVNode(_component_el_table, {
-                          data: selectArrayDataTypeItem.value.componentType.defaultPropertys.data
+                          data: selectArrayDataTypeItem.value.componentType.defaultPropertys.data,
+                          "max-height": "250"
                         }, {
                           default: withCtx(() => [
                             createVNode(_component_el_table_column, {
@@ -452,7 +455,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                         }, 8, ["data"])
                       ])) : (openBlock(), createElementBlock("div", _hoisted_12, [
                         createVNode(_component_el_table, {
-                          data: selectArrayDataTypeItem.value.componentType.defaultPropertys.config
+                          data: selectArrayDataTypeItem.value.componentType.defaultPropertys.config,
+                          "max-height": "250"
                         }, {
                           default: withCtx(() => [
                             createVNode(_component_el_table_column, {

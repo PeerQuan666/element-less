@@ -15,7 +15,7 @@ interface Props {
     buttonType?: string,
     showMenuName?: boolean,
     command?: Function,
-    onSelect?: Function,
+    onClick?: Function,
     onUploaded?:Function
 
 }
@@ -159,8 +159,8 @@ function triggerPowerMenu(menuID) {
     }
 }
 function menuCommand(menu) {
-    if (props.onSelect) {
-        props.onSelect(menu)
+    if (props.onClick) {
+        props.onClick(menu)
         return
     }
     if (menu[actionTypeFieldname] == 'Import') {
@@ -288,11 +288,6 @@ defineExpose({
         .el-button+.el-button {
             margin: 0;
         }
-    }
-
-
-    .operationlog {
-        margin-left: 100px;
     }
 
 }

@@ -1,5 +1,5 @@
 <template>
-    <els-menu-tool v-model="selectValue" :data="data" @select="handleClick"></els-menu-tool>
+    <els-menu-tool  :data="data" @click="handleClick"></els-menu-tool>
 </template>
 
 <script setup lang="ts">

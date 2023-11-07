@@ -241,13 +241,13 @@ function validationCode(rule, value, callback) {
             <div class="dataType-detail-t"><span>{{ selectDataTypeItem.type==='Enum'?'Enum':'Object' }}</span><span
                 @click="openCreateType(selectDataTypeItem.id)">查看详细</span></div>
             <div v-if="selectDataTypeItem.type === 'Enum'">
-              <el-table :data="selectDataTypeItem.componentType.defaultPropertys.data">
+              <el-table :data="selectDataTypeItem.componentType.defaultPropertys.data"  max-height="250">
                 <el-table-column prop="label" label="label"></el-table-column>
                 <el-table-column prop="value" label="value"></el-table-column>
               </el-table>
             </div>
             <div v-else>
-              <el-table :data="selectDataTypeItem.componentType.defaultPropertys.config">
+              <el-table :data="selectDataTypeItem.componentType.defaultPropertys.config"  max-height="250">
                 <el-table-column prop="keyName" label="keyName"></el-table-column>
                 <el-table-column prop="keyCode" label="keyCode"></el-table-column>
                 <el-table-column prop="dataType" label="类型"></el-table-column>
@@ -286,13 +286,13 @@ function validationCode(rule, value, callback) {
               <div class="dataType-detail-t"><span>{{ selectArrayDataTypeItem.type==='Enum'?'Enum':'Object' }}</span><span
                   @click="openCreateType(selectArrayDataTypeItem.id)">查看详细</span></div>
               <div v-if="selectArrayDataTypeItem.type === 'Enum'">
-                <el-table :data="selectArrayDataTypeItem.componentType.defaultPropertys.data">
+                <el-table :data="selectArrayDataTypeItem.componentType.defaultPropertys.data"  max-height="250">
                   <el-table-column prop="label" label="label"></el-table-column>
                   <el-table-column prop="value" label="value"></el-table-column>
                 </el-table>
               </div>
               <div v-else>
-                <el-table :data="selectArrayDataTypeItem.componentType.defaultPropertys.config">
+                <el-table :data="selectArrayDataTypeItem.componentType.defaultPropertys.config"  max-height="250">
                   <el-table-column prop="keyName" label="keyName"></el-table-column>
                   <el-table-column prop="keyCode" label="keyCode"></el-table-column>
                   <el-table-column prop="dataType" label="类型"></el-table-column>

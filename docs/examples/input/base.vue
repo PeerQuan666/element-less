@@ -7,5 +7,4 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 const inputValue = ref('')
-const num=ref(3)
 </script>

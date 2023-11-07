@@ -17,10 +17,11 @@ const handlePowerMenu = inject<Function>("handlePowerMenu",()=>null)
 const rowKey = inject<any>("rowKey",'')
 const tableCheckData = inject<any>("tableCheckData",[])
 const provideData = inject<any>("provideData",{})
+const menuClick = inject<Function>("menuClick",()=>{})
+
 const slots = useSlots()
 const props = withDefaults(defineProps<ColumnProps>(), {
     isExport: true,
-    autoComplete: true,
     trueLabel: '是',
     falseLabel: '否',
     falseClass: 'txt-red',
@@ -28,7 +29,6 @@ const props = withDefaults(defineProps<ColumnProps>(), {
     enumShowType: 'Description',
     enumEqualType: 'Value',
     enumNoneLabel: '未知',
-    menusFieldname: 'PowerMenu',
     selectButtonLabel: '选择',
     isPreview: true
 
@@ -274,7 +274,7 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
                 </template>
             </template>
             <template v-else-if="(!row.edit || !isEdit)">
-                <els-menu-dropdown v-if="type == 'operate'" :menus="getContextMenus(row)" :key="row" :is-fold="isFold"
+                <els-menu-dropdown v-if="type == 'operate'" @click="menuClick" :menus="getContextMenus(row)" :key="row" :is-fold="isFold"
                     :un-fold-count="unFoldCount" :is-mobile="attrs['is-mobile']">
                 </els-menu-dropdown>
 

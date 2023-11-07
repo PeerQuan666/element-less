@@ -1,7 +1,7 @@
 <template>
     <els-row>
         <els-col>
-            <els-menu width="200" >
+            <els-menu width="200" filterable>
                 <els-menu-item index="1">菜单1</els-menu-item>
                 <els-menu-item index="2">菜单2</els-menu-item>
                 <els-sub-menu title="菜单3">

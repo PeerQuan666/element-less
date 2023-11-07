@@ -1,6 +1,6 @@
 
 <template>
-    <els-table :url="apiUrl" :is-client-page="true" :page-size="10" row-key="WallID"  :hasContextMenu="false">
+    <els-table :url="apiUrl" :is-client-page="true" :page-size="10" row-key="WallID" @menuClick="menuClick" :hasContextMenu="false">
         <els-column-checkbox></els-column-checkbox>
         <els-column prop="ID" label="ID" align="left" sortable></els-column>
         <els-column prop="AuthorName" label="作者" align="left"></els-column>
@@ -12,5 +12,7 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 const apiUrl = ref('http://manage.ybt2023.com/home/test')
-
+const menuClick=function(menu){
+console.info(menu)
+}
 </script>

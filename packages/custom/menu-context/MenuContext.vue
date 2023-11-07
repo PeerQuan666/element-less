@@ -8,14 +8,14 @@ interface Props {
     positionLeft?: number,
     positionTop?: number,
     visible?: boolean,
-    onSelect?: Function
+    onClick?: Function
 }
 const props = withDefaults(defineProps<Props>(), {
     positionLeft: 0,
     positionTop: 0,
     visible: false
 })
-const elsMenuCommand = inject<Function>('elsMenuCommand',()=>null)
+const elsMenuCommand = inject<Function>('elsMenuCommand', () => null)
 const menuData: Array<Record<string, any>> = reactive([])
 let idFieldname = ''
 let nameFieldname = ''
@@ -40,7 +40,7 @@ watch(() => props.menus, (val) => {
     if (val) {
         menuData.push(...val)
     }
-}, { immediate: true,deep:true })
+}, { immediate: true, deep: true })
 
 const triggerHideFn = clickDocumentHandler.bind(this)
 
@@ -51,13 +51,13 @@ function clickDocumentHandler(e) {
 
 }
 function menuCommand(menu) {
-    if (!props.onSelect) {
-        if (elsMenuCommand) {
-            elsMenuCommand(menu)
-        }
-    } else {
-        props.onSelect(menu)
+    if (elsMenuCommand) {
+        elsMenuCommand(menu)
     }
+    if (props.onClick) {
+        props.onClick(menu)
+    }
+
 }
 onMounted(() => {
     document.addEventListener('mousedown', triggerHideFn)

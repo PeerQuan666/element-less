@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watch, getCurrentInstance,inject } from 'vue'
+import { ref, reactive, watch, getCurrentInstance, inject } from 'vue'
 const { proxy } = getCurrentInstance() as any
 defineOptions({ name: "ElsMenuDropdown" })
 
@@ -8,7 +8,7 @@ interface Props {
     isFold?: boolean,
     unFoldCount?: number,
     isMobile?: boolean,
-    onSelect?: Function
+    onClick?: Function
 }
 const props = withDefaults(defineProps<Props>(), {
     unFoldCount: 0
@@ -19,19 +19,19 @@ const menuData: Array<Record<string, any>> = reactive([])
 if (!proxy.$lessConfig?.menu) {
     console.log('未设置全局配置$lessConfig，无法使用菜单')
 }
-const elsMenuCommand=inject<Function>('elsMenuCommand',()=>null)
-let idFieldname=''
-let nameFieldname=''
-let iconFieldName=''
-if(proxy&&proxy.$lessConfig?.menu){
-    idFieldname=proxy.$lessConfig.menu.id
-    nameFieldname=proxy.$lessConfig.menu.name
-    iconFieldName=proxy.$lessConfig.menu.icon
+const elsMenuCommand = inject<Function>('elsMenuCommand', () => null)
+let idFieldname = ''
+let nameFieldname = ''
+let iconFieldName = ''
+if (proxy && proxy.$lessConfig?.menu) {
+    idFieldname = proxy.$lessConfig.menu.id
+    nameFieldname = proxy.$lessConfig.menu.name
+    iconFieldName = proxy.$lessConfig.menu.icon
 }
 
 watch(() => props.menus, (val) => {
-    menuData.length=0;
-    unFoldMenus.length=0;
+    menuData.length = 0;
+    unFoldMenus.length = 0;
     if (val) {
         menuData.push(...val)
         if (props.unFoldCount > 0) {
@@ -39,15 +39,14 @@ watch(() => props.menus, (val) => {
         }
 
     }
-}, { immediate: true ,deep:true})
+}, { immediate: true, deep: true })
 
 function menuCommand(menu) {
-    if (!props.onSelect) {
-        if (elsMenuCommand) {
-            elsMenuCommand(menu)
-        }
-    } else {
-        props.onSelect(menu)
+    if (elsMenuCommand) {
+        elsMenuCommand(menu)
+    }
+    if (props.onClick) {
+        props.onClick(menu)
     }
 }
 </script>
@@ -60,9 +59,9 @@ function menuCommand(menu) {
             <el-link class="els-table-operate-link" type="primary" @click="menuCommand(item)" v-for="item in unFoldMenus"
                 :key="item[idFieldname]">{{ item[nameFieldname] }}</el-link>
             <el-dropdown @command="menuCommand" v-if="menuData.length">
-                <span class="els-table-operate-link"> {{ unFoldCount > 0 ? '更多操作' : '操作' }}  <el-icon class="el-icon--right">
-        <arrow-down />
-      </el-icon></span>
+                <span class="els-table-operate-link"> {{ unFoldCount > 0 ? '更多操作' : '操作' }} <el-icon class="el-icon--right">
+                        <arrow-down />
+                    </el-icon></span>
                 <template #dropdown>
                     <el-dropdown-menu>
                         <el-dropdown-item v-for="item in menuData" :key="item[idFieldname]" :command="item"><i
@@ -83,10 +82,10 @@ function menuCommand(menu) {
     </div>
 </template>
 <style scoped>
-.els-table-operate-link{
-margin-right: 10px;
-display: flex;
-cursor: pointer;
+.els-table-operate-link {
+    margin-right: 10px;
+    display: flex;
+    cursor: pointer;
 
 }
 </style>

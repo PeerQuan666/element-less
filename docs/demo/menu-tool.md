@@ -1,6 +1,6 @@
 ---
-title: Menu 页面菜单
-order: 4
+title: Menu页面菜单
+order: 3
 date: 2023-08-24
 category:
   - ElementUI
@@ -39,3 +39,21 @@ menu-tool/more
 
 :::
 
+## Menu API
+
+### 属性
+
+| 属性名| 说明                                                             | 类型                                                  | 默认   |
+| ------| ------------------------------                                  | ------------------------------------------------------| ---- |
+| data  |数据                                                              | ^[array]                                              | -  |
+| logUrl   |日志地址                                                        | ^[string]                                            | -  |
+| docUrl   |文档地址                                                        | ^[string]                                            | -  |
+| noteUrl   |书签地址                                                       | ^[string]                                            | -  |
+| mutiSaveUrl   |保存地址                                                   | ^[string]                                            | -  |
+
+### 事件
+
+| 名称       | 说明                           | 回调参数                                 |
+| -----     | ----------------------------- | ---------------------------------------- |
+| click | 选择菜单事件                      | (item: MenuItem) => void                     |
+| uploaded | 上传完成地址                   | (res: ApiResult) => void                     |

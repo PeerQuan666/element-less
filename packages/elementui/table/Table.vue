@@ -10,7 +10,7 @@ import ElsTableColumn from '../table-column/TableColumn.vue';
 import ElsForm from '../form/Form.vue';
 
 defineOptions({ name: 'ElsTable', inheritAttrs: false, })
-const emits = defineEmits(['update:check-rows', 'update:check-row-keys', 'dragMove', 'dragEnd', 'update:editStatus'])
+const emits = defineEmits(['update:check-rows', 'update:check-row-keys', 'dragMove', 'dragEnd', 'update:editStatus','menuClick'])
 const attrs = useAttrs()
 interface Props {
     tableName?: string,
@@ -1098,6 +1098,9 @@ function handleCloseCheckItem(item) {
         dataTable.value.toggleRowSelection(currRow, false);
     }
 }
+function handleMenuCommand(menu){
+    emits('menuClick',menu)
+}
 function exportTable(){
     if(props.isClientPage||!props.url){
         exportClientDataHtml()
@@ -1216,7 +1219,7 @@ function getExportFileName() {
 initData();
 const elsPageStore = inject<any>('elsPageStore',null)
 const elsApiResult = inject<any>('elsApiResult',null)
-
+provide("menuClick",handleMenuCommand)
 
 const isQuery = computed(() => {
     return props.url || props.isClientSearch
@@ -1363,8 +1366,8 @@ defineExpose({
         </el-table>
         <el-affix position="bottom" ref="bottomAffix" :offset="20" :target="'.' + tagID"
             v-if="!isMobile && hasBottomFixdScroll && tableBodyWidth">
-            <div class="leo-bottom-scroll-fixed" v-if="!dataLoading">
-                <el-scrollbar ref="bottomScroll" class="leo_scollbar_container" @scroll="handleBottomFixedScroll">
+            <div class="els-bottom-scroll-fixed" v-if="!dataLoading">
+                <el-scrollbar ref="bottomScroll" class="els_scollbar_container" @scroll="handleBottomFixedScroll">
                     <div :style="{ width: tableBodyWidth, height: '10px' }"></div>
                 </el-scrollbar>
             </div>
@@ -1382,7 +1385,9 @@ defineExpose({
     </div>
     <els-menu-context ref="contentMenu" v-if="hasContextMenu" :menus="currContextMenus"
         :visible="contextMenuVisible" :positionLeft="contextMenuPositionLeft"
-        :positionTop="contextMenuPositionTop"></els-menu-context>
+        :positionTop="contextMenuPositionTop"
+        @click="handleMenuCommand"
+        ></els-menu-context>
 </template>
 <style >
 .pagination-container {

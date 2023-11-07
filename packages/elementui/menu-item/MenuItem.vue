@@ -8,7 +8,6 @@ interface Props {
     isRootMenu?: boolean
 }
 const props = defineProps<Props>()
-const provideData = inject<any>('provideData',undefined)
 const handleMenuClick = inject<Function>('handleMenuClick',()=>{});
 const hasChild = computed(() => {
     if (props.item) {
@@ -25,7 +24,7 @@ const hasChild = computed(() => {
     <template v-else>
         <ElMenuItem v-if="!hasChild" :index="item.id" @click.native="handleMenuClick(item)"
             class="submenu-title-noDropdown">
-            <i v-if="item.icon" class="el-icon" :class="item.icon"></i>
+            <el-icon v-if="item.icon"><component :is="item.icon.replace('el-icon-', '')" /></el-icon>
             <template #title>
                 <span v-if="item.label" :title="item.label">{{ item.label }}</span>
             </template>
@@ -33,23 +32,21 @@ const hasChild = computed(() => {
         <els-sub-menu v-else :index="item.id"
             :class="(isRootMenu && item.active) ? 'menuitem_root el-menu-active' : (isRootMenu ? 'menuitem_root' : item.active ? 'el-menu-active' : '')">
             <template #title>
-                <div @click="handleMenuClick(item)" class="sub-menu-title" :class="{ 'el-submenu-active': item.active }">
-                    <i v-if="item.icon" class="el-icon" :class="item.icon"></i>
+                <el-icon v-if="item.icon"><component :is="item.icon.replace('el-icon-', '')" /></el-icon>
+                <span @click="handleMenuClick(item)" class="sub-menu-title" :class="{ 'el-submenu-active': item.active }">
                     <span v-if="item.label" :title="item.label">{{ item.label }}</span>
-                </div>
+                </span>
             </template>
-            <div v-if="provideData && provideData.openMenuData.indexOf(item.id) > -1">
-                <template v-for="(citem, index) in item.children.filter(ele => ele.visible)">
+            <template v-for="(citem, index) in item.children.filter(ele => ele.visible)">
                     <els-menu-item class="nest-menu" v-if="citem.children && citem.children.length > 0" :item="citem"
                         :key="index" @menu-click="handleMenuClick"></els-menu-item>
                     <el-menu-item :index="citem.id" v-else @click="handleMenuClick(citem)">
-                        <i v-if="item.icon" class="el-icon" :class="citem.icon"></i>
+                        <el-icon v-if="citem.icon"><component :is="citem.icon.replace('el-icon-', '')" /></el-icon>
                         <template #title>
                             <span v-if="citem.label" :title="citem.label">{{ citem.label }}</span>
                         </template>
                     </el-menu-item>
-                </template>
-            </div>
+             </template>
         </els-sub-menu>
     </template>
 </template>

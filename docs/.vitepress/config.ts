@@ -4,6 +4,11 @@ import mdContainer from 'markdown-it-container'
 import fs from 'fs'
 import path from 'path'
 import { highlight } from './utils/highlight'
+import { ApiTableContainer } from './plugins/api-table'
+import externalLinkIcon from './plugins/external-link-icon'
+import tableWrapper from './plugins/table-wrapper'
+import tooltip from './plugins/tooltip'
+import tag from './plugins/tag'
 const slidebar =  getSidebar(__dirname, '');
 
 export default defineConfig({
@@ -49,5 +54,10 @@ export default defineConfig({
             }
           },
         })
+        md.use(externalLinkIcon)
+        md.use(tableWrapper)
+        md.use(tooltip)
+        md.use(tag)
+        md.use(ApiTableContainer)
     }}
   })
