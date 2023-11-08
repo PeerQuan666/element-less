@@ -9,7 +9,6 @@ defineOptions({ name: 'ElsTimePicker' ,
     inheritAttrs:false})
 
 const props = withDefaults(defineProps<TimePickerProps>(), {
-    type: 'date',
     valueSeparator: ',',
     width: '120',
     valueFormat: 'HH:mm:ss'

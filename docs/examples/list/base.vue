@@ -1,13 +1,11 @@
 <template>
-
-        <els-list v-model="data" >
+    <els-list v-model="data" labelWidth="60">
         <els-input label="城市" prop="key" width="200" required clearable></els-input>
         <els-select prop="isRelease" label="状态">
             <els-option :value="1">发布</els-option>
             <els-option :value="0">未发布</els-option>
         </els-select>
     </els-list>
- 
 </template>
 
 <script setup>

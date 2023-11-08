@@ -1,6 +1,6 @@
 <template>
     <els-form v-model="editData" ref="editForm">
-        <els-select label="类型" prop="selectValue" :url="apiUrl" label-field="Name" value-field="ID" required
+        <els-select label="类型" prop="selectValue" :url="apiUrl" label-field="Name" value-field="ID"  required
             clearable></els-select>
         <els-radio-button label="城市" prop="selectValue1" required>
             <els-option :value="1">北京</els-option>

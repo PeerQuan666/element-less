@@ -2,7 +2,7 @@
 import { ref, watch, useAttrs, useSlots, inject, watchEffect, Fragment } from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'
-import {useModel} from '../../utlis/componentCom.js'
+import { useModel } from '../../utlis/componentCom.js'
 defineOptions({
     name: 'ElsInput',
     inheritAttrs: false
@@ -14,7 +14,6 @@ interface Props extends FormItemProps {
     width?: number | string,
     encode?: boolean,
     encodeType?: string,
-    textarea?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
     encode: false,
@@ -48,7 +47,7 @@ watchEffect(() => {
     }
 })
 
-watch(currModelValue,(val)=>{
+watch(currModelValue, (val) => {
     const currValue = val
     if (currValue) {
         if (props.encode) {
@@ -60,7 +59,7 @@ watch(currModelValue,(val)=>{
             inputValue.value = currValue
         }
     }
-},{immediate:true})
+}, { immediate: true })
 
 
 
@@ -77,26 +76,26 @@ function handleReturnResult(val) {
 }
 </script>
 <template>
-       <div class="els-node">
-    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-        <el-input v-model="inputValue" :style="[{ width: currWidth.appendPx() }]" v-bind="attrs">
-            <template v-for="item in slotNames" :slot="item">
-                <slot :name="item"></slot>
-            </template>
-            <template #prepend v-if="!slots.prepend && prefixTag">{{ prefixTag }}</template>
-            <template #prepend v-else="slots.prepend">
-                <slot name="prepend"></slot>
-            </template>
-            <template #append v-if="!slots.append && suffixTag">{{ suffixTag }}</template>
-            <template #prepend v-else="slots.append">
-                <slot name="append"></slot>
-            </template>
-        </el-input>
-     </ElsFormNode>
+    <div class="els-node">
+        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
+            <el-input v-model="inputValue" :style="[{ width: currWidth.appendPx() }]" v-bind="attrs">
+                <template v-for="item in slotNames" :slot="item">
+                    <slot :name="item"></slot>
+                </template>
+                <template #prepend v-if="!slots.prepend && prefixTag">{{ prefixTag }}</template>
+                <template #prepend v-else="slots.prepend">
+                    <slot name="prepend"></slot>
+                </template>
+                <template #append v-if="!slots.append && suffixTag">{{ suffixTag }}</template>
+                <template #prepend v-else="slots.append">
+                    <slot name="append"></slot>
+                </template>
+            </el-input>
+        </ElsFormNode>
     </div>
 </template>
 <style lang="less">
-.els-node:has(>div[class*=el-input]){
+.els-node:has(>div[class*=el-input]) {
     display: inline-flex;
     position: relative;
     width: 100%;

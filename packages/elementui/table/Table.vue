@@ -58,7 +58,9 @@ interface Props {
     beforeTriggerContextMenu?: Function,
     contextMenus?:Array<Record<string,any>>,
     columns?:Array<Record<string,any>>,
-    hasContextMenu?: boolean
+    hasContextMenu?: boolean,
+    rootParentValue?: string | number,
+    parentRowKey?: string,
 
 
 }
@@ -219,6 +221,8 @@ const isEdit = computed(() => {
     return columnEditData.filter(ele => ele.isEdit).length > 0;
 
 })
+
+
 provide('tableData', tableData)
 provide('provideData', provideData)
 provide('rowKey', props.rowKey)
@@ -229,8 +233,6 @@ provide('setSummaryData', setSummaryData)
 provide('handleTableSelectRow', handleTableSelectRow)
 provide('tableCheckData', tableCheckData)
 provide('handlePowerMenu', handlePowerMenu)
-
-
 isMobile.value = navigator.userAgent.indexOf('Mobile') > -1
 
 
@@ -269,7 +271,7 @@ function getTableSelectionWithQuery(hasQuery:boolean){
     let searchQueryData = Object.assign({}, props.queryData ?? {}, columnSortData, queryFormData.value)
     searchQueryData.PageSize = { Value: currPageSize.value };
     searchQueryData.PageIndex = { Value: currPageIndex.value - 1 };
-    const queryData= lessCom.getQueryData(searchQueryData)
+    const queryData= lessCom.getQueryParameters(searchQueryData)
     return Object.assign({}, keyData, queryData);
    }
 
@@ -899,7 +901,7 @@ function readData() {
         props.beforeReadData()
     }
     dataLoading.value = true;
-    let currQueryData = lessCom.getQueryData(searchQueryData);
+    let currQueryData = lessCom.getQueryParameters(searchQueryData);
     return props.url.post(currQueryData).then(res => {
         if (res[$codeField] === $success) {
             if (res[$dataField][$pageSizeField] != undefined) {
@@ -1145,7 +1147,7 @@ function exportReadDataHtml() {
         props.beforeReadData()
     }
     let currQueryData = Object.assign({}, props.queryData ?? {}, columnSortData, queryFormData.value)
-    currQueryData = lessCom.getQueryData(currQueryData)
+    currQueryData = lessCom.getQueryParameters(currQueryData)
     currQueryData["Query_PageSize"] = 100000;
     currQueryData["Query_PageIndex"] = 0;
     const exportLoading = ElLoading.service({

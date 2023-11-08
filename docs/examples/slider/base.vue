@@ -1,5 +1,5 @@
 <template>
-    <els-slider v-model="selectValue" showInput controls-position="right"></els-slider>
+    <els-slider v-model="selectValue" :showInput="true" controlsPosition="right"></els-slider>
 </template>
 
 <script setup>

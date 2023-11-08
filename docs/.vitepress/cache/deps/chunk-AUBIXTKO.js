@@ -10885,6 +10885,7 @@ export {
   isObject,
   isPromise,
   toRawType,
+  isPlainObject,
   camelize,
   hyphenate,
   capitalize,
@@ -11054,4 +11055,4 @@ export {
 @vue/runtime-dom/dist/runtime-dom.esm-bundler.js:
   (*! #__NO_SIDE_EFFECTS__ *)
 */
-//# sourceMappingURL=chunk-2CABAPV2.js.map
+//# sourceMappingURL=chunk-AUBIXTKO.js.map

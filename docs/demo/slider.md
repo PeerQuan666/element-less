@@ -31,3 +31,18 @@ slider/base
 slider/range
 
 :::
+
+
+## Slider API
+
+### Slider属性
+| 属性名            | 说明                                           | 类型       | 默认 |
+| ----------------- | ---------------------------------------------- | ---------- | ---- |
+| modelValue        | 绑定值                                         | ^[number]  | 0    |
+| min               | 最小值                                         | ^[number]  | 0    |
+| max               | 最大值                                         | ^[number]  | 100  |
+| step              | 步长                                           | ^[number]  | 1    |
+| showInput         | 是否显示输入框，仅在非范围选择时有效           | ^[boolean] | -    |
+| showInputControls | 在显示输入框的情况下，是否显示输入框的控制按钮 | ^[boolean] | -    |
+| range             | 是否开启选择范围                               | ^[boolean] | -    |
+| vertical          | 垂直模式                                       | ^[boolean] | -    |

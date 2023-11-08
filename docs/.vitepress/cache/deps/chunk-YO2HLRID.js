@@ -34,7 +34,7 @@ import {
   version,
   watch,
   watchEffect
-} from "./chunk-2CABAPV2.js";
+} from "./chunk-AUBIXTKO.js";
 
 // node_modules/@vueuse/shared/node_modules/vue-demi/lib/index.mjs
 init_vue_runtime_esm_bundler();
@@ -8760,4 +8760,4 @@ export {
   useWindowScroll,
   useWindowSize
 };
-//# sourceMappingURL=chunk-WPMVYWY4.js.map
+//# sourceMappingURL=chunk-YO2HLRID.js.map

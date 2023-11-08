@@ -97,8 +97,9 @@ function handleConfirm() {
         props.confirm().then(res => {
             if (res) {
                 dialogVisible.value = false
-                confirmLoading.value=false
+             
             }
+            confirmLoading.value=false
         })
 
     }

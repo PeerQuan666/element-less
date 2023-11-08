@@ -38,14 +38,12 @@ export interface DatePickerProps extends FormItemProps {
 
 
 export interface TimePickerProps extends FormItemProps {
-    type?: string,
     modelValue?: string,
     start?: string | number,
     end?: string | number,
     greaterThan?: string,
     lessThan?: string,
     width?: string,
-    isShortcuts?: boolean,
     defaultValue?:string|Array<string>
     disabledHours?: Function|Array<any>,
     disabledMinutes?: Function|Array<any>,

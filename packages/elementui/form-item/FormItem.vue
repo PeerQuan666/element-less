@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useAttrs, computed, inject, useSlots, reactive, provide,watchEffect } from 'vue'
+import { ref, useAttrs, computed, inject, useSlots, reactive, provide, onMounted, onUnmounted } from 'vue'
 
 import { FormItemProps, QueryInfo } from '../../utlis/interfaceCom'
 import { ValidType } from '../../utlis/enumCom'
@@ -21,6 +21,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 const attrs: any = useAttrs()
 const formItem: any = ref()
+
+const removeQueryData = inject<Function>('removeQueryData', () => { })
 const setQueryData = inject<Function>('setQueryData', () => { })
 const getQueryData = inject<Function>('getQueryData', () => { })
 const formType = inject<string>('formType', '')
@@ -120,20 +122,30 @@ const defaultKey=ref<any>()
 const defaultProp=ref<any>()
 let queryData: any = reactive({})
 
-watchEffect(()=>{
-    defaultKey.value=props.prop
-    if (formType == 'Query' && setQueryData) {
-        queryData = initQuery()
-        if (queryData) {
-            setQueryData(queryData);
-        }
-        defaultKey.value = queryData?.key
+
+
+
+defaultKey.value=props.prop
+if (formType == 'Query' && setQueryData) {
+    queryData = initQuery()
+    if (queryData) {
+        setQueryData(queryData);
     }
-    defaultProp.value=  defaultKey.value
-    if (props.aIndex > -1) {
-        defaultProp.value = `[${props.aIndex}]['${defaultKey.value}']`
+    defaultKey.value = queryData?.key
+}
+defaultProp.value=  defaultKey.value
+if (props.aIndex > -1) {
+    defaultProp.value = `[${props.aIndex}]['${defaultKey.value}']`
+}
+
+
+onUnmounted(()=>{
+    if (formType == 'Query' && removeQueryData) {
+        removeQueryData(defaultKey.value)
     }
 })
+
+
 
 
 let startKey: any = attrs['propStart']

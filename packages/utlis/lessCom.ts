@@ -329,7 +329,7 @@ const lessCom = {
     randomNumber(len=100000){
         return (Math.random()*len).toString().toInt()
     },
-    getQueryData(queryData) {
+    getQueryParameters(queryData) {
         if (!queryData) {
             return {}
         }

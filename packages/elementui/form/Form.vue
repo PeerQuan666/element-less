@@ -7,22 +7,15 @@ import '../../utlis/lessPrototype.js'
 defineOptions({ name: 'ElsForm' })
 
 interface Props {
-    type?: string,
     modelValue?: any,
-    formName?: string,
-    queryTableRef?: string,
-    queryAutoReadData?: boolean,
-    queryParameterType?: string,
-    labelWidth?: string,
     saveUrl?: string,
     beforeSave?: Function,
     afterSave?: Function,
+    labelWidth?: string,
     inputWidth?: string
 }
 const props = withDefaults(defineProps<Props>(), {
-    queryParameterType: 'Query',
-
-
+    
 })
 const emits = defineEmits(['update:modelValue'])
 const tagID = 'els-form' + lessCom.generateID();
@@ -32,11 +25,9 @@ const submitButton = ref()
 
 let modelData: Record<string, any> = useVModel(props, 'modelValue', emits)
 
-
 provide('container', 'form')
 provide('setModelValue', setModelValue)
 provide('getModelValue', getModelValue)
-
 provide('formData', modelData)
 
 const parentLabelWidth = inject<string>('labelWidth', '')

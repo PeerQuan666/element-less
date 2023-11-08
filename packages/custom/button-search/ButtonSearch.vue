@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, inject } from 'vue'
 defineOptions({ name: "ElsButtonSearch" })
-const emits = defineEmits(['search'])
+const emits = defineEmits(['click'])
 const loading = ref(false)
 const tableRef = inject<string>('queryTableRef','')
 const elsQuery = inject<Function>('elsQuery',()=>null)
@@ -11,9 +11,8 @@ function handleSearch() {
     }
     else if (elsQuery) {
         elsQuery()
-    } else {
-        emits('search')
     }
+    emits('click')
 }
 </script>
 <template >

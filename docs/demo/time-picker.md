@@ -47,3 +47,21 @@ time-picker/range
 time-picker/splitRange
 
 :::
+
+## TimePicker API
+
+### TimePicker属性
+| 属性名        | 说明                           | 类型                                                                            | 默认 |
+| ------------- | ------------------------------ | ------------------------------------------------------------------------------- | ---- |
+| v-model       | 绑定值                         | ^[string]                                                                       | -    |
+| clearable   | 大于                           | ^[string]                                                                       | -    |
+| lessThan      | 小于                           | ^[string]                                                                       | -    |
+| width         | 宽度                           | ^[string]                                                                       | -    |
+
+### TimePickerRange属性
+| 属性名         | 说明       | 类型      | 默认 |
+| -------------- | ---------- | --------- | ---- |
+| v-model:start  | 开始绑定值 | ^[string] | -    |
+| v-model:end    | 结束绑定值 | ^[string] | -    |
+| v-model        | 绑定值     | ^[string] | -    |
+| valueSeparator | 值分隔符   | ^[string] | ,    |

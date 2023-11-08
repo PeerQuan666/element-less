@@ -1,12 +1,8 @@
 <template>
-    <els-form v-model="editData">
-        <els-input-range  label="测试" prop="inputValue" require></els-input-range>
-
-    </els-form>
+    <els-input-range v-model="inputValue"></els-input-range>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-const editData=ref({inputValue:''})
 const inputValue = ref('')
 </script>

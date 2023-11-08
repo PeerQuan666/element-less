@@ -3,9 +3,9 @@ import { ref, reactive, watch, inject, watchEffect } from 'vue'
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
-import {useModel} from '../../utlis/componentCom.js'
+import { useModel } from '../../utlis/componentCom.js'
 import { FormItemProps } from '../../utlis/interfaceCom'
-defineOptions({ name: 'ElsAutocomplete',inheritAttrs:false })
+defineOptions({ name: 'ElsAutocomplete', inheritAttrs: false })
 interface Props extends FormItemProps {
     data?: Array<Record<string, any>>,
     url?: string,
@@ -32,9 +32,9 @@ const queryData = reactive<any>({ searchKey: '', idString: '' })
 watch(selectValue, (val) => {
     returnModelValue(val)
 })
-watch(currModelValue,(val)=>{
+watch(currModelValue, (val) => {
     selectValue.value = val
-},{immediate:true})
+}, { immediate: true })
 
 watch(() => props.data, (val) => {
     tableData.length = 0
@@ -83,36 +83,36 @@ function readData() {
 </script>
 
 <template>
-       <div class="els-node">
-    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-        <el-autocomplete v-model="selectValue" :style="[{ width: width?.appendPx() }]" :fetch-suggestions="queryMethod"
-            :value-key="valueField">
-            <template #prefix>
-                <slot name="prefix">
-                </slot>
-            </template>
-            <template #suffix>
-                <slot name="suffix">
-                </slot>
-            </template>
-            <template #prepend v-if="$slots.prepend">
-                <slot name="prepend">
-                </slot>
-            </template>
-            <template #append v-if="$slots.append">
-                <slot name="append">
-                </slot>
-            </template>
-            <template #default="{ item }">
-                <slot name="default" :item="item" v-if="valueField">
-                    {{ item[valueField] }}
-                </slot>
-                <slot name="default" :item="item" v-else>
-                    {{ item }}
-                </slot>
-            </template>
-        </el-autocomplete>
-     </ElsFormNode>
+    <div class="els-node">
+        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
+            <el-autocomplete v-model="selectValue" :style="[{ width: width?.appendPx() }]" :fetch-suggestions="queryMethod"
+                :value-key="valueField">
+                <template #prefix>
+                    <slot name="prefix">
+                    </slot>
+                </template>
+                <template #suffix>
+                    <slot name="suffix">
+                    </slot>
+                </template>
+                <template #prepend v-if="$slots.prepend">
+                    <slot name="prepend">
+                    </slot>
+                </template>
+                <template #append v-if="$slots.append">
+                    <slot name="append">
+                    </slot>
+                </template>
+                <template #default="{ item }">
+                    <slot name="default" :item="item" v-if="valueField">
+                        {{ item[valueField] }}
+                    </slot>
+                    <slot name="default" :item="item" v-else>
+                        {{ item }}
+                    </slot>
+                </template>
+            </el-autocomplete>
+        </ElsFormNode>
     </div>
 </template>
 

@@ -4,6 +4,7 @@ defineOptions({ name: "ElsButtonExport" })
 interface Props {
     tableRef?: string
 }
+const emits = defineEmits(['click'])
 const props = withDefaults(defineProps<Props>(), {
 
 })
@@ -17,6 +18,7 @@ function handleExport() {
     } else if (elsExport) {
         elsExport(props.tableRef)
     }
+    emits('click')
     loading.value = false;
 }
 

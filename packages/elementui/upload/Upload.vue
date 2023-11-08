@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { ref, useAttrs, onMounted, watch, inject, watchEffect } from 'vue'
+import { ref, useAttrs, onMounted, watch, watchEffect } from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 import { UploadType } from '../../utlis/enumCom'
 import lessCom from '../../utlis/lessCom.js'
 import Sortable from 'sortablejs'
 import { ElNotification, ElMessage } from 'element-plus'
-import {useModel} from '../../utlis/componentCom.js'
+import { useModel } from '../../utlis/componentCom.js'
 
 import '../../utlis/lessPrototype'
 defineOptions({
     name: 'ElsUpload',
-    inheritAttrs:false
+    inheritAttrs: false
 })
 const attrs = useAttrs()
 const emits = defineEmits(['update:modelValue', 'uploaded', 'completed'])
@@ -61,13 +61,13 @@ const uploadLoading = ref(false)
 const currUploadUrl = ref('')
 const fileUpload = ref()
 const currShowFileList = ref(props.showFileList)
-const multiple =ref(false)
-watchEffect(()=>{
-    multiple.value= attrs['multiple'] === true || attrs['multiple'] === ''
+const multiple = ref(false)
+watchEffect(() => {
+    multiple.value = attrs['multiple'] === true || attrs['multiple'] === ''
     if (multiple.value) {
         currShowFileList.value = true
-    }else{
-        currShowFileList.value=props.showFileList
+    } else {
+        currShowFileList.value = props.showFileList
     }
 })
 
@@ -124,7 +124,7 @@ function handleError(err, file) {
     console.log(err)
 }
 function handleRemove(file) {
-    lessCom.removeArrayItem(fileList.value,file)
+    lessCom.removeArrayItem(fileList.value, file)
     setFileUrl();
 }
 function handleSuccess(res, file, fileList) {
@@ -257,7 +257,7 @@ const fontSize = parseFloat(props.width) / 3 + "px";
 watch(fileUrl, () => {
     handleReturnResult()
 })
-    
+
 watch(() => props.url, () => {
     initUrl()
 }, { immediate: true })
@@ -276,108 +276,112 @@ defineExpose({
 })
 </script>
 <template>
-       <div class="els-node">
-    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-        <div class="els_upload_container">
-            <el-upload ref="fileUpload" v-model:file-list="fileList" :class="{ 'ele-uploader': type == UploadType.Pic }"
-                :action="currUploadUrl" :on-success="handleSuccess" :on-error="handleError" :on-remove="handleRemove"
-                :before-upload="handleBeforeUpload" :on-preview="handlePreview" :show-file-list="currShowFileList"
-                :list-type="(type == UploadType.Pic && multiple) ? 'picture-card' : 'text'" :name="fileName"
-                :disabled="uploadLoading" v-bind="attrs">
-                <template #default>
-                    <el-input v-model.trim="fileUrl" :style="[{ width: inputWidth.appendPx() }, { 'margin-right': '10px' }]"
-                        v-if="currShowInput == true && attrs['list-type'] != 'picture-card'" class="leo-upload-input"
-                        clearable :placeholder="inputPlaceholder"></el-input>
-                    <slot name="default">
-                        <template v-if="type == UploadType.Pic && !multiple">
+    <div class="els-node">
+        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
+            <div class="els_upload_container">
+                <el-upload ref="fileUpload" v-model:file-list="fileList" :class="{ 'ele-uploader': type == UploadType.Pic }"
+                    :action="currUploadUrl" :on-success="handleSuccess" :on-error="handleError" :on-remove="handleRemove"
+                    :before-upload="handleBeforeUpload" :on-preview="handlePreview" :show-file-list="currShowFileList"
+                    :list-type="((type == UploadType.Pic && multiple)||type == UploadType.MutiPic) ? 'picture-card' : 'text'" :name="fileName"
+                    :disabled="uploadLoading" v-bind="attrs">
+                    <template #default>
+                        <el-input v-model.trim="fileUrl"
+                            :style="[{ width: inputWidth.appendPx() }, { 'margin-right': '10px' }]"
+                            v-if="currShowInput == true && attrs['list-type'] != 'picture-card'" class="leo-upload-input"
+                            clearable :placeholder="inputPlaceholder"></el-input>
+                        <slot name="default">
+                            <template v-if="type == UploadType.Pic && !multiple">
 
-                            <div class="els_upload_pic"
+                                <div class="els_upload_pic"
+                                    :style="[{ width: width.appendPx() }, { height: height.appendPx() }]">
+                                    <el-icon v-if="!uploadLoading && !fileUrl" class="ele-uploader-icon"
+                                        :style="[{ 'font-size': fontSize }]">
+                                        <Plus />
+                                    </el-icon>
+                                    <el-progress type="circle" v-else-if="uploadLoading"
+                                        :percentage="fileList.at(-1).percentage"
+                                        :style="[{ width: width.appendPx() }, { height: height.appendPx() }]"
+                                        v-if="fileList.at(-1).status != 'success'"></el-progress>
+
+                                    <template v-else-if="fileUrl" @mouseover="showMenus = true"
+                                        @mouseout="showMenus = false">
+                                        <span class="elsupload-img"> <img :src="fileUrl" class="avatar" /></span>
+                                        <div class="els_upload-menus">
+                                            <el-icon @click.stop="showVisible = true">
+                                                <ZoomIn />
+                                            </el-icon>
+                                            <el-icon @click.stop="fileUrl = ''">
+                                                <Delete />
+                                            </el-icon>
+                                        </div>
+                                    </template>
+                                    <el-icon v-else class="ele-uploader-icon" :style="[{ 'font-size': fontSize }]">
+                                        <Plus />
+                                    </el-icon>
+                                </div>
+
+                            </template>
+                            <template v-else-if="type == UploadType.File">
+                                <template v-if="attrs['auto-upload'] !== false">
+                                    <el-button type="primary" :loading="uploadLoading" icon="UploadFilled">{{ uploadLoading
+                                        ?
+                                        "上传中"
+                                        : buttonLabel }}</el-button>
+                                </template>
+                                <template v-else>
+                                    <el-button type="primary" slot="trigger" :loading="uploadLoading" icon="UploadFilled">{{
+                                        uploadLoading ? "上传中" : "选择文件" }}</el-button>
+                                    <el-button style="margin-left: 10px;" type="success" icon="Select"
+                                        @click="submitUpload">确认上传</el-button>
+                                </template>
+                            </template>
+                            <template v-else-if="(type == UploadType.Pic && multiple)||type == UploadType.MutiPic">
+                                <div class="els_upload_pic"
+                                    :style="[{ width: width.appendPx() }, { height: height.appendPx() }]">
+                                    <el-icon :style="[{ 'font-size': fontSize }]">
+                                        <Plus />
+                                    </el-icon>
+                                </div>
+
+                            </template>
+                        </slot>
+                    </template>
+                    <template #trigger v-if="$slots['trigger']">
+                        <slot name="trigger"></slot>
+                    </template>
+                    <template #tip v-if="$slots['tip']">
+                        <slot name="tip"></slot>
+                    </template>
+                    <template #file="{ file }">
+
+                        <slot name="file" :file="file">
+
+                            <div v-if="(type == UploadType.Pic && multiple)||type == UploadType.MutiPic" class="els_upload_pic"
                                 :style="[{ width: width.appendPx() }, { height: height.appendPx() }]">
-                                <el-icon v-if="!uploadLoading && !fileUrl" class="ele-uploader-icon"
-                                    :style="[{ 'font-size': fontSize }]">
-                                    <Plus />
-                                </el-icon>
-                                <el-progress type="circle" v-else-if="uploadLoading"
-                                    :percentage="fileList.at(-1).percentage"
+                                <el-progress type="circle" :percentage="file.percentage"
                                     :style="[{ width: width.appendPx() }, { height: height.appendPx() }]"
-                                    v-if="fileList.at(-1).status != 'success'"></el-progress>
-
-                                <template v-else-if="fileUrl" @mouseover="showMenus = true" @mouseout="showMenus = false">
-                                    <span class="elsupload-img"> <img :src="fileUrl" class="avatar" /></span>
-                                    <div class="els_upload-menus">
-                                        <el-icon @click.stop="showVisible = true">
-                                            <ZoomIn />
-                                        </el-icon>
-                                        <el-icon @click.stop="fileUrl = ''">
+                                    v-if="file.status != 'success'"></el-progress>
+                                <template v-else>
+                                    <img class="els-upload-list__item-thumbnail" :width="width" :height="height"
+                                        :src="file.url" />
+                                    <span class="els_upload-menus">
+                                        <el-icon @click="handlePreview(file)"><zoom-in /></el-icon>
+                                        <el-icon @click="handleRemove(file)">
                                             <Delete />
                                         </el-icon>
-                                    </div>
+                                    </span>
                                 </template>
-                                <el-icon v-else class="ele-uploader-icon" :style="[{ 'font-size': fontSize }]">
-                                    <Plus />
-                                </el-icon>
+
                             </div>
 
-                        </template>
-                        <template v-else-if="type == UploadType.File">
-                            <template v-if="attrs['auto-upload'] !== false">
-                                <el-button type="primary" :loading="uploadLoading" icon="UploadFilled">{{ uploadLoading ?
-                                    "上传中"
-                                    : buttonLabel }}</el-button>
-                            </template>
-                            <template v-else>
-                                <el-button type="primary" slot="trigger" :loading="uploadLoading" icon="UploadFilled">{{
-                                    uploadLoading ? "上传中" : "选择文件" }}</el-button>
-                                <el-button style="margin-left: 10px;" type="success" icon="Select"
-                                    @click="submitUpload">确认上传</el-button>
-                            </template>
-                        </template>
-                        <template v-else-if="type == UploadType.Pic && multiple">
-                            <div class="els_upload_pic"
-                                :style="[{ width: width.appendPx() }, { height: height.appendPx() }]">
-                                <el-icon :style="[{ 'font-size': fontSize }]">
-                                    <Plus />
-                                </el-icon>
-                            </div>
-
-                        </template>
-                    </slot>
-                </template>
-                <template #trigger v-if="$slots['trigger']">
-                    <slot name="trigger"></slot>
-                </template>
-                <template #tip v-if="$slots['tip']">
-                    <slot name="tip"></slot>
-                </template>
-                <template #file="{ file }">
-
-                    <slot name="file" :file="file">
-
-                        <div v-if="type == UploadType.Pic && multiple" class="els_upload_pic"
-                            :style="[{ width: width.appendPx() }, { height: height.appendPx() }]">
-                            <el-progress type="circle" :percentage="file.percentage"
-                                :style="[{ width: width.appendPx() }, { height: height.appendPx() }]"
-                                v-if="file.status != 'success'"></el-progress>
-                            <template v-else>
-                                <img class="els-upload-list__item-thumbnail" :width="width" :height="height"
-                                    :src="file.url" />
-                                <span class="els_upload-menus">
-                                    <el-icon @click="handlePreview(file)"><zoom-in /></el-icon>
-                                    <el-icon @click="handleRemove(file)">
-                                        <Delete />
-                                    </el-icon>
-                                </span>
-                            </template>
-
-                        </div>
-
-                    </slot>
-                </template>
-            </el-upload>
-            <els-image-viewer v-if="showVisible && fileList.length" :url="fileList.map(ele => ele.url)"
-                :initial-index="previewIndex" :hide-on-click-modal="true" @close="showVisible = false"></els-image-viewer>
-        </div>
-     </ElsFormNode>
+                        </slot>
+                    </template>
+                </el-upload>
+                <els-image-viewer v-if="showVisible && fileList.length" :url="fileList.map(ele => ele.url)"
+                    :initial-index="previewIndex" :hide-on-click-modal="true"
+                    @close="showVisible = false"></els-image-viewer>
+            </div>
+        </ElsFormNode>
     </div>
 </template>
 <style  lang="less">
@@ -464,5 +468,4 @@ defineExpose({
         }
     }
 
-}
-</style>
+}</style>

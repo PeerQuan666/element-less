@@ -1,5 +1,5 @@
 <template>
-    <els-dropdown v-model="selectValue" title="下拉" @command="handleCommand">
+    <els-dropdown  title="下拉" @command="handleCommand">
         <template #dropdown>
             <els-option :value="1">北京</els-option>
             <els-option :value="2">天津</els-option>

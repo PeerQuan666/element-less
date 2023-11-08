@@ -5,6 +5,7 @@
     value-field="ID"
     title="读取接口"
     @command="handleCommand"
+    maxHeight="200"
     ></els-dropdown>
 </template>
 <script setup>

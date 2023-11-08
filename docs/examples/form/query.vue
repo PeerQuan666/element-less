@@ -1,33 +1,26 @@
 <template>
-    <els-form-query  ref="queryForm" v-model="queryData">
-        <els-select label="城市" prop="selectValue" require clearable>
+    <els-form-query ref="queryForm" v-model="formData">
+        <els-select label="城市" prop="selectValue" required clearable>
             <els-option :value="1">北京</els-option>
             <els-option :value="2">天津</els-option>
             <els-option :value="3">福州</els-option>
             <els-option :value="4">厦门</els-option>
         </els-select>
-        <els-radio-button label="城市1" prop="selectValue1" require>
-            <els-option :value="1">北京</els-option>
-            <els-option :value="2">天津</els-option>
-        </els-radio-button>
-        <els-input-range label="范围" prop="inputRange" propStart="inputStart" propEnd="inputEnd" require></els-input-range>
-        <el-button @click="handleSearch" type="primary">查询</el-button>
+        <els-date-picker-range label="时间" prop="date"></els-date-picker-range>
+        <els-button-search @click="handleSearch">查询</els-button-search>
     </els-form-query>
 </template>
 
 <script lang="ts" setup>
-import { ref ,reactive} from 'vue'
-import {ElMessage} from 'element-plus'
+import { ref } from 'vue'
+import lessCom from '../../../packages/utlis/lessCom'
 const queryForm = ref()
-const queryData=ref({})
+const formData = ref({})
 function handleSearch() {
-    queryForm.value.validate().then(res=>{
-        if(res){
-            ElMessage.success(JSON.stringify(queryData.value))
-        }else{
-            ElMessage.error('验证没通过')
-        }
+    queryForm.value.query().then(res => {
+        console.info(lessCom.getQueryParameters(res))
     })
-   
+
+
 }
 </script>

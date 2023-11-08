@@ -329,7 +329,7 @@ watchEffect(() => {
             case 'date':
                 currValueFormat.value = "YYYY-MM-DD"
                 if (!currWidth.value) {
-                    currWidth.value = '160'
+                    currWidth.value = '140'
                 }
 
                 if (props.defaultTime) {

@@ -8,13 +8,14 @@ import { QueryInfo } from '../../utlis/interfaceCom';
 const { debounce } = lodash;
 defineOptions({ name: 'ElsFormQuery' })
 interface Props {
+    modelValue?: any,
+    queryData?:any,//兼容外部设置的查询数据
     tableRef?: string,
     autoReadData?: boolean,
     parameterType?: string,//NoPost|NoQuery|Query
 }
 const props = withDefaults(defineProps<Props>(), {
     parameterType: 'Query',
-
 })
 
 const queryForm = ref()
@@ -30,7 +31,7 @@ const debouncedQuerySearch = computed<Function>(() => {
         return debounce(handleElsQuery, 200)
     }
    else{
-    return debounce(handleSearch, 200)
+    return debounce(query, 200)
    }
 })
 function handleElsQuery(){
@@ -38,8 +39,8 @@ function handleElsQuery(){
         return elsQuery(false,props.tableRef)
     }
 }
-const emits = defineEmits(['update:modelValue', 'search'])
-
+const emits = defineEmits(['update:modelValue', 'search','update:queryData'])
+provide('removeQueryData',removeQueryData)
 provide('setQueryData', setQueryData)
 provide('getQueryData', getQueryData)
 provide('labelWidth', attrs['label-width'])
@@ -55,7 +56,7 @@ watch(formData, (val) => {
 })
 
 
-const queryStore = { id: tagID,tableRef:props.tableRef, query: handleSearch ,cacheQueryState}
+const queryStore = { id: tagID,tableRef:props.tableRef, query: query ,cacheQueryState}
 const validateStore = { id: tagID, validate: validate }
 
 onMounted(() => {
@@ -74,6 +75,10 @@ onBeforeUnmount(() => {
 })
 function getQueryData() {
     return modelData
+}
+
+function removeQueryData(key){
+    delete modelData[key]
 }
 
 function setQueryData(item) {
@@ -170,15 +175,16 @@ function cacheQueryState() {
 function clearQueryState() {
     sessionStorage.removeItem(`${tagID}_QueryData`)
 }
-function handleSearch() {
+function mergeQueryData(){
+    for(const key in formData){
+        if(key&&modelData[key]){
+            modelData[key].Value= formData[key]
+        }
+    }
+}
+function query() {
     return  new Promise((resolve) => {
-        
         validate().then(res => {
-            for(const key in formData){
-                if(key&&modelData[key]){
-                    modelData[key].Value= formData[key]
-                }
-            }
             if (res) {
                 if (attrs["onSearch"]) {
                     emits("search", modelData)
@@ -256,9 +262,34 @@ function setModelValue(key, value, aIndex = -1) {
     }
 }
 
+onMounted(()=>{
 
+
+ watch(formData,()=>{
+        mergeQueryData()
+    },{immediate:true,deep:true})
+    
+    watch(modelData,()=>{
+        emits('update:queryData',modelData)
+    },{immediate:true})
+
+    //兼容外部设置传参
+    if(props.queryData!==undefined){
+        for(const key in props.queryData){
+            watch(()=>props.queryData[key],(val)=>{
+                if(key&&modelData[key]){
+                    modelData[key].Value= val.Value
+                }else{
+                    modelData[key]=val
+                }
+            },{immediate:true,deep:true})
+        }
+    }
+
+})
 
 defineExpose({
+    query,
     recoverQueryState,
     cacheQueryState,
     clearValidate,

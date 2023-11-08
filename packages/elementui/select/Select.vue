@@ -2,13 +2,13 @@
     
 <script lang="ts" setup>
 
-import { ref, reactive, watch, useAttrs, computed, nextTick, provide, useSlots, inject, watchEffect, Fragment, onMounted } from 'vue'
+import { ref, reactive, watch, useAttrs, computed, nextTick, provide, useSlots, inject, onMounted } from 'vue'
 import { ElMessage } from 'element-plus';
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom.js'
 import { ValueType } from '../../utlis/enumCom'
 import { FormItemProps } from '../../utlis/interfaceCom'
-import {useModel} from '../../utlis/componentCom.js'
+import { useModel } from '../../utlis/componentCom.js'
 defineOptions({
     name: 'ElsSelect',
     inheritAttrs: false
@@ -36,6 +36,7 @@ interface Props extends FormItemProps {
     valueSeparator?: string,
     multiple?: boolean,
     allowCreate?: boolean,
+    isVirtual?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -51,6 +52,7 @@ const props = withDefaults(defineProps<Props>(), {
     valueSeparator: ',',
     validTrigger: 'change',
 })
+
 const slots = useSlots()
 const attrs: Record<string, any> = useAttrs()
 const emits = defineEmits(['update:modelValue', 'update:select', 'update:select-label', 'change', 'click-option', 'select', 'blur', 'clear', 'readdataed'])
@@ -110,7 +112,7 @@ watch(() => props.url, () => {
 })
 watch(() => props.data, (val, oldVal) => {
     if (val === undefined) { return; }
-    if (JSON.stringify(val) != JSON.stringify(options) ) {
+    if (JSON.stringify(val) != JSON.stringify(options)) {
         if (props.resetValueByChangeData) {
             if (props.multiple) {
                 selectValue.value = [];
@@ -123,7 +125,7 @@ watch(() => props.data, (val, oldVal) => {
         initNoExistData();
         initSelectIndex();
     }
-},{deep:true})
+}, { deep: true })
 
 watch(selectValue, (val: any) => {
     if (props.multiple) {
@@ -141,7 +143,7 @@ provide('multiple', props.multiple)
 provide('setExtraOption', setExtraOption)
 
 
-watch(currModelValue,(val)=>{
+watch(currModelValue, (val) => {
     initSelectValue()
 })
 
@@ -150,38 +152,38 @@ function initSelectValue() {
     if (props.allowCreate) {
         currValueType = ValueType.String
     }
-     currModelValue.value
+    currModelValue.value
 
 
-    if ( currModelValue.value === '' ||  currModelValue.value === undefined || selectValue.value.toString() ===  currModelValue.value.toString()) {
+    if (currModelValue.value === '' || currModelValue.value === undefined || selectValue.value.toString() === currModelValue.value.toString()) {
         return
     }
     if (props.multiple) {
         if (currValueType === ValueType.Number) {
-            selectValue.value =  currModelValue.value.toString().toListNumber(props.valueSeparator)
+            selectValue.value = currModelValue.value.toString().toListNumber(props.valueSeparator)
         } else if (currValueType === ValueType.String) {
-            selectValue.value =  currModelValue.value.toString().toList(props.valueSeparator)
+            selectValue.value = currModelValue.value.toString().toList(props.valueSeparator)
         } else if (optionData.value.length && typeof (optionData.value[0][props.valueField]) === "number") {
-            selectValue.value =  currModelValue.value.toString().toListNumber(props.valueSeparator)
+            selectValue.value = currModelValue.value.toString().toListNumber(props.valueSeparator)
         }
-        else if (optionData.value.length &&  currModelValue.value.toString().length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
-            selectValue.value =  currModelValue.value.toString().toListNumber(props.valueSeparator)
+        else if (optionData.value.length && currModelValue.value.toString().length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
+            selectValue.value = currModelValue.value.toString().toListNumber(props.valueSeparator)
 
-        } 
-         else if ( currModelValue.value) {
-            selectValue.value =  currModelValue.value.toString().toList(props.valueSeparator)
+        }
+        else if (currModelValue.value) {
+            selectValue.value = currModelValue.value.toString().toList(props.valueSeparator)
         }
     } else {
         if (currValueType === ValueType.Number) {
-            selectValue.value = parseFloat( currModelValue.value.toString());
+            selectValue.value = parseFloat(currModelValue.value.toString());
         }
         else if (currValueType === ValueType.String) {
-            selectValue.value =  currModelValue.value.toString();
+            selectValue.value = currModelValue.value.toString();
         }
-        else if (optionData.value.length &&  currModelValue.value.toString().length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
-            selectValue.value = parseFloat( currModelValue.value.toString());
+        else if (optionData.value.length && currModelValue.value.toString().length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
+            selectValue.value = parseFloat(currModelValue.value.toString());
         } else {
-            selectValue.value =  currModelValue.value;
+            selectValue.value = currModelValue.value;
         }
     }
     initNoExistData();
@@ -189,7 +191,7 @@ function initSelectValue() {
 
 
 function initSelectIndex() {
-    if (props.selectIndex > -1 && ! currModelValue.value) {
+    if (props.selectIndex > -1 && !currModelValue.value) {
         if (optionData.value.length) {
             selectValue.value = optionData.value[props.selectIndex][props.valueField];
             if (props.multiple) {
@@ -277,11 +279,12 @@ function handleComitSelect(value: string | number | boolean) {
         console.log(err)
     }
 }
-function handleBlur() {
-    if (props.isClearSearchWithNoSelect && queryData.searchKey && !selectValue.value) {
-        handleSearch('')
+function handleVisibleChange(val) {
+    if (!val) {
+        if (props.isClearSearchWithNoSelect && queryData.searchKey && !selectValue.value) {
+            handleSearch('')
+        }
     }
-    emits('blur');
 }
 function handleClear() {
     if (props.isClearWithSearch && queryData.searchKey) {
@@ -367,79 +370,101 @@ if ((attrs["remote"] === true || attrs["remote"] === '') && props.url) {
 }
 currLoading.value = props.loading
 
-onMounted(()=>{
+onMounted(() => {
     if (props.url) {
-    readData()
-} else {
-    options.length = 0
-    if (props.data) {
-        options.push(...props.data)
+        readData()
+    } else {
+        options.length = 0
+        if (props.data) {
+            options.push(...props.data)
+        }
+        initSelectValue()
+        initSelectIndex();
     }
-    initSelectValue()
-    initSelectIndex();
-}
 })
-
-
 
 </script>
 <template>
     <div class="els-node">
-    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-        <el-select v-model="selectValue" :allowCreate="allowCreate" :multiple="multiple" :remote-method="handleSearch"
-            :style="{ width: currWidth?.appendPx() }" :loading="currLoading" remote-show-suffix @blur="handleBlur"
-            @clear="handleClear" v-bind="attrs">
-            <slot name="extra">
-            </slot>
-            <template v-if="(url || data && data.length > 0 || options.length) && !groupField && !defaultSlotData.length">
-                <el-option @click="handleClickOption(item)" v-for="item in options" :disabled="item[disabledField] === true"
-                    :key="item[valueField]" :label="item[labelField]" :value="item[valueField]">
-                    <i class="check" v-if="multiple"></i>
-                    <slot name="default" :item="item">
-                        {{ item[labelField] }}
-                    </slot>
-                </el-option>
-            </template>
-            <template
-                v-else-if="(url || data && data.length > 0 || options.length) && groupField && !defaultSlotData.length">
-                <el-option-group v-for="group in lessCom.dtGroupBy(options, groupField)" :key="group.key"
-                    :label="group.key">
-                    <el-option @click="handleClickOption(item)" v-for="item in group.value" :key="item[valueField]"
-                        :label="item[labelField]" :value="item[valueField]">
+        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
+            <el-select v-if="!isVirtual" v-model="selectValue" :allowCreate="allowCreate" :multiple="multiple"
+                :remote-method="handleSearch" :style="{ width: currWidth?.appendPx() }" :loading="currLoading"
+                remote-show-suffix @visible-change="handleVisibleChange" @clear="handleClear" v-bind="attrs">
+
+                <slot name="extra">
+                </slot>
+                <template
+                    v-if="(url || data && data.length > 0 || options.length) && !groupField && !defaultSlotData.length">
+                    <el-option @click="handleClickOption(item)" v-for="item in options"
+                        :disabled="item[disabledField] === true" :key="item[valueField]" :label="item[labelField]"
+                        :value="item[valueField]">
                         <i class="check" v-if="multiple"></i>
                         <slot name="default" :item="item">
                             {{ item[labelField] }}
                         </slot>
                     </el-option>
-                </el-option-group>
-            </template>
-            <slot name="default" v-else>
-            </slot>
-            <el-option @click="handleClickOption(item)" v-for="item in noExistOption" :key="item[valueField]"
-                :label="item[labelField]" :value="item[valueField]">
-                <i class="check" v-if="attrs.multiple"></i>
-                {{ item[labelField] }}
-            </el-option>
-            <template #empty v-if="slots['empty']">
-                <slot name="empty">
+                </template>
+                <template
+                    v-else-if="(url || data && data.length > 0 || options.length) && groupField && !defaultSlotData.length">
+                    <el-option-group v-for="group in lessCom.dtGroupBy(options, groupField)" :key="group.key"
+                        :label="group.key">
+                        <el-option @click="handleClickOption(item)" v-for="item in group.value" :key="item[valueField]"
+                            :label="item[labelField]" :value="item[valueField]">
+                            <i class="check" v-if="multiple"></i>
+                            <slot name="default" :item="item">
+                                {{ item[labelField] }}
+                            </slot>
+                        </el-option>
+                    </el-option-group>
+                </template>
+                <slot name="default" v-else>
                 </slot>
-            </template>
+                <el-option @click="handleClickOption(item)" v-for="item in noExistOption" :key="item[valueField]"
+                    :label="item[labelField]" :value="item[valueField]">
+                    <i class="check" v-if="attrs.multiple"></i>
+                    {{ item[labelField] }}
+                </el-option>
+                <template #empty v-if="slots['empty']">
+                    <slot name="empty">
+                    </slot>
+                </template>
 
-            <template #prefix v-if="slots['prefix']">
-                <slot name="prefix">
-                </slot>
-            </template>
+                <template #prefix v-if="slots['prefix']">
+                    <slot name="prefix">
+                    </slot>
+                </template>
 
-        </el-select>
-     </ElsFormNode>
+            </el-select>
+            <el-select-v2 v-else v-model="selectValue" :options="options"  
+            :props="{disabled:disabledField,label:labelField,value:valueField}"  
+             :multiple="multiple" 
+             v-bind="attrs"
+           :loading="currLoading" @clear="handleClear" @visible-change="handleVisibleChange"
+          :style="{ width: currWidth?.appendPx() }" :remote-method="handleSearch">
+                <template #default="{ item }">
+                    <slot name="default" :item="item">
+                        {{ item[labelField] }}
+                    </slot>
+                </template>
+                <template #empty v-if="slots['empty']">
+                    <slot name="empty">
+                    </slot>
+                </template>
+                <template #prefix v-if="slots['prefix']">
+                    <slot name="prefix">
+                    </slot>
+                </template>
+            </el-select-v2>
+
+        </ElsFormNode>
     </div>
-    
 </template>
 <style lang="less" scoped>
-.els-node:has(>div[class^=el-select]){
+.els-node:has(>div[class^=el-select]) {
     display: inline-block;
     position: relative;
 }
+
 .el-select-dropdown__item.selected::after {
     content: "" !important;
 }
@@ -488,4 +513,3 @@ onMounted(()=>{
     display: none;
 }
 </style>
-../../utlis/lessCom.js../../utlis/lessPrototype.js

@@ -22,7 +22,6 @@ interface Props extends FormItemProps {
     rootParentValue?: string | number,
     showSelect?: boolean,
     showCheckAll?: boolean,
-    treeData?: Array<Record<string, any>>,
     url?: string,
     data?: Array<Record<string, any>>,
     expandAll?: boolean,
@@ -39,6 +38,7 @@ interface Props extends FormItemProps {
     valueSeparator?: string,
     multiple?: boolean,
     valueType?: ValueType,
+    isVirtual?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
     checkStrictly: true,
@@ -68,6 +68,7 @@ const currIdField = ref(props.idField ?? '')
 if (!currIdField.value) {
     currIdField.value = props.valueField;
 }
+const childFieldName = ref(props.isVirtual ? 'children' : 'childNodes')
 const checkAll = ref(false)
 const initSelect = ref(props.isInitTriggerSelect)
 const optionData = ref<any>([])
@@ -491,15 +492,20 @@ function handleAllSelect(node) {
     }
     node.isSelectAll = isSelect;
     dataTree.value.setChecked(node.data.id, isSelect)
-    node.childNodes.forEach(ele => {
-        selectChild(ele, isSelect)
-    })
+    if (node[childFieldName.value]) {
+        node[childFieldName.value].forEach(ele => {
+            selectChild(ele, isSelect)
+        })
+    }
 }
 function selectChild(node, select) {
     dataTree.value.setChecked(node.data.id, select)
-    node.childNodes.forEach(ele => {
-        selectChild(ele, select)
-    })
+    if (node[childFieldName.value]) {
+        node[childFieldName.value].forEach(ele => {
+            selectChild(ele, select)
+        })
+    }
+
 }
 function handleDataAllSelect(data) {
     var isSelect = data.isSelectAll
@@ -612,15 +618,17 @@ function handleNodeClick(data) {
                     clearable></el-input>
                 <el-checkbox v-if="currMultiple && showCheckAll" v-model="checkAll"
                     @change="handleCheckAllChange">全选</el-checkbox>
-                <el-tree ref="dataTree" v-loading="dataLoading" :load="handleLoadNode" node-key="id" :props="currProps"
-                    :data="options" :default-checked-keys="selectValue" @check-change="handleChange"
+
+
+                <el-tree v-if="!isVirtual" ref="dataTree" v-loading="dataLoading" :load="handleLoadNode" node-key="id"
+                    :props="currProps" :data="options" :default-checked-keys="selectValue" @check-change="handleChange"
                     @node-click="handleNodeClick" @node-expand="handleNodeExpand" @node-collapse="handleNodeCollapse"
                     :default-expanded-keys="expendData" :check-strictly="checkStrictly"
                     :expand-on-click-node="!currMultiple ? true : expandOnClickNode" :filter-node-method="filterNode"
                     :show-checkbox="currMultiple" v-bind="attrs">
                     <template #default="{ node, data }">
                         <div @dblclick="handleAllSelect(node)" v-if="currMultiple"
-                            :class="!node.childNodes.length ? 'els-tree-last-node' : 'els-tree-node'">
+                            :class="!node[childFieldName] || !node[childFieldName].length ? 'els-tree-last-node' : 'els-tree-node'">
                             <slot name="default" :node="node" :data="data.sourceData">
                                 {{ node.label }}
                             </slot>
@@ -637,6 +645,29 @@ function handleNodeClick(data) {
                         </div>
                     </template>
                 </el-tree>
+
+                <el-tree-v2 v-else ref="dataTree" v-loading="dataLoading" node-key="id" :props="currProps" :data="options"
+                    :default-checked-keys="selectValue" @check-change="handleChange" @node-click="handleNodeClick"
+                    @node-expand="handleNodeExpand" @node-collapse="handleNodeCollapse" :default-expanded-keys="expendData"
+                    :show-checkbox="currMultiple" :check-strictly="checkStrictly"
+                    :expand-on-click-node="!currMultiple ? true : expandOnClickNode" :filter-method="filterNode" v-bind="attrs">
+                    <template #default="{ node, data }">
+                        <slot name="default" :node="node" :data="data">
+                            <span @dblclick="handleAllSelect(node)"
+                                :class="!node[childFieldName] || !node[childFieldName].length ? 'els-tree-last-node' : 'els-tree-node'"
+                                v-if="currMultiple">
+                                {{ node.label }}
+                            </span>
+                            <span v-else
+                                :class="{ 'font-bold color-red': viewData && viewData[valueField] == data.sourceData[valueField] }">
+                                {{ node.label }}
+                                <el-icon v-if="viewData && viewData[valueField] == data.sourceData[valueField]">
+                                    <Check />
+                                </el-icon>
+                            </span>
+                        </slot>
+                    </template>
+                </el-tree-v2>
             </ElsFormNode>
         </div>
 
@@ -645,4 +676,5 @@ function handleNodeClick(data) {
 <style scoped>
 .els-tree-selected {
     color: #409eff;
-}</style>
+}
+</style>

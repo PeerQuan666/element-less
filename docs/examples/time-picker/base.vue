@@ -5,6 +5,4 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 const time = ref()
-const time1 = ref()
-
 </script>

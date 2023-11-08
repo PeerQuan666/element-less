@@ -69,19 +69,19 @@ menu/filterable
 
 ### 属性
 
-| 属性名| 说明                                                             | 类型                                                  | 默认   |
-| ------| ------------------------------                                  | ------------------------------------------------------| ----   |
-| url   |数据接口                                                          | ^[string]                                             | - |
-| data  |数据                                                              | ^[array]                                             | -  |
-| idField   |id字段名                                                      | ^[string]                                             | -  |
-| labelField   |label字段名                                                | ^[string]                                             | -  |
-| parentIdField   |父id字段名                                              | ^[string]                                             | - |
-| width   |宽度                                                           | ^[string]                                             | ^[200px]  |
-| filterable   |添加filterable属性即可启用搜索功能                          | ^[boolean]                                             | ^[false]  |
-| collapse   |展开缩起                          | ^[boolean]                                             | ^[false]   |
+| 属性名        | 说明                               | 类型       | 默认     |
+| ------------- | ---------------------------------- | ---------- | -------- |
+| url           | 数据接口                           | ^[string]  | -        |
+| data          | 数据                               | ^[array]   | -        |
+| idField       | id字段名                           | ^[string]  | -        |
+| labelField    | label字段名                        | ^[string]  | -        |
+| parentIdField | 父id字段名                         | ^[string]  | -        |
+| width         | 宽度                               | ^[string]  | ^[200px] |
+| filterable    | 添加filterable属性即可启用搜索功能 | ^[boolean] | ^[false] |
+| collapse      | 展开缩起                           | ^[boolean] | ^[false] |
 
 ### 事件
 
-| 名称       | 说明                           | 回调参数                                 |
-| -----     | ----------------------------- | ---------------------------------------- |
-| click | 点击事件                   | (item: MenuItem) => void                     |
+| 名称  | 说明     | 回调参数                 |
+| ----- | -------- | ------------------------ |
+| click | 点击事件 | (item: MenuItem) => void |

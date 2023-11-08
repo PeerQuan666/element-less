@@ -13,7 +13,6 @@ interface Props extends TimePickerProps, RangeFormItemProps {
     single?: boolean,
 }
 const props = withDefaults(defineProps<Props>(), {
-    type: 'date',
     single: true,
     valueSeparator: ',',
     queryRangeOrEqual: true,

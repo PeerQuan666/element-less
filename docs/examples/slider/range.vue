@@ -1,5 +1,5 @@
 <template>
-    <els-slider v-model="selectValue" range ></els-slider>
+    <els-slider v-model="selectValue" :range="true" ></els-slider>
 </template>
 
 <script setup>
