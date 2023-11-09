@@ -435,13 +435,12 @@ onMounted(() => {
                 </template>
 
             </el-select>
-            <el-select-v2 v-else v-model="selectValue" :options="options"  
-            :props="{disabled:disabledField,label:labelField,value:valueField}"  
-             :multiple="multiple" 
-             v-bind="attrs"
-           :loading="currLoading" @clear="handleClear" @visible-change="handleVisibleChange"
-          :style="{ width: currWidth?.appendPx() }" :remote-method="handleSearch">
+            <el-select-v2 v-else v-model="selectValue" :options="options"
+                :props="{ disabled: disabledField, label: labelField, value: valueField }" :multiple="multiple" v-bind="attrs"
+                :loading="currLoading" @clear="handleClear" @visible-change="handleVisibleChange"
+                :style="{ width: currWidth?.appendPx() }" :remote-method="handleSearch">
                 <template #default="{ item }">
+                    <i class="check" v-if="multiple"></i>
                     <slot name="default" :item="item">
                         {{ item[labelField] }}
                     </slot>
@@ -459,7 +458,7 @@ onMounted(() => {
         </ElsFormNode>
     </div>
 </template>
-<style lang="less" scoped>
+<style lang="less">
 .els-node:has(>div[class^=el-select]) {
     display: inline-block;
     position: relative;
@@ -469,47 +468,57 @@ onMounted(() => {
     content: "" !important;
 }
 
-.el-select-dropdown__item.selected .check {
+.el-select-dropdown__item.selected .check,
+.el-select-dropdown__option-item.is-selected .check {
     background-color: #409eff;
     border-color: #409eff;
 }
 
-.el-select-dropdown__item.selected .check:after {
+.el-select-dropdown__item.selected .check:after,
+.el-select-dropdown__option-item.is-selected .check:after {
     transform: rotate(45deg) scaleY(1);
 }
 
-.el-select-dropdown__item .check::after {
-    box-sizing: content-box;
-    content: "";
-    border: 1px solid #fff;
-    border-left: 0;
-    border-top: 0;
-    height: 7px;
-    left: 4px;
-    position: absolute;
-    top: 1px;
-    transform: rotate(45deg) scaleY(0);
-    width: 3px;
-    transition: transform .15s ease-in .05s;
-    transform-origin: center;
+.el-select-dropdown__item,
+.el-select-dropdown__option-item {
+    .check::after {
+        box-sizing: content-box;
+        content: "";
+        border: 1px solid #fff;
+        border-left: 0;
+        border-top: 0;
+        height: 7px;
+        left: 4px;
+        position: absolute;
+        top: 1px;
+        transform: rotate(45deg) scaleY(0);
+        width: 3px;
+        transition: transform .15s ease-in .05s;
+        transform-origin: center;
+    }
+
 }
 
-.el-select-dropdown__item .check {
-    display: inline-block;
-    position: relative;
-    top: 2px;
-    border: 1px solid #dcdfe6;
-    border-radius: 2px;
-    box-sizing: border-box;
-    width: 14px;
-    height: 14px;
-    background-color: #fff;
-    z-index: 1;
-    transition: border-color .25s cubic-bezier(.71, -.46, .29, 1.46), background-color .25s cubic-bezier(.71, -.46, .29, 1.46);
-    margin-right: 5px;
+.el-select-dropdown__item,
+.el-select-dropdown__option-item {
+    .check {
+        display: inline-block;
+        position: relative;
+        top: 2px;
+        border: 1px solid #dcdfe6;
+        border-radius: 2px;
+        box-sizing: border-box;
+        width: 14px;
+        height: 14px;
+        background-color: #fff;
+        z-index: 1;
+        transition: border-color .25s cubic-bezier(.71, -.46, .29, 1.46), background-color .25s cubic-bezier(.71, -.46, .29, 1.46);
+        margin-right: 5px;
+    }
 }
 
-.el-select-dropdown.is-multiple .el-select-dropdown__item.selected::after {
+.el-select-dropdown__item.selected::after,.el-select-dropdown__option-item.is-selected::after {
     display: none;
 }
+
 </style>

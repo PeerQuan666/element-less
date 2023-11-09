@@ -1,6 +1,7 @@
 <template>
     <els-select v-model="selectValue" 
     :url="apiUrl" 
+    multiple
     label-field="Name" 
     value-field="ID"
     ></els-select>

@@ -20,6 +20,7 @@
     "axios": "^1.4.0",
     "chalk": "^5.3.0",
     "consola": "^3.2.3",
+    "echarts": "^5.4.3",
     "element-less": "^1.1.3",
     "element-less-json-editor": "^1.0.1",
     "element-plus": "^2.4.2",
