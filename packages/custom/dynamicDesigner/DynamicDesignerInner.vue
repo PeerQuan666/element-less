@@ -27,6 +27,12 @@ const currConfig = ref(props.config ?? {})
 function handleRemove() {
   emits("removeItem")
 }
+function handleRemoveItem(item){
+
+  var index = currData.value.indexOf(item)
+  currData.value.splice(index, 1)
+
+}
 function handleAddItem() {
   const keyID="key_" + lessCom.randomNumber().toString()
   currData.value.push({
@@ -173,8 +179,8 @@ function getComponentType(val){
                     <Rank />
                   </el-icon>
                   <el-icon class="el-icon-remove">
-                    <Remove />
-                  </el-icon>
+                          <Remove />
+                        </el-icon>
                 </span>
               </span>
             </div>

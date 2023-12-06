@@ -28,7 +28,7 @@ const {
 } = useModel(props)
 watch(currModelValue,(val)=>{
     currValue.value=val
-})
+}, { immediate: true })
 watch(currValue, (val) => {
     returnModelValue(val)
 
