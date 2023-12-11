@@ -2,7 +2,6 @@
     <els-tree-select
     width="200"
     v-model="selectValue"
-    
     :data="menuData" 
     valueField="MenuID"
     labelField="MenuName"
@@ -13,7 +12,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-const selectValue=ref('4')
+const selectValue=ref(4)
 const menuData=ref([
     {MenuID:1,MenuName:'菜单1',ParentID:''},
     {MenuID:2,MenuName:'菜单1-1',ParentID:1},

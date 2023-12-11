@@ -35,7 +35,7 @@ tree/base
 ## 读取接口
 
 :::tip 
-指定字段：<code>idField</code>、<code>labelField</code>、<code>parentIdField</code>
+指定字段：<code>idField</code>、<code>valueField</code>、<code>labelField</code>、<code>parentIdField</code>
 :::
 
 :::vuefile-demo

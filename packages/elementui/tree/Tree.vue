@@ -51,8 +51,6 @@ const props = withDefaults(defineProps<Props>(), {
     parentIdField: 'parentId',
     valueSeparator: ',',
     rootParentValue: ''
-
-
 })
 const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig()
 const attrs = useAttrs()
@@ -73,6 +71,7 @@ const checkAll = ref(false)
 const initSelect = ref(props.isInitTriggerSelect)
 const optionData = ref<any>([])
 const options = ref<any>([])
+const defaultSelectValue=ref<any>([])
 const selectValue = ref<any>([])
 const selectOptionData = ref<any>([])
 const dataLoading = ref(false)
@@ -95,7 +94,8 @@ watch(filterText, (val) => {
 })
 watch(() => props.url, () => {
     if (props.resetValueByChangeData) {
-        selectValue.value.length = 0
+        selectValue.value.length = 0;
+        defaultSelectValue.value.length=0;
     }
     readData()
 }, { immediate: true })
@@ -103,6 +103,7 @@ watch(() => props.data, (val: any) => {
     if (val && val.length) {
         if (props.resetValueByChangeData) {
             selectValue.value.length = 0
+            defaultSelectValue.value.length=0;
         }
         options.value.length = [];
         optionData.value = val;
@@ -121,7 +122,7 @@ const {
 watch(currModelValue, (val) => {
     initSelectValue()
 
-})
+},{immediate:true})
 
 
 const emits = defineEmits(['update:modelValue', 'update:select', 'update:select-label', 'select'])
@@ -208,18 +209,15 @@ function getChildData(item, depth) {
     })
     return childItems;
 }
-onMounted(() => {
-    if (attrs["props"]) {
-        currProps.value = attrs["props"]
-    }
-    initSelectValue();
-})
+
 function initSelectValue() {
     const currValue = currModelValue.value
-    if (currValue === '' || currValue === undefined || selectValue.value.toString() === currValue.toString()) {
+    if (currValue === '' || currValue === undefined) {
         return
     }
+
     if (currMultiple) {
+   
         if (props.valueType === ValueType.Number) {
             selectValue.value = currValue.toString().toListNumber(props.valueSeparator)
         } else if (props.valueType === ValueType.String) {
@@ -229,7 +227,13 @@ function initSelectValue() {
         } else if (currValue) {
             selectValue.value = currValue.toString().toList(props.valueSeparator)
         }
-        dataTree.value.setCheckedKeys(selectValue.value);
+
+        defaultSelectValue.value = lessCom.cloneObj(selectValue.value)
+        if (props.valueField != currIdField.value) {
+            if (optionData && optionData.value.length) {
+                defaultSelectValue.value = optionData.value.filter(ele => selectValue.value.indexOf(ele[props.valueField]) > -1).map(ele => ele[currIdField.value])
+            }
+        }
     } else {
         if (props.valueType === ValueType.Number) {
             selectValue.value = parseFloat(currValue.toString());
@@ -241,6 +245,15 @@ function initSelectValue() {
             selectValue.value = parseFloat(currValue.toString());
         } else {
             selectValue.value = currValue;
+        }
+        defaultSelectValue.value=currValue;
+        if (props.valueField != currIdField.value) {
+            if (optionData && optionData.value.length) {
+               const currOption=optionData.value.find(ele =>currValue===ele[props.valueField])
+               if(currOption){
+                  defaultSelectValue.value = currOption[currIdField.value]
+               }
+            }
         }
         selectOptionData.value.forEach(ele => {
             pushExpendData(ele)
@@ -380,17 +393,17 @@ function handleChange(data, checked) {
         }
     }
     selectValue.value = dataTree.value.getCheckedKeys()
+    defaultSelectValue.value = dataTree.value.getCheckedKeys()
+
     if (props.valueField != currIdField.value) {
         if (optionData.value && optionData.value.length) {
-            selectValue.value = optionData.value.filter(ele => selectValue.indexOf(ele[props.valueField]) > -1).map(ele => ele[currIdField.value])
+            selectValue.value = optionData.value.filter(ele => selectValue.value.indexOf(ele[currIdField.value]) > -1).map(ele => ele[props.valueField])
         }
         if (props.hasNoExistOption && props.modelValue) {
             let noExists = props.modelValue.split(props.valueSeparator).filter(ele => optionData.value.map(cele => cele[props.valueField]).indexOf(ele) == -1)
             selectValue.value = selectValue.value.concat(noExists)
         }
     }
-
-
 
 }
 function handleComitSelect(value) {
@@ -605,8 +618,11 @@ function handleNodeClick(data) {
 
     selectValue.value = [data.sourceData[props.valueField]]
 }
-
-
+onMounted(() => {
+    if (attrs["props"]) {
+        currProps.value = attrs["props"]
+    }
+})
 
 </script>
 
@@ -618,10 +634,8 @@ function handleNodeClick(data) {
                     clearable></el-input>
                 <el-checkbox v-if="currMultiple && showCheckAll" v-model="checkAll"
                     @change="handleCheckAllChange">全选</el-checkbox>
-
-
                 <el-tree v-if="!isVirtual" ref="dataTree" v-loading="dataLoading" :load="handleLoadNode" node-key="id"
-                    :props="currProps" :data="options" :default-checked-keys="selectValue" @check-change="handleChange"
+                    :props="currProps" :data="options" :default-checked-keys="defaultSelectValue" @check-change="handleChange"
                     @node-click="handleNodeClick" @node-expand="handleNodeExpand" @node-collapse="handleNodeCollapse"
                     :default-expanded-keys="expendData" :check-strictly="checkStrictly"
                     :expand-on-click-node="!currMultiple ? true : expandOnClickNode" :filter-node-method="filterNode"
@@ -647,8 +661,8 @@ function handleNodeClick(data) {
                 </el-tree>
 
                 <el-tree-v2 v-else ref="dataTree" v-loading="dataLoading" node-key="id" :props="currProps" :data="options"
-                    :default-checked-keys="selectValue" @check-change="handleChange" @node-click="handleNodeClick"
-                    @node-expand="handleNodeExpand" @node-collapse="handleNodeCollapse" :default-expanded-keys="expendData"
+                    :default-checked-keys="defaultSelectValue" @check-change="handleChange" @node-click="handleNodeClick"
+                    @node-expand="handleNodeExpand" @node-collapse="handleNodeCollapse" :default-expanded-keys="defaultSelectValue"
                     :show-checkbox="currMultiple" :check-strictly="checkStrictly"
                     :expand-on-click-node="!currMultiple ? true : expandOnClickNode" :filter-method="filterNode" v-bind="attrs">
                     <template #default="{ node, data }">

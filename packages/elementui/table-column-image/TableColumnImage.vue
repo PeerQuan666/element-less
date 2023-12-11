@@ -7,7 +7,7 @@ defineOptions({ name: 'ElsColumnImage' })
 const slots = useSlots()
 </script>
 <template>
-    <els-column type="image" width="100">
+    <els-column type="image" width="80">
         <template #default="{row,$index}" v-if="slots.default">
             <slot name="default" :row="row" :$index="$index"></slot>
         </template>

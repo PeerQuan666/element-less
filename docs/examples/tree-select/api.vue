@@ -1,11 +1,11 @@
 <template>
-    {{ selectValue}}
     <els-tree-select 
     width="200"
     multiple
     v-model="selectValue"
     url="http://manage.ybt2023.com/home/TestTree" 
-    valueField="MenuID"
+    idField="MenuID"
+    valueField="MenuName"
     labelField="MenuName"
     parentIdField="ParentID"
     :expandDepth="1"

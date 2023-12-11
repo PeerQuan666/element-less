@@ -68,10 +68,10 @@ watch(() => props.url, () => {
         v-for="(item, index) in thumbnailPicUrls" @click="preview(item, index)">
         <template #placeholder>
             <slot name="placeholder">
-                <el-skeleton :style="[{ 'width': width }, { 'height': height }, { 'min-height': width }]" animated>
+                <el-skeleton :style="[{ 'width': width }, { 'height': height }, { 'min-height': height }]" animated>
                     <template #template>
                         <el-skeleton-item variant="image"
-                            :style="[{ 'width': width }, { 'height': height }, { 'min-height': width }]"></el-skeleton-item>
+                            :style="[{ 'width': width }, { 'height': height }, { 'min-height': height }]"></el-skeleton-item>
                     </template>
                 </el-skeleton>
             </slot>

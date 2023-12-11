@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { ref, reactive, watch, useAttrs, inject, computed,onMounted } from 'vue'
+import { ref, reactive, watch, useAttrs, inject, computed, onMounted } from 'vue'
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
 import { FormItemProps } from '../../utlis/interfaceCom'
 import { ValueType } from '../../utlis/enumCom'
-import {useModel} from '../../utlis/componentCom.js'
-defineOptions({ name: 'ElsCascader' ,inheritAttrs:false})
+import { useModel } from '../../utlis/componentCom.js'
+defineOptions({ name: 'ElsCascader', inheritAttrs: false })
 interface Props extends FormItemProps {
     modelValue?: string,
     isPanel?: boolean,
     labelField?: string,
+    idField?: string,
     valueField?: string,
     parentIdField?: string,
     rootParentValue?: string,
@@ -47,7 +48,10 @@ const props = withDefaults(defineProps<Props>(), {
 
 })
 const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig()
-
+const currIdField = ref(props.idField ?? '')
+if (!currIdField.value) {
+    currIdField.value = props.valueField;
+}
 const initSelect = ref(false)
 const componentName = ref('el-cascader')
 if (props.isPanel) {
@@ -57,7 +61,7 @@ const dataProps = ref<any>({})
 const tableData = reactive<Array<Record<string, any>>>([])
 const optionData = reactive<Array<Record<string, any>>>([])
 const selectValue = ref<any>([])
-    const {
+const {
     currModelValue,
     returnModelValue,
 } = useModel(props)
@@ -67,7 +71,7 @@ watch(selectValue, (val: any) => {
 })
 
 
-watch(currModelValue,(val)=>{
+watch(currModelValue, (val) => {
     initSelectValue()
 
 })
@@ -94,7 +98,7 @@ const emits = defineEmits(['update:modelValue', 'update:select', 'update:select-
 
 function initSelectValue() {
     const currValue = currModelValue.value
-    if (currValue === '' || currValue === undefined|| selectValue.value.toString() ===  currValue.toString()) {
+    if (currValue === '' || currValue === undefined) {
         return
     }
 
@@ -118,6 +122,7 @@ function initSelectValue() {
         } else if (currValue) {
             selectValue.value.push(...currValue.toString().split(props.pathSeparator).map(ele => ele.toList(props.valueSeparator)))
         }
+
     } else if (props.multiple || props.emitPath) {
         selectValue.value.length = 0;
         if (props.valueType === ValueType.Number) {
@@ -176,7 +181,8 @@ function toTreeData() {
     }
 }
 function searchChildData(item) {
-    tableData.filter(ele => ele[props.parentIdField] == item[props.valueField]).forEach(ele => {
+
+    tableData.filter(ele => ele[props.parentIdField] == item[currIdField.value]).forEach(ele => {
         let currOption = ele;
         currOption[props.childrenField] = [];
         searchChildData(currOption)
@@ -223,7 +229,7 @@ function handleReturnResult(value) {
     }
 
     if (props.emitPath || props.multiple) {
-       returnModelValue(value.join(props.valueSeparator))
+        returnModelValue(value.join(props.valueSeparator))
 
         if (initSelect.value && tableData.length) {
             let selectData = tableData.filter(cele => value.indexOf(cele[props.valueField]) > -1)
@@ -275,27 +281,27 @@ if (attrs['props']) {
         leaf: props.leafField
     }
 }
-
-onMounted(()=>{
-    initSelectValue()
+initSelectValue()
+onMounted(() => {
+  
 })
 </script>
 
 <template>
-       <div class="els-node">
-    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-        <component :is="componentName" :props="dataProps" v-model="selectValue" :options="optionData">
-            <template #default="{ node, data }">
-                <slot name="default" :node="node" :data="data">
-                    {{ data[labelField] }}
-                </slot>
-            </template>
-            <template #empty>
-                <slot name="empty">
-                </slot>
-            </template>
-        </component>
-     </ElsFormNode>
+    <div class="els-node">
+        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
+            <component :is="componentName" :props="dataProps" v-model="selectValue" :options="optionData">
+                <template #default="{ node, data }">
+                    <slot name="default" :node="node" :data="data">
+                        {{ data[labelField] }}
+                    </slot>
+                </template>
+                <template #empty>
+                    <slot name="empty">
+                    </slot>
+                </template>
+            </component>
+        </ElsFormNode>
     </div>
 </template>
 

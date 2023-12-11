@@ -71,6 +71,7 @@ if (!currIdField.value) {
 const initSelect = ref(props.isInitTriggerSelect)
 const optionData = ref<any>([])
 const options = ref<any>([])
+const defaultSelectValue=ref<any>([])
 const selectValue = ref<any>([])
 const selectOptionData = ref<any>([])
 const dataLoading = ref(false)
@@ -96,6 +97,7 @@ watch(filterText, (val) => {
 watch(() => props.url, () => {
     if (props.resetValueByChangeData) {
         selectValue.value.length = 0
+        defaultSelectValue.value.length=0
     }
     readData()
 }, { immediate: true })
@@ -103,6 +105,7 @@ watch(() => props.data, (val: any) => {
     if (val && val.length) {
         if (props.resetValueByChangeData) {
             selectValue.value.length = 0
+            defaultSelectValue.value.length=0
         }
         options.value.length = [];
         optionData.value = val;
@@ -213,7 +216,7 @@ onMounted(() => {
 })
 function initSelectValue() {
     const currValue = currModelValue.value
-    if (currValue === '' || currValue === undefined|| selectValue.value.toString() ===  currValue.toString()) {
+    if (currValue === '' || currValue === undefined ) {
         return
     }
     if (currMultiple) {
@@ -224,9 +227,14 @@ function initSelectValue() {
         } else if (optionData.value.length && typeof (optionData.value[0][props.valueField]) === "number") {
             selectValue.value = currValue.toString().toListNumber(props.valueSeparator)
         } else if (currValue) {
-            selectValue.value =currValue.toString().toList(props.valueSeparator)
+            selectValue.value = currValue.toString().toList(props.valueSeparator)
         }
-        dataTree.value.setCheckedKeys(selectValue.value);
+        defaultSelectValue.value = lessCom.cloneObj(selectValue.value)
+        if (props.valueField != currIdField.value) {
+            if (optionData && optionData.value.length) {
+                defaultSelectValue.value = optionData.value.filter(ele => selectValue.value.indexOf(ele[props.valueField]) > -1).map(ele => ele[currIdField.value])
+            }
+        }
     } else {
         if (props.valueType === ValueType.Number) {
             selectValue.value = parseFloat(currValue.toString());
@@ -238,6 +246,15 @@ function initSelectValue() {
             selectValue.value = parseFloat(currValue.toString());
         } else {
             selectValue.value = currValue;
+        }
+        defaultSelectValue.value=currValue;
+        if (props.valueField != currIdField.value) {
+            if (optionData && optionData.value.length) {
+               const currOption=optionData.value.find(ele =>currValue===ele[props.valueField])
+               if(currOption){
+                  defaultSelectValue.value = currOption[currIdField.value]
+               }
+            }
         }
         selectOptionData.value.forEach(ele => {
             pushExpendData(ele)
@@ -371,10 +388,12 @@ function handleChange(data, checked) {
             unCheckChild(data.sourceData[currIdField.value])
         }
     }
+
     selectValue.value = dataTree.value.getCheckedKeys()
+
     if (props.valueField != currIdField.value) {
         if (optionData.value && optionData.value.length) {
-            selectValue.value = optionData.value.filter(ele => selectValue.indexOf(ele[props.valueField]) > -1).map(ele => ele[currIdField.value])
+            selectValue.value = optionData.value.filter(ele => selectValue.value.indexOf(ele[currIdField.value]) > -1).map(ele => ele[props.valueField])
         }
         if (props.hasNoExistOption && props.modelValue) {
             let noExists = props.modelValue.split(props.valueSeparator).filter(ele => optionData.value.map(cele => cele[props.valueField]).indexOf(ele) == -1)
@@ -412,7 +431,7 @@ function handleReturnResult(value) {
         returnModelValue(value.join(props.valueSeparator))
 
     } else {
-        returnModelValue(value.toString())
+        returnModelValue(value)
 
     }
     if (attrs['onUpdate:select'] || attrs['onUpdate:select-label'] || attrs["onSelect"]) {
@@ -546,7 +565,7 @@ function handleNodeClick(data) {
         pushExpendData(data.sourceData[currIdField.value])
     }
 
-    selectValue.value = [data.sourceData[props.valueField]]
+    selectValue.value = data.sourceData[props.valueField]
 }
 
 
@@ -556,7 +575,7 @@ function handleNodeClick(data) {
 <template>
        <div class="els-node">
     <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-        <el-tree-select ref="dataTree" v-loading="dataLoading" :load="handleLoadNode" v-model="selectValue" node-key="id"
+        <el-tree-select ref="dataTree" v-loading="dataLoading" :load="handleLoadNode" v-model="defaultSelectValue" node-key="id"
             :props="currProps" :data="options" @check-change="handleChange" @node-click="handleNodeClick"
             @node-expand="handleNodeExpand" @node-collapse="handleNodeCollapse" :default-expanded-keys="expendData"
             :check-strictly="checkStrictly" :multiple="currMultiple"
