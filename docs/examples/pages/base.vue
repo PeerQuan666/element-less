@@ -11,7 +11,7 @@
                 <els-option>海浪无声</els-option>
             </els-select>
         </els-form-query>
-        <els-table :url="apiUrl" :is-client-page="true" :page-size="10" row-key="WallID" tableName="第一份数据">
+        <els-table :url="apiUrl"  :page-size="10" row-key="WallID" tableName="第一份数据">
             <els-column-checkbox></els-column-checkbox>
             <els-column prop="ID" label="ID" align="left" sortable></els-column>
             <els-column prop="AuthorName" label="作者" align="left"></els-column>

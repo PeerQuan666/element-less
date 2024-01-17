@@ -38,7 +38,8 @@ interface Props extends FormItemProps {
     valueSeparator?: string,
     multiple?: boolean,
     valueType?: ValueType,
-    isVirtual?: boolean
+    isVirtual?: boolean,
+    valueInOrder:boolean
 }
 const props = withDefaults(defineProps<Props>(), {
     checkStrictly: true,
@@ -76,6 +77,7 @@ const selectValue = ref<any>([])
 const selectOptionData = ref<any>([])
 const dataLoading = ref(false)
 const expendData = ref<any>([])
+const inOrderValues=ref<any>([])
 const filterText = ref()
 const viewData = ref<any>()
 const collapseID = ref()
@@ -229,9 +231,13 @@ function initSelectValue() {
         }
 
         defaultSelectValue.value = lessCom.cloneObj(selectValue.value)
+        inOrderValues.value=defaultSelectValue.value 
         if (props.valueField != currIdField.value) {
             if (optionData && optionData.value.length) {
-                defaultSelectValue.value = optionData.value.filter(ele => selectValue.value.indexOf(ele[props.valueField]) > -1).map(ele => ele[currIdField.value])
+                defaultSelectValue.value = selectValue.value.map(ele=>{return optionData.value.find(cele=>cele[props.valueField]===ele)[currIdField.value]})
+                if(props.valueInOrder){
+                    inOrderValues.value=defaultSelectValue.value
+                }
             }
         }
     } else {
@@ -372,6 +378,16 @@ function handleChange(data, checked) {
     if (!currMultiple) {
         return;
     }
+    if (props.valueInOrder) {
+           if (checked) {
+            if(inOrderValues.value.indexOf(currIdField.value)==-1){
+                inOrderValues.value.push(data.sourceData[currIdField.value])
+
+            }
+           } else {
+               lessCom.removeArrayItem(inOrderValues.value, data.sourceData[currIdField.value])
+           }
+       }
     if (data.sourceData[props.parentIdField] != 0 && data.sourceData[props.parentIdField] != "" && checked && props.checkWithParent) {
 
         if (props.idPathField && data.sourceData[props.idPathField]) {
@@ -392,12 +408,17 @@ function handleChange(data, checked) {
             unCheckChild(data.sourceData[currIdField.value])
         }
     }
-    selectValue.value = dataTree.value.getCheckedKeys()
-    defaultSelectValue.value = dataTree.value.getCheckedKeys()
+    if (props.valueInOrder) {
+            defaultSelectValue.value = inOrderValues.value
+            selectValue.value = inOrderValues.value
+    } else {
+        selectValue.value = dataTree.value.getCheckedKeys()
+        defaultSelectValue.value = dataTree.value.getCheckedKeys()
+    }
 
     if (props.valueField != currIdField.value) {
         if (optionData.value && optionData.value.length) {
-            selectValue.value = optionData.value.filter(ele => selectValue.value.indexOf(ele[currIdField.value]) > -1).map(ele => ele[props.valueField])
+            selectValue.value =selectValue.value.map(ele=>{return optionData.value.find(cele=>cele[currIdField.value]===ele)[props.valueField]})
         }
         if (props.hasNoExistOption && props.modelValue) {
             let noExists = props.modelValue.split(props.valueSeparator).filter(ele => optionData.value.map(cele => cele[props.valueField]).indexOf(ele) == -1)
