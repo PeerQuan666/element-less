@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { provide, watch, ref, nextTick } from 'vue'
+import { provide, watch, ref } from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 import '../../utlis/lessPrototype.js'
 import { dynamicDataTypes, dynamicComponentTypes } from '../../utlis/lessConfig.js'
@@ -10,7 +10,6 @@ import DynamicCreate from '../dynamicCreate/DynamicCreate.vue'
 import { DynamicComponentType, DynamicDataType } from '../../utlis/interfaceCom.js'
 
 import lessCom from '../../utlis/lessCom'
-import { reject } from 'lodash'
 import { ElMessage } from 'element-plus'
 defineOptions({
   name: 'ElsDynamicDesigner',
@@ -209,7 +208,7 @@ function closeViewDialog() {
   designType.value = '精简模式'
 }
 function handleSaveNewType(data) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, _reject) => {
     const id = lessCom.generateID()
     if (!props.saveTypeUrl) {
 

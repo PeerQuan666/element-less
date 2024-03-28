@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ref, useAttrs,inject,computed,watch } from 'vue'
+import { ref, useAttrs } from 'vue'
 import '../../utlis/lessPrototype.js'
 import { RangeFormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom';
 import {useRangeModel} from '../../utlis/componentCom.js'
-const emits = defineEmits(['update:modelValue', 'update:start', 'update:end'])
 defineOptions({ name: 'ElsInputRange',
     inheritAttrs:false })
 

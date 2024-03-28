@@ -17,7 +17,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     
 })
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue','update:isValidate'])
 const tagID = 'els-form' + lessCom.generateID();
 const attrs = useAttrs()
 const dataForm = ref()
@@ -140,9 +140,11 @@ function validate() {
             resolve(true)
         } else {
             dataForm.value.validate().then(res => {
+                emits('update:isValidate',true)
                 resolve(res)
             }).catch(action => {
                 console.log(action)
+                emits('update:isValidate',false)
                 resolve(false)
             })
         }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, useAttrs, onMounted, inject, computed } from 'vue'
+import { ref, watch, useAttrs, onMounted} from 'vue'
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
@@ -121,7 +121,7 @@ const {
 } = useModel(props)
 
 
-watch(currModelValue, (val) => {
+watch(currModelValue, () => {
     initSelectValue()
 
 },{immediate:true})

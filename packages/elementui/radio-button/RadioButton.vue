@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useSlots,useAttrs } from 'vue'
+import { useSlots } from 'vue'
 import '../../utlis/lessPrototype.js'
 import {watch,ref} from 'vue'
 import ElsRadio from '../radio/Radio.vue'
@@ -9,7 +9,6 @@ defineOptions({
 })
 const slots = useSlots()
 const emits=defineEmits(['update:modelValue'])
-const attrs=useAttrs()
 const selectValue=ref('')
 const props:any = withDefaults(defineProps<RadioProps>(), ({
     type: 'button',

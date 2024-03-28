@@ -499,7 +499,7 @@ watch(currData, (val) => {
     emits('update:modelValue', val)
 })
 onMounted(() => {
-
+    initData()
     currData.value = props.modelValue
 })
 

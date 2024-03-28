@@ -10,7 +10,7 @@ export const useRangeModel = (props, currValue, startValue, endValue) => {
         returnModelValue,
         returnStartValue,
         returnEndValue
-    } = useModel(props, currValue, startValue, endValue)
+    } = useModel(props)
 
     watch(currValue, (val) => {
         returnModelValue(val)

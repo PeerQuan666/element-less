@@ -54,7 +54,7 @@ export class DynamicHandler {
     uploadUrl = ''
     resourceCode = ''
     restrictCode = ''
-    constructor(dataTypes, componentTypes, appendUrlParams: any = [], uploadUrl = '', resourceCode = '', restrictCode = '') {
+    constructor(dataTypes, componentTypes=[], appendUrlParams: any = [], uploadUrl = '', resourceCode = '', restrictCode = '') {
         if (componentTypes) {
             this.componentTypes = componentTypes
 
@@ -204,6 +204,37 @@ export class DynamicHandler {
             delete ele.value
         })
     }
+    toKeyNameData(config,data){
+     
+        if(config&&data){
+            let sourceConfig=config
+            if(typeof(config)==='string'){
+                sourceConfig=JSON.parse(config)
+            }
+            let sourceData=data
+            if(typeof(data)==='string'){
+                sourceData=JSON.parse(data)
+            }
+            const currData:any={}
+            for(const key in sourceData){
+                if(key){
+                   const currConfig= sourceConfig.find(ele=>ele.keyCode===key)
+                   if(currConfig){
+                        currData[currConfig.keyName]=sourceData[key]
+                        if(typeof(sourceData[key])==='object'&&!Array.isArray(sourceData[key])){
+                            currData[currConfig.keyName]=this.toKeyNameData(currConfig.data,sourceData[key])
+                        }
+                   }else{
+                     currData[key]=sourceData[key]
+                   }
+                   
+                }
+               
+            }
+            return currData
+        }
+        return data
+    }
     returnArrayConfig(item) {
         delete item.arrayObjData
         delete item.value
@@ -338,42 +369,44 @@ export class DynamicHandler {
             item.data = defaultArrayData
         }
     }
-    configResult(config) {
+
+
+    configResult(config,showKeyField='keyCode') {
         const currConfig = lessCom.cloneObj(config)
         this.initConfigType(currConfig)
-        return this.getConfigValue(currConfig)
+        return this.getConfigValue(currConfig,showKeyField)
     }
-    getConfigValue(data) {
+    getConfigValue(data,showKeyField) {
         let currData = {}
         data.forEach((ele) => {
             if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
-                currData[ele.keyCode] = this.getArrayConfigValue(ele)
+                currData[ele[showKeyField]] = this.getArrayConfigValue(ele,showKeyField)
             }
             else if(ele.dataTypeName==='Array'&&!ele.arrayDataTypeName){
-                currData[ele.keyCode] = [ele.defaultValue]
+                currData[ele[showKeyField]] = [ele.defaultValue]
             }
             else if (ele.dataTypeName == 'Object') {
-                currData[ele.keyCode] = this.getConfigValue(ele.data)
+                currData[ele[showKeyField]] = this.getConfigValue(ele.data,showKeyField)
             } else if (ele.dataTypeName == 'None' && ele.componentName == 'ElsRow') {
-                currData = Object.assign(currData, this.getConfigValue(ele.data))
+                currData = Object.assign(currData, this.getConfigValue(ele.data,showKeyField))
             }
-            else if (ele.keyCode) {
-                currData[ele.keyCode] = ele.value
+            else if (ele[showKeyField]) {
+                currData[ele[showKeyField]] = ele.value
             }
         })
         return currData
     }
-    getArrayConfigValue(item) {
+    getArrayConfigValue(item,showKeyField) {
         let currValue = {}
         item.data.forEach(ele => {
             if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
-                currValue[ele.keyCode] = this.getArrayConfigValue(ele)
+                currValue[ele[showKeyField]] = this.getArrayConfigValue(ele,showKeyField)
             } else if (ele.dataTypeName == 'Object') {
-                currValue[ele.keyCode] = this.getConfigValue(ele.data)
+                currValue[ele[showKeyField]] = this.getConfigValue(ele.data,showKeyField)
             } else if (ele.dataTypeName == 'None' && ele.componentName == 'ElsRow') {
-                currValue = Object.assign(currValue, this.getConfigValue(ele.data))
-            } else if (ele.keyCode) {
-                currValue[ele.keyCode] = ele.value
+                currValue = Object.assign(currValue, this.getConfigValue(ele.data,showKeyField))
+            } else if (ele[showKeyField]) {
+                currValue[ele[showKeyField]] = ele.value
             }
         })
         return [currValue]
@@ -417,6 +450,7 @@ export class DynamicHandler {
                     }else{
                         item.value=[]
                     }
+                    break
                 default:
                     try {
                         if (item.defaultValue) {

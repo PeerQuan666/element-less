@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watch, inject, watchEffect } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
@@ -19,7 +19,6 @@ const props = withDefaults(defineProps<Props>(), {
     valueField: 'value',
 })
 
-const emits = defineEmits(['update:modelValue'])
 const {
     currModelValue,
     returnModelValue,

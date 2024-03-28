@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ValueType } from '../../utlis/enumCom'
-import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick,inject,watchEffect } from 'vue'
+import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick,watchEffect } from 'vue'
 import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
 import { CheckboxProps } from '../../utlis/interfaceCom'
@@ -130,7 +130,7 @@ watch(singleSelectValue, (val) => {
     handleReturnResult(val);
 })
 
-watch(currModelValue,(val)=>{
+watch(currModelValue,()=>{
     initSelectValue()
 
 })
@@ -202,7 +202,7 @@ function initSelectValue() {
     if (typeof (currValue) == "string") {
         currValue = currValue.replace(/^,+/, "").replace(/,+$/, "");
     }
-    if (currValue === '' || currValue === undefined|| selectValue.value.toString() ===  currValue.toString()) {
+    if (currValue === '' || currValue === undefined||currValue === null|| selectValue.value.toString() ===  currValue.toString()) {
         return
     }
     if (!multiple.value) {

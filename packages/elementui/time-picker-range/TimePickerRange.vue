@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { ref, watch, useAttrs, computed, inject } from 'vue'
+import { ref, useAttrs, computed } from 'vue'
 import '../../utlis/lessPrototype.js'
 import {useRangeModel} from '../../utlis/componentCom.js'
 import { TimePickerProps, RangeFormItemProps } from '../../utlis/interfaceCom'
 import { QueryDataType } from '../../utlis/enumCom';
 import lessCom from '../../utlis/lessCom.js'
 
-const emits = defineEmits(['update:modelValue', 'update:start', 'update:end'])
 defineOptions({ name: 'ElsTimePickerRange', inheritAttrs: false })
 
 interface Props extends TimePickerProps, RangeFormItemProps {

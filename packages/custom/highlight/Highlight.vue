@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, useAttrs } from "vue";
+import { ref, onMounted } from "vue";
 import prism from 'prismjs'
 import 'prismjs/components/prism-css'
 import 'prismjs/components/prism-typescript'
@@ -12,7 +12,6 @@ defineOptions({
     name: 'ElsHighlight',
     inheritAttrs: false
 })
-const attrs = useAttrs()
 
 interface Props {
     language?: string,

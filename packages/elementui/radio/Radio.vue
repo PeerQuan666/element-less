@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watch, useAttrs, computed, nextTick, provide,inject,watchEffect, onMounted } from 'vue'
+import { ref, reactive, watch, useAttrs, computed, nextTick, provide,watchEffect, onMounted } from 'vue'
 import { ElMessage } from 'element-plus';
 import ElsOption from '../option/Option.vue';
 import ElsOptionGroup from '../option-group/OptionGroup.vue';
@@ -130,7 +130,7 @@ if (props.height) {
 }
 
 
-watch(currModelValue,(val)=>{
+watch(currModelValue,()=>{
     initSelectValue()
 
 })
@@ -139,7 +139,7 @@ function initSelectValue() {
 
     const currValue=currModelValue.value
     let currValueType = props.valueType;
-    if (currValue === '' || currValue === undefined || selectValue.value.toString() ===  currValue.toString()) {
+    if (currValue === '' || currValue === undefined||currValue===null || selectValue.value.toString() ===  currValue.toString()) {
         
         return }
     if (currValueType === ValueType.Number) {

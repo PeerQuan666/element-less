@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, computed,ref ,inject} from 'vue'
+import { watch, computed ,inject} from 'vue'
 import { useVModel } from '@vueuse/core'
 import DynamicRenderInnerItem from './DynamicRenderInnerItem.vue'
 import '../../utlis/lessPrototype.js'

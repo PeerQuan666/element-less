@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ref, watch, useAttrs, inject, computed } from 'vue'
+import { ref,  useAttrs } from 'vue'
 import '../../utlis/lessPrototype.js'
 import { DatePickerProps, RangeFormItemProps } from '../../utlis/interfaceCom'
 import { QueryDataType } from '../../utlis/enumCom';
-const emits = defineEmits(['update:modelValue', 'update:start', 'update:end'])
 import lessCom from '../../utlis/lessCom.js'
 import {useRangeModel} from '../../utlis/componentCom.js'
 defineOptions({ name: 'ElsDatePickerRange', inheritAttrs: false })

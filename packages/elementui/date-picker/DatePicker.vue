@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref, useAttrs, watch, inject, watchEffect, computed } from 'vue'
+import { ref, useAttrs, watch, watchEffect } from 'vue'
 import '../../utlis/lessPrototype.js'
 import { DatePickerProps } from '../../utlis/interfaceCom'
-const emits = defineEmits(['update:modelValue', 'update:start', 'update:end'])
 import lessCom from '../../utlis/lessCom.js'
 import {useModel} from '../../utlis/componentCom.js'
 defineOptions({ name: 'ElsDatePicker', inheritAttrs: false })
@@ -285,7 +284,7 @@ function handleReturnResult(val) {
 }
 
 
-watch(dateValue, (val, oldVal) => {
+watch(dateValue, (val) => {
     handleReturnResult(val)
 })
 

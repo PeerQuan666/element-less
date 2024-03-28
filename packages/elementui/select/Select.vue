@@ -110,7 +110,7 @@ watch(() => props.url, () => {
     }
     readData();
 })
-watch(() => props.data, (val, oldVal) => {
+watch(() => props.data, (val) => {
     if (val === undefined) { return; }
     if (JSON.stringify(val) != JSON.stringify(options)) {
         if (props.resetValueByChangeData) {
@@ -143,7 +143,7 @@ provide('multiple', props.multiple)
 provide('setExtraOption', setExtraOption)
 
 
-watch(currModelValue, (val) => {
+watch(currModelValue, () => {
     initSelectValue()
 })
 
@@ -155,7 +155,7 @@ function initSelectValue() {
     currModelValue.value
 
 
-    if (currModelValue.value === '' || currModelValue.value === undefined || selectValue.value.toString() === currModelValue.value.toString()) {
+    if (currModelValue.value === '' || currModelValue.value === undefined ||currModelValue.value === null|| selectValue.value.toString() === currModelValue.value.toString()) {
         return
     }
     if (props.multiple) {

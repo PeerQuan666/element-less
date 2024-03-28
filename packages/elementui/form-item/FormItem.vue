@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useAttrs, computed, inject, useSlots, reactive, provide, onMounted, onUnmounted } from 'vue'
+import { ref, useAttrs, computed, inject, useSlots, reactive, provide, onUnmounted } from 'vue'
 
 import { FormItemProps, QueryInfo } from '../../utlis/interfaceCom'
 import { ValidType } from '../../utlis/enumCom'

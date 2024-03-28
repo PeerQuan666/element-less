@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { onMounted, ref, watch ,inject} from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'
 import {useModel} from '../../utlis/componentCom.js'
 defineOptions({ name: "ElsUEditor" })
 const { $serverUrl,$homeUrl } = lessCom.getUEditorConfig()
-const emits = defineEmits(['update:modelValue', 'update:html'])
 interface Props extends FormItemProps {
     modelValue?: string,
     height?: string,

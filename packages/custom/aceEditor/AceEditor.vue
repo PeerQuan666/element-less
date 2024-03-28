@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, inject, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import ace from "ace-builds";
 import { FormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'

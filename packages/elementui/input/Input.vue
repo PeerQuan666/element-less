@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, useAttrs, useSlots, inject, watchEffect, Fragment } from 'vue'
+import { ref, watch, useAttrs, useSlots, inject, watchEffect } from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'
 import { useModel } from '../../utlis/componentCom.js'
@@ -25,7 +25,6 @@ const {
     returnModelValue,
 } = useModel(props)
 const formInputWidth = inject<string>('inputWidth', '')
-const emits = defineEmits(['update:modelValue'])
 
 const slots = useSlots()
 const attrs = useAttrs()

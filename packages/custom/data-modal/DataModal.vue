@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, useAttrs, inject,watchEffect} from 'vue'
+import { ref, computed, watch, useAttrs,watchEffect} from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'
 import '../../utlis/lessPrototype.js'

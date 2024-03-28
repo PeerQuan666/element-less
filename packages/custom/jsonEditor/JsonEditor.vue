@@ -50,7 +50,7 @@ const jsonEditor=ref()
 
 </script>
 <template >
-    <div class="els-jsoneditor">
+    <div class="els-jsoneditor" style="width: 100%;">
         <JsonEditorVue v-model="currData" v-bind="attrs" ref="jsonEditor" mode="text" />
     </div>
 </template>

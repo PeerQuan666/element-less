@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, nextTick, defineAsyncComponent, h ,useAttrs} from "vue";
+import { ref, watch, nextTick, useAttrs} from "vue";
 import VueJsonViewer from 'vue-json-viewer'
 
 defineOptions({

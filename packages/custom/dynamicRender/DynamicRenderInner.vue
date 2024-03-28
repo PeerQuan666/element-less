@@ -7,7 +7,6 @@ import { useVModel } from '@vueuse/core'
 
 import '../../utlis/lessPrototype.js'
 import lessCom from '../../utlis/lessCom'
-import { DynamicHandler } from '../../utlis/lessConfig'
 
 interface Props {
     nodeItem?: Record<string, any>,

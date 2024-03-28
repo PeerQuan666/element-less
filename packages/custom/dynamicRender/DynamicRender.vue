@@ -136,7 +136,10 @@ function initShowConfig(data, showConfigData) {
     else {
         data.forEach(ele => {
             ele.isShow = true
-            initShowConfig(ele.data, null)
+            if(ele.data){
+                initShowConfig(ele.data, null)
+
+            }
         })
     }
 }

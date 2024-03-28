@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useSlots, watch } from 'vue'
+import { ref, useSlots, watch,onMounted } from 'vue'
 import lessCom from '../../utlis/lessCom.js'
 const emits = defineEmits(['update:modelValue'])
 const slots = useSlots()
@@ -10,10 +10,11 @@ defineOptions({
 interface Props {
     modelValue?: boolean,
     url?: string,
+    initBody?:boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  
+    
 })
 
 const tagID = "less_drawer_" + lessCom.generateID()
@@ -28,12 +29,9 @@ watch(() => props.url, (val) => {
     }
 }, { immediate: true })
 
-watch(() => props.modelValue, (val) => {
-    drawerVisible.value = val
-}, { immediate: true })
-watch(drawerVisible, (val) => {
-    emits("update:modelValue", val)
-})
+if(props.initBody){
+    drawerVisible.value=true
+}
 
 
 function handleRegistEvent() {
@@ -44,6 +42,18 @@ function handleCloseLoading() {
     pageLoading.value = false
 }
 
+onMounted(() => {
+    drawerVisible.value=false
+
+    watch(() => props.modelValue, (val) => {
+        drawerVisible.value = val
+    })
+    watch(drawerVisible, (val) => {
+        emits("update:modelValue", val)
+    })
+
+
+})
 </script>
 <template>
     <el-drawer v-model="drawerVisible" :custom-class="tagID">

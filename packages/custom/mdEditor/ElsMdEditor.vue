@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch, inject } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'
 import 'md-editor-v3/lib/style.css';

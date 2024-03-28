@@ -79,7 +79,7 @@ import ElsJsonViewer from './custom/jsonViewer'
 import ElsJsonEditor from './custom/jsonEditor'
 import ElsWorkPlan from './custom/workPlan'
 import ElsCron from './custom/cron'
-
+import ElsWorkFlow from './custom/workFlow'
 
 const components = [
     ElsInput,
@@ -139,7 +139,8 @@ const components = [
     ElsJsonEditor,
     ElsHighlight,
     ElsWorkPlan,
-    ElsCron
+    ElsCron,
+    ElsWorkFlow
     
 ]
 

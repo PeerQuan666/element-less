@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref, defineAsyncComponent,computed } from 'vue'
+import { inject, ref, defineAsyncComponent } from 'vue'
 import { useVModel } from '@vueuse/core'
 import { DynamicConfig } from '../../utlis/interfaceCom.js'
 const DynamicDesignerInnerItem = defineAsyncComponent(() => {
@@ -27,12 +27,7 @@ const currConfig = ref(props.config ?? {})
 function handleRemove() {
   emits("removeItem")
 }
-function handleRemoveItem(item){
 
-  var index = currData.value.indexOf(item)
-  currData.value.splice(index, 1)
-
-}
 function handleAddItem() {
   const keyID="key_" + lessCom.randomNumber().toString()
   currData.value.push({
@@ -55,8 +50,6 @@ function handleAddItem() {
 const tagID = inject('tagID')
 const dataTypeData = inject<any>("dataTypeData", null)
 const controlData = inject<any>("componentData", null)
-const setMouseOverItem=inject<Function>("setMouseOverItem",()=>null)
-const getMouseOverItem=inject<Function>("getMouseOverItem",()=>null)
 const setSelectItem=inject<Function>("setSelectItem",()=>null)
 const getSelectItem=inject<Function>("getSelectItem",()=>null)
   

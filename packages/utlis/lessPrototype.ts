@@ -8,6 +8,7 @@ declare global {
     }
     interface String {
     cutWord(value: number): string;
+    trimQuotes():string,
     replacePowerUrl():string;
     post(postdata:object,alertCatchError?:true):Promise<any>;
     get(postdata:object,alertCatchError?:true):Promise<any>;
@@ -145,6 +146,9 @@ String.prototype.post = function request(postdata:object, alertCatchError=true) 
 String.prototype.get = function request(postdata:object, alertCatchError=true) {
     return lessCom.get(this.toString(), postdata, alertCatchError)
 }
+String.prototype.trimQuotes=function trimQuotes() {
+    return this.toString().replace(/^['"]|['"]$/g, '');
+  }
 
 String.prototype.md5=function  md5() {
     function RotateLeft(lValue, iShiftBits) {
