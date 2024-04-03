@@ -38,6 +38,7 @@
     "prismjs": "^1.29.0",
     "shortid": "^2.2.16",
     "sortablejs": "^1.15.0",
+    "vant": "^4.8.8",
     "vite-plugin-compression": "^0.5.1",
     "vue": "^3.3.4",
     "vue-json-viewer": "^3.0.4",

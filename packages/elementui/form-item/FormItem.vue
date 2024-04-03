@@ -5,6 +5,7 @@ import { FormItemProps, QueryInfo } from '../../utlis/interfaceCom'
 import { ValidType } from '../../utlis/enumCom'
 import { ElSpace } from 'element-plus';
 import lessCom from '../../utlis/lessCom.js'
+import { useFormValidation } from '../../utlis/componentCom.js'
 defineOptions({ name: "ElsFormItem" })
 interface Props extends FormItemProps {
     spacer?: string
@@ -26,67 +27,19 @@ const removeQueryData = inject<Function>('removeQueryData', () => { })
 const setQueryData = inject<Function>('setQueryData', () => { })
 const getQueryData = inject<Function>('getQueryData', () => { })
 const formType = inject<string>('formType', '')
+const isMobile=inject<boolean>('isMobile',false)
+const showPopup=ref(false)
+const mobileValue=ref()
 if (!props.hasFormItem) {
     provide('container', 'formitem')
 }
 
 const slots = useSlots()
 function initRules() {
-    if (formItem.value) {
+    if (formItem.value&&formItem.value.clearValidate) {
         formItem.value.clearValidate();
     }
-    let currItemRules: any = [];
-    let currLabel = props.label ? props.label : '';
-    if (attrs.rules) {
-        return attrs.rules;
-    } else {
-        if (props.required) {
-            currItemRules.push({ required: true, message: props.requiredMessage ? props.requiredMessage : (props.validTrigger == 'change' ? '请选择' : '请输入') + currLabel, trigger: props.validTrigger });
-        }
-        let validExpression = props.validExpression
-        if (!validExpression) {
-            switch (props.validType) {
-                case ValidType.Number:
-                    validExpression = "^-?\\d+$";
-                    break;
-                case ValidType.Float:
-                    validExpression = "^([1-9]+\\d*(\\.\\d+)?|0\\.\\d+)$";
-                    break;
-                case ValidType.Price:
-                    validExpression = "((^[1-9]\\d*)|^0)(\\.\\d{0,2}){0,1}$";
-                    break;
-                case ValidType.Date:
-                    validExpression = "^(\\d{4})(-)(\\d{2})(-)(\\d{2})$";
-                    break;
-                case ValidType.DateTime:
-                    validExpression = "^(?:19|20)[0-9][0-9]-(?:(?:0[1-9])|(?:1[0-2]))-(?:(?:[0-2][1-9])|(?:[1-3][0-1])) (?:(?:[0-2][0-3])|(?:[0-1][0-9])):[0-5][0-9]:[0-5][0-9]$";
-                    break;
-                case ValidType.Time:
-                    validExpression = "^(?:(?:[0-2][0-3])|(?:[0-1][0-9])):[0-5][0-9]$";
-                    break;
-                case ValidType.Email:
-                    validExpression = "^[A-Za-zd]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,5}$";
-                    break;
-                case ValidType.Phone:
-                    validExpression = "^[1][0-9]{10}$";
-                    break;
-                case ValidType.Character:
-                    validExpression = "^[\\u4e00-\\u9fa5]{0,}$";
-                    break;
-                case ValidType.Url:
-                    validExpression = "^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$";
-                    break;
-            }
-        }
-        if (validExpression) {
-            currItemRules.push({ pattern: new RegExp(validExpression), message: props.validMessage ? props.validMessage : currLabel + '格式错误' })
-
-        }
-        if (props.validMethod) {
-            currItemRules.push({ validator: props.validMethod, trigger: props.validTrigger })
-        }
-    }
-    return currItemRules;
+    return useFormValidation(props,attrs).initRules()
 }
 
 function initQuery() {
@@ -144,17 +97,40 @@ onUnmounted(()=>{
         removeQueryData(defaultKey.value)
     }
 })
+function confirmMobile(val){
+    mobileValue.value=val
+    showPopup.value=false
+}
+function hiddenMobile(){
+    showPopup.value=false
+}
 
-
-
+defineExpose({
+    confirmMobile,
+    hiddenMobile
+})
 
 let startKey: any = attrs['propStart']
 let endKey: any = attrs['propEnd']
 
 </script>
 <template>
-    <el-form-item ref="formItem" :label="label" :labelWidth="labelWidth" :prop="defaultProp" :rules="itemRules">
+    <template v-if="isMobile">
+        <slot v-if="props.tagName==='Input'"  ></slot>
 
+        <template v-else-if="props.tagName=='Select'||props.tagName=='Datepicker'||props.tagName==='Timepicker'">
+            <van-field is-link  v-model="mobileValue" readonly @click="showPopup = true" :required="props.required" :label="label" :rules="itemRules" />
+                <van-popup v-model:show="showPopup" position="bottom">
+                    <slot></slot>
+                </van-popup>
+        </template>
+        <van-field   v-bind="props" :label="label" :rules="itemRules"  :required="props.required"  v-else>
+            <template #input>
+                <slot v-bind="attrs"></slot>
+            </template>
+        </van-field>
+    </template>
+    <el-form-item ref="formItem" :label="label" :labelWidth="labelWidth" :prop="defaultProp" :rules="itemRules" v-else>
         <template v-if="slots.label" #label>
             <slot name="label"></slot>
         </template>

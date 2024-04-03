@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref, useAttrs, watch } from 'vue'
+import { ref, useAttrs, watch,inject } from 'vue'
 import '../../utlis/lessPrototype.js'
 import { TimePickerProps } from '../../utlis/interfaceCom'
 const emits = defineEmits(['update:modelValue', 'update:start', 'update:end', 'visible-change'])
 import lessCom from '../../utlis/lessCom.js'
-import {useModel} from '../../utlis/componentCom.js'
+import {useModel,useMobile} from '../../utlis/componentCom.js'
 defineOptions({ name: 'ElsTimePicker' ,
     inheritAttrs:false})
 
@@ -14,8 +14,10 @@ const props = withDefaults(defineProps<TimePickerProps>(), {
     valueFormat: 'HH:mm:ss'
 })
 
+
 const attrs = useAttrs()
 const timeValue = ref()
+const mobileTimeValue=ref<any>()
 const selectVisible = ref(false)
 const lessHour = ref(0)
 const lessMinute = ref(0)
@@ -23,7 +25,7 @@ const lessSecond = ref(0)
 const greaterHour = ref(0)
 const greaterMinute = ref(0)
 const greaterSecond = ref(0)
-
+const formNode=ref()
 
 
 const {
@@ -32,6 +34,8 @@ const {
     returnStartValue,
     returnEndValue
 } = useModel(props)
+
+const {isMobile,onMobileConfirm,onMobileHiddenPopup} =useMobile(formNode)
 
 watch(timeValue, (val,oldVal) => {
 
@@ -202,6 +206,7 @@ if (props.isRange) {
     }
 } else if (props.modelValue) {
     timeValue.value = props.modelValue
+    mobileTimeValue.value=timeValue.value.split(':')   
 }
 
 const currWidth = ref(props.width)
@@ -213,16 +218,24 @@ if (props.isRange !== undefined) {
     pickerStyle.value.push({ "flex-grow": 0 })
 }
 
+
+
+function onConfirm(){
+    timeValue.value=`${mobileTimeValue.value.join(':')}`
+    onMobileConfirm(timeValue.value)
+}
+
 </script>
 
 <template>
        <div class="els-node">
-    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-        <el-time-picker v-model="timeValue" :value-format="valueFormat" v-bind="attrs" :isRange="isRange" :style="pickerStyle"
-            :disabled-hours="disabledHourFn" :disabled-minutes="disabledMinutesFn" :disabled-seconds="disabledSecondsFn"
-            @visible-change="handleVisible">
-        </el-time-picker>
-     </ElsFormNode>
+        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)" tagName="Timepicker" ref="formNode">
+            <el-time-picker v-model="timeValue" v-if="!isMobile" :value-format="valueFormat" v-bind="attrs" :isRange="isRange" :style="pickerStyle"
+                :disabled-hours="disabledHourFn" :disabled-minutes="disabledMinutesFn" :disabled-seconds="disabledSecondsFn"
+                @visible-change="handleVisible">
+            </el-time-picker>
+            <van-time-picker v-else v-model="mobileTimeValue"  @confirm="onConfirm" @cancel="onMobileHiddenPopup"  />
+        </ElsFormNode>
     </div>
 </template>
 

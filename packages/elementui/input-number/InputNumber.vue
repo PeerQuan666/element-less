@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, useAttrs,ref} from 'vue'
+import { watch, useAttrs,ref,inject} from 'vue'
 import lessCom from '../../utlis/lessCom.js'
 import { FormItemProps } from '../../utlis/interfaceCom'
 import {useModel} from '../../utlis/componentCom.js'
@@ -11,6 +11,7 @@ interface Props extends FormItemProps {
     width?:string
     modelValue?: Number
 }
+const isMobile = inject<boolean>('isMobile', false)
 const props = defineProps<Props>()
 const emits = defineEmits(['update:modelValue'])
 const attrs=useAttrs()
@@ -38,8 +39,10 @@ watch(currValue, (val) => {
 </script>
 <template>
        <div class="els-node">
-    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-        <el-input-number v-model="currValue"  :style="[{ width: width?.appendPx() }]"  v-bind="attrs"></el-input-number>
-     </ElsFormNode>
+        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
+            <el-input-number v-model="currValue" v-if="!isMobile" :style="[{ width: width?.appendPx() }]"  v-bind="attrs"></el-input-number>
+            <van-stepper v-else v-model="currValue"   v-bind="attrs"/>
+        
+        </ElsFormNode>
     </div>
 </template>

@@ -10,7 +10,8 @@ export interface FormItemProps extends ValidProps,QueryProps{
     tip?:string,
     tipPosition?:string,
     suffixContent?:string,
-    labelWidth?:string
+    labelWidth?:string,
+    tagName?:string
 }
 
 export interface RangeFormItemProps extends FormItemProps{

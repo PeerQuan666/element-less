@@ -1,26 +1,30 @@
 <template>
     <els-form v-model="editData" ref="editForm">
-        <els-select label="类型" prop="selectValue" :url="apiUrl" label-field="Name" value-field="ID"  required
-            clearable></els-select>
-        <els-radio-button label="城市" prop="selectValue1" required>
-            <els-option :value="1">北京</els-option>
-            <els-option :value="2">天津</els-option>
-            <els-option :value="3">福州</els-option>
-            <els-option :value="4">厦门</els-option>
-        </els-radio-button>
+        <els-input label="aaa" prop="text" required></els-input>
+        <els-date-picker prop="selectValue1" label="时间" required></els-date-picker>
+
+        <els-select prop="selectValue"  :data="data"  label="城市" labelField="key" valueField="value" required>
+        </els-select>
         <els-form-item>
-            <el-button @click="handleSubmit" type="primary">提交</el-button>
+            <el-button @click="handleSubmit" type="primary" native-type="submit">提交</el-button>
         </els-form-item>
+   
     </els-form>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref ,provide,reactive} from 'vue'
 import { ElMessage } from 'element-plus'
 const editData = ref({ selectValue: '', selectValue1: '' })
 const editForm = ref()
 const apiUrl = 'http://manage.ybt2023.com/home/test2'
-
+const data = reactive([
+    { key: '北京', value: 1, group: '分组1' }, 
+    { key: '天津', value: 2, group: '分组1' }, 
+    { key: '福州', value: 3, group: '分组2' }, 
+    { key: '厦门', value: 4, group: '分组2' }
+    ])
+provide('isMobile',true)
 function handleSubmit() {
     editForm.value.validate().then(res => {
         if (res) {

@@ -1,21 +1,25 @@
 <script setup lang="ts">
-import { ref, useAttrs, watch, watchEffect } from 'vue'
+import { ref, useAttrs, watch, watchEffect,inject } from 'vue'
 import '../../utlis/lessPrototype.js'
 import { DatePickerProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'
-import {useModel} from '../../utlis/componentCom.js'
+import {useModel,useMobile} from '../../utlis/componentCom.js'
 defineOptions({ name: 'ElsDatePicker', inheritAttrs: false })
 
 const props = withDefaults(defineProps<DatePickerProps>(), {
     type: 'date',
     valueSeparator: ','
+    
 })
 
 const attrs = useAttrs()
 const currValueFormat = ref()
 const dateValue = ref()
+const mobileDateValue=ref<any>([])
+const mobileTimeValue=ref<any>()
 const currDefaultTime = ref()
 const currWidth = ref(props.width)
+const formNode=ref()
 if (props.defaultTime) {
     if (typeof (props.defaultTime) === 'string') {
         currDefaultTime.value = new Date('1991-08-28 ' + props.defaultTime)
@@ -30,6 +34,12 @@ const {
     returnStartValue,
     returnEndValue
 } = useModel(props)
+const {isMobile,onMobileConfirm,onMobileHiddenPopup} =useMobile(formNode)
+
+
+const columnsType =ref(['year', 'month', 'day'])
+
+mobileDateValue.value=[new Date().getFullYear(),new Date().getMonth(),new Date().getDay()]
 
 function initValue() {
     if (props.type == "daterange" || props.type == "datetimerange" || props.type == "monthrange" || props.type == 'dates') {
@@ -47,6 +57,11 @@ function initValue() {
     } else {
         if (dateValue.value != currModelValue.value) {
             dateValue.value =  currModelValue.value
+          
+            if(props.type.indexOf('time')>-1){
+                mobileDateValue.value=dateValue.value.splice(' ')[0].split(props.valueFormat?.indexOf('-')?'-':'/')
+                mobileTimeValue.value=dateValue.value.splice(' ')[1].split(':')
+            }
         }
     }
 
@@ -296,6 +311,8 @@ watch(currModelValue, (currValue) => {
 
     } else {
         dateValue.value = currValue
+        //手机端
+
     }
 }, { immediate: true })
 
@@ -314,7 +331,8 @@ watchEffect(() => {
                 if (!currWidth.value) {
                     currWidth.value = '100'
                 }
-
+                columnsType.value=['year'];
+                mobileDateValue.value=[new Date().getFullYear().toString()]
                 break;
             case 'monthrange':
             case 'month':
@@ -322,6 +340,8 @@ watchEffect(() => {
                 if (!currWidth.value) {
                     currWidth.value = '120'
                 }
+                columnsType.value=['year', 'month'];
+                mobileDateValue.value=[new Date().getFullYear().toString(),new Date().getMonth().toString()]
                 break;
             case 'daterange':
             case 'dates':
@@ -334,6 +354,8 @@ watchEffect(() => {
                 if (props.defaultTime) {
                     currValueFormat.value = "YYYY-M M-DD HH:mm:ss"
                 }
+                columnsType.value=['year', 'month','day'];
+                mobileDateValue.value=[new Date().getFullYear().toString(),new Date().getMonth().toString(),new Date().getDay()]
                 break;
             case 'datetimerange':
                 currValueFormat.value = "YYYY-MM-DD HH:mm:ss"
@@ -349,6 +371,8 @@ watchEffect(() => {
                 if (!currWidth.value) {
                     currWidth.value = '200'
                 }
+                mobileDateValue.value=[new Date().getFullYear().toString(),new Date().getMonth().toString(),new Date().getDay()]
+                mobileTimeValue.value=["00","00"]
                 break;
             case 'week':
                 currValueFormat.value = "YYYY-MM-DD"
@@ -373,14 +397,26 @@ watchEffect(() => {
 
 })
 
+function onConfirm(){
+    if(mobileTimeValue.value){
+        dateValue.value=`${mobileDateValue.value.join(currValueFormat.value.indexOf('-')>-1?'-':'/')} ${mobileTimeValue.value.join(':')}`
+    }else{
+
+        dateValue.value=`${mobileDateValue.value.join(currValueFormat.value.indexOf('-')>-1?'-':'/')}`
+    }
+    onMobileConfirm(dateValue.value)
+
+}
+
 initValue();
+
 
 </script>
 
 <template>
     <div class="els-node">
-        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-            <el-date-picker v-model="dateValue" v-bind="attrs" :type="type" :value-format="currValueFormat"
+        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)" tagName="Datepicker" ref="formNode">
+            <el-date-picker v-if="!isMobile" v-model="dateValue" v-bind="attrs" :type="type" :value-format="currValueFormat"
                 :defaultTime="currDefaultTime" :disabled-date="currDisabledDate" :shortcuts="pickerOptions"
                 :style="pickerStyle">
                 <template #default="cell">
@@ -390,6 +426,22 @@ initValue();
                     <slot name="range-separator"></slot>
                 </template>
             </el-date-picker>
+            <template v-else>
+                <van-date-picker v-if="type!=='datetime'" v-model="mobileDateValue" @confirm="onConfirm" @cancel="onMobileHiddenPopup" :columns-type="columnsType" />
+                <van-picker-group
+                v-else
+                    title="预约日期"
+                    :tabs="['选择日期', '选择时间']"
+                    @confirm="onConfirm"
+                    @cancel="onMobileHiddenPopup"
+                    >
+                    <van-date-picker
+                        v-model="mobileDateValue"
+                        
+                    />
+                    <van-time-picker v-model="mobileTimeValue" />
+                    </van-picker-group>
+            </template>
         </ElsFormNode>
     </div>
 </template>

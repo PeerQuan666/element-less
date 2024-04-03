@@ -1,7 +1,8 @@
 import {
   markdown
-} from "./chunk-EG6LEUNR.js";
-import "./chunk-6QGOLTZK.js";
+} from "./chunk-MMGNFY3K.js";
+import "./chunk-QE52WGKD.js";
+import "./chunk-2X25GDE4.js";
 import "./chunk-PMSQVEGA.js";
 import {
   autocompletion,
@@ -9,7 +10,6 @@ import {
   closeBracketsKeymap,
   completionKeymap
 } from "./chunk-W2PCNWFM.js";
-import "./chunk-2X25GDE4.js";
 import {
   Annotation,
   ChangeDesc,
@@ -94,7 +94,7 @@ import {
   shallowRef,
   toRef,
   watch
-} from "./chunk-AUBIXTKO.js";
+} from "./chunk-7DZ3I5V7.js";
 import {
   __commonJS,
   __esm,
@@ -9282,7 +9282,7 @@ var languages = [
     alias: ["xhtml"],
     extensions: ["html", "htm", "handlebars", "hbs"],
     load() {
-      return import("./dist-B6NJDVKC.js").then((m5) => m5.html());
+      return import("./dist-MPCBAVQI.js").then((m5) => m5.html());
     }
   }),
   LanguageDescription.of({
@@ -9332,7 +9332,7 @@ var languages = [
     name: "Markdown",
     extensions: ["md", "markdown", "mkd"],
     load() {
-      return import("./dist-5QEJPLPN.js").then((m5) => m5.markdown());
+      return import("./dist-OH6STKAK.js").then((m5) => m5.markdown());
     }
   }),
   LanguageDescription.of({
@@ -9351,7 +9351,7 @@ var languages = [
     name: "PHP",
     extensions: ["php", "php3", "php4", "php5", "php7", "phtml"],
     load() {
-      return import("./dist-44KG5HJU.js").then((m5) => m5.php());
+      return import("./dist-FWQMCHNJ.js").then((m5) => m5.php());
     }
   }),
   LanguageDescription.of({
@@ -10239,13 +10239,13 @@ var languages = [
     name: "Vue",
     extensions: ["vue"],
     load() {
-      return import("./dist-FFH7FVP7.js").then((m5) => m5.vue());
+      return import("./dist-7URM5KPR.js").then((m5) => m5.vue());
     }
   }),
   LanguageDescription.of({
     name: "Angular Template",
     load() {
-      return import("./dist-6WODONON.js").then((m5) => m5.angular());
+      return import("./dist-YKZPOTVR.js").then((m5) => m5.angular());
     }
   })
 ];

@@ -2,7 +2,7 @@
 import { ref, watch, useAttrs, useSlots, inject, watchEffect } from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
 import lessCom from '../../utlis/lessCom.js'
-import { useModel } from '../../utlis/componentCom.js'
+import { useModel,useFormValidation } from '../../utlis/componentCom.js'
 defineOptions({
     name: 'ElsInput',
     inheritAttrs: false
@@ -25,7 +25,7 @@ const {
     returnModelValue,
 } = useModel(props)
 const formInputWidth = inject<string>('inputWidth', '')
-
+const isMobile = inject<boolean>('isMobile', false)
 const slots = useSlots()
 const attrs = useAttrs()
 const slotNames: any = []
@@ -66,6 +66,7 @@ watch(currModelValue, (val) => {
 watch(inputValue, (val) => {
     handleReturnResult(val)
 })
+
 function handleReturnResult(val) {
     let currValue = val
     if (props.encode) {
@@ -76,8 +77,8 @@ function handleReturnResult(val) {
 </script>
 <template>
     <div class="els-node">
-        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-            <el-input v-model="inputValue" :style="[{ width: currWidth.appendPx() }]" v-bind="attrs">
+        <ElsFormNode  tagName="Input" v-bind="lessCom.getFormNodeProps(props)">
+            <el-input  v-model="inputValue"  v-if="!isMobile" :style="[{ width: currWidth.appendPx() }]" v-bind="attrs">
                 <template v-for="item in slotNames" :slot="item">
                     <slot :name="item"></slot>
                 </template>
@@ -90,6 +91,8 @@ function handleReturnResult(val) {
                     <slot name="append"></slot>
                 </template>
             </el-input>
+            <van-field v-else v-model="inputValue"  :required="props.required" :label="label" :rules="useFormValidation(props,attrs).initRules()"   v-bind="attrs"/>
+
         </ElsFormNode>
     </div>
 </template>

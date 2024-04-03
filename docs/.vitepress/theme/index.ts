@@ -10,13 +10,14 @@ import ApiNumberType from '../components/globals/vp-api-number.vue'
 import ApiRefType from '../components/globals/vp-api-ref.vue'
 import ApiEnumType from '../components/globals/vp-api-enum.vue'
 import ApiExternalType from '../components/globals/vp-api-external.vue'
-
+import Vant from 'vant'
 import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import VueUeditorWrap from "vue-ueditor-wrap"
 import ElementLess from '../../../packages'
 import pinia from '../../../packages/utlis/pinia'
 import 'element-plus/dist/index.css'
+import 'vant/lib/index.css';
 import DefaultTheme from 'vitepress/theme'
 export default {
     ...DefaultTheme,
@@ -76,6 +77,6 @@ export default {
         app.use(VueUeditorWrap)
         app.use(ElementPlus);
         app.use(ElementLess);
-
+        app.use(Vant);
     }
 }

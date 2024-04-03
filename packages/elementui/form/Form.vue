@@ -29,7 +29,7 @@ provide('container', 'form')
 provide('setModelValue', setModelValue)
 provide('getModelValue', getModelValue)
 provide('formData', modelData)
-
+const isMobile=inject<boolean>("isMobile",false);
 const parentLabelWidth = inject<string>('labelWidth', '')
 const currLabelWidth = ref()
 const parentInputWidth = inject<string>('inputWidth', '')
@@ -141,7 +141,7 @@ function validate() {
         } else {
             dataForm.value.validate().then(res => {
                 emits('update:isValidate',true)
-                resolve(res)
+                resolve(true)
             }).catch(action => {
                 console.log(action)
                 emits('update:isValidate',false)
@@ -207,9 +207,13 @@ defineExpose({
 
 <template>
 
-    <el-form :model="modelData" ref="dataForm" onsubmit="return false;" :label-width="currLabelWidth">
+    <el-form :model="modelData" ref="dataForm" onsubmit="return false;" :label-width="currLabelWidth" v-if="!isMobile">
         <slot v-bind="{formData:modelData}"></slot>
     </el-form>
+    <van-form ref="dataForm" v-else>
+        <slot v-bind="{formData:modelData}"></slot>
+   
+    </van-form>
 </template>
 
 

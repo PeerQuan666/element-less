@@ -1,7 +1,7 @@
 import {
   init_vue_runtime_esm_bundler,
   vue_runtime_esm_bundler_exports
-} from "./chunk-AUBIXTKO.js";
+} from "./chunk-7DZ3I5V7.js";
 import {
   __commonJS,
   __esm,
