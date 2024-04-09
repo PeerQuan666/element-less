@@ -7,7 +7,7 @@ import lessCom from '../../utlis/lessCom.js'
 import '../../utlis/lessPrototype.js'
 import { ValueType } from '../../utlis/enumCom'
 import { RadioProps } from '../../utlis/interfaceCom'
-import {useModel} from '../../utlis/componentCom.js'
+import {useModel,useMobile} from '../../utlis/componentCom.js'
 defineOptions({
     name: 'ElsRadio',
     inheritAttrs:false
@@ -41,6 +41,7 @@ const originalData: Array<Record<string, any>> = reactive([])
 const queryData = reactive({ searchKey: '', idString: '' })
 const attrs = useAttrs()
 const radioStyle: any = reactive([]);
+const formNode=ref()
 const emits = defineEmits(['select', 'readdataed', 'click-option', 'update:modelValue', 'update:select', 'update:select-label', 'change'])
 const optionData = computed<Array<Record<string, any>>>(() => {
     return options.concat(extraOption).concat(noExistOption);
@@ -51,7 +52,7 @@ const {
     returnModelValue,
 } = useModel(props)
 
-
+const {isMobile,onMobileConfirm,onMobileHiddenPopup} =useMobile(formNode)
 
 watch(selectValue, (val) => {
     handleReturnResult(val);
@@ -264,6 +265,7 @@ function handleReturnResult(value) {
         }
     }
     initSelect.value = true;
+    onMobileConfirm(value)
 
 }
 
@@ -289,8 +291,8 @@ onMounted(()=>{
 </script>
 <template>
        <div class="els-node">
-    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-        <div :class="radioClass" :style="radioStyle">
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)" ref="formNode" tagName="Radio">
+        <div :class="radioClass" :style="radioStyle" >
             <div v-if="props.filterable">
                 <el-input style="width:200px;" suffix-icon="Search" v-if="filterable" placeholder="输入关键字进行过滤"
                     v-model="filterText" clearable>
@@ -330,6 +332,7 @@ onMounted(()=>{
                     @click.native="handleClickOption(item)">{{ item[labelField] }}</els-option>
             </el-radio-group>
         </div>
+
      </ElsFormNode>
     </div>
 </template>

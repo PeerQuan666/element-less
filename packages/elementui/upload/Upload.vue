@@ -5,8 +5,8 @@ import { UploadType } from '../../utlis/enumCom'
 import lessCom from '../../utlis/lessCom.js'
 import Sortable from 'sortablejs'
 import { ElNotification, ElMessage } from 'element-plus'
-import { useModel } from '../../utlis/componentCom.js'
-
+import { useModel,useMobile } from '../../utlis/componentCom.js'
+import { showNotify } from 'vant';
 import '../../utlis/lessPrototype'
 defineOptions({
     name: 'ElsUpload',
@@ -16,7 +16,7 @@ const attrs = useAttrs()
 const emits = defineEmits(['update:modelValue', 'uploaded', 'completed'])
 
 interface Props extends FormItemProps {
-    modelValue?: string,
+    modelValue?: string|Array<string>,
     width?: string,
     height?: string,
     url?: string,
@@ -36,7 +36,8 @@ interface Props extends FormItemProps {
     type?: UploadType,
     valueSeparator?: string,
     buttonLabel?: string,
-    fileName?: string
+    fileName?: string,
+    valueType?:string,
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -46,7 +47,8 @@ const props = withDefaults(defineProps<Props>(), {
     inputWidth: '500',
     buttonLabel: '点击上传',
     valueSeparator: '$',
-    fileName: 'file'
+    fileName: 'file',
+    valueType:'string'
 })
 
 const apiConfig = lessCom.getApiConfig()
@@ -62,6 +64,8 @@ const currUploadUrl = ref('')
 const fileUpload = ref()
 const currShowFileList = ref(props.showFileList)
 const multiple = ref(false)
+const formNode=ref()
+const {isMobile,onMobileConfirm} =useMobile(formNode)
 watchEffect(() => {
     multiple.value = attrs['multiple'] === true || attrs['multiple'] === ''
     if (multiple.value) {
@@ -78,12 +82,20 @@ const {
     currModelValue,
     returnModelValue,
 } = useModel(props)
+
 function initFileUrl() {
     fileUrl.value = currModelValue.value;
     if (fileUrl.value) {
-        fileList.value = fileUrl.value.split(props.valueSeparator).map(ele => {
-            return { name: ele, status: "success", url: ele }
-        })
+        if(props.valueType=='string'){
+            fileList.value = fileUrl.value.split(props.valueSeparator).map(ele => {
+                return { name: ele, status: "success", url: ele }
+            })
+        }else{
+            fileList.value = fileUrl.value.map(ele => {
+                return { name: ele, status: "success", url: ele }
+            })
+        }
+      
     }
 
 }
@@ -114,12 +126,17 @@ function initUrl() {
 
 }
 function handleError(err, file) {
-    ElNotification.warning({
-        title: '提示',
-        dangerouslyUseHTMLString: true,
-        message: `<strong class="txt-red">${file.name}-文件上传失败</strong>`,
-        duration: 3000
-    });
+    if(isMobile){
+        showNotify({ type: 'warning', message: `${file.name}-文件上传失败` });
+    }else{
+        ElNotification.warning({
+            title: '提示',
+            dangerouslyUseHTMLString: true,
+            message: `<strong class="txt-red">${file.name}-文件上传失败</strong>`,
+            duration: 3000
+        });
+    }
+
     uploadLoading.value = false
     console.log(err)
 }
@@ -129,13 +146,17 @@ function handleRemove(file) {
 }
 function handleSuccess(res, file, fileList) {
     if (res[apiConfig.$codeField] !== apiConfig.$success) {
-        ElNotification.call({
-            title: '文件上传失败',
-            dangerouslyUseHTMLString: true,
-            message: `<div><strong class="red">${file.name}-文件上传失败</strong></div><div>${res[apiConfig.$messageField]}</div>`,
-            type: 'error',
-            duration: 0
-        });
+        if(isMobile){
+            showNotify({ type: 'warning', message: `${file.name}-文件上传失败\n${res[apiConfig.$messageField]}` });
+        }else{
+            ElNotification.call({
+                title: '文件上传失败',
+                dangerouslyUseHTMLString: true,
+                message: `<div><strong class="red">${file.name}-文件上传失败</strong></div><div>${res[apiConfig.$messageField]}</div>`,
+                type: 'error',
+                duration: 0
+            });
+        }
         uploadLoading.value = false
         return;
     }
@@ -166,7 +187,7 @@ function handleSuccess(res, file, fileList) {
 
 }
 function handleSortMutiPic() {
-    if (props.type != UploadType.Pic && !multiple.value) { return; }
+    if (props.type != UploadType.Pic && !multiple.value||isMobile) { return; }
     new Sortable(fileUpload.value.$el.querySelector(".el-upload-list"), {
         handle: '.el-upload-list__item',
         draggable: '.el-upload-list__item', // 允许拖拽的项目类名
@@ -239,16 +260,24 @@ function setFileUrl() {
 
         return
     }
+    if (props.valueType == 'string') {
     fileUrl.value = fileList.value.filter(ele => ele.status == 'success').map(ele => ele.url).join(props.valueSeparator)
-
+    return
+    }
+    fileUrl.value = fileList.value.filter(ele => ele.status == 'success').map(ele => ele.url)
 }
 
 
 function handleReturnResult() {
     if (!fileUrl.value) {
-        fileUrl.value = ''
+        if(props.valueType==='string'){
+            fileUrl.value = ''
+        }else{
+            fileUrl.value = []
+        }
     }
     returnModelValue(fileUrl.value)
+    onMobileConfirm(fileUrl.value)
 }
 const fontSize = parseFloat(props.width) / 3 + "px";
 
@@ -277,7 +306,7 @@ defineExpose({
 </script>
 <template>
     <div class="els-node">
-        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
+        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)" ref="formNode" tagName="Upload">
             <div class="els_upload_container">
                 <el-upload ref="fileUpload" v-model:file-list="fileList" :class="{ 'ele-uploader': type == UploadType.Pic }"
                     :action="currUploadUrl" :on-success="handleSuccess" :on-error="handleError" :on-remove="handleRemove"
@@ -402,6 +431,8 @@ defineExpose({
         .els-upload-list__item-thumbnail {
             border-radius: 6px;
             object-fit: contain;
+            width: 100%;
+            height: 100%;
         }
     }
 
@@ -455,6 +486,8 @@ defineExpose({
 
             .el-icon {
                 color: #fff !important;
+                width: 100%;
+                height: 100%;
             }
         }
     }

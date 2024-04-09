@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const attrs: any = useAttrs()
 const formItem: any = ref()
-
+const placeholder=ref()
 const removeQueryData = inject<Function>('removeQueryData', () => { })
 const setQueryData = inject<Function>('setQueryData', () => { })
 const getQueryData = inject<Function>('getQueryData', () => { })
@@ -33,7 +33,9 @@ const mobileValue=ref()
 if (!props.hasFormItem) {
     provide('container', 'formitem')
 }
-
+if(isMobile){
+    placeholder.value="请选择"+props.label
+}
 const slots = useSlots()
 function initRules() {
     if (formItem.value&&formItem.value.clearValidate) {
@@ -119,12 +121,12 @@ let endKey: any = attrs['propEnd']
         <slot v-if="props.tagName==='Input'"  ></slot>
 
         <template v-else-if="props.tagName=='Select'||props.tagName=='Datepicker'||props.tagName==='Timepicker'">
-            <van-field is-link  v-model="mobileValue" readonly @click="showPopup = true" :required="props.required" :label="label" :rules="itemRules" />
+            <van-field is-link  v-model="mobileValue" readonly @click="showPopup = true" :placeholder="placeholder" :required="props.required" :label="label" :rules="itemRules" ></van-field>
                 <van-popup v-model:show="showPopup" position="bottom">
                     <slot></slot>
                 </van-popup>
         </template>
-        <van-field   v-bind="props" :label="label" :rules="itemRules"  :required="props.required"  v-else>
+        <van-field v-model="mobileValue"  v-bind="props" :label="label" :rules="itemRules" :placeholder="placeholder" :required="props.required"  v-else>
             <template #input>
                 <slot v-bind="attrs"></slot>
             </template>

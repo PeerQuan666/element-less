@@ -133,7 +133,7 @@ watch(() => props.data, (val) => {
 }, { deep: true })
 
 watch(selectValue, (val: any) => {
-    if (props.multiple) {
+    if (props.multiple||isMobile) {
         handleReturnResult((val as Array<string | number>).join(props.valueSeparator));
         return
     }
@@ -375,8 +375,8 @@ if ((attrs["remote"] === true || attrs["remote"] === '') && props.url) {
 }
 currLoading.value = props.loading
 function onConfirm(){
-
-    onMobileConfirm(selectValue.value.toString())
+   const showText= optionData.value.filter(ele =>selectValue.value.indexOf(ele[props.valueField]) > -1).map(ele => ele[props.labelField]).toString()
+    onMobileConfirm(showText)
 }
 
 onMounted(() => {

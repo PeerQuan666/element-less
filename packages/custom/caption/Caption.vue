@@ -1,19 +1,22 @@
 <script setup lang="ts">
+import {inject} from 'vue'
 defineOptions({ name: "ElsCaption"})
 interface Props {
     type?: string,
     title?:string
 }
 defineProps<Props>()
+const isMobile=inject<boolean>("isMobile",false);
 
 </script>
 <template >
-   <div class="els-caption" :class="{'els-left-caption':type=='left'}" >
+   <div v-if="!isMobile" class="els-caption" :class="{'els-left-caption':type=='left'}" >
         <span class="els-caption-sub-header" v-if="type=='left'"><i class="dec"></i></span>
         <span>
         <slot>{{ title }}</slot>
     </span>
     </div>
+    <van-divider v-else> <slot>{{ title }}</slot></van-divider>
 </template>
 
 <style lang="less" scoped>

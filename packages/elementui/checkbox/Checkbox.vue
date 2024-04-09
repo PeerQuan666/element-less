@@ -4,7 +4,7 @@ import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick,
 import lessCom from '../../utlis/lessCom.js'
 import { ElMessage } from 'element-plus';
 import { CheckboxProps } from '../../utlis/interfaceCom'
-import {useModel} from '../../utlis/componentCom.js'
+import {useModel,useMobile} from '../../utlis/componentCom.js'
 defineOptions({ name: 'ElsCheckbox' ,inheritAttrs:false})
 const props = withDefaults(defineProps<CheckboxProps>(), {
     labelField: 'label',
@@ -43,10 +43,11 @@ const queryData = reactive({ searchKey: '', idString: '' })
 const optionData = computed<Array<Record<string, any>>>(() => {
     return options.concat(extraOption).concat(noExistOption);
 })
-
+const formNode=ref()
 const checkboxClass: string[] = reactive([])
 const checkboxStyle: any = reactive([]);
 const provideOptionData=ref<any>({type:'checkbox',optionWidth:''})
+const {isMobile,onMobileConfirm,onMobileHiddenPopup} =useMobile(formNode)
 
 provide('provideOption',provideOptionData)
 watchEffect(()=>{
@@ -319,7 +320,7 @@ function handleReturnResult(value) {
 
     }
     initSelect.value = true;
-
+    onMobileConfirm(value)
 }
 
 

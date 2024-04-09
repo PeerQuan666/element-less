@@ -10,11 +10,16 @@ const layer = inject<string>('layer', '')
 const formItem=ref()
 
 function confirmMobile(val){
-    formItem.value.confirmMobile(val)
+    if(formItem.value){
+        formItem.value.confirmMobile(val)
+
+    }
  
 }
 function hiddenMobile(){
-    formItem.value.hiddenMobile()
+    if(formItem.value){
+        formItem.value.hiddenMobile()
+    }
 }
 if (container == 'form') {
     hasForm.value = true
@@ -40,3 +45,18 @@ defineExpose({
         <slot v-bind="attrs" v-else></slot>
     </template>
 </template>
+<style>
+.van-form{
+    .van-cell:last-child::after {
+        display: unset;
+    }
+
+
+}
+
+.els-node:last-child>div::after{
+    position:relative
+}
+
+
+</style>
