@@ -14,7 +14,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 })
 const emits = defineEmits(['update:data'])
-
+const isMobile=inject<boolean>('isMobile',false);
 const currData = useVModel(props, 'item', emits)
 const dataTypes=inject<any>('dataTypeData', [])
 function handleDisabledExpress() {
@@ -114,12 +114,12 @@ watch(() => currData.value.config.arrayConfig.arrayDefaultLength, (val) => {
 
 </script>
 <template>
-    <div :class="{ 'horizontal': currData.config.arrayConfig.arrangementType === 'Horizontal' }" style=" flex-grow:1">
-        <els-list v-model="currData.value" @add="handleAddItem" :item-class-name="{'els-dynamic-r-array':item.arrayDataTypeName==='Object'||item.componentTypeName==='DynamicRender'}"  :style="[
+    <div class="els-dynamic-array-render" :class="{ 'horizontal': currData.config.arrayConfig.arrangementType === 'Horizontal' }"   style=" flex-grow:1">
+        <els-list v-model="currData.value" @add="handleAddItem" :sortable="false" :item-class-name="{'els-dynamic-r-array':item.arrayDataTypeName==='Object'||item.componentTypeName==='DynamicRender'}"  :style="[
             { 'max-width': (currData.config.arrayConfig.maxWidth ? currData.config.arrayConfig.maxWidth + 'px' : '') },
             { 'max-height': (currData.config.arrayConfig.maxHeight ? currData.config.arrayConfig.maxHeight + 'px' : '') },
             { 'display': currData.config.arrayConfig.arrangementType === 'Horizontal' ? 'flex' : '' },
-            { 'flex-wrap': 'wrap' }, { 'gap': '5px' }, { 'overflow': 'scroll' },{'padding-right':'20px'}]">
+            { 'flex-wrap': 'wrap' }, { 'gap': '5px' }, { 'overflow': 'scroll' },{'padding-right':isMobile?'0px':'20px'}]">
             <template #default="{ element,index }">
                 <DynamicRenderInnerItem :class="{'els-dynamic-r-array-item':item.componentName==='ElsDynamicRender'}" v-bind="formAttrs" :key="index" :parent-node="parentNode" :curr-node="currData"
                     :disabled="handleDisabledExpress()" v-model="element.value" prop="value" requiredMessage="不能为空" :item="currData"
@@ -130,3 +130,10 @@ watch(() => currData.value.config.arrayConfig.arrayDefaultLength, (val) => {
         </els-list>
     </div>
 </template>
+<style scoped lang="less">
+.els-dynamic-array-render{
+::v-deep(.van-field){
+    padding-left: 0;
+}
+}
+</style>

@@ -20,6 +20,7 @@ interface Props {
 }
 const getConverToJsonResult = inject<Function>('getConverToJsonResult', () => null)
 const componentSettingVisible = inject<boolean>('componentSettingVisible', true)
+const columnVisible = inject<Function>('columnVisible', ()=>{return true;})
 const emits = defineEmits(['update:data', 'removeItem'])
 const props = withDefaults(defineProps<Props>(), { depath: 0 })
 const currData = useVModel(props, 'data', emits)
@@ -41,8 +42,7 @@ function handleAddItem() {
       baseConfig: {},
       advancedConfig: {},
       arrayConfig: {}
-    },
-    isAdd:true
+    }
   })
   setSelectItem(keyID)
 
@@ -83,7 +83,7 @@ function getComponentType(val){
 
 </script>
 <template>
-  <div :class="[{ 'els-dynamic-d-flat-item-child': depath && depath > 0 }]">
+  <div  :class="[{'els-dynamic-config-root':depath==0},{ 'els-dynamic-d-flat-item-child': depath && depath > 0 },{'els-dynamic-d-flat-item-container':isContainer&&depath-1==0}]">
     <span class="tag-name" v-if="isContainer">
       <el-popover placement="top-start" width="500" trigger="click">
         <els-form-item label="样式" label-width="60px">
@@ -105,18 +105,18 @@ function getComponentType(val){
         </template>
       </el-popconfirm>
     </span>
-    <div class="els-dynamicc-d-head">
-      <span class="keyName">名称</span>
-      <span class="keyCode">编码</span>
-      <span class="dataType">类型</span>
+    <div class="els-dynamicc-d-head" v-if="!isContainer">
+      <span class="keyName" v-if="columnVisible('keyName')">名称</span>
+      <span class="keyCode" v-if="columnVisible('keyCode')">编码</span>
+      <span class="dataType" v-if="columnVisible('dataType')">类型</span>
       <template v-if="componentSettingVisible">
-        <span class="componentType">组件</span>
-        <span class="config">配置</span>
+        <span class="componentType" v-if="columnVisible('componentType')">组件</span>
+        <span class="config" v-if="columnVisible('config')">配置</span>
       </template>
-      <span class="required">必需</span>
-      <span class="description">描述</span>
-      <span class="defaultValue">默认值</span>
-      <span class="oper">操作</span>
+      <span class="required" v-if="columnVisible('required')">必需</span>
+      <span class="description" v-if="columnVisible('description')">描述</span>
+      <span class="defaultValue"  v-if="columnVisible('defaultValue')">默认值</span>
+      <span class="oper" v-if="columnVisible('oper')">操作</span>
     </div>
     <div v-if="!currData.length" class="els-dynamicc-d-empty">没有数据</div>
 
@@ -126,60 +126,60 @@ function getComponentType(val){
         <suspense>
           <template #default>
             <div class="els-dynamic-d-item-div virtual"
-            v-if="getSelectItem()!=$item.keyID&&!$item.isAdd&&!['None','Object'].includes(getDataTypeName($item.dataType)?.type)&&!['None','Object'].includes(getDataTypeName($item.arrayDataType)?.type)"
+            v-if="!getSelectItem().includes($item.keyID)&&!['None','Object'].includes(getDataTypeName($item.dataType)?.type)&&!['None','Object'].includes(getDataTypeName($item.arrayDataType)?.type)"
             @click="setSelectItem($item.keyID)">
-              <span class="keyName">
-                <div class="el-input__wrapper">
-                  <div class="el-input__inner">{{ $item.keyName }}</div>
-                </div>
-              </span>
-              <span class="keyCode">
-                <div class="el-input__wrapper">
-                  <div class="el-input__inner">{{ $item.keyCode }}</div>
-                </div></span>
-              <span class="dataType"> 
-                <div class="el-input__wrapper">
-                  <div class="el-input__inner">{{ getDataTypeName($item.dataType)?.label }}</div>
-                </div>
-                <div class="el-input__wrapper" v-if="$item.arrayDataType">
-                  <div class="el-input__inner">{{ getDataTypeName($item.arrayDataType)?.label }}</div>
-                </div>
-              </span>
-              <template v-if="componentSettingVisible">
-                <span class="componentType">
+              <span class="keyName"  v-if="columnVisible('keyName')">
                   <div class="el-input__wrapper">
-                  <div class="el-input__inner">{{ getComponentType($item.componentType)?.label }}</div>
-                </div>
-              </span>
-                <span class="config"><el-link type="primary">配置</el-link></span>
-              </template>
-              <span class="required">
-                <els-switch v-model="$item.required"  :active-value="true" :inactive-value="false"></els-switch>
-              </span>
-              <span class="description">
-                <div class="el-input__wrapper">
-                  <div class="el-input__inner">{{ $item.description }}</div>
-                </div>
-              </span>
-              <span class="defaultValue">
-                <div class="el-input__wrapper">
-                  <div class="el-input__inner">{{ $item.defaultValue }}</div>
-                </div>
-              </span>
-              <span class="oper">
-                <span class="els-dynamic-d-oper">
-                  <el-icon class="el-icon-rank">
-                    <Rank />
-                  </el-icon>
-                  <el-icon class="el-icon-remove">
-                          <Remove />
-                        </el-icon>
+                    <div class="el-input__inner">{{ $item.keyName }}</div>
+                  </div>
                 </span>
-              </span>
+                <span class="keyCode"  v-if="columnVisible('keyCode')">
+                  <div class="el-input__wrapper">
+                    <div class="el-input__inner">{{ $item.keyCode }}</div>
+                  </div></span>
+                <span class="dataType" v-if="columnVisible('dataType')"> 
+                  <div class="el-input__wrapper">
+                    <div class="el-input__inner">{{ getDataTypeName($item.dataType)?.label }}</div>
+                  </div>
+                  <div class="el-input__wrapper" v-if="$item.arrayDataType">
+                    <div class="el-input__inner">{{ getDataTypeName($item.arrayDataType)?.label }}</div>
+                  </div>
+                </span>
+                <template v-if="componentSettingVisible" >
+                  <span class="componentType" v-if="columnVisible('componentType')">
+                    <div class="el-input__wrapper">
+                    <div class="el-input__inner">{{ getComponentType($item.componentType)?.label }}</div>
+                  </div>
+                </span>
+                  <span class="config" v-if="columnVisible('config')"><el-link type="primary">配置</el-link></span>
+                </template>
+                <span class="required" v-if="columnVisible('required')">
+                  <els-switch v-model="$item.required"  :active-value="true" :inactive-value="false"></els-switch>
+                </span>
+                <span class="description" v-if="columnVisible('description')">
+                  <div class="el-input__wrapper">
+                    <div class="el-input__inner">{{ $item.description }}</div>
+                  </div>
+                </span>
+                <span class="defaultValue" v-if="columnVisible('defaultValue')">
+                  <div class="el-input__wrapper">
+                    <div class="el-input__inner">{{ $item.defaultValue }}</div>
+                  </div>
+                </span>
+                <span class="oper" v-if="columnVisible('oper')">
+                  <span class="els-dynamic-d-oper">
+                    <el-icon class="el-icon-rank">
+                      <Rank />
+                    </el-icon>
+                    <el-icon class="el-icon-remove">
+                            <Remove />
+                          </el-icon>
+                  </span>
+                </span>
             </div>
-            <DynamicDesignerInnerItem  v-else :data="currData" :item="$item" :depath="depath" :key="$index">
+
+            <DynamicDesignerInnerItem v-else  :data="currData" :item="$item" :depath="depath" :key="$item.keyID">
             </DynamicDesignerInnerItem>
-           
           </template>
           <template #fallback>
             <el-skeleton animated>
@@ -208,3 +208,9 @@ function getComponentType(val){
     </template>
   </els-dialog>
 </template>
+<style scoped lang="less">
+
+.el-icon-remove{color:red;}
+.els-dynamic-d-flat-item-container{padding-left:5px !important;}
+.els-dynamic-config-root>::v-deep(.els-list)>.els-list-add{padding-left: 5px;}
+</style>

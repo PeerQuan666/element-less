@@ -9,9 +9,11 @@ declare global {
     interface String {
     cutWord(value: number): string;
     trimQuotes():string,
+    trimComma():string,
     replacePowerUrl():string;
     post(postdata:object,alertCatchError?:true):Promise<any>;
     get(postdata:object,alertCatchError?:true):Promise<any>;
+    upload(formdata:FormData,alertCatchError?:true):Promise<any>;
     toList(valueSeparator:string):string[];
     toListNumber(valueSeparator:string):number[];
     appendPx():string,
@@ -81,7 +83,6 @@ String.prototype.toList = function (valueSeparator=','):string[] {
     return this.toString().split(valueSeparator)
    }
    return []
-   
 }
 String.prototype.toListNumber = function (valueSeparator=','):number[] {
     if(this){
@@ -140,15 +141,21 @@ String.prototype.addUrlParameter = function addUrlParameter(param, value:any) {
     return `${this}${cSymbol}${param}=${value}`;
 };
 
-String.prototype.post = function request(postdata:object, alertCatchError=true) {
+String.prototype.post = function post(postdata:object, alertCatchError=true) {
     return lessCom.post(this.toString(), postdata, alertCatchError)
 }
-String.prototype.get = function request(postdata:object, alertCatchError=true) {
+String.prototype.get = function get(postdata:object, alertCatchError=true) {
     return lessCom.get(this.toString(), postdata, alertCatchError)
+}
+String.prototype.upload = function upload(formdata:object, alertCatchError=true) {
+    return lessCom.post(this.toString(), formdata, alertCatchError)
 }
 String.prototype.trimQuotes=function trimQuotes() {
     return this.toString().replace(/^['"]|['"]$/g, '');
   }
+String.prototype.trimComma=function trimComma() {
+    return this.toString().replace(/^,+/, "").replace(/,+$/, "");
+}
 
 String.prototype.md5=function  md5() {
     function RotateLeft(lValue, iShiftBits) {

@@ -34,6 +34,7 @@ function addType(type: string, displayName: string) {
       Inputs: {
         ExpectedOutcome: "'approve'",
       },
+      AuditorInputs:"",
       Outputs: {},
       SelectNextStep: {},
     }
@@ -52,6 +53,7 @@ function addType(type: string, displayName: string) {
       Inputs: {
         ExpectedOutcome: "'deny'",
       },
+      AuditorInputs:"",
       Outputs: {},
       SelectNextStep: {},
     }
@@ -87,6 +89,7 @@ function addType(type: string, displayName: string) {
     CompensateWith: [],
     Saga: false,
     NextStepId: "",
+    AuditorInputs:"",
     Inputs: {},
     Outputs: {},
     SelectNextStep: {},

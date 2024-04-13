@@ -144,6 +144,7 @@ function initShowConfig(data, showConfigData) {
     }
 }
 
+
 function handleReturnResult() {
     //有配置再更新直
     if (props.config) {
@@ -176,6 +177,7 @@ function handleReturnResult() {
     </div>
 </template>
 <style lang="less">
+//has影响性能
 .el-row:has(div[class^=el-form-item]) {
     margin-bottom: 0px;
 }
@@ -210,7 +212,7 @@ function handleReturnResult() {
             flex-grow: 1;
         }
     }
-
+//has影响性能
     .el-form-item:has(form) {
         .el-form-item {
             margin-bottom: 18px;
@@ -266,6 +268,7 @@ function handleReturnResult() {
         >form {
             flex-grow: 1;
 
+           //has影响性能
             .els-dynamic-r-item-child:has(label[class^=el-form-item__label]) {
                 display: inherit
             }
@@ -287,7 +290,7 @@ function handleReturnResult() {
     }
 
 }
-
+//has影响性能
 .els-list>div>div:has(>div[class*=els-dynamic-r-array]),.els-list > div > form:has(>div[class*=els-dynamic-r-array]) {
     margin-bottom: 10px
 }
@@ -319,6 +322,7 @@ function handleReturnResult() {
 
 }
 
+//has影响性能
 .els-dynamic-render>form>div>div:has([class^=el-form-item]) {
     margin-bottom: 18px;
 }

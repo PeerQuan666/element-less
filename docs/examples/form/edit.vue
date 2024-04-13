@@ -1,21 +1,26 @@
 <template>
     <els-form v-model="editData" ref="editForm">
-        <els-input label="aaa" prop="text" required></els-input>
+        <van-cell-group inset>
+            <div>
+        <els-input label="aaa" prop="text" required  validExpression="^[A-Za-z0-9]+$" ></els-input>
+    </div>
         <els-date-picker prop="selectValue1" label="时间" required></els-date-picker>
 
-        <els-select prop="selectValue"  :data="data"  label="城市" labelField="key" valueField="value" required>
+            <els-select prop="selectValue"  :data="data"  label="城市" labelField="key" valueField="value" required>
         </els-select>
-        <els-form-item>
-            <el-button @click="handleSubmit" type="primary" native-type="submit">提交</el-button>
-        </els-form-item>
+        <els-upload prop="pic" type="Pic" multiple label="城市"></els-upload>
+       
+      
+    </van-cell-group>
    
     </els-form>
+  
 </template>
 
 <script lang="ts" setup>
 import { ref ,provide,reactive} from 'vue'
 import { ElMessage } from 'element-plus'
-const editData = ref({ selectValue: '', selectValue1: '' })
+const editData = ref({ selectValue: '', selectValue1: '',pic:'' })
 const editForm = ref()
 const apiUrl = 'http://manage.ybt2023.com/home/test2'
 const data = reactive([
@@ -24,6 +29,7 @@ const data = reactive([
     { key: '福州', value: 3, group: '分组2' }, 
     { key: '厦门', value: 4, group: '分组2' }
     ])
+    
 provide('isMobile',true)
 function handleSubmit() {
     editForm.value.validate().then(res => {

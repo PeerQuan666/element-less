@@ -35,7 +35,7 @@ watch(inputValue, (val) => {
     <els-input v-model="inputValue" type="textarea" v-bind="props" >
     </els-input>
 </template>
-<style lang="less">
+<style scoped lang="less">
 .els-node:has(>div[class^=el-textarea]){
     display: inline-flex;
     position: relative;

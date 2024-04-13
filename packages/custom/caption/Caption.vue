@@ -13,7 +13,7 @@ const isMobile=inject<boolean>("isMobile",false);
    <div v-if="!isMobile" class="els-caption" :class="{'els-left-caption':type=='left'}" >
         <span class="els-caption-sub-header" v-if="type=='left'"><i class="dec"></i></span>
         <span>
-        <slot>{{ title }}</slot>
+        <slot name="default">{{ title }}</slot>
     </span>
     </div>
     <van-divider v-else> <slot>{{ title }}</slot></van-divider>

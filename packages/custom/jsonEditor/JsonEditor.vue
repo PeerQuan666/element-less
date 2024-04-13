@@ -28,7 +28,6 @@ watch(() => props.modelValue, (val) => {
 }, { immediate: true, deep: true })
 
 watch(currData, (val) => {
-    console.info(jsonEditor)
     if (typeof (props.modelValue) === 'object') {
         if(typeof(val)==='string'){
             try{

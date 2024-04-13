@@ -7,9 +7,13 @@ const test=ref('')
 
 <template>
   <h1>{{ msg }}</h1>
-  <els-caption>工作流</els-caption>
+  <els-caption title="asdsa"></els-caption>
 
-  <els-work-flow v-model="test" configUrl="http://localhost:5000/WorkflowManage/SearchAuto/StepReadData" userUrl="http://localhost:5000/WorkflowManage/SearchAuto/PowerUserNameReadData" :showTreeData="true"></els-work-flow>
+  <els-work-flow v-model="test" 
+  configUrl="http://localhost:5000/WorkflowManage/SearchAuto/StepReadData"
+   userUrl="http://localhost:5000/WorkflowManage/SearchAuto/PowerUserNameReadData"
+   userTaskTemplateUrl="http://localhost:5000/WorkflowManage/SearchAuto/UserTaskDataTemplateReadData"
+    :showTreeData="true"></els-work-flow>
 </template>
 
 <style scoped>

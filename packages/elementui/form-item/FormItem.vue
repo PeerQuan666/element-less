@@ -119,7 +119,6 @@ let endKey: any = attrs['propEnd']
 <template>
     <template v-if="isMobile">
         <slot v-if="props.tagName==='Input'"  ></slot>
-
         <template v-else-if="props.tagName=='Select'||props.tagName=='Datepicker'||props.tagName==='Timepicker'">
             <van-field is-link  v-model="mobileValue" readonly @click="showPopup = true" :placeholder="placeholder" :required="props.required" :label="label" :rules="itemRules" ></van-field>
                 <van-popup v-model:show="showPopup" position="bottom">

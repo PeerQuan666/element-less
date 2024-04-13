@@ -46,6 +46,7 @@ const controlData = ref<any>([])
 
 const dataTypeData=inject("dataTypeData")
 const componentData=inject("componentData")
+provide('isMobile',false)
 
 const currDynamicDataType = ref<any>([])
 if(dataTypeData){
@@ -637,7 +638,7 @@ provide("recordComponent", recordComponent)
         padding: 0 8px;
     }
 }
-
+//has影响性能
 .el-row:has(div[class^=el-form-item]) {
     margin-bottom: 0px;
 }
@@ -656,7 +657,7 @@ provide("recordComponent", recordComponent)
             flex-grow: 1;
         }
     }
-
+//has影响性能
     .el-form-item:has(form) {
         .el-form-item {
             margin-bottom: 18px;
@@ -737,7 +738,7 @@ provide("recordComponent", recordComponent)
         border: 1px dashed #aaaaaabf;
         padding: 16px 5px 5px 0px;
     }
-
+//has影响性能
     >.el-form-item:has(form) {
         border: 0px;
     }
@@ -786,6 +787,9 @@ provide("recordComponent", recordComponent)
 }
 
 .els-dynamic-d-v-item.selected {
+    >.els-caption{
+        border: 2px solid #409EFF;
+    }
     >.el-form-item {
         border: 2px solid #409EFF;
     }
@@ -800,7 +804,7 @@ provide("recordComponent", recordComponent)
         padding-top: 20px;
         margin-bottom: 0;
     }
-
+//has影响性能
     >.el-form-item:has(form) {
         border: 0px;
     }
@@ -811,7 +815,7 @@ provide("recordComponent", recordComponent)
     }
 
 }
-
+//has影响性能
 .els-dynamic-d-v-item:has(form) {
     border: 1px dashed #aaaaaabf;
 }

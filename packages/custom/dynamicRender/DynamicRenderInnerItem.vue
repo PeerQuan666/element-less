@@ -67,11 +67,12 @@ const baseAttrs = computed(() => {
     }
 
     if (['ElsSelect', 'ElsRadio', 'ElsCheckBox', 'ElsCascader'].includes(props.item.componentName)) {
-        if (props.item.dataTypeName == 'Number' || props.item.arrayDataTypeName == 'Number') {
-
-            currAttrs.valueType = 'Number'
-        } else if (props.item.dataTypeName == 'Bool' || props.item.arrayDataTypeName == 'Bool') {
-            currAttrs.valueType = 'Bool'
+        if(!currAttrs.valueType){
+            if (props.item.dataTypeName == 'Number' || props.item.arrayDataTypeName == 'Number') {
+                currAttrs.valueType = 'Number'
+            } else if (props.item.dataTypeName == 'Bool' || props.item.arrayDataTypeName == 'Bool') {
+                currAttrs.valueType = 'Bool'
+            }
         }
     }
     return currAttrs

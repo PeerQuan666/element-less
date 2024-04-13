@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch,inject } from 'vue'
 defineOptions({ name: 'ElsImageViewer' })
 interface Props {
     currentUrl?: string,
@@ -11,7 +11,8 @@ const props = withDefaults(defineProps<Props>(), {
     separator: '$',
     initialIndex: 0
 })
-
+const visible=ref(true)
+const isMobile = inject<boolean>('isMobile', false)
 const urls = ref<Array<string>>()
 let index = props.initialIndex
 function initData() {
@@ -32,5 +33,10 @@ watch(() => props.url, () => {
 
 </script>
 <template>
-    <el-image-viewer :url-list="urls" :initial-index="index"></el-image-viewer>
+
+    <el-image-viewer :url-list="urls" :initial-index="index" v-if="!isMobile"></el-image-viewer>
+    <van-image-preview v-model:show="visible" :images="urls" :startPosition="index" :show-index="false" v-else>
+        <template v-slot:index>第{{ index + 1 }}页</template>
+    </van-image-preview>
+
 </template>

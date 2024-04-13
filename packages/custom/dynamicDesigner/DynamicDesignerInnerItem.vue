@@ -21,11 +21,13 @@ interface Props {
 
 const emits = defineEmits(['update:item', 'update:data'])
 const camelCase = inject<boolean>('camelCase', false)
+const settingDirection=inject<string>('settingDirection');
 const allowCreateType = inject<boolean>('allowCreateType', false)
 const allowCreateComponent = inject<boolean>('allowCreateComponent', false)
 const openCreateType = inject<Function>('openCreateType', () => null)
 const openCreateComponent = inject<Function>('openCreateComponent', () => null)
 const componentSettingVisible = inject<boolean>('componentSettingVisible', true)
+const columnVisible = inject<Function>('columnVisible', ()=>{return true;})
 const props = defineProps<Props>()
 const dataTypeData = inject<any>("dataTypeData", null)
 const controlData = inject<any>("componentData", null)
@@ -34,8 +36,7 @@ const currData = useVModel(props, 'data', emits)
 const currItem = useVModel(props, 'item', emits)
 const selectDataTypeItem = ref()
 const selectArrayDataTypeItem = ref()
-
-
+const attrDrawVisible=ref(false)
 
 function handleRemove(item) {
   var index = currData.value.indexOf(item)
@@ -227,14 +228,15 @@ function validationCode(rule, value, callback) {
   <els-form v-model="currItem" labelWidth="0" inputWidth="100%"
     :class="[{ 'els-dynamic-d-item-parentdiv': isObject && !currItem.componentType }, { 'els-dynamic-d-item-container': isRow }]"
     :show-message="false">
-    <div class="els-dynamic-d-item-div" v-if="!isRow">
-      <span class="keyName">
+    <div class="els-dynamic-d-item-div" v-if="!isRow" :class="[{'setting':attrDrawVisible}]">
+      <span class="keyName" v-if="columnVisible('keyName')">
         <els-input clearable v-if="itemDataType.type != 'None'" placeholder="请输入名称" prop="keyName"></els-input>
+        <span v-else-if="currItem.config.baseConfig">{{ currItem.config.baseConfig.title}}</span>
       </span>
-      <span class="keyCode">
+      <span class="keyCode" v-if="columnVisible('keyCode')">
         <els-input placeholder="编码" v-if="itemDataType.type != 'None'" :validMethod="validationCode" required clearable @blur="handleChangeKeyCode" prop="keyCode"></els-input>
       </span>
-      <span class="dataType">
+      <span class="dataType" v-if="columnVisible('dataType')">
 
         <el-popover v-if="selectDataTypeItem && selectDataTypeItem.id"  width="400" placement="right">
           <div >
@@ -328,7 +330,7 @@ function validationCode(rule, value, callback) {
         </template>
       </span>
       <template v-if="componentSettingVisible">
-        <span class="componentType">
+        <span class="componentType" v-if="columnVisible('componentType')">
           <els-select
             v-if="itemDataType.type != 'Object' && currArrayDataType.type != 'Object' || (isObject && currComponentTypeData.length)"
             filterable :disabled="currItem.dataType === undefined" placeholder="组件" clearable prop="componentType"
@@ -338,45 +340,18 @@ function validationCode(rule, value, callback) {
             </template>
           </els-select>
         </span>
-        <span class="config">
-          <el-popover placement="right-start" trigger="click" width="600">
-            <els-form labelWidth="120">
-              <el-tabs>
-                <el-tab-pane label="组件属性">
-                  <ElsDynamicRender v-model="currItem.config.baseConfig"
-                    :nodeType="{ dataType: currDataType?.type, componentName: currComponentType?.componentName }"
-                    :config="currPropertys" inputWidth="100%">
-                  </ElsDynamicRender>
-                </el-tab-pane>
-                <el-tab-pane label="数组属性" v-if="itemDataType.type == 'Array'">
-                  <ElsDynamicRender v-model="currItem.config.arrayConfig" :config="property_array" inputWidth="100%">
-                  </ElsDynamicRender>
-                </el-tab-pane>
-                <el-tab-pane label="表单属性" v-if="itemDataType.type != 'None'">
-                  <ElsDynamicRender v-model="currItem.config.formConfig" :config="property_form" inputWidth="100%">
-                  </ElsDynamicRender>
-                </el-tab-pane>
-                <el-tab-pane label="高级属性">
-                  <ElsDynamicRender v-model="currItem.config.advancedConfig" :config="property_advanced"
-                    inputWidth="100%">
-                  </ElsDynamicRender>
-                </el-tab-pane>
-              </el-tabs>
-            </els-form>
-            <template #reference>
-              <el-link type="primary">配置</el-link>
-            </template>
-          </el-popover>
+        <span class="config"  v-if="columnVisible('config')">
+          <el-link type="primary" @click="attrDrawVisible=true;">配置</el-link>
         </span>
       </template>
-      <span class="required">
+      <span class="required" v-if="columnVisible('required')">
         <els-switch v-if="itemDataType.type !== 'None'" :active-value="true" :inactive-value="false"
           prop="required"></els-switch>
       </span>
-      <span class="description">
+      <span class="description"  v-if="columnVisible('description')">
         <els-input v-if="itemDataType.type !== 'None'" placeholder="描述" clearable prop="description"></els-input>
       </span>
-      <span class="defaultValue">
+      <span class="defaultValue" v-if="columnVisible('defaultValue')">
         <el-popover placement="top-start" width="400" trigger="click"   v-if="!isObject && itemDataType.type !== 'None'">
           <els-textarea placeholder="默认值" clearable prop="defaultValue" :rows="3"></els-textarea>
               <template #reference>
@@ -384,7 +359,7 @@ function validationCode(rule, value, callback) {
               </template>
           </el-popover>
       </span>
-      <span class="oper">
+      <span class="oper" v-if="columnVisible('oper')">
         <span class="els-dynamic-d-oper">
           <el-icon class="el-icon-rank">
             <Rank />
@@ -402,8 +377,34 @@ function validationCode(rule, value, callback) {
       :depath="currDepath">
     </DynamicDesignerInner>
   </els-form>
+  <els-drawer v-model="attrDrawVisible"  :title="'设置属性'" :direction="settingDirection" :initBody="true" class="work-flow-drawer" size="30%" :show-close="false" append-to-body :lock-scroll="false">
+    <els-form labelWidth="120">
+          <el-tabs>
+            <el-tab-pane label="组件属性" v-if="currItem.componentType">
+              <ElsDynamicRender v-model="currItem.config.baseConfig"
+                :nodeType="{ dataType: currDataType?.type, componentName: currComponentType?.componentName }"
+                :config="currPropertys" inputWidth="100%">
+              </ElsDynamicRender>
+            </el-tab-pane>
+            <el-tab-pane label="数组属性" v-if="itemDataType.type == 'Array'">
+              <ElsDynamicRender v-model="currItem.config.arrayConfig" :config="property_array" inputWidth="100%">
+              </ElsDynamicRender>
+            </el-tab-pane>
+            <el-tab-pane label="表单属性" v-if="itemDataType.type != 'None'">
+              <ElsDynamicRender v-model="currItem.config.formConfig" :config="property_form" inputWidth="100%">
+              </ElsDynamicRender>
+            </el-tab-pane>
+            <el-tab-pane label="高级属性">
+              <ElsDynamicRender v-model="currItem.config.advancedConfig" :config="property_advanced"
+                inputWidth="100%">
+              </ElsDynamicRender>
+            </el-tab-pane>
+          </el-tabs>
+        </els-form>
+  </els-drawer>
 </template>
-<style lang="less">
+<style lang="less" scoped>
+//has影响性能
 .el-select-dropdown__list:has(>li[class^=dynamic-create-dtype]) {
 
   padding-bottom: 30px !important;
@@ -422,5 +423,16 @@ function validationCode(rule, value, callback) {
   color: #409eff;
   padding: 5px 0;
   border-top: 1px solid #e8e8e8;
+}
+.els-dynamic-d-item-div{
+  padding-top: 3px;
+}
+.els-dynamic-d-item-div.setting{
+  background: #b1deff;
+}
+.els-dynamic-d-oper{
+  .el-icon-remove{
+                color: red !important;
+            }
 }
 </style>

@@ -164,19 +164,24 @@ function initSelectValue() {
         return
     }
     if (props.multiple) {
-        if (currValueType === ValueType.Number) {
-            selectValue.value = currModelValue.value.toString().toListNumber(props.valueSeparator)
-        } else if (currValueType === ValueType.String) {
-            selectValue.value = currModelValue.value.toString().toList(props.valueSeparator)
-        } else if (optionData.value.length && typeof (optionData.value[0][props.valueField]) === "number") {
-            selectValue.value = currModelValue.value.toString().toListNumber(props.valueSeparator)
+        selectValue.value = currModelValue.value
+        if (typeof (selectValue.value) === "string") {
+          //去除前后逗号
+          selectValue.value = selectValue.value.trimComma();
         }
-        else if (optionData.value.length && currModelValue.value.toString().length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
-            selectValue.value = currModelValue.value.toString().toListNumber(props.valueSeparator)
+        if (currValueType === ValueType.Number) {
+            selectValue.value = selectValue.value.toString().toListNumber(props.valueSeparator)
+        } else if (currValueType === ValueType.String) {
+            selectValue.value = selectValue.value.toString().toList(props.valueSeparator)
+        } else if (optionData.value.length && typeof (optionData.value[0][props.valueField]) === "number") {
+            selectValue.value = selectValue.value.toString().toListNumber(props.valueSeparator)
+        }
+        else if (optionData.value.length && selectValue.value.toString().length < 12 && typeof (optionData.value[0][props.valueField]) === "number") {
+            selectValue.value = selectValue.value.toString().toListNumber(props.valueSeparator)
 
         }
-        else if (currModelValue.value) {
-            selectValue.value = currModelValue.value.toString().toList(props.valueSeparator)
+        else if (selectValue.value) {
+            selectValue.value = selectValue.value.toString().toList(props.valueSeparator)
         }
     } else {
         if (currValueType === ValueType.Number) {
@@ -479,10 +484,11 @@ onMounted(() => {
         </ElsFormNode>
     </div>
 </template>
-<style lang="less">
+<style lang="less"  scoped>
 .els-node:has(>div[class^=el-select]) {
     display: inline-block;
     position: relative;
+    width: 100%;
 }
 
 .el-select-dropdown__item.selected::after {

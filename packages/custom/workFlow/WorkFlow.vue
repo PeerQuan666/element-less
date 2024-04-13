@@ -25,8 +25,10 @@ interface Props extends FormItemProps {
     modelValue: Record<string, any> | string,
     dataTypes?: Array<DynamicDataType>,
     dynamicName: string,
+    dynamicDesignerName?:string,
     url?: string,
     userUrl?:string,
+    userTaskTemplateUrl?:string,
     configUrl?: string,
     isCreate?: boolean,
     showTreeData:false
@@ -35,8 +37,10 @@ let bgColors = ref(['87, 106, 149', '255, 148, 62', '50, 150, 250'])
 const props = withDefaults(defineProps<Props>(), {
     configUrl: "/WorkflowManage/SearchAuto/StepReadData",
     userUrl: "/WorkflowManage/SearchAuto/PowerUserNameReadData",
-    dynamicName: 'leo-dynamic-control-write-v2',
-    isCreate: true
+    userTaskTemplateUrl:"/WorkflowManage/SearchAuto/UserTaskDataTemplateReadData",
+    dynamicName: 'els-dynamic-render',
+    isCreate: true,
+    dynamicDesignerName:'els-dynamic-designer',
 })
 const currDynamicDataType = ref<any>([])
 if (props.dataTypes) {
@@ -57,6 +61,7 @@ let editNode = ref<Record<string, any> | null>()
 let attrDrawVisible = ref()
 let workFlowData = ref<Record<string, any>>({
     "Id": "",
+    "Name":"",
     "Version": 1,
     "Description": "",
     "DefaultErrorBehavior": 0,
@@ -151,7 +156,9 @@ function flattenTree(tree) {
 function getDynamicAttrContent(stepType,inputs) {
     if (inputs) {
         const nodeConfig = configData.value.find(ele => ele.Name == stepType)
-        const currContent = dynamicHandler.toKeyNameData(nodeConfig?.InputControl, inputs)
+    
+        const currInputs=lessCom.cloneObj(inputs)
+        const currContent = dynamicHandler.toKeyNameData(nodeConfig?.InputControl, currInputs)
         delete currContent.Options
         return currContent
     }
@@ -165,10 +172,11 @@ function handleVisibleAttrDraw(node) {
 }
 provide('userUrl',props.userUrl)
 provide('dynamicName',props.dynamicName)
+provide('dynamicDesignerName',props.dynamicDesignerName)
 provide("handleVisibleAttrDraw", handleVisibleAttrDraw)
 provide("configData", configData)
 provide("getDynamicAttrContent", getDynamicAttrContent)
-
+provide('userTaskTemplateUrl',props.userTaskTemplateUrl)
 const workFlow=ref()
 const workForm=ref()
 function closeWorkSetting(){
@@ -195,14 +203,14 @@ defineExpose({
                         </div>
                         <div class="content">
                             <div class="text">
-                                <div class="placeholder" v-if="!workFlowData.Id">请设置</div>
+                                <div class="placeholder" v-if="!workFlowData.Name">请设置</div>
                                 <div v-else>
                                     <el-descriptions :column="1" border>
                                         <el-descriptions-item>
                                             <template #label>
-                                                <div class="cell-item">标识</div>
+                                                <div class="cell-item">名称</div>
                                             </template>
-                                            {{ workFlowData.Id }}
+                                            {{ workFlowData.Name }}
                                         </el-descriptions-item>
                                         <el-descriptions-item>
                                             <template #label>
@@ -225,7 +233,7 @@ defineExpose({
     </div>
     <els-drawer v-model="workSetting" title="工作流设置" class="work-flow-drawer" :initBody="true" size="40%" :show-close="false" @close="closeWorkSetting">
         <els-form v-model="workFlowData" label-width="130px" v-model:isValidate="formValidate" ref="workForm">
-            <els-input prop="Id" tip="唯一" label="工作流标识" :disabled="!isCreate" required validExpression="^[A-Za-z0-9]+$" ></els-input>
+            <els-input prop="Name"  label="名称"  required ></els-input>
             <els-input-number prop="Version" label="版本" required></els-input-number>
             <els-radio-button prop="DefaultErrorBehavior" label="出错处理">
                 <els-option :value="0">重试</els-option>

@@ -74,10 +74,16 @@ function handleRemove(item) {
 let container = h('div')
 let outContainer = h('div')
 const currLabelWidth = ref()
+const isMobile=inject<boolean>('isMobile',false);
 watch(()=>props.labelWidth,(val)=>{
-    if(val){
+    if(isMobile){
+        currLabelWidth.value=1;
+    }else{
+        if(val){
         currLabelWidth.value = props.labelWidth
     }
+    }
+ 
 })
 watchEffect(() => {
     if (props.hasForm && dropData.value.length) {
@@ -102,7 +108,7 @@ onMounted(()=>{
 })
 </script>
 <template >
-    <component :is="outContainer" class="els-list" :labelWidth="currLabelWidth">
+    <component :is="outContainer" class="els-list" :class="[{'el-list-mobile':isMobile}]" :labelWidth="currLabelWidth">
         <draggable :list="dropData" handle=".el-icon-rank" v-bind="attrs" :item-key="currItemKey">
             <template #item="{ element, index }">
                 <component :is="container" v-model="dropData[index]"  :labelWidth="currLabelWidth">
@@ -134,8 +140,14 @@ onMounted(()=>{
                 </component>
             </template>
         </draggable>
-        <div v-if="isModify && isAdd" class="els-list-add" :style="`--marginleft:${currLabelWidth??100}px`">
-            <slot name="add"><el-button type="info" icon="edit" @click="handleAdd">添加</el-button></slot>
+        <div v-if="isModify && isAdd" class="els-list-bottom" :class="[{'els-list-add':!isMobile}]" :style="`--marginleft:${currLabelWidth??100}px`">
+            <slot name="add">
+                <span v-if="isMobile" class="mobile-add" @click="handleAdd">
+                    <van-icon name="plus" />
+                    添加
+                </span>
+                <el-button v-else type="info" icon="edit" @click="handleAdd">添加</el-button>
+            </slot>
         </div>
     </component>
 </template>
@@ -152,7 +164,7 @@ onMounted(()=>{
             column-gap: 5px;
             cursor: pointer;
             .el-icon-remove{
-                color: red;
+                color: red !important;
             }
 
         }
@@ -161,7 +173,12 @@ onMounted(()=>{
             flex-grow: 1;
         }
     }
+.els-list-bottom{
+    .mobile-add{
+        color:#409eff;
+    }
 
+}
     .el-form-item {
         margin-bottom: 18px !important;
     }
@@ -179,4 +196,15 @@ onMounted(()=>{
         cursor: pointer;
     }
 
-}</style>
+}
+.el-list-mobile{
+    .listitem {
+        margin-bottom: 0;
+    }
+    >div>.van-form:first-child{
+        .van-cell{
+            padding-top: 0;
+        }
+    }
+}
+</style>

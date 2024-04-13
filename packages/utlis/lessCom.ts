@@ -9,7 +9,8 @@ import shortid from 'shortid'
 
 
 const lessCom = {
-    jsonFormatter(obj){
+
+    jsonFormatter(obj: string | undefined){
         if(!obj){return ''}
         return JSON.stringify(obj, null, "  ")
     },
@@ -145,7 +146,7 @@ const lessCom = {
             $md5Field : proxy.$lessConfig.upload['data_md5']
         }
     },
-    getCompareClass(val) {
+    getCompareClass(val: string) {
         if (!val || val === '-') { return ''; }
         if (parseFloat(val) < 0) {
             return 'txt-color-green';
@@ -153,7 +154,7 @@ const lessCom = {
         return 'txt-color-red';
 
     },
-    getHBResult(row, fieldName) {
+    getHBResult(row: { [x: string]: any; HBData: { [x: string]: any; }; }, fieldName: string) {
         let val1 = row[fieldName]
         let val2 = row.HBData[fieldName]
         if (!val1 || !val2) { return '-' }
@@ -161,7 +162,7 @@ const lessCom = {
         val2 = val2.toString().toFloat(4);
         return !val1 || !val2 ? '-' : (((val1 - val2) / val2) * 100).toFixed(2) + "%";
     },
-    getTBResult(row, fieldName) {
+    getTBResult(row: { [x: string]: any; TBData: { [x: string]: any; }; }, fieldName: string) {
         let val1 = row[fieldName]
         let val2 = row.TBData[fieldName]
         if (!val1 || !val2) { return '-' }
@@ -169,13 +170,13 @@ const lessCom = {
         val2 = val2.toString().toFloat(4);
         return !val1 || !val2 ? '-' : (((val1 - val2) / val2) * 100).toFixed(2) + "%"
     },
-    getAvgDayResult(val, fixed = 2, dayCount = 1) {
+    getAvgDayResult(val: number, fixed = 2, dayCount = 1) {
         if (val) {
             return (val / dayCount).toFixed(fixed)
         }
         return "-";
     },
-    getUrlParms(paramName) {
+    getUrlParms(paramName: string) {
         var query = window.location.search.substring(1);
         var vars = query.split("&");
         for (var i = 0; i < vars.length; i++) {
@@ -184,12 +185,12 @@ const lessCom = {
         }
         return "";
     },
-    formatDate(date, fmt) {
+    formatDate(date: string | number | Date, fmt: string) {
         if(typeof(date)==='string'||typeof(date)==='number'){
             date = new Date(date);
         }
       
-        let ret;
+        let ret: (string | any[])[] | null;
         const opt = {
             "Y+": date.getFullYear().toString(),
             "y+": date.getFullYear().toString(),         // 年
@@ -205,21 +206,21 @@ const lessCom = {
         for (let k in opt) {
             ret = new RegExp("(" + k + ")").exec(fmt);
             if (ret) {
-                fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+                fmt = fmt.replace(ret[1].toString(), (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
             };
         };
         return fmt;
     },
-    parseTime(time, cFormat = '') {
+    parseTime(time: string | number | Date, cFormat = '') {
         if (arguments.length === 0) {
             return null;
         }
         const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}';
-        let date;
+        let date: Date;
         if (typeof time == 'object') {
             date = time;
         } else {
-            if (('' + time).length === 10) time = parseInt(time) * 1000;
+            if (('' + time).length === 10) time = parseInt(time.toString()) * 1000;
             date = new Date(time);
         }
         const formatObj = {
@@ -241,28 +242,28 @@ const lessCom = {
         });
         return time_str;
     },
-    exportMuti(es, sheetNames, cellStyles: any = [], headerRowCounts: any = [1], headerCellStyle = {}, filename = "") {
+    exportMuti(es: any, sheetNames: any, cellStyles: any = [], headerRowCounts: any = [1], headerCellStyle = {}, filename = "") {
         exportTableToExcelElMuti(es, sheetNames, cellStyles, headerRowCounts, headerCellStyle, filename)
     },
 
-    exportTable(el, cellStyles = [], headerRowCount = 0, headerCellStyle = {}, filename = "") {
+    exportTable(el: any, cellStyles = [], headerRowCount = 0, headerCellStyle = {}, filename = "") {
         exportTableToExcelEl(el, cellStyles, headerRowCount, headerCellStyle, filename)
     },
-    exportJSON(data) {
+    exportJSON(data: any) {
         exportJsonToExcel(data)
     },
-    getObjectKey(obj, fields, separator = '$') {
+    getObjectKey(obj: Record<string, any>, fields: string, separator = '$') {
         let currValue: any = [];
-        fields.split(',').forEach(ele => {
+        fields.split(',').forEach((ele: string | number) => {
             currValue.push(obj[ele])
         })
         return currValue.join(separator)
     },
-    sumArray(arr) {
+    sumArray(arr: any[]) {
         if (arr.length) {
-            let currArr = arr.filter(ele => this.isNumber(ele))
+            let currArr = arr.filter((ele: string) => this.isNumber(ele))
             if (currArr.length) {
-                let sum = currArr.map(ele => parseFloat(ele)).reduce(function (prev, curr) {
+                let sum = currArr.map((ele: string) => parseFloat(ele)).reduce(function (prev: number, curr: number) {
                     if (!prev) { prev = 0; }
                     if (!curr) { curr = 0; }
                     return prev + curr;
@@ -275,20 +276,20 @@ const lessCom = {
         return 0;
 
     },
-    pageArray(arr, pageIndex, pageSize) {
+    pageArray(arr: string | any[], pageIndex: number, pageSize: number) {
         var skipNum = pageIndex * pageSize;
         var newArr = (skipNum + pageSize >= arr.length) ? arr.slice(skipNum, arr.length) : arr.slice(skipNum, skipNum + pageSize);
         return newArr;
     },
-    removeArrayItem(list, item) {
+    removeArrayItem(list: any[], item: { id: string; save?: (url: any) => Promise<unknown>; validate?: (() => Promise<unknown>) | (() => Promise<unknown>); tableRef?: string | undefined; query?: () => Promise<unknown>; cacheQueryState?: () => void; }) {
         let index = list.indexOf(item)
         if (index > -1) {
             list.splice(index, 1)
         }
     },
-    orderBy(data, fieldName) {
+    orderBy(data: any[], fieldName: string) {
         if (data) {
-            data.sort(function (obj1, obj2) {
+            data.sort(function (obj1: { [x: string]: any; }, obj2: { [x: string]: any; }) {
                 var val1 = !obj1[fieldName] ? 0 : obj1[fieldName];
                 var val2 = !obj2[fieldName] ? 0 : obj2[fieldName];
                 if (lessCom.isNumber(val1) && lessCom.isNumber(val2)) {
@@ -306,9 +307,9 @@ const lessCom = {
         }
 
     },
-    orderByDescending(data, fieldName) {
+    orderByDescending(data: any[], fieldName: string | number) {
         if (data) {
-            data.sort(function (obj1, obj2) {
+            data.sort(function (obj1: { [x: string]: any; }, obj2: { [x: string]: any; }) {
                 var val1 = !obj2[fieldName] ? 0 : obj2[fieldName];
                 var val2 = !obj1[fieldName] ? 0 : obj1[fieldName];
                 if (lessCom.isNumber(val1) && lessCom.isNumber(val2)) {
@@ -329,7 +330,7 @@ const lessCom = {
     randomNumber(len=100000){
         return (Math.random()*len).toString().toInt()
     },
-    getQueryParameters(queryData) {
+    getQueryParameters(queryData: { [x: string]: any; }) {
         if (!queryData) {
             return {}
         }
@@ -396,10 +397,11 @@ const lessCom = {
         }
         return queryParms;
     },
-    downLoadTxt(url) {
+    downLoadTxt(url: string) {
+        if(!url){return;}
         var a = document.createElement('a');
         a.setAttribute('href', url);
-        a.setAttribute('download', url.split('/').pop()); //分割路径，取出最后一个元素
+        a.setAttribute('download', url.split('/').pop()??""); //分割路径，取出最后一个元素
         a.setAttribute('target', '_blank');
         a.setAttribute('id', 'ElsDownloadFile');
         // 防止反复添加
@@ -467,6 +469,28 @@ const lessCom = {
             });
         }
     },
+    upload(url,formData:FormData, alertCatchError = true){
+        if(!formData){
+            ElMessage.warning("请选择要上传的文件");
+            return;
+        }
+        return new Promise((resolve, reject) => {
+            axios.post(url, formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(res => {
+                if (res.status == 200) {
+                    resolve(res.data)
+                } else {
+                    reject(res)
+                }
+
+            }).catch(action => {
+                if (alertCatchError) {
+                    ElMessage.error({ message: '接口调用异常' })
+                }
+                console.log(action)
+                reject(action)
+            });
+        })
+    },
     post(url: string, data: object, alertCatchError = true) {
         if (!data) { data = []; }
 
@@ -505,7 +529,7 @@ const lessCom = {
             });
         })
     },
-    isSameObject(obj1, obj2) {
+    isSameObject(obj1: { [x: string]: any; }, obj2: { [x: string]: any; }) {
         // 检查对象类型
         if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
           return false;

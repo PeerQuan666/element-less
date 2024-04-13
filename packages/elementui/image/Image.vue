@@ -3,7 +3,7 @@
 import { ref, watch, useAttrs } from 'vue'
 defineOptions({ name: 'ElsImage', inheritAttrs: false })
 interface Props {
-    url?: string,
+    url?: string|Array<string>,
     previewUrls?: Array<string>,
     thumbnailUrl?: string,
     width?: string,
@@ -29,12 +29,22 @@ function initData() {
     if (props.previewUrls) {
         picUrls.value = props.previewUrls
     } else if (props.url) {
-        picUrls.value = props.url.split('$')
+        if(typeof(props.url)==='string'){
+            picUrls.value = props.url.split('$')
+
+        }else{
+            picUrls.value = props.url
+        }
     }
     if (props.thumbnailUrl) {
         thumbnailPicUrls.value = props.thumbnailUrl.split('$')
     } else if (props.url) {
-        thumbnailPicUrls.value = props.url.split('$')
+        if(typeof(props.url)==='string'){
+            thumbnailPicUrls.value = props.url.split('$')
+
+        }else{
+            thumbnailPicUrls.value = props.url
+        }
     }
 
 }

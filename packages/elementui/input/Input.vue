@@ -77,7 +77,7 @@ function handleReturnResult(val) {
 
 const placeholder=ref()
 if(isMobile){
-placeholder.value='请输入'+props.label
+placeholder.value='请输入'+(props.label??'')
 }else{
     placeholder.value=attrs.placeholder
 }
@@ -103,7 +103,7 @@ placeholder.value='请输入'+props.label
         </ElsFormNode>
     </div>
 </template>
-<style lang="less">
+<style scoped lang="less">
 .els-node:has(>div[class*=el-input]) {
     display: inline-flex;
     position: relative;

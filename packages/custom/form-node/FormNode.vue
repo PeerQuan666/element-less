@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, inject, useAttrs,provide } from 'vue'
 import { FormItemProps } from '../../utlis/interfaceCom'
-defineOptions({ name: "ElsFormNode" })
 
+defineOptions({ name: "ElsFormNode" })
 const props = defineProps<FormItemProps>()
 const hasForm = ref(false)
 const container = inject<string>('container', '')

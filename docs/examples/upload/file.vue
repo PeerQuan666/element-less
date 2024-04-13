@@ -3,7 +3,8 @@
   <els-upload v-model="fileValue" type="File"  ></els-upload>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref,provide } from 'vue'
 const fileValue = ref('saa')
+provide('isMobile',true)
 </script>
   

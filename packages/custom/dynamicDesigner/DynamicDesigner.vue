@@ -22,8 +22,9 @@ interface Props extends FormItemProps {
   componentTypes?: Array<DynamicComponentType>,
   appendComponentTypes?: Array<DynamicComponentType>,
   componentRelateDataType?: Record<string, any>,
-  componentSettingVisible: boolean,
-  designerVisible: boolean,
+  componentSettingVisible?: boolean,
+  visibleFields?:Array<string>,
+  designerVisible?: boolean,
   isReturnTemplateValue?: boolean,
   templateValue?: any,
   allowCreateType?: boolean,
@@ -32,6 +33,9 @@ interface Props extends FormItemProps {
   createComponentMethod?: Function,
   saveTypeUrl?: string,
   saveComponentUrl?: string,
+  ignoreFields?:Array<string>,
+  settingDirection?:string,
+
 
 }
 const emits = defineEmits(['update:modelValue', 'update:templateValue'])
@@ -39,7 +43,8 @@ const designerJSON = ref()
 const importJSON = ref()
 const designerContainer = ref()
 const designerObj = ref([])
-const props = withDefaults(defineProps<Props>(), { componentSettingVisible: true, designerVisible: true })
+const actualDom=ref<Array<string>>([])
+const props = withDefaults(defineProps<Props>(), { componentSettingVisible: true, designerVisible: true,settingDirection:'rtl' })
 
 
 
@@ -58,8 +63,8 @@ provide('dataTypeData', currDynamicDataType.value)
 provide('allowCreateType', props.allowCreateType)
 provide('allowCreateComponent', props.allowCreateComponent)
 provide('getConverToJsonResult', getConverToJsonResult)
-
-
+provide('settingDirection',props.settingDirection)
+provide('isMobile',false)
 
 const currComponentTypes = ref<any>([])
 
@@ -87,17 +92,32 @@ const createVisible = ref(false)
 provide('componentData', currComponentTypes.value)
 provide('componentSettingVisible', props.componentSettingVisible)
 provide('camelCase', props.camelCase)
-function initData() {
-  if (props.modelValue && typeof (props.modelValue) === 'string') {
-    if (props.modelValue != JSON.stringify(designerObj.value)) {
-      designerJSON.value = props.modelValue
-      designerObj.value = JSON.parse(props.modelValue)
-
-    }
-  } else if (props.modelValue && typeof (props.modelValue) === 'object') {
-    designerJSON.value = JSON.stringify(props.modelValue)
-    designerObj.value = props.modelValue
+provide('columnVisible',(field)=>{
+  if(!props.visibleFields){
+    return true;
   }
+  return props.visibleFields.includes(field)
+})
+function initData(data=null) {
+  let currData=props.modelValue
+  if(data){
+    currData=data
+  }
+  if (currData && typeof (currData) === 'string') {
+    if (currData != JSON.stringify(designerObj.value)) {
+      designerJSON.value = currData
+      designerObj.value = JSON.parse(currData)
+     
+    }
+  } else if (currData && typeof (currData) === 'object') {
+    designerJSON.value = JSON.stringify(currData)
+    designerObj.value =lessCom.cloneObj(currData)
+  }
+  if(props.ignoreFields){
+      props.ignoreFields.forEach(ele=>{
+        delete  designerObj.value[ele]
+      })
+    }
   dynamicHandler.initConfig(designerObj.value)
 }
 
@@ -162,11 +182,12 @@ function setMouseOverItem(keyID) {
 const currSelectItemKey = ref()
 
 function getSelectItem() {
-return currSelectItemKey.value
+return actualDom.value
 }
 function setSelectItem(keyID) {
   currItemKey.value = keyID
   currSelectItemKey.value = keyID
+  actualDom.value.push(keyID)
 }
 provide('getMouseOverItem', getMouseOverItem)
 provide('setMouseOverItem', setMouseOverItem)
@@ -278,6 +299,7 @@ function handleSaveNewType(data) {
 
 }
 defineExpose({
+  initData,
   returnTemplateValue
 })
 
@@ -300,7 +322,7 @@ defineExpose({
             <ElsJsonEditor v-model="importJSON" style="height: 500px;"></ElsJsonEditor>
           </els-data-modal>
         </div>
-        <DynamicDesignerInner v-if="designType === '精简模式'" :data="designerObj"></DynamicDesignerInner>
+        <DynamicDesignerInner v-if="designType === '精简模式'" :data="designerObj" ></DynamicDesignerInner>
       </div>
       <template v-if="designType !== '精简模式'">
         <els-dialog :visible="true" @close="closeViewDialog" width="90%" destroy-on-close :append-to-body="true">
@@ -372,17 +394,17 @@ defineExpose({
 }
 
 .els-dynamic-config {
-
-  :has(div[class^='el-form-item']) {
-    .els-list-add {
-      margin-left: 5px
-    }
-  }
-  :has(div[class*='virtual']) {
-    .els-list-add {
-      margin-left: 5px
-    }
-  }
+//has影响性能
+  // :has(div[class^='el-form-item']) {
+  //   .els-list-add {
+  //     margin-left: 5px
+  //   }
+  // }
+  // :has(div[class*='virtual']) {
+  //   .els-list-add {
+  //     margin-left: 5px
+  //   }
+  // }
   .selected{
   border: 1px dashed #aaaaaabf;
 }
@@ -453,12 +475,12 @@ defineExpose({
     cursor: all-scroll;
   }
 
-  .el-icon-remove {
+
+}
+.el-icon-remove {
     cursor: pointer;
     color: red;
   }
-}
-
 .els-dynamic-d-item-div.virtual{
   span{display: flex;}
   font-size: 12px;
@@ -510,8 +532,10 @@ defineExpose({
 }
 
 .els-dynamic-d-flat-item-child {
+ 
   .els-list-add {
     margin-left: 0px;
+    padding-left: 3px;
   }
 
   .els-dynamic-d-item-div {
@@ -534,7 +558,7 @@ defineExpose({
   .els-dynamic-d-flat-item-child {
     margin-left: 0px !important;
     border: 0 !important;
-    padding: 10px 60px 5px 5px !important;
+    padding: 10px 60px 5px 0px;
     position: relative;
   }
 

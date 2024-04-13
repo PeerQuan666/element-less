@@ -56,7 +56,7 @@ onMounted(() => {
 })
 </script>
 <template>
-    <el-drawer v-model="drawerVisible" :custom-class="tagID">
+    <el-drawer v-model="drawerVisible" :class="tagID">
         <template #header v-if="slots.header">
             <slot name="header"></slot>
         </template>
