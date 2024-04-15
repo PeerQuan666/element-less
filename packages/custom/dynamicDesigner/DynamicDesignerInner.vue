@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref, defineAsyncComponent } from 'vue'
+import { inject, ref, defineAsyncComponent,watchEffect } from 'vue'
 import { useVModel } from '@vueuse/core'
 import { DynamicConfig } from '../../utlis/interfaceCom.js'
 const DynamicDesignerInnerItem = defineAsyncComponent(() => {

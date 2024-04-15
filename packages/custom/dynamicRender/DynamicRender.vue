@@ -156,7 +156,9 @@ function handleReturnResult() {
         emits('update:modelValue', JSON.stringify(currData))
     }
 }
-
+defineExpose({
+    initData
+})
 </script>
 <template>
     <div>

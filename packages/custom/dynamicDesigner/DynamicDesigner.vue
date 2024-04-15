@@ -226,6 +226,7 @@ function returnTemplateValue() {
 
 const designType = ref('精简模式')
 function closeViewDialog() {
+  actualDom.value.length=0;
   designType.value = '精简模式'
 }
 function handleSaveNewType(data) {
@@ -380,6 +381,7 @@ defineExpose({
   margin-bottom: 8px;
   display: flex;
   font-size: 14px;
+  line-height: 24px;
 
 }
 
@@ -484,6 +486,7 @@ defineExpose({
 .els-dynamic-d-item-div.virtual{
   span{display: flex;}
   font-size: 12px;
+  padding-top: 3px;
   .el-input__wrapper{width: 100%;margin-right: 5px;overflow: hidden;}
   .el-input__wrapper:hover{box-shadow:0 0 0 1px var(--el-input-border-color,var(--el-border-color)) inset;}
   .el-input__inner{

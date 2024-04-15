@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref, computed, watch, nextTick } from 'vue'
+import { inject, ref, computed, watch, nextTick,watchEffect } from 'vue'
 import lessCom from '../../utlis/lessCom'
 import { useVModel } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
@@ -37,6 +37,7 @@ const currItem = useVModel(props, 'item', emits)
 const selectDataTypeItem = ref()
 const selectArrayDataTypeItem = ref()
 const attrDrawVisible=ref(false)
+const formRender=ref()
 
 function handleRemove(item) {
   var index = currData.value.indexOf(item)
@@ -212,6 +213,18 @@ if(currItem.value.arrayDataType){
   selectArrayDataTypeItem.value=val.find(ele=>ele.value===currItem.value.arrayDataType)
 }
 })
+
+function handleChangeRequired(val){
+    if(currItem.value.config.formConfig&& currItem.value.config.formConfig.required!=val){
+      currItem.value.config.formConfig.required=val
+      formRender.value.initData()
+    }
+}
+watch(()=>currItem.value.config.formConfig.required,(val)=>{
+  if(currItem.value.required!==val){
+    currItem.value.required=val
+  }
+})
 function validationCode(rule, value, callback) {
   console.log(rule)
   if (value === '') {
@@ -223,6 +236,9 @@ function validationCode(rule, value, callback) {
     callback()
   }
 }
+
+
+
 </script>
 <template>
   <els-form v-model="currItem" labelWidth="0" inputWidth="100%"
@@ -345,7 +361,7 @@ function validationCode(rule, value, callback) {
         </span>
       </template>
       <span class="required" v-if="columnVisible('required')">
-        <els-switch v-if="itemDataType.type !== 'None'" :active-value="true" :inactive-value="false"
+        <els-switch v-if="itemDataType.type !== 'None'" :active-value="true" :inactive-value="false" @change="handleChangeRequired"
           prop="required"></els-switch>
       </span>
       <span class="description"  v-if="columnVisible('description')">
@@ -391,7 +407,7 @@ function validationCode(rule, value, callback) {
               </ElsDynamicRender>
             </el-tab-pane>
             <el-tab-pane label="表单属性" v-if="itemDataType.type != 'None'">
-              <ElsDynamicRender v-model="currItem.config.formConfig" :config="property_form" inputWidth="100%">
+              <ElsDynamicRender ref="formRender"  v-model="currItem.config.formConfig" :config="property_form" inputWidth="100%">
               </ElsDynamicRender>
             </el-tab-pane>
             <el-tab-pane label="高级属性">

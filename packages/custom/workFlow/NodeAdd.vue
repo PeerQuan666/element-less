@@ -80,11 +80,11 @@ function addType(type: string, displayName: string) {
     RetryInterval: "",
     Do: type=='UserTask'?[
         [
-          { id: approveData.Id, name: approveData.Name, data: approveData, children: [] },
-        ],
-        [
           { id: denyData.Id, name: denyData.Name, data: denyData, children: [] },
         ],
+        [
+          { id: approveData.Id, name: approveData.Name, data: approveData, children: [] },
+        ]
       ]:[],
     CompensateWith: [],
     Saga: false,
