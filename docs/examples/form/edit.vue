@@ -1,5 +1,5 @@
 <template>
-    <els-form v-model="editData" ref="editForm">
+    <els-form v-model="editData" ref="editForm" labelPosition="top">
         <van-cell-group inset>
             <div>
         <els-input label="aaa" prop="text" required  validExpression="^[A-Za-z0-9]+$" ></els-input>

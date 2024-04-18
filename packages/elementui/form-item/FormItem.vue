@@ -30,6 +30,7 @@ const formType = inject<string>('formType', '')
 const isMobile=inject<boolean>('isMobile',false)
 const showPopup=ref(false)
 const mobileValue=ref()
+
 if (!props.hasFormItem) {
     provide('container', 'formitem')
 }
@@ -120,7 +121,7 @@ let endKey: any = attrs['propEnd']
     <template v-if="isMobile">
         <slot v-if="props.tagName==='Input'"  ></slot>
         <template v-else-if="props.tagName=='Select'||props.tagName=='Datepicker'||props.tagName==='Timepicker'">
-            <van-field is-link  v-model="mobileValue" readonly @click="showPopup = true" :placeholder="placeholder" :required="props.required" :label="label" :rules="itemRules" ></van-field>
+            <van-field  is-link  v-model="mobileValue" readonly @click="showPopup = true" :placeholder="placeholder" :required="props.required" :label="label" :rules="itemRules" ></van-field>
                 <van-popup v-model:show="showPopup" position="bottom">
                     <slot></slot>
                 </van-popup>

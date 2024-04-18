@@ -175,7 +175,7 @@ function getUrl() {
         return currUrl.setPowerPublicQuery()
     }
 }
-</script>
+</script> 
 <template>
     <template v-if="componentName">
         <el-tag v-if="showText">{{ showText }}</el-tag>

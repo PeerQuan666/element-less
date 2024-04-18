@@ -12,6 +12,7 @@ interface Props {
     beforeSave?: Function,
     afterSave?: Function,
     labelWidth?: string,
+    labelPosition?:string,
     inputWidth?: string
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -30,7 +31,10 @@ provide('setModelValue', setModelValue)
 provide('getModelValue', getModelValue)
 provide('formData', modelData)
 const isMobile=inject<boolean>("isMobile",false);
+const parentLabelPosition = inject<string>('labelPosition', 'right')
 const parentLabelWidth = inject<string>('labelWidth', '')
+
+const currLabelPosition = ref()
 const currLabelWidth = ref()
 const parentInputWidth = inject<string>('inputWidth', '')
 const elsApiResult = inject<Function>("elsApiResult", () => null)
@@ -48,7 +52,13 @@ if (props.inputWidth) {
 
 watch(()=>props.labelWidth,(val)=>{
     if(val){
-        currLabelWidth.value = props.labelWidth
+        currLabelWidth.value =val
+    }
+})
+
+watch(()=>props.labelPosition,(val)=>{
+    if(val){
+        currLabelPosition.value =val
     }
 })
 
@@ -58,6 +68,10 @@ onMounted(() => {
     }
     if ((currLabelWidth.value === undefined || currLabelWidth.value === '') && parentLabelWidth) {
         currLabelWidth.value = parentLabelWidth
+    }
+
+    if ((currLabelPosition.value === undefined || currLabelPosition.value === '') && parentLabelPosition) {
+        currLabelPosition.value = parentLabelPosition
     }
 
     if (attrs['inline'] === undefined && currLabelWidth.value === undefined || currLabelWidth.value === '') {
@@ -207,10 +221,10 @@ defineExpose({
 
 <template>
 
-    <el-form :model="modelData" ref="dataForm" onsubmit="return false;" :label-width="currLabelWidth" v-if="!isMobile">
+    <el-form :model="modelData" ref="dataForm" onsubmit="return false;" :label-width="currLabelWidth" :label-position="currLabelPosition" v-if="!isMobile">
         <slot v-bind="{formData:modelData}"></slot>
     </el-form>
-    <van-form ref="dataForm" v-else>
+    <van-form ref="dataForm" :label-align="currLabelPosition" v-else>
         <slot v-bind="{formData:modelData}"></slot>
    
     </van-form>

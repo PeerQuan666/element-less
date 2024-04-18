@@ -183,7 +183,7 @@ function handleSelectTemplate({selectItem}){
                                 </div>
                             </template>
                             <span v-if="content == 'json(context.Workflow.Reference).Creator'">发起人</span>
-                            <span v-else>{{ content.toString().trimQuotes() }}</span>
+                            <span v-else>{{ content===true?'是':content===false?'否': content.toString().trimQuotes() }}</span>
                         </el-descriptions-item>
                     </el-descriptions>
                 </div>

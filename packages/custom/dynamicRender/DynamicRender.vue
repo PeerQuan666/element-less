@@ -28,7 +28,8 @@ interface Props extends FormItemProps {
     componentTypes?: Array<DynamicComponentType>,
     appendComponentTypes?: Array<DynamicComponentType>,
     isAsyncComponent?: boolean,
-    labelWidth?: string
+    labelWidth?: string,
+    labelPosition?:string
 }
 const props = defineProps<Props>()
 const emits = defineEmits(['update:modelValue'])
@@ -77,6 +78,9 @@ const dynamicHandler = new DynamicHandler(currDynamicDataType.value, currCompone
 provide('componentData', currComponentTypes.value)
 provide('dyProvideData', provideData)
 provide('inputWidth', props.inputWidth)
+if(props.labelPosition){
+    provide('labelPosition', props.labelPosition)
+}
 provide("tagID", 'els-dynamic-render-' + lessCom.generateID())
 provide('dataTypeData', currDynamicDataType.value)
 

@@ -246,7 +246,7 @@ function validationCode(rule, value, callback) {
     :show-message="false">
     <div class="els-dynamic-d-item-div" v-if="!isRow" :class="[{'setting':attrDrawVisible}]">
       <span class="keyName" v-if="columnVisible('keyName')">
-        <els-input clearable v-if="itemDataType.type != 'None'" placeholder="请输入名称" prop="keyName"></els-input>
+        <els-input clearable v-if="itemDataType.type != 'None'||item.componentType==='Caption'" placeholder="请输入名称" prop="keyName"></els-input>
         <span v-else-if="currItem.config.baseConfig">{{ currItem.config.baseConfig.title}}</span>
       </span>
       <span class="keyCode" v-if="columnVisible('keyCode')">

@@ -251,8 +251,7 @@ currDepath.value += 1;
                                 </els-form-item>
                                 <els-caption
                                     v-if="element.componentGroup === 'Desc' && element.componentTypeName == 'Caption'"
-                                    v-bind="element.config.baseConfig">{{ element.config.baseConfig.title ?? '描述'
-                                    }}</els-caption>
+                                    v-bind="element.config.baseConfig" :title="!element.config.baseConfig.title ? element.keyName : element.config.baseConfig.title"></els-caption>
                             </template>
 
                         </div>
