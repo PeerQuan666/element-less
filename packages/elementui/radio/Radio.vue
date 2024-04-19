@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { ref, reactive, watch, useAttrs, computed, nextTick, provide,watchEffect, onMounted } from 'vue'
+import { ref, reactive, watch, useAttrs, computed, nextTick,watchEffect, onMounted } from 'vue'
+
+import { lessCom } from '../../utlis/com'
+import { useValue } from '../../utlis/use';
 import { ElMessage } from 'element-plus';
 import ElsOption from '../option/Option.vue';
 import ElsOptionGroup from '../option-group/OptionGroup.vue';
-import lessCom from '../../utlis/lessCom.js'
-import '../../utlis/lessPrototype.js'
-import { ValueType } from '../../utlis/enumCom'
-import { RadioProps } from '../../utlis/interfaceCom'
-import {useModel,useMobile} from '../../utlis/componentCom.js'
+
+
+import { ValueType } from '../../utlis/enums'
+import { RadioProps } from '../../utlis/interfaces'
+import {useModel,useMobile} from '../../utlis/use'
 defineOptions({
     name: 'ElsRadio',
     inheritAttrs:false
@@ -26,6 +29,7 @@ const props = withDefaults(defineProps<RadioProps>(), ({
     validTrigger: 'change',
 
 }))
+const {setValue}=useValue(props)
 
 const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig()
 const selectValue = ref<any>('')
@@ -93,7 +97,6 @@ watch(filterText, (val) => {
 })
 const provideOptionData=ref<any>({type:'radio',optionWidth:''})
 
-provide('provideOption',provideOptionData)
 watchEffect(()=>{
 
     if (props.type == 'button') {
@@ -108,7 +111,6 @@ watchEffect(()=>{
 })
 
 
-provide('setExtraOption', setExtraOption)
 
 const radioClass: string[] = reactive([])
 if (props.type == 'radio') {
@@ -286,7 +288,10 @@ onMounted(()=>{
     initSelectIndex();
 }
 })
-
+setValue({
+    "provideOption":provideOptionData,
+    setExtraOption
+})
 
 </script>
 <template>
@@ -371,4 +376,4 @@ onMounted(()=>{
     overflow-y: scroll;
     border: 1px solid #dcdfe6;
     padding: 5px;
-}</style>../../utlis/lessCom.js../../utlis/lessPrototype.js
+}</style>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
-import '../../utlis/lessPrototype.js'
-import { FormItemProps } from '../../utlis/interfaceCom'
+import { FormItemProps } from '../../utlis/interfaces'
 defineOptions({ name: 'ElsSlider' })
 interface Props extends FormItemProps {
     modelValue?: number | string,
@@ -57,4 +56,3 @@ watch(selectValue, (val) => {
 <template>
     <el-slider v-model="selectValue"  :range="range"></el-slider>
 </template>
-

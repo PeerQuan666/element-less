@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ValueType } from '../../utlis/enumCom'
-import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick,watchEffect } from 'vue'
-import lessCom from '../../utlis/lessCom.js'
+import { ValueType } from '../../utlis/enums'
+import { ref, reactive, computed, watch, onMounted, useAttrs, nextTick,watchEffect } from 'vue'
+import { lessCom } from '../../utlis/com'
+import { CheckboxProps } from '../../utlis/interfaces'
+import {useModel,useMobile,useValue} from '../../utlis/use'
 import { ElMessage } from 'element-plus';
-import { CheckboxProps } from '../../utlis/interfaceCom'
-import {useModel,useMobile} from '../../utlis/componentCom.js'
+
 defineOptions({ name: 'ElsCheckbox' ,inheritAttrs:false})
 const props = withDefaults(defineProps<CheckboxProps>(), {
     labelField: 'label',
@@ -22,6 +23,8 @@ const {
     currModelValue,
     returnModelValue,
 } = useModel(props)
+const {setValue}=useValue(props)
+
 
 const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig()
 let initSelect = ref(false)
@@ -47,9 +50,10 @@ const formNode=ref()
 const checkboxClass: string[] = reactive([])
 const checkboxStyle: any = reactive([]);
 const provideOptionData=ref<any>({type:'checkbox',optionWidth:''})
-const {isMobile,onMobileConfirm,onMobileHiddenPopup} =useMobile(formNode)
+const {onMobileConfirm} =useMobile(formNode)
 
-provide('provideOption',provideOptionData)
+
+
 watchEffect(()=>{
     if (props.type == 'button') {
         provideOptionData.value.type= 'checkboxbutton'
@@ -62,7 +66,7 @@ watchEffect(()=>{
     }
 })
 
-provide('setExtraOption', setExtraOption)
+
 
 if (props.type == 'checkbox') {
 
@@ -332,6 +336,10 @@ if (props.modelValue === '') {
 onMounted(() => {
     initData();
 })
+setValue({
+    "provideOption":provideOptionData,
+    setExtraOption
+})
 
 
 </script>
@@ -339,7 +347,7 @@ onMounted(() => {
 <template>
        <div class="els-node">
     <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-        <div :class="checkboxClass" :style="checkboxStyle">
+        <div :class="checkboxClass" :style="checkboxStyle" >
             <div style="margin-bottom: 15px;text-align:left;" v-if="showCheckall || filterable">
                 <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" v-if="showCheckall"
                     @change="handleCheckAllChange">全选</el-checkbox>
@@ -411,4 +419,4 @@ onMounted(() => {
     border: 1px solid #dcdfe6;
     padding: 5px;
 }
-</style>../../utlis/lessCom.js
+</style>

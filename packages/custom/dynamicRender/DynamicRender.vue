@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { provide, watch, ref, reactive, inject, defineAsyncComponent } from 'vue'
-import { dynamicDataTypes, dynamicComponentTypes, DynamicHandler } from '../../utlis/lessConfig.js'
-import '../../utlis/lessPrototype.js'
-import lessCom from '../../utlis/lessCom'
+import { watch, ref, reactive, defineAsyncComponent } from 'vue'
+import { dynamicDataTypes, dynamicComponentTypes, DynamicHandler } from '../../utlis/dynamic'
+import { lessCom } from '../../utlis/com'
+import { FormItemProps,DynamicComponentType, DynamicDataType  } from '../../utlis/interfaces'
 import DynamicRenderInner from './DynamicRenderInner.vue'
-import { FormItemProps } from '../../utlis/interfaceCom'
-import { DynamicComponentType, DynamicDataType } from '../../utlis/interfaceCom.js'
+import { useValue } from '../../utlis/use'
 
 const DynamicRenderInnerAsync = defineAsyncComponent(() => {
     return import('./DynamicRenderInner.vue')
@@ -19,7 +18,7 @@ interface Props extends FormItemProps {
     showConfig?: string | Record<string, any>,
     uploadUrl?: string,
     resourceCode?: string,
-    restrictCode?: string,
+    restrictCode?: string,  
     appendUrlParams?: Array<Record<string, any>>,
     inputWidth?: string,
     nodeType?: any,
@@ -28,14 +27,14 @@ interface Props extends FormItemProps {
     componentTypes?: Array<DynamicComponentType>,
     appendComponentTypes?: Array<DynamicComponentType>,
     isAsyncComponent?: boolean,
-    labelWidth?: string,
     labelPosition?:string
 }
-const props = defineProps<Props>()
-const emits = defineEmits(['update:modelValue'])
-const idataTypes = inject<any>("dataTypeData", null)
-const icomponentTypes = inject<any>("componentData", null)
 
+const props = defineProps<Props>()
+const {getValue,setValue} =useValue()
+const emits = defineEmits(['update:modelValue'])
+const idataTypes = getValue<any>("dataTypeData", null)
+const icomponentTypes = getValue<any>("componentData", null)
 const renderData: Array<Record<string, any>> = reactive([])
 const valueData: Record<string, any> = ref({})
 const provideData = ref({ nodeType: props.nodeType })
@@ -75,14 +74,7 @@ if (icomponentTypes) {
 const dynamicHandler = new DynamicHandler(currDynamicDataType.value, currComponentTypes.value, props.appendUrlParams, props.uploadUrl, props.resourceCode, props.restrictCode)
 
 
-provide('componentData', currComponentTypes.value)
-provide('dyProvideData', provideData)
-provide('inputWidth', props.inputWidth)
-if(props.labelPosition){
-    provide('labelPosition', props.labelPosition)
-}
-provide("tagID", 'els-dynamic-render-' + lessCom.generateID())
-provide('dataTypeData', currDynamicDataType.value)
+
 
 
 watch(() => props.nodeType, (val, old) => {
@@ -160,6 +152,13 @@ function handleReturnResult() {
         emits('update:modelValue', JSON.stringify(currData))
     }
 }
+setValue({
+    "tagID":'els-dynamic-render-' + lessCom.generateID(),
+    "componentData":currComponentTypes.value,
+    "dyProvideData":provideData,
+    "dataTypeData":currDynamicDataType.value,
+})
+
 defineExpose({
     initData
 })
@@ -340,4 +339,4 @@ defineExpose({
 
 ::-webkit-scrollbar-track-piece {
     background: none;
-}</style>
+}</style>../../utlis/interfaces.js../../utlis/interfaces.js

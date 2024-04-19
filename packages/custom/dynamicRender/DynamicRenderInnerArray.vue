@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { watch, computed ,inject} from 'vue'
+import { watch, computed} from 'vue'
 import { useVModel } from '@vueuse/core'
+import { lessCom } from '../../utlis/com'
+import { useValue } from '../../utlis/use'
+
 import DynamicRenderInnerItem from './DynamicRenderInnerItem.vue'
-import '../../utlis/lessPrototype.js'
-import lessCom from '../../utlis/lessCom'
 
 interface Props {
     item: Record<string, any>,
@@ -13,10 +14,12 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
 
 })
+const {getValue}=useValue()
 const emits = defineEmits(['update:data'])
-const isMobile=inject<boolean>('isMobile',false);
+const isMobile=getValue<boolean>('isMobile',false);
+const dataTypes=getValue<any>('dataTypeData', [])
 const currData = useVModel(props, 'item', emits)
-const dataTypes=inject<any>('dataTypeData', [])
+
 function handleDisabledExpress() {
     if (currData.value.config.advancedConfig && currData.value.config.advancedConfig.disabled) {
         let currEvent = new Function('parentNode,currNode', "return " + currData.value.config.advancedConfig.disabled);

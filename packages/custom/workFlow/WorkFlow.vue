@@ -1,19 +1,16 @@
 <script setup lang="ts">
 import NodeAdd from './NodeAdd.vue'
 import NodeRender from './NodeRender.vue';
-import '../../utlis/lessPrototype.js'
-import lessCom from '../../utlis/lessCom.js'
-import { DynamicHandler } from '../../utlis/lessConfig.js'
-import { DynamicDataType } from '../../utlis/interfaceCom.js'
-import { dynamicDataTypes } from '../../utlis/lessConfig.js'
+
+import { lessCom } from '../../utlis/com'
+import { DynamicHandler,dynamicDataTypes } from '../../utlis/dynamic'
+import { DynamicDataType } from '../../utlis/interfaces'
+import { useValue } from '../../utlis/use'
 const { $codeField, $dataField, $success } = lessCom.getApiConfig()
+
 import {
-    provide,
     ref, watch
 } from "vue";
-import {
-    FormItemProps
-} from '../../utlis/interfaceCom'
 import { ElMessage } from 'element-plus';
 
 
@@ -21,7 +18,7 @@ defineOptions({
     name: "ElsWorkFlow"
 })
 
-interface Props extends FormItemProps {
+interface Props {
     modelValue: Record<string, any> | string,
     dataTypes?: Array<DynamicDataType>,
     dynamicName: string,
@@ -42,6 +39,7 @@ const props = withDefaults(defineProps<Props>(), {
     isCreate: true,
     dynamicDesignerName:'els-dynamic-designer',
 })
+const {setValue}=useValue(props)
 const currDynamicDataType = ref<any>([])
 if (props.dataTypes) {
     currDynamicDataType.value.push(...props.dataTypes)
@@ -170,13 +168,7 @@ function handleVisibleAttrDraw(node) {
     selectNode.value = node
     editNode.value = lessCom.cloneObj(selectNode.value)
 }
-provide('userUrl',props.userUrl)
-provide('dynamicName',props.dynamicName)
-provide('dynamicDesignerName',props.dynamicDesignerName)
-provide("handleVisibleAttrDraw", handleVisibleAttrDraw)
-provide("configData", configData)
-provide("getDynamicAttrContent", getDynamicAttrContent)
-provide('userTaskTemplateUrl',props.userTaskTemplateUrl)
+
 const workFlow=ref()
 const workForm=ref()
 function closeWorkSetting(){
@@ -186,6 +178,12 @@ function save(){
      return workFlow.value.validate()
 
 }
+setValue({
+    handleVisibleAttrDraw,
+    getDynamicAttrContent,
+    configData,
+})
+
 defineExpose({
     save
 })
@@ -1136,3 +1134,4 @@ defineExpose({
     }
 }
 </style>
+../../utlis/interfaces.js../../utlis/interfaces.js

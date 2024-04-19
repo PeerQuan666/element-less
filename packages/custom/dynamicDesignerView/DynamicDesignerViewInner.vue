@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import draggable from 'vuedraggable'
 
-import { ref, inject, computed, watchEffect } from 'vue'
+import { ref, computed, watchEffect } from 'vue'
 import { ElMessage } from 'element-plus'
 import DynamicDesignerViewItem from './DynamicDesignerViewInnerItem.vue'
 import DynamicDesignerViewInner from './DynamicDesignerViewInner.vue'
 import DynamicDesignerViewInnerArray from './DynamicDesignerViewInnerArray.vue'
 import { useVModel } from '@vueuse/core'
-
-import '../../utlis/lessPrototype.js'
-import lessCom from '../../utlis/lessCom'
-
+import { lessCom } from '../../utlis/com'
+import { useValue } from '../../utlis/use'
 interface Props {
     nodeItem?: Record<string, any>,
     data: Array<Record<string, any>>,
@@ -19,16 +17,14 @@ interface Props {
     parentNode?: Record<string, any>,
 }
 
-const props = withDefaults(defineProps<Props>(), {
-
-})
+const props = defineProps<Props>()
 const emits = defineEmits(['update:data'])
-
 const currData = useVModel(props, 'data', emits)
-
-const defaultLabelWidth = inject<any>('labelWidth', undefined)
-
-const labelWidth = ref()
+const { getValue } = useValue(props)
+const setSelectItem = getValue<Function>('setSelectItem', () => { })
+const getSelectItem = getValue<Function>('getSelectItem', () => { })
+const recordComponent = getValue<Function>('recordComponent', () => { })
+const labelWidth = ref(getValue<any>('labelWidth', undefined))
 const currDepath = ref(0)
 const itemClassName = ref('')
 
@@ -87,11 +83,11 @@ function getFormItemAttr(item) {
             delete currFormConfig.validMethod
         }
     }
-    if(item.required){
-        currFormConfig['required']=true
+    if (item.required) {
+        currFormConfig['required'] = true
     }
-    if(item.description){
-        currFormConfig['tip']=item.description
+    if (item.description) {
+        currFormConfig['tip'] = item.description
     }
     return currFormConfig
 }
@@ -105,29 +101,23 @@ if (props.depath && props.depath > 0) {
 }
 watchEffect(() => {
     const formConfig = props.nodeItem?.config.formConfig
-    if (props.nodeItem && formConfig) {
-        labelWidth.value = formConfig.labelWidth ? formConfig.labelWidth : undefined
+    if (props.nodeItem && formConfig && formConfig.labelWidth) {
+        labelWidth.value = formConfig.labelWidth
     }
-    if (!labelWidth.value && defaultLabelWidth) {
-        labelWidth.value = defaultLabelWidth.value
-    }
+
 })
 
 
-const setSelectItem = inject<Function>('setSelectItem', () => { })
-const getSelectItem = inject<Function>('getSelectItem', () => { })
-const recordComponent = inject<Function>('recordComponent', () => { })
-
 
 function handleSelectItem(item,) {
-    setSelectItem(item,currData.value)
+    setSelectItem(item, currData.value)
 }
 function handleAddComponent(e) {
     recordComponent()
-    setSelectItem(currData.value[e.newIndex],currData.value)
+    setSelectItem(currData.value[e.newIndex], currData.value)
 
 }
-function initArrayChild(element){
+function initArrayChild(element) {
     if (element.data.length > 0) {
         const child = element.data[0];
         if (child.dataTypeName === 'Array') {
@@ -135,7 +125,7 @@ function initArrayChild(element){
             element.data.splice(0, 1)
             return
         }
-        if(child.dataTypeName=='None'){
+        if (child.dataTypeName == 'None') {
             ElMessage.warning('数组中不能展示组件')
             element.data.splice(0, 1)
             return
@@ -152,7 +142,7 @@ function initArrayChild(element){
     return true
 }
 function handleAddArrayComponent() {
- 
+
     recordComponent()
 
 
@@ -164,6 +154,7 @@ function handleRemove(item) {
     recordComponent()
 
 }
+
 currDepath.value += 1;
 
 
@@ -175,24 +166,26 @@ currDepath.value += 1;
         <component :is="nodeItem?.componentTypeName=='Row'?'ElsRow':'div'" :gutter="5" :class="itemClassName"
             :style="nodeItem?.componentTypeName === 'Row' ? nodeItem ? nodeItem.config.advancedConfig?.style : '' : ''">
             <draggable tag="div" :class="nodeItem?.componentTypeName === 'Row' ? 'els-row-drag' : ''"
-                :style="[{ 'min-height': depath ? '50px' : '650px' }]" style="margin:5px 0;width: 100%;" :list="currData"
-                @add="handleAddComponent" item-key="keyID"
-                v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }" :sort="true" handle=".els-view-move">
+                :style="[{ 'min-height': depath ? '50px' : '650px' }]" style="margin:5px 0;width: 100%;"
+                :list="currData" @add="handleAddComponent" item-key="keyID"
+                v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }" :sort="true"
+                handle=".els-view-move">
                 <template #item="{ element, index }">
-   
+
                     <component :key="element.keyID" :is="nodeItem?.componentTypeName==='Row'?'els-col':'div'">
-                        <div  class="els-dynamic-d-v-item"
+                        <div class="els-dynamic-d-v-item"
                             :class="{ 'selected': getSelectItem()?.keyID == element.keyID }"
                             @click.stop="handleSelectItem(element)">
                             <span class="els-dynamic-d-v-item-type" v-if="element.componentGroup == 'Form'">
                                 <span>{{ element.keyCode }}</span>
                                 <span>{{ element.dataTypeName === 'Array' ? `Array
-                                    <${element.arrayDataTypeName ? element.arrayDataTypeName : 'T'}>` :
-                                    element.dataTypeName }}
+                                    <${element.arrayDataTypeName ? element.arrayDataTypeName : 'T'}>` : element.dataTypeName }}
                                 </span>
                             </span>
                             <span class="els-dynamic-d-v-item-move">
-                                <el-icon v-if="!handleIfExpress(element)"><Hide /></el-icon>
+                                <el-icon v-if="!handleIfExpress(element)">
+                                    <Hide />
+                                </el-icon>
                                 <el-popconfirm title="确定删除吗？" @confirm="handleRemove(element)">
                                     <template #reference>
                                         <el-icon class="el-icon-remove">
@@ -219,15 +212,16 @@ currDepath.value += 1;
                                     :label="element.config.baseConfig?.componentName == 'ElsCaption' ? '' : element.keyName"
                                     :prop="`[${index}].value`">
                                     <template v-if="element.dataTypeName === 'Array' && !element.arrayDataTypeName">
-                                        <draggable  tag="div" style="min-height:100px;margin:5px 0;width: 100%;z-index:10"
-                                            :list="element.data" @add="handleAddArrayComponent()"  item-key="keyID"
+                                        <draggable tag="div"
+                                            style="min-height:100px;margin:5px 0;width: 100%;z-index:10"
+                                            :list="element.data" @add="handleAddArrayComponent()" item-key="keyID"
                                             v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }">
                                             <template #item>
                                                 <el-empty v-if="initArrayChild(element)"></el-empty>
                                             </template>
                                         </draggable>
                                     </template>
-                                   
+
 
                                     <DynamicDesignerViewItem :key="element.keyID"
                                         v-else-if="element.componentTypeName && element.componentGroup === 'Form'"
@@ -251,17 +245,14 @@ currDepath.value += 1;
                                 </els-form-item>
                                 <els-caption
                                     v-if="element.componentGroup === 'Desc' && element.componentTypeName == 'Caption'"
-                                    v-bind="element.config.baseConfig" :title="!element.config.baseConfig.title ? element.keyName : element.config.baseConfig.title"></els-caption>
+                                    v-bind="element.config.baseConfig"
+                                    :title="!element.config.baseConfig.title ? element.keyName : element.config.baseConfig.title"></els-caption>
                             </template>
 
                         </div>
                     </component>
                 </template>
             </draggable>
-
-
-
         </component>
     </els-form>
 </template>
-

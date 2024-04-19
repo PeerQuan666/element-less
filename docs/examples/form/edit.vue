@@ -1,18 +1,7 @@
 <template>
-    <els-form v-model="editData" ref="editForm" labelPosition="top">
-        <van-cell-group inset>
-            <div>
+    <els-form v-model="editData" ref="editForm" >
         <els-input label="aaa" prop="text" required  validExpression="^[A-Za-z0-9]+$" ></els-input>
-    </div>
         <els-date-picker prop="selectValue1" label="时间" required></els-date-picker>
-
-            <els-select prop="selectValue"  :data="data"  label="城市" labelField="key" valueField="value" required>
-        </els-select>
-        <els-upload prop="pic" type="Pic" multiple label="城市"></els-upload>
-       
-      
-    </van-cell-group>
-   
     </els-form>
   
 </template>
@@ -30,7 +19,7 @@ const data = reactive([
     { key: '厦门', value: 4, group: '分组2' }
     ])
     
-provide('isMobile',true)
+
 function handleSubmit() {
     editForm.value.validate().then(res => {
         if (res) {

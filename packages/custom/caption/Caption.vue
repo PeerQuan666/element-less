@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import {inject} from 'vue'
+import { useValue } from '../../utlis/use';
 defineOptions({ name: "ElsCaption"})
 interface Props {
     type?: string,
     title?:string
 }
 defineProps<Props>()
-const isMobile=inject<boolean>("isMobile",false);
+const {getValue}=useValue()
+const isMobile=getValue<boolean>("isMobile",false);
 
 </script>
 <template >

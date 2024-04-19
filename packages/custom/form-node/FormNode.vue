@@ -1,20 +1,22 @@
 <script setup lang="ts">
-import { ref, inject, useAttrs,provide } from 'vue'
-import { FormItemProps } from '../../utlis/interfaceCom'
+import { ref, useAttrs } from 'vue'
+import { FormItemProps } from '../../utlis/interfaces'
+import { useValue } from '../../utlis/use'
 
 defineOptions({ name: "ElsFormNode" })
-const props = defineProps<FormItemProps>()
+const props = withDefaults(defineProps<FormItemProps>(),{
+  
+})
+const {getValue}=useValue(props)
 const hasForm = ref(false)
-const container = inject<string>('container', '')
-const layer = inject<string>('layer', '')
+const container = getValue<string>('tagContainer', '')
+const layer = getValue<string>('layer', '')
 const formItem=ref()
 
 function confirmMobile(val){
     if(formItem.value){
         formItem.value.confirmMobile(val)
-
     }
- 
 }
 function hiddenMobile(){
     if(formItem.value){
@@ -59,4 +61,4 @@ defineExpose({
 }
 
 
-</style>
+</style>../../utlis/interfaces

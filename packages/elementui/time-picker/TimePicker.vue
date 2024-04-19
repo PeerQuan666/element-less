@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref, useAttrs, watch,inject } from 'vue'
-import '../../utlis/lessPrototype.js'
-import { TimePickerProps } from '../../utlis/interfaceCom'
+import { ref, useAttrs, watch } from 'vue'
+
+import { TimePickerProps } from '../../utlis/interfaces'
 const emits = defineEmits(['update:modelValue', 'update:start', 'update:end', 'visible-change'])
-import lessCom from '../../utlis/lessCom.js'
-import {useModel,useMobile} from '../../utlis/componentCom.js'
+import { lessCom } from '../../utlis/com'
+import {useModel,useMobile} from '../../utlis/use'
 defineOptions({ name: 'ElsTimePicker' ,
     inheritAttrs:false})
 
@@ -239,3 +239,4 @@ function onConfirm(){
     </div>
 </template>
 
+../../utlis/interfaces.js

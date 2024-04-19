@@ -9,7 +9,6 @@
       <els-column prop="ID" label="ID" align="left"></els-column>
     <els-column prop="AuthorName" label="作者" align="left"></els-column>
     </els-column-header>
-
   </els-table>
 </template>
 

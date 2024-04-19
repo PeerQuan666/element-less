@@ -1,17 +1,19 @@
 <script lang="ts" setup>
-import { inject, useAttrs ,ref,watchEffect} from 'vue';
+import {  useAttrs ,ref,watchEffect} from 'vue';
+import { useValue } from '../../utlis/use';
+
 interface Props {
     label: string,
 }
 defineOptions({ name: 'ElsOptionGroup' })
 defineProps<Props>()
-const provideOption = inject<any>('provideOption', undefined)
+const {getValue}=useValue()
+const provideOption = getValue<any>('provideOption', undefined)
 const attrs = useAttrs()
 const currType = ref()
+
 watchEffect(() => {
     currType.value = provideOption.value.type
-
-
 })
 
 </script>

@@ -1,16 +1,23 @@
 <script setup lang="ts">
-import { ref, inject } from 'vue'
+import { ref } from 'vue'
+import { useContainer,useValue } from '../../utlis/use';
 defineOptions({ name: "ElsButtonSearch" })
 const emits = defineEmits(['click'])
 const loading = ref(false)
-const tableRef = inject<string>('queryTableRef','')
-const elsQuery = inject<Function>('elsQuery',()=>null)
+
+const container =useContainer()
+const {getValue}=useValue()
 function handleSearch() {
-    if (tableRef && elsQuery) {
-        elsQuery(false, tableRef)
+    const tableRef=getValue<string>('tableRef')
+    if(!container){
+        emits('click')
+        return
     }
-    else if (elsQuery) {
-        elsQuery()
+    if (tableRef && container) {
+        container.$query(false, tableRef)
+    }
+    else if (container.$query) {
+        container.$query()
     }
     emits('click')
 }

@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { watch, computed } from 'vue'
 import { useVModel } from '@vueuse/core'
+import { lessCom } from '../../utlis/com'
 import DynamicDesignerViewInnerItem from './DynamicDesignerViewInnerItem.vue'
-import '../../utlis/lessPrototype.js'
-import lessCom from '../../utlis/lessCom'
 
 interface Props {
     item: Record<string, any>,

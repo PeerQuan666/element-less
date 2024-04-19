@@ -15,7 +15,7 @@ import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import VueUeditorWrap from "vue-ueditor-wrap"
 import ElementLess from '../../../packages'
-import pinia from '../../../packages/utlis/pinia'
+import { createPinia } from 'pinia'
 import 'element-plus/dist/index.css'
 import 'vant/lib/index.css';
 import DefaultTheme from 'vitepress/theme'
@@ -73,7 +73,7 @@ export default {
             }
         }
 
-        app.use(pinia)
+        app.use(createPinia())
         app.use(VueUeditorWrap)
         app.use(ElementPlus);
         app.use(ElementLess);

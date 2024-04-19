@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, nextTick, provide, onBeforeUnmount, onMounted, useAttrs, inject,watch } from 'vue'
-import lessCom from '../../utlis/lessCom.js'
-import { ElForm } from 'element-plus'
+import { ref, nextTick, onBeforeUnmount, onMounted,watch } from 'vue'
+import { lessCom } from '../../utlis/com'
 import { useVModel } from '@vueuse/core'
-import '../../utlis/lessPrototype.js'
+import {useValue,useContainer } from '../../utlis/use';
+
 defineOptions({ name: 'ElsForm' })
 
 interface Props {
@@ -18,43 +18,29 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     
 })
+const {getValue,setForm}=useValue(props)
+const container=useContainer()
+
 const emits = defineEmits(['update:modelValue','update:isValidate'])
 const tagID = 'els-form' + lessCom.generateID();
-const attrs = useAttrs()
 const dataForm = ref()
 const submitButton = ref()
-
 let modelData: Record<string, any> = useVModel(props, 'modelValue', emits)
-
-provide('container', 'form')
-provide('setModelValue', setModelValue)
-provide('getModelValue', getModelValue)
-provide('formData', modelData)
-const isMobile=inject<boolean>("isMobile",false);
-const parentLabelPosition = inject<string>('labelPosition', 'right')
-const parentLabelWidth = inject<string>('labelWidth', '')
-
-const currLabelPosition = ref()
-const currLabelWidth = ref()
-const parentInputWidth = inject<string>('inputWidth', '')
-const elsApiResult = inject<Function>("elsApiResult", () => null)
-const elsPageStore = inject<any>('elsPageStore', null)
+const currLabelPosition = ref(getValue<string>('labelPosition','right'))
+const currLabelWidth = ref(getValue<string>('labelWidth'))
+const isMobile= getValue<boolean>("isMobile",false);
+const elsApiResult =container?.$apiResult
+const elsPageStore =container?.$pageStore
 const validateStore = { id: tagID, validate: validate }
 const saveStore = { id: tagID, save: saveData }
-if (props.labelWidth) {
-    provide('labelWidth', props.labelWidth)
-}
-if (props.inputWidth) {
-        provide('inputWidth', props.inputWidth)
-    } else {
-        provide('inputWidth', parentInputWidth)
-    }
+
 
 watch(()=>props.labelWidth,(val)=>{
     if(val){
         currLabelWidth.value =val
     }
 })
+
 
 watch(()=>props.labelPosition,(val)=>{
     if(val){
@@ -63,26 +49,13 @@ watch(()=>props.labelPosition,(val)=>{
 })
 
 onMounted(() => {
-    if (props.labelWidth) {
-        currLabelWidth.value = props.labelWidth
-    }
-    if ((currLabelWidth.value === undefined || currLabelWidth.value === '') && parentLabelWidth) {
-        currLabelWidth.value = parentLabelWidth
-    }
-
-    if ((currLabelPosition.value === undefined || currLabelPosition.value === '') && parentLabelPosition) {
-        currLabelPosition.value = parentLabelPosition
-    }
-
-    if (attrs['inline'] === undefined && currLabelWidth.value === undefined || currLabelWidth.value === '') {
+    if (getValue<string>('inline') === undefined && !lessCom.isDef(currLabelWidth.value)) {
         currLabelWidth.value = '100'
     }
  
     if (currLabelWidth.value) {
         currLabelWidth.value = currLabelWidth.value.appendPx()
     }
-
-  
 
     if (elsPageStore) {
         elsPageStore.value.saveForms.push(saveStore)
@@ -209,6 +182,15 @@ function setModelValue(key, value, aIndex = -1) {
         modelData.value[key] = value
     }
 }
+
+
+
+setForm({
+    'tagContainer':'form',
+    setModelValue,
+    getModelValue,
+    "formData":modelData
+})
 
 defineExpose({
     clearValidate,

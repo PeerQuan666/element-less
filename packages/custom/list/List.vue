@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { useAttrs, h, watchEffect, ref, watch,inject, onMounted } from 'vue'
+import { useAttrs, h, watchEffect, ref, watch, onMounted } from 'vue'
 import draggable from 'vuedraggable'
 import { useVModel } from '@vueuse/core'
 import ElsForm from '../../elementui/form/Form.vue';
-import lessCom from '../../utlis/lessCom'
+import { lessCom } from '../../utlis/com';
+import { useValue } from '../../utlis/use'
 
 defineOptions({ name: "ElsList", inheritAttrs: false })
 const emits = defineEmits(['add', 'update:modelValue'])
@@ -30,7 +31,11 @@ const props = withDefaults(defineProps<Props>(), {
     itemKey: ''
 
 })
-const parentLabelWidth = inject<string>('labelWidth', '')
+const {getValue}=useValue(props)
+const isMobile=getValue<boolean>('isMobile',false);
+let container = h('div')
+let outContainer = h('div')
+const currLabelWidth = ref(getValue<any>('labelWidth', ''))
 const currData = useVModel(props, 'modelValue', emits)
 const dropData = ref<any>([])
 const currItemKey = ref(props.itemKey)
@@ -71,10 +76,8 @@ function handleRemove(item) {
     dropData.value.splice(index, 1)
 }
 
-let container = h('div')
-let outContainer = h('div')
-const currLabelWidth = ref()
-const isMobile=inject<boolean>('isMobile',false);
+
+
 watch(()=>props.labelWidth,(val)=>{
     if(isMobile){
         currLabelWidth.value=1;
@@ -97,15 +100,7 @@ watchEffect(() => {
         }
     }
 })
-onMounted(()=>{
-    if (props.labelWidth) {
-        currLabelWidth.value = props.labelWidth
-    }
-    if ((currLabelWidth.value === undefined || currLabelWidth.value === '') && parentLabelWidth) {
-        currLabelWidth.value = parentLabelWidth
-    }
 
-})
 </script>
 <template >
     <component :is="outContainer" class="els-list" :class="[{'el-list-mobile':isMobile}]" :labelWidth="currLabelWidth">

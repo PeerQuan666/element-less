@@ -1,8 +1,9 @@
 
 <script lang="ts" setup>
-import { ref, reactive, watch, nextTick,provide } from 'vue';
-import lessCom from '../../utlis/lessCom.js'
+import { ref, reactive, watch, nextTick } from 'vue';
+import { lessCom } from '../../utlis/com'
 import { ElMenu, ElMessage } from 'element-plus'
+import { useValue } from '../../utlis/use';
 const emits = defineEmits(['click'])
 
 defineOptions({ name: 'ElsMenu' })
@@ -29,6 +30,7 @@ const props = withDefaults(defineProps<Props>(), {
     rootParentValue:''
 
 })
+const {setValue}=useValue()
 const {$codeField,$messageField,$dataField,$success}=lessCom.getApiConfig()
 
 const searchKey = ref('')
@@ -251,8 +253,11 @@ function searchTree(tree) {
     })
     return isMatching;
 }
-provide('provideData', provideData)
-provide("handleMenuClick",handleMenuClick)
+setValue({
+    provideData,
+    handleMenuClick
+})
+
 defineExpose({
     setActiveMenuID
 })

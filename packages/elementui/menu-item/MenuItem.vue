@@ -1,14 +1,16 @@
 
 <script setup lang="ts">
-import { computed, inject } from 'vue';
+import { computed } from 'vue';
 import { ElMenuItem } from 'element-plus'
+import { useValue } from '../../utlis/use';
 defineOptions({ name: 'ElsMenuItem' })
 interface Props {
     item?: Record<string, any>,
     isRootMenu?: boolean
 }
 const props = defineProps<Props>()
-const handleMenuClick = inject<Function>('handleMenuClick',()=>{});
+const {getValue}=useValue()
+const handleMenuClick = getValue<Function>('handleMenuClick',()=>{});
 const hasChild = computed(() => {
     if (props.item) {
         return props.item.children && props.item.children.length > 0

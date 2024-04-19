@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, useSlots, watch, computed, inject } from 'vue'
-import lessCom from '../../utlis/lessCom.js'
+import { ref, useSlots, watch, computed } from 'vue'
+import { lessCom } from '../../utlis/com'
+import { useValue } from '../../utlis/use';
 const emits = defineEmits(['update:modelValue'])
-const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig()
+const { $codeField,$success } = lessCom.getApiConfig()
 const slots = useSlots()
 
 defineOptions({
@@ -28,7 +29,8 @@ const props = withDefaults(defineProps<Props>(), {
     contentHeight: "60%",
     closeOnClickModal: true
 })
-const isMobile = inject<boolean>('isMobile', false);
+const {getValue}=useValue(props)
+const isMobile = getValue<boolean>('isMobile', false);
 const tagID = "less_dialog_" + lessCom.generateID()
 const pageLoading = ref(false)
 const dialogUrl = ref()

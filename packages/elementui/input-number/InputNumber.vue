@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { watch, useAttrs,ref,inject} from 'vue'
-import lessCom from '../../utlis/lessCom.js'
-import { FormItemProps } from '../../utlis/interfaceCom'
-import {useModel} from '../../utlis/componentCom.js'
+import { watch, useAttrs,ref} from 'vue'
+import { lessCom } from '../../utlis/com'
+import { FormItemProps } from '../../utlis/interfaces'
+import {useModel,useValue} from '../../utlis/use'
 defineOptions({
     name: 'ElsInputNumber',
     inheritAttrs:false
@@ -11,7 +11,8 @@ interface Props extends FormItemProps {
     width?:string
     modelValue?: Number
 }
-const isMobile = inject<boolean>('isMobile', false)
+const {getValue}=useValue()
+const isMobile = getValue<boolean>('isMobile', false)
 const props = defineProps<Props>()
 const emits = defineEmits(['update:modelValue'])
 const attrs=useAttrs()
@@ -45,4 +46,4 @@ watch(currValue, (val) => {
         
         </ElsFormNode>
     </div>
-</template>
+</template>../../utlis/interfaces.js

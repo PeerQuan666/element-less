@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, reactive, watch } from 'vue'
-import '../../utlis/lessPrototype.js'
-import lessCom from '../../utlis/lessCom.js'
+
+import { lessCom } from '../../utlis/com'
 import { ElMessage } from 'element-plus';
-import { useModel } from '../../utlis/componentCom.js'
-import { FormItemProps } from '../../utlis/interfaceCom'
+import { useModel } from '../../utlis/use'
+import { FormItemProps } from '../../utlis/interfaces'
 defineOptions({ name: 'ElsAutocomplete', inheritAttrs: false })
 interface Props extends FormItemProps {
     data?: Array<Record<string, any>>,
@@ -114,4 +114,3 @@ function readData() {
         </ElsFormNode>
     </div>
 </template>
-

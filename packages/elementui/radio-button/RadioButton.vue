@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useSlots } from 'vue'
-import '../../utlis/lessPrototype.js'
+
 import {watch,ref} from 'vue'
 import ElsRadio from '../radio/Radio.vue'
-import {RadioProps} from '../../utlis/interfaceCom'
+import {RadioProps} from '../../utlis/interfaces'
 defineOptions({
   name: 'ElsRadioButton',
 })
@@ -41,4 +41,4 @@ for(const slotItem in slots){
     </template>
     </els-radio>
 </template>
-../../utlis/lessPrototype.js
+../../utlis/lessPrototype.js../../utlis/interfaces.js

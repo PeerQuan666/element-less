@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, inject, watchEffect, watch, useAttrs, computed } from 'vue'
-import '../../utlis/lessPrototype.js'
-import lessCom from '../../utlis/lessCom';
+import { ref, watchEffect, watch, useAttrs, computed } from 'vue'
+import { lessCom } from '../../utlis/com'
+import { useValue } from '../../utlis/use'
 interface Props {
     modelValue?: any,
     item: Record<string, any>,
@@ -15,7 +15,8 @@ defineOptions({
     inheritAttrs: false
 })
 
-const controlData = inject<any>("componentData", [])
+const {getValue} =useValue()
+const controlData = getValue<any>("componentData", [])
 const props = defineProps<Props>()
 const emits = defineEmits(['update:modelValue', 'valueChange'])
 const attrs = useAttrs()

@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { ref, reactive, watch, useAttrs, computed, nextTick, inject, provide, onBeforeUnmount, onMounted } from 'vue'
-import lessCom from '../../utlis/lessCom.js'
+import { ref, reactive, watch, useAttrs, computed, nextTick, provide, onBeforeUnmount, onMounted } from 'vue'
+import { lessCom } from '../../utlis/com'
 import lodash from 'lodash';
 import { ElForm } from 'element-plus'
-import { QueryDataType, QueryMethod } from '../../utlis/enumCom';
-import { QueryInfo } from '../../utlis/interfaceCom';
+import { QueryDataType, QueryMethod } from '../../utlis/enums';
+import { QueryInfo } from '../../utlis/interfaces';
 const { debounce } = lodash;
+import { useValue, useContainer } from '../../utlis/use';
 defineOptions({ name: 'ElsFormQuery' })
+
 interface Props {
     modelValue?: any,
     queryData?:any,//兼容外部设置的查询数据
@@ -17,17 +19,17 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     parameterType: 'Query',
 })
+const container=useContainer()
+const {setForm}=useValue(props)
 
 const queryForm = ref()
 const submitButton = ref()
 const tagID = 'els-form' + lessCom.generateID();
 const attrs = useAttrs();
-const elsPageStore = inject<any>('elsPageStore',undefined)
-const elsQuery = inject<Function>('elsQuery',()=>null)
 let modelData: Record<string, any> = reactive({})
 let formData: Record<string, any> = reactive({})
 const debouncedQuerySearch = computed<Function>(() => {
-    if(elsQuery){
+    if(container){
         return debounce(handleElsQuery, 200)
     }
    else{
@@ -35,42 +37,33 @@ const debouncedQuerySearch = computed<Function>(() => {
    }
 })
 function handleElsQuery(){
-    if(elsQuery){
-        return elsQuery(false,props.tableRef)
+    if(container){
+        return container.$query(false,props.tableRef)
     }
 }
 const emits = defineEmits(['update:modelValue', 'search','update:queryData'])
-provide('removeQueryData',removeQueryData)
-provide('setQueryData', setQueryData)
-provide('getQueryData', getQueryData)
-provide('labelWidth', attrs['label-width'])
-provide('formType', 'Query')
-provide('queryTableRef', props.tableRef)
-provide('formData', formData)
-provide('setModelValue',setModelValue)
-provide('getModelValue',getModelValue)
 
-provide('container', 'form')
+
+
 watch(formData, (val) => {
     emits("update:modelValue", val)
 })
-
 
 const queryStore = { id: tagID,tableRef:props.tableRef, query: query ,cacheQueryState}
 const validateStore = { id: tagID, validate: validate }
 
 onMounted(() => {
     recoverQueryState()
-    if (elsPageStore) {
-        elsPageStore.value.queryForms.push(queryStore)
-        elsPageStore.value.validates.push(validateStore)
+    if (container) {
+        container.$pageStore.value.queryForms.push(queryStore)
+        container.$pageStore.value.validates.push(validateStore)
     }
 })
 
 onBeforeUnmount(() => {
-    if (elsPageStore) {
-        lessCom.removeArrayItem(elsPageStore.value.queryForms,queryStore)
-        lessCom.removeArrayItem(elsPageStore.value.validates,validateStore)
+    if (container) {
+        lessCom.removeArrayItem(container.$pageStore.value.queryForms,queryStore)
+        lessCom.removeArrayItem(container.$pageStore.value.validates,validateStore)
     }
 })
 function getQueryData() {
@@ -145,7 +138,7 @@ function converToQueryData(query: QueryInfo) {
 
 }
 function recoverQueryState() {
-    const pathID=inject<string>('elsPathID','')
+    const pathID=container?.$pathID 
     if(!pathID){
         return
     }
@@ -262,8 +255,8 @@ function setModelValue(key, value, aIndex = -1) {
     }
 }
 
-onMounted(()=>{
 
+onMounted(()=>{
 
  watch(formData,()=>{
         mergeQueryData()
@@ -287,6 +280,20 @@ onMounted(()=>{
     }
 
 })
+
+
+
+setForm({
+    'tagContainer':'form',
+    "formType":"Query",
+    removeQueryData,
+    setQueryData,
+    getQueryData,
+    setModelValue,
+    getModelValue,
+    formData,
+})
+
 
 defineExpose({
     query,
@@ -314,4 +321,4 @@ defineExpose({
 </style>
 
 
-../../utlis/lessCom.js
+import { lessCom } from '../../utlis/com'../../utlis/interfaces.js

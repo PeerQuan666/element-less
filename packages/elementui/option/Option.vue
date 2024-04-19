@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 
-import { ref, inject, useSlots, reactive, useAttrs, watchEffect } from 'vue';
+import { ref, useSlots, reactive, useAttrs, watchEffect } from 'vue';
+import { useValue } from '../../utlis/use';
 defineOptions({ name: 'ElsOption' })
 interface Props {
     type?: string,
@@ -8,16 +9,18 @@ interface Props {
     value?: any
 }
 const props = defineProps<Props>()
+const {getValue}=useValue()
 const componentName = ref('')
 const currLabel = ref('')
-const multiple = ref(false)
+const multiple = ref(getValue('multiple', false))
+const provideOption = getValue<any>('provideOption', undefined)
+const setExtraOption = getValue<Function>('setExtraOption',()=>null)
 
-const provideOption = inject<any>('provideOption', undefined)
 const slots = useSlots()
 const optionStyle: any = reactive([]);
 const attrs = useAttrs()
 const currType=ref()
-multiple.value = inject('multiple', false)
+
 
 
 watchEffect(() => {
@@ -57,7 +60,6 @@ watchEffect(() => {
 })
 
 
-const setExtraOption = inject<Function>('setExtraOption',()=>null)
 
 if (setExtraOption) {
     setExtraOption({ label: currLabel.value, value: props.value ?? currLabel.value });

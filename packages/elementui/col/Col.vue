@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref,watch,inject,provide, onMounted, onUnmounted } from 'vue'
-import lessCom from '../../utlis/lessCom';
+import { ref,watch, onMounted, onUnmounted } from 'vue'
+import { lessCom } from '../../utlis/com'
+import { useValue } from '../../utlis/use';
 defineOptions({
     name: 'ElsCol',
 })
@@ -10,13 +11,13 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
 })
+const {getValue,setValue}=useValue(props)
 const tagID = 'els-col-' + lessCom.generateID()
-provide('layer', 'col')
 const currSpan = ref(24)
-const colData = inject<any>("colData", null)
-const getSpan = inject<Function>("getSpan", () => null)
-const setSpan = inject<Function>("setSpan", () => null)
-const removeSpan = inject<Function>("removeSpan", () => null)
+const colData = getValue<any>("colData", null)
+const getSpan = getValue<Function>("getSpan", () => null)
+const setSpan = getValue<Function>("setSpan", () => null)
+const removeSpan = getValue<Function>("removeSpan", () => null)
 const col=ref()
 watch(()=>props.span,(val)=>{
     setSpan(tagID, val)
@@ -45,6 +46,7 @@ onUnmounted(() => {
 
     }
 })
+setValue({'layer':'col'})
 </script>
 <template>
     <el-col :span="currSpan" ref="col">

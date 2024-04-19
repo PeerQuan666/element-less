@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, watch, useAttrs,watchEffect} from 'vue'
-import { FormItemProps } from '../../utlis/interfaceCom'
-import lessCom from '../../utlis/lessCom.js'
-import '../../utlis/lessPrototype.js'
-import {useModel} from '../../utlis/componentCom.js'
+import { FormItemProps } from '../../utlis/interfaces'
+import { lessCom } from "../../utlis/com";
+import {useModel} from '../../utlis/use'
 defineOptions({ name: "ElsDataModal" })
 const emits = defineEmits(['update:select', 'update:modelValue', 'update:select-label'])
 
@@ -176,4 +175,4 @@ const modalUrl = computed(() => {
     margin-right: 10px;
 }
 .els-datamodal{display: flex;align-items: center;gap: 5px;}
-</style>
+</style>../../utlis/interfaces.js

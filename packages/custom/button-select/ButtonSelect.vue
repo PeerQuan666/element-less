@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import lessCom from '../../utlis/lessCom.js'
+import { lessCom } from "../../utlis/com";
 import {ElMessage} from 'element-plus'
-import '../../utlis/lessPrototype.js'
+
 defineOptions({ name: "ElsButtonSelect" })
 interface Props {
     checkRows?: any

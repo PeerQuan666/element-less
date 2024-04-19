@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import NodeAdd from './NodeAdd.vue'
 import {
-    inject,
     computed,
     ref,
     watchEffect
 } from 'vue'
-import lessCom from '../../utlis/lessCom.js'
-import '../../utlis/lessPrototype.js'
+import { lessCom } from '../../utlis/com'
+import { useValue } from '../../utlis/use'
 const { $dataField } = lessCom.getApiConfig()
 interface Props {
     parentItem: Record<string, any> | null,
@@ -16,8 +15,9 @@ interface Props {
     index: number,
     aindex?: number
 }
-
 const props = withDefaults(defineProps<Props>(), {})
+const {getValue}=useValue(props)
+
 const formValidate = ref(true)
 const conditionValiddate = ref(true)
 const comValidate = ref(true)
@@ -50,12 +50,12 @@ const delNode = (type) => {
     }
 };
 const dynamicTag = ref()
-const dynamicName = inject<string>("dynamicName", "")
-const dynamicDesignerName= inject<string>("dynamicDesignerName", "")
-const configData = inject<any>("configData", "")
-const userUrl = inject<any>("userUrl", "")
-const userTaskTemplateUrl=inject<any>("userTaskTemplateUrl", "")
-const getDynamicAttrContent = inject<Function>('getDynamicAttrContent', () => { return '' })
+const dynamicName = getValue<string>("dynamicName", "")
+const dynamicDesignerName= getValue<string>("dynamicDesignerName", "")
+const configData = getValue<any>("configData", "")
+const userUrl = getValue<any>("userUrl", "")
+const userTaskTemplateUrl=getValue<any>("userTaskTemplateUrl", "")
+const getDynamicAttrContent = getValue<Function>('getDynamicAttrContent', () => { return '' })
 const itemContent: any = ref({})
 const dynamicTemplate=ref()
 if(!props.item.data.AuditorInputs){
@@ -183,7 +183,7 @@ function handleSelectTemplate({selectItem}){
                                 </div>
                             </template>
                             <span v-if="content == 'json(context.Workflow.Reference).Creator'">发起人</span>
-                            <span v-else>{{ content===true?'是':content===false?'否': content.toString().trimQuotes() }}</span>
+                            <span v-else>{{ content===true||content==="'true'"?'是':content===false||content==="'false'"?'否': content.toString().trimQuotes() }}</span>
                         </el-descriptions-item>
                     </el-descriptions>
                 </div>

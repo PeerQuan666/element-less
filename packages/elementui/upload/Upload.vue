@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { ref, useAttrs, onMounted, watch, watchEffect } from 'vue'
-import { FormItemProps } from '../../utlis/interfaceCom'
-import { UploadType } from '../../utlis/enumCom'
-import lessCom from '../../utlis/lessCom.js'
+import { FormItemProps } from '../../utlis/interfaces'
+import { UploadType } from '../../utlis/enums'
+import { lessCom } from '../../utlis/com'
 import Sortable from 'sortablejs'
 import { ElNotification, ElMessage } from 'element-plus'
-import { useModel, useMobile } from '../../utlis/componentCom.js'
+import { useModel, useMobile } from '../../utlis/use'
 import { showNotify } from 'vant';
-import '../../utlis/lessPrototype'
 defineOptions({
     name: 'ElsUpload',
     inheritAttrs: false
@@ -568,4 +567,4 @@ defineExpose({
     }
 
 }
-</style>
+</style>../../utlis/interfaces.js

@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { provide, watch, ref } from 'vue'
-import { FormItemProps } from '../../utlis/interfaceCom'
-import '../../utlis/lessPrototype.js'
-import { dynamicDataTypes, dynamicComponentTypes } from '../../utlis/lessConfig.js'
-import { DynamicHandler } from '../../utlis/lessConfig.js'
+import {  watch, ref } from 'vue'
+import { FormItemProps,DynamicComponentType, DynamicDataType} from '../../utlis/interfaces'
+import {DynamicHandler, dynamicDataTypes, dynamicComponentTypes } from '../../utlis/dynamic'
+import { lessCom } from '../../utlis/com'
+import { ElMessage } from 'element-plus'
+import { useValue } from '../../utlis/use'
+import DynamicCreate from '../dynamicCreate/DynamicCreate.vue'
 import DynamicDesignerInner from './DynamicDesignerInner.vue'
 import DynamicDesignerView from '../dynamicDesignerView/DynamicDesignerView.vue'
-import DynamicCreate from '../dynamicCreate/DynamicCreate.vue'
-import { DynamicComponentType, DynamicDataType } from '../../utlis/interfaceCom.js'
 
-import lessCom from '../../utlis/lessCom'
-import { ElMessage } from 'element-plus'
 defineOptions({
   name: 'ElsDynamicDesigner',
 })
@@ -38,17 +36,22 @@ interface Props extends FormItemProps {
 
 
 }
+const { $codeField, $messageField, $success } = lessCom.getApiConfig()
+const props = withDefaults(defineProps<Props>(), { componentSettingVisible: true, designerVisible: true,settingDirection:'rtl' })
 const emits = defineEmits(['update:modelValue', 'update:templateValue'])
+const {setValue} =useValue(props)
+
 const designerJSON = ref()
 const importJSON = ref()
 const designerContainer = ref()
 const designerObj = ref([])
 const actualDom=ref<Array<string>>([])
-const props = withDefaults(defineProps<Props>(), { componentSettingVisible: true, designerVisible: true,settingDirection:'rtl' })
-
-
-
+const designType = ref('精简模式')
+const dynamicNewType = ref<any>()
+const currItemKey = ref()
 const currDynamicDataType = ref<any>([])
+const createVisible = ref(false)
+
 if (props.dataTypes) {
   currDynamicDataType.value.push(...props.dataTypes)
 } else {
@@ -57,17 +60,9 @@ if (props.dataTypes) {
 if (props.appendDataTypes) {
   currDynamicDataType.value.push(...props.appendDataTypes)
 }
-const { $codeField, $messageField, $success } = lessCom.getApiConfig()
-provide("tagID", 'els-dynamic-designer-' + lessCom.generateID())
-provide('dataTypeData', currDynamicDataType.value)
-provide('allowCreateType', props.allowCreateType)
-provide('allowCreateComponent', props.allowCreateComponent)
-provide('getConverToJsonResult', getConverToJsonResult)
-provide('settingDirection',props.settingDirection)
-provide('isMobile',false)
+
 
 const currComponentTypes = ref<any>([])
-
 if (props.componentTypes) {
   currComponentTypes.value.push(...props.componentTypes)
 } else {
@@ -87,17 +82,7 @@ if (props.componentRelateDataType) {
   })
 }
 const dynamicHandler = new DynamicHandler(currDynamicDataType.value, currComponentTypes.value)
-const createVisible = ref(false)
 
-provide('componentData', currComponentTypes.value)
-provide('componentSettingVisible', props.componentSettingVisible)
-provide('camelCase', props.camelCase)
-provide('columnVisible',(field)=>{
-  if(!props.visibleFields){
-    return true;
-  }
-  return props.visibleFields.includes(field)
-})
 function initData(data=null) {
   let currData=props.modelValue
   if(data){
@@ -121,11 +106,6 @@ function initData(data=null) {
   dynamicHandler.initConfig(designerObj.value)
 }
 
-initData()
-
-function getConverToJsonResult(obj) {
-  return dynamicHandler.jsonToConfig(obj)
-}
 function handleImportDesigner() {
   if (typeof (importJSON.value) === 'string') {
     designerObj.value = JSON.parse(importJSON.value)
@@ -170,10 +150,8 @@ function openCreateComponent(typeValue) {
   }
 }
 
-const dynamicNewType = ref<any>()
-  const currItemKey = ref()
 
-  function getMouseOverItem() {
+function getMouseOverItem() {
   return currItemKey.value
 }
 function setMouseOverItem(keyID) {
@@ -189,13 +167,7 @@ function setSelectItem(keyID) {
   currSelectItemKey.value = keyID
   actualDom.value.push(keyID)
 }
-provide('getMouseOverItem', getMouseOverItem)
-provide('setMouseOverItem', setMouseOverItem)
-provide('getSelectItem', getSelectItem)
-provide('setSelectItem', setSelectItem)
 
-provide('openCreateType', openCreateType)
-provide('openCreateComponent', openCreateComponent)
 watch(designerObj, (val) => {
   if (val) {
 
@@ -224,11 +196,12 @@ function returnTemplateValue() {
 }
 
 
-const designType = ref('精简模式')
+
 function closeViewDialog() {
   actualDom.value.length=0;
   designType.value = '精简模式'
 }
+
 function handleSaveNewType(data) {
   return new Promise((resolve, _reject) => {
     const id = lessCom.generateID()
@@ -299,6 +272,31 @@ function handleSaveNewType(data) {
   })
 
 }
+
+function columnVisible(field){
+  if(!props.visibleFields){
+    return true;
+  }
+  return props.visibleFields.includes(field)
+}
+
+initData()
+
+setValue({
+  "tagID":'els-dynamic-designer-' + lessCom.generateID(),
+  'dataTypeData': currDynamicDataType.value,
+  'isMobile':false,
+  'componentData':currComponentTypes.value,
+  columnVisible,
+  getMouseOverItem,
+  setMouseOverItem,
+  getSelectItem,
+  setSelectItem,
+  openCreateType,
+  openCreateComponent
+})
+
+
 defineExpose({
   initData,
   returnTemplateValue
@@ -587,4 +585,4 @@ defineExpose({
 .els-dynamic-d-item-container>.els-dynamic-d-flat-item-child {
   margin-left: 0 !important;
 }
-</style>
+</style>../../utlis/interfaces.js../../utlis/interfaces.js

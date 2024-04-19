@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
 import ace from "ace-builds";
-import { FormItemProps } from '../../utlis/interfaceCom'
-import lessCom from '../../utlis/lessCom.js'
-import {useModel} from '../../utlis/componentCom.js'
+import { FormItemProps } from '../../utlis/interfaces'
+import { lessCom } from "../../utlis/com";
+import {useModel} from '../../utlis/use'
 defineOptions({ name: "ElsAceEditor" })
 
 const emits = defineEmits(['update:modelValue', 'formatter'])

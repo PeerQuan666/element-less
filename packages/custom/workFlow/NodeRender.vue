@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import NodeAdd from './NodeAdd.vue'
-import NodeItem from './NodeItem.vue'
-import { watch, ref, inject } from 'vue'
+import { watch } from 'vue'
 import NodeRoot from './NodeRoot.vue'
 interface Props {
     data: Array<Record<string, any>>,

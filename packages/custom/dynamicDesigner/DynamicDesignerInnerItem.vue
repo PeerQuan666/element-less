@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { inject, ref, computed, watch, nextTick,watchEffect } from 'vue'
-import lessCom from '../../utlis/lessCom'
+import {  ref, computed, watch, nextTick } from 'vue'
+import { lessCom } from '../../utlis/com'
 import { useVModel } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
-import { DynamicConfig } from '../../utlis/interfaceCom.js'
+import { DynamicConfig } from '../../utlis/interfaces'
 import DynamicDesignerInner from './DynamicDesignerInner.vue'
-import property_form from '../../utlis/dynamicPropertys/form'
-import property_array from '../../utlis/dynamicPropertys/array'
-import property_advanced from '../../utlis/dynamicPropertys/advanced'
-import property_arrayAndObject from '../../utlis/dynamicPropertys/arrayAndObject'
-import '../../utlis/lessPrototype.js'
+import { useValue } from '../../utlis/use'
+import {property_form,property_array,property_advanced,property_arrayAndObject} from '../../utlis/dynamic/propertys'
+
 defineOptions({
   name: 'ElsDynamicDesigner',
 })
@@ -18,19 +16,20 @@ interface Props {
   data: Array<DynamicConfig>,
   item: DynamicConfig
 }
-
-const emits = defineEmits(['update:item', 'update:data'])
-const camelCase = inject<boolean>('camelCase', false)
-const settingDirection=inject<string>('settingDirection');
-const allowCreateType = inject<boolean>('allowCreateType', false)
-const allowCreateComponent = inject<boolean>('allowCreateComponent', false)
-const openCreateType = inject<Function>('openCreateType', () => null)
-const openCreateComponent = inject<Function>('openCreateComponent', () => null)
-const componentSettingVisible = inject<boolean>('componentSettingVisible', true)
-const columnVisible = inject<Function>('columnVisible', ()=>{return true;})
 const props = defineProps<Props>()
-const dataTypeData = inject<any>("dataTypeData", null)
-const controlData = inject<any>("componentData", null)
+const {getValue}=useValue()
+const emits = defineEmits(['update:item', 'update:data'])
+const camelCase = getValue<boolean>('camelCase', false)
+const settingDirection=getValue<string>('settingDirection');
+const allowCreateType = getValue<boolean>('allowCreateType', false)
+const allowCreateComponent = getValue<boolean>('allowCreateComponent', false)
+const openCreateType = getValue<Function>('openCreateType', () => null)
+const openCreateComponent = getValue<Function>('openCreateComponent', () => null)
+const componentSettingVisible = getValue<boolean>('componentSettingVisible', true)
+const columnVisible = getValue<Function>('columnVisible', ()=>{return true;})
+const dataTypeData = getValue<any>("dataTypeData", null)
+const controlData = getValue<any>("componentData", null)
+
 const currDepath = ref(props.depath + 1)
 const currData = useVModel(props, 'data', emits)
 const currItem = useVModel(props, 'item', emits)
@@ -51,10 +50,6 @@ function handleChangeKeyCode() {
 
   }
 }
-
-
-
-
 
 const itemDataType = computed(() => {
   if (dataTypeData) {
@@ -451,4 +446,4 @@ function validationCode(rule, value, callback) {
                 color: red !important;
             }
 }
-</style>
+</style>../../utlis/interfaces.js

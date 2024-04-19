@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { ref, reactive, computed, provide, watch, onMounted, useAttrs, nextTick, inject, h } from 'vue'
+import { ref, reactive, computed, watch, onMounted, useAttrs, nextTick, h } from 'vue'
 
 import draggable from 'vuedraggable'
 
 import { ElMessage, ElLoading } from 'element-plus';
 import Sortable from 'sortablejs'
-import lessCom from '../../utlis/lessCom.js'
+import { lessCom } from '../../utlis/com'
 import ElsTableColumn from '../table-column/TableColumn.vue';
 import ElsForm from '../form/Form.vue';
-
+import {useContainer,useValue } from '../../utlis/use';
+const container=useContainer()
 defineOptions({ name: 'ElsTable', inheritAttrs: false, })
 const emits = defineEmits(['update:check-rows', 'update:check-row-keys', 'dragMove', 'dragEnd', 'update:editStatus','menuClick'])
 const attrs = useAttrs()
@@ -87,10 +88,13 @@ const {$codeField,$messageField,$dataField,$success}=lessCom.getApiConfig()
 const {$idField,$actionNameField} =lessCom.getMenuConfig()
 
 const {$pageDataField,$menuField,$pageSizeField,$currentPageField,$totalField,$pageCountField,$avgDayField} =lessCom.getTableConfig()
+const {getValue,setValue}=useValue(props)
 
 const tagID = "els_table_" + lessCom.generateID()
 const wrapTagID = 'els-wrap-' + tagID
 const queryFormData = ref({})
+const elsPageStore =container?.$pageStore
+const elsApiResult =container?.$apiResult
 let currSaveUrl = ref('')
 let currHeaderStickyTop = ref(-1)
 let dataLoading = ref(false)
@@ -122,7 +126,7 @@ let tableCheckData = reactive<any>({ checkRows: [], checkRowKeys: [] })
 let provideData = reactive({ avgDay: 0, isLocaleString: false, isClientPage: false, isClientSearch: false, align: '', headerAlign: '', isExport: true,contextMenus:props.contextMenus })
 let tableBodyWidth = ref('')
 let scrollLeft = ref('')
-let isMobile = ref(false)
+let isMobile = ref(getValue<boolean>('isMobile',false))
 let mobilePageLayout: string = "total, prev, next, jumper"
 const bottomScroll = ref()
 const dataTable = ref()
@@ -222,18 +226,6 @@ const isEdit = computed(() => {
 
 })
 
-
-provide('tableData', tableData)
-provide('provideData', provideData)
-provide('rowKey', props.rowKey)
-provide('setEditData', setEditData)
-provide('setSortData', setSortData)
-provide('setMergeRowData', setMergeRowData)
-provide('setSummaryData', setSummaryData)
-provide('handleTableSelectRow', handleTableSelectRow)
-provide('tableCheckData', tableCheckData)
-provide('handlePowerMenu', handlePowerMenu)
-isMobile.value = navigator.userAgent.indexOf('Mobile') > -1
 
 
 function handleTableBodyScroll(data) {
@@ -526,7 +518,7 @@ function saveTableData(url, postData: any = []) {
                             ElMessage.success('保存成功')
                             compatibleReadData()
                         } else {
-                            elsApiResult(res);
+                            elsApiResult&&elsApiResult(res);
                         }
                     }
                     resolve(res)
@@ -1219,14 +1211,16 @@ function getExportFileName() {
 }
 
 initData();
-const elsPageStore = inject<any>('elsPageStore',null)
-const elsApiResult = inject<any>('elsApiResult',null)
-provide("menuClick",handleMenuCommand)
+
+
+
 
 const isQuery = computed(() => {
     return props.url || props.isClientSearch
 })
+
 onMounted(() => {
+
     if (elsPageStore) {
         elsPageStore.value.dataTables.push({ tagID: tagID,tableName:props.tableName,
              initReadData: props.initReadData, 
@@ -1288,6 +1282,18 @@ onMounted(() => {
 })
 
 
+setValue({
+    'menuClick':handleMenuCommand,
+    setEditData,
+    setSortData,
+    setMergeRowData,
+    setSummaryData,
+    handleTableSelectRow,
+    handlePowerMenu,
+    tableData,
+    provideData,
+    tableCheckData
+})
 
 defineExpose({
     exportReadDataHtml,

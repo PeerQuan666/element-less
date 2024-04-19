@@ -80,6 +80,7 @@ import ElsJsonEditor from './custom/jsonEditor'
 import ElsWorkPlan from './custom/workPlan'
 import ElsCron from './custom/cron'
 import ElsWorkFlow from './custom/workFlow'
+import ElsStampBadge from './custom/stampBadge'
 
 const components = [
     ElsInput,
@@ -140,7 +141,8 @@ const components = [
     ElsHighlight,
     ElsWorkPlan,
     ElsCron,
-    ElsWorkFlow
+    ElsWorkFlow,
+    ElsStampBadge
     
 ]
 

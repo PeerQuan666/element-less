@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { provide, ref, getCurrentInstance, onMounted, computed, useSlots, h, nextTick } from 'vue'
-import '../../utlis/lessPrototype.js'
-import lessCom from '../../utlis/lessCom.js'
+import {  ref, getCurrentInstance, onMounted, computed, useSlots, h, nextTick } from 'vue'
 import { ElMessage, ElContainer, ElMessageBox, ElLoading } from 'element-plus'
+import { lessCom } from "../../utlis/com";
+import { useValue } from '../../utlis/use';
 defineOptions({
     name: 'ElsContainer',
 })
@@ -10,6 +10,8 @@ interface Props {
     selectMenuPostQuery?: boolean
 }
 const props = defineProps<Props>()
+const {setContainer} =useValue(props)
+
 const { ctx } = getCurrentInstance() as any
 const { $codeField, $messageField, $success, $eventData } = lessCom.getApiConfig()
 const { $actionField, $confirmField, $confirmPasswordField, $urlField } = lessCom.getMenuConfig()
@@ -20,6 +22,7 @@ const elsPageStore = ref<any>({
     dataTables: [],
     saveForms: []
 })
+
 const dialogVisible = ref(false)
 const dialogUrl = ref('')
 const drawerVisible = ref(false)
@@ -212,7 +215,7 @@ function elsMenuCommand(menu) {
         case 'Target':
             menu.IsLoading = true;
             if (menu.IsQueryState == 1) {
-                elsPageStore.queryForms.forEach(ele => {
+                elsPageStore.value.queryForms.forEach(ele => {
                     ele.cacheQueryState()
                 })
             }
@@ -433,17 +436,10 @@ function elsExportAll() {
 
 
 }
-provide("elsValidForm", validate)
-provide("elsSaveTable", elsSaveTable)
-provide("elsExportAll", elsExportAll)
-provide("elsExport", elsExport)
-provide("elsPathID", elsPathId)
-provide("elsPageStore", elsPageStore)
-provide("elsQuery", query)
-provide("elsMenuCommand", elsMenuCommand)
-provide("elsApiResult", elsApiResult)
+
 
 const slots = useSlots()
+
 let componentName: any = h('div')
 const isVertical = ref(false)
 if (slots.default) {
@@ -453,6 +449,18 @@ if (slots.default) {
 
 onMounted(() => {
     query(true)
+})
+
+setContainer({
+    "$validForm":validate,
+    "$saveTable": elsSaveTable,
+    "$exportAll":elsExportAll,
+    "$export":elsExport,
+    "$pathID":elsPathId,
+    "$pageStore":elsPageStore,
+    "$query":query,
+    "$menuCommand":elsMenuCommand,
+    "$apiResult":elsApiResult
 })
 defineExpose({
     validate

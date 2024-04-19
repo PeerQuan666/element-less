@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref,  useAttrs } from 'vue'
-import '../../utlis/lessPrototype.js'
-import { DatePickerProps, RangeFormItemProps } from '../../utlis/interfaceCom'
-import { QueryDataType } from '../../utlis/enumCom';
-import lessCom from '../../utlis/lessCom.js'
-import {useRangeModel} from '../../utlis/componentCom.js'
+
+import { DatePickerProps, RangeFormItemProps } from '../../utlis/interfaces'
+import { QueryDataType } from '../../utlis/enums';
+import { lessCom } from '../../utlis/com'
+import {useRangeModel} from '../../utlis/use'
 defineOptions({ name: 'ElsDatePickerRange', inheritAttrs: false })
 
 interface Props extends DatePickerProps, RangeFormItemProps {
@@ -63,3 +63,4 @@ const dateEndValue = ref()
     </div>
 </template>
 
+../../utlis/interfaces.js

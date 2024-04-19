@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { watch, reactive, provide,ref } from 'vue'
+import { watch, reactive,ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import lessCom from '../../utlis/lessCom.js'
+import { lessCom } from '../../utlis/com'
+import { useValue } from '../../utlis/use';
 const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig()
 defineOptions({
     name: 'ElsDropdown',
 })
-provide('type', 'dropdown')
+
 interface Props {
     labelField?: string,
     valueField?: string,
@@ -25,11 +26,11 @@ const props = withDefaults(defineProps<Props>(), {
     iconField: 'iconField',
     url: '',
 })
+const {setValue}=useValue(props)
 
 const options = reactive<Array<Record<string, any>>>([])
 const provideOptionData=ref<any>({type:'dropdown',optionWidth:''})
 
-provide('provideOption',provideOptionData)
 watch(() => props.url, (val) => {
     if (val) {
         readData();
@@ -61,6 +62,11 @@ function readData() {
         })
     })
 }
+
+setValue({
+    'type':'dropdown',
+    'provideOption':provideOptionData
+})
 
 </script>
 <template>

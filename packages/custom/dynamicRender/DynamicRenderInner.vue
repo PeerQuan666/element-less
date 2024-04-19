@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { ref, inject, computed, watchEffect } from 'vue'
+import { ref, computed, watchEffect } from 'vue'
+
+import { useVModel } from '@vueuse/core'
+import { lessCom } from '../../utlis/com'
+import { useValue } from '../../utlis/use'
+
 import DynamicRenderInnerItem from './DynamicRenderInnerItem.vue'
 import DynamicRenderInner from './DynamicRenderInner.vue'
 import DynamicRenderInnerArray from './DynamicRenderInnerArray.vue'
-import { useVModel } from '@vueuse/core'
 
-import '../../utlis/lessPrototype.js'
-import lessCom from '../../utlis/lessCom'
-const isMobile=inject<boolean>('isMobile',false)
 interface Props {
     nodeItem?: Record<string, any>,
     data: Array<Record<string, any>> | Record<string, any>,
@@ -16,16 +17,14 @@ interface Props {
     parentNode?: Record<string, any>,
 }
 
-const props = withDefaults(defineProps<Props>(), {
-
-})
+const props =defineProps<Props>()
+const {getValue}=useValue()
+const isMobile=getValue<boolean>('isMobile',false)
 const emits = defineEmits(['update:data'])
 
 const currData = useVModel(props, 'data', emits)
 
-const defaultLabelWidth = inject<any>('labelWidth', undefined)
-
-const labelWidth = ref()
+const labelWidth = ref(getValue<any>('labelWidth', undefined))
 const currDepath = ref(0)
 const itemClassName = ref('')
 
@@ -107,12 +106,10 @@ if (props.depath && props.depath > 0) {
 }
 watchEffect(() => {
     const formConfig = props.nodeItem?.config.formConfig
-    if (props.nodeItem && formConfig) {
-        labelWidth.value = formConfig.labelWidth ? formConfig.labelWidth : undefined
+    if (props.nodeItem && formConfig&&formConfig.labelWidth) {
+        labelWidth.value = formConfig.labelWidth
     }
-    if (!labelWidth.value && defaultLabelWidth) {
-        labelWidth.value = defaultLabelWidth.value
-    }
+
 })
 function handleRemove(item,index) {
     item.data.splice(index, 1)

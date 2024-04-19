@@ -12,6 +12,8 @@
     <el-button @click="show=true">点击</el-button>
     <els-dialog v-model="show" title="请输入数据" @confirm="test" show-confirm-button show-cancel-button :confirm="test"><els-input></els-input></els-dialog>
   </el-tabs>
+  <el-link type="success">aaa</el-link>
+  <els-stamp-badge :rotate="-30" type="info" class="aaaaa">已通过</els-stamp-badge>
 </template>
 
 <script setup>

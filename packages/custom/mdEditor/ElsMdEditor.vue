@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { FormItemProps } from '../../utlis/interfaceCom'
-import lessCom from '../../utlis/lessCom.js'
+import { FormItemProps } from '../../utlis/interfaces'
+import { lessCom } from "../../utlis/com";
 import 'md-editor-v3/lib/style.css';
 import { MdEditor } from 'md-editor-v3';
-import {useModel} from '../../utlis/componentCom.js'
+import {useModel} from '../../utlis/use'
 defineOptions({ name: "ElsMdEditor" })
 const { $uploadUrl } = lessCom.getUploadConfig() 
 const emits = defineEmits(['update:modelValue', 'update:html'])
@@ -63,3 +63,4 @@ onMounted(() => {
 <template >
     <MdEditor v-model="markDownContent" @htmlChanged="returnHtml"></MdEditor>
 </template>
+../../utlis/interfaces.js

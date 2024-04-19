@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { inject, ref, watch } from "vue";
+import { inject, ref } from "vue";
+import { lessCom } from "../../utlis/com";
 
-import lessCom from "../../utlis/lessCom";
-import "../../utlis/lessPrototype.js";
 interface Props {
   item: Record<string, any>|null,
   data: Array<Record<string, any>>;

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, watch, useAttrs, useSlots, inject, watchEffect } from 'vue'
-import { FormItemProps } from '../../utlis/interfaceCom'
-import lessCom from '../../utlis/lessCom.js'
-import { useModel,useFormValidation } from '../../utlis/componentCom.js'
+import { ref, watch, useAttrs, useSlots, watchEffect } from 'vue'
+import { useValue } from '../../utlis/use';
+import { FormItemProps } from '../../utlis/interfaces'
+import { lessCom } from '../../utlis/com'
+import { useModel,useFormValidation } from '../../utlis/use'
 defineOptions({
     name: 'ElsInput',
     inheritAttrs: false
@@ -24,8 +25,10 @@ const {
     currModelValue,
     returnModelValue,
 } = useModel(props)
-const formInputWidth = inject<string>('inputWidth', '')
-const isMobile = inject<boolean>('isMobile', false)
+const {getValue}=useValue()
+const formInputWidth = getValue<string>('inputWidth', '')
+const isMobile = getValue<boolean>('isMobile', false)
+
 const slots = useSlots()
 const attrs = useAttrs()
 const slotNames: any = []
@@ -109,4 +112,4 @@ placeholder.value='请输入'+(props.label??'')
     position: relative;
     width: 100%;
 }
-</style>
+</style>../../utlis/interfaces.js

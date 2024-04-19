@@ -1,23 +1,14 @@
 
 <script setup lang="ts">
-import { ref, watch, onMounted, useAttrs, inject, onErrorCaptured, useSlots } from 'vue'
+import { ref, watch, onMounted, useAttrs, onErrorCaptured, useSlots } from 'vue'
 import { ElMessage, ElButton } from 'element-plus';
-import lessCom from '../../utlis/lessCom';
-import { ColumnProps } from '../../utlis/interfaceCom'
-
+import { lessCom } from '../../utlis/com'
+import { ColumnProps } from '../../utlis/interfaces'
+import { useValue } from '../../utlis/use';
 
 defineOptions({ name: 'ElsColumn' })
 
-const setEditData = inject<Function>("setEditData",()=>null)
-const setSortData = inject<Function>("setSortData",()=>null)
-const setMergeRowData = inject<Function>("setMergeRowData",()=>null)
-const setSummaryData = inject<Function>("setSummaryData",()=>null)
-const handleTableSelectRow = inject<Function>("handleTableSelectRow",()=>null)
-const handlePowerMenu = inject<Function>("handlePowerMenu",()=>null)
-const rowKey = inject<any>("rowKey",'')
-const tableCheckData = inject<any>("tableCheckData",[])
-const provideData = inject<any>("provideData",{})
-const menuClick = inject<Function>("menuClick",()=>{})
+
 
 const slots = useSlots()
 const props = withDefaults(defineProps<ColumnProps>(), {
@@ -33,13 +24,23 @@ const props = withDefaults(defineProps<ColumnProps>(), {
     isPreview: true
 
 })
+const {getValue}=useValue(props)
 const attrs = useAttrs()
 const currColumnKey = ref('')
 const columnSortable: any = ref(false)
 let columnSortMethod: any = ref()
 const columnClass = ref('')
 let {$menuField} = lessCom.getTableConfig()
-
+const setEditData = getValue<Function>("setEditData",()=>null)
+const setSortData = getValue<Function>("setSortData",()=>null)
+const setMergeRowData = getValue<Function>("setMergeRowData",()=>null)
+const setSummaryData = getValue<Function>("setSummaryData",()=>null)
+const handleTableSelectRow = getValue<Function>("handleTableSelectRow",()=>null)
+const handlePowerMenu = getValue<Function>("handlePowerMenu",()=>null)
+const rowKey = getValue<any>("rowKey",'')
+const tableCheckData = getValue<any>("tableCheckData",[])
+const provideData = getValue<any>("provideData",{})
+const menuClick = getValue<Function>("menuClick",()=>{})
 
 watch(() => props.sortable, (val) => {
     columnSortable.value = val
@@ -50,7 +51,6 @@ watch(() => props.isEdit, (val) => {
         setEditData(props.editFields ?? props.prop, val)
     }
 }, { immediate: true })
-
 
 
 watch(() => props.mergeRow, (val) => {
@@ -308,4 +308,4 @@ const headAlign = props.headerAlign ?? props.align ?? provideData.headerAlign
 
         </template>
     </el-table-column>
-</template>
+</template>../../utlis/interfaces

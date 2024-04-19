@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useSlots } from 'vue'
-import '../../utlis/lessPrototype.js'
+
 import { watch, ref } from 'vue'
 import ElsCheckbox from '../checkbox/Checkbox.vue'
-import { CheckboxProps } from '../../utlis/interfaceCom'
+import { CheckboxProps } from '../../utlis/interfaces'
 defineOptions({
     name: 'ElsCheckboxButton',
 })

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, useAttrs, computed } from 'vue'
-import '../../utlis/lessPrototype.js'
-import {useRangeModel} from '../../utlis/componentCom.js'
-import { TimePickerProps, RangeFormItemProps } from '../../utlis/interfaceCom'
-import { QueryDataType } from '../../utlis/enumCom';
-import lessCom from '../../utlis/lessCom.js'
+
+import {useRangeModel} from '../../utlis/use'
+import { TimePickerProps, RangeFormItemProps } from '../../utlis/interfaces'
+import { QueryDataType } from '../../utlis/enums';
+import { lessCom } from '../../utlis/com'
 
 defineOptions({ name: 'ElsTimePickerRange', inheritAttrs: false })
 
@@ -76,3 +76,4 @@ const endGreaterThanCpt = computed(() => {
     </div>
 </template>
 
+../../utlis/interfaces.js

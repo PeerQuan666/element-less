@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import lessCom from '../../../packages/utlis/lessCom'
+import {lessCom} from '../../../packages/utlis/com'
 const queryForm = ref()
 const formData = ref({})
 function handleSearch() {

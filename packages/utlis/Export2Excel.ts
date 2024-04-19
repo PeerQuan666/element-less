@@ -1,7 +1,7 @@
 
 import pkg from 'file-saver'
 import * as XLSX from 'xlsx'
-import './lessPrototype.js'
+import './com/lessPrototype.js'
 const { saveAs } = pkg;
 function _toConsumableArray(e) {
 	if (Array.isArray(e)) {

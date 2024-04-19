@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { watch,ref,useAttrs} from 'vue'
-import { FormItemProps } from '../../utlis/interfaceCom'
-import lessCom from '../../utlis/lessCom.js'
-import {useModel,useMobile} from '../../utlis/componentCom.js'
+import { FormItemProps } from '../../utlis/interfaces'
+import { lessCom } from '../../utlis/com'
+import {useModel,useMobile} from '../../utlis/use'
 defineOptions({
     name: 'ElsSwitch',
     inheritAttrs:false
@@ -43,4 +43,4 @@ watch(currValue, (val) => {
         <van-switch v-model="currValue" :active-value="1" :inactive-value="0"  v-bind="attrs"  v-else />
      </ElsFormNode>
     </div>
-</template>
+</template>../../utlis/interfaces.js

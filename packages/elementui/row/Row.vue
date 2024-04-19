@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { ref, provide } from 'vue'
-
+import { ref } from 'vue'
+import { useValue } from '../../utlis/use';
 defineOptions({
     name: 'ElsRow',
 })
 const colData = ref<any>([])
 const spanCount = ref(24)
-provide('layer', 'row')
-provide('colData', colData)
-provide('getSpan', getSpan)
-provide('setSpan', setSpan)
-provide('removeSpan', removeSpan)
+const {setValue}=useValue()
+
+
 function setSpan(id, span) {
     if(colData.value.find(ele=>ele.id==id)){
         removeSpan(id)
@@ -27,6 +25,13 @@ function getSpan() {
         return spanCount.value / autoSpan
 }
 
+setValue({
+    'layer':'row',
+    colData,
+    getSpan,
+    setSpan,
+    removeSpan
+})
 </script>
 <template>
     <el-row>

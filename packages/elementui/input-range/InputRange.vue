@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ref, useAttrs } from 'vue'
-import '../../utlis/lessPrototype.js'
-import { RangeFormItemProps } from '../../utlis/interfaceCom'
-import lessCom from '../../utlis/lessCom';
-import {useRangeModel} from '../../utlis/componentCom.js'
+import { RangeFormItemProps } from '../../utlis/interfaces'
+import { lessCom } from '../../utlis/com'
+import {useRangeModel} from '../../utlis/use'
 defineOptions({ name: 'ElsInputRange',
     inheritAttrs:false })
 
@@ -58,3 +57,4 @@ function handleChange() {
     </div>
 </template>
 
+../../utlis/interfaces.js

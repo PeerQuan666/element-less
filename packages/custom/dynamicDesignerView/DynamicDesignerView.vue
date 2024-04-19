@@ -1,27 +1,22 @@
 <script setup lang="ts">
-import { watch, provide, ref, computed, nextTick,inject } from 'vue'
-
-import { FormItemProps } from '../../utlis/interfaceCom'
-import { dynamicDataTypes, dynamicComponentTypes, DynamicHandler } from '../../utlis/lessConfig.js'
+import { watch, ref, computed, nextTick } from 'vue'
 import DynamicDesignerViewInner from './DynamicDesignerViewInner.vue'
-
-import draggable from 'vuedraggable'
-import '../../utlis/lessPrototype.js'
-import lessCom from '../../utlis/lessCom'
-import property_form from '../../utlis/dynamicPropertys/form'
-import property_array from '../../utlis/dynamicPropertys/array'
-import property_advanced from '../../utlis/dynamicPropertys/advanced'
-import property_arrayAndObject from '../../utlis/dynamicPropertys/arrayAndObject'
-import { useDesign } from '../../utlis/stateDesign.js'
+import { FormItemProps ,DynamicComponentType,DynamicDataType} from '../../utlis/interfaces'
+import { dynamicDataTypes, dynamicComponentTypes, DynamicHandler } from '../../utlis/dynamic'
+import {property_form,property_array,property_advanced,property_arrayAndObject} from '../../utlis/dynamic/propertys'
+import { lessCom } from '../../utlis/com'
+import { useDesign } from './stateDesign.js'
 import { ElMessage } from 'element-plus'
+import { useValue } from '../../utlis/use'
 import lodash from 'lodash';
-import  {DynamicComponentType,DynamicDataType} from '../../utlis/interfaceCom.js'
+import draggable from 'vuedraggable'
 const { debounce } = lodash;
 const useDesignStore = useDesign()
 const emits = defineEmits(['update:modelValue'])
 defineOptions({
     name: 'ElsDynamicDesignerView'
 })
+
 interface Props extends FormItemProps{
     modelValue: Array<Record<string, any>> | string,
     camelCase?: boolean,
@@ -32,10 +27,9 @@ interface Props extends FormItemProps{
     componentRelateDataType?: Record<string, any>,
 
 }
+const props = defineProps<Props>()
+const {getValue,setValue}=useValue(props)
 
-const props = withDefaults(defineProps<Props>(), {
-   
-})
 const isDisabledUndo = ref(true)
 const isDisabledReDo = ref(true)
 const activeNames = ref<any>(['1', '2','3'])
@@ -44,9 +38,9 @@ const formValue = ref()
 const controlData = ref<any>([])
     const diyData = ref<any>([])
 
-const dataTypeData=inject("dataTypeData")
-const componentData=inject("componentData")
-provide('isMobile',false)
+const dataTypeData=getValue<any>("dataTypeData")
+const componentData=getValue<any>("componentData")
+
 
 const currDynamicDataType = ref<any>([])
 if(dataTypeData){
@@ -87,8 +81,7 @@ if (props.componentRelateDataType) {
 
 }
 
-provide('dataTypeData', currDynamicDataType.value)
-provide('componentData', currComponentTypes.value)
+
 const objectData = ref<any>([
     {
         keyID: "key_" + lessCom.randomNumber().toString(),
@@ -181,6 +174,7 @@ function initValue(type) {
             return ''
     }
 }
+
 const dynamicHandler = new DynamicHandler(currDynamicDataType.value, currComponentTypes.value)
 
 const renderData = ref<any>([])
@@ -384,14 +378,20 @@ function handleChangeKeyCode(keyCode) {
 }
 
 
-provide("setSelectItem", setSelectItem)
-provide("getSelectItem", getSelectItem)
-provide("recordComponent", recordComponent)
 
+setValue({
+    "isMobile":false,
+    "dataTypeData":currDynamicDataType.value,
+    "componentData":currComponentTypes.value,
+    setSelectItem,
+    getSelectItem,
+    recordComponent
+})
 
 </script>
 <template>
  <div >
+
     <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
     <div style="display:flex;background:#f8f8f8;" class="els-dynamic-view">
         <div style="flex-basis:260px;flex-shrink: 0;background: #fff;" class="els-dynamic-view-components">
@@ -829,4 +829,4 @@ provide("recordComponent", recordComponent)
 
 }
 
-</style>
+</style>../../utlis/interfaces.js../../utlis/interfaces.js./stateDesign.js

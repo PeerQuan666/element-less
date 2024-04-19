@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, watch,inject } from 'vue'
+import { ref, watch } from 'vue'
+import { useValue } from '../../utlis/use';
 defineOptions({ name: 'ElsImageViewer' })
 interface Props {
     currentUrl?: string,
@@ -11,8 +12,10 @@ const props = withDefaults(defineProps<Props>(), {
     separator: '$',
     initialIndex: 0
 })
+const {getValue}=useValue()
+
 const visible=ref(true)
-const isMobile = inject<boolean>('isMobile', false)
+const isMobile = getValue<boolean>('isMobile', false)
 const urls = ref<Array<string>>()
 let index = props.initialIndex
 function initData() {

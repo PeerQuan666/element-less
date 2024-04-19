@@ -2,13 +2,13 @@
     
 <script lang="ts" setup>
 
-import { ref, reactive, watch, useAttrs, computed, nextTick, provide, useSlots, inject, onMounted } from 'vue'
+import { ref, reactive, watch, useAttrs, computed, nextTick, useSlots, onMounted } from 'vue'
 import { ElMessage } from 'element-plus';
-import '../../utlis/lessPrototype.js'
-import lessCom from '../../utlis/lessCom.js'
-import { ValueType } from '../../utlis/enumCom'
-import { FormItemProps } from '../../utlis/interfaceCom'
-import { useModel,useMobile } from '../../utlis/componentCom.js'
+import { useValue } from '../../utlis/use';
+import { lessCom } from '../../utlis/com'
+import { ValueType } from '../../utlis/enums'
+import { FormItemProps } from '../../utlis/interfaces'
+import { useModel,useMobile } from '../../utlis/use'
 defineOptions({
     name: 'ElsSelect',
     inheritAttrs: false
@@ -53,6 +53,8 @@ const props = withDefaults(defineProps<Props>(), {
     validTrigger: 'change',
 })
 
+const {getValue,setValue}=useValue(props)
+
 const slots = useSlots()
 const attrs: Record<string, any> = useAttrs()
 const emits = defineEmits(['update:modelValue', 'update:select', 'update:select-label', 'change', 'click-option', 'select', 'blur', 'clear', 'readdataed'])
@@ -62,9 +64,6 @@ const preSelectValue = ref<any>('')
 const currLoading = ref(false)
 const selectValue = ref<any>('')
 
-
-
-
 const selectItem = ref<any>()
 const selectLabel = ref('')
 const options: Array<Record<string, any>> = reactive([])
@@ -72,7 +71,7 @@ const noExistOption: Array<Record<string, any>> = reactive([])
 const extraOption: Array<Record<string, any>> = reactive([])
 const defaultSlotData: Array<Record<string, any>> = reactive([])
 const queryData = reactive({ searchKey: '', idString: '' })
-const formInputWidth = inject<string>('inputWidth', '')
+const formInputWidth = getValue<string>('inputWidth', '')
 const currWidth = ref(props.width ?? '')
 const formNode=ref()
 if (!currWidth.value) {
@@ -142,10 +141,7 @@ watch(selectValue, (val: any) => {
 
 
 const provideOptionData = ref<any>({ type: 'select' })
-provide('provideOption', provideOptionData)
 
-provide('multiple', props.multiple)
-provide('setExtraOption', setExtraOption)
 
 
 watch(currModelValue, () => {
@@ -384,6 +380,11 @@ function onConfirm(){
     onMobileConfirm(showText)
 }
 
+setValue({
+    "provideOption":provideOptionData,
+    setExtraOption
+})
+
 onMounted(() => {
     if (props.url) {
         readData()
@@ -396,6 +397,7 @@ onMounted(() => {
         initSelectIndex();
     }
 })
+
 
 </script>
 <template>
@@ -548,4 +550,4 @@ onMounted(() => {
     display: none;
 }
 
-</style>
+</style>../../utlis/interfaces.js

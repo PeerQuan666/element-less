@@ -2,7 +2,7 @@
 import NodeAdd from './NodeAdd.vue'
 import NodeItem from './NodeItem.vue'
 import NodeRender from './NodeRender.vue'
-import lessCom from "../../utlis/lessCom";
+import { lessCom } from '../../utlis/com';
 import { watch,watchEffect } from 'vue'
 interface Props {
     data: Array<Record<string, any>>,

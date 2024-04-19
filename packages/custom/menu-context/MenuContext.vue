@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { reactive, computed, watch, onMounted, getCurrentInstance, onUnmounted, inject } from 'vue'
+import { reactive, computed, watch, onMounted, getCurrentInstance, onUnmounted } from 'vue'
+import { useContainer } from '../../utlis/use';
+const container =useContainer()
 const { proxy } = getCurrentInstance() as any
 defineOptions({ name: "ElsMenuContext" })
 
@@ -15,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
     positionTop: 0,
     visible: false
 })
-const elsMenuCommand = inject<Function>('elsMenuCommand', () => null)
+
 const menuData: Array<Record<string, any>> = reactive([])
 let idFieldname = ''
 let nameFieldname = ''
@@ -51,8 +53,8 @@ function clickDocumentHandler(e) {
 
 }
 function menuCommand(menu) {
-    if (elsMenuCommand) {
-        elsMenuCommand(menu)
+    if (container) {
+        container.$menuCommand(menu)
     }
     if (props.onClick) {
         props.onClick(menu)

@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { ref, reactive, watch, getCurrentInstance, inject } from 'vue'
+import { ref, reactive, watch, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance() as any
+import { useContainer } from '../../utlis/use';
+const container =useContainer()
 defineOptions({ name: "ElsMenuDropdown" })
 
 interface Props {
@@ -19,7 +21,6 @@ const menuData: Array<Record<string, any>> = reactive([])
 if (!proxy.$lessConfig?.menu) {
     console.log('未设置全局配置$lessConfig，无法使用菜单')
 }
-const elsMenuCommand = inject<Function>('elsMenuCommand', () => null)
 let idFieldname = ''
 let nameFieldname = ''
 let iconFieldName = ''
@@ -42,8 +43,8 @@ watch(() => props.menus, (val) => {
 }, { immediate: true, deep: true })
 
 function menuCommand(menu) {
-    if (elsMenuCommand) {
-        elsMenuCommand(menu)
+    if (container) {
+        container.$menuCommand(menu)
     }
     if (props.onClick) {
         props.onClick(menu)

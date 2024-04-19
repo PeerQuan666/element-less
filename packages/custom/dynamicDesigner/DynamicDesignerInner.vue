@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { inject, ref, defineAsyncComponent,watchEffect } from 'vue'
+import {  ref, defineAsyncComponent } from 'vue'
 import { useVModel } from '@vueuse/core'
-import { DynamicConfig } from '../../utlis/interfaceCom.js'
+import { DynamicConfig } from '../../utlis/interfaces'
+import { lessCom } from '../../utlis/com'
+import { useValue } from '../../utlis/use'
 const DynamicDesignerInnerItem = defineAsyncComponent(() => {
   return import('./DynamicDesignerInnerItem.vue')
 })
-import lessCom from '../../utlis/lessCom'
-import '../../utlis/lessPrototype.js'
 defineOptions({
   name: 'ElsDynamicDesigner',
 
@@ -16,15 +16,25 @@ interface Props {
   depath?: number,
   data: Array<DynamicConfig>,
   config?: Record<string, any>
-
 }
-const getConverToJsonResult = inject<Function>('getConverToJsonResult', () => null)
-const componentSettingVisible = inject<boolean>('componentSettingVisible', true)
-const columnVisible = inject<Function>('columnVisible', ()=>{return true;})
+const {getValue}=useValue()
+
+
+const tagID = getValue('tagID')
+const dataTypeData =getValue<any>("dataTypeData", null)
+const controlData = getValue<any>("componentData", null)
+const setSelectItem=getValue<Function>("setSelectItem",()=>null)
+const getSelectItem=getValue<Function>("getSelectItem",()=>null)
+const getConverToJsonResult = getValue<Function>('getConverToJsonResult', () => null)
+const componentSettingVisible = getValue<boolean>('componentSettingVisible', true)
+const columnVisible = getValue<Function>('columnVisible', ()=>{return true;})
+
+
 const emits = defineEmits(['update:data', 'removeItem'])
 const props = withDefaults(defineProps<Props>(), { depath: 0 })
 const currData = useVModel(props, 'data', emits)
 const currConfig = ref(props.config ?? {})
+
 function handleRemove() {
   emits("removeItem")
 }
@@ -47,14 +57,10 @@ function handleAddItem() {
   setSelectItem(keyID)
 
 }
-const tagID = inject('tagID')
-const dataTypeData = inject<any>("dataTypeData", null)
-const controlData = inject<any>("componentData", null)
-const setSelectItem=inject<Function>("setSelectItem",()=>null)
-const getSelectItem=inject<Function>("getSelectItem",()=>null)
-  
+
 const jsonVisible = ref(false)
 const jsonObj = ref({})
+
 function handleAddJSON() {
   if (getConverToJsonResult) {
     const currResult = getConverToJsonResult(jsonObj.value)
@@ -214,3 +220,4 @@ function getComponentType(val){
 .els-dynamic-d-flat-item-container{padding-left:5px !important;}
 .els-dynamic-config-root>::v-deep(.els-list)>.els-list-add{padding-left: 5px;}
 </style>
+../../utlis/interfaces.js

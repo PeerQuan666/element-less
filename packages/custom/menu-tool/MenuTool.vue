@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, watch, reactive, getCurrentInstance, inject } from 'vue'
-
+import { ref, watch, reactive, getCurrentInstance } from 'vue'
+import { useContainer } from '../../utlis/use';
 const { proxy } = getCurrentInstance() as any
-import lessCom from '../../utlis/lessCom.js'
-import '../../utlis/lessPrototype.js'
+import { lessCom } from "../../utlis/com";
+const container =useContainer()
 defineOptions({ name: "ElsMenuTool" })
 interface Props {
     url?: string,
@@ -45,9 +45,7 @@ if (proxy && proxy.$lessConfig?.menu) {
     groupFieldname = proxy.$lessConfig.menu.group
 }
 
-const elsMenuCommand = inject<Function>('elsMenuCommand',()=>null)
-const elsSaveTable = inject<Function>('elsSaveTable',()=>null)
-const elsApiResult = inject<Function>('elsApiResult',()=>null)
+
 
 const saveDataLoading = ref(false)
 const isTableEdit = ref(false)
@@ -118,8 +116,8 @@ function handleEditTable() {
 function handleSaveTable() {
     saveDataLoading.value = true;
 
-    if (elsSaveTable) {
-        elsSaveTable().then(res => {
+    if (container.$saveTable) {
+        container.$saveTable().then(res => {
             if (res) {
                 saveDataLoading.value = false
             }
@@ -153,8 +151,8 @@ function handleCommandMore(type) {
 function triggerPowerMenu(menuID) {
     if (props.data) {
         var currPowerMenu = props.data.find(ele => ele[actionFieldname] === menuID || ele[idFieldname] == menuID);
-        if (currPowerMenu && elsMenuCommand) {
-            elsMenuCommand(currPowerMenu)
+        if (currPowerMenu && container) {
+            container.$menuCommand(currPowerMenu)
         }
     }
 }
@@ -170,8 +168,8 @@ function menuCommand(menu) {
             uploadUrl: menu.TargetUrl
         }
 
-    } else if (elsMenuCommand) {
-        elsMenuCommand(menu)
+    } else if (container.$menuCommand) {
+        container.$menuCommand(menu)
 
     }
 }
@@ -179,8 +177,8 @@ function uploadSuccess(res){
     if(props.onUploaded){
         props.onUploaded(res)
     }
-    else if(elsApiResult){
-        elsApiResult(res)
+    else if(container.apiResult){
+        container.apiResult(res)
     }
 }
 defineExpose({

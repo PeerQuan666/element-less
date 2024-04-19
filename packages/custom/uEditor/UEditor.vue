@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { FormItemProps } from '../../utlis/interfaceCom'
-import lessCom from '../../utlis/lessCom.js'
-import {useModel} from '../../utlis/componentCom.js'
+import { FormItemProps } from '../../utlis/interfaces'
+import { lessCom } from '../../utlis/com'
+import {useModel} from '../../utlis/use'
 defineOptions({ name: "ElsUEditor" })
 const { $serverUrl,$homeUrl } = lessCom.getUEditorConfig()
 interface Props extends FormItemProps {
@@ -93,3 +93,4 @@ onMounted(() => {
 <template >
     <vue-ueditor-wrap v-model="editorContent" @before-init="addXiumiDialog" :config="configData"></vue-ueditor-wrap>
 </template>
+../../utlis/interfaces.js

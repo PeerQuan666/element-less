@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, useAttrs, watch, watchEffect,inject } from 'vue'
-import '../../utlis/lessPrototype.js'
-import { DatePickerProps } from '../../utlis/interfaceCom'
-import lessCom from '../../utlis/lessCom.js'
-import {useModel,useMobile} from '../../utlis/componentCom.js'
+import { ref, useAttrs, watch, watchEffect } from 'vue'
+
+import { DatePickerProps } from '../../utlis/interfaces'
+import { lessCom } from '../../utlis/com'
+import {useModel,useMobile} from '../../utlis/use'
 defineOptions({ name: 'ElsDatePicker', inheritAttrs: false })
 
 const props = withDefaults(defineProps<DatePickerProps>(), {
@@ -446,3 +446,4 @@ initValue();
     </div>
 </template>
 
+../../utlis/interfaces.js

@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import { watch, ref, watchEffect, inject } from 'vue'
-import '../../utlis/lessPrototype.js'
+import { watch, ref, watchEffect } from 'vue'
 import { useVModel } from '@vueuse/core'
 import ElsContainer from '../container/Container.vue'
-import { DynamicComponentType, DynamicDataType } from '../../utlis/interfaceCom.js'
-import lessCom from '../../utlis/lessCom'
-
+import { DynamicComponentType, DynamicDataType } from '../../utlis/interfaces'
+import { lessCom } from '../../utlis/com'
+import { useValue } from '../../utlis/use'
 defineOptions({
     name: 'ElsDynamicCreate',
-
-
 })
 const emits = defineEmits(["save", "close", 'visible'])
 interface Props {
@@ -21,6 +18,7 @@ interface Props {
     save?: Function
 }
 const props = defineProps<Props>()
+const {getValue}=useValue(props)
 const currData = ref()
 watch(()=>props.modelValue,(val)=>{
     if(val){
@@ -65,7 +63,7 @@ watchEffect(() => {
     }
 
 })
-const dataTypeData=inject<any>("dataTypeData",[])
+const dataTypeData= getValue<any>("dataTypeData",[])
 const saveLoading=ref(false)
 const elsContainer = ref()
 const editForm = ref()
@@ -191,4 +189,4 @@ function validName(rules, value, callback) {
         </els-dialog>
 
     </ElsContainer>
-</template>
+</template>../../utlis/interfaces.js

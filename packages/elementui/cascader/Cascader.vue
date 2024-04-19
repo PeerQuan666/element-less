@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, reactive, watch, useAttrs, onMounted } from 'vue'
-import '../../utlis/lessPrototype.js'
-import lessCom from '../../utlis/lessCom.js'
+
+import { lessCom } from '../../utlis/com'
 import { ElMessage } from 'element-plus';
-import { FormItemProps } from '../../utlis/interfaceCom'
-import { ValueType } from '../../utlis/enumCom'
-import { useModel } from '../../utlis/componentCom.js'
+import { FormItemProps } from '../../utlis/interfaces'
+import { ValueType } from '../../utlis/enums'
+import { useModel } from '../../utlis/use'
 defineOptions({ name: 'ElsCascader', inheritAttrs: false })
 interface Props extends FormItemProps {
     modelValue?: string,
@@ -304,4 +304,3 @@ onMounted(() => {
         </ElsFormNode>
     </div>
 </template>
-

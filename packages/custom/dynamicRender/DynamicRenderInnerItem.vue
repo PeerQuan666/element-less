@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, inject, watchEffect, watch, useAttrs, computed } from 'vue'
-import '../../utlis/lessPrototype.js'
-import lessCom from '../../utlis/lessCom';
+import { ref, watchEffect, watch, useAttrs, computed } from 'vue'
+import { lessCom } from '../../utlis/com'
+import { useValue } from '../../utlis/use'
+
 interface Props {
     modelValue?: any,
     item: Record<string, any>,
@@ -14,8 +15,9 @@ interface Props {
 defineOptions({
     inheritAttrs: false
 })
-const controlData = inject<any>("componentData", [])
-const dyProvideData = inject<any>('dyProvideData', null)
+const {getValue}=useValue()
+const controlData = getValue<any>("componentData", [])
+const dyProvideData = getValue<any>('dyProvideData', null)
 const props = defineProps<Props>()
 const emits = defineEmits(['update:modelValue', 'valueChange'])
 const attrs = useAttrs()
@@ -175,7 +177,7 @@ function getUrl() {
         return currUrl.setPowerPublicQuery()
     }
 }
-</script> 
+</script>
 <template>
     <template v-if="componentName">
         <el-tag v-if="showText">{{ showText }}</el-tag>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, useSlots, watch,onMounted } from 'vue'
-import lessCom from '../../utlis/lessCom.js'
+import { lessCom } from '../../utlis/com'
 const emits = defineEmits(['update:modelValue'])
 const slots = useSlots()
 

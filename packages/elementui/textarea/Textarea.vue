@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, useSlots } from 'vue'
-import { FormItemProps } from '../../utlis/interfaceCom'
+import { FormItemProps } from '../../utlis/interfaces'
 defineOptions({
     name: 'ElsTextarea',
 })
@@ -41,4 +41,4 @@ watch(inputValue, (val) => {
     position: relative;
     width: 100%;
 }
-</style>
+</style>../../utlis/interfaces
