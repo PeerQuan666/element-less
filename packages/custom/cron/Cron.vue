@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, computed } from 'vue'
+import { lessCom } from '../../utlis/com';
 defineOptions({ name: "ElsCron" })
 interface Props {
     modelValue?: any,
@@ -421,7 +422,7 @@ function realTimeChange() {
 }
 function datetimeChange() {
     if (datetime) {
-        let currDatetime = new Date(datetime.value)
+        const currDatetime=new Date(datetime.value)
         month.value.incrementStart = currDatetime.getMonth() + 1
         day.value.incrementStart = currDatetime.getDate()
         hour.value.incrementStart = currDatetime.getHours().toString()
@@ -435,7 +436,7 @@ function reset(val) {
     switch (val) {
         case '1':
             resetCronData()
-            datetime.value = new Date();
+            datetime.value =lessCom.formatDate(new Date(),'yyyy-MM-dd 00:00:00');
             datetimeChange();
             break
         case '2':
@@ -499,8 +500,12 @@ watch(currData, (val) => {
     emits('update:modelValue', val)
 })
 onMounted(() => {
-    initData()
     currData.value = props.modelValue
+    if(currData.value){
+        initData()
+   
+    }
+   
 })
 
 </script>

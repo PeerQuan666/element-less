@@ -284,7 +284,7 @@ export const lessCom = {
         var newArr = (skipNum + pageSize >= arr.length) ? arr.slice(skipNum, arr.length) : arr.slice(skipNum, skipNum + pageSize);
         return newArr;
     },
-    removeArrayItem(list: any[], item: { id: string; save?: (url: any) => Promise<unknown>; validate?: (() => Promise<unknown>) | (() => Promise<unknown>); tableRef?: string | undefined; query?: () => Promise<unknown>; cacheQueryState?: () => void; }) {
+    removeArrayItem(list: any[], item:any ) {
         let index = list.indexOf(item)
         if (index > -1) {
             list.splice(index, 1)

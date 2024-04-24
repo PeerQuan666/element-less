@@ -44,6 +44,7 @@ import ElsCascaderPanel from './elementui/cascader-panel'
 import ElsDialog from './elementui/dialog'
 import ElsDrawer from './elementui/drawer'
 import ElsDropdown from './elementui/dropdown'
+import ElsDropdownGroup from './elementui/dropdown/DropdownGroup.vue'
 import ElsSlider from './elementui/slider'
 import ElsInputNumber from './elementui/input-number'
 import ElsUpload from './elementui/upload'
@@ -111,6 +112,7 @@ const components = [
     ElsInputRange,
     ElsTextarea,
     ElsDrawer,
+    ElsDropdownGroup,
     ElsDropdown,
     ElsSlider,
     ElsSwitch,
@@ -150,12 +152,16 @@ const components = [
 const ElementLess = {
     install(app: App) {
         components.forEach((item) => {
-            app.component(item.name, item);
+            if(item.name){
+                app.component(item.name, item);
+            }
         });
     },
 
 };
 components.forEach((item) => {
-    ElementLess[item.name]=item
+    if(item.name){
+        ElementLess[item.name]=item
+    }
 });
 export default ElementLess;

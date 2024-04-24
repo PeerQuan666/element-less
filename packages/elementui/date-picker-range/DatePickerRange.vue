@@ -41,7 +41,7 @@ const dateEndValue = ref()
 <template>
     <div class="els-node">
         <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-            <els-date-picker v-if="single" v-model="dateValue" v-bind="props" :defaultTime="currDefaultTime"
+            <els-date-picker v-if="single"  v-bind="props" v-model="dateValue" :defaultTime="currDefaultTime"
                 :type="currType" v-model:start="dateStartValue" v-model:end="dateEndValue">
                 <template #default="cell">
                     <slot name="default" :cell="cell"></slot>

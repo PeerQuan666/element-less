@@ -10,8 +10,6 @@ import { useValue, useContainer } from '../../utlis/use';
 defineOptions({ name: 'ElsFormQuery' })
 
 interface Props {
-    modelValue?: any,
-    queryData?:any,//兼容外部设置的查询数据
     tableRef?: string,
     autoReadData?: boolean,
     parameterType?: string,//NoPost|NoQuery|Query
@@ -19,15 +17,15 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     parameterType: 'Query',
 })
-const container=useContainer()
+const emits = defineEmits(['update:modelValue','update:queryData','search'])
 const {setForm}=useValue(props)
-
+const modelValue =defineModel<object>({default:()=>reactive<object>({})})
+const queryData =defineModel<object>('queryData',{default:()=>reactive<object>({})})
 const queryForm = ref()
 const submitButton = ref()
+const container=useContainer()
 const tagID = 'els-form' + lessCom.generateID();
 const attrs = useAttrs();
-let modelData: Record<string, any> = reactive({})
-let formData: Record<string, any> = reactive({})
 const debouncedQuerySearch = computed<Function>(() => {
     if(container){
         return debounce(handleElsQuery, 200)
@@ -36,22 +34,21 @@ const debouncedQuerySearch = computed<Function>(() => {
     return debounce(query, 200)
    }
 })
+
 function handleElsQuery(){
     if(container){
         return container.$query(false,props.tableRef)
     }
 }
-const emits = defineEmits(['update:modelValue', 'search','update:queryData'])
-
-
-
-watch(formData, (val) => {
-    emits("update:modelValue", val)
-})
 
 const queryStore = { id: tagID,tableRef:props.tableRef, query: query ,cacheQueryState}
 const validateStore = { id: tagID, validate: validate }
-
+watch(modelValue,(val)=>{
+    emits('update:modelValue',val)
+},{deep:true})
+watch(queryData,(val)=>{
+    emits('update:queryData',val)
+},{deep:true})
 onMounted(() => {
     recoverQueryState()
     if (container) {
@@ -67,21 +64,21 @@ onBeforeUnmount(() => {
     }
 })
 function getQueryData() {
-    return modelData
+    return queryData.value
 }
 
 function removeQueryData(key){
-    delete modelData[key]
+    delete queryData.value[key]
 }
 
 function setQueryData(item) {
     if (Array.isArray(item)) {
         item.forEach(ele => {
-            modelData[ele.key] = converToQueryData(ele);
-            formData[ele.key]=modelData[ele.key].Value
+            queryData.value[ele.key] = converToQueryData(ele);
+            modelValue.value[ele.key]=queryData.value[ele.key].Value
 
-            if (modelData[ele.key]["QueryParameterType"] != "NoPost" && modelData[ele.key]["IsAutoQuery"]) {
-                watch(()=>formData[ele.key], (newVal: any, oldVal: any) => {
+            if (queryData.value[ele.key]["QueryParameterType"] != "NoPost" && queryData.value[ele.key]["IsAutoQuery"]) {
+                watch(()=>modelValue.value[ele.key], (newVal: any, oldVal: any) => {
                     if (newVal !== '' && newVal !== 0 && newVal == oldVal) {
                         return;
                     }
@@ -90,10 +87,10 @@ function setQueryData(item) {
             }
         })
     } else {
-        modelData[item.key] = converToQueryData(item);
-        formData[item.key]=modelData[item.key].Value
-        if (modelData[item.key]["QueryParameterType"] != "NoPost" && modelData[item.key]["IsAutoQuery"]) {
-            watch(()=>formData[item.key], (newVal: any, oldVal: any) => {
+        queryData.value[item.key] = converToQueryData(item);
+        modelValue.value[item.key]=queryData.value[item.key].Value
+        if (queryData.value[item.key]["QueryParameterType"] != "NoPost" && queryData.value[item.key]["IsAutoQuery"]) {
+            watch(()=>modelValue.value[item.key], (newVal: any, oldVal: any) => {
                 if (newVal !== '' && newVal !== 0 && newVal == oldVal) {
                     return;
                 }
@@ -118,8 +115,8 @@ function converToQueryData(query: QueryInfo) {
 
     let defaultValue = query.value ?? ''
     if (query.key) {
-        if (modelData[query.key] && modelData[query.key].Value !== '') {
-            defaultValue = modelData[query.key].Value
+        if (queryData.value[query.key] && queryData.value[query.key].Value !== '') {
+            defaultValue = queryData.value[query.key].Value
         }
         return {
             QueryFieldName: queryFieldname,
@@ -147,8 +144,8 @@ function recoverQueryState() {
         var currQueryData = JSON.parse(currQueryDataStr);
         for(const key in currQueryData.QueryData){
             if(key){
-                if (formData[key] || formData[key] === 0) {
-                    formData[key] =currQueryData.QueryData[key]
+                if (modelValue.value[key] || modelValue.value[key] === 0) {
+                    modelValue.value[key] =currQueryData.QueryData[key]
                 }
             }
         
@@ -159,8 +156,8 @@ function recoverQueryState() {
 }
 
 function cacheQueryState() {
-    if (Object.keys(formData).length > 0) {
-        var cacheData = { QueryData: formData, CreateTime: new Date().getTime() }
+    if (Object.keys(modelValue.value).length > 0) {
+        var cacheData = { QueryData: modelValue.value, CreateTime: new Date().getTime() }
         sessionStorage.setItem(`$${tagID}_QueryData`, JSON.stringify(cacheData))
     }
 }
@@ -169,9 +166,9 @@ function clearQueryState() {
     sessionStorage.removeItem(`${tagID}_QueryData`)
 }
 function mergeQueryData(){
-    for(const key in formData){
-        if(key&&modelData[key]){
-            modelData[key].Value= formData[key]
+    for(const key in modelValue.value){
+        if(key&&queryData.value[key]){
+            queryData.value[key].Value= modelValue.value[key]
         }
     }
 }
@@ -180,9 +177,9 @@ function query() {
         validate().then(res => {
             if (res) {
                 if (attrs["onSearch"]) {
-                    emits("search", modelData)
+                    emits("search", queryData.value)
                 } 
-                resolve(modelData)
+                resolve(queryData.value)
             } else {
                 resolve(false)
             }
@@ -224,16 +221,16 @@ function getModelValue(key, aIndex = -1) {
     }
     if (aIndex > -1) {
         if (key.toString().includes('.')) {
-            return new Function('formData', `return formData[${aIndex}].${key};`);
+            return new Function('modelValue', `return modelValue.value[${aIndex}].${key};`);
         } else {
-            return formData[aIndex][key]
+            return modelValue.value[aIndex][key]
         }
 
     }
     if (key.toString().includes('.')) {
-        return new Function('formData', `return formData.${key};`);
+        return new Function('formData', `return modelValue.value.${key};`);
     } else {
-        return formData[key]
+        return modelValue.value[key]
     }
 }
 
@@ -243,45 +240,25 @@ function setModelValue(key, value, aIndex = -1) {
     }
     if (aIndex > -1) {
         if (key.toString().includes('.')) {
-            new Function('formData,value', `formData[${aIndex}].${key}=value;`);
+            new Function('modelValue,value', `modelValue[${aIndex}].${key}=value;`);
         } else {
-            formData[aIndex][key] = value
+            modelValue.value[aIndex][key] = value
         }
     }
     if (key.toString().includes('.')) {
-        new Function('formData,value', `formData.${key}=value;`);
+        new Function('modelValue,value', `modelValue.value.${key}=value;`);
     } else {
-        formData[key] = value
+        modelValue.value[key] = value
     }
 }
 
 
 onMounted(()=>{
 
- watch(formData,()=>{
+ watch(modelValue,()=>{
         mergeQueryData()
     },{immediate:true,deep:true})
-    
-    watch(modelData,()=>{
-        emits('update:queryData',modelData)
-    },{immediate:true})
-
-    //兼容外部设置传参
-    if(props.queryData!==undefined){
-        for(const key in props.queryData){
-            watch(()=>props.queryData[key],(val)=>{
-                if(key&&modelData[key]){
-                    modelData[key].Value= val.Value
-                }else{
-                    modelData[key]=val
-                }
-            },{immediate:true,deep:true})
-        }
-    }
-
 })
-
-
 
 setForm({
     'tagContainer':'form',
@@ -291,7 +268,6 @@ setForm({
     getQueryData,
     setModelValue,
     getModelValue,
-    formData,
 })
 
 
@@ -309,8 +285,8 @@ defineExpose({
 </script>
 
 <template>
-    <el-form :model="formData" class="queryForm" ref="queryForm" onsubmit="return false;" inline :show-message="false">
-        <slot v-bind="{formData:formData}"></slot>
+    <el-form :model="modelValue" class="queryForm" ref="queryForm" onsubmit="return false;" inline :show-message="false">
+        <slot></slot>
     </el-form>
 </template>
 <style lang="less" scoped>
@@ -319,6 +295,3 @@ defineExpose({
     flex-wrap: wrap;
 }
 </style>
-
-
-import { lessCom } from '../../utlis/com'../../utlis/interfaces.js

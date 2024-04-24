@@ -34,7 +34,7 @@ for (const slotItem in slots) {
 
 </script>
 <template>
-    <els-checkbox v-model="selectValue" v-bind="props">
+    <els-checkbox  v-bind="props" v-model="selectValue"> 
         <template v-for="item in slotNames" :slot="item">
             <slot :name="item"></slot>
         </template>

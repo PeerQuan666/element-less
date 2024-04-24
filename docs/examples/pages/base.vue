@@ -2,7 +2,7 @@
 <template>
     <els-container>
         <els-menu-tool :data="toolData"></els-menu-tool>
-        <els-form-query style="margin-top: 10px;" v-model="queryData">
+        <els-form-query style="margin-top: 10px;" v-model="formData" v-model:queryData="queryData">
             <els-input label="ID" prop="ID" width="100" clearable validType="Number"></els-input>
             <els-select label="作者" prop="AuthorName" width="100"  clearable>
                 <els-option>无敌元气妹</els-option>
@@ -22,6 +22,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 const apiUrl = ref('http://manage.ybt2023.com/home/test')
+const formData=ref()
 const queryData = ref()
 const toolData = ref<any>(
     [

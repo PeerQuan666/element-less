@@ -23,6 +23,7 @@ const conditionValiddate = ref(true)
 const comValidate = ref(true)
 const attrDrawVisible = ref()
 const selectTemplate=ref()
+const attrContainer=ref()
 
 let bgColors = ref(['87, 106, 149', '255, 148, 62', '50, 150, 250'])
 const delNode = (type) => {
@@ -130,10 +131,10 @@ const isValidate = computed(() => {
 })
 const itemForm = ref()
 function closeAttrSetting() {
-    itemForm.value.validate()
-    if (dynamicTag.value.validate) {
-        dynamicTag.value.validate()
-    }
+    attrContainer.value.validate()
+}
+function setValidateStatus(val){
+    formValidate.value=val
 }
 function handleSelectTemplate({selectItem}){
     dynamicTemplate.value.initData(selectItem.Control)
@@ -195,7 +196,8 @@ function handleSelectTemplate({selectItem}){
         @close="closeAttrSetting" :show-close="false" append-to-body>
         <div>
             <els-caption type="left">步骤配置</els-caption>
-            <els-form v-model="item.data" label-width="120px" v-model:isValidate="formValidate" ref="itemForm">
+            <els-container ref="attrContainer" @validate="setValidateStatus">
+                <els-form v-model="item.data" label-width="120px" ref="itemForm">
                 <els-input prop="Name" label="步骤名称" required></els-input>
                 <els-input prop="CancelCondition" label="取消条件"></els-input>
                 <els-radio-button prop="ErrorBehavior" label="出错处理">
@@ -215,8 +217,7 @@ function handleSelectTemplate({selectItem}){
                         <el-icon style="margin-left:5px;cursor: pointer;"><Question-Filled /></el-icon>
                     </el-tooltip>
                 </els-caption>
-                <component :is="dynamicName" v-model="item.data.Inputs" ref="dynamicTag"
-                    v-model:isValidate="comValidate" :config="currConfig.InputControl" :return-obj="true"></component>
+                <component :is="dynamicName" v-model="item.data.Inputs" ref="dynamicTag" :config="currConfig.InputControl"></component>
                 <template v-if="item.data.StepType == 'UserTask'">
                     <els-caption type="left">审批配置
                         <el-tooltip placement="top">
@@ -242,6 +243,8 @@ function handleSelectTemplate({selectItem}){
 
 
             </els-form>
+            </els-container>
+          
         </div>
         <template #footer>
             <div class="demo-drawer__footer clear">

@@ -31,7 +31,7 @@ interface Props extends FormItemProps {
 }
 
 const props = defineProps<Props>()
-const {getValue,setValue} =useValue()
+const {getValue,setValue} =useValue(props)
 const emits = defineEmits(['update:modelValue'])
 const idataTypes = getValue<any>("dataTypeData", null)
 const icomponentTypes = getValue<any>("componentData", null)

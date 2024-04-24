@@ -17,6 +17,7 @@ interface Props {
     parentNode?: Record<string, any>,
 }
 
+
 const props =defineProps<Props>()
 const {getValue}=useValue()
 const isMobile=getValue<boolean>('isMobile',false)
@@ -120,7 +121,7 @@ currDepath.value += 1;
 
 </script>
 <template>
-    <els-form v-model="currData" :label-width="labelWidth">
+    <els-form v-model="currData" :label-width="labelWidth" >
         <component :is="nodeItem?.componentTypeName=='Row'?'ElsRow':'div'" :class="itemClassName"
             :style="nodeItem?.componentTypeName === 'Row' ? nodeItem ? nodeItem.config.advancedConfig?.style : '' : ''">
 

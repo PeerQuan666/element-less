@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<Props>(), {
     tipPosition: 'left'
 })
 
-const { setValue, getValue } = useValue()
+const { setForm, getValue } = useValue()
 const removeQueryData = getValue<Function>('removeQueryData', () => { })
 const setQueryData = getValue<Function>('setQueryData', () => { })
 const getQueryData = getValue<Function>('getQueryData', () => { })
@@ -115,7 +115,7 @@ defineExpose({
 })
 
 if (!props.hasFormItem) {
-    setValue({ 'tagContainer': 'formItem' })
+    setForm({ 'tagContainer': 'formItem' })
 }
 
 </script>

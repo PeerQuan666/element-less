@@ -274,7 +274,7 @@ function filterNode(value, data) {
     return data.label.indexOf(value) !== -1;
 }
 function handleCheckAllChange() {
-    options.forEach(ele => {
+    options.value.forEach(ele => {
         handleDataAllSelect(ele)
     })
     return;

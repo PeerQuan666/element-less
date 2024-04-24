@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { inject, ref } from "vue";
+import { useValue } from "../../utlis/use";
 import { lessCom } from "../../utlis/com";
 
 interface Props {
@@ -12,9 +13,10 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   showBtn: true
 });
+const {getValue}=useValue()
 const visible = ref(false)
 const operType=ref(0)
-const configData = inject<Array<Record<string, any>>>("configData", []);
+const configData = getValue<Array<Record<string, any>>>("configData", []);
 function addType(type: string, displayName: string) {
 
   visible.value = false;

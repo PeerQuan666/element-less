@@ -15,7 +15,7 @@ const currLabel = ref('')
 const multiple = ref(getValue('multiple', false))
 const provideOption = getValue<any>('provideOption', undefined)
 const setExtraOption = getValue<Function>('setExtraOption',()=>null)
-
+ const isMobile = getValue<boolean>('isMobile', false)
 const slots = useSlots()
 const optionStyle: any = reactive([]);
 const attrs = useAttrs()
@@ -45,10 +45,11 @@ watchEffect(() => {
                 case 'checkboxbutton':
                     componentName.value = 'el-checkbox-button';
                     break;
+             
             }
         }
         currLabel.value = props.label ?? '';
-        if (currType.value == "select" || currType.value.indexOf("checkbox") > -1 || currType.value.indexOf("radio") > -1) {
+        if (currType.value == "select" || currType.value.indexOf("checkbox") > -1 || currType.value.indexOf("radio") > -1 || currType.value.indexOf("dropdown") > -1) {
             if (slots.default && slots.default()[0].type?.toString() == "Symbol(v-txt)") {
                 currLabel.value = slots.default()[0].children?.toString() ?? ''
             }
@@ -79,7 +80,7 @@ if (setExtraOption) {
             <slot name="label"></slot>
         </template>
     </el-tab-pane>
-    <el-dropdown-item v-else-if="currType == 'dropdown'" :command="value ?? currLabel" v-bind="attrs">
+    <el-dropdown-item v-else-if="currType == 'dropdown'&&!isMobile" :command="value ?? currLabel" v-bind="attrs">
         <template #default>
             <slot name="default">{{ value }}</slot>
         </template>
@@ -87,6 +88,7 @@ if (setExtraOption) {
             <slot name="dropdown"></slot>
         </template>
     </el-dropdown-item>
+    <template v-else-if="currType==='dropdown'&&isMobile"></template>
     <component v-else :is="componentName" :style="optionStyle" v-bind="attrs" :label="value ?? currLabel">
         <slot name="default"> {{ provideOption }}</slot>
     </component>

@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { ref, nextTick, onBeforeUnmount, onMounted,watch } from 'vue'
+import { ref, nextTick, onBeforeUnmount, onMounted,watch,reactive } from 'vue'
 import { lessCom } from '../../utlis/com'
-import { useVModel } from '@vueuse/core'
 import {useValue,useContainer } from '../../utlis/use';
 
 defineOptions({ name: 'ElsForm' })
 
 interface Props {
-    modelValue?: any,
     saveUrl?: string,
     beforeSave?: Function,
     afterSave?: Function,
@@ -18,14 +16,15 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     
 })
+
 const {getValue,setForm}=useValue(props)
 const container=useContainer()
 
-const emits = defineEmits(['update:modelValue','update:isValidate'])
+const emits = defineEmits(['update:isValidate'])
 const tagID = 'els-form' + lessCom.generateID();
 const dataForm = ref()
 const submitButton = ref()
-let modelData: Record<string, any> = useVModel(props, 'modelValue', emits)
+const modelValue =defineModel<any>({default:()=>{return reactive<object>({});}})
 const currLabelPosition = ref(getValue<string>('labelPosition','right'))
 const currLabelWidth = ref(getValue<string>('labelWidth'))
 const isMobile= getValue<boolean>("isMobile",false);
@@ -80,9 +79,9 @@ function saveData(url) {
             validate().then((valid) => {
                 if (valid) {
                     if (props.beforeSave) {
-                        props.beforeSave(modelData.value).then(bres => {
+                        props.beforeSave(modelValue.value).then(bres => {
                             if (bres) {
-                                currSaveUrl.post(modelData).then(res => {
+                                currSaveUrl.post(modelValue).then(res => {
                                     if (props.afterSave) {
                                         props.afterSave(res)
                                     }
@@ -94,7 +93,7 @@ function saveData(url) {
                             }
                         })
                     } else {
-                        currSaveUrl.post(modelData).then(res => {
+                        currSaveUrl.post(modelValue).then(res => {
                             if (props.afterSave) {
                                 props.afterSave(res)
                             }
@@ -127,12 +126,12 @@ function validate() {
             resolve(true)
         } else {
             dataForm.value.validate().then(res => {
-                emits('update:isValidate',true)
                 resolve(true)
+                emits('update:isValidate',true)
             }).catch(action => {
+                resolve(false)
                 console.log(action)
                 emits('update:isValidate',false)
-                resolve(false)
             })
         }
 
@@ -151,16 +150,16 @@ function getModelValue(key, aIndex = -1) {
     }
     if (aIndex > -1) {
         if (key.toString().includes('.')) {
-            return new Function('modelData', `return modelData.value[${aIndex}].${key};`);
+            return new Function('modelValue', `return modelValue.value[${aIndex}].${key};`);
         } else {
-            return modelData.value[aIndex][key]
+            return modelValue.value[aIndex][key]
         }
 
     }
     if (key.toString().includes('.')) {
-        return new Function('modelData', `return modelData.value.${key};`);
+        return new Function('modelValue', `return modelValue.value.${key};`);
     } else {
-        return modelData.value[key]
+        return modelValue.value[key]
     }
 }
 
@@ -171,15 +170,15 @@ function setModelValue(key, value, aIndex = -1) {
     }
     if (aIndex > -1) {
         if (key.toString().includes('.')) {
-            new Function('modelData,value', `modelData.value[${aIndex}].${key}=value;`);
+            new Function('modelValue,value', `modelValue.value[${aIndex}].${key}=value;`);
         } else {
-            modelData.value[aIndex][key] = value
+            modelValue.value[aIndex][key] = value
         }
     }
     if (key.toString().includes('.')) {
-        new Function('modelData,value', `modelData.value.${key}=value;`);
+        new Function('modelValue,value', `modelValue.value.${key}=value;`);
     } else {
-        modelData.value[key] = value
+        modelValue.value[key] = value
     }
 }
 
@@ -189,7 +188,7 @@ setForm({
     'tagContainer':'form',
     setModelValue,
     getModelValue,
-    "formData":modelData
+    "formData":modelValue
 })
 
 defineExpose({
@@ -203,12 +202,11 @@ defineExpose({
 
 <template>
 
-    <el-form :model="modelData" ref="dataForm" onsubmit="return false;" :label-width="currLabelWidth" :label-position="currLabelPosition" v-if="!isMobile">
-        <slot v-bind="{formData:modelData}"></slot>
+    <el-form :model="modelValue" ref="dataForm" onsubmit="return false;" :label-width="currLabelWidth" :label-position="currLabelPosition" v-if="!isMobile">
+        <slot></slot>
     </el-form>
     <van-form ref="dataForm" :label-align="currLabelPosition" v-else>
-        <slot v-bind="{formData:modelData}"></slot>
-   
+        <slot></slot>
     </van-form>
 </template>
 

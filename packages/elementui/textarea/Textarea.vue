@@ -32,7 +32,7 @@ watch(inputValue, (val) => {
 })
 </script>
 <template>
-    <els-input v-model="inputValue" type="textarea" v-bind="props" >
+    <els-input type="textarea" v-bind="props"  v-model="inputValue" >
     </els-input>
 </template>
 <style scoped lang="less">

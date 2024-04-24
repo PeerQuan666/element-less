@@ -30,7 +30,7 @@ watchEffect(() => {
 watch(currValue, (val) => {
     emits('update:modelValue', val)
     emits('valueChange', val)
-},{deep:true})
+},{deep:true,immediate:true})
 
 function handleClear() {
     if (props.item.dataTypeName == 'Number' || props.item.arrayDataTypeName == 'Number') {

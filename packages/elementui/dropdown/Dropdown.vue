@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { watch, reactive,ref } from 'vue'
+import { watch, reactive, ref,computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import { lessCom } from '../../utlis/com'
-import { useValue } from '../../utlis/use';
+import { useValue,useMobile } from '../../utlis/use';
 const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig()
 defineOptions({
     name: 'ElsDropdown',
@@ -16,6 +16,7 @@ interface Props {
     url?: string,
     data?: Array<any>,
     title?: string,
+    lazyRender?:boolean
 
 }
 
@@ -25,12 +26,19 @@ const props = withDefaults(defineProps<Props>(), {
     disabledField: 'disabled',
     iconField: 'iconField',
     url: '',
+    lazyRender:false
 })
-const {setValue}=useValue(props)
-
+const modelValue=defineModel();
+const { setValue,getValue } = useValue(props)
+const emits = defineEmits(['update:select', 'update:select-label','select','readdataed'])
+const isMobile = getValue<boolean>('isMobile', false)
 const options = reactive<Array<Record<string, any>>>([])
-const provideOptionData=ref<any>({type:'dropdown',optionWidth:''})
-
+const provideOptionData = ref<any>({ type: 'dropdown', optionWidth: '' })
+const extraOption: Array<Record<string, any>> = reactive([])
+const selectItem = ref<any>()
+const selectLabel = ref('')
+const initSelect = ref(false)
+const preSelectValue = ref<any>('')
 watch(() => props.url, (val) => {
     if (val) {
         readData();
@@ -45,6 +53,24 @@ watch(() => props.data, (val) => {
     }
 }, { immediate: true })
 
+const optionData = computed<Array<Record<string, any>>>(() => {
+    return options.concat(extraOption);
+})
+const mobileOptionData=computed<Array<Record<string, any>>>(() => {
+    return optionData.value.map(ele=>{return {text:ele[props.labelField??'text'],value:ele[props.valueField??'value'],disabled:ele[props.disabledField??'disabled'],icon:ele[props.iconField??'icon']}})
+})
+const showTitle=computed<string>(()=>{
+    if(props.title){
+        return props.title
+    }
+    if(!selectLabel.value&& modelValue.value){
+        const currItem=optionData.value.find(ele => modelValue.value === ele[props.valueField])
+        if(currItem){
+           return currItem[props.labelField]
+        }
+    }
+    return selectLabel.value
+})
 function readData() {
     let currUrl = props.url?.replacePowerUrl() ?? '';
     return new Promise((resolve, reject) => {
@@ -62,18 +88,69 @@ function readData() {
         })
     })
 }
+function handleCommand(val){
+    handleReturnResult(val)
+}
 
+
+function handleReturnResult(value: number | string | boolean) {
+    if (value === undefined) { value = ''; }
+    modelValue.value=value
+    if (initSelect) {
+        if (value || value === 0) {
+            if (props.valueField && props.labelField) {
+                let currOption = optionData.value.find(ele => value == ele[props.valueField]);
+                    emits('update:select', currOption)
+                    if (currOption) {
+                        emits('update:select-label', currOption[props.labelField])
+                    } else {
+                        emits('update:select-label', '')
+                    }
+            }
+            handleComitSelect(value);
+        }
+
+    }
+    initSelect.value = true;
+}
+function handleComitSelect(value: string | number | boolean) {
+    try {
+        if ((value || value === 0) && optionData.value.length) {
+            let currOptions = optionData.value;
+            let currValue = value;
+            selectItem.value = currOptions.find(ele => value === ele[props.valueField])
+                if (selectItem.value) {
+                    selectLabel.value = selectItem.value[props.labelField]
+                }
+            emits('select', { selectItem: selectItem.value, selectLabel: selectLabel.value, selectValue: currValue, preSelectValue: preSelectValue.value });
+            preSelectValue.value = value;
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+function setExtraOption(item: Record<string, any>) {
+    let index = optionData.value.findIndex(ele => ele[props.valueField] == item.value)
+    if (index == -1) {
+        let currSlotData: { [key: string]: any } = {}
+        currSlotData[props.labelField] = item.label;
+        currSlotData[props.valueField] = item.value;
+        currSlotData["DataIsExtra"] = true;
+        extraOption.push(currSlotData)
+    }
+}
 setValue({
-    'type':'dropdown',
-    'provideOption':provideOptionData
+    "provideOption":provideOptionData,
+    setExtraOption
 })
 
 </script>
 <template>
-    <el-dropdown>
+    <el-dropdown v-if="!isMobile" @command="handleCommand">
         <slot>
             <span class="el-dropdown-link">
-                {{ title }}
+                <span v-html="showTitle"></span>
                 <el-icon class="el-icon--right">
                     <arrow-down />
                 </el-icon>
@@ -82,18 +159,27 @@ setValue({
         <template #dropdown>
             <el-dropdown-menu>
                 <template v-if="(url || data && data.length > 0 || options.length)">
-                    <els-option type="dropdown" v-for="(item, index) in options" :key="index" :value="item[valueField]"
-                        :icon="item[iconField]" :disabled="item[disabledField] === true" >
+                    <el-dropdown-item  v-for="(item, index) in options" :key="index"
+                        :command="item[valueField]" :icon="item[iconField]"
+                        :disabled="item[disabledField] === true">
                         <slot name="item" :item="item">
                             {{ item[labelField] }}
                         </slot>
-                    </els-option>
+                    </el-dropdown-item>
                 </template>
                 <template v-else>
                     <slot name="dropdown"></slot>
                 </template>
             </el-dropdown-menu>
         </template>
-
     </el-dropdown>
+    <van-dropdown-item :lazyRender="lazyRender" v-else v-model="modelValue" @change="handleCommand" :options="mobileOptionData" >
+        <template #title v-if="title">
+            <slot>
+                <span v-html="title"></span></slot>
+        </template>
+        <slot name="dropdown"></slot>
+    </van-dropdown-item>
+
+   
 </template>

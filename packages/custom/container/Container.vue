@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import {  ref, getCurrentInstance, onMounted, computed, useSlots, h, nextTick } from 'vue'
+import {  ref, getCurrentInstance, onMounted, computed, useSlots, h, nextTick,onBeforeUnmount } from 'vue'
 import { ElMessage, ElContainer, ElMessageBox, ElLoading } from 'element-plus'
 import { lessCom } from "../../utlis/com";
-import { useValue } from '../../utlis/use';
+import { useValue,useContainer } from '../../utlis/use';
 defineOptions({
     name: 'ElsContainer',
 })
 interface Props {
     selectMenuPostQuery?: boolean
 }
+const emits=defineEmits(['validate'])
 const props = defineProps<Props>()
 const {setContainer} =useValue(props)
-
+const tagID= 'els-container' + lessCom.generateID();
 const { ctx } = getCurrentInstance() as any
 const { $codeField, $messageField, $success, $eventData } = lessCom.getApiConfig()
 const { $actionField, $confirmField, $confirmPasswordField, $urlField } = lessCom.getMenuConfig()
@@ -20,14 +21,15 @@ const elsPageStore = ref<any>({
     validates: [],
     queryForms: [],
     dataTables: [],
-    saveForms: []
+    saveForms: [],
+    childContainer:[]
 })
 
 const dialogVisible = ref(false)
 const dialogUrl = ref('')
 const drawerVisible = ref(false)
 const drawerUrl = ref('')
-
+const container=useContainer()
 const elsPathId = computed(() => {
     const path = location.host + location.pathname
     if (location.search) {
@@ -40,11 +42,18 @@ const completeReadTableIds = ref<any>([])
 
 function validate() {
     return new Promise((resolve) => {
-        Promise.all(elsPageStore.value.validates.map(ele => ele.validate())).then(res => {
+        const currValidates=[...elsPageStore.value.validates];
+        if(elsPageStore.value.childContainer.length){
+            currValidates.push(...elsPageStore.value.childContainer)
+        }
+        Promise.all(currValidates.map(ele => ele.validate())).then(res => {
             if (res.every(ele => ele == true)) {
                 resolve(true)
+                emits('validate',true)
             } else {
                 resolve(false)
+                emits('validate',false)
+
             }
         })
     })
@@ -147,7 +156,7 @@ async function query(initPage = false, tableRef = '') {
 function elsSaveTable() {
     return new Promise(async (resolve) => {
         const queryAsyncs: any = [];
-        elsPageStore.dataTables.forEach(ele => {
+        elsPageStore.value.dataTables.forEach(ele => {
             queryAsyncs.push(ele.saveTableData())
         })
         if (queryAsyncs.length) {
@@ -446,9 +455,21 @@ if (slots.default) {
     componentName = slots.default().some(i => ['ElHeader', 'ElContainer', 'ElAside', 'ElMain', 'ElFooter'].includes((i.type as any)?.name)) ? ElContainer : h('div')
     isVertical.value = slots.default().some(i => ['ElHeader', 'ElFooter'].includes((i.type as any)?.name))
 }
+const exposeData={
+    id:tagID,
+    validate
+}
 
 onMounted(() => {
+    if(container){
+        container.$pageStore.value.childContainer.push(exposeData)
+    }
     query(true)
+})
+onBeforeUnmount(()=>{
+    if(container){
+        lessCom.removeArrayItem(container.$pageStore.value.childContainer,exposeData)
+    }
 })
 
 setContainer({

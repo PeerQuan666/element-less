@@ -57,7 +57,6 @@ export const useRangeModel = (props, currValue, startValue, endValue) => {
 
 }
 
-
 export const useModel = (props) => {
     const { emit } = getCurrentInstance()!
     const {getValue}=useValue()

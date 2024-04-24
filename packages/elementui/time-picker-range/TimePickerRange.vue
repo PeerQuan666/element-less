@@ -48,13 +48,13 @@ const endGreaterThanCpt = computed(() => {
     return '';
 })
 
-
+const test=ref()
 </script>
 
 <template>
     <div class="els-node">
         <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-            <els-time-picker v-if="single" v-model="dateValue" v-bind="props" width="200" :defaultValue="defaultValue"
+            <els-time-picker v-if="single" v-bind="props" v-model="dateValue"  width="200" :defaultValue="defaultValue"
                 v-model:start="dateStartValue" v-model:end="dateEndValue">
                 <template #default="cell">
                     <slot name="default" :cell="cell"></slot>

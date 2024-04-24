@@ -9,7 +9,7 @@ defineOptions({
 })
 interface Props extends FormItemProps {
     width?:string
-    modelValue?: Number
+    modelValue?: number|string
 }
 const {getValue}=useValue()
 const isMobile = getValue<boolean>('isMobile', false)
@@ -28,7 +28,13 @@ const {
 
 watch(currModelValue,(val)=>{
     if(currValue.value!==val){
-        currValue.value=val
+        if(typeof(val)==='string'){
+            currValue.value=parseFloat(val)
+        }
+        else{
+            currValue.value=val
+        }
+    
     }
 
 },{immediate:true})
@@ -46,4 +52,4 @@ watch(currValue, (val) => {
         
         </ElsFormNode>
     </div>
-</template>../../utlis/interfaces.js
+</template>

@@ -346,7 +346,7 @@ setValue({
 
 <template>
        <div class="els-node">
-    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
+    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)" ref="formNode" tagName="Checkbox">
         <div :class="checkboxClass" :style="checkboxStyle" >
             <div style="margin-bottom: 15px;text-align:left;" v-if="showCheckall || filterable">
                 <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" v-if="showCheckall"
