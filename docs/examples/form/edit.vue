@@ -1,7 +1,9 @@
 <template>
     <els-form v-model="editData" ref="editForm" >
-        <els-input label="aaa" prop="text" required  validExpression="^[A-Za-z0-9]+$" ></els-input>
-        <els-date-picker prop="selectValue1" label="时间" required></els-date-picker>
+        <els-input label="名称" prop="name" required  validExpression="^[A-Za-z0-9]+$" ></els-input>
+        <els-date-picker label="时间"   prop="birth" required></els-date-picker>
+        <els-upload type="Pic" label="头像" prop="pic"></els-upload>
+        <els-textarea prop="remark" label="简介"></els-textarea>
     </els-form>
   
 </template>
@@ -9,7 +11,7 @@
 <script lang="ts" setup>
 import { ref ,provide,reactive} from 'vue'
 import { ElMessage } from 'element-plus'
-const editData = ref({ selectValue: '', selectValue1: '',pic:'' })
+const editData = ref({ name: '', birth: '',pic:'',remark:'' })
 const editForm = ref()
 const apiUrl = 'http://manage.ybt2023.com/home/test2'
 const data = reactive([

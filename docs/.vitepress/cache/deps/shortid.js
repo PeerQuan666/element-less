@@ -1,6 +1,6 @@
 import {
   __commonJS
-} from "./chunk-J32WSRGE.js";
+} from "./chunk-TIUEEL27.js";
 
 // node_modules/shortid/lib/random/random-from-seed.js
 var require_random_from_seed = __commonJS({
@@ -129,9 +129,9 @@ var require_random_byte_browser = __commonJS({
   }
 });
 
-// node_modules/shortid/node_modules/nanoid/format.browser.js
+// node_modules/nanoid/format.browser.js
 var require_format_browser = __commonJS({
-  "node_modules/shortid/node_modules/nanoid/format.browser.js"(exports, module) {
+  "node_modules/nanoid/format.browser.js"(exports, module) {
     module.exports = function(random, alphabet, size) {
       var mask = (2 << Math.log(alphabet.length - 1) / Math.LN2) - 1;
       var step = -~(1.6 * mask * size / alphabet.length);

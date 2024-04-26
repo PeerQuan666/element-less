@@ -6,7 +6,7 @@ import Example from './demo/vp-example.vue'
 import SourceCode from './demo/vp-source-code.vue'
 
 import "prismjs/themes/prism.min.css"
-const allExamples = import.meta.globEager('../../examples/*/*.vue')
+const allExamples = import.meta.glob('../../examples/*/*.vue',{eager: true})
 
 defineOptions({
   name: 'VpDemo'

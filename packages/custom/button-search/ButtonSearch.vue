@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref ,useAttrs} from 'vue'
 import { useContainer,useValue } from '../../utlis/use';
 defineOptions({ name: "ElsButtonSearch" })
 const emits = defineEmits(['click'])
@@ -7,8 +7,8 @@ const loading = ref(false)
 
 const container =useContainer()
 const {getValue}=useValue()
+const tableRef=getValue<string>('tableRef')
 function handleSearch() {
-    const tableRef=getValue<string>('tableRef')
     if(!container){
         emits('click')
         return

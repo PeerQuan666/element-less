@@ -9,7 +9,7 @@ defineOptions({
     inheritAttrs: false
 })
 interface Props extends FormItemProps {
-    modelValue?: ''
+    modelValue?: any,
     prefixTag?: string
     suffixTag?: string
     width?: number | string,
@@ -112,4 +112,4 @@ placeholder.value='请输入'+(props.label??'')
     position: relative;
     width: 100%;
 }
-</style>../../utlis/interfaces.js
+</style>

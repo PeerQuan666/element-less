@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, watch } from 'vue'
+import { computed, getCurrentInstance, watch, watchEffect } from 'vue'
 import { useValue } from './useValue'
 import {lessCom} from '../com'
 import { ValidType } from '../enums'
@@ -38,19 +38,18 @@ export const useRangeModel = (props, currValue, startValue, endValue) => {
         }
     }, { immediate: true })
 
-    watch(startValue, (val) => {
+    watchEffect(()=>{
         if (!props.single || !currModelValue.value) {
-            currValue.value = [val, endValue.value ?? ''].join(props.valueSeparator)
-        }
-        returnStartValue(val)
-    })
+            if(!startValue.value&&!endValue.value){
+                currValue.value = ""
+            }else{
+                currValue.value = [startValue.value, endValue.value ?? ''].join(props.valueSeparator)
 
-    watch(endValue, (val) => {
-        if (!props.single || !currModelValue.value) {
-            currValue.value = [startValue.value ?? '', val].join(props.valueSeparator)
-
+            }
         }
-        returnEndValue(val)
+        returnStartValue(startValue.value)
+        returnEndValue(endValue.value)
+
     })
 
 
@@ -82,10 +81,11 @@ export const useModel = (props) => {
         return props.modelValue
     })
     const returnModelValue = (value) => {
-        emit('update:modelValue', value);
         if (props.modelValue === undefined && setModelValue && props.prop !== undefined) {
             setModelValue(props.prop, value, props.aIndex)
         }
+        emit('update:modelValue', value);
+
     }
     const returnStartValue = (value) => {
         let currValue = value

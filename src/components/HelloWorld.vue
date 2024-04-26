@@ -23,32 +23,16 @@ function hideF(){
   <h1>{{ msg }}</h1>
   <el-button @click="valid">验证</el-button>
   <el-button @click="hideF">取消一个</el-button>
-  <els-container ref="test1">
-    <els-form v-model="form1">
-      <els-input prop="name" required label="名称"></els-input>
-    </els-form>
-    <els-container>
-      <els-form v-model="form1_1">
-        <els-input prop="name" required label="名称"></els-input>
-        <els-container v-if="hide">
-          <els-form v-model="form1_1_1">
-            <els-input prop="name" required label="名称"></els-input>
-          </els-form>
-        </els-container>
-      </els-form>
-    </els-container>
-  </els-container>
-  <els-container ref="test2">
-    <els-form v-model="form2">
-      <els-input prop="name" required label="名称"></els-input>
-    </els-form>
-  </els-container>
-  <els-caption title="asdsa"></els-caption>
-
-  <els-work-flow v-model="test" configUrl="http://localhost:5000/WorkflowManage/SearchAuto/StepReadData"
-    userUrl="http://localhost:5000/WorkflowManage/SearchAuto/PowerUserNameReadData"
-    userTaskTemplateUrl="http://localhost:5000/WorkflowManage/SearchAuto/UserTaskDataTemplateReadData"
-    :showTreeData="true"></els-work-flow>
+  <els-form-query ref="queryForm" >
+   <els-input prop="test" label="test"></els-input>
+        <els-select label="城市" prop="selectValue" required clearable>
+            <els-option :value="1">北京</els-option>
+            <els-option :value="2">天津</els-option>
+            <els-option :value="3">福州</els-option>
+            <els-option :value="4">厦门</els-option>
+        </els-select>
+        <els-date-picker-range label="时间" prop="date"></els-date-picker-range>
+    </els-form-query>
 </template>
 
 <style scoped>

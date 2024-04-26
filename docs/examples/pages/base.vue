@@ -3,8 +3,8 @@
     <els-container>
         <els-menu-tool :data="toolData"></els-menu-tool>
         <els-form-query style="margin-top: 10px;" v-model="formData" v-model:queryData="queryData">
-            <els-input label="ID" prop="ID" width="100" clearable validType="Number"></els-input>
-            <els-select label="作者" prop="AuthorName" width="100"  clearable>
+            <els-input label="ID" prop="ID"  clearable validType="Number"></els-input>
+            <els-select label="作者" prop="AuthorName"  clearable>
                 <els-option>无敌元气妹</els-option>
                 <els-option>稚葵</els-option>
                 <els-option>伊人妆</els-option>

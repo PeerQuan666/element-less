@@ -1,6 +1,6 @@
 import {
   __commonJS
-} from "./chunk-J32WSRGE.js";
+} from "./chunk-TIUEEL27.js";
 
 // node_modules/ace-builds/src-noconflict/mode-json.js
 var require_mode_json = __commonJS({
@@ -14,19 +14,23 @@ var require_mode_json = __commonJS({
           "start": [
             {
               token: "variable",
+              // single line
               regex: '["](?:(?:\\\\.)|(?:[^"\\\\]))*?["]\\s*(?=:)'
             },
             {
               token: "string",
+              // single line
               regex: '"',
               next: "string"
             },
             {
               token: "constant.numeric",
+              // hex
               regex: "0[xX][0-9a-fA-F]+\\b"
             },
             {
               token: "constant.numeric",
+              // float
               regex: "[+-]?\\d+(?:(?:\\.\\d*)?(?:[eE][+-]?\\d+)?)?\\b"
             },
             {
@@ -35,14 +39,17 @@ var require_mode_json = __commonJS({
             },
             {
               token: "text",
+              // single quoted strings are not allowed
               regex: "['](?:(?:\\\\.)|(?:[^'\\\\]))*?[']"
             },
             {
               token: "comment",
+              // comments are not allowed, but who cares?
               regex: "\\/\\/.*$"
             },
             {
               token: "comment.start",
+              // comments are not allowed, but who cares?
               regex: "\\/\\*",
               next: "comment"
             },
@@ -80,6 +87,7 @@ var require_mode_json = __commonJS({
           "comment": [
             {
               token: "comment.end",
+              // comments are not allowed, but who cares?
               regex: "\\*\\/",
               next: "start"
             },

@@ -2,7 +2,6 @@
 <template>
     <els-container>
         <els-menu-tool :data="toolData"></els-menu-tool>
-        {{ editData }}
         <els-form v-model="editData" style="margin-top: 10px;" labelWidth="60" inputWidth="200">
             <els-input label="名字" prop="name"  required></els-input>
             <els-input label="身价" prop="revenue" required validType="Price"></els-input>

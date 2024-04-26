@@ -78,8 +78,8 @@ if (!currWidth.value) {
     if (formInputWidth) {
         currWidth.value = formInputWidth
     }
-
 }
+
 const {
     currModelValue,
     returnModelValue,
@@ -399,6 +399,30 @@ onMounted(() => {
 })
 
 
+const value = ref('')
+const options1 = [
+  {
+    value: 'Option1',
+    label: 'Option1',
+  },
+  {
+    value: 'Option2',
+    label: 'Option2',
+    disabled: true,
+  },
+  {
+    value: 'Option3',
+    label: 'Option3',
+  },
+  {
+    value: 'Option4',
+    label: 'Option4',
+  },
+  {
+    value: 'Option5',
+    label: 'Option5',
+  },
+]
 </script>
 <template>
     <div class="els-node">

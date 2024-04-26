@@ -1,6 +1,6 @@
 import {
   __commonJS
-} from "./chunk-J32WSRGE.js";
+} from "./chunk-TIUEEL27.js";
 
 // node_modules/ace-builds/src-noconflict/mode-csharp.js
 var require_mode_csharp = __commonJS({
@@ -34,6 +34,7 @@ var require_mode_csharp = __commonJS({
       DocCommentHighlightRules.getStartRule = function(start) {
         return {
           token: "comment.doc",
+          // doc comment
           regex: "\\/\\*(?=\\*)",
           next: start
         };
@@ -41,6 +42,7 @@ var require_mode_csharp = __commonJS({
       DocCommentHighlightRules.getEndRule = function(start) {
         return {
           token: "comment.doc",
+          // closing comment
           regex: "\\*\\/",
           next: start
         };
@@ -67,11 +69,13 @@ var require_mode_csharp = __commonJS({
             DocCommentHighlightRules.getStartRule("doc-start"),
             {
               token: "comment",
+              // multi line comment
               regex: "\\/\\*",
               next: "comment"
             },
             {
               token: "string",
+              // character
               regex: /'(?:.|\\(:?u[\da-fA-F]+|x[\da-fA-F]+|[tbrf'"n]))?'/
             },
             {
@@ -103,10 +107,12 @@ var require_mode_csharp = __commonJS({
             },
             {
               token: "constant.numeric",
+              // hex
               regex: "0[xX][0-9a-fA-F]+\\b"
             },
             {
               token: "constant.numeric",
+              // float
               regex: "[+-]?\\d+(?:(?:\\.\\d*)?(?:[eE][+-]?\\d+)?)?\\b"
             },
             {
@@ -145,6 +151,7 @@ var require_mode_csharp = __commonJS({
           "comment": [
             {
               token: "comment",
+              // closing comment
               regex: "\\*\\/",
               next: "start"
             },

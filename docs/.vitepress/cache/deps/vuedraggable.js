@@ -1,13 +1,13 @@
 import {
   init_vue_runtime_esm_bundler,
   vue_runtime_esm_bundler_exports
-} from "./chunk-BD4EWHML.js";
+} from "./chunk-Y3E3Y6KD.js";
 import {
   __commonJS,
   __esm,
   __export,
   __toCommonJS
-} from "./chunk-J32WSRGE.js";
+} from "./chunk-TIUEEL27.js";
 
 // node_modules/vuedraggable/node_modules/sortablejs/modular/sortable.esm.js
 var sortable_esm_exports = {};
@@ -5476,7 +5476,7 @@ var require_vuedraggable_umd = __commonJS({
             /***/
             function(module2, exports2) {
               var g;
-              g = function() {
+              g = /* @__PURE__ */ function() {
                 return this;
               }();
               try {
@@ -6165,7 +6165,7 @@ var require_vuedraggable_umd = __commonJS({
               var classofRaw = __webpack_require__("c6b6");
               var wellKnownSymbol = __webpack_require__("b622");
               var TO_STRING_TAG = wellKnownSymbol("toStringTag");
-              var CORRECT_ARGUMENTS = classofRaw(function() {
+              var CORRECT_ARGUMENTS = classofRaw(/* @__PURE__ */ function() {
                 return arguments;
               }()) == "Arguments";
               var tryGet = function(it, key) {

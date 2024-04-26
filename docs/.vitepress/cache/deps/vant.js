@@ -38,8 +38,8 @@ import {
   watchEffect,
   withDirectives,
   withKeys
-} from "./chunk-BD4EWHML.js";
-import "./chunk-J32WSRGE.js";
+} from "./chunk-Y3E3Y6KD.js";
+import "./chunk-TIUEEL27.js";
 
 // node_modules/vant/es/utils/basic.mjs
 function noop() {
@@ -9564,23 +9564,39 @@ var couponCellProps = {
   editable: truthProp,
   coupons: makeArrayProp(),
   currency: makeStringProp("¥"),
-  chosenCoupon: makeNumericProp(-1)
+  chosenCoupon: {
+    type: [Number, Array],
+    default: -1
+  }
+};
+var getValue = (coupon) => {
+  const {
+    value,
+    denominations
+  } = coupon;
+  if (isDef(value)) {
+    return value;
+  }
+  if (isDef(denominations)) {
+    return denominations;
+  }
+  return 0;
 };
 function formatValue({
   coupons,
   chosenCoupon,
   currency
 }) {
-  const coupon = coupons[+chosenCoupon];
-  if (coupon) {
-    let value = 0;
-    if (isDef(coupon.value)) {
-      ({
-        value
-      } = coupon);
-    } else if (isDef(coupon.denominations)) {
-      value = coupon.denominations;
+  let value = 0;
+  let isExist = false;
+  (Array.isArray(chosenCoupon) ? chosenCoupon : [chosenCoupon]).forEach((i) => {
+    const coupon = coupons[+i];
+    if (coupon) {
+      isExist = true;
+      value += getValue(coupon);
     }
+  });
+  if (isExist) {
     return `-${currency} ${(value / 100).toFixed(2)}`;
   }
   return coupons.length === 0 ? t11("noCoupon") : t11("count", coupons.length);
@@ -9590,7 +9606,7 @@ var stdin_default61 = defineComponent({
   props: couponCellProps,
   setup(props2) {
     return () => {
-      const selected = props2.coupons[+props2.chosenCoupon];
+      const selected = Array.isArray(props2.chosenCoupon) ? props2.chosenCoupon.length : props2.coupons[+props2.chosenCoupon];
       return createVNode(Cell, {
         "class": bem54(),
         "value": formatValue(props2),
@@ -9942,7 +9958,6 @@ var couponListProps = {
   currency: makeStringProp("¥"),
   showCount: truthProp,
   emptyImage: String,
-  chosenCoupon: makeNumberProp(-1),
   enabledTitle: String,
   disabledTitle: String,
   disabledCoupons: makeArrayProp(),
@@ -9954,7 +9969,11 @@ var couponListProps = {
   exchangeButtonText: String,
   displayedCouponIndex: makeNumberProp(-1),
   exchangeButtonLoading: Boolean,
-  exchangeButtonDisabled: Boolean
+  exchangeButtonDisabled: Boolean,
+  chosenCoupon: {
+    type: [Number, Array],
+    default: -1
+  }
 };
 var stdin_default63 = defineComponent({
   name: name60,
@@ -10022,10 +10041,17 @@ var stdin_default63 = defineComponent({
     };
     const renderCouponTab = () => {
       const {
-        coupons
+        coupons,
+        chosenCoupon
       } = props2;
       const count = props2.showCount ? ` (${coupons.length})` : "";
       const title = (props2.enabledTitle || t12("enable")) + count;
+      const updateChosenCoupon = (currentValues = [], value = 0) => {
+        if (currentValues.includes(value)) {
+          return currentValues.filter((item) => item !== value);
+        }
+        return [...currentValues, value];
+      };
       return createVNode(Tab, {
         "title": title
       }, {
@@ -10042,9 +10068,9 @@ var stdin_default63 = defineComponent({
             "key": coupon.id,
             "ref": setCouponRefs(index),
             "coupon": coupon,
-            "chosen": index === props2.chosenCoupon,
+            "chosen": Array.isArray(chosenCoupon) ? chosenCoupon.includes(index) : index === chosenCoupon,
             "currency": props2.currency,
-            "onClick": () => emit("change", index)
+            "onClick": () => emit("change", Array.isArray(chosenCoupon) ? updateChosenCoupon(chosenCoupon, index) : index)
           }, null)), !coupons.length && renderEmpty(), (_a = slots["list-footer"]) == null ? void 0 : _a.call(slots)])];
         }
       });
@@ -10097,13 +10123,13 @@ var stdin_default63 = defineComponent({
       default: () => [renderCouponTab(), renderDisabledTab()]
     }), createVNode("div", {
       "class": bem56("bottom")
-    }, [withDirectives(createVNode(Button, {
+    }, [slots["list-button"] ? slots["list-button"]() : withDirectives(createVNode(Button, {
       "round": true,
       "block": true,
       "type": "primary",
       "class": bem56("close"),
       "text": props2.closeButtonText || t12("close"),
-      "onClick": () => emit("change", -1)
+      "onClick": () => emit("change", Array.isArray(props2.chosenCoupon) ? [] : -1)
     }, null), [[vShow, props2.showCloseButton]])])]);
   }
 });
@@ -10142,6 +10168,7 @@ var stdin_default64 = defineComponent({
   }) {
     const currentValues = ref(props2.modelValue);
     const updatedByExternalSources = ref(false);
+    const pickerRef = ref();
     const genYearOptions = () => {
       const minYear = props2.minDate.getFullYear();
       const maxYear = props2.maxDate.getFullYear();
@@ -10151,7 +10178,7 @@ var stdin_default64 = defineComponent({
     const isMaxYear = (year) => year === props2.maxDate.getFullYear();
     const isMinMonth = (month) => month === props2.minDate.getMonth() + 1;
     const isMaxMonth = (month) => month === props2.maxDate.getMonth() + 1;
-    const getValue = (type) => {
+    const getValue2 = (type) => {
       const {
         minDate,
         columnsType
@@ -10171,18 +10198,23 @@ var stdin_default64 = defineComponent({
       }
     };
     const genMonthOptions = () => {
-      const year = getValue("year");
+      const year = getValue2("year");
       const minMonth = isMinYear(year) ? props2.minDate.getMonth() + 1 : 1;
       const maxMonth = isMaxYear(year) ? props2.maxDate.getMonth() + 1 : 12;
       return genOptions(minMonth, maxMonth, "month", props2.formatter, props2.filter);
     };
     const genDayOptions = () => {
-      const year = getValue("year");
-      const month = getValue("month");
+      const year = getValue2("year");
+      const month = getValue2("month");
       const minDate = isMinYear(year) && isMinMonth(month) ? props2.minDate.getDate() : 1;
       const maxDate = isMaxYear(year) && isMaxMonth(month) ? props2.maxDate.getDate() : getMonthEndDay(year, month);
       return genOptions(minDate, maxDate, "day", props2.formatter, props2.filter);
     };
+    const confirm = () => {
+      var _a;
+      return (_a = pickerRef.value) == null ? void 0 : _a.confirm();
+    };
+    const getSelectedDate = () => currentValues.value;
     const columns = computed(() => props2.columnsType.map((type) => {
       switch (type) {
         case "year":
@@ -10216,7 +10248,12 @@ var stdin_default64 = defineComponent({
     const onChange = (...args) => emit("change", ...args);
     const onCancel = (...args) => emit("cancel", ...args);
     const onConfirm = (...args) => emit("confirm", ...args);
+    useExpose({
+      confirm,
+      getSelectedDate
+    });
     return () => createVNode(Picker, mergeProps({
+      "ref": pickerRef,
       "modelValue": currentValues.value,
       "onUpdate:modelValue": ($event) => currentValues.value = $event,
       "columns": columns.value,
@@ -10775,8 +10812,14 @@ var stdin_default68 = defineComponent({
       const {
         activeColor
       } = parent.props;
+      const {
+        disabled
+      } = option;
       const active = option.value === props2.modelValue;
       const onClick = () => {
+        if (disabled) {
+          return;
+        }
         state.showPopup = false;
         if (option.value !== props2.modelValue) {
           emit("update:modelValue", option.value);
@@ -10787,7 +10830,7 @@ var stdin_default68 = defineComponent({
         if (active) {
           return createVNode(Icon, {
             "class": bem60("icon"),
-            "color": activeColor,
+            "color": disabled ? void 0 : activeColor,
             "name": "success"
           }, null);
         }
@@ -10798,13 +10841,14 @@ var stdin_default68 = defineComponent({
         "icon": option.icon,
         "title": option.text,
         "class": bem60("option", {
-          active
+          active,
+          disabled
         }),
         "style": {
           color: active ? activeColor : ""
         },
         "tabindex": active ? 0 : -1,
-        "clickable": true,
+        "clickable": !disabled,
         "onClick": onClick
       }, {
         value: renderIcon
@@ -17368,10 +17412,16 @@ var stdin_default115 = defineComponent({
     slots
   }) {
     const currentValues = ref(props2.modelValue);
+    const pickerRef = ref();
     const getValidTime = (time) => {
       const timeLimitArr = time.split(":");
       return fullColumns.map((col, i) => props2.columnsType.includes(col) ? timeLimitArr[i] : "00");
     };
+    const confirm = () => {
+      var _a;
+      return (_a = pickerRef.value) == null ? void 0 : _a.confirm();
+    };
+    const getSelectedTime = () => currentValues.value;
     const columns = computed(() => {
       let {
         minHour,
@@ -17444,7 +17494,12 @@ var stdin_default115 = defineComponent({
     const onChange = (...args) => emit("change", ...args);
     const onCancel = (...args) => emit("cancel", ...args);
     const onConfirm = (...args) => emit("confirm", ...args);
+    useExpose({
+      confirm,
+      getSelectedTime
+    });
     return () => createVNode(Picker, mergeProps({
+      "ref": pickerRef,
       "modelValue": currentValues.value,
       "onUpdate:modelValue": ($event) => currentValues.value = $event,
       "columns": columns.value,
@@ -19041,7 +19096,7 @@ var Lazyload = {
 };
 
 // node_modules/vant/es/index.mjs
-var version = "4.8.8";
+var version = "4.8.11";
 function install(app) {
   const components = [
     ActionBar,

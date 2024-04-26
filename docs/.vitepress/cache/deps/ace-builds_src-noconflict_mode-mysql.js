@@ -1,6 +1,6 @@
 import {
   __commonJS
-} from "./chunk-J32WSRGE.js";
+} from "./chunk-TIUEEL27.js";
 
 // node_modules/ace-builds/src-noconflict/mode-mysql.js
 var require_mode_mysql = __commonJS({
@@ -34,6 +34,7 @@ var require_mode_mysql = __commonJS({
       DocCommentHighlightRules.getStartRule = function(start) {
         return {
           token: "comment.doc",
+          // doc comment
           regex: "\\/\\*(?=\\*)",
           next: start
         };
@@ -41,6 +42,7 @@ var require_mode_mysql = __commonJS({
       DocCommentHighlightRules.getEndRule = function(start) {
         return {
           token: "comment.doc",
+          // closing comment
           regex: "\\*\\/",
           next: start
         };
@@ -95,15 +97,18 @@ var require_mode_mysql = __commonJS({
             DocCommentHighlightRules.getStartRule("doc-start"),
             {
               token: "comment",
+              // multi line comment
               regex: /\/\*/,
               next: "comment"
             },
             {
               token: "constant.numeric",
+              // hex
               regex: /0[xX][0-9a-fA-F]+|[xX]'[0-9a-fA-F]+'|0[bB][01]+|[bB]'[01]+'/
             },
             {
               token: "constant.numeric",
+              // float
               regex: "[+-]?\\d+(?:(?:\\.\\d*)?(?:[eE][+-]?\\d+)?)?\\b"
             },
             {

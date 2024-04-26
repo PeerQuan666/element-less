@@ -268,6 +268,7 @@ setForm({
     getQueryData,
     setModelValue,
     getModelValue,
+    inline:true
 })
 
 
@@ -289,9 +290,19 @@ defineExpose({
         <slot></slot>
     </el-form>
 </template>
+<style lang="less">
+.el-form--inline{
+    .el-select{
+        --el-select-width: 220px;
+
+    }
+}
+</style>
 <style lang="less" scoped>
 .queryForm {
     display: flex;
     flex-wrap: wrap;
 }
+
+
 </style>

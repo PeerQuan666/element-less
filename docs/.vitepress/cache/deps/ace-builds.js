@@ -1,13 +1,13 @@
 import {
   __commonJS
-} from "./chunk-J32WSRGE.js";
+} from "./chunk-TIUEEL27.js";
 
 // node_modules/ace-builds/src-noconflict/ace.js
 var require_ace = __commonJS({
   "node_modules/ace-builds/src-noconflict/ace.js"(exports, module) {
     (function() {
       var ACE_NAMESPACE = "ace";
-      var global = function() {
+      var global = /* @__PURE__ */ function() {
         return this;
       }();
       if (!global && typeof window != "undefined")
@@ -405,13 +405,8 @@ var require_ace = __commonJS({
         }
         return true;
       };
-      exports2.supportsUnicodeFlag = function() {
-        try {
-          new RegExp("^.$", "u");
-        } catch (error) {
-          return false;
-        }
-        return true;
+      exports2.skipEmptyMatch = function(line, last, supportsUnicodeFlag) {
+        return supportsUnicodeFlag && line.codePointAt(last) > 65535 ? 2 : 1;
       };
     });
     ace.define("ace/lib/useragent", ["require", "exports", "module"], function(require2, exports2, module2) {
@@ -440,14 +435,15 @@ var require_ace = __commonJS({
       exports2.isIE = appName == "Microsoft Internet Explorer" || appName.indexOf("MSAppHost") >= 0 ? parseFloat((ua.match(/(?:MSIE |Trident\/[0-9]+[\.0-9]+;.*rv:)([0-9]+[\.0-9]+)/) || [])[1]) : parseFloat((ua.match(/(?:Trident\/[0-9]+[\.0-9]+;.*rv:)([0-9]+[\.0-9]+)/) || [])[1]);
       exports2.isOldIE = exports2.isIE && exports2.isIE < 9;
       exports2.isGecko = exports2.isMozilla = ua.match(/ Gecko\/\d+/);
-      exports2.isOpera = typeof opera == "object" && Object.prototype.toString.call(window.opera) == "[object Opera]";
+      exports2.isOpera = typeof opera == "object" && Object.prototype.toString.call(window["opera"]) == "[object Opera]";
       exports2.isWebKit = parseFloat(ua.split("WebKit/")[1]) || void 0;
       exports2.isChrome = parseFloat(ua.split(" Chrome/")[1]) || void 0;
+      exports2.isSafari = parseFloat(ua.split(" Safari/")[1]) && !exports2.isChrome || void 0;
       exports2.isEdge = parseFloat(ua.split(" Edge/")[1]) || void 0;
       exports2.isAIR = ua.indexOf("AdobeAIR") >= 0;
       exports2.isAndroid = ua.indexOf("Android") >= 0;
       exports2.isChromeOS = ua.indexOf(" CrOS ") >= 0;
-      exports2.isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+      exports2.isIOS = /iPad|iPhone|iPod/.test(ua) && !window["MSStream"];
       if (exports2.isIOS)
         exports2.isMac = true;
       exports2.isMobile = exports2.isIOS || exports2.isAndroid;
@@ -866,7 +862,7 @@ var require_ace = __commonJS({
     ace.define("ace/lib/report_error", ["require", "exports", "module"], function(require2, exports2, module2) {
       exports2.reportError = function reportError(msg, data) {
         var e = new Error(msg);
-        e.data = data;
+        e["data"] = data;
         if (typeof console == "object" && console.error)
           console.error(e);
         setTimeout(function() {
@@ -874,11 +870,57 @@ var require_ace = __commonJS({
         });
       };
     });
-    ace.define("ace/lib/app_config", ["require", "exports", "module", "ace/lib/oop", "ace/lib/event_emitter", "ace/lib/report_error"], function(require2, exports2, module2) {
+    ace.define("ace/lib/default_english_messages", ["require", "exports", "module"], function(require2, exports2, module2) {
+      var defaultEnglishMessages = {
+        "autocomplete.popup.aria-roledescription": "Autocomplete suggestions",
+        "autocomplete.popup.aria-label": "Autocomplete suggestions",
+        "autocomplete.popup.item.aria-roledescription": "item",
+        "autocomplete.loading": "Loading...",
+        "editor.scroller.aria-roledescription": "editor",
+        "editor.scroller.aria-label": "Editor content, press Enter to start editing, press Escape to exit",
+        "editor.gutter.aria-roledescription": "editor",
+        "editor.gutter.aria-label": "Editor gutter, press Enter to interact with controls using arrow keys, press Escape to exit",
+        "error-marker.good-state": "Looks good!",
+        "prompt.recently-used": "Recently used",
+        "prompt.other-commands": "Other commands",
+        "prompt.no-matching-commands": "No matching commands",
+        "search-box.find.placeholder": "Search for",
+        "search-box.find-all.text": "All",
+        "search-box.replace.placeholder": "Replace with",
+        "search-box.replace-next.text": "Replace",
+        "search-box.replace-all.text": "All",
+        "search-box.toggle-replace.title": "Toggle Replace mode",
+        "search-box.toggle-regexp.title": "RegExp Search",
+        "search-box.toggle-case.title": "CaseSensitive Search",
+        "search-box.toggle-whole-word.title": "Whole Word Search",
+        "search-box.toggle-in-selection.title": "Search In Selection",
+        "search-box.search-counter": "$0 of $1",
+        "text-input.aria-roledescription": "editor",
+        "text-input.aria-label": "Cursor at row $0",
+        "gutter.code-folding.range.aria-label": "Toggle code folding, rows $0 through $1",
+        "gutter.code-folding.closed.aria-label": "Toggle code folding, rows $0 through $1",
+        "gutter.code-folding.open.aria-label": "Toggle code folding, row $0",
+        "gutter.code-folding.closed.title": "Unfold code",
+        "gutter.code-folding.open.title": "Fold code",
+        "gutter.annotation.aria-label.error": "Error, read annotations row $0",
+        "gutter.annotation.aria-label.warning": "Warning, read annotations row $0",
+        "gutter.annotation.aria-label.info": "Info, read annotations row $0",
+        "inline-fold.closed.title": "Unfold code",
+        "gutter-tooltip.aria-label.error.singular": "error",
+        "gutter-tooltip.aria-label.error.plural": "errors",
+        "gutter-tooltip.aria-label.warning.singular": "warning",
+        "gutter-tooltip.aria-label.warning.plural": "warnings",
+        "gutter-tooltip.aria-label.info.singular": "information message",
+        "gutter-tooltip.aria-label.info.plural": "information messages"
+      };
+      exports2.defaultEnglishMessages = defaultEnglishMessages;
+    });
+    ace.define("ace/lib/app_config", ["require", "exports", "module", "ace/lib/oop", "ace/lib/event_emitter", "ace/lib/report_error", "ace/lib/default_english_messages"], function(require2, exports2, module2) {
       "no use strict";
       var oop = require2("./oop");
       var EventEmitter = require2("./event_emitter").EventEmitter;
       var reportError = require2("./report_error").reportError;
+      var defaultEnglishMessages = require2("./default_english_messages").defaultEnglishMessages;
       var optionsProvider = {
         setOptions: function(optList) {
           Object.keys(optList).forEach(function(key) {
@@ -935,6 +977,7 @@ var require_ace = __commonJS({
         function() {
           function AppConfig2() {
             this.$defaultOptions = {};
+            messages = defaultEnglishMessages;
           }
           AppConfig2.prototype.defineOptions = function(obj, path, options) {
             if (!obj.$options)
@@ -982,11 +1025,14 @@ var require_ace = __commonJS({
           AppConfig2.prototype.setMessages = function(value) {
             messages = value;
           };
-          AppConfig2.prototype.nls = function(string, params) {
-            if (messages && !messages[string]) {
-              warn("No message found for '" + string + "' in the provided messages, falling back to default English message.");
+          AppConfig2.prototype.nls = function(key, defaultString, params) {
+            if (!messages[key]) {
+              warn("No message found for the key '" + key + "' in the provided messages, trying to find a translation for the default string '" + defaultString + "'.");
+              if (!messages[defaultString]) {
+                warn("No message found for the default string '" + defaultString + "' in the provided messages. Falling back to the default English message.");
+              }
             }
-            var translated = messages && messages[string] || string;
+            var translated = messages[key] || messages[defaultString] || defaultString;
             if (params) {
               translated = translated.replace(/\$(\$|[\d]+)/g, function(_, name) {
                 if (name == "$")
@@ -1092,11 +1138,13 @@ var require_ace = __commonJS({
       exports2.dynamicModules = /* @__PURE__ */ Object.create(null);
       exports2.$loading = {};
       exports2.$loaded = {};
-      exports2.loadModule = function(moduleName, onLoad) {
-        var loadedModule, moduleType;
-        if (Array.isArray(moduleName)) {
-          moduleType = moduleName[0];
-          moduleName = moduleName[1];
+      exports2.loadModule = function(moduleId, onLoad) {
+        var loadedModule;
+        if (Array.isArray(moduleId)) {
+          var moduleType = moduleId[0];
+          var moduleName = moduleId[1];
+        } else if (typeof moduleId == "string") {
+          var moduleName = moduleId;
         }
         var load = function(module3) {
           if (module3 && !exports2.$loading[moduleName])
@@ -1140,7 +1188,7 @@ var require_ace = __commonJS({
         }
       };
       exports2.$require = function(moduleName) {
-        if (typeof module2.require == "function") {
+        if (typeof module2["require"] == "function") {
           var req = "require";
           return module2[req](moduleName);
         }
@@ -1155,7 +1203,7 @@ var require_ace = __commonJS({
           };
         }
       };
-      exports2.version = "1.28.0";
+      exports2.version = "1.33.1";
     });
     ace.define("ace/loader_build", ["require", "exports", "module", "ace/lib/fixoldbrowsers", "ace/config"], function(require2, exports2, module2) {
       "use strict";
@@ -1166,7 +1214,7 @@ var require_ace = __commonJS({
           cb(null, module3);
         });
       });
-      var global = function() {
+      var global = /* @__PURE__ */ function() {
         return this || typeof window != "undefined" && window;
       }();
       module2.exports = function(ace2) {
@@ -1226,9 +1274,6 @@ var require_ace = __commonJS({
     });
     ace.define("ace/range", ["require", "exports", "module"], function(require2, exports2, module2) {
       "use strict";
-      var comparePoints = function(p1, p2) {
-        return p1.row - p2.row || p1.column - p2.column;
-      };
       var Range = (
         /** @class */
         function() {
@@ -1432,7 +1477,6 @@ var require_ace = __commonJS({
       Range.fromPoints = function(start, end) {
         return new Range(start.row, start.column, end.row, end.column);
       };
-      Range.comparePoints = comparePoints;
       Range.comparePoints = function(p1, p2) {
         return p1.row - p2.row || p1.column - p2.column;
       };
@@ -1616,6 +1660,7 @@ var require_ace = __commonJS({
           }, {
             get passive() {
               activeListenerOptions = { passive: false };
+              return true;
             }
           });
         } catch (e) {
@@ -1746,9 +1791,9 @@ var require_ace = __commonJS({
           addListener(el, "mousedown", onMousedown, destroyer);
         });
       };
-      var getModifierHash = function(e) {
+      function getModifierHash(e) {
         return 0 | (e.ctrlKey ? 1 : 0) | (e.altKey ? 2 : 0) | (e.shiftKey ? 4 : 0) | (e.metaKey ? 8 : 0);
-      };
+      }
       exports2.getModifierString = function(e) {
         return keys.KEY_MODS[getModifierHash(e)];
       };
@@ -1764,7 +1809,7 @@ var require_ace = __commonJS({
               return;
           }
           if (keyCode === 18 || keyCode === 17) {
-            var location = "location" in e ? e.location : e.keyLocation;
+            var location = e.location;
             if (keyCode === 17 && location === 1) {
               if (pressedKeys[keyCode] == 1)
                 ts = e.timeStamp;
@@ -1779,8 +1824,7 @@ var require_ace = __commonJS({
           keyCode = -1;
         }
         if (!hashId && keyCode === 13) {
-          var location = "location" in e ? e.location : e.keyLocation;
-          if (location === 3) {
+          if (e.location === 3) {
             callback(e, hashId, -keyCode);
             if (e.defaultPrevented)
               return;
@@ -1799,35 +1843,25 @@ var require_ace = __commonJS({
         return callback(e, hashId, keyCode);
       }
       exports2.addCommandKeyListener = function(el, callback, destroyer) {
-        if (useragent.isOldGecko || useragent.isOpera && !("KeyboardEvent" in window)) {
-          var lastKeyDownKeyCode = null;
-          addListener(el, "keydown", function(e) {
-            lastKeyDownKeyCode = e.keyCode;
-          }, destroyer);
-          addListener(el, "keypress", function(e) {
-            return normalizeCommandKeys(callback, e, lastKeyDownKeyCode);
-          }, destroyer);
-        } else {
-          var lastDefaultPrevented = null;
-          addListener(el, "keydown", function(e) {
-            pressedKeys[e.keyCode] = (pressedKeys[e.keyCode] || 0) + 1;
-            var result = normalizeCommandKeys(callback, e, e.keyCode);
-            lastDefaultPrevented = e.defaultPrevented;
-            return result;
-          }, destroyer);
-          addListener(el, "keypress", function(e) {
-            if (lastDefaultPrevented && (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey)) {
-              exports2.stopEvent(e);
-              lastDefaultPrevented = null;
-            }
-          }, destroyer);
-          addListener(el, "keyup", function(e) {
-            pressedKeys[e.keyCode] = null;
-          }, destroyer);
-          if (!pressedKeys) {
-            resetPressedKeys();
-            addListener(window, "focus", resetPressedKeys);
+        var lastDefaultPrevented = null;
+        addListener(el, "keydown", function(e) {
+          pressedKeys[e.keyCode] = (pressedKeys[e.keyCode] || 0) + 1;
+          var result = normalizeCommandKeys(callback, e, e.keyCode);
+          lastDefaultPrevented = e.defaultPrevented;
+          return result;
+        }, destroyer);
+        addListener(el, "keypress", function(e) {
+          if (lastDefaultPrevented && (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey)) {
+            exports2.stopEvent(e);
+            lastDefaultPrevented = null;
           }
+        }, destroyer);
+        addListener(el, "keyup", function(e) {
+          pressedKeys[e.keyCode] = null;
+        }, destroyer);
+        if (!pressedKeys) {
+          resetPressedKeys();
+          addListener(window, "focus", resetPressedKeys);
         }
       };
       function resetPressedKeys() {
@@ -1868,7 +1902,7 @@ var require_ace = __commonJS({
           exports2.$idleBlocked = false;
         }, delay || 100);
       };
-      exports2.nextFrame = typeof window == "object" && (window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame);
+      exports2.nextFrame = typeof window == "object" && (window.requestAnimationFrame || window["mozRequestAnimationFrame"] || window["webkitRequestAnimationFrame"] || window["msRequestAnimationFrame"] || window["oRequestAnimationFrame"]);
       if (exports2.nextFrame)
         exports2.nextFrame = exports2.nextFrame.bind(window);
       else
@@ -1908,13 +1942,14 @@ var require_ace = __commonJS({
       var isIOS = useragent.isIOS;
       var valueResetRegex = isIOS ? /\s/ : /\n/;
       var isMobile = useragent.isMobile;
-      var TextInput = function(parentNode, host) {
+      var TextInput;
+      TextInput = function(parentNode, host) {
         var text = dom.createElement("textarea");
         text.className = "ace_text-input";
         text.setAttribute("wrap", "off");
         text.setAttribute("autocorrect", "off");
         text.setAttribute("autocapitalize", "off");
-        text.setAttribute("spellcheck", false);
+        text.setAttribute("spellcheck", "false");
         text.style.opacity = "0";
         parentNode.insertBefore(text, parentNode.firstChild);
         var copied = false;
@@ -1960,10 +1995,10 @@ var require_ace = __commonJS({
             text.setAttribute("role", options.role);
           }
           if (options.setLabel) {
-            text.setAttribute("aria-roledescription", nls("editor"));
+            text.setAttribute("aria-roledescription", nls("text-input.aria-roledescription", "editor"));
             if (host.session) {
               var row = host.session.selection.cursor.row;
-              text.setAttribute("aria-label", nls("Cursor at row $0", [row + 1]));
+              text.setAttribute("aria-label", nls("text-input.aria-label", "Cursor at row $0", [row + 1]));
             }
           }
         };
@@ -2011,9 +2046,9 @@ var require_ace = __commonJS({
             var t = text.parentElement;
             while (t && t.nodeType == 1) {
               ancestors.push(t);
-              t.setAttribute("ace_nocontext", true);
+              t.setAttribute("ace_nocontext", "true");
               if (!t.parentElement && t.getRootNode)
-                t = t.getRootNode().host;
+                t = t.getRootNode()["host"];
               else
                 t = t.parentElement;
             }
@@ -2252,7 +2287,7 @@ var require_ace = __commonJS({
           }
         };
         var handleClipboardData = function(e, data, forceIEMime) {
-          var clipboardData = e.clipboardData || window.clipboardData;
+          var clipboardData = e.clipboardData || window["clipboardData"];
           if (!clipboardData || BROKEN_SETDATA)
             return;
           var mime = USE_IE_MIME_TYPE || forceIEMime ? "Text" : "text/plain";
@@ -2313,7 +2348,11 @@ var require_ace = __commonJS({
             pasted = true;
           }
         };
-        event.addCommandKeyListener(text, host.onCommandKey.bind(host), host);
+        event.addCommandKeyListener(text, function(e, hashId, keyCode) {
+          if (inComposition)
+            return;
+          return host.onCommandKey(e, hashId, keyCode);
+        }, host);
         event.addListener(text, "select", onSelect, host);
         event.addListener(text, "input", onInput, host);
         event.addListener(text, "cut", onCut, host);
@@ -2583,8 +2622,8 @@ var require_ace = __commonJS({
             exports3.forEach(function(x) {
               mouseHandler[x] = this[x];
             }, this);
-            mouseHandler.selectByLines = this.extendSelectionBy.bind(mouseHandler, "getLineRange");
-            mouseHandler.selectByWords = this.extendSelectionBy.bind(mouseHandler, "getWordRange");
+            mouseHandler["selectByLines"] = this.extendSelectionBy.bind(mouseHandler, "getLineRange");
+            mouseHandler["selectByWords"] = this.extendSelectionBy.bind(mouseHandler, "getWordRange");
           }
           DefaultHandlers2.prototype.onMouseDown = function(ev) {
             var inSelection = ev.inSelection();
@@ -2792,9 +2831,19 @@ var require_ace = __commonJS({
           return { cursor: range.end, anchor: range.start };
       }
     });
-    ace.define("ace/tooltip", ["require", "exports", "module", "ace/lib/dom", "ace/range"], function(require2, exports2, module2) {
+    ace.define("ace/lib/scroll", ["require", "exports", "module"], function(require2, exports2, module2) {
+      exports2.preventParentScroll = function preventParentScroll(event) {
+        event.stopPropagation();
+        var target = event.currentTarget;
+        var contentOverflows = target.scrollHeight > target.clientHeight;
+        if (!contentOverflows) {
+          event.preventDefault();
+        }
+      };
+    });
+    ace.define("ace/tooltip", ["require", "exports", "module", "ace/lib/dom", "ace/lib/event", "ace/range", "ace/lib/scroll"], function(require2, exports2, module2) {
       "use strict";
-      var __extends = this && this.__extends || function() {
+      var __extends = this && this.__extends || /* @__PURE__ */ function() {
         var extendStatics = function(d, b) {
           extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
             d2.__proto__ = b2;
@@ -2830,7 +2879,9 @@ var require_ace = __commonJS({
         throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
       };
       var dom = require2("./lib/dom");
+      var event = require2("./lib/event");
       var Range = require2("./range").Range;
+      var preventParentScroll = require2("./lib/scroll").preventParentScroll;
       var CLASSNAME = "ace_tooltip";
       var Tooltip = (
         /** @class */
@@ -2876,7 +2927,7 @@ var require_ace = __commonJS({
               this.isOpen = true;
             }
           };
-          Tooltip2.prototype.hide = function() {
+          Tooltip2.prototype.hide = function(e) {
             if (this.isOpen) {
               this.getElement().style.display = "none";
               this.getElement().className = CLASSNAME;
@@ -2999,6 +3050,7 @@ var require_ace = __commonJS({
               if (!el.contains(document.activeElement))
                 this.hide();
             }).bind(_this));
+            el.addEventListener("wheel", preventParentScroll);
             return _this;
           }
           HoverTooltip2.prototype.addToEditor = function(editor) {
@@ -3060,6 +3112,7 @@ var require_ace = __commonJS({
             this.$gatherData = value;
           };
           HoverTooltip2.prototype.showForRange = function(editor, range, domNode, startingEvent) {
+            var MARGIN = 10;
             if (startingEvent && startingEvent != this.lastEvent)
               return;
             if (this.isOpen && document.activeElement == this.getElement())
@@ -3073,24 +3126,26 @@ var require_ace = __commonJS({
             this.isOpen = true;
             this.addMarker(range, editor.session);
             this.range = Range.fromPoints(range.start, range.end);
+            var position = renderer.textToScreenCoordinates(range.start.row, range.start.column);
+            var rect = renderer.scroller.getBoundingClientRect();
+            if (position.pageX < rect.left)
+              position.pageX = rect.left;
             var element = this.getElement();
             element.innerHTML = "";
             element.appendChild(domNode);
+            element.style.maxHeight = "";
             element.style.display = "block";
-            var position = renderer.textToScreenCoordinates(range.start.row, range.start.column);
             var labelHeight = element.clientHeight;
-            var rect = renderer.scroller.getBoundingClientRect();
+            var labelWidth = element.clientWidth;
+            var spaceBelow = window.innerHeight - position.pageY - renderer.lineHeight;
             var isAbove = true;
-            if (position.pageY - labelHeight < 0) {
+            if (position.pageY - labelHeight < 0 && position.pageY < spaceBelow) {
               isAbove = false;
             }
-            if (isAbove) {
-              position.pageY -= labelHeight;
-            } else {
-              position.pageY += renderer.lineHeight;
-            }
-            element.style.maxWidth = rect.width - (position.pageX - rect.left) + "px";
-            this.setPosition(position.pageX, position.pageY);
+            element.style.maxHeight = (isAbove ? position.pageY : spaceBelow) - MARGIN + "px";
+            element.style.top = isAbove ? "" : position.pageY + renderer.lineHeight + "px";
+            element.style.bottom = isAbove ? window.innerHeight - position.pageY + "px" : "";
+            element.style.left = Math.min(position.pageX, window.innerWidth - labelWidth - MARGIN) + "px";
           };
           HoverTooltip2.prototype.addMarker = function(range, session) {
             if (this.marker) {
@@ -3118,12 +3173,12 @@ var require_ace = __commonJS({
           };
           HoverTooltip2.prototype.$registerCloseEvents = function() {
             window.addEventListener("keydown", this.hide, true);
-            window.addEventListener("mousewheel", this.hide, true);
+            window.addEventListener("wheel", this.hide, true);
             window.addEventListener("mousedown", this.hide, true);
           };
           HoverTooltip2.prototype.$removeCloseEvents = function() {
             window.removeEventListener("keydown", this.hide, true);
-            window.removeEventListener("mousewheel", this.hide, true);
+            window.removeEventListener("wheel", this.hide, true);
             window.removeEventListener("mousedown", this.hide, true);
           };
           HoverTooltip2.prototype.onMouseOut = function(e) {
@@ -3134,7 +3189,7 @@ var require_ace = __commonJS({
             this.lastEvent = null;
             if (!this.isOpen)
               return;
-            if (!e.relatedTarget || e.relatedTarget == this.getElement())
+            if (!e.relatedTarget || this.getElement().contains(e.relatedTarget))
               return;
             if (e && e.currentTarget.contains(e.relatedTarget))
               return;
@@ -3148,7 +3203,7 @@ var require_ace = __commonJS({
     });
     ace.define("ace/mouse/default_gutter_handler", ["require", "exports", "module", "ace/lib/dom", "ace/lib/event", "ace/tooltip", "ace/config"], function(require2, exports2, module2) {
       "use strict";
-      var __extends = this && this.__extends || function() {
+      var __extends = this && this.__extends || /* @__PURE__ */ function() {
         var extendStatics = function(d, b) {
           extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
             d2.__proto__ = b2;
@@ -3310,9 +3365,18 @@ var require_ace = __commonJS({
           Object.defineProperty(GutterTooltip2, "annotationLabels", {
             get: function() {
               return {
-                error: { singular: nls("error"), plural: nls("errors") },
-                warning: { singular: nls("warning"), plural: nls("warnings") },
-                info: { singular: nls("information message"), plural: nls("information messages") }
+                error: {
+                  singular: nls("gutter-tooltip.aria-label.error.singular", "error"),
+                  plural: nls("gutter-tooltip.aria-label.error.plural", "errors")
+                },
+                warning: {
+                  singular: nls("gutter-tooltip.aria-label.warning.singular", "warning"),
+                  plural: nls("gutter-tooltip.aria-label.warning.plural", "warnings")
+                },
+                info: {
+                  singular: nls("gutter-tooltip.aria-label.info.singular", "information message"),
+                  plural: nls("gutter-tooltip.aria-label.info.plural", "information messages")
+                }
               };
             },
             enumerable: false,
@@ -3413,6 +3477,9 @@ var require_ace = __commonJS({
         /** @class */
         function() {
           function MouseEvent2(domEvent, editor) {
+            this.speed;
+            this.wheelX;
+            this.wheelY;
             this.domEvent = domEvent;
             this.editor = editor;
             this.x = this.clientX = domEvent.clientX;
@@ -3839,7 +3906,7 @@ var require_ace = __commonJS({
               clipboard && ["span", { class: "ace_mobile-button", action: "paste" }, "Paste"],
               hasUndo && ["span", { class: "ace_mobile-button", action: "undo" }, "Undo"],
               ["span", { class: "ace_mobile-button", action: "find" }, "Find"],
-              ["span", { class: "ace_mobile-button", action: "openCommandPallete" }, "Palette"]
+              ["span", { class: "ace_mobile-button", action: "openCommandPalette" }, "Palette"]
             ] : ["span"]), contextMenu.firstChild);
           };
           var handleClick = function(e) {
@@ -3863,7 +3930,7 @@ var require_ace = __commonJS({
             }
             contextMenu.firstChild.style.display = "none";
             isOpen = false;
-            if (action != "openCommandPallete")
+            if (action != "openCommandPalette")
               editor.focus();
           };
           contextMenu = dom.buildDom([
@@ -4112,6 +4179,11 @@ var require_ace = __commonJS({
         /** @class */
         function() {
           function MouseHandler2(editor) {
+            this.$dragDelay;
+            this.$dragEnabled;
+            this.$mouseMoved;
+            this.mouseEvent;
+            this.$focusTimeout;
             var _self = this;
             this.editor = editor;
             new DefaultHandlers(this);
@@ -4149,18 +4221,23 @@ var require_ace = __commonJS({
               event.addListener(editor.renderer.scrollBarV.element, "mousedown", focusEditor, editor);
               event.addListener(editor.renderer.scrollBarH.element, "mousedown", focusEditor, editor);
             }
-            editor.on("mousemove", function(e) {
-              if (_self.state || _self.$dragDelay || !_self.$dragEnabled)
-                return;
-              var character = editor.renderer.screenToTextCoordinates(e.x, e.y);
-              var range = editor.session.selection.getRange();
-              var renderer = editor.renderer;
-              if (!range.isEmpty() && range.insideStart(character.row, character.column)) {
-                renderer.setCursorStyle("default");
-              } else {
-                renderer.setCursorStyle("");
-              }
-            }, editor);
+            editor.on(
+              "mousemove",
+              function(e) {
+                if (_self.state || _self.$dragDelay || !_self.$dragEnabled)
+                  return;
+                var character = editor.renderer.screenToTextCoordinates(e.x, e.y);
+                var range = editor.session.selection.getRange();
+                var renderer = editor.renderer;
+                if (!range.isEmpty() && range.insideStart(character.row, character.column)) {
+                  renderer.setCursorStyle("default");
+                } else {
+                  renderer.setCursorStyle("");
+                }
+              },
+              //@ts-expect-error TODO: seems mistyping - should be boolean
+              editor
+            );
           }
           MouseHandler2.prototype.onMouseEvent = function(name, e) {
             if (!this.editor.session)
@@ -4273,7 +4350,7 @@ var require_ace = __commonJS({
       var dom = require2("../lib/dom");
       var FoldHandler = (
         /** @class */
-        function() {
+        /* @__PURE__ */ function() {
           function FoldHandler2(editor) {
             editor.on("click", function(e) {
               var position = e.getDocumentPosition();
@@ -4396,7 +4473,13 @@ var require_ace = __commonJS({
             var success = false;
             var commands = this.$editor.commands;
             for (var i = this.$handlers.length; i--; ) {
-              toExecute = this.$handlers[i].handleKeyboard(this.$data, hashId, keyString, keyCode, e);
+              toExecute = this.$handlers[i].handleKeyboard(
+                this.$data,
+                hashId,
+                keyString,
+                keyCode,
+                e
+              );
               if (!toExecute || !toExecute.command)
                 continue;
               if (toExecute.command == "null") {
@@ -4404,7 +4487,7 @@ var require_ace = __commonJS({
               } else {
                 success = commands.exec(toExecute.command, this.$editor, toExecute.args, e);
               }
-              if (success && e && hashId != -1 && toExecute.passEvent != true && toExecute.command.passEvent != true) {
+              if (success && e && hashId != -1 && toExecute["passEvent"] != true && toExecute.command["passEvent"] != true) {
                 event.stopEvent(e);
               }
               if (success)
@@ -5820,6 +5903,7 @@ var require_ace = __commonJS({
         /** @class */
         function() {
           function Tokenizer2(rules) {
+            this.splitRegex;
             this.states = rules;
             this.regExps = {};
             this.matchMappings = {};
@@ -5977,7 +6061,10 @@ var require_ace = __commonJS({
               }
             } else
               var stack = [];
-            var currentState = startState || "start";
+            var currentState = (
+              /**@type{string}*/
+              startState || "start"
+            );
             var state = this.states[currentState];
             if (!state) {
               currentState = "start";
@@ -6094,7 +6181,8 @@ var require_ace = __commonJS({
     ace.define("ace/mode/text_highlight_rules", ["require", "exports", "module", "ace/lib/deep_copy"], function(require2, exports2, module2) {
       "use strict";
       var deepCopy = require2("../lib/deep_copy").deepCopy;
-      var TextHighlightRules = function() {
+      var TextHighlightRules;
+      TextHighlightRules = function() {
         this.$rules = {
           "start": [{
             token: "empty_line",
@@ -6167,7 +6255,7 @@ var require_ace = __commonJS({
           var rules = this.$rules;
           function processState(key) {
             var state = rules[key];
-            state.processed = true;
+            state["processed"] = true;
             for (var i = 0; i < state.length; i++) {
               var rule = state[i];
               var toInsert = null;
@@ -6277,7 +6365,8 @@ var require_ace = __commonJS({
     });
     ace.define("ace/mode/behaviour", ["require", "exports", "module"], function(require2, exports2, module2) {
       "use strict";
-      var Behaviour = function() {
+      var Behaviour;
+      Behaviour = function() {
         this.$behaviours = {};
       };
       (function() {
@@ -6442,7 +6531,8 @@ var require_ace = __commonJS({
           ]
         };
       };
-      var CstyleBehaviour = function(options) {
+      var CstyleBehaviour;
+      CstyleBehaviour = function(options) {
         options = options || {};
         this.add("braces", "insertion", function(state, action, editor, session, text) {
           var cursor = editor.getCursorPosition();
@@ -6451,8 +6541,23 @@ var require_ace = __commonJS({
             initContext(editor);
             var selection = editor.getSelectionRange();
             var selected = session.doc.getTextRange(selection);
+            var token = session.getTokenAt(cursor.row, cursor.column);
             if (selected !== "" && selected !== "{" && editor.getWrapBehavioursEnabled()) {
               return getWrapped(selection, selected, "{", "}");
+            } else if (token && /(?:string)\.quasi|\.xml/.test(token.type)) {
+              var excludeTokens = [
+                /tag\-(?:open|name)/,
+                /attribute\-name/
+              ];
+              if (excludeTokens.some(function(el) {
+                return el.test(token.type);
+              }) || /(string)\.quasi/.test(token.type) && token.value[cursor.column - token.start - 1] !== "$")
+                return;
+              CstyleBehaviour.recordAutoInsert(editor, session, "}");
+              return {
+                text: "{}",
+                selection: [1, 1]
+              };
             } else if (CstyleBehaviour.isSaneInsertion(editor, session)) {
               if (/[\]\}\)]/.test(line[cursor.column]) || editor.inMultiSelectMode || options.braces) {
                 CstyleBehaviour.recordAutoInsert(editor, session, "}");
@@ -6720,39 +6825,39 @@ var require_ace = __commonJS({
         iterator.stepForward();
         return iterator.getCurrentTokenRow() !== cursor.row || this.$matchTokenType(iterator.getCurrentToken() || "text", SAFE_INSERT_BEFORE_TOKENS);
       };
-      CstyleBehaviour.$matchTokenType = function(token, types) {
+      CstyleBehaviour["$matchTokenType"] = function(token, types) {
         return types.indexOf(token.type || token) > -1;
       };
-      CstyleBehaviour.recordAutoInsert = function(editor, session, bracket) {
+      CstyleBehaviour["recordAutoInsert"] = function(editor, session, bracket) {
         var cursor = editor.getCursorPosition();
         var line = session.doc.getLine(cursor.row);
-        if (!this.isAutoInsertedClosing(cursor, line, context.autoInsertedLineEnd[0]))
+        if (!this["isAutoInsertedClosing"](cursor, line, context.autoInsertedLineEnd[0]))
           context.autoInsertedBrackets = 0;
         context.autoInsertedRow = cursor.row;
         context.autoInsertedLineEnd = bracket + line.substr(cursor.column);
         context.autoInsertedBrackets++;
       };
-      CstyleBehaviour.recordMaybeInsert = function(editor, session, bracket) {
+      CstyleBehaviour["recordMaybeInsert"] = function(editor, session, bracket) {
         var cursor = editor.getCursorPosition();
         var line = session.doc.getLine(cursor.row);
-        if (!this.isMaybeInsertedClosing(cursor, line))
+        if (!this["isMaybeInsertedClosing"](cursor, line))
           context.maybeInsertedBrackets = 0;
         context.maybeInsertedRow = cursor.row;
         context.maybeInsertedLineStart = line.substr(0, cursor.column) + bracket;
         context.maybeInsertedLineEnd = line.substr(cursor.column);
         context.maybeInsertedBrackets++;
       };
-      CstyleBehaviour.isAutoInsertedClosing = function(cursor, line, bracket) {
+      CstyleBehaviour["isAutoInsertedClosing"] = function(cursor, line, bracket) {
         return context.autoInsertedBrackets > 0 && cursor.row === context.autoInsertedRow && bracket === context.autoInsertedLineEnd[0] && line.substr(cursor.column) === context.autoInsertedLineEnd;
       };
-      CstyleBehaviour.isMaybeInsertedClosing = function(cursor, line) {
+      CstyleBehaviour["isMaybeInsertedClosing"] = function(cursor, line) {
         return context.maybeInsertedBrackets > 0 && cursor.row === context.maybeInsertedRow && line.substr(cursor.column) === context.maybeInsertedLineEnd && line.substr(0, cursor.column) == context.maybeInsertedLineStart;
       };
-      CstyleBehaviour.popAutoInsertedClosing = function() {
+      CstyleBehaviour["popAutoInsertedClosing"] = function() {
         context.autoInsertedLineEnd = context.autoInsertedLineEnd.substr(1);
         context.autoInsertedBrackets--;
       };
-      CstyleBehaviour.clearMaybeInsertedClosing = function() {
+      CstyleBehaviour["clearMaybeInsertedClosing"] = function() {
         if (context) {
           context.maybeInsertedBrackets = 0;
           context.maybeInsertedRow = -1;
@@ -6783,7 +6888,8 @@ var require_ace = __commonJS({
       var lang = require2("../lib/lang");
       var TokenIterator = require2("../token_iterator").TokenIterator;
       var Range = require2("../range").Range;
-      var Mode = function() {
+      var Mode;
+      Mode = function() {
         this.HighlightRules = TextHighlightRules;
       };
       (function() {
@@ -7001,14 +7107,18 @@ var require_ace = __commonJS({
             "transformAction",
             "getCompletions"
           ];
-          for (var i = 0; i < delegations.length; i++) {
+          var _loop_1 = function(i2) {
             (function(scope) {
-              var functionName = delegations[i];
+              var functionName = delegations[i2];
               var defaultHandler = scope[functionName];
-              scope[delegations[i]] = function() {
+              scope[delegations[i2]] = function() {
                 return this.$delegator(functionName, arguments, defaultHandler);
               };
-            })(this);
+            })(this_1);
+          };
+          var this_1 = this;
+          for (var i = 0; i < delegations.length; i++) {
+            _loop_1(i);
           }
         };
         this.$delegator = function(method, args, defaultHandler) {
@@ -7050,7 +7160,7 @@ var require_ace = __commonJS({
         };
         this.getKeywords = function(append) {
           if (!this.completionKeywords) {
-            var rules = this.$tokenizer.rules;
+            var rules = this.$tokenizer["rules"];
             var completionKeywords = [];
             for (var rule in rules) {
               var ruleItr = rules[rule];
@@ -7159,7 +7269,7 @@ var require_ace = __commonJS({
           function Anchor2(doc, row, column) {
             this.$onChange = this.onChange.bind(this);
             this.attach(doc);
-            if (typeof column == "undefined")
+            if (typeof row != "number")
               this.setPosition(row.row, row.column);
             else
               this.setPosition(row, column);
@@ -7593,7 +7703,7 @@ var require_ace = __commonJS({
       var BackgroundTokenizer = (
         /** @class */
         function() {
-          function BackgroundTokenizer2(tokenizer, editor) {
+          function BackgroundTokenizer2(tokenizer, session) {
             this.running = false;
             this.lines = [];
             this.states = [];
@@ -7772,6 +7882,462 @@ var require_ace = __commonJS({
       );
       SearchHighlight.prototype.MAX_RANGES = 500;
       exports2.SearchHighlight = SearchHighlight;
+    });
+    ace.define("ace/undomanager", ["require", "exports", "module", "ace/range"], function(require2, exports2, module2) {
+      "use strict";
+      var UndoManager = (
+        /** @class */
+        function() {
+          function UndoManager2() {
+            this.$keepRedoStack;
+            this.$maxRev = 0;
+            this.$fromUndo = false;
+            this.$undoDepth = Infinity;
+            this.reset();
+          }
+          UndoManager2.prototype.addSession = function(session) {
+            this.$session = session;
+          };
+          UndoManager2.prototype.add = function(delta, allowMerge, session) {
+            if (this.$fromUndo)
+              return;
+            if (delta == this.$lastDelta)
+              return;
+            if (!this.$keepRedoStack)
+              this.$redoStack.length = 0;
+            if (allowMerge === false || !this.lastDeltas) {
+              this.lastDeltas = [];
+              var undoStackLength = this.$undoStack.length;
+              if (undoStackLength > this.$undoDepth - 1) {
+                this.$undoStack.splice(0, undoStackLength - this.$undoDepth + 1);
+              }
+              this.$undoStack.push(this.lastDeltas);
+              delta.id = this.$rev = ++this.$maxRev;
+            }
+            if (delta.action == "remove" || delta.action == "insert")
+              this.$lastDelta = delta;
+            this.lastDeltas.push(delta);
+          };
+          UndoManager2.prototype.addSelection = function(selection, rev) {
+            this.selections.push({
+              value: selection,
+              rev: rev || this.$rev
+            });
+          };
+          UndoManager2.prototype.startNewGroup = function() {
+            this.lastDeltas = null;
+            return this.$rev;
+          };
+          UndoManager2.prototype.markIgnored = function(from, to) {
+            if (to == null)
+              to = this.$rev + 1;
+            var stack = this.$undoStack;
+            for (var i = stack.length; i--; ) {
+              var delta = stack[i][0];
+              if (delta.id <= from)
+                break;
+              if (delta.id < to)
+                delta.ignore = true;
+            }
+            this.lastDeltas = null;
+          };
+          UndoManager2.prototype.getSelection = function(rev, after) {
+            var stack = this.selections;
+            for (var i = stack.length; i--; ) {
+              var selection = stack[i];
+              if (selection.rev < rev) {
+                if (after)
+                  selection = stack[i + 1];
+                return selection;
+              }
+            }
+          };
+          UndoManager2.prototype.getRevision = function() {
+            return this.$rev;
+          };
+          UndoManager2.prototype.getDeltas = function(from, to) {
+            if (to == null)
+              to = this.$rev + 1;
+            var stack = this.$undoStack;
+            var end = null, start = 0;
+            for (var i = stack.length; i--; ) {
+              var delta = stack[i][0];
+              if (delta.id < to && !end)
+                end = i + 1;
+              if (delta.id <= from) {
+                start = i + 1;
+                break;
+              }
+            }
+            return stack.slice(start, end);
+          };
+          UndoManager2.prototype.getChangedRanges = function(from, to) {
+            if (to == null)
+              to = this.$rev + 1;
+          };
+          UndoManager2.prototype.getChangedLines = function(from, to) {
+            if (to == null)
+              to = this.$rev + 1;
+          };
+          UndoManager2.prototype.undo = function(session, dontSelect) {
+            this.lastDeltas = null;
+            var stack = this.$undoStack;
+            if (!rearrangeUndoStack(stack, stack.length))
+              return;
+            if (!session)
+              session = this.$session;
+            if (this.$redoStackBaseRev !== this.$rev && this.$redoStack.length)
+              this.$redoStack = [];
+            this.$fromUndo = true;
+            var deltaSet = stack.pop();
+            var undoSelectionRange = null;
+            if (deltaSet) {
+              undoSelectionRange = session.undoChanges(deltaSet, dontSelect);
+              this.$redoStack.push(deltaSet);
+              this.$syncRev();
+            }
+            this.$fromUndo = false;
+            return undoSelectionRange;
+          };
+          UndoManager2.prototype.redo = function(session, dontSelect) {
+            this.lastDeltas = null;
+            if (!session)
+              session = this.$session;
+            this.$fromUndo = true;
+            if (this.$redoStackBaseRev != this.$rev) {
+              var diff = this.getDeltas(this.$redoStackBaseRev, this.$rev + 1);
+              rebaseRedoStack(this.$redoStack, diff);
+              this.$redoStackBaseRev = this.$rev;
+              this.$redoStack.forEach(function(x) {
+                x[0].id = ++this.$maxRev;
+              }, this);
+            }
+            var deltaSet = this.$redoStack.pop();
+            var redoSelectionRange = null;
+            if (deltaSet) {
+              redoSelectionRange = session.redoChanges(deltaSet, dontSelect);
+              this.$undoStack.push(deltaSet);
+              this.$syncRev();
+            }
+            this.$fromUndo = false;
+            return redoSelectionRange;
+          };
+          UndoManager2.prototype.$syncRev = function() {
+            var stack = this.$undoStack;
+            var nextDelta = stack[stack.length - 1];
+            var id = nextDelta && nextDelta[0].id || 0;
+            this.$redoStackBaseRev = id;
+            this.$rev = id;
+          };
+          UndoManager2.prototype.reset = function() {
+            this.lastDeltas = null;
+            this.$lastDelta = null;
+            this.$undoStack = [];
+            this.$redoStack = [];
+            this.$rev = 0;
+            this.mark = 0;
+            this.$redoStackBaseRev = this.$rev;
+            this.selections = [];
+          };
+          UndoManager2.prototype.canUndo = function() {
+            return this.$undoStack.length > 0;
+          };
+          UndoManager2.prototype.canRedo = function() {
+            return this.$redoStack.length > 0;
+          };
+          UndoManager2.prototype.bookmark = function(rev) {
+            if (rev == void 0)
+              rev = this.$rev;
+            this.mark = rev;
+          };
+          UndoManager2.prototype.isAtBookmark = function() {
+            return this.$rev === this.mark;
+          };
+          UndoManager2.prototype.toJSON = function() {
+            return {
+              $redoStack: this.$redoStack,
+              $undoStack: this.$undoStack
+            };
+          };
+          UndoManager2.prototype.fromJSON = function(json) {
+            this.reset();
+            this.$undoStack = json.$undoStack;
+            this.$redoStack = json.$redoStack;
+          };
+          UndoManager2.prototype.$prettyPrint = function(delta) {
+            if (delta)
+              return stringifyDelta(delta);
+            return stringifyDelta(this.$undoStack) + "\n---\n" + stringifyDelta(this.$redoStack);
+          };
+          return UndoManager2;
+        }()
+      );
+      UndoManager.prototype.hasUndo = UndoManager.prototype.canUndo;
+      UndoManager.prototype.hasRedo = UndoManager.prototype.canRedo;
+      UndoManager.prototype.isClean = UndoManager.prototype.isAtBookmark;
+      UndoManager.prototype.markClean = UndoManager.prototype.bookmark;
+      function rearrangeUndoStack(stack, pos) {
+        for (var i = pos; i--; ) {
+          var deltaSet = stack[i];
+          if (deltaSet && !deltaSet[0].ignore) {
+            while (i < pos - 1) {
+              var swapped = swapGroups(stack[i], stack[i + 1]);
+              stack[i] = swapped[0];
+              stack[i + 1] = swapped[1];
+              i++;
+            }
+            return true;
+          }
+        }
+      }
+      var Range = require2("./range").Range;
+      var cmp = Range.comparePoints;
+      var comparePoints = Range.comparePoints;
+      function $updateMarkers(delta) {
+        var isInsert = delta.action == "insert";
+        var start = delta.start;
+        var end = delta.end;
+        var rowShift = (end.row - start.row) * (isInsert ? 1 : -1);
+        var colShift = (end.column - start.column) * (isInsert ? 1 : -1);
+        if (isInsert)
+          end = start;
+        for (var i in this.marks) {
+          var point = this.marks[i];
+          var cmp2 = comparePoints(point, start);
+          if (cmp2 < 0) {
+            continue;
+          }
+          if (cmp2 === 0) {
+            if (isInsert) {
+              if (point.bias == 1) {
+                cmp2 = 1;
+              } else {
+                point.bias == -1;
+                continue;
+              }
+            }
+          }
+          var cmp22 = isInsert ? cmp2 : comparePoints(point, end);
+          if (cmp22 > 0) {
+            point.row += rowShift;
+            point.column += point.row == end.row ? colShift : 0;
+            continue;
+          }
+          if (!isInsert && cmp22 <= 0) {
+            point.row = start.row;
+            point.column = start.column;
+            if (cmp22 === 0)
+              point.bias = 1;
+          }
+        }
+      }
+      function clonePos(pos) {
+        return { row: pos.row, column: pos.column };
+      }
+      function cloneDelta(d) {
+        return {
+          start: clonePos(d.start),
+          end: clonePos(d.end),
+          action: d.action,
+          lines: d.lines.slice()
+        };
+      }
+      function stringifyDelta(d) {
+        d = d || this;
+        if (Array.isArray(d)) {
+          return d.map(stringifyDelta).join("\n");
+        }
+        var type = "";
+        if (d.action) {
+          type = d.action == "insert" ? "+" : "-";
+          type += "[" + d.lines + "]";
+        } else if (d.value) {
+          if (Array.isArray(d.value)) {
+            type = d.value.map(stringifyRange).join("\n");
+          } else {
+            type = stringifyRange(d.value);
+          }
+        }
+        if (d.start) {
+          type += stringifyRange(d);
+        }
+        if (d.id || d.rev) {
+          type += "	(" + (d.id || d.rev) + ")";
+        }
+        return type;
+      }
+      function stringifyRange(r) {
+        return r.start.row + ":" + r.start.column + "=>" + r.end.row + ":" + r.end.column;
+      }
+      function swap(d1, d2) {
+        var i1 = d1.action == "insert";
+        var i2 = d2.action == "insert";
+        if (i1 && i2) {
+          if (cmp(d2.start, d1.end) >= 0) {
+            shift(d2, d1, -1);
+          } else if (cmp(d2.start, d1.start) <= 0) {
+            shift(d1, d2, 1);
+          } else {
+            return null;
+          }
+        } else if (i1 && !i2) {
+          if (cmp(d2.start, d1.end) >= 0) {
+            shift(d2, d1, -1);
+          } else if (cmp(d2.end, d1.start) <= 0) {
+            shift(d1, d2, -1);
+          } else {
+            return null;
+          }
+        } else if (!i1 && i2) {
+          if (cmp(d2.start, d1.start) >= 0) {
+            shift(d2, d1, 1);
+          } else if (cmp(d2.start, d1.start) <= 0) {
+            shift(d1, d2, 1);
+          } else {
+            return null;
+          }
+        } else if (!i1 && !i2) {
+          if (cmp(d2.start, d1.start) >= 0) {
+            shift(d2, d1, 1);
+          } else if (cmp(d2.end, d1.start) <= 0) {
+            shift(d1, d2, -1);
+          } else {
+            return null;
+          }
+        }
+        return [d2, d1];
+      }
+      function swapGroups(ds1, ds2) {
+        for (var i = ds1.length; i--; ) {
+          for (var j = 0; j < ds2.length; j++) {
+            if (!swap(ds1[i], ds2[j])) {
+              while (i < ds1.length) {
+                while (j--) {
+                  swap(ds2[j], ds1[i]);
+                }
+                j = ds2.length;
+                i++;
+              }
+              return [ds1, ds2];
+            }
+          }
+        }
+        ds1.selectionBefore = ds2.selectionBefore = ds1.selectionAfter = ds2.selectionAfter = null;
+        return [ds2, ds1];
+      }
+      function xform(d1, c1) {
+        var i1 = d1.action == "insert";
+        var i2 = c1.action == "insert";
+        if (i1 && i2) {
+          if (cmp(d1.start, c1.start) < 0) {
+            shift(c1, d1, 1);
+          } else {
+            shift(d1, c1, 1);
+          }
+        } else if (i1 && !i2) {
+          if (cmp(d1.start, c1.end) >= 0) {
+            shift(d1, c1, -1);
+          } else if (cmp(d1.start, c1.start) <= 0) {
+            shift(c1, d1, 1);
+          } else {
+            shift(d1, Range.fromPoints(c1.start, d1.start), -1);
+            shift(c1, d1, 1);
+          }
+        } else if (!i1 && i2) {
+          if (cmp(c1.start, d1.end) >= 0) {
+            shift(c1, d1, -1);
+          } else if (cmp(c1.start, d1.start) <= 0) {
+            shift(d1, c1, 1);
+          } else {
+            shift(c1, Range.fromPoints(d1.start, c1.start), -1);
+            shift(d1, c1, 1);
+          }
+        } else if (!i1 && !i2) {
+          if (cmp(c1.start, d1.end) >= 0) {
+            shift(c1, d1, -1);
+          } else if (cmp(c1.end, d1.start) <= 0) {
+            shift(d1, c1, -1);
+          } else {
+            var before, after;
+            if (cmp(d1.start, c1.start) < 0) {
+              before = d1;
+              d1 = splitDelta(d1, c1.start);
+            }
+            if (cmp(d1.end, c1.end) > 0) {
+              after = splitDelta(d1, c1.end);
+            }
+            shiftPos(c1.end, d1.start, d1.end, -1);
+            if (after && !before) {
+              d1.lines = after.lines;
+              d1.start = after.start;
+              d1.end = after.end;
+              after = d1;
+            }
+            return [c1, before, after].filter(Boolean);
+          }
+        }
+        return [c1, d1];
+      }
+      function shift(d1, d2, dir) {
+        shiftPos(d1.start, d2.start, d2.end, dir);
+        shiftPos(d1.end, d2.start, d2.end, dir);
+      }
+      function shiftPos(pos, start, end, dir) {
+        if (pos.row == (dir == 1 ? start : end).row) {
+          pos.column += dir * (end.column - start.column);
+        }
+        pos.row += dir * (end.row - start.row);
+      }
+      function splitDelta(c, pos) {
+        var lines = c.lines;
+        var end = c.end;
+        c.end = clonePos(pos);
+        var rowsBefore = c.end.row - c.start.row;
+        var otherLines = lines.splice(rowsBefore, lines.length);
+        var col = rowsBefore ? pos.column : pos.column - c.start.column;
+        lines.push(otherLines[0].substring(0, col));
+        otherLines[0] = otherLines[0].substr(col);
+        var rest = {
+          start: clonePos(pos),
+          end,
+          lines: otherLines,
+          action: c.action
+        };
+        return rest;
+      }
+      function moveDeltasByOne(redoStack, d) {
+        d = cloneDelta(d);
+        for (var j = redoStack.length; j--; ) {
+          var deltaSet = redoStack[j];
+          for (var i = 0; i < deltaSet.length; i++) {
+            var x = deltaSet[i];
+            var xformed = xform(x, d);
+            d = xformed[0];
+            if (xformed.length != 2) {
+              if (xformed[2]) {
+                deltaSet.splice(i + 1, 1, xformed[1], xformed[2]);
+                i++;
+              } else if (!xformed[1]) {
+                deltaSet.splice(i, 1);
+                i--;
+              }
+            }
+          }
+          if (!deltaSet.length) {
+            redoStack.splice(j, 1);
+          }
+        }
+        return redoStack;
+      }
+      function rebaseRedoStack(redoStack, deltaSets) {
+        for (var i = 0; i < deltaSets.length; i++) {
+          var deltas = deltaSets[i];
+          for (var j = 0; j < deltas.length; j++) {
+            moveDeltasByOne(redoStack, deltas[j]);
+          }
+        }
+      }
+      exports2.UndoManager = UndoManager;
     });
     ace.define("ace/edit_session/fold_line", ["require", "exports", "module", "ace/range"], function(require2, exports2, module2) {
       "use strict";
@@ -8174,7 +8740,7 @@ var require_ace = __commonJS({
     });
     ace.define("ace/edit_session/fold", ["require", "exports", "module", "ace/range_list"], function(require2, exports2, module2) {
       "use strict";
-      var __extends = this && this.__extends || function() {
+      var __extends = this && this.__extends || /* @__PURE__ */ function() {
         var extendStatics = function(d, b) {
           extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
             d2.__proto__ = b2;
@@ -9174,6 +9740,10 @@ var require_ace = __commonJS({
           var foundOpenTagEnd = false;
           do {
             prevToken = token;
+            if (prevToken.type.indexOf("tag-close") !== -1 && !foundOpenTagEnd) {
+              var openTagEnd = new Range(iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn(), iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn() + 1);
+              foundOpenTagEnd = true;
+            }
             token = iterator.stepForward();
             if (token) {
               if (token.value === ">" && !foundOpenTagEnd) {
@@ -9192,7 +9762,9 @@ var require_ace = __commonJS({
                       var closeTagStart = new Range(iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn(), iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn() + 2);
                       token = iterator.stepForward();
                       var closeTagName = new Range(iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn(), iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn() + token.value.length);
-                      token = iterator.stepForward();
+                      if (token.type.indexOf("tag-close") === -1) {
+                        token = iterator.stepForward();
+                      }
                       if (token && token.value === ">") {
                         var closeTagEnd = new Range(iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn(), iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn() + 1);
                       } else {
@@ -9231,7 +9803,9 @@ var require_ace = __commonJS({
           var closeTagStart = new Range(startRow, startColumn, startRow, endColumn);
           iterator.stepForward();
           var closeTagName = new Range(iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn(), iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn() + token.value.length);
-          token = iterator.stepForward();
+          if (token.type.indexOf("tag-close") === -1) {
+            token = iterator.stepForward();
+          }
           if (!token || token.value !== ">")
             return;
           var closeTagEnd = new Range(iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn(), iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn() + 1);
@@ -9291,7 +9865,7 @@ var require_ace = __commonJS({
       }
       exports2.BracketMatch = BracketMatch;
     });
-    ace.define("ace/edit_session", ["require", "exports", "module", "ace/lib/oop", "ace/lib/lang", "ace/bidihandler", "ace/config", "ace/lib/event_emitter", "ace/selection", "ace/mode/text", "ace/range", "ace/document", "ace/background_tokenizer", "ace/search_highlight", "ace/edit_session/folding", "ace/edit_session/bracket_match"], function(require2, exports2, module2) {
+    ace.define("ace/edit_session", ["require", "exports", "module", "ace/lib/oop", "ace/lib/lang", "ace/bidihandler", "ace/config", "ace/lib/event_emitter", "ace/selection", "ace/mode/text", "ace/range", "ace/document", "ace/background_tokenizer", "ace/search_highlight", "ace/undomanager", "ace/edit_session/folding", "ace/edit_session/bracket_match"], function(require2, exports2, module2) {
       "use strict";
       var oop = require2("./lib/oop");
       var lang = require2("./lib/lang");
@@ -9304,10 +9878,12 @@ var require_ace = __commonJS({
       var Document = require2("./document").Document;
       var BackgroundTokenizer = require2("./background_tokenizer").BackgroundTokenizer;
       var SearchHighlight = require2("./search_highlight").SearchHighlight;
+      var UndoManager = require2("./undomanager").UndoManager;
       var EditSession = (
         /** @class */
         function() {
           function EditSession2(text, mode) {
+            this.doc;
             this.$breakpoints = [];
             this.$decorations = [];
             this.$frontMarkers = {};
@@ -9327,7 +9903,10 @@ var require_ace = __commonJS({
             this.on("changeFold", this.onChangeFold.bind(this));
             this.$onChange = this.onChange.bind(this);
             if (typeof text != "object" || !text.getLine)
-              text = new Document(text);
+              text = new Document(
+                /**@type{string}*/
+                text
+              );
             this.setDocument(text);
             this.selection = new Selection(this);
             this.$bidiHandler = new BidiHandler(this);
@@ -9413,6 +9992,42 @@ var require_ace = __commonJS({
             this.$resetRowCache(0);
             this.setUndoManager(this.$undoManager);
             this.getUndoManager().reset();
+          };
+          EditSession2.fromJSON = function(session) {
+            if (typeof session == "string")
+              session = JSON.parse(session);
+            var undoManager = new UndoManager();
+            undoManager.$undoStack = session.history.undo;
+            undoManager.$redoStack = session.history.redo;
+            undoManager.mark = session.history.mark;
+            undoManager.$rev = session.history.rev;
+            var editSession = new EditSession2(session.value);
+            session.folds.forEach(function(fold) {
+              editSession.addFold("...", Range.fromPoints(fold.start, fold.end));
+            });
+            editSession.setAnnotations(session.annotations);
+            editSession.setBreakpoints(session.breakpoints);
+            editSession.setMode(session.mode);
+            editSession.setScrollLeft(session.scrollLeft);
+            editSession.setScrollTop(session.scrollTop);
+            editSession.setUndoManager(undoManager);
+            editSession.selection.fromJSON(session.selection);
+            return editSession;
+          };
+          EditSession2.prototype.toJSON = function() {
+            return {
+              annotations: this.$annotations,
+              breakpoints: this.$breakpoints,
+              folds: this.getAllFolds().map(function(fold) {
+                return fold.range;
+              }),
+              history: this.getUndoManager(),
+              mode: this.$mode.$id,
+              scrollLeft: this.$scrollLeft,
+              scrollTop: this.$scrollTop,
+              selection: this.selection.toJSON(),
+              value: this.doc.getValue()
+            };
           };
           EditSession2.prototype.toString = function() {
             return this.doc.getValue();
@@ -9683,7 +10298,8 @@ var require_ace = __commonJS({
               var options = mode;
               var path = options.path;
             } else {
-              path = mode || "ace/mode/text";
+              path = /**@type{string}*/
+              mode || "ace/mode/text";
             }
             if (!this.$modes["ace/mode/text"])
               this.$modes["ace/mode/text"] = new TextMode();
@@ -10211,7 +10827,7 @@ var require_ace = __commonJS({
               this.$updateRowLengthCache(firstRow, lastRow);
             return removedFolds;
           };
-          EditSession2.prototype.$updateRowLengthCache = function(firstRow, lastRow, b) {
+          EditSession2.prototype.$updateRowLengthCache = function(firstRow, lastRow) {
             this.$rowLengthCache[firstRow] = null;
             this.$rowLengthCache[lastRow] = null;
           };
@@ -10526,9 +11142,18 @@ var require_ace = __commonJS({
           };
           EditSession2.prototype.documentToScreenPosition = function(docRow, docColumn) {
             if (typeof docColumn === "undefined")
-              var pos = this.$clipPositionToDocument(docRow.row, docRow.column);
+              var pos = this.$clipPositionToDocument(
+                /**@type{Point}*/
+                docRow.row,
+                /**@type{Point}*/
+                docRow.column
+              );
             else
-              pos = this.$clipPositionToDocument(docRow, docColumn);
+              pos = this.$clipPositionToDocument(
+                /**@type{number}*/
+                docRow,
+                docColumn
+              );
             docRow = pos.row;
             docColumn = pos.column;
             var screenRow = 0;
@@ -10656,6 +11281,14 @@ var require_ace = __commonJS({
               }
               return [screenColumn, column];
             };
+          };
+          EditSession2.prototype.getPrecedingCharacter = function() {
+            var pos = this.selection.getCursor();
+            if (pos.column === 0) {
+              return pos.row === 0 ? "" : this.doc.getNewLineCharacter();
+            }
+            var currentLine = this.getLine(pos.row);
+            return currentLine[pos.column - 1];
           };
           EditSession2.prototype.destroy = function() {
             if (!this.destroyed) {
@@ -10866,7 +11499,11 @@ var require_ace = __commonJS({
             var firstRange = null;
             iterator.forEach(function(sr, sc, er, ec) {
               firstRange = new Range(sr, sc, er, ec);
-              if (sc == ec && options.start && options.start.start && options.skipCurrent != false && firstRange.isEqual(options.start)) {
+              if (sc == ec && options.start && /**@type{Range}*/
+              options.start.start && options.skipCurrent != false && firstRange.isEqual(
+                /**@type{Range}*/
+                options.start
+              )) {
                 firstRange = null;
                 return false;
               }
@@ -10939,6 +11576,9 @@ var require_ace = __commonJS({
             var match = re.exec(input);
             if (!match || match[0].length != input.length)
               return null;
+            if (!options.regExp) {
+              replacement = replacement.replace(/\$/g, "$$$$");
+            }
             replacement = input.replace(re, replacement);
             if (options.preserveCase) {
               replacement = replacement.split("");
@@ -10959,22 +11599,18 @@ var require_ace = __commonJS({
             var needle = options.needle;
             if (!options.needle)
               return options.re = false;
-            if (options.$supportsUnicodeFlag === void 0) {
-              options.$supportsUnicodeFlag = lang.supportsUnicodeFlag();
-            }
+            if (!options.regExp)
+              needle = lang.escapeRegExp(needle);
+            var modifier = options.caseSensitive ? "gm" : "gmi";
             try {
               new RegExp(needle, "u");
+              options.$supportsUnicodeFlag = true;
+              modifier += "u";
             } catch (e) {
               options.$supportsUnicodeFlag = false;
             }
-            if (!options.regExp)
-              needle = lang.escapeRegExp(needle);
             if (options.wholeWord)
               needle = addWordBoundary(needle, options);
-            var modifier = options.caseSensitive ? "gm" : "gmi";
-            if (options.$supportsUnicodeFlag) {
-              modifier += "u";
-            }
             options.$isMultiLine = !$disableFakeMultiline && /[\n\r]/.test(needle);
             if (options.$isMultiLine)
               return options.re = this.$assembleMultilineRegExp(needle, modifier);
@@ -11002,6 +11638,7 @@ var require_ace = __commonJS({
               return false;
             var backwards = options.backwards == true;
             var skipCurrent = options.skipCurrent != false;
+            var supportsUnicodeFlag = re.unicode;
             var range = options.range;
             var start = options.start;
             if (!start)
@@ -11072,7 +11709,7 @@ var require_ace = __commonJS({
                   if (!length) {
                     if (last >= line.length)
                       break;
-                    re.lastIndex = last += 1;
+                    re.lastIndex = last += lang.skipEmptyMatch(line, last, supportsUnicodeFlag);
                   }
                   if (m.index + length > endIndex)
                     break;
@@ -11097,7 +11734,7 @@ var require_ace = __commonJS({
                   if (callback(row, last, row, last + length))
                     return true;
                   if (!length) {
-                    re.lastIndex = last += 1;
+                    re.lastIndex = last += lang.skipEmptyMatch(line, last, supportsUnicodeFlag);
                     if (last >= line.length)
                       return false;
                   }
@@ -11135,7 +11772,7 @@ var require_ace = __commonJS({
     });
     ace.define("ace/keyboard/hash_handler", ["require", "exports", "module", "ace/lib/keys", "ace/lib/useragent"], function(require2, exports2, module2) {
       "use strict";
-      var __extends = this && this.__extends || function() {
+      var __extends = this && this.__extends || /* @__PURE__ */ function() {
         var extendStatics = function(d, b) {
           extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
             d2.__proto__ = b2;
@@ -11208,7 +11845,8 @@ var require_ace = __commonJS({
             if (!key)
               return;
             if (typeof command == "function")
-              return this.addCommand({ exec: command, bindKey: key, name: command.name || key });
+              return this.addCommand({ exec: command, bindKey: key, name: command.name || /**@type{string}*/
+              key });
             key.split("|").forEach(function(keyPart) {
               var chain = "";
               if (keyPart.indexOf(" ") != -1) {
@@ -11364,7 +12002,7 @@ var require_ace = __commonJS({
     });
     ace.define("ace/commands/command_manager", ["require", "exports", "module", "ace/lib/oop", "ace/keyboard/hash_handler", "ace/lib/event_emitter"], function(require2, exports2, module2) {
       "use strict";
-      var __extends = this && this.__extends || function() {
+      var __extends = this && this.__extends || /* @__PURE__ */ function() {
         var extendStatics = function(d, b) {
           extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
             d2.__proto__ = b2;
@@ -12444,7 +13082,6 @@ var require_ace = __commonJS({
           exec: function(editor) {
             editor.autoIndent();
           },
-          multiSelectAction: "forEachLine",
           scrollIntoView: "animate"
         },
         {
@@ -12565,6 +13202,14 @@ var require_ace = __commonJS({
         },
         {
           name: "openCommandPallete",
+          exec: function(editor) {
+            console.warn("This is an obsolete command. Please use `openCommandPalette` instead.");
+            editor.prompt({ $type: "commands" });
+          },
+          readOnly: true
+        },
+        {
+          name: "openCommandPalette",
           description: "Open command palette",
           bindKey: bindKey("F1", "F1"),
           exec: function(editor) {
@@ -12621,10 +13266,10 @@ var require_ace = __commonJS({
               h = this.lineWidgets[row] && this.lineWidgets[row].rowCount || 0;
             else
               h = 0;
-            if (!this.$useWrapMode || !this.$wrapData[row]) {
+            if (!this["$useWrapMode"] || !this["$wrapData"][row]) {
               return 1 + h;
             } else {
-              return this.$wrapData[row].length + 1 + h;
+              return this["$wrapData"][row].length + 1 + h;
             }
           };
           LineWidgets2.prototype.$getWidgetScreenLength = function() {
@@ -12771,11 +13416,11 @@ var require_ace = __commonJS({
                 dom.addCssClass(w.el, w.className);
               }
               w.el.style.position = "absolute";
-              w.el.style.zIndex = 5;
+              w.el.style.zIndex = "5";
               renderer.container.appendChild(w.el);
               w._inDocument = true;
               if (!w.coverGutter) {
-                w.el.style.zIndex = 3;
+                w.el.style.zIndex = "3";
               }
               if (w.pixelHeight == null) {
                 w.pixelHeight = w.el.offsetHeight;
@@ -12971,36 +13616,39 @@ var require_ace = __commonJS({
               var row = this.editor.getCursorPosition().row;
               if (!this.editor.isRowVisible(row))
                 this.editor.scrollToLine(row, true, true);
-              setTimeout((function() {
-                var index = this.$rowToRowIndex(this.gutterLayer.$cursorCell.row);
-                var nearestFoldIndex = this.$findNearestFoldWidget(index);
-                var nearestAnnotationIndex = this.$findNearestAnnotation(index);
-                if (nearestFoldIndex === null && nearestAnnotationIndex === null)
-                  return;
-                if (nearestFoldIndex === null && nearestAnnotationIndex !== null) {
-                  this.activeRowIndex = nearestAnnotationIndex;
-                  this.activeLane = "annotation";
-                  this.$focusAnnotation(this.activeRowIndex);
-                  return;
-                }
-                if (nearestFoldIndex !== null && nearestAnnotationIndex === null) {
-                  this.activeRowIndex = nearestFoldIndex;
-                  this.activeLane = "fold";
-                  this.$focusFoldWidget(this.activeRowIndex);
-                  return;
-                }
-                if (Math.abs(nearestAnnotationIndex - index) < Math.abs(nearestFoldIndex - index)) {
-                  this.activeRowIndex = nearestAnnotationIndex;
-                  this.activeLane = "annotation";
-                  this.$focusAnnotation(this.activeRowIndex);
-                  return;
-                } else {
-                  this.activeRowIndex = nearestFoldIndex;
-                  this.activeLane = "fold";
-                  this.$focusFoldWidget(this.activeRowIndex);
-                  return;
-                }
-              }).bind(this), 10);
+              setTimeout(
+                (function() {
+                  var index = this.$rowToRowIndex(this.gutterLayer.$cursorCell.row);
+                  var nearestFoldIndex = this.$findNearestFoldWidget(index);
+                  var nearestAnnotationIndex = this.$findNearestAnnotation(index);
+                  if (nearestFoldIndex === null && nearestAnnotationIndex === null)
+                    return;
+                  if (nearestFoldIndex === null && nearestAnnotationIndex !== null) {
+                    this.activeRowIndex = nearestAnnotationIndex;
+                    this.activeLane = "annotation";
+                    this.$focusAnnotation(this.activeRowIndex);
+                    return;
+                  }
+                  if (nearestFoldIndex !== null && nearestAnnotationIndex === null) {
+                    this.activeRowIndex = nearestFoldIndex;
+                    this.activeLane = "fold";
+                    this.$focusFoldWidget(this.activeRowIndex);
+                    return;
+                  }
+                  if (Math.abs(nearestAnnotationIndex - index) < Math.abs(nearestFoldIndex - index)) {
+                    this.activeRowIndex = nearestAnnotationIndex;
+                    this.activeLane = "annotation";
+                    this.$focusAnnotation(this.activeRowIndex);
+                    return;
+                  } else {
+                    this.activeRowIndex = nearestFoldIndex;
+                    this.activeLane = "fold";
+                    this.$focusFoldWidget(this.activeRowIndex);
+                    return;
+                  }
+                }).bind(this),
+                10
+              );
               return;
             }
             this.$handleGutterKeyboardInteraction(e);
@@ -13061,13 +13709,16 @@ var require_ace = __commonJS({
                   if (this.gutterLayer.session.foldWidgets[this.$rowIndexToRow(this.activeRowIndex)] === "start") {
                     var rowFoldingWidget = this.$rowIndexToRow(this.activeRowIndex);
                     this.editor.session.onFoldWidgetClick(this.$rowIndexToRow(this.activeRowIndex), e);
-                    setTimeout((function() {
-                      if (this.$rowIndexToRow(this.activeRowIndex) !== rowFoldingWidget) {
-                        this.$blurFoldWidget(this.activeRowIndex);
-                        this.activeRowIndex = this.$rowToRowIndex(rowFoldingWidget);
-                        this.$focusFoldWidget(this.activeRowIndex);
-                      }
-                    }).bind(this), 10);
+                    setTimeout(
+                      (function() {
+                        if (this.$rowIndexToRow(this.activeRowIndex) !== rowFoldingWidget) {
+                          this.$blurFoldWidget(this.activeRowIndex);
+                          this.activeRowIndex = this.$rowToRowIndex(rowFoldingWidget);
+                          this.$focusFoldWidget(this.activeRowIndex);
+                        }
+                      }).bind(this),
+                      10
+                    );
                     break;
                   } else if (this.gutterLayer.session.foldWidgets[this.$rowIndexToRow(this.activeRowIndex)] === "end") {
                     break;
@@ -13336,6 +13987,7 @@ var require_ace = __commonJS({
         /** @class */
         function() {
           function Editor2(renderer, session, options) {
+            this.session;
             this.$toDestroy = [];
             var container = renderer.getContainerElement();
             this.container = container;
@@ -13642,8 +14294,12 @@ var require_ace = __commonJS({
                 var token = iterator.getCurrentToken();
                 if (token && /\b(?:tag-open|tag-name)/.test(token.type)) {
                   var tagNamesRanges = session.getMatchingTags(pos);
-                  if (tagNamesRanges)
-                    ranges = [tagNamesRanges.openTagName, tagNamesRanges.closeTagName];
+                  if (tagNamesRanges) {
+                    ranges = [
+                      tagNamesRanges.openTagName.isEmpty() ? tagNamesRanges.openTag : tagNamesRanges.openTagName,
+                      tagNamesRanges.closeTagName.isEmpty() ? tagNamesRanges.closeTag : tagNamesRanges.closeTagName
+                    ];
+                  }
                 }
               }
               if (!ranges && session.$mode.getMatching)
@@ -13903,7 +14559,7 @@ var require_ace = __commonJS({
               cursor = this.session.remove(range);
               this.clearSelection();
             } else if (this.session.getOverwrite() && text.indexOf("\n") == -1) {
-              var range = new Range.fromPoints(cursor, cursor);
+              var range = Range.fromPoints(cursor, cursor);
               range.end.column += text.length;
               this.session.remove(range);
             }
@@ -13939,38 +14595,33 @@ var require_ace = __commonJS({
           Editor2.prototype.autoIndent = function() {
             var session = this.session;
             var mode = session.getMode();
-            var startRow, endRow;
-            if (this.selection.isEmpty()) {
-              startRow = 0;
-              endRow = session.doc.getLength() - 1;
-            } else {
-              var selectedRange = this.getSelectionRange();
-              startRow = selectedRange.start.row;
-              endRow = selectedRange.end.row;
-            }
+            var ranges = this.selection.isEmpty() ? [new Range(0, 0, session.doc.getLength() - 1, 0)] : this.selection.getAllRanges();
             var prevLineState = "";
             var prevLine = "";
             var lineIndent = "";
-            var line, currIndent, range;
             var tab = session.getTabString();
-            for (var row = startRow; row <= endRow; row++) {
-              if (row > 0) {
-                prevLineState = session.getState(row - 1);
-                prevLine = session.getLine(row - 1);
-                lineIndent = mode.getNextLineIndent(prevLineState, prevLine, tab);
-              }
-              line = session.getLine(row);
-              currIndent = mode.$getIndent(line);
-              if (lineIndent !== currIndent) {
-                if (currIndent.length > 0) {
-                  range = new Range(row, 0, row, currIndent.length);
-                  session.remove(range);
+            for (var i = 0; i < ranges.length; i++) {
+              var startRow = ranges[i].start.row;
+              var endRow = ranges[i].end.row;
+              for (var row = startRow; row <= endRow; row++) {
+                if (row > 0) {
+                  prevLineState = session.getState(row - 1);
+                  prevLine = session.getLine(row - 1);
+                  lineIndent = mode.getNextLineIndent(prevLineState, prevLine, tab);
                 }
-                if (lineIndent.length > 0) {
-                  session.insert({ row, column: 0 }, lineIndent);
+                var line = session.getLine(row);
+                var currIndent = mode.$getIndent(line);
+                if (lineIndent !== currIndent) {
+                  if (currIndent.length > 0) {
+                    var range = new Range(row, 0, row, currIndent.length);
+                    session.remove(range);
+                  }
+                  if (lineIndent.length > 0) {
+                    session.insert({ row, column: 0 }, lineIndent);
+                  }
                 }
+                mode.autoOutdent(prevLineState, session, row);
               }
-              mode.autoOutdent(prevLineState, session, row);
             }
           };
           Editor2.prototype.onTextInput = function(text, composition) {
@@ -14463,7 +15114,7 @@ var require_ace = __commonJS({
               doc.duplicateLines(row, row);
             } else {
               var point = reverse ? range.start : range.end;
-              var endPoint = doc.insert(point, doc.getTextRange(range), false);
+              var endPoint = doc.insert(point, doc.getTextRange(range));
               range.start = point;
               range.end = endPoint;
               sel.setSelectionRange(range, reverse);
@@ -15200,16 +15851,16 @@ var require_ace = __commonJS({
               this.textInput.setNumberOfExtraLines(useragent.isWin ? 3 : 0);
               this.renderer.scroller.setAttribute("tabindex", 0);
               this.renderer.scroller.setAttribute("role", "group");
-              this.renderer.scroller.setAttribute("aria-roledescription", nls("editor"));
+              this.renderer.scroller.setAttribute("aria-roledescription", nls("editor.scroller.aria-roledescription", "editor"));
               this.renderer.scroller.classList.add(this.renderer.keyboardFocusClassName);
-              this.renderer.scroller.setAttribute("aria-label", nls("Editor content, press Enter to start editing, press Escape to exit"));
+              this.renderer.scroller.setAttribute("aria-label", nls("editor.scroller.aria-label", "Editor content, press Enter to start editing, press Escape to exit"));
               this.renderer.scroller.addEventListener("keyup", focusOnEnterKeyup.bind(this));
               this.commands.addCommand(blurCommand);
               this.renderer.$gutter.setAttribute("tabindex", 0);
               this.renderer.$gutter.setAttribute("aria-hidden", false);
               this.renderer.$gutter.setAttribute("role", "group");
-              this.renderer.$gutter.setAttribute("aria-roledescription", nls("editor"));
-              this.renderer.$gutter.setAttribute("aria-label", nls("Editor gutter, press Enter to interact with controls using arrow keys, press Escape to exit"));
+              this.renderer.$gutter.setAttribute("aria-roledescription", nls("editor.gutter.aria-roledescription", "editor"));
+              this.renderer.$gutter.setAttribute("aria-label", nls("editor.gutter.aria-label", "Editor gutter, press Enter to interact with controls using arrow keys, press Escape to exit"));
               this.renderer.$gutter.classList.add(this.renderer.keyboardFocusClassName);
               this.renderer.content.setAttribute("aria-hidden", true);
               if (!gutterKeyboardHandler)
@@ -15306,454 +15957,6 @@ var require_ace = __commonJS({
         }
       };
       exports2.Editor = Editor;
-    });
-    ace.define("ace/undomanager", ["require", "exports", "module", "ace/range"], function(require2, exports2, module2) {
-      "use strict";
-      var UndoManager = (
-        /** @class */
-        function() {
-          function UndoManager2() {
-            this.$maxRev = 0;
-            this.$fromUndo = false;
-            this.$undoDepth = Infinity;
-            this.reset();
-          }
-          UndoManager2.prototype.addSession = function(session) {
-            this.$session = session;
-          };
-          UndoManager2.prototype.add = function(delta, allowMerge, session) {
-            if (this.$fromUndo)
-              return;
-            if (delta == this.$lastDelta)
-              return;
-            if (!this.$keepRedoStack)
-              this.$redoStack.length = 0;
-            if (allowMerge === false || !this.lastDeltas) {
-              this.lastDeltas = [];
-              var undoStackLength = this.$undoStack.length;
-              if (undoStackLength > this.$undoDepth - 1) {
-                this.$undoStack.splice(0, undoStackLength - this.$undoDepth + 1);
-              }
-              this.$undoStack.push(this.lastDeltas);
-              delta.id = this.$rev = ++this.$maxRev;
-            }
-            if (delta.action == "remove" || delta.action == "insert")
-              this.$lastDelta = delta;
-            this.lastDeltas.push(delta);
-          };
-          UndoManager2.prototype.addSelection = function(selection, rev) {
-            this.selections.push({
-              value: selection,
-              rev: rev || this.$rev
-            });
-          };
-          UndoManager2.prototype.startNewGroup = function() {
-            this.lastDeltas = null;
-            return this.$rev;
-          };
-          UndoManager2.prototype.markIgnored = function(from, to) {
-            if (to == null)
-              to = this.$rev + 1;
-            var stack = this.$undoStack;
-            for (var i = stack.length; i--; ) {
-              var delta = stack[i][0];
-              if (delta.id <= from)
-                break;
-              if (delta.id < to)
-                delta.ignore = true;
-            }
-            this.lastDeltas = null;
-          };
-          UndoManager2.prototype.getSelection = function(rev, after) {
-            var stack = this.selections;
-            for (var i = stack.length; i--; ) {
-              var selection = stack[i];
-              if (selection.rev < rev) {
-                if (after)
-                  selection = stack[i + 1];
-                return selection;
-              }
-            }
-          };
-          UndoManager2.prototype.getRevision = function() {
-            return this.$rev;
-          };
-          UndoManager2.prototype.getDeltas = function(from, to) {
-            if (to == null)
-              to = this.$rev + 1;
-            var stack = this.$undoStack;
-            var end = null, start = 0;
-            for (var i = stack.length; i--; ) {
-              var delta = stack[i][0];
-              if (delta.id < to && !end)
-                end = i + 1;
-              if (delta.id <= from) {
-                start = i + 1;
-                break;
-              }
-            }
-            return stack.slice(start, end);
-          };
-          UndoManager2.prototype.getChangedRanges = function(from, to) {
-            if (to == null)
-              to = this.$rev + 1;
-          };
-          UndoManager2.prototype.getChangedLines = function(from, to) {
-            if (to == null)
-              to = this.$rev + 1;
-          };
-          UndoManager2.prototype.undo = function(session, dontSelect) {
-            this.lastDeltas = null;
-            var stack = this.$undoStack;
-            if (!rearrangeUndoStack(stack, stack.length))
-              return;
-            if (!session)
-              session = this.$session;
-            if (this.$redoStackBaseRev !== this.$rev && this.$redoStack.length)
-              this.$redoStack = [];
-            this.$fromUndo = true;
-            var deltaSet = stack.pop();
-            var undoSelectionRange = null;
-            if (deltaSet) {
-              undoSelectionRange = session.undoChanges(deltaSet, dontSelect);
-              this.$redoStack.push(deltaSet);
-              this.$syncRev();
-            }
-            this.$fromUndo = false;
-            return undoSelectionRange;
-          };
-          UndoManager2.prototype.redo = function(session, dontSelect) {
-            this.lastDeltas = null;
-            if (!session)
-              session = this.$session;
-            this.$fromUndo = true;
-            if (this.$redoStackBaseRev != this.$rev) {
-              var diff = this.getDeltas(this.$redoStackBaseRev, this.$rev + 1);
-              rebaseRedoStack(this.$redoStack, diff);
-              this.$redoStackBaseRev = this.$rev;
-              this.$redoStack.forEach(function(x) {
-                x[0].id = ++this.$maxRev;
-              }, this);
-            }
-            var deltaSet = this.$redoStack.pop();
-            var redoSelectionRange = null;
-            if (deltaSet) {
-              redoSelectionRange = session.redoChanges(deltaSet, dontSelect);
-              this.$undoStack.push(deltaSet);
-              this.$syncRev();
-            }
-            this.$fromUndo = false;
-            return redoSelectionRange;
-          };
-          UndoManager2.prototype.$syncRev = function() {
-            var stack = this.$undoStack;
-            var nextDelta = stack[stack.length - 1];
-            var id = nextDelta && nextDelta[0].id || 0;
-            this.$redoStackBaseRev = id;
-            this.$rev = id;
-          };
-          UndoManager2.prototype.reset = function() {
-            this.lastDeltas = null;
-            this.$lastDelta = null;
-            this.$undoStack = [];
-            this.$redoStack = [];
-            this.$rev = 0;
-            this.mark = 0;
-            this.$redoStackBaseRev = this.$rev;
-            this.selections = [];
-          };
-          UndoManager2.prototype.canUndo = function() {
-            return this.$undoStack.length > 0;
-          };
-          UndoManager2.prototype.canRedo = function() {
-            return this.$redoStack.length > 0;
-          };
-          UndoManager2.prototype.bookmark = function(rev) {
-            if (rev == void 0)
-              rev = this.$rev;
-            this.mark = rev;
-          };
-          UndoManager2.prototype.isAtBookmark = function() {
-            return this.$rev === this.mark;
-          };
-          UndoManager2.prototype.toJSON = function() {
-          };
-          UndoManager2.prototype.fromJSON = function() {
-          };
-          UndoManager2.prototype.$prettyPrint = function(delta) {
-            if (delta)
-              return stringifyDelta(delta);
-            return stringifyDelta(this.$undoStack) + "\n---\n" + stringifyDelta(this.$redoStack);
-          };
-          return UndoManager2;
-        }()
-      );
-      UndoManager.prototype.hasUndo = UndoManager.prototype.canUndo;
-      UndoManager.prototype.hasRedo = UndoManager.prototype.canRedo;
-      UndoManager.prototype.isClean = UndoManager.prototype.isAtBookmark;
-      UndoManager.prototype.markClean = UndoManager.prototype.bookmark;
-      function rearrangeUndoStack(stack, pos) {
-        for (var i = pos; i--; ) {
-          var deltaSet = stack[i];
-          if (deltaSet && !deltaSet[0].ignore) {
-            while (i < pos - 1) {
-              var swapped = swapGroups(stack[i], stack[i + 1]);
-              stack[i] = swapped[0];
-              stack[i + 1] = swapped[1];
-              i++;
-            }
-            return true;
-          }
-        }
-      }
-      var Range = require2("./range").Range;
-      var cmp = Range.comparePoints;
-      var comparePoints = Range.comparePoints;
-      function $updateMarkers(delta) {
-        var isInsert = delta.action == "insert";
-        var start = delta.start;
-        var end = delta.end;
-        var rowShift = (end.row - start.row) * (isInsert ? 1 : -1);
-        var colShift = (end.column - start.column) * (isInsert ? 1 : -1);
-        if (isInsert)
-          end = start;
-        for (var i in this.marks) {
-          var point = this.marks[i];
-          var cmp2 = comparePoints(point, start);
-          if (cmp2 < 0) {
-            continue;
-          }
-          if (cmp2 === 0) {
-            if (isInsert) {
-              if (point.bias == 1) {
-                cmp2 = 1;
-              } else {
-                point.bias == -1;
-                continue;
-              }
-            }
-          }
-          var cmp22 = isInsert ? cmp2 : comparePoints(point, end);
-          if (cmp22 > 0) {
-            point.row += rowShift;
-            point.column += point.row == end.row ? colShift : 0;
-            continue;
-          }
-          if (!isInsert && cmp22 <= 0) {
-            point.row = start.row;
-            point.column = start.column;
-            if (cmp22 === 0)
-              point.bias = 1;
-          }
-        }
-      }
-      function clonePos(pos) {
-        return { row: pos.row, column: pos.column };
-      }
-      function cloneDelta(d) {
-        return {
-          start: clonePos(d.start),
-          end: clonePos(d.end),
-          action: d.action,
-          lines: d.lines.slice()
-        };
-      }
-      function stringifyDelta(d) {
-        d = d || this;
-        if (Array.isArray(d)) {
-          return d.map(stringifyDelta).join("\n");
-        }
-        var type = "";
-        if (d.action) {
-          type = d.action == "insert" ? "+" : "-";
-          type += "[" + d.lines + "]";
-        } else if (d.value) {
-          if (Array.isArray(d.value)) {
-            type = d.value.map(stringifyRange).join("\n");
-          } else {
-            type = stringifyRange(d.value);
-          }
-        }
-        if (d.start) {
-          type += stringifyRange(d);
-        }
-        if (d.id || d.rev) {
-          type += "	(" + (d.id || d.rev) + ")";
-        }
-        return type;
-      }
-      function stringifyRange(r) {
-        return r.start.row + ":" + r.start.column + "=>" + r.end.row + ":" + r.end.column;
-      }
-      function swap(d1, d2) {
-        var i1 = d1.action == "insert";
-        var i2 = d2.action == "insert";
-        if (i1 && i2) {
-          if (cmp(d2.start, d1.end) >= 0) {
-            shift(d2, d1, -1);
-          } else if (cmp(d2.start, d1.start) <= 0) {
-            shift(d1, d2, 1);
-          } else {
-            return null;
-          }
-        } else if (i1 && !i2) {
-          if (cmp(d2.start, d1.end) >= 0) {
-            shift(d2, d1, -1);
-          } else if (cmp(d2.end, d1.start) <= 0) {
-            shift(d1, d2, -1);
-          } else {
-            return null;
-          }
-        } else if (!i1 && i2) {
-          if (cmp(d2.start, d1.start) >= 0) {
-            shift(d2, d1, 1);
-          } else if (cmp(d2.start, d1.start) <= 0) {
-            shift(d1, d2, 1);
-          } else {
-            return null;
-          }
-        } else if (!i1 && !i2) {
-          if (cmp(d2.start, d1.start) >= 0) {
-            shift(d2, d1, 1);
-          } else if (cmp(d2.end, d1.start) <= 0) {
-            shift(d1, d2, -1);
-          } else {
-            return null;
-          }
-        }
-        return [d2, d1];
-      }
-      function swapGroups(ds1, ds2) {
-        for (var i = ds1.length; i--; ) {
-          for (var j = 0; j < ds2.length; j++) {
-            if (!swap(ds1[i], ds2[j])) {
-              while (i < ds1.length) {
-                while (j--) {
-                  swap(ds2[j], ds1[i]);
-                }
-                j = ds2.length;
-                i++;
-              }
-              return [ds1, ds2];
-            }
-          }
-        }
-        ds1.selectionBefore = ds2.selectionBefore = ds1.selectionAfter = ds2.selectionAfter = null;
-        return [ds2, ds1];
-      }
-      function xform(d1, c1) {
-        var i1 = d1.action == "insert";
-        var i2 = c1.action == "insert";
-        if (i1 && i2) {
-          if (cmp(d1.start, c1.start) < 0) {
-            shift(c1, d1, 1);
-          } else {
-            shift(d1, c1, 1);
-          }
-        } else if (i1 && !i2) {
-          if (cmp(d1.start, c1.end) >= 0) {
-            shift(d1, c1, -1);
-          } else if (cmp(d1.start, c1.start) <= 0) {
-            shift(c1, d1, 1);
-          } else {
-            shift(d1, Range.fromPoints(c1.start, d1.start), -1);
-            shift(c1, d1, 1);
-          }
-        } else if (!i1 && i2) {
-          if (cmp(c1.start, d1.end) >= 0) {
-            shift(c1, d1, -1);
-          } else if (cmp(c1.start, d1.start) <= 0) {
-            shift(d1, c1, 1);
-          } else {
-            shift(c1, Range.fromPoints(d1.start, c1.start), -1);
-            shift(d1, c1, 1);
-          }
-        } else if (!i1 && !i2) {
-          if (cmp(c1.start, d1.end) >= 0) {
-            shift(c1, d1, -1);
-          } else if (cmp(c1.end, d1.start) <= 0) {
-            shift(d1, c1, -1);
-          } else {
-            var before, after;
-            if (cmp(d1.start, c1.start) < 0) {
-              before = d1;
-              d1 = splitDelta(d1, c1.start);
-            }
-            if (cmp(d1.end, c1.end) > 0) {
-              after = splitDelta(d1, c1.end);
-            }
-            shiftPos(c1.end, d1.start, d1.end, -1);
-            if (after && !before) {
-              d1.lines = after.lines;
-              d1.start = after.start;
-              d1.end = after.end;
-              after = d1;
-            }
-            return [c1, before, after].filter(Boolean);
-          }
-        }
-        return [c1, d1];
-      }
-      function shift(d1, d2, dir) {
-        shiftPos(d1.start, d2.start, d2.end, dir);
-        shiftPos(d1.end, d2.start, d2.end, dir);
-      }
-      function shiftPos(pos, start, end, dir) {
-        if (pos.row == (dir == 1 ? start : end).row) {
-          pos.column += dir * (end.column - start.column);
-        }
-        pos.row += dir * (end.row - start.row);
-      }
-      function splitDelta(c, pos) {
-        var lines = c.lines;
-        var end = c.end;
-        c.end = clonePos(pos);
-        var rowsBefore = c.end.row - c.start.row;
-        var otherLines = lines.splice(rowsBefore, lines.length);
-        var col = rowsBefore ? pos.column : pos.column - c.start.column;
-        lines.push(otherLines[0].substring(0, col));
-        otherLines[0] = otherLines[0].substr(col);
-        var rest = {
-          start: clonePos(pos),
-          end,
-          lines: otherLines,
-          action: c.action
-        };
-        return rest;
-      }
-      function moveDeltasByOne(redoStack, d) {
-        d = cloneDelta(d);
-        for (var j = redoStack.length; j--; ) {
-          var deltaSet = redoStack[j];
-          for (var i = 0; i < deltaSet.length; i++) {
-            var x = deltaSet[i];
-            var xformed = xform(x, d);
-            d = xformed[0];
-            if (xformed.length != 2) {
-              if (xformed[2]) {
-                deltaSet.splice(i + 1, 1, xformed[1], xformed[2]);
-                i++;
-              } else if (!xformed[1]) {
-                deltaSet.splice(i, 1);
-                i--;
-              }
-            }
-          }
-          if (!deltaSet.length) {
-            redoStack.splice(j, 1);
-          }
-        }
-        return redoStack;
-      }
-      function rebaseRedoStack(redoStack, deltaSets) {
-        for (var i = 0; i < deltaSets.length; i++) {
-          var deltas = deltaSets[i];
-          for (var j = 0; j < deltas.length; j++) {
-            moveDeltasByOne(redoStack, deltas[j]);
-          }
-        }
-      }
-      exports2.UndoManager = UndoManager;
     });
     ace.define("ace/layer/lines", ["require", "exports", "module", "ace/lib/dom"], function(require2, exports2, module2) {
       "use strict";
@@ -16154,19 +16357,19 @@ var require_ace = __commonJS({
               foldWidget.setAttribute("tabindex", "-1");
               var foldRange = session.getFoldWidgetRange(row);
               if (foldRange)
-                foldWidget.setAttribute("aria-label", nls("Toggle code folding, rows $0 through $1", [foldRange.start.row + 1, foldRange.end.row + 1]));
+                foldWidget.setAttribute("aria-label", nls("gutter.code-folding.range.aria-label", "Toggle code folding, rows $0 through $1", [foldRange.start.row + 1, foldRange.end.row + 1]));
               else {
                 if (fold)
-                  foldWidget.setAttribute("aria-label", nls("Toggle code folding, rows $0 through $1", [fold.start.row + 1, fold.end.row + 1]));
+                  foldWidget.setAttribute("aria-label", nls("gutter.code-folding.closed.aria-label", "Toggle code folding, rows $0 through $1", [fold.start.row + 1, fold.end.row + 1]));
                 else
-                  foldWidget.setAttribute("aria-label", nls("Toggle code folding, row $0", [row + 1]));
+                  foldWidget.setAttribute("aria-label", nls("gutter.code-folding.open.aria-label", "Toggle code folding, row $0", [row + 1]));
               }
               if (isClosedFold) {
                 foldWidget.setAttribute("aria-expanded", "false");
-                foldWidget.setAttribute("title", nls("Unfold code"));
+                foldWidget.setAttribute("title", nls("gutter.code-folding.closed.title", "Unfold code"));
               } else {
                 foldWidget.setAttribute("aria-expanded", "true");
-                foldWidget.setAttribute("title", nls("Fold code"));
+                foldWidget.setAttribute("title", nls("gutter.code-folding.open.title", "Fold code"));
               }
             } else {
               if (foldWidget) {
@@ -16183,7 +16386,16 @@ var require_ace = __commonJS({
               dom.setStyle(annotationIconNode.style, "height", lineHeight);
               dom.setStyle(annotationNode.style, "display", "block");
               dom.setStyle(annotationNode.style, "height", lineHeight);
-              annotationNode.setAttribute("aria-label", nls("Read annotations row $0", [rowText]));
+              var ariaLabel;
+              switch (foldAnnotationClass) {
+                case " ace_error_fold":
+                  ariaLabel = nls("gutter.annotation.aria-label.error", "Read annotations row $0", [rowText]);
+                  break;
+                case " ace_warning_fold":
+                  ariaLabel = nls("gutter.annotation.aria-label.warning", "Read annotations row $0", [rowText]);
+                  break;
+              }
+              annotationNode.setAttribute("aria-label", ariaLabel);
               annotationNode.setAttribute("tabindex", "-1");
               annotationNode.setAttribute("role", "button");
             } else if (this.$annotations[row]) {
@@ -16196,7 +16408,19 @@ var require_ace = __commonJS({
               dom.setStyle(annotationIconNode.style, "height", lineHeight);
               dom.setStyle(annotationNode.style, "display", "block");
               dom.setStyle(annotationNode.style, "height", lineHeight);
-              annotationNode.setAttribute("aria-label", nls("Read annotations row $0", [rowText]));
+              var ariaLabel;
+              switch (this.$annotations[row].className) {
+                case " ace_error":
+                  ariaLabel = nls("gutter.annotation.aria-label.error", "Read annotations row $0", [rowText]);
+                  break;
+                case " ace_warning":
+                  ariaLabel = nls("gutter.annotation.aria-label.warning", "Read annotations row $0", [rowText]);
+                  break;
+                case " ace_info":
+                  ariaLabel = nls("gutter.annotation.aria-label.info", "Read annotations row $0", [rowText]);
+                  break;
+              }
+              annotationNode.setAttribute("aria-label", ariaLabel);
               annotationNode.setAttribute("tabindex", "-1");
               annotationNode.setAttribute("role", "button");
             } else {
@@ -16249,7 +16473,10 @@ var require_ace = __commonJS({
           Gutter2.prototype.$computePadding = function() {
             if (!this.element.firstChild)
               return { left: 0, right: 0 };
-            var style = dom.computedStyle(this.element.firstChild);
+            var style = dom.computedStyle(
+              /**@type{Element}*/
+              this.element.firstChild
+            );
             this.$padding = {};
             this.$padding.left = (parseInt(style.borderLeftWidth) || 0) + (parseInt(style.paddingLeft) || 0) + 1;
             this.$padding.right = (parseInt(style.borderRightWidth) || 0) + (parseInt(style.paddingRight) || 0);
@@ -16493,9 +16720,12 @@ var require_ace = __commonJS({
           };
           Text2.prototype.$setFontMetrics = function(measure) {
             this.$fontMetrics = measure;
-            this.$fontMetrics.on("changeCharacterSize", (function(e) {
-              this._signal("changeCharacterSize", e);
-            }).bind(this));
+            this.$fontMetrics.on(
+              "changeCharacterSize",
+              (function(e) {
+                this._signal("changeCharacterSize", e);
+              }).bind(this)
+            );
             this.$pollSizeChanges();
           };
           Text2.prototype.checkForSizeChanges = function() {
@@ -16749,7 +16979,7 @@ var require_ace = __commonJS({
               var span = this.dom.createElement("span");
               if (token.type == "fold") {
                 span.style.width = token.value.length * this.config.characterWidth + "px";
-                span.setAttribute("title", nls("Unfold code"));
+                span.setAttribute("title", nls("inline-fold.closed.title", "Unfold code"));
               }
               span.className = classes;
               span.appendChild(valueFragment);
@@ -17179,11 +17409,14 @@ var require_ace = __commonJS({
             if (dom.HAS_CSS_ANIMATION) {
               this.$startCssAnimation();
             } else {
-              var blink = (function() {
-                this.timeoutId = setTimeout(function() {
-                  update(false);
-                }, 0.6 * this.blinkInterval);
-              }).bind(this);
+              var blink = (
+                /**@this{Cursor}*/
+                (function() {
+                  this.timeoutId = setTimeout(function() {
+                    update(false);
+                  }, 0.6 * this.blinkInterval);
+                }).bind(this)
+              );
               this.intervalId = setInterval(function() {
                 update(true);
                 blink();
@@ -17260,7 +17493,7 @@ var require_ace = __commonJS({
     });
     ace.define("ace/scrollbar", ["require", "exports", "module", "ace/lib/oop", "ace/lib/dom", "ace/lib/event", "ace/lib/event_emitter"], function(require2, exports2, module2) {
       "use strict";
-      var __extends = this && this.__extends || function() {
+      var __extends = this && this.__extends || /* @__PURE__ */ function() {
         var extendStatics = function(d, b) {
           extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
             d2.__proto__ = b2;
@@ -17409,7 +17642,7 @@ var require_ace = __commonJS({
     });
     ace.define("ace/scrollbar_custom", ["require", "exports", "module", "ace/lib/oop", "ace/lib/dom", "ace/lib/event", "ace/lib/event_emitter"], function(require2, exports2, module2) {
       "use strict";
-      var __extends = this && this.__extends || function() {
+      var __extends = this && this.__extends || /* @__PURE__ */ function() {
         var extendStatics = function(d, b) {
           extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
             d2.__proto__ = b2;
@@ -17816,7 +18049,7 @@ var require_ace = __commonJS({
           FontMetrics2.prototype.$getZoom = function(element) {
             if (!element || !element.parentElement)
               return 1;
-            return (window.getComputedStyle(element).zoom || 1) * this.$getZoom(element.parentElement);
+            return (window.getComputedStyle(element)["zoom"] || 1) * this.$getZoom(element.parentElement);
           };
           FontMetrics2.prototype.$initTransformMeasureNodes = function() {
             var t = function(t2, l) {
@@ -18317,13 +18550,19 @@ var require_ace = __commonJS({
     z-index: 999999;
     box-sizing: border-box;
     cursor: default;
-    white-space: pre;
+    white-space: pre-wrap;
     word-wrap: break-word;
     line-height: normal;
     font-style: normal;
     font-weight: normal;
     letter-spacing: normal;
     pointer-events: none;
+    overflow: auto;
+    max-width: min(60em, 66vw);
+    overscroll-behavior: contain;
+}
+.ace_tooltip pre {
+    white-space: pre-wrap;
 }
 
 .ace_tooltip.ace_dark {
@@ -18520,6 +18759,15 @@ var require_ace = __commonJS({
     opacity: 0.5;
     font-style: italic;
     white-space: pre;
+}
+
+.ace_screenreader-only {
+    position:absolute;
+    left:-10000px;
+    top:auto;
+    width:1px;
+    height:1px;
+    overflow:hidden;
 }`;
     });
     ace.define("ace/layer/decorators", ["require", "exports", "module", "ace/lib/dom", "ace/lib/oop", "ace/lib/event_emitter"], function(require2, exports2, module2) {
@@ -18678,7 +18926,7 @@ var require_ace = __commonJS({
             this.$gutter = dom.createElement("div");
             this.$gutter.className = "ace_gutter";
             this.container.appendChild(this.$gutter);
-            this.$gutter.setAttribute("aria-hidden", true);
+            this.$gutter.setAttribute("aria-hidden", "true");
             this.scroller = dom.createElement("div");
             this.scroller.className = "ace_scroller";
             this.container.appendChild(this.scroller);
@@ -18966,8 +19214,8 @@ var require_ace = __commonJS({
           VirtualRenderer2.prototype.getShowPrintMargin = function() {
             return this.getOption("showPrintMargin");
           };
-          VirtualRenderer2.prototype.setPrintMarginColumn = function(showPrintMargin) {
-            this.setOption("printMarginColumn", showPrintMargin);
+          VirtualRenderer2.prototype.setPrintMarginColumn = function(printMarginColumn) {
+            this.setOption("printMarginColumn", printMarginColumn);
           };
           VirtualRenderer2.prototype.getPrintMarginColumn = function() {
             return this.getOption("printMarginColumn");
@@ -19403,6 +19651,7 @@ var require_ace = __commonJS({
             this.$gutterLayer.removeGutterDecoration(row, className);
           };
           VirtualRenderer2.prototype.updateBreakpoints = function(rows) {
+            this._rows = rows;
             this.$loop.schedule(this.CHANGE_GUTTER);
           };
           VirtualRenderer2.prototype.setAnnotations = function(annotations) {
@@ -19683,6 +19932,18 @@ var require_ace = __commonJS({
                 className: "ace_ghost_text"
               };
               this.session.widgetManager.addLineWidget(this.$ghostTextWidget);
+              var pixelPosition = this.$cursorLayer.getPixelPosition(insertPosition, true);
+              var el = this.container;
+              var height = el.getBoundingClientRect().height;
+              var ghostTextHeight = textLines.length * this.lineHeight;
+              var fitsY = ghostTextHeight < height - pixelPosition.top;
+              if (fitsY)
+                return;
+              if (ghostTextHeight < height) {
+                this.scrollBy(0, (textLines.length - 1) * this.lineHeight);
+              } else {
+                this.scrollToRow(insertPosition.row);
+              }
             }
           };
           VirtualRenderer2.prototype.removeGhostText = function() {
@@ -20273,7 +20534,7 @@ var require_ace = __commonJS({
               });
             };
             this.$pos = pos;
-            var undoStack = session.getUndoManager().$undoStack || session.getUndoManager().$undostack || { length: -1 };
+            var undoStack = session.getUndoManager().$undoStack || session.getUndoManager()["$undostack"] || { length: -1 };
             this.$undoStackDepth = undoStack.length;
             this.setup();
             session.selection.on("changeCursor", this.$onCursorChange);
@@ -20393,7 +20654,7 @@ var require_ace = __commonJS({
             if (this.$undoStackDepth === -1)
               return;
             var undoManager = this.session.getUndoManager();
-            var undosRequired = (undoManager.$undoStack || undoManager.$undostack).length - this.$undoStackDepth;
+            var undosRequired = (undoManager.$undoStack || undoManager["$undostack"]).length - this.$undoStackDepth;
             for (var i = 0; i < undosRequired; i++) {
               undoManager.undo(this.session, true);
             }
@@ -21110,11 +21371,11 @@ var require_ace = __commonJS({
           for (var i = all.length; i--; ) {
             var range = all[i];
             if (range.isEmpty()) {
-              var tmp = session.getWordRange(range.start.row, range.start.column);
-              range.start.row = tmp.start.row;
-              range.start.column = tmp.start.column;
-              range.end.row = tmp.end.row;
-              range.end.column = tmp.end.column;
+              var tmp_1 = session.getWordRange(range.start.row, range.start.column);
+              range.start.row = tmp_1.start.row;
+              range.start.column = tmp_1.start.column;
+              range.end.row = tmp_1.end.row;
+              range.end.column = tmp_1.end.column;
             }
           }
           sel.mergeOverlappingRanges();
@@ -21511,7 +21772,7 @@ var require_ace = __commonJS({
           return;
         } else {
           gutterAnno = {
-            text: [nls("Looks good!")],
+            text: [nls("error-marker.good-state", "Looks good!")],
             className: "ace_ok"
           };
         }
@@ -21629,7 +21890,7 @@ var require_ace = __commonJS({
           a.config.init(true);
           a.define = ace.define;
         }
-        var global = function() {
+        var global = /* @__PURE__ */ function() {
           return this;
         }();
         if (!global && typeof window != "undefined")
