@@ -35,6 +35,7 @@ const isDisabledReDo = ref(true)
 const activeNames = ref<any>(['1', '2','3'])
 const viewPriview = ref(false)
 const formValue = ref()
+const deviceType=ref('PC')
 const controlData = ref<any>([])
     const diyData = ref<any>([])
 
@@ -460,8 +461,6 @@ setValue({
                     </el-collapse>
                 </el-tab-pane>
             </el-tabs>
-
-
         </div>
         <div style="flex-grow:1">
             <div class="main-tool">
@@ -482,6 +481,10 @@ setValue({
                                 p-id="981" fill="#409eff"></path>
                         </svg>
                     </el-button>
+                    <els-radio-button v-model="deviceType">
+                        <els-option>PC</els-option>
+                        <els-option>H5</els-option>
+                    </els-radio-button>
                 </span>
                 <span style="display: flex; align-items: center;gap: 5px;">
                     <el-link type="primary" @click="clearAll">
@@ -501,11 +504,14 @@ setValue({
                     </el-link>
                 </span>
             </div>
-            <div class="main">
-                <DynamicDesignerViewInner :data="renderData"></DynamicDesignerViewInner>
-                <el-empty v-if="!renderData.length" style="margin-top: -650px">
-                    <template #description>请点击拖动<span class="txt-red">左侧</span>组件到此处</template>
-                </el-empty>
+            <div class="main" :class="deviceType">
+                <div class="main-inner">
+                    <DynamicDesignerViewInner :data="renderData" v-if="deviceType=='PC'"></DynamicDesignerViewInner>
+                    <DynamicDesignerViewInner :data="renderData" v-else :isMobile="true"></DynamicDesignerViewInner>
+                    <el-empty v-if="!renderData.length" style="margin-top: -650px">
+                        <template #description>请点击拖动<span class="txt-red">左侧</span>组件到此处</template>
+                    </el-empty>
+                </div>
             </div>
         </div>
         <div style="flex-basis:400px;width:400px; flex-shrink: 0;background: #fff;padding:0 5px;"
@@ -537,13 +543,13 @@ setValue({
                         :config="currPropertys" inputWidth="100%">
                     </ElsDynamicRender>
                 </el-tab-pane>
-                <el-tab-pane label="数组属性" isAsyncComponent v-if="currSelectItem.dataTypeName == 'Array'">
-                    <ElsDynamicRender v-model="currSelectItem.config.arrayConfig" :config="property_array"
+                <el-tab-pane label="数组属性"  v-if="currSelectItem.dataTypeName == 'Array'">
+                    <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.arrayConfig" :config="property_array"
                         inputWidth="100%">
                     </ElsDynamicRender>
                 </el-tab-pane>
-                <el-tab-pane label="表单属性" isAsyncComponent v-if="currSelectItem.dataTypeName != 'None'">
-                    <ElsDynamicRender v-model="currSelectItem.config.formConfig" :config="property_form" inputWidth="100%">
+                <el-tab-pane label="表单属性"  v-if="currSelectItem.dataTypeName != 'None'">
+                    <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.formConfig" :config="property_form" inputWidth="100%">
                     </ElsDynamicRender>
                 </el-tab-pane>
                 <el-tab-pane label="高级属性">
@@ -559,7 +565,7 @@ setValue({
     <els-dialog v-model="viewPriview" width="70%" title="预览效果">
         <el-tabs>
             <el-tab-pane label="预览">
-                <ElsDynamicRender v-model="formValue" :config="renderData"></ElsDynamicRender>
+                <ElsDynamicRender v-model="formValue" :config="renderData" :isMobile="deviceType=='H5'"></ElsDynamicRender>
             </el-tab-pane>
             <el-tab-pane label="表单属性">
                 <ElsJsonViewer :data="formValue" :expandDepth="10"></ElsJsonViewer>
@@ -568,24 +574,31 @@ setValue({
     </els-dialog>
 </template>
 
-<style lang="less">
-.els-dynamic-view {
-    .main-tool {
+<style lang="less" scoped>
+   
+ .main-tool{
         display: flex;
         gap: 5px;
         justify-content: space-between;
         background: #fff;
         line-height: 42px;
-        padding: 0 15px
-    }
-
-    .main-tool button.is-disabled {
+        padding: 0 15px;
         svg path {
             fill: #a8abb2
         }
+     
+    
+}
+.main.H5{
+    width: 420px;
+    margin: auto;
+   
+    .main-inner{
+        border-radius: 15px;
+    box-shadow: 0 0 1px 10px #495060;
     }
-
-    .main {
+}
+.main-inner {
         background: #fff;
         padding: 10px;
         margin: 10px;
@@ -594,76 +607,48 @@ setValue({
         .el-card__body {
             padding-top: 5px;
         }
-
     }
-}
-
-.els-dynamic-view-components {
-    .el-collapse-item__header {
-        font-weight: bold;
-    }
-
-    .el-card__body {
-        padding: 0px 10px;
-    }
-
-    ul {
-        padding-left: 0 !important;
-        display: flex;
-        gap: 5px;
-        flex-wrap: wrap;
-        padding: 5px;
-        justify-content: space-between;
-    }
-
-    .container-widget-item:hover {
-        background: #F1F2F3;
-        border-color: #409eff;
-    }
-
-    .container-widget-item {
-        :hover {
-            background: #F1F2F3;
-            border-color: #409eff;
+   .els-dynamic-view-components {
+        .el-collapse-item__header {
+            font-weight: bold;
         }
-        word-wrap: break-word;
-        display: inline-block;
-        min-height: 32px;
-        line-height: 32px;
-        width: 98px;
-        cursor: move;
-        background: #fff;
-        border: 1px solid #e8e9eb;
-        border-radius: 4px;
-        padding: 0 8px;
-    }
+
+        .el-card__body {
+            padding: 0px 10px;
+        }
+
+        ul {
+            padding-left: 0 !important;
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            padding: 5px;
+            justify-content: space-between;
+        }
+ 
+
+        .container-widget-item::v-deep {
+            &:hover {
+                background: #F1F2F3;
+                border-color: #409eff;
+            }
+            word-wrap: break-word;
+            display: inline-block;
+            min-height: 32px;
+            line-height: 32px;
+            width: 98px;
+            cursor: move;
+            background: #fff;
+            border: 1px solid #e8e9eb;
+            border-radius: 4px;
+            padding: 0 8px;
+        }
 }
+
+
 //has影响性能
 .el-row:has(div[class^=el-form-item]) {
     margin-bottom: 0px;
-}
-
-.els-dynamic-r-item-child {
-    .el-form-item__content {
-        .el-form {
-            flex-grow: 1;
-
-            .el-row:last-child {
-                margin-bottom: 0px;
-            }
-        }
-
-        .els_upload_container {
-            flex-grow: 1;
-        }
-    }
-//has影响性能
-    .el-form-item:has(form) {
-        .el-form-item {
-            margin-bottom: 18px;
-        }
-    }
-
 }
 
 .els-dynamic-obj {
@@ -676,31 +661,6 @@ setValue({
     }
 }
 
-.els-dynamic-r-item,
-.els-dynamic-r-array {
-    .el-form-item__content>.els-caption {
-        margin-bottom: 0px;
-    }
-
-    .els-caption {
-        flex-grow: 1;
-    }
-
-    .listitem {
-        .els-list-operate {
-            margin-bottom: 0;
-        }
-
-        .els-dynamic-r-item-child {
-            display: flex;
-            gap: 5px;
-        }
-
-        .els-dynamic-r-item {
-            display: flex;
-        }
-    }
-}
 
 .els-dynamic-view {
     .ghost {
@@ -726,107 +686,12 @@ setValue({
             max-width: 100%;
         }
     }
-
 }
 
-.els-dynamic-d-v-item {
-    position: relative;
-    margin-bottom: 5px;
-    margin-left: 5px;
-
-    >.el-form-item {
-        border: 1px dashed #aaaaaabf;
-        padding: 16px 5px 5px 0px;
-    }
-//has影响性能
-    >.el-form-item:has(form) {
-        border: 0px;
-    }
-
-    >.els-caption {
-        padding-top: 20px;
-        margin-bottom: 0;
-    }
-
-
-    .els-row-drag {
-        display: flex;
-        flex-wrap: wrap;
-        position: relative;
-        box-sizing: border-box;
-        min-height: 50px !important;
-
-    }
-
-
-    .els-dynamic-d-v-item-type {
-        position: absolute;
-        z-index: 2;
-        background: #aaaaaabf;
-        color: #fff;
-        font-size: 12px;
-        padding: 0 3px;
-        display: flex;
-        column-gap: 5px;
-        line-height: 15px;
-    }
-
-    .els-dynamic-d-v-item-move {
-        position: absolute;
-        z-index: 2;
-        background: #aaaaaadb;
-        color: #fff;
-        font-size: 12px;
-        right: 0;
-        padding: 0 3px;
-        display: none;
-        cursor: pointer;
-        line-height: 15px;
-
-    }
-}
-
-.els-dynamic-d-v-item.selected {
-    >.els-caption{
-        border: 2px solid #409EFF;
-    }
-    >.el-form-item {
-        border: 2px solid #409EFF;
-    }
-
-    >.els-dynamic-d-v-item-move {
-        display: flex;
-        gap: 5px;
-        padding: 2px;
-    }
-
-    >.els-caption {
-        padding-top: 20px;
-        margin-bottom: 0;
-    }
-//has影响性能
-    >.el-form-item:has(form) {
-        border: 0px;
-    }
-
-    >.els-dynamic-d-v-item-type,
-    >.els-dynamic-d-v-item-move {
-        background: #409effbd;
-    }
-
-}
-//has影响性能
-.els-dynamic-d-v-item:has(form) {
-    border: 1px dashed #aaaaaabf;
-}
-
-.els-dynamic-d-v-item.selected:has(form) {
-    border: 2px solid #409EFF !important;
-}
 .el-form-item__content>div:has(>div[class^=els-dynamic-render]) {
     flex-grow: 1;
  
 
 }
 
-</style>../../utlis/interfaces.js../../utlis/interfaces.js./stateDesign.js
+</style>

@@ -26,7 +26,7 @@ const dataForm = ref()
 const submitButton = ref()
 const modelValue =defineModel<any>({default:()=>{return reactive<object>({});}})
 const currLabelPosition = ref(getValue<string>('labelPosition','right'))
-const currLabelWidth = ref(getValue<string>('labelWidth'))
+const currLabelWidth = ref(getValue<string>('labelWidth','100'))
 const isMobile= getValue<boolean>("isMobile",false);
 const elsApiResult =container?.$apiResult
 const elsPageStore =container?.$pageStore
@@ -48,7 +48,7 @@ watch(()=>props.labelPosition,(val)=>{
 })
 
 onMounted(() => {
-    if (getValue<string>('inline') === undefined && !lessCom.isDef(currLabelWidth.value)) {
+    if (getValue<string>('inline') === undefined && (!lessCom.isDef(currLabelWidth.value)||currLabelWidth.value==="")) {
         currLabelWidth.value = '100'
     }
  
@@ -201,7 +201,6 @@ defineExpose({
 </script>
 
 <template>
-
     <el-form :model="modelValue" ref="dataForm" onsubmit="return false;" :label-width="currLabelWidth" :label-position="currLabelPosition" v-if="!isMobile">
         <slot></slot>
     </el-form>

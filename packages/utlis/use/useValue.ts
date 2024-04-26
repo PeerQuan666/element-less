@@ -35,6 +35,10 @@ export function useValue(props:any={}){
         if (lessCom.isDef(props[key])) {
             return props[key];
           }
+          const attrs=useAttrs();
+          if (lessCom.isDef(attrs[key])) {
+            return attrs[key] as T;
+          }
           const parent=useParent()
           if(parent&&lessCom.isDef(parent[key])){
             return parent[key]

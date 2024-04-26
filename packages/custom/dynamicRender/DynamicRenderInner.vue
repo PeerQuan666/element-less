@@ -121,7 +121,7 @@ currDepath.value += 1;
 
 </script>
 <template>
-    <els-form v-model="currData" :label-width="labelWidth" >
+    <els-form v-model="currData" :label-width="labelWidth" v-bind="nodeItem?.config?.formConfig">
         <component :is="nodeItem?.componentTypeName=='Row'?'ElsRow':'div'" :class="itemClassName"
             :style="nodeItem?.componentTypeName === 'Row' ? nodeItem ? nodeItem.config.advancedConfig?.style : '' : ''">
 
@@ -156,8 +156,10 @@ currDepath.value += 1;
                                     <els-form-item 
                                      class="els-dynamic-s-array-m-container"
                                      :label="item.config.baseConfig?.componentName == 'ElsCaption' ? '' : item.keyName"
+                                  :required="item.config.formConfig.required"
                                      v-else-if="item.dataTypeName == 'Array' && item.arrayDataType && item.componentTypeName"
                                      >
+                                    
                                         <DynamicRenderInnerArray
                                             :parent-node="parentNode" :item="item" :depath="currDepath">
                                         </DynamicRenderInnerArray>
@@ -171,7 +173,7 @@ currDepath.value += 1;
                                             <template #default="{ $item ,$index}">
                                                 <van-cell-group  :title="item.keyName+' '+($index+1)">
                                                     <template #title>
-                                                        <div class="els-dynamic-r-mobile-title"><span>{{ item.keyName+' '+($index+1) }}</span><span class="txt-red red" @click="handleRemove(item,$index)">删除</span></div>
+                                                        <div class="els-dynamic-r-mobile-title"><span>{{ item.keyName+' '+($index+1) }}</span><span class="txt-red" @click="handleRemove(item,$index)">删除</span></div>
                                                     </template>
                                                     <DynamicRenderInner :parent-node="currNode" :node-item="item" :data="$item"
                                                         :depath="currDepath">
@@ -237,6 +239,9 @@ currDepath.value += 1;
 </template>
 
 <style scoped lang="less">
+.txt-red{
+    color:red;
+}
 .els-dynamic-r-array-m-container{
     ::v-deep(.els-list-bottom){text-align: center;line-height: 24px;
     padding: 5px 0;}
@@ -249,5 +254,147 @@ currDepath.value += 1;
     display: flex;
     justify-content: space-between;
 }
+
+//has影响性能
+.el-row:has(div[class^=el-form-item]) {
+    margin-bottom: 0px;
+}
+
+.el-form-item:has(div[class^=els-dynamic-render]) {
+    margin-bottom: 0 !important;
+}
+
+.els-dynamic-render {
+    .el-form-item__content {
+        >.el-form {
+            flex-grow: 1;
+        }
+    }
+
+    .el-col>.el-form-item {
+        margin-bottom: 18px;
+    }
+}
+
+.els-dynamic-r-item-child {
+    .el-form-item__content {
+        .el-form {
+            flex-grow: 1;
+
+            .el-row:last-child {
+                margin-bottom: 0px;
+            }
+        }
+
+        .els_upload_container {
+            flex-grow: 1;
+        }
+    }
+    .el-form-item:has(form) {
+        .el-form-item {
+            margin-bottom: 18px;
+        }
+    }
+
+}
+
+.els-dynamic-obj {
+    .el-form-item {
+        margin-bottom: 18px !important;
+    }
+
+    .el-form-item .el-form-item {
+        margin-bottom: 0px !important;
+    }
+}
+
+.els-dynamic-r-array {
+    border: 1px solid #dcdfe6;
+    padding: 5px 60px 5px 5px;
+    position: relative;
+
+    >.els-list-operate {
+        position: absolute;
+        right: 0;
+        top: 0;
+        background: #e5efff;
+        margin-left: 0px !important;
+    }
+}
+
+.els-dynamic-r-array-container {
+    overflow: scroll;
+    flex-grow: 1;
+}
+
+.els-dynamic-r-item,
+.els-dynamic-r-array {
+    .el-form-item__content>.els-caption {
+        margin-bottom: 0px;
+    }
+
+    .els-caption {
+        flex-grow: 1;
+    }
+
+    .listitem {
+        .els-list-operate {
+            margin-bottom: 0;
+        }
+
+        >form {
+            flex-grow: 1;
+
+           //has影响性能
+            .els-dynamic-r-item-child:has(label[class^=el-form-item__label]) {
+                display: inherit
+            }
+
+            .els-dynamic-r-item-child {
+                display: flex;
+                gap: 5px;
+            }
+        }
+
+        .els-dynamic-r-item-child {
+            display: flex;
+            gap: 5px;
+        }
+
+        .els-dynamic-r-item {
+            display: flex;
+        }
+    }
+
+}
+
+
+.el-form-item__content>.els-dynamic-render>form>.els-dynamic-r-item {
+    display: unset;
+
+}
+
+.el-form-item__content>.els-dynamic-render {
+    flex-grow: 1;
+
+}
+.els-dynamic-r-array-item {
+    >form>.els-dynamic-r-item {
+        display: unset !important;
+    }
+
+    flex-grow: 1;
+
+}
+
+.els-dynamic-render>form>div>div:has([class^=el-form-item]) {
+    margin-bottom: 18px;
+}
+
+.els-dynamic-render>form>div>div:has(form) {
+    margin-bottom: 0px !important;
+}
+
+
 
 </style>
