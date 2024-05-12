@@ -53,7 +53,7 @@ import ElsTimePickerRange from './elementui/time-picker-range'
 import ElsDatePicker from './elementui/date-picker'
 import ElsDatePickerRange from './elementui/date-picker-range'
 import ElsCollapseTransition from './elementui/collapse-transition'
-
+import ElsTabs from './elementui/tabs'
 
 import ElsMenuContext from './custom/menu-context'
 import ElsMenuDropdown from './custom/menu-dropdown'
@@ -116,6 +116,7 @@ const components = [
     ElsDropdown,
     ElsSlider,
     ElsSwitch,
+    ElsTabs,
 
 
     ElsDynamicDesigner,

@@ -8,6 +8,7 @@ export * from './formItemProps';
 export * from './queryInfo';
 export * from './queryProps';
 export * from './radioProps';
+export * from './tabsProps';
 export * from './rangeFormItemProps';
 export * from './timePickerProps';
 export * from './validProps';

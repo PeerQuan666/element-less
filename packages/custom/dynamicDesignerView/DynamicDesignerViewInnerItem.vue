@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import { ref, watchEffect, watch, useAttrs, computed } from 'vue'
+import { ref, watchEffect, useAttrs, computed } from 'vue'
 import { lessCom } from '../../utlis/com'
 import { useValue } from '../../utlis/use'
 interface Props {
-    modelValue?: any,
-    item: Record<string, any>,
-    currDepath?: number,
-    parentNode?: Record<string, any>,
-    currNode?: Record<string, any>,
-    nodeType?: Record<string, any>,
+    nodeItem: Record<string, any>,
 }
 
 defineOptions({
@@ -18,35 +13,17 @@ defineOptions({
 const {getValue} =useValue()
 const controlData = getValue<any>("componentData", [])
 const props = defineProps<Props>()
-const emits = defineEmits(['update:modelValue', 'valueChange'])
 const attrs = useAttrs()
 const currValue = ref()
 
-watchEffect(() => {
-    currValue.value = props.modelValue
-})
-
-
-watch(currValue, (val) => {
-    emits('update:modelValue', val)
-    emits('valueChange', val)
-})
-
-function handleClear() {
-    if (props.item.dataTypeName == 'Number' || props.item.arrayDataTypeName == 'Number') {
-        currValue.value = 0;
-    } if (props.item.dataTypeName == 'Bool' || props.item.arrayDataTypeName == 'Bool') {
-        currValue.value = false;
-    } else {
-        currValue.value = '';
-    }
-}
 
 const baseAttrs = computed(() => {
     let baseConfig={}
-    const currControl = controlData.find(ele => ele.value == props.item.componentType)
+    const currNodeItem=props.nodeItem
+    const currControl = controlData.find(ele => ele.value == currNodeItem.componentType)
+    
     if (currControl?.defaultPropertys) {
-        const currBaseConfig = Object.assign({}, currControl?.defaultPropertys, props.item.config.baseConfig)
+        const currBaseConfig = Object.assign({}, currControl?.defaultPropertys, currNodeItem.config.baseConfig)
         for (var key in currBaseConfig) {
             if (key) {
                 if (currBaseConfig[key] === undefined || currBaseConfig[key] === '') {
@@ -56,7 +33,11 @@ const baseAttrs = computed(() => {
         }
         baseConfig = currBaseConfig
     }
-    const currAttrs = Object.assign(lessCom.cloneObj(baseConfig), { 'style': props.item.config.advancedConfig.style }, attrs);
+
+    const currAttrs = Object.assign(lessCom.cloneObj(baseConfig),lessCom.cloneObj(currNodeItem.config.formConfig),{ 'style': currNodeItem.config.advancedConfig.style }, attrs);
+
+    currAttrs["label"]=currNodeItem.keyName
+
     const parseNumbers=['max','min','precision','step','rows']
     for(const name of parseNumbers){
         if(currAttrs[name]){
@@ -65,11 +46,12 @@ const baseAttrs = computed(() => {
             delete currAttrs[name]
         }
     }
+    
 
-    if (['Select', 'Radio', 'CheckBox', 'Cascader'].includes(props.item.componentTypeName)) {
-        if (props.item.dataTypeName == 'String' || props.item.arrayDataTypeName == 'Number') {
+    if (['Select', 'Radio', 'CheckBox', 'Cascader'].includes(currNodeItem.componentTypeName)) {
+        if (currNodeItem.dataTypeName == 'String' || currNodeItem.arrayDataTypeName == 'Number') {
             currAttrs.valueType = 'Number'
-        } else if (props.item.dataTypeName == 'Bool' || props.item.arrayDataTypeName == 'Bool') {
+        } else if (currNodeItem.dataTypeName == 'Bool' || currNodeItem.arrayDataTypeName == 'Bool') {
             currAttrs.valueType = 'Bool'
         }
     }
@@ -79,7 +61,7 @@ const componentAttrs = ref<any>(baseAttrs)
 const componentName = ref('')
 
 watchEffect(() => {
-    componentName.value = props.item.componentName
+    componentName.value = props.nodeItem.componentName
 
 })
 
@@ -87,8 +69,8 @@ watchEffect(() => {
 
 <template>
     <template v-if="componentName">
-        <component  :is="componentName"  v-bind="componentAttrs" v-model="currValue" 
-            @clear="handleClear">
+        <component  :is="componentName"  v-bind="componentAttrs" v-model="currValue" >
         </component>
     </template>
+    <els-tip v-else type="danger">未设置组件名</els-tip>
 </template>

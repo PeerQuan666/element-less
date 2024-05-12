@@ -18,6 +18,7 @@ declare global {
     toListNumber(valueSeparator:string):number[];
     appendPx():string,
     toCamel():string,
+    toKebabCase():string,
     toBool():boolean,
     toInt():number,
     toFloat():number,
@@ -65,10 +66,17 @@ String.prototype.setPowerPublicQuery=function() {
     return url.toString();
 },
 String.prototype.toCamel=function(){
-    return this.replace(/-([a-z])/g, function (match, letter) {
+    return this.toString().replace(/-([a-z])/g, function (match, letter) {
         console.log(match)
         return letter.toUpperCase();
     });
+}
+String.prototype.toKebabCase=function(){
+    const currVal= this.toString().replace(/([A-Z])/g, '-$1').toLowerCase();
+    if(currVal.startsWith('-')){
+       return currVal.substring(1)
+    }
+    return currVal;
 }
 String.prototype.appendPx = function(){
     if(!this){return ''}

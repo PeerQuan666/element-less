@@ -30,16 +30,23 @@ watch(colData.value, () => {
 
     }
 }, { deep: true })
+function findRowNode(parentNode){
+if(parentNode.className.includes('el-row')){
+    parentNode.appendChild(col.value.$el)
+}else{
+    parentNode.style.display="none"
+    findRowNode(parentNode.parentNode)
+}
+
+}
 onMounted(() => {
-    if(col.value.$el.parentNode.className.includes('els-node')){
-        col.value.$el.parentNode.style.display='none'
-        col.value.$el.parentNode.parentNode.appendChild(col.value.$el)
-    }
+    findRowNode(col.value.$el.parentNode)
     if (getSpan) {
         currSpan.value = getSpan()
     }
     
 })
+
 onUnmounted(() => {
     if (removeSpan) {
         removeSpan(tagID)

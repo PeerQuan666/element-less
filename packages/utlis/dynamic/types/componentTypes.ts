@@ -12,7 +12,10 @@ import {
     property_date,
     property_time,
     property_caption,
-    property_row
+    property_row,
+    property_col,
+    property_tabs,
+    property_tabPane,
 } from '../propertys'
 import { DynamicComponentType} from '../../interfaces'
 import { DynamicComponentGroup } from '../../enums'
@@ -31,5 +34,9 @@ export const dynamicComponentTypes: Array<DynamicComponentType> = [
     { componentName: 'ElsDatePicker', label: '日期选择器', value: 'DatePicker', type: "DatePicker", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_date, group: DynamicComponentGroup.Form },
     { componentName: 'ElsTimePicker', label: '时间选择器', value: 'TimePicker', type: "TimePicker", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_time, group: DynamicComponentGroup.Form },
     { componentName: 'ElsCaption', label: '分隔描述', value: 'Caption', type: "Caption", dataTypes: ['None'], defaultPropertys: {}, propertys: property_caption, group: DynamicComponentGroup.Desc },
-    { componentName: 'ElsRow', label: '栅格', value: 'Row', type: "Row", dataTypes: ['None'], defaultPropertys: {}, propertys: property_row, group: DynamicComponentGroup.Container },
+    { componentName: 'ElsRow', label: '栅格行', value: 'Row', type: "Row", dataTypes: ['None'], defaultPropertys: {}, propertys: property_row, group: DynamicComponentGroup.Container },
+    { componentName: 'ElsCol', label: '栅格列', value: 'Col', type: "Col", dataTypes: ['None'], defaultPropertys: {}, propertys: property_col, group: DynamicComponentGroup.Container,restrictParent:'Row'},
+    { componentName: 'ElsTabs', label: 'Tabs标签页', value: 'Tabs', type: "Tabs", dataTypes: ['None'], defaultPropertys: {}, propertys: property_tabs, group: DynamicComponentGroup.Container,restrictChild:'TabPane'  },
+    { componentName: 'ElsOption', label: 'Tabs选项', value: 'TabPane', type: "Option", dataTypes: ['None'], defaultPropertys: {}, propertys: property_tabPane, group: DynamicComponentGroup.Container,restrictParent:'Tabs' },
+
 ]

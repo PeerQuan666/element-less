@@ -43,9 +43,9 @@ const contentStyle = computed(() => {
         currStyle.push({ width: props.contentWidth.appendPx() })
     }
     if (props.contentHeight && props.contentHeight.indexOf('%') > -1) {
-        currStyle.push({ height: `calc(${props.contentHeight.replace('%', '')}vh)` })
+        currStyle.push({ minHeight: `calc(${props.contentHeight.replace('%', '')}vh)` })
     } else if (props.contentHeight) {
-        currStyle.push({ height: props.contentHeight.appendPx() })
+        currStyle.push({ minHeight: props.contentHeight.appendPx() })
     }
     return currStyle
 
@@ -140,11 +140,11 @@ function handleConfirm() {
         <template #header v-if="slots.title">
             <slot name="header"></slot>
         </template>
-        <slot>
-            <div class="dialog-content" v-loading="pageLoading">
+        <div class="dialog-content" v-loading="pageLoading" :style="contentStyle">
+            <slot>
                 <iframe v-if="url" :src="dialogUrl" frameborder='0' :style="contentStyle"></iframe>
-            </div>
-        </slot>
+            </slot>
+        </div>
         <template #footer v-if="slots.footer">
             <slot name="footer"></slot>
         </template>
@@ -154,11 +154,13 @@ function handleConfirm() {
         <template #header v-if="slots.header">
             <slot name="header"></slot>
         </template>
-        <slot>
-            <div class="dialog-content" v-loading="pageLoading">
-                <iframe v-if="url" :src="dialogUrl" frameborder='0' :style="contentStyle"></iframe>
-            </div>
-        </slot>
+        <div class="dialog-content" v-loading="pageLoading" :style="contentStyle">
+            <slot>
+            
+                    <iframe v-if="url" :src="dialogUrl" frameborder='0' :style="contentStyle"></iframe>
+            
+            </slot>
+         </div>
         <template #footer v-if="slots.footer">
             <slot name="footer"></slot>
         </template>

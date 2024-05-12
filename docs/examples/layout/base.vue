@@ -22,3 +22,6 @@
     </els-col>
   </els-row>
 </template>
+<style scoped>
+.el-row{margin-bottom: 10px;}
+</style>

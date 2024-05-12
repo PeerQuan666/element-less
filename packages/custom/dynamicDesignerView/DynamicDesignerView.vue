@@ -37,7 +37,7 @@ const viewPriview = ref(false)
 const formValue = ref()
 const deviceType=ref('PC')
 const controlData = ref<any>([])
-    const diyData = ref<any>([])
+const diyData = ref<any>([])
 
 const dataTypeData=getValue<any>("dataTypeData")
 const componentData=getValue<any>("componentData")
@@ -115,7 +115,7 @@ const objectData = ref<any>([
         dataTypeName: 'Array',
         componentGroup: 'Form',
         componentTypeName: '',
-            componentTypeLabel:'Array<T>',   
+        componentTypeLabel:'Array<T>',   
         componentName: '',
         componentType: '',
         arrayDataTypeName: '',
@@ -146,6 +146,8 @@ currComponentTypes.value.forEach((ele) => {
         componentTypeName: ele.type,
         componentName: ele.componentName,
         componentType: ele.value,
+        restrictChild:ele.restrictChild,
+        restrictParent:ele.restrictParent,
         config: {
             formConfig: {},
             baseConfig: {},
@@ -259,6 +261,20 @@ function handleClone(item) {
         item.keyCode = 'key_' + lessCom.randomNumber()
     return item
 }
+function handleMove(e){
+    if(e.draggedContext.element.componentGroup==='Container'){
+        if(!e.related||!e.related.className){return true}
+        if(e.related.dataset["restrict"]){
+           return e.related.dataset['restrict']==e.dragged.dataset['type']
+        }
+        if(e.dragged.dataset['restrict']){
+            return e.dragged.dataset['restrict']==e.related.dataset['type']
+        }
+        return e.related.className.indexOf('el-'+e.dragged.dataset['type']?.toKebabCase())==-1
+    }
+    
+    return true
+}
 
 
 const currPropertys = computed(() => {
@@ -334,7 +350,6 @@ function getSelectItem() {
 
 function getDataTypeData(componentType) {
     if (!componentType) { return [] }
-
     const currControl = currComponentTypes.value.find(ele => ele.value === componentType || ele.type === componentType)
     if (!currControl) { return [] }
     return currDynamicDataType.value.filter(ele => currControl.dataTypes.includes(ele.type)||currControl.dataTypes.includes(ele.value))
@@ -438,10 +453,10 @@ setValue({
                     <el-collapse v-model="activeNames">
                         <el-collapse-item title="容器" name="1">
                             <draggable tag="ul" :list="controlData.filter(ele => ele.componentGroup === 'Container')"
-                                item-key="keyID" :group="{ name: 'dragGroup', pull: 'clone', put: false }"
+                                item-key="keyID" :move="handleMove" :group="{ name: 'dragGroup', pull: 'clone', put: false }"
                                 :clone="handleClone" :sort="false">
                                 <template #item="{ element, index }">
-                                    <li class="container-widget-item" :key="index">
+                                    <li class="container-widget-item"  :data-type="element.componentType" :data-restrict="element.restrictParent" :key="index">
                                         {{ element.componentTypeLabel }}
                                     </li>
                                 </template>
@@ -506,8 +521,15 @@ setValue({
             </div>
             <div class="main" :class="deviceType">
                 <div class="main-inner">
-                    <DynamicDesignerViewInner :data="renderData" v-if="deviceType=='PC'"></DynamicDesignerViewInner>
-                    <DynamicDesignerViewInner :data="renderData" v-else :isMobile="true"></DynamicDesignerViewInner>
+                    <els-form v-model="renderData">
+                        <draggable tag="div" :list="renderData" v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }"
+                            :style="[{ 'min-height': '650px' }]"
+                            :sort="true" itemKey="keyID" handle=".els-view-move">
+                            <template #item="{element}">
+                                <DynamicDesignerViewInner :nodeItem="element"></DynamicDesignerViewInner>
+                            </template>
+                        </draggable>
+                    </els-form>
                     <el-empty v-if="!renderData.length" style="margin-top: -650px">
                         <template #description>请点击拖动<span class="txt-red">左侧</span>组件到此处</template>
                     </el-empty>
@@ -562,10 +584,14 @@ setValue({
         </div>
     </div>
     </ElsFormNode></div>
-    <els-dialog v-model="viewPriview" width="70%" title="预览效果">
+    <els-dialog v-model="viewPriview" :width="deviceType=='PC'? '70%':'40%'" contentHeight="60%" title="预览效果">
         <el-tabs>
             <el-tab-pane label="预览">
-                <ElsDynamicRender v-model="formValue" :config="renderData" :isMobile="deviceType=='H5'"></ElsDynamicRender>
+                <div class="main" :class="deviceType">
+                <div class="main-inner">
+                    <ElsDynamicRender v-model="formValue" :config="renderData" :isMobile="deviceType=='H5'"></ElsDynamicRender>
+                </div>
+            </div>
             </el-tab-pane>
             <el-tab-pane label="表单属性">
                 <ElsJsonViewer :data="formValue" :expandDepth="10"></ElsJsonViewer>
@@ -595,10 +621,12 @@ setValue({
    
     .main-inner{
         border-radius: 15px;
-    box-shadow: 0 0 1px 10px #495060;
+        box-shadow: 0 0 1px 10px #495060;
+        padding: 5px;
     }
 }
 .main-inner {
+min-height: 650px;
         background: #fff;
         padding: 10px;
         margin: 10px;
@@ -643,12 +671,6 @@ setValue({
             border-radius: 4px;
             padding: 0 8px;
         }
-}
-
-
-//has影响性能
-.el-row:has(div[class^=el-form-item]) {
-    margin-bottom: 0px;
 }
 
 .els-dynamic-obj {

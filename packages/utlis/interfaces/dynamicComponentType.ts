@@ -9,5 +9,7 @@ export interface DynamicComponentType{
     dataTypes?:Array<string>,
     defaultPropertys?:Record<string,any>,
     propertys?:Array<Record<string,any>>,
-    group?:DynamicComponentGroup
+    group?:DynamicComponentGroup,
+    restrictChild?:string,
+    restrictParent?:string
 }

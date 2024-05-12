@@ -34,12 +34,12 @@ defineExpose({
 })
 </script>
 <template >
-    <ElsCol v-if="layer == 'row'">
+    <els-col v-if="layer == 'row'">
         <els-form-item v-if="hasForm" v-bind="props" ref="formItem">
             <slot v-bind="attrs"></slot>
         </els-form-item>
         <slot v-bind="attrs" v-else></slot>
-    </ElsCol>
+    </els-col>
     <template v-else>
         <els-form-item v-if="hasForm" v-bind="props"  ref="formItem">
             <slot v-bind="attrs"></slot>
