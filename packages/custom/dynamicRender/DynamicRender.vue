@@ -184,4 +184,5 @@ defineExpose({
 </template>
 <style lang="less">
 ::-webkit-scrollbar {background:none; }
+.els-dynamic-render{flex-grow: 1;}
 </style>

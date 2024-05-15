@@ -3,7 +3,8 @@
 defineOptions({ name: "ElsTip" })
 interface Props {
     title?:string,
-    type?: string
+    type?: string,
+    content?:string
 }
 defineProps<Props>()
 </script>
@@ -12,7 +13,7 @@ defineProps<Props>()
         <p class="custom-block-title">
             <slot name="title">{{ title??(type == 'warning' ? 'WARNING' : 'TIP') }}</slot>
         </p>
-        <slot></slot>
+        <slot>{{ content }}</slot>
     </div>
 </template>
 
@@ -30,7 +31,6 @@ defineProps<Props>()
     background-color: #ecf8ff;
     border-radius: 4px;
     border-left: 5px solid var(--el-color-primary);
-    margin: 20px 0
 }
 
 .custom-block.warning {
@@ -38,7 +38,6 @@ defineProps<Props>()
     background-color: #f56c6c1a;
     border-radius: 4px;
     border-left: 5px solid var(--el-color-danger);
-    margin: 20px 0
 }
 .custom-block code {
     margin: 0;

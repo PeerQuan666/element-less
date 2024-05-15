@@ -3,7 +3,10 @@ import { useValue } from '../../utlis/use'
 import DynamicDesignerViewItem from './DynamicDesignerViewInnerItem.vue'
 import DynamicDesignerViewWrap from './DynamicDesignerViewWrap.vue'
 import DynamicDesignerViewForm from './DynamicDesignerViewForm.vue'
-import { lessCom } from '../../utlis/com'
+import DynamicDesignerViewShow from './DynamicDesignerViewShow.vue'
+import DynamicDesignerViewOperate from './DynamicDesignerViewOperate.vue'
+
+import { lessCom,ElsMessage } from '../../utlis/com'
 interface Props {
     nodeItem: Record<string, any>,
 }
@@ -11,8 +14,9 @@ const props = defineProps<Props>()
 const { getValue } = useValue(props)
 const setSelectItem = getValue<Function>('setSelectItem', () => { })
 const getSelectItem = getValue<Function>('getSelectItem', () => { })
-function handleSelectItem(item,) {
-    setSelectItem(item)
+const removeItem = getValue<Function>('removeItem', () => { })
+function handleSelectItem() {
+    setSelectItem(props.nodeItem)
 }
 function getFormItemAttr() {
     const currFormConfig = lessCom.cloneObj(props.nodeItem.config.formConfig)
@@ -22,66 +26,89 @@ function getFormItemAttr() {
     if (props.nodeItem.description) {
         currFormConfig['tip'] = props.nodeItem.description
     }
-    currFormConfig['label']=props.nodeItem.keyName
+    currFormConfig['label'] = props.nodeItem.keyName
     return currFormConfig
 }
 
 
 </script>
 <template>
-   <div class="els-dynamic-d-v-item" >    
-        <DynamicDesignerViewWrap  :nodeItem="nodeItem"  v-if="nodeItem.componentGroup == 'Container'"  >
+    <div class="els-dynamic-d-v-item"     :data-restrict="nodeItem.restrictChild"
+        :data-type="nodeItem.componentType" :class="{ 'selected': getSelectItem()?.keyID == nodeItem.keyID }"   @click.stop="handleSelectItem">
+        <DynamicDesignerViewOperate :nodeItem="nodeItem"></DynamicDesignerViewOperate>
+        <DynamicDesignerViewWrap :parentNode="nodeItem"  :nodeItem="nodeItem" v-if="nodeItem.componentGroup == 'Container'">
         </DynamicDesignerViewWrap>
-        <DynamicDesignerViewItem 
-                     v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Form'"
-                    :nodeItem="nodeItem" 
-                    :style="nodeItem.config.advancedConfig.style">
-        </DynamicDesignerViewItem>
+        <DynamicDesignerViewShow v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Show'"
+            :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style" :title="nodeItem.keyName">
+        </DynamicDesignerViewShow>
+        <els-form-node v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Form'" :hasFormItem="false"  v-bind="getFormItemAttr()">
+            <DynamicDesignerViewItem :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style">
+            </DynamicDesignerViewItem>
+        </els-form-node>
         <template v-else-if="nodeItem.dataTypeName === 'Array' || nodeItem.dataTypeName == 'Object'">
             <template v-if="nodeItem.config.baseConfig?.componentName == 'ElsCaption'">
-                <els-caption v-if="nodeItem.config.baseConfig?.componentName == 'ElsCaption'" 
+                <els-caption v-if="nodeItem.config.baseConfig?.componentName == 'ElsCaption'"
                     v-bind="nodeItem.config.baseConfig" :title="nodeItem.config.baseConfig.title || nodeItem.keyName">
                 </els-caption>
-                <DynamicDesignerViewForm  :nodeItem="nodeItem"  ></DynamicDesignerViewForm>
+                <DynamicDesignerViewForm :nodeItem="nodeItem"></DynamicDesignerViewForm>
             </template>
             <els-form-item v-else v-bind="getFormItemAttr()">
-                <DynamicDesignerViewForm  :nodeItem="nodeItem"  ></DynamicDesignerViewForm>
+                <DynamicDesignerViewForm :nodeItem="nodeItem"></DynamicDesignerViewForm>
             </els-form-item>
         </template>
     </div>
 </template>
 <style scoped lang="less">
-.els-dynamic-d-v-item{
+.els-dynamic-d-v-item:deep {
     position: relative;
     margin-bottom: 5px;
-    padding: 5px;
+    padding: 20px 5px 5px 5px;;
     border: 1px dashed #aaaaaabf;
-    .els-node{
-        padding:5px
+    &.selected{
+        border: 2px solid #409EFF;
+        >.els-dynamic-d-v-item-type,
+        >.els-dynamic-d-v-item-move {
+            background: #409effbd;
+            display: flex;
+        }
     }
-    &:has(>div[class*="el-tab-pane"]){
-        border:0px;
+    .els-node {
+        padding: 5px
     }
-    &:has(>div[class*="els-dynamic-designer-empty"]){
+
+    &:has(>div[class*="el-tab-pane"]) {
+        border: 0px;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    &:has(>div[class*="els-dynamic-designer-empty"]) {
         padding: 0;
     }
-    &:has(>.el-form-item>.el-form-item__content>.el-form>div[class*="els-dynamic-designer-empty"]){
+    &:has(>div[data-type="Tabs"]) {
         padding: 0;
     }
 
+    // &:has(>.el-form-item>.el-form-item__content>.el-form>div[class*="els-dynamic-designer-empty"]) {
+    //     padding: 0;
+    // }
+
 }
+
 .el-form-item:deep>.el-form-item__content {
-    >.el-form{
+    >.el-form {
         .el-form-item {
             margin-bottom: 18px !important;
         }
     }
-    
+
 }
-.el-form-item{
+
+.el-form-item {
     margin-bottom: 0px;
 }
-.el-form{
+
+.el-form {
     flex-grow: 1;
 }
 </style>
