@@ -244,7 +244,7 @@ defineExpose({
                     </suspense>
                 </template>
                 <template v-else>
-                    <DynamicRenderForm  :nodeItem="renderData[0]" v-if="renderData&&renderData.length&&renderData[0].componentType==='Form'">
+                    <DynamicRenderForm  :nodeItem="renderData[0]" :isRoot="true" v-if="renderData&&renderData.length&&renderData[0].componentType==='Form'">
                     </DynamicRenderForm>
                     <els-form v-model="renderData" v-else>
                         <DynamicRenderInner v-for="item in renderData" :nodeItem="item" :key="item.keyID">

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { watch, ref, computed, nextTick } from 'vue'
-import DynamicDesignerViewInner from './DynamicDesignerViewInner.vue'
-import DynamicDesignerViewForm from './DynamicDesignerViewForm.vue'
+import DynamicDesignerViewBody from './DynamicDesignerViewBody.vue'
 import { FormItemProps, DynamicComponentType, DynamicDataType } from '../../utlis/interfaces'
 import { dynamicDataTypes, dynamicComponentTypes, DynamicHandler } from '../../utlis/dynamic'
 import { property_form, property_formItem, property_array, property_advanced, property_arrayAndObject } from '../../utlis/dynamic/propertys'
@@ -14,7 +13,7 @@ import lodash from 'lodash';
 import draggable from 'vuedraggable'
 const { debounce } = lodash;
 const useDesignStore = useDesign()
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue','save'])
 defineOptions({
     name: 'ElsDynamicDesignerView'
 })
@@ -27,6 +26,7 @@ interface Props extends FormItemProps {
     componentTypes?: Array<DynamicComponentType>,
     appendComponentTypes?: Array<DynamicComponentType>,
     componentRelateDataType?: Record<string, any>,
+    initRootForm?:boolean
 
 }
 const props = defineProps<Props>()
@@ -154,6 +154,7 @@ currComponentTypes.value.forEach((ele) => {
         restrictChild: ele.restrictChild,
         restrictParent: ele.restrictParent,
         formItem:ele.formItem,
+        componentShow:ele.isShow,
         config: {
             formConfig: {},
             baseConfig: {},
@@ -203,6 +204,9 @@ function initData() {
         }
         dynamicHandler.initConfigType(renderData.value)
     }
+    else if(props.initRootForm){
+        createRootForm()
+    }
     if (renderData.value.length) {
         startCreate.value = true
     }
@@ -222,16 +226,19 @@ function returnResult() {
         dynamicHandler.returnConfig(currVal)
         if (typeof (val) === 'object') {
             emits('update:modelValue', currVal)
+            return currVal
         } else {
             emits('update:modelValue', JSON.stringify(currVal))
+            return JSON.stringify(currVal)
 
         }
     } else {
         if (typeof (val) === 'object') {
             emits('update:modelValue', [])
+            return []
         } else {
             emits('update:modelValue', '')
-
+            return ''
         }
     }
 }
@@ -300,8 +307,10 @@ const currPropertys = computed(() => {
                 const currVal = currDynamicDataType.value.find(ele => ele.value == currSelectItem.value.dataType)
                 const arrayVal = currDynamicDataType.value.find(ele => ele.value == currSelectItem.value.arrayDataType)
 
-                if (currVal?.type == 'Array' && arrayVal?.type === 'Object' || currVal?.type == 'Object') {
-                    return lessCom.cloneObj(Object.assign([...property_arrayAndObject,...property_form]) )
+                if (currVal?.type == 'Array' && arrayVal?.type === 'Object' || currVal?.type == 'Object') {4
+                    const propertyData:any =lessCom.cloneObj(property_arrayAndObject)
+                    propertyData[0].data.push(...property_form[0].data)
+                    return propertyData
                 }
             } else {
                 if (currComponentTypes.value) {
@@ -388,13 +397,14 @@ function handleImportDesigner() {
 function clearAll() {
     isDisabledReDo.value = true;
     isDisabledUndo.value = true;
+    startCreate.value=false
     useDesignStore.clear()
-    renderData.value = []
+    renderData.value.length=0
     currSelectItem.value = null
 }
 function validationCode(rule, value, callback) {
     console.log(rule)
-    if (value === '') {
+    if (value === ''&&currSelectItem.value.componentGroup!=='Container') {
         callback(new Error('keyCode不能为空'))
     } else if (currSelectData.value && currSelectData.value.filter(ele => ele.keyCode == value).length > 1) {
         ElMessage.warning(`[${value}]重复`)
@@ -479,8 +489,13 @@ const getCurrNode=function(){
     return getNodeValue(renderData)
 }
 
-
-
+function getDeviceType(){
+    return deviceType
+}
+function handleSave(){
+    const result=returnResult()
+    emits('save',result)
+}
 setValue({
     "isMobile": false,
     "dataTypeData": currDynamicDataType.value,
@@ -490,13 +505,13 @@ setValue({
     handleMove,
     getCurrNode,
     getNodeValue,
+    getDeviceType,
     removeItem: (item) => {
         lessCom.removeArrayItem(renderData.value, item)
     },
     recordComponent,
 
 })
-const show = ref(false)
 </script>
 <template>
     <div >
@@ -547,7 +562,7 @@ const show = ref(false)
                             <el-collapse v-model="viewActiveNames">
                                 <el-collapse-item title="容器" name="1">
                                     <draggable tag="ul" :move="handleMove"
-                                        :list="controlData.filter(ele => ele.componentGroup === 'Container')"
+                                        :list="controlData.filter(ele => ele.componentGroup === 'Container'&&ele.componentShow)"
                                         item-key="keyID" :group="{ name: 'dragGroup', pull: 'clone', put: false }"
                                         :clone="handleClone" :sort="false">
                                         <template #item="{ element, index }">
@@ -576,7 +591,7 @@ const show = ref(false)
                 <div style="flex-grow:1">
                     <div class="main-tool">
                         <span style="display: flex; align-items: center;cursor: pointer;">
-                            <el-button link @click="unDoComponent" :disabled="isDisabledUndo">
+                            <el-button link @click="unDoComponent" type="primary" :disabled="isDisabledUndo">
                                 <svg t="1697597294665" class="icon" viewBox="0 0 1137 1024" version="1.1"
                                     xmlns="http://www.w3.org/2000/svg" p-id="1473" width="32" height="32">
                                     <path
@@ -614,10 +629,15 @@ const show = ref(false)
                                     <View />
                                 </el-icon>预览
                             </el-link>
+                            <el-link type="primary" @click="handleSave">
+                                <el-icon>
+                                    <Check />
+                                </el-icon>保存
+                            </el-link>
                         </span>
                     </div>
                     <div class="main" :class="deviceType">
-                        <ElScrollbar style="height: 650px;">
+                        <ElScrollbar style="height: calc(100vh - 60px);">
                         <div class="main-inner">
                             <div class="main-create-from" v-if="!startCreate && !renderData.length">
                                 <div>
@@ -637,38 +657,24 @@ const show = ref(false)
                                         </el-button>
                                     </div>
                                 </div>
-
                             </div>
                             <template v-else>
-                                
-                                <DynamicDesignerViewForm :nodeItem="renderData[0]" :isRoot="true" v-if="renderData&&renderData.length&&renderData[0].componentType==='Form'"></DynamicDesignerViewForm>
-                                <els-form v-model="renderData" v-else>
-                                    <draggable tag="div" :list="renderData"
-                                        v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }"
-                                        :style="[{ 'min-height': '650px' }]" :sort="true" itemKey="keyID"
-                                        handle=".els-view-move">
-                                        <template #item="{ element }">
-                                            <DynamicDesignerViewInner :nodeItem="element" :key="element.keyID">
-                                            </DynamicDesignerViewInner>
-                                        </template>
-                                    </draggable>
-                                </els-form>
+                                <DynamicDesignerViewBody v-if="deviceType=='H5'" :isMobile="true" :renderData="renderData">
+                                </DynamicDesignerViewBody>
+                                <DynamicDesignerViewBody v-else :type="deviceType" :renderData="renderData">
+                                </DynamicDesignerViewBody>
                                 <el-empty v-if="!renderData.length||(renderData.length&&renderData[0].componentType==='Form'&&!renderData[0].data.length)" style="margin-top: -650px">
                                     <template #description>请点击拖动<span class="txt-red">左侧</span>组件到此处</template>
                                 </el-empty>
                             </template>
-
-
                         </div>
                     </ElScrollbar>
                     </div>
                 </div>
-                <div style="flex-basis:400px;width:400px; flex-shrink: 0;background: #fff;padding:0 5px;"
-                    class="els-dynamic-view-propertys">
-                    <els-form labelPosition="top">
+                <div  class="els-dynamic-view-propertys">
                         <el-tabs stretch v-if="currSelectItem && currPropertys && showPropertys">
                             <el-tab-pane label="基础属性" v-if="currSelectItem.dataType&&currSelectItem.formItem">
-                                <els-form v-model="currSelectItem">
+                                <els-form v-model="currSelectItem" labelPosition="top">
                                     <els-input label="名称" prop="keyName" :required="currSelectItem.componentGroup!=='Container'"></els-input>
                                     <els-input label="字段名" prop="keyCode" @input="handleChangeKeyCode"
                                         :validMethod="validationCode" :required="currSelectItem.componentGroup!=='Container'"></els-input>
@@ -709,7 +715,6 @@ const show = ref(false)
                                 </ElsDynamicRender>
                             </el-tab-pane>
                         </el-tabs>
-                    </els-form>
                 </div>
             </div>
         </ElsFormNode>
@@ -739,10 +744,12 @@ const show = ref(false)
     background: #fff;
     line-height: 42px;
     padding: 0 15px;
-
-    svg path {
-        fill: #a8abb2
+    .is-disabled{
+        svg path {
+            fill: #a8abb2
+        }
     }
+    
 
 }
 
@@ -754,11 +761,19 @@ const show = ref(false)
         border-radius: 15px;
         box-shadow: 0 0 1px 10px #495060;
         padding: 5px;
+        .main-create-from{
+            >div{
+                >.txt-center{
+                    width: 150px;
+                }
+            }
+        }
     }
+    
 }
 
 .main-inner {
-    min-height: 650px;
+    height: calc(100vh - 90px);
     background: #fff;
     padding: 10px;
     margin: 10px;
@@ -858,7 +873,11 @@ const show = ref(false)
         }
     }
     .els-dynamic-view-propertys {
-     
+        flex-basis: 400px;
+    width: 400px;
+    flex-shrink: 0;
+    background: rgb(255, 255, 255);
+    padding: 0px 10px;
         .el-row {
             flex-direction: column;
         }

@@ -15,6 +15,8 @@ const setSelectItem = getValue<Function>('setSelectItem', () => { })
 const getSelectItem = getValue<Function>('getSelectItem', () => { })
 const getCurrNode = getValue<Function>('getCurrNode', () => { return {}})
 const getNodeValue = getValue<Function>('getNodeValue', () => { return {}})
+const isMobile = getValue<boolean>('isMobile', false)
+
 function handleAddComponent(e) {
     recordComponent()
     setSelectItem(nodeItem.value.data[e.newIndex], nodeItem.value.data)
@@ -75,15 +77,19 @@ setValue({
             </template>
         </draggable>
     </els-form>
-    <els-form v-else v-model="nodeItem">
-        <draggable tag="div" :class="[{ 'els-dynamic-designer-empty': nodeItem.data.length == 0 }]" :list="nodeItem.data"
-            v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }" :style="[{ 'min-height': '50px' }]"
-            :data-type="nodeItem.dataTypeName" :sort="true" itemKey="keyID" handle=".els-view-move"
-            @add="handleAddComponent">
-            <template #item="{ element }">
-                <DynamicDesignerViewInner :nodeItem="element" :key="element.keyID"></DynamicDesignerViewInner>
-            </template>
-        </draggable>
+    <els-form v-else v-model="nodeItem" v-bind="nodeItem.config.baseConfig">
+        <component :is="isMobile?'van-cell-group':'div'" :title="nodeItem.keyName">
+            <draggable  :class="[{ 'els-dynamic-designer-empty': nodeItem.data.length == 0 }]" :list="nodeItem.data"
+                v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }" :style="[{ 'min-height': '50px' }]"
+                :data-type="nodeItem.dataTypeName" :sort="true" itemKey="keyID" handle=".els-view-move"
+                @add="handleAddComponent">
+                <template #item="{ element }">              
+                    <DynamicDesignerViewInner  :nodeItem="element" :key="element.keyID"></DynamicDesignerViewInner>
+                </template>
+            </draggable>
+        </component>
+
+            
     </els-form>
 </template>
 <style lang="less" scoped>
@@ -91,6 +97,12 @@ setValue({
     position: relative;
     padding: 5px;
 
+    &.selected {
+        border: 2px solid #409EFF;
+
+    }
+}
+.van-form{
     &.selected {
         border: 2px solid #409EFF;
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useAttrs } from 'vue'
+import { ref, useAttrs,computed } from 'vue'
 import { FormItemProps } from '../../utlis/interfaces'
 import { useValue } from '../../utlis/use'
 
@@ -26,8 +26,11 @@ function hiddenMobile(){
 if (container == 'form') {
     hasForm.value = true
 }
-
 const attrs = useAttrs()
+
+const currHasForm=computed(()=>{
+    return hasForm.value&&attrs["hasForm"]!==false
+})
 defineExpose({
     confirmMobile,
     hiddenMobile
@@ -35,14 +38,14 @@ defineExpose({
 </script>
 <template >
     <els-col v-if="layer == 'row'">
-        <els-form-item v-if="hasForm" v-bind="props" ref="formItem">
+        <els-form-item v-if="currHasForm" v-bind="props" ref="formItem">
             <slot v-bind="attrs"></slot>
         </els-form-item>
         <slot v-bind="attrs" v-else></slot>
         <slot name="extra"></slot>
     </els-col>
     <template v-else>
-        <els-form-item v-if="hasForm" v-bind="props"  ref="formItem">
+        <els-form-item v-if="currHasForm" v-bind="props"  ref="formItem">
             <slot v-bind="attrs"></slot>
         </els-form-item>
         <slot v-bind="attrs" v-else></slot>

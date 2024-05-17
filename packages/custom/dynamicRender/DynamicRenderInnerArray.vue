@@ -117,7 +117,7 @@ watch(() => nodeItem.value.config.arrayConfig.arrayDefaultLength, (val) => {
 <template>
    
     <div class="els-dynamic-array-render" :class="{ 'horizontal': nodeItem.config.arrayConfig.arrangementType === 'Horizontal' }"   style=" flex-grow:1">
-        <els-list v-model="nodeItem.value" @add="handleAddItem" :sortable="false" :item-class-name="{'els-dynamic-r-array':nodeItem.arrayDataTypeName==='Object'||nodeItem.componentTypeName==='DynamicRender'}"  :style="[
+        <els-list v-model="nodeItem.value" @add="handleAddItem"  :item-class-name="{'els-dynamic-r-array':nodeItem.arrayDataTypeName==='Object'||nodeItem.componentTypeName==='DynamicRender'}"  :style="[
             { 'max-width': (nodeItem.config.arrayConfig.maxWidth ? nodeItem.config.arrayConfig.maxWidth + 'px' : '') },
             { 'max-height': (nodeItem.config.arrayConfig.maxHeight ? nodeItem.config.arrayConfig.maxHeight + 'px' : '') },
             { 'display': nodeItem.config.arrayConfig.arrangementType === 'Horizontal' ? 'flex' : '' },
@@ -135,7 +135,7 @@ watch(() => nodeItem.value.config.arrayConfig.arrayDefaultLength, (val) => {
 </template>
 <style scoped lang="less">
 .els-dynamic-array-render{
-::v-deep(.van-field){
+:v-deep(.van-field){
     padding-left: 0;
 }
 }

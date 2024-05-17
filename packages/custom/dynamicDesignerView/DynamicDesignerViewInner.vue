@@ -16,6 +16,7 @@ const setSelectItem = getValue<Function>('setSelectItem', () => { })
 const getSelectItem = getValue<Function>('getSelectItem', () => { })
 const getCurrNode = getValue<Function>('getCurrNode', () => { return {} })
 const getParentNode = getValue<Function>('getParentNode', () => { return {} })
+const isMobile = getValue<boolean>('isMobile', false)
 function handleSelectItem() {
     setSelectItem(props.nodeItem)
 }
@@ -77,7 +78,13 @@ function handleValueChange(val) {
         <DynamicDesignerViewShow v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Show'"
             :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style" :title="nodeItem.keyName">
         </DynamicDesignerViewShow>
-        <els-form-node v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Form'" :hasFormItem="false"
+
+        <template v-else-if="isMobile&&(nodeItem.componentTypeName==='Input'||nodeItem.componentTypeName==='Textarea')">
+            <DynamicDesignerViewInnerItem :disabled="handleDisabledExpress()"   v-bind="getFormItemAttr()" @valueChange="handleValueChange($event)"
+                :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style">
+            </DynamicDesignerViewInnerItem>
+        </template> 
+        <els-form-node v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Form'" :hasFormItem="false" :tagName="nodeItem.componentTypeName"
             v-bind="getFormItemAttr()">
             <DynamicDesignerViewInnerItem :disabled="handleDisabledExpress()" @valueChange="handleValueChange($event)"
                 :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style">
@@ -90,10 +97,11 @@ function handleValueChange(val) {
                 </els-caption>
                 <DynamicDesignerViewForm :nodeItem="nodeItem"></DynamicDesignerViewForm>
             </template>
-            <els-form-item v-else v-bind="getFormItemAttr()">
+            <els-form-node :hasForm="!isMobile"  v-else v-bind="getFormItemAttr()">
                 <DynamicDesignerViewForm :nodeItem="nodeItem"></DynamicDesignerViewForm>
-            </els-form-item>
+            </els-form-node>
         </template>
+        
     </div>
 </template>
 <style scoped lang="less">

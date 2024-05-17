@@ -19,7 +19,10 @@ interface Props {
     hasForm?: boolean,
     onAdd?: Function,
     itemKey?: string,
-    labelWidth?: string
+    labelWidth?: string,
+    outFormData?:Record<string, any>,
+    innerFormData?:Record<string, any>
+
 }
 const props = withDefaults(defineProps<Props>(), {
     sortable: true,
@@ -88,12 +91,12 @@ watch(() => props.labelWidth, (val) => {
     }
 
 })
+const test=ref()
 watchEffect(() => {
     if (props.hasForm && dropData.value.length) {
-        if (typeof (dropData.value[0]) !== 'object') {
+        if (typeof (dropData.value[0]) !== 'object'||!props.itemKey) {
             outContainer = h(ElsForm, { modelValue: dropData })
             container = h('div')
-
         } else {
             container = h(ElsForm)
             outContainer = h('div')
@@ -103,10 +106,10 @@ watchEffect(() => {
 
 </script>
 <template>
-    <component :is="outContainer" class="els-list" :class="[{ 'el-list-mobile': isMobile }]" :labelWidth="currLabelWidth">
+    <component :is="outContainer" class="els-list" :class="[{ 'el-list-mobile': isMobile }]" :labelWidth="currLabelWidth" v-bind="outFormData">
         <draggable :list="dropData" handle=".el-icon-rank" v-bind="attrs" :item-key="currItemKey">
             <template #item="{ element, index }">
-                <component :is="container" v-model="dropData[index]" :labelWidth="currLabelWidth">
+                <component :is="container" class="els-list-inner-form" v-model="dropData[index]" :labelWidth="currLabelWidth" v-bind="innerFormData">
                     <div class="listitem flex" :class="itemClassName">
                         <slot v-if="itemKey" name="default"
                             v-bind="{ item: element, index: index, $item: element, $index: index, element: element }">
@@ -175,6 +178,7 @@ watchEffect(() => {
     .els-list-bottom {
         .mobile-add {
             color: #409eff;
+           
         }
 
     }
@@ -203,11 +207,23 @@ watchEffect(() => {
     .listitem {
         margin-bottom: 0;
     }
+    .els-list-bottom {
+        padding: var(--van-cell-vertical-padding) var(--van-cell-horizontal-padding);
 
-    >div>.van-form:first-child {
-        .van-cell {
-            padding-top: 0;
+    }
+    >div>.els-list-inner-form{
+        &:first-of-type{
+            >.listitem>.els-node>
+            .van-cell{
+                padding-top: 0;
+            }
         }
     }
+
+    // .van-form:first-child {
+    //     .van-cell {
+    //         padding-top: 0;
+    //     }
+    // }
 }
 </style>
