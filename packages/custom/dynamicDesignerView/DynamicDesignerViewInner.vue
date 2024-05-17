@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useValue } from '../../utlis/use'
-import DynamicDesignerViewItem from './DynamicDesignerViewInnerItem.vue'
+import DynamicDesignerViewInnerItem from './DynamicDesignerViewInnerItem.vue'
 import DynamicDesignerViewWrap from './DynamicDesignerViewWrap.vue'
 import DynamicDesignerViewForm from './DynamicDesignerViewForm.vue'
 import DynamicDesignerViewShow from './DynamicDesignerViewShow.vue'
 import DynamicDesignerViewOperate from './DynamicDesignerViewOperate.vue'
 
-import { lessCom,ElsMessage } from '../../utlis/com'
+import { lessCom, ElsMessage } from '../../utlis/com'
 interface Props {
     nodeItem: Record<string, any>,
 }
@@ -14,7 +14,8 @@ const props = defineProps<Props>()
 const { getValue } = useValue(props)
 const setSelectItem = getValue<Function>('setSelectItem', () => { })
 const getSelectItem = getValue<Function>('getSelectItem', () => { })
-const removeItem = getValue<Function>('removeItem', () => { })
+const getCurrNode = getValue<Function>('getCurrNode', () => { return {} })
+const getParentNode = getValue<Function>('getParentNode', () => { return {} })
 function handleSelectItem() {
     setSelectItem(props.nodeItem)
 }
@@ -31,19 +32,56 @@ function getFormItemAttr() {
 }
 
 
+function handleDisabledExpress() {
+
+    if (props.nodeItem.config.baseConfig && props.nodeItem.config.advancedConfig.disabled) {
+        try {
+            let currEvent = new Function('parentNode,currNode', "return " + props.nodeItem.config.advancedConfig.disabled);
+            return currEvent(getParentNode(), getCurrNode());
+        } catch (err) {
+            console.log(props.nodeItem.keyName + '|Disabled错误', err)
+        }
+
+    }
+    return false;
+}
+
+function handleValueChange(val) {
+    if (props.nodeItem.config.advancedConfig && props.nodeItem.config.advancedConfig.eventChange) {
+        try {
+            let currEvent = new Function('val,parentNode,currNode', props.nodeItem.config.advancedConfig.eventChange)
+            currEvent(val, getParentNode(), getCurrNode());
+        } catch (err) {
+            console.log(props.nodeItem.keyName + '|Change错误', err)
+        }
+    }
+}
+
+
+
 </script>
 <template>
-    <div class="els-dynamic-d-v-item"     :data-restrict="nodeItem.restrictChild"
-        :data-type="nodeItem.componentType" :class="{ 'selected': getSelectItem()?.keyID == nodeItem.keyID }"   @click.stop="handleSelectItem">
+    <div class="els-dynamic-d-v-item" :data-restrict="nodeItem.restrictChild" :data-type="nodeItem.componentType"
+        :class="{ 'selected': getSelectItem()?.keyID == nodeItem.keyID }" @click.stop="handleSelectItem">
         <DynamicDesignerViewOperate :nodeItem="nodeItem"></DynamicDesignerViewOperate>
-        <DynamicDesignerViewWrap :parentNode="nodeItem"  :nodeItem="nodeItem" v-if="nodeItem.componentGroup == 'Container'">
-        </DynamicDesignerViewWrap>
+
+        <template v-if="nodeItem.componentGroup == 'Container'">
+            <els-form-node :hasFormItem="false" v-if="nodeItem.keyCode && nodeItem.formItem" v-bind="getFormItemAttr()">
+                <DynamicDesignerViewWrap :parentNode="nodeItem" :nodeItem="nodeItem">
+                </DynamicDesignerViewWrap>
+            </els-form-node>
+            <DynamicDesignerViewWrap v-else :parentNode="nodeItem" :nodeItem="nodeItem">
+            </DynamicDesignerViewWrap>
+        </template>
+
         <DynamicDesignerViewShow v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Show'"
             :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style" :title="nodeItem.keyName">
         </DynamicDesignerViewShow>
-        <els-form-node v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Form'" :hasFormItem="false"  v-bind="getFormItemAttr()">
-            <DynamicDesignerViewItem :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style">
-            </DynamicDesignerViewItem>
+        <els-form-node v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Form'" :hasFormItem="false"
+            v-bind="getFormItemAttr()">
+            <DynamicDesignerViewInnerItem :disabled="handleDisabledExpress()" @valueChange="handleValueChange($event)"
+                :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style">
+            </DynamicDesignerViewInnerItem>
         </els-form-node>
         <template v-else-if="nodeItem.dataTypeName === 'Array' || nodeItem.dataTypeName == 'Object'">
             <template v-if="nodeItem.config.baseConfig?.componentName == 'ElsCaption'">
@@ -62,16 +100,20 @@ function getFormItemAttr() {
 .els-dynamic-d-v-item:deep {
     position: relative;
     margin-bottom: 5px;
-    padding: 20px 5px 5px 5px;;
+    padding: 20px 5px 5px 5px;
+    ;
     border: 1px dashed #aaaaaabf;
-    &.selected{
+
+    &.selected {
         border: 2px solid #409EFF;
+
         >.els-dynamic-d-v-item-type,
         >.els-dynamic-d-v-item-move {
             background: #409effbd;
             display: flex;
         }
     }
+
     .els-node {
         padding: 5px
     }
@@ -85,14 +127,10 @@ function getFormItemAttr() {
     &:has(>div[class*="els-dynamic-designer-empty"]) {
         padding: 0;
     }
+
     &:has(>div[data-type="Tabs"]) {
         padding: 0;
     }
-
-    // &:has(>.el-form-item>.el-form-item__content>.el-form>div[class*="els-dynamic-designer-empty"]) {
-    //     padding: 0;
-    // }
-
 }
 
 .el-form-item:deep>.el-form-item__content {

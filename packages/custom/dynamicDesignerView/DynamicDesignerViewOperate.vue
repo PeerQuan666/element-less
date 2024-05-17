@@ -6,6 +6,21 @@ interface Props {
 const props = defineProps<Props>()
 const { getValue } = useValue(props)
 const removeItem = getValue<Function>('removeItem', () => { })
+const getCurrNode = getValue<Function>('getCurrNode', () => { return {} })
+const getParentNode = getValue<Function>('getParentNode', () => { return {} })
+
+function handleIfExpress() {
+    try {
+        if (props.nodeItem.config.advancedConfig && props.nodeItem.config.advancedConfig.vif) {
+            let currEvent = new Function('parentNode,currNode', "return " + props.nodeItem.config.advancedConfig.vif);
+            return currEvent(getParentNode(), getCurrNode());
+        }
+    }catch (err) {
+            console.log(props.nodeItem.keyName + '|v-if错误', err)
+        }
+
+    return true;
+}
 
 
 </script>
@@ -18,7 +33,7 @@ const removeItem = getValue<Function>('removeItem', () => { })
         </span>
     </span>
     <span class="els-dynamic-d-v-item-move">
-        <el-icon>
+        <el-icon v-if="!handleIfExpress()">
             <Hide />
         </el-icon>
         <el-popconfirm title="确定删除吗？" @confirm="removeItem(nodeItem)">

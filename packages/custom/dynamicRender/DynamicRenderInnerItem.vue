@@ -5,7 +5,7 @@ import { useValue } from '../../utlis/use'
 
 interface Props {
     modelValue?: any,
-    item: Record<string, any>,
+    nodeItem: Record<string, any>,
     currDepath?: number,
     parentNode?: Record<string, any>,
     currNode?: Record<string, any>,
@@ -33,9 +33,9 @@ watch(currValue, (val) => {
 },{deep:true,immediate:true})
 
 function handleClear() {
-    if (props.item.dataTypeName == 'Number' || props.item.arrayDataTypeName == 'Number') {
+    if (props.nodeItem.dataTypeName == 'Number' || props.nodeItem.arrayDataTypeName == 'Number') {
         currValue.value = 0;
-    } if (props.item.dataTypeName == 'Bool' || props.item.arrayDataTypeName == 'Bool') {
+    } if (props.nodeItem.dataTypeName == 'Bool' || props.nodeItem.arrayDataTypeName == 'Bool') {
         currValue.value = false;
     } else {
         currValue.value = '';
@@ -45,9 +45,9 @@ function handleClear() {
 const baseAttrs = computed(() => {
 
     let baseConfig = {}
-    const currControl = controlData.find(ele => ele.value == props.item.componentType)
+    const currControl = controlData.find(ele => ele.value == props.nodeItem.componentType)
     if (currControl?.defaultPropertys) {
-        const currBaseConfig = Object.assign({}, currControl?.defaultPropertys, props.item.config.baseConfig)
+        const currBaseConfig = Object.assign({}, currControl?.defaultPropertys, props.nodeItem.config.baseConfig)
         for (var key in currBaseConfig) {
             if (key) {
                 if (currBaseConfig[key] === undefined || currBaseConfig[key] === '') {
@@ -57,7 +57,7 @@ const baseAttrs = computed(() => {
         }
         baseConfig = currBaseConfig
     }
-    const currAttrs = Object.assign(lessCom.cloneObj(baseConfig), { 'style': props.item.config.advancedConfig.style }, attrs);
+    const currAttrs = Object.assign(lessCom.cloneObj(baseConfig), { 'style': props.nodeItem.config.advancedConfig.style }, attrs);
     const parseNumbers=['max','min','precision','step','rows']
 
     for(const name of parseNumbers){
@@ -68,11 +68,11 @@ const baseAttrs = computed(() => {
         }
     }
 
-    if (['ElsSelect', 'ElsRadio', 'ElsCheckBox', 'ElsCascader'].includes(props.item.componentName)) {
+    if (['ElsSelect', 'ElsRadio', 'ElsCheckBox', 'ElsCascader'].includes(props.nodeItem.componentName)) {
         if(!currAttrs.valueType){
-            if (props.item.dataTypeName == 'Number' || props.item.arrayDataTypeName == 'Number') {
+            if (props.nodeItem.dataTypeName == 'Number' || props.nodeItem.arrayDataTypeName == 'Number') {
                 currAttrs.valueType = 'Number'
-            } else if (props.item.dataTypeName == 'Bool' || props.item.arrayDataTypeName == 'Bool') {
+            } else if (props.nodeItem.dataTypeName == 'Bool' || props.nodeItem.arrayDataTypeName == 'Bool') {
                 currAttrs.valueType = 'Bool'
             }
         }
@@ -83,23 +83,23 @@ const componentAttrs = ref<any>(baseAttrs.value)
 const showText = ref('')
 const componentName = ref('')
 watchEffect(() => {
-    componentName.value = props.item.componentName
+    componentName.value = props.nodeItem.componentName
 })
 
 
 //判断父节点类型
 watch(dyProvideData, (val) => {
-    if (val&&['active-value','inactive-value','multiple','value'].includes(props.item.keyCode)) {
+    if (val&&['active-value','inactive-value','multiple','value'].includes(props.nodeItem.keyCode)) {
         const currNodeType = val.nodeType
         showText.value=''
         //判断配置节点数据类型
         if (currNodeType && currNodeType.componentName == 'ElsSwitch') {
 
-            if (props.item.keyCode == 'active-value' || props.item.keyCode == 'inactive-value') {
+            if (props.nodeItem.keyCode == 'active-value' || props.nodeItem.keyCode == 'inactive-value') {
          
                 if (currNodeType.dataType == 'Bool') {
                     componentAttrs.value = Object.assign({},baseAttrs.value, { 'disabled': true })
-                    if (props.item.keyCode == 'active-value') {
+                    if (props.nodeItem.keyCode == 'active-value') {
                         currValue.value = true
                         showText.value = 'true'
                     } else {
@@ -108,7 +108,7 @@ watch(dyProvideData, (val) => {
                     }
                 } else if (currNodeType.dataType == 'Number') {
                     componentAttrs.value = Object.assign({},baseAttrs.value, { 'disabled': false })
-                    if (props.item.keyCode == 'active-value') {
+                    if (props.nodeItem.keyCode == 'active-value') {
                         showText.value='1'
                         currValue.value = 1
                     } else {
@@ -118,7 +118,7 @@ watch(dyProvideData, (val) => {
                     }
                 } else {
                     componentAttrs.value = Object.assign({},baseAttrs.value, { 'disabled': false })
-                    if (props.item.keyCode == 'active-value') {
+                    if (props.nodeItem.keyCode == 'active-value') {
                         if(typeof(currValue.value )!=='string'){
                             currValue.value = 'true'
                         }
@@ -135,12 +135,12 @@ watch(dyProvideData, (val) => {
             }
         }
         else if (currNodeType && ['ElsSelect', 'ElsRadio', 'ElsCheckBox', 'ElsCascader'].includes(currNodeType.componentName)) {
-            if (props.item.keyCode === 'multiple' && currNodeType.dataType === 'Number') {
+            if (props.nodeItem.keyCode === 'multiple' && currNodeType.dataType === 'Number') {
 
                 currValue.value = false
                 showText.value = 'false'
 
-            } else if (props.item.keyCode === 'value') {
+            } else if (props.nodeItem.keyCode === 'value') {
                 if (currNodeType.dataType == 'Bool') {
                     if(typeof(currValue.value)!=='boolean'){
                         currValue.value = false
@@ -167,7 +167,7 @@ watch(dyProvideData, (val) => {
 }, { immediate: true, deep: true })
 
 function getUrl() {
-    let currUrl = props.item.config.baseConfig.url || props.item.config.baseConfig.modalUrl
+    let currUrl = props.nodeItem.config.baseConfig.url || props.nodeItem.config.baseConfig.modalUrl
     if (currUrl) {
         if (currUrl.startsWith(":")) {
             currUrl = currUrl.substr(1);

@@ -5,6 +5,7 @@ import DynamicDesignerViewForm from './DynamicDesignerViewForm.vue'
 import { FormItemProps, DynamicComponentType, DynamicDataType } from '../../utlis/interfaces'
 import { dynamicDataTypes, dynamicComponentTypes, DynamicHandler } from '../../utlis/dynamic'
 import { property_form, property_formItem, property_array, property_advanced, property_arrayAndObject } from '../../utlis/dynamic/propertys'
+import {ElScrollbar} from 'element-plus'
 import { lessCom } from '../../utlis/com'
 import { useDesign } from './stateDesign.js'
 import { ElMessage } from 'element-plus'
@@ -249,13 +250,16 @@ function setSelectItem(item) {
         showPropertys.value = false
         return
     }
-    if (!currSelectItem.value || currSelectItem.value.keyID != item.keyID) {
-        showPropertys.value = false
-        currSelectItem.value = item
-        nextTick(() => {
-            showPropertys.value = true
-        })
-    }
+    nextTick(()=>{
+        if (!currSelectItem.value || currSelectItem.value.keyID != item.keyID) {
+            showPropertys.value = false
+            currSelectItem.value = item
+            nextTick(() => {
+                showPropertys.value = true
+            })
+        }
+    })
+
 
 
 }
@@ -446,6 +450,37 @@ function createRootForm() {
 }
 
 
+function getContainerValue(item) {
+    const currData = {}
+    item.data.forEach(cele => {
+        if (cele.componentGroup === 'Container') {
+            Object.assign(currData, getContainerValue(cele))
+        } else if (cele.keyCode) {
+            currData[cele.keyCode] = cele
+
+        }
+    })
+    return currData
+}
+
+const getNodeValue=function(data){
+    let currData = {}
+    data.forEach(ele => {
+        if (ele.componentGroup === 'Container') {
+            Object.assign(currData, getContainerValue(ele))
+
+        } else {
+            currData[ele.keyCode] = ele
+        }
+    })
+    return currData
+}
+const getCurrNode=function(){
+    return getNodeValue(renderData)
+}
+
+
+
 setValue({
     "isMobile": false,
     "dataTypeData": currDynamicDataType.value,
@@ -453,6 +488,8 @@ setValue({
     setSelectItem,
     getSelectItem,
     handleMove,
+    getCurrNode,
+    getNodeValue,
     removeItem: (item) => {
         lessCom.removeArrayItem(renderData.value, item)
     },
@@ -462,7 +499,7 @@ setValue({
 const show = ref(false)
 </script>
 <template>
-    <div>
+    <div >
         <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
             <div style="display:flex;background:#f8f8f8;" class="els-dynamic-view">
                 <div style="flex-basis:260px;flex-shrink: 0;background: #fff;" class="els-dynamic-view-components">
@@ -580,6 +617,7 @@ const show = ref(false)
                         </span>
                     </div>
                     <div class="main" :class="deviceType">
+                        <ElScrollbar style="height: 650px;">
                         <div class="main-inner">
                             <div class="main-create-from" v-if="!startCreate && !renderData.length">
                                 <div>
@@ -602,7 +640,8 @@ const show = ref(false)
 
                             </div>
                             <template v-else>
-                                <DynamicDesignerViewForm :nodeItem="renderData[0]" :isRoot="true" v-if="renderData&&renderData.length&&renderData[0].componentName==='Form'"></DynamicDesignerViewForm>
+                                
+                                <DynamicDesignerViewForm :nodeItem="renderData[0]" :isRoot="true" v-if="renderData&&renderData.length&&renderData[0].componentType==='Form'"></DynamicDesignerViewForm>
                                 <els-form v-model="renderData" v-else>
                                     <draggable tag="div" :list="renderData"
                                         v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }"
@@ -614,27 +653,25 @@ const show = ref(false)
                                         </template>
                                     </draggable>
                                 </els-form>
-                                <el-empty v-if="!renderData.length||(renderData.length&&renderData[0].componentName==='Form'&&!renderData[0].data.length)" style="margin-top: -650px">
+                                <el-empty v-if="!renderData.length||(renderData.length&&renderData[0].componentType==='Form'&&!renderData[0].data.length)" style="margin-top: -650px">
                                     <template #description>请点击拖动<span class="txt-red">左侧</span>组件到此处</template>
                                 </el-empty>
                             </template>
 
 
                         </div>
+                    </ElScrollbar>
                     </div>
                 </div>
                 <div style="flex-basis:400px;width:400px; flex-shrink: 0;background: #fff;padding:0 5px;"
                     class="els-dynamic-view-propertys">
                     <els-form labelPosition="top">
-
-
                         <el-tabs stretch v-if="currSelectItem && currPropertys && showPropertys">
-
                             <el-tab-pane label="基础属性" v-if="currSelectItem.dataType&&currSelectItem.formItem">
                                 <els-form v-model="currSelectItem">
-                                    <els-input label="名称" prop="keyName" required></els-input>
+                                    <els-input label="名称" prop="keyName" :required="currSelectItem.componentGroup!=='Container'"></els-input>
                                     <els-input label="字段名" prop="keyCode" @input="handleChangeKeyCode"
-                                        :validMethod="validationCode" required></els-input>
+                                        :validMethod="validationCode" :required="currSelectItem.componentGroup!=='Container'"></els-input>
                                     <els-select label="数据类型"
                                         v-if="currSelectItem.dataTypeName != 'Array' && currSelectItem.dataTypeName != 'Object'"
                                         required :data="getDataTypeData(currSelectItem.componentType)"
@@ -648,7 +685,6 @@ const show = ref(false)
                                         valueField="value" labelField="label" placeholder="值类型"
                                         prop="arrayDataType"></els-select>
                                     <els-textarea label="默认值" prop="defaultValue" :rows="3"></els-textarea>
-
                                 </els-form>
                             </el-tab-pane>
                             <el-tab-pane label="组件属性" v-if="currPropertys.length">
@@ -683,7 +719,7 @@ const show = ref(false)
             <el-tab-pane label="预览">
                 <div class="main" :class="deviceType">
                     <div class="main-inner">
-                        <ElsDynamicRender v-model="formValue" :config="renderData" :isMobile="deviceType == 'H5'">
+                        <ElsDynamicRender  v-model="formValue" :config="renderData" :isMobile="deviceType == 'H5'">
                         </ElsDynamicRender>
                     </div>
                 </div>
@@ -801,6 +837,7 @@ const show = ref(false)
     }
 }
 
+
 .els-dynamic-view {
     .ghost {
         content: "";
@@ -815,8 +852,13 @@ const show = ref(false)
         overflow: hidden;
         width: 100%
     }
-
+    .els-dynamic-view-propertys:deep{
+        form,.el-tabs,.el-form-item,.el-tabs__content,.el-tab-pane,.el-tab-pane>div{
+            height: 100%;
+        }
+    }
     .els-dynamic-view-propertys {
+     
         .el-row {
             flex-direction: column;
         }

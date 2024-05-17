@@ -33,7 +33,7 @@ const baseAttrs = computed(() => {
         baseConfig = currBaseConfig
     }
 
-    const currAttrs = Object.assign(lessCom.cloneObj(baseConfig),{ 'style': currNodeItem.config.advancedConfig.style }, attrs);
+    const currAttrs = Object.assign({},{ 'style': currNodeItem.config.advancedConfig.style }, attrs,lessCom.cloneObj(baseConfig));
 
     currAttrs["label"]=currNodeItem.keyName
 

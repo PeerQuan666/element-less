@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, computed} from 'vue'
+import { watch, computed,reactive} from 'vue'
 import { useVModel } from '@vueuse/core'
 import { lessCom } from '../../utlis/com'
 import { useValue } from '../../utlis/use'
@@ -7,7 +7,6 @@ import { useValue } from '../../utlis/use'
 import DynamicRenderInnerItem from './DynamicRenderInnerItem.vue'
 
 interface Props {
-    item: Record<string, any>,
     parentNode?: Record<string, any>,
 }
 
@@ -15,55 +14,54 @@ const props = withDefaults(defineProps<Props>(), {
 
 })
 const {getValue}=useValue()
-const emits = defineEmits(['update:data'])
 const isMobile=getValue<boolean>('isMobile',false);
 const dataTypes=getValue<any>('dataTypeData', [])
-const currData = useVModel(props, 'item', emits)
+const nodeItem =defineModel<any>("nodeItem",{default:()=>{return reactive<Record<string, any>>([]);}})
 
 function handleDisabledExpress() {
-    if (currData.value.config.advancedConfig && currData.value.config.advancedConfig.disabled) {
-        let currEvent = new Function('parentNode,currNode', "return " + currData.value.config.advancedConfig.disabled);
-        return currEvent(props.parentNode, currData.value);
+    if (nodeItem.value.config.advancedConfig && nodeItem.value.config.advancedConfig.disabled) {
+        let currEvent = new Function('parentNode,currNode', "return " + nodeItem.value.config.advancedConfig.disabled);
+        return currEvent(props.parentNode, nodeItem.value);
     }
     return false;
 }
 function handleValueChange(val) {
-    if (currData.value.config.advancedConfig && currData.value.config.advancedConfig.eventChange) {
-        let currEvent = new Function('val,parentNode,currNode', currData.value.config.advancedConfig.eventChange)
-        currEvent(val, props.parentNode, currData.value);
+    if (nodeItem.value.config.advancedConfig && nodeItem.value.config.advancedConfig.eventChange) {
+        let currEvent = new Function('val,parentNode,currNode', nodeItem.value.config.advancedConfig.eventChange)
+        currEvent(val, props.parentNode, nodeItem.value);
     }
 }
 
 function getItemDefaultValue() {
 
-    const currDataType=dataTypes.find(ele=>ele.value===currData.value.arrayDataType)
+    const currDataType=dataTypes.find(ele=>ele.value===nodeItem.value.arrayDataType)
         if(currDataType&&currDataType.defaultValue){
         return currDataType.defaultValue
         }
-    if (currData.value.arrayDataTypeName == 'String') {
-        if (currData.value.defaultValue) {
-        return currData.value.defaultValue
+    if (nodeItem.value.arrayDataTypeName == 'String') {
+        if (nodeItem.value.defaultValue) {
+        return nodeItem.value.defaultValue
     }
     return '';
     }
-   else if (currData.value.arrayDataTypeName == 'Bool') {
-        if (currData.value.defaultValue === 'true') {
+   else if (nodeItem.value.arrayDataTypeName == 'Bool') {
+        if (nodeItem.value.defaultValue === 'true') {
             return true;
 
         } else {
             return false;
         }
     }
-    else if (currData.value.arrayDataTypeName === 'Number') {
-        if (currData.value.defaultValue != undefined && currData.value.defaultValue !== '') {
-            return parseFloat(currData.value.defaultValue)
+    else if (nodeItem.value.arrayDataTypeName === 'Number') {
+        if (nodeItem.value.defaultValue != undefined && nodeItem.value.defaultValue !== '') {
+            return parseFloat(nodeItem.value.defaultValue)
         } else {
             return 0;
         }
     }
-    else if(currData.value.arrayDataTypeName==='Object'){
+    else if(nodeItem.value.arrayDataTypeName==='Object'){
         return {}
-    }else if(currData.value.arrayDataTypeName==='Array'){
+    }else if(nodeItem.value.arrayDataTypeName==='Array'){
         return []
     }
     return {}
@@ -74,12 +72,12 @@ function handleAddItem() {
     return getItemDefaultValue()
 }
 const formAttrs = computed(() => {
-    const currFormConfig = lessCom.cloneObj(currData.value.config.formConfig)
+    const currFormConfig = lessCom.cloneObj(nodeItem.value.config.formConfig)
     currFormConfig.labelWidth = '0px'
     if (currFormConfig) {
         if (currFormConfig.validMethod) {
             let currEvent = new Function('parentNode,currNode', "return " + currFormConfig.validMethod);
-            currFormConfig.validMethod = currEvent(props.parentNode, currData.value);
+            currFormConfig.validMethod = currEvent(props.parentNode, nodeItem.value);
         } else {
             delete currFormConfig.validMethod
         }
@@ -99,17 +97,17 @@ function initDefault(val) {
             defaultArrayData.push(defaultValue)
         }
     }
-    currData.value.value=defaultArrayData
+    nodeItem.value.value=defaultArrayData
 }
 
-watch(()=>currData.value.value,(val)=>{
+watch(()=>nodeItem.value.value,(val)=>{
     if(!val||!Array.isArray(val)){
-        initDefault(currData.value.config.arrayConfig.arrayDefaultLength)
+        initDefault(nodeItem.value.config.arrayConfig.arrayDefaultLength)
  
     }
 },{immediate:true})
 
-watch(() => currData.value.config.arrayConfig.arrayDefaultLength, (val) => {
+watch(() => nodeItem.value.config.arrayConfig.arrayDefaultLength, (val) => {
     initDefault(val)
 })
 
@@ -117,19 +115,21 @@ watch(() => currData.value.config.arrayConfig.arrayDefaultLength, (val) => {
 
 </script>
 <template>
-    <div class="els-dynamic-array-render" :class="{ 'horizontal': currData.config.arrayConfig.arrangementType === 'Horizontal' }"   style=" flex-grow:1">
-        <els-list v-model="currData.value" @add="handleAddItem" :sortable="false" :item-class-name="{'els-dynamic-r-array':item.arrayDataTypeName==='Object'||item.componentTypeName==='DynamicRender'}"  :style="[
-            { 'max-width': (currData.config.arrayConfig.maxWidth ? currData.config.arrayConfig.maxWidth + 'px' : '') },
-            { 'max-height': (currData.config.arrayConfig.maxHeight ? currData.config.arrayConfig.maxHeight + 'px' : '') },
-            { 'display': currData.config.arrayConfig.arrangementType === 'Horizontal' ? 'flex' : '' },
+   
+    <div class="els-dynamic-array-render" :class="{ 'horizontal': nodeItem.config.arrayConfig.arrangementType === 'Horizontal' }"   style=" flex-grow:1">
+        <els-list v-model="nodeItem.value" @add="handleAddItem" :sortable="false" :item-class-name="{'els-dynamic-r-array':nodeItem.arrayDataTypeName==='Object'||nodeItem.componentTypeName==='DynamicRender'}"  :style="[
+            { 'max-width': (nodeItem.config.arrayConfig.maxWidth ? nodeItem.config.arrayConfig.maxWidth + 'px' : '') },
+            { 'max-height': (nodeItem.config.arrayConfig.maxHeight ? nodeItem.config.arrayConfig.maxHeight + 'px' : '') },
+            { 'display': nodeItem.config.arrayConfig.arrangementType === 'Horizontal' ? 'flex' : '' },
             { 'flex-wrap': 'wrap' }, { 'gap': '5px' }, { 'overflow': 'scroll' },{'padding-right':isMobile?'0px':'20px'}]">
             <template #default="{ element,index }">
-                <DynamicRenderInnerItem  :class="{'els-dynamic-r-array-item':item.componentName==='ElsDynamicRender'}" v-bind="formAttrs"  :key="index" :parent-node="parentNode" :curr-node="currData"
-                    :disabled="handleDisabledExpress()" v-model="element.value" prop="value" requiredMessage="不能为空" :item="currData"
-                    :style="item.config.advancedConfig.style" @valueChange="handleValueChange">
+                <DynamicRenderInnerItem  
+                    :class="{'els-dynamic-r-array-item':nodeItem.componentName==='ElsDynamicRender'}" v-bind="formAttrs" 
+                     :key="index" :parent-node="parentNode" :curr-node="nodeItem"
+                    :disabled="handleDisabledExpress()" v-model="element.value" prop="value" requiredMessage="不能为空" :nodeItem="nodeItem"
+                    :style="nodeItem.config.advancedConfig.style" @valueChange="handleValueChange">
                 </DynamicRenderInnerItem>
             </template>
-
         </els-list>
     </div>
 </template>

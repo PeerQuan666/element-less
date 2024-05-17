@@ -31,19 +31,19 @@ const props = withDefaults(defineProps<Props>(), {
     itemKey: ''
 
 })
-const {getValue}=useValue(props)
-const isMobile=getValue<boolean>('isMobile',false);
+const { getValue } = useValue(props)
+const isMobile = getValue<boolean>('isMobile', false);
 let container = h('div')
 let outContainer = h('div')
 const currLabelWidth = ref(getValue<any>('labelWidth', ''))
 const currData = useVModel(props, 'modelValue', emits)
 const dropData = ref<any>([])
 const currItemKey = ref(props.itemKey)
-watch(()=>props.modelValue,(val)=>{
-    if(props.itemKey){
+watch(() => props.modelValue, (val) => {
+    if (props.itemKey) {
         dropData.value = val
     }
-},{immediate:true})
+}, { immediate: true })
 
 if (!props.itemKey) {
     currData.value.forEach(ele => {
@@ -59,10 +59,10 @@ const attrs = useAttrs()
 
 function handleAdd() {
     if (props.onAdd) {
-        if(!props.itemKey){
-            dropData.value.push({itemKey: lessCom.generateID(), value:props.onAdd(dropData.value)})
+        if (!props.itemKey) {
+            dropData.value.push({ itemKey: lessCom.generateID(), value: props.onAdd(dropData.value) })
 
-        }else{
+        } else {
             dropData.value.push(props.onAdd(dropData.value))
 
         }
@@ -78,15 +78,15 @@ function handleRemove(item) {
 
 
 
-watch(()=>props.labelWidth,(val)=>{
-    if(isMobile){
-        currLabelWidth.value=1;
-    }else{
-        if(val){
-        currLabelWidth.value = props.labelWidth
+watch(() => props.labelWidth, (val) => {
+    if (isMobile) {
+        currLabelWidth.value = 1;
+    } else {
+        if (val) {
+            currLabelWidth.value = props.labelWidth
+        }
     }
-    }
- 
+
 })
 watchEffect(() => {
     if (props.hasForm && dropData.value.length) {
@@ -102,15 +102,17 @@ watchEffect(() => {
 })
 
 </script>
-<template >
-    <component :is="outContainer" class="els-list" :class="[{'el-list-mobile':isMobile}]" :labelWidth="currLabelWidth">
+<template>
+    <component :is="outContainer" class="els-list" :class="[{ 'el-list-mobile': isMobile }]" :labelWidth="currLabelWidth">
         <draggable :list="dropData" handle=".el-icon-rank" v-bind="attrs" :item-key="currItemKey">
             <template #item="{ element, index }">
-                <component :is="container" v-model="dropData[index]"  :labelWidth="currLabelWidth">
+                <component :is="container" v-model="dropData[index]" :labelWidth="currLabelWidth">
                     <div class="listitem flex" :class="itemClassName">
-                        <slot v-if="itemKey" name="default" v-bind="{ item: element, index: index, $item: element, $index: index,element:element }">
+                        <slot v-if="itemKey" name="default"
+                            v-bind="{ item: element, index: index, $item: element, $index: index, element: element }">
                         </slot>
-                        <slot v-else name="default" v-bind="{ item: element.value, index: index, $item: element.value, $index: index,element:element }">
+                        <slot v-else name="default"
+                            v-bind="{ item: element.value, index: index, $item: element.value, $index: index, element: element }">
                         </slot>
                         <span class="els-list-operate" v-if="sortable || isRemove" style="margin-left:10px;">
                             <slot name="drag" v-if="sortable && isModify">
@@ -135,7 +137,8 @@ watchEffect(() => {
                 </component>
             </template>
         </draggable>
-        <div v-if="isModify && isAdd" class="els-list-bottom" :class="[{'els-list-add':!isMobile}]" :style="`--marginleft:${currLabelWidth??100}px`">
+        <div v-if="isModify && isAdd" class="els-list-bottom" :class="[{ 'els-list-add': !isMobile }]"
+            :style="`--marginleft:${currLabelWidth ?? 100}px`">
             <slot name="add">
                 <span v-if="isMobile" class="mobile-add" @click="handleAdd">
                     <van-icon name="plus" />
@@ -147,7 +150,7 @@ watchEffect(() => {
     </component>
 </template>
 
-<style lang="less" >
+<style lang="less">
 .els-list {
     .listitem {
         margin-bottom: 10px;
@@ -158,22 +161,24 @@ watchEffect(() => {
             display: flex;
             column-gap: 5px;
             cursor: pointer;
-            .el-icon-remove{
+
+            .el-icon-remove {
                 color: red !important;
             }
-
         }
 
         >.els-node {
             flex-grow: 1;
         }
     }
-.els-list-bottom{
-    .mobile-add{
-        color:#409eff;
+
+    .els-list-bottom {
+        .mobile-add {
+            color: #409eff;
+        }
+
     }
 
-}
     .el-form-item {
         margin-bottom: 18px !important;
     }
@@ -185,19 +190,22 @@ watchEffect(() => {
             margin-bottom: 18px;
         }
     }
-    .els-list-add{
+
+    .els-list-add {
         margin-left: var(--marginleft);
         margin-bottom: 10px;
         cursor: pointer;
     }
 
 }
-.el-list-mobile{
+
+.el-list-mobile {
     .listitem {
         margin-bottom: 0;
     }
-    >div>.van-form:first-child{
-        .van-cell{
+
+    >div>.van-form:first-child {
+        .van-cell {
             padding-top: 0;
         }
     }

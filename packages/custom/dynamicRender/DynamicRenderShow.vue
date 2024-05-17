@@ -14,11 +14,8 @@ const {getValue} =useValue()
 const controlData = getValue<any>("componentData", [])
 const props = defineProps<Props>()
 const attrs = useAttrs()
-const currValue = ref()
-const setSelectItem = getValue<Function>('setSelectItem', () => { })
-function handleSelectItem() {
-    setSelectItem(props.nodeItem)
-}
+
+
 const baseAttrs = computed(() => {
     let baseConfig={}
     const currNodeItem=props.nodeItem
@@ -40,26 +37,8 @@ const baseAttrs = computed(() => {
 
     currAttrs["label"]=currNodeItem.keyName
 
-    const parseNumbers=['max','min','precision','step','rows']
-    for(const name of parseNumbers){
-        if(currAttrs[name]){
-            currAttrs[name]=parseInt(currAttrs[name])
-        }else{
-            delete currAttrs[name]
-        }
-    }
-    
-
-    if (['Select', 'Radio', 'CheckBox', 'Cascader'].includes(currNodeItem.componentTypeName)) {
-        if (currNodeItem.dataTypeName == 'String' || currNodeItem.arrayDataTypeName == 'Number') {
-            currAttrs.valueType = 'Number'
-        } else if (currNodeItem.dataTypeName == 'Bool' || currNodeItem.arrayDataTypeName == 'Bool') {
-            currAttrs.valueType = 'Bool'
-        }
-    }
     return currAttrs
 })
-
 const componentAttrs = ref<any>(baseAttrs)
 const componentName = ref('')
 
@@ -72,7 +51,7 @@ watchEffect(() => {
 
 <template>
     <template v-if="componentName">
-        <component  :is="componentName"  v-bind="componentAttrs" v-model="currValue" @click.stop="handleSelectItem">
+        <component  :is="componentName"  v-bind="componentAttrs"  >
         </component>
     </template>
     <els-tip v-else type="danger">未设置组件名</els-tip>

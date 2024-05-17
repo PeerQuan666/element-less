@@ -4,11 +4,18 @@ import { dynamicDataTypes, dynamicComponentTypes, DynamicHandler } from '../../u
 import { lessCom } from '../../utlis/com'
 import { FormItemProps,DynamicComponentType, DynamicDataType  } from '../../utlis/interfaces'
 import DynamicRenderInner from './DynamicRenderInner.vue'
+import DynamicRenderForm from './DynamicRenderForm.vue'
+
 import { useValue } from '../../utlis/use'
 
 const DynamicRenderInnerAsync = defineAsyncComponent(() => {
     return import('./DynamicRenderInner.vue')
 })
+
+const DynamicRenderFormAsync = defineAsyncComponent(() => {
+    return import('./DynamicRenderForm.vue')
+})
+
 defineOptions({
     name: 'ElsDynamicRender',
 })
@@ -153,11 +160,61 @@ function handleReturnResult() {
         emits('update:modelValue', JSON.stringify(currData))
     }
 }
+
+
+function getCurrNodeValueData(){
+    let currData = {}
+    renderData.forEach(ele => {
+        if (ele.componentGroup == 'Container') {
+            ele.data.forEach(cele => {
+                currData[cele.keyCode] = cele
+            })
+        } else {
+            currData[ele.keyCode] = ele
+        }
+    })
+    return currData
+}
+
+
+function getContainerValue(item) {
+    const currData = {}
+    item.data.forEach(cele => {
+        if (cele.componentGroup === 'Container') {
+            Object.assign(currData, getContainerValue(cele))
+        } else if (cele.keyCode) {
+            currData[cele.keyCode] = cele
+
+        }
+    })
+    return currData
+}
+
+const getNodeValue=function(data){
+    let currData = {}
+    data.forEach(ele => {
+        if (ele.componentGroup === 'Container') {
+            Object.assign(currData, getContainerValue(ele))
+
+        } else {
+            currData[ele.keyCode] = ele
+        }
+    })
+    return currData
+}
+const getCurrNode=function(){
+    return getNodeValue(renderData)
+}
+
+
 setValue({
     "tagID":'els-dynamic-render-' + lessCom.generateID(),
     "componentData":currComponentTypes.value,
     "dyProvideData":provideData,
     "dataTypeData":currDynamicDataType.value,
+    getCurrNodeValueData,
+    getCurrNode,
+    getNodeValue,
 })
 
 defineExpose({
@@ -168,16 +225,33 @@ defineExpose({
     <div>
         <ElsFormNode v-bind="lessCom.getFormNodeProps(props)" labelWidth="0px">
             <div class="els-dynamic-render">
-                <suspense v-if="isAsyncComponent">
-                    <template #default>
-                        <DynamicRenderInnerAsync :data="renderData"></DynamicRenderInnerAsync>
-                    </template>
-                    <template #fallback>
-                        <el-skeleton animated>
-                        </el-skeleton>
-                    </template>
-                </suspense>
-                <DynamicRenderInner v-else :data="renderData"></DynamicRenderInner>
+                <template v-if="isAsyncComponent">
+                    <suspense v-if="isAsyncComponent">
+                        <template #default>
+                            <div>
+                                <DynamicRenderFormAsync  :nodeItem="renderData[0]" v-if="renderData&&renderData.length&&renderData[0].componentTypeName==='Form'">
+                                </DynamicRenderFormAsync>
+                                <els-form v-model="renderData" v-else>
+                                    <DynamicRenderInnerAsync v-for="item in renderData" :nodeItem="item" :keyID="item.keyID">
+                                    </DynamicRenderInnerAsync>
+                                </els-form>
+                            </div>
+                        </template>
+                        <template #fallback>
+                            <el-skeleton animated>
+                            </el-skeleton>
+                        </template>
+                    </suspense>
+                </template>
+                <template v-else>
+                    <DynamicRenderForm  :nodeItem="renderData[0]" v-if="renderData&&renderData.length&&renderData[0].componentType==='Form'">
+                    </DynamicRenderForm>
+                    <els-form v-model="renderData" v-else>
+                        <DynamicRenderInner v-for="item in renderData" :nodeItem="item" :key="item.keyID">
+                        </DynamicRenderInner>
+                    </els-form>
+                </template>
+              
             </div>
         </ElsFormNode>
     </div>
