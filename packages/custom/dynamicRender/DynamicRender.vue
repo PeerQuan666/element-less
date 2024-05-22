@@ -35,7 +35,7 @@ interface Props extends FormItemProps {
     appendComponentTypes?: Array<DynamicComponentType>,
     isAsyncComponent?: boolean,
     labelPosition?:string,
-    isMobile?:boolean
+    isMobile?:Boolean
 }
 
 const props = defineProps<Props>()
@@ -232,7 +232,7 @@ defineExpose({
                                 <DynamicRenderFormAsync  :nodeItem="renderData[0]" v-if="renderData&&renderData.length&&renderData[0].componentTypeName==='Form'">
                                 </DynamicRenderFormAsync>
                                 <els-form v-model="renderData" v-else>
-                                    <DynamicRenderInnerAsync v-for="item in renderData" :nodeItem="item" :keyID="item.keyID">
+                                    <DynamicRenderInnerAsync v-for="(item,index) in renderData" :index="index" :nodeItem="item" :keyID="item.keyID">
                                     </DynamicRenderInnerAsync>
                                 </els-form>
                             </div>
@@ -247,7 +247,7 @@ defineExpose({
                     <DynamicRenderForm  :nodeItem="renderData[0]" :isRoot="true" v-if="renderData&&renderData.length&&renderData[0].componentType==='Form'">
                     </DynamicRenderForm>
                     <els-form v-model="renderData" v-else>
-                        <DynamicRenderInner v-for="item in renderData" :nodeItem="item" :key="item.keyID">
+                        <DynamicRenderInner v-for="(item,index) in renderData"  :index="index" :nodeItem="item" :key="item.keyID">
                         </DynamicRenderInner>
                     </els-form>
                 </template>
@@ -259,4 +259,5 @@ defineExpose({
 <style lang="less">
 ::-webkit-scrollbar {background:none; }
 .els-dynamic-render{flex-grow: 1;}
+
 </style>

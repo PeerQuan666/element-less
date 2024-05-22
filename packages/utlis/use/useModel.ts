@@ -123,10 +123,10 @@ export const useMobile=(formNode)=>{
     const {getValue}=useValue()
     const isMobile = getValue<boolean>('isMobile', false)
     function onMobileConfirm(val){
-        formNode.value.confirmMobile(val)    
+        formNode.value&&formNode.value.confirmMobile(val)    
     }
     function onMobileHiddenPopup(){
-        formNode.value.hiddenMobile()    
+        formNode.value&&formNode.value.hiddenMobile()    
     }
     
     return {

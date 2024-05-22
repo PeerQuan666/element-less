@@ -19,16 +19,17 @@ export function useParent() {
 export function useValue(props:any={}){
     const setContainer=(value:Record<any,any>)=>{
         const attrs=useAttrs();
-        provide('elsContainer', Object.assign({},props,attrs,value))
+        provide('elsContainer', Object.assign({},lessCom.removeUndefinedOrWhiteSpaceProps(props),lessCom.removeUndefinedOrWhiteSpaceProps(attrs),lessCom.removeUndefinedOrWhiteSpaceProps(value)))
     }
     const setForm=(value:Record<any,any>)=>{
         const attrs=useAttrs();
-        provide('elsForm', Object.assign({},props,attrs,value))
+        const parentValue=useForm()
+        provide('elsForm', Object.assign({},parentValue??{},lessCom.removeUndefinedOrWhiteSpaceProps(props),lessCom.removeUndefinedOrWhiteSpaceProps(attrs),lessCom.removeUndefinedOrWhiteSpaceProps(value)))
     }
     const setValue=(value:Record<any,any>={})=>{
         const attrs=useAttrs();
         const parentValue=useParent()
-        provide('elsParent', Object.assign({},parentValue??{},props,attrs,value))
+        provide('elsParent', Object.assign({},parentValue??{},lessCom.removeUndefinedOrWhiteSpaceProps(props),lessCom.removeUndefinedOrWhiteSpaceProps(attrs),lessCom.removeUndefinedOrWhiteSpaceProps(value)))
        
     }
     const getValue=<T>(key:string,defaultValue?:any):T=>{

@@ -11,6 +11,7 @@ defineOptions({
 })
 
 const {getValue} =useValue()
+const modelValue=defineModel()
 const controlData = getValue<any>("componentData", [])
 const props = defineProps<Props>()
 const attrs = useAttrs()
@@ -33,9 +34,7 @@ const baseAttrs = computed(() => {
         baseConfig = currBaseConfig
     }
 
-    const currAttrs = Object.assign(lessCom.cloneObj(baseConfig),{ 'style': currNodeItem.config.advancedConfig.style }, attrs);
-
-    currAttrs["label"]=currNodeItem.keyName
+    const currAttrs = Object.assign({},{ 'style': currNodeItem.config.advancedConfig.style }, attrs,lessCom.cloneObj(baseConfig));
 
     return currAttrs
 })
@@ -51,7 +50,7 @@ watchEffect(() => {
 
 <template>
     <template v-if="componentName">
-        <component  :is="componentName"  v-bind="componentAttrs"  >
+        <component  :is="componentName"  v-model="modelValue"  v-bind="componentAttrs"  >
         </component>
     </template>
     <els-tip v-else type="danger">未设置组件名</els-tip>

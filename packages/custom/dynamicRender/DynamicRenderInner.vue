@@ -14,6 +14,7 @@ import DynamicRenderForm from './DynamicRenderForm.vue'
 
 
 interface Props {
+    index:number
 }
 
 
@@ -56,16 +57,21 @@ function getFormItemAttr() {
     if (nodeItem.value.required) {
         currFormConfig['required'] = true
     }
+    if(nodeItem.value.keyCode){
+        currFormConfig['prop'] = nodeItem.value.keyCode
+    }
     if (nodeItem.value.description) {
         currFormConfig['tip'] = nodeItem.value.description
     }
+    
+    currFormConfig['prop'] = `[${props.index}].value`
+    
     currFormConfig['label'] = nodeItem.value.keyName
     return currFormConfig
 }
 
 </script>
 <template>
-
     <template v-if="handleIfExpress()">
         <template
             v-if="(nodeItem.dataTypeName === 'Object' || nodeItem.arrayDataTypeName == 'Object') && nodeItem.config.baseConfig?.componentName == 'ElsCaption'">
@@ -78,22 +84,20 @@ function getFormItemAttr() {
             <DynamicRenderForm :nodeItem="nodeItem" v-else></DynamicRenderForm>
         </template>
 
+              
+        <DynamicRenderShow v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Show'&&nodeItem.keyCode"
+            :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style"  v-model="nodeItem.value" :title="nodeItem.keyName">
+        </DynamicRenderShow>
         <DynamicRenderShow v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Show'"
             :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style" :title="nodeItem.keyName">
         </DynamicRenderShow>
 
-
         <template  v-else-if="nodeItem.componentGroup == 'Container'">
-            <els-form-node :hasFormItem="false" v-if="nodeItem.keyCode&&nodeItem.formItem"
-                v-bind="getFormItemAttr()">
-                <DynamicRenderInnerWrap :parentNode="nodeItem" :nodeItem="nodeItem">
-                </DynamicRenderInnerWrap>
-            </els-form-node>
-            <DynamicRenderInnerWrap :parentNode="nodeItem" :nodeItem="nodeItem" v-else >
+            <DynamicRenderInnerWrap :parentNode="nodeItem" :nodeItem="nodeItem"  >
             </DynamicRenderInnerWrap>
         </template>
         
-        <els-form-node  :hasFormItem="false" :hasForm="!isMobile" v-else-if="nodeItem.dataTypeName == 'Object'||(nodeItem.dataTypeName === 'Array'&&nodeItem.arrayDataType === 'Object')"
+        <els-form-node   :hasFormItem="false" :hasForm="!isMobile" v-else-if="nodeItem.dataTypeName == 'Object'||(nodeItem.dataTypeName === 'Array'&&nodeItem.arrayDataType === 'Object')"
             v-bind="getFormItemAttr()"  :tagName="nodeItem.dataTypeName==='Array'?'':nodeItem.componentTypeName" >
             <DynamicRenderForm :nodeItem="nodeItem" v-if="nodeItem.dataTypeName == 'Object'"></DynamicRenderForm>
             <DynamicRenderInnerObjectArray v-else  :nodeItem="nodeItem">
@@ -105,7 +109,7 @@ function getFormItemAttr() {
             </DynamicRenderInnerArray>
           
         </els-form-node>
-        <template v-else-if="isMobile&&(nodeItem.componentTypeName==='Input'||nodeItem.componentTypeName==='Textarea')">
+        <template v-else-if="isMobile&&nodeItem.componentTypeName && nodeItem.componentGroup === 'Form'">
             <DynamicRenderInnerItem :nodeItem="nodeItem" v-model="nodeItem.value"  v-bind="getFormItemAttr()" >
             </DynamicRenderInnerItem>
         </template>

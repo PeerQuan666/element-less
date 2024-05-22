@@ -1,580 +1,354 @@
 export const property_tabs=[
   {
-    "keyID": "key_77618",
-    "keyName": "选项卡标题",
-    "keyCode": "label",
-    "data": [],
-    "required": false,
-    "config": {
-      "formConfig": {
-        "labelWidth": "",
-        "labelPosition": "",
-        "tip": "",
-        "tipPosition": "left",
-        "suffixContent": "",
-        "required": false,
-        "requiredMessage": "",
-        "validType": "",
-        "validExpression": "",
-        "validMessage": "",
-        "validMethod": ""
+    "keyID": "ARVQ0FCl_",
+    "keyName": "Form",
+    "keyCode": "FE6q5TTUVq",
+    "data": [
+      {
+        "keyID": "key_47877",
+        "keyName": "风格类型",
+        "keyCode": "type",
+        "data": [],
+        "dataType": "String",
+        "arrayDataType": "",
+        "componentTypeLabel": "单选列表",
+        "componentType": "Radio",
+        "formItem": true,
+        "config": {
+          "formConfig": {
+            "labelWidth": "",
+            "suffixContent": "",
+            "required": false,
+            "requiredMessage": "",
+            "tip": "",
+            "tipPosition": "left",
+            "validType": "",
+            "validMessage": "",
+            "validExpression": "",
+            "validMethod": ""
+          },
+          "baseConfig": {
+            "type": "button",
+            "dataType": 1,
+            "width": "",
+            "optionWidth": "",
+            "data": [
+              {
+                "label": "card",
+                "value": "card"
+              },
+              {
+                "label": "border-card",
+                "value": "border-card"
+              }
+            ],
+            "url": "",
+            "labelField": "",
+            "valueField": ""
+          },
+          "advancedConfig": {
+            "style": "",
+            "vif": "",
+            "disabled": "",
+            "eventChange": ""
+          },
+          "arrayConfig": {}
+        }
       },
-      "baseConfig": {
-        "width": "",
-        "placeholder": "",
-        "prefixIcon": "",
-        "suffixIcon": "",
-        "prefixTag": "",
-        "suffixTag": "",
-        "maxlength": "",
-        "showWordLimit": false,
-        "clearable": true,
-        "showPassword": false,
-        "isTrim": false,
-        "encode": false
+      {
+        "keyID": "key_88308",
+        "keyName": "选项卡所在位置",
+        "keyCode": "tab-position",
+        "data": [],
+        "dataType": "String",
+        "arrayDataType": "",
+        "componentTypeLabel": "单选列表",
+        "componentType": "Radio",
+        "formItem": true,
+        "config": {
+          "formConfig": {
+            "labelWidth": "",
+            "suffixContent": "",
+            "required": false,
+            "requiredMessage": "",
+            "tip": "",
+            "tipPosition": "left",
+            "validType": "",
+            "validMessage": "",
+            "validExpression": "",
+            "validMethod": ""
+          },
+          "baseConfig": {
+            "type": "button",
+            "dataType": 1,
+            "width": "",
+            "optionWidth": "",
+            "data": [
+              {
+                "label": "top",
+                "value": "top"
+              },
+              {
+                "label": "right",
+                "value": "right"
+              },
+              {
+                "label": "bottom",
+                "value": "bottom"
+              },
+              {
+                "label": "left",
+                "value": "left"
+              }
+            ],
+            "url": "",
+            "labelField": "",
+            "valueField": ""
+          },
+          "advancedConfig": {
+            "style": "",
+            "vif": "",
+            "disabled": "",
+            "eventChange": ""
+          },
+          "arrayConfig": {}
+        }
       },
-      "advancedConfig": {
-        "style": "",
-        "vif": "",
-        "disabled": "",
-        "eventChange": ""
-      },
-      "arrayConfig": {}
-    },
-    "componentType": "Input",
-    "dataType": "String"
-  },
-  {
-    "keyID": "key_36419",
-    "keyName": "选项卡值",
-    "keyCode": "value",
-    "data": [],
-    "required": false,
-    "config": {
-      "formConfig": {
-        "labelWidth": "",
-        "labelPosition": "",
-        "tip": "",
-        "tipPosition": "left",
-        "suffixContent": "",
-        "required": false,
-        "requiredMessage": "",
-        "validType": "",
-        "validExpression": "",
-        "validMessage": "",
-        "validMethod": ""
-      },
-      "baseConfig": {
-        "width": "",
-        "placeholder": "",
-        "prefixIcon": "",
-        "suffixIcon": "",
-        "prefixTag": "",
-        "suffixTag": "",
-        "maxlength": "",
-        "showWordLimit": false,
-        "clearable": true,
-        "showPassword": false,
-        "isTrim": false,
-        "encode": false
-      },
-      "advancedConfig": {
-        "style": "",
-        "vif": "",
-        "disabled": "",
-        "eventChange": ""
-      },
-      "arrayConfig": {}
-    },
-    "componentType": "Input",
-    "dataType": "String"
-  },
-  {
-    "keyID": "key_44602",
-    "keyName": "是否禁用",
-    "keyCode": "disabled",
-    "data": [],
-    "required": false,
-    "config": {
-      "formConfig": {
-        "labelWidth": "",
-        "labelPosition": "",
-        "tip": "",
-        "tipPosition": "left",
-        "suffixContent": "",
-        "required": false,
-        "requiredMessage": "",
-        "validType": "",
-        "validExpression": "",
-        "validMessage": "",
-        "validMethod": ""
-      },
-      "baseConfig": {
-        "active-text": "",
-        "inactive-text": "",
-        "active-value": true,
-        "inactive-value": false
-      },
-      "advancedConfig": {
-        "style": "",
-        "vif": "",
-        "disabled": "",
-        "eventChange": ""
-      },
-      "arrayConfig": {}
-    },
-    "componentType": "Switch",
-    "dataType": "Bool"
-  },
-  {
-    "keyID": "key_51831",
-    "keyName": "标签是否可关闭",
-    "keyCode": "closable",
-    "data": [],
-    "required": false,
-    "config": {
-      "formConfig": {
-        "labelWidth": "",
-        "labelPosition": "",
-        "tip": "",
-        "tipPosition": "left",
-        "suffixContent": "",
-        "required": false,
-        "requiredMessage": "",
-        "validType": "",
-        "validExpression": "",
-        "validMessage": "",
-        "validMethod": ""
-      },
-      "baseConfig": {
-        "controls-position": "",
-        "width": "",
-        "step": "",
-        "precision": "",
-        "min": "",
-        "max": ""
-      },
-      "advancedConfig": {
-        "style": "",
-        "vif": "",
-        "disabled": "",
-        "eventChange": ""
-      },
-      "arrayConfig": {}
-    },
-    "componentType": "InputNumber",
-    "dataType": "Number"
-  },
-  {
-    "keyID": "key_16864",
-    "keyName": "标签是否延迟渲染",
-    "keyCode": "lazy",
-    "data": [],
-    "required": false,
-    "config": {
-      "formConfig": {
-        "labelWidth": "",
-        "labelPosition": "",
-        "tip": "",
-        "tipPosition": "left",
-        "suffixContent": "",
-        "required": false,
-        "requiredMessage": "",
-        "validType": "",
-        "validExpression": "",
-        "validMessage": "",
-        "validMethod": ""
-      },
-      "baseConfig": {
-        "controls-position": "",
-        "width": "",
-        "step": "",
-        "precision": "",
-        "min": "",
-        "max": ""
-      },
-      "advancedConfig": {
-        "style": "",
-        "vif": "",
-        "disabled": "",
-        "eventChange": ""
-      },
-      "arrayConfig": {}
-    },
-    "componentType": "InputNumber",
-    "dataType": "Number"
-  },
-  {
-    "keyID": "c22a17d687c1569a7fe2e7979b12e9a0",
-    "keyName": "数据源",
-    "keyCode": "dataType",
-    "data": [],
-    "config": {
-      "arrayConfig": {
-        "componentName": "ElsFormItem",
-        "type": "bottom",
-        "arrayDefaultLength": 0,
-        "arrangementType": "Vertical",
-        "maxHeight": "",
-        "maxWidth": ""
-      },
-      "formConfig": {
-        "labelWidth": "",
-        "labelPosition": "",
-        "tip": "",
-        "tipPosition": "left",
-        "suffixContent": "",
-        "required": false,
-        "requiredMessage": "",
-        "validType": "",
-        "validExpression": "",
-        "validMessage": "",
-        "validMethod": ""
-      },
-      "baseConfig": {
-        "type": "button",
-        "dataType": 1,
-        "width": "",
-        "optionWidth": "",
+      {
+        "keyID": "key_36118",
+        "keyName": "栅格行",
+        "keyCode": "key_12849",
         "data": [
           {
-            "label": "数据列表",
-            "value": 1
+            "keyID": "key_79961",
+            "keyName": "标签是否可关闭",
+            "keyCode": "closable",
+            "data": [],
+            "dataType": "Bool",
+            "arrayDataType": "",
+            "componentTypeLabel": "开关",
+            "componentType": "Switch",
+            "formItem": true,
+            "config": {
+              "formConfig": {
+                "labelWidth": "",
+                "suffixContent": "",
+                "required": false,
+                "requiredMessage": "",
+                "tip": "",
+                "tipPosition": "left",
+                "validType": "",
+                "validMessage": "",
+                "validExpression": "",
+                "validMethod": ""
+              },
+              "baseConfig": {
+                "active-text": "",
+                "inactive-text": "",
+                "active-value": true,
+                "inactive-value": false
+              },
+              "advancedConfig": {
+                "style": "",
+                "vif": "",
+                "disabled": "",
+                "eventChange": ""
+              },
+              "arrayConfig": {}
+            }
           },
           {
-            "label": "接口读取",
-            "value": 2
+            "keyID": "key_24929",
+            "keyName": "标签是否可增加",
+            "keyCode": "addable",
+            "data": [],
+            "dataType": "Bool",
+            "arrayDataType": "",
+            "componentTypeLabel": "开关",
+            "componentType": "Switch",
+            "formItem": true,
+            "config": {
+              "formConfig": {
+                "labelWidth": "",
+                "suffixContent": "",
+                "required": false,
+                "requiredMessage": "",
+                "tip": "",
+                "tipPosition": "left",
+                "validType": "",
+                "validMessage": "",
+                "validExpression": "",
+                "validMethod": ""
+              },
+              "baseConfig": {
+                "active-text": "",
+                "inactive-text": "",
+                "active-value": true,
+                "inactive-value": false
+              },
+              "advancedConfig": {
+                "style": "",
+                "vif": "",
+                "disabled": "",
+                "eventChange": ""
+              },
+              "arrayConfig": {}
+            }
           }
         ],
-        "url": "",
-        "labelField": "label",
-        "valueField": "value"
+        "dataType": "None",
+        "arrayDataType": "",
+        "componentTypeLabel": "栅格行",
+        "componentType": "Row",
+        "formItem": false,
+        "config": {
+          "formConfig": {},
+          "baseConfig": {
+            "gutter": "",
+            "justify": "",
+            "align": "",
+            "tag": "div"
+          },
+          "advancedConfig": {
+            "style": "",
+            "vif": "",
+            "disabled": "",
+            "eventChange": ""
+          },
+          "arrayConfig": {}
+        }
+      },
+      {
+        "keyID": "key_51153",
+        "keyName": "栅格行",
+        "keyCode": "key_49724",
+        "data": [
+          {
+            "keyID": "key_44602",
+            "keyName": "是否同时可增加和关闭",
+            "keyCode": "editable",
+            "data": [],
+            "required": false,
+            "config": {
+              "formConfig": {
+                "labelWidth": "",
+                "suffixContent": "",
+                "required": false,
+                "requiredMessage": "",
+                "tip": "",
+                "tipPosition": "left",
+                "validType": "",
+                "validMessage": "",
+                "validExpression": "",
+                "validMethod": ""
+              },
+              "baseConfig": {
+                "active-text": "",
+                "inactive-text": "",
+                "active-value": true,
+                "inactive-value": false
+              },
+              "advancedConfig": {
+                "style": "",
+                "vif": "",
+                "disabled": "",
+                "eventChange": ""
+              },
+              "arrayConfig": {}
+            },
+            "componentType": "Switch",
+            "dataType": "Bool",
+            "formItem": true
+          },
+          {
+            "keyID": "key_57531",
+            "keyName": "标签的宽度是否自撑开",
+            "keyCode": "stretch",
+            "data": [],
+            "dataType": "Bool",
+            "arrayDataType": "",
+            "componentTypeLabel": "开关",
+            "componentType": "Switch",
+            "formItem": true,
+            "config": {
+              "formConfig": {
+                "labelWidth": "",
+                "suffixContent": "",
+                "required": false,
+                "requiredMessage": "",
+                "tip": "",
+                "tipPosition": "left",
+                "validType": "",
+                "validMessage": "",
+                "validExpression": "",
+                "validMethod": ""
+              },
+              "baseConfig": {
+                "active-text": "",
+                "inactive-text": "",
+                "active-value": true,
+                "inactive-value": false
+              },
+              "advancedConfig": {
+                "style": "",
+                "vif": "",
+                "disabled": "",
+                "eventChange": ""
+              },
+              "arrayConfig": {}
+            }
+          }
+        ],
+        "dataType": "None",
+        "arrayDataType": "",
+        "componentTypeLabel": "栅格行",
+        "componentType": "Row",
+        "formItem": false,
+        "config": {
+          "formConfig": {},
+          "baseConfig": {
+            "gutter": "",
+            "justify": "",
+            "align": "",
+            "tag": "div"
+          },
+          "advancedConfig": {
+            "style": "",
+            "vif": "",
+            "disabled": "",
+            "eventChange": ""
+          },
+          "arrayConfig": {}
+        }
+      }
+    ],
+    "dataType": "None",
+    "arrayDataType": "",
+    "componentTypeLabel": "Form表单",
+    "componentType": "Form",
+    "config": {
+      "baseConfig": {
+        "inline": false,
+        "labelPosition": "top",
+        "labelWidth": "",
+        "labelSuffix": "",
+        "hideRequiredAsterisk": false,
+        "requireAsteriskPosition": "",
+        "showMessage": true,
+        "inlineMessage": false,
+        "statusIcon": false,
+        "disabled": false,
+        "scrollToError": false,
+        "scrollIntoViewOptions": false
       },
       "advancedConfig": {
         "style": "",
         "vif": "",
         "disabled": "",
         "eventChange": ""
-      }
+      },
+      "arrayConfig": {}
     },
-    "componentType": "Radio",
-    "dataType": "Number",
-    "defaultValue": "1"
-  },
-  {
-    "keyID": "67cecb440365abb61e4aace2d5686cb9",
-    "keyName": "数据列表",
-    "keyCode": "data",
-    "data": [
-      {
-        "keyID": "6f3b17406d7edb401dcecddcb764c7e4",
-        "keyName": "label",
-        "keyCode": "label",
-        "data": [],
-        "config": {
-          "arrayConfig": {
-            "componentName": "ElsFormItem",
-            "type": "bottom",
-            "arrayDefaultLength": 0,
-            "arrangementType": "Vertical",
-            "maxHeight": "",
-            "maxWidth": ""
-          },
-          "formConfig": {
-            "labelWidth": "",
-            "labelPosition": "",
-            "tip": "",
-            "tipPosition": "left",
-            "suffixContent": "",
-            "required": false,
-            "requiredMessage": "",
-            "validType": "",
-            "validExpression": "",
-            "validMessage": "",
-            "validMethod": ""
-          },
-          "baseConfig": {
-            "width": "",
-            "placeholder": "显示文本",
-            "prefixIcon": "",
-            "suffixIcon": "",
-            "prefixTag": "",
-            "suffixTag": "",
-            "maxlength": "",
-            "showWordLimit": false,
-            "clearable": false,
-            "showPassword": false,
-            "isTrim": false,
-            "encode": false
-          },
-          "advancedConfig": {
-            "style": "",
-            "vif": "",
-            "disabled": "",
-            "eventChange": ""
-          }
-        },
-        "componentType": "Input",
-        "dataType": "String"
-      },
-      {
-        "keyID": "aa9af377f57b5b1c70ae39952200040f",
-        "keyName": "value",
-        "keyCode": "value",
-        "data": [],
-        "config": {
-          "arrayConfig": {
-            "componentName": "ElsFormItem",
-            "type": "bottom",
-            "arrayDefaultLength": 0,
-            "arrangementType": "Vertical",
-            "maxHeight": "",
-            "maxWidth": ""
-          },
-          "formConfig": {
-            "labelWidth": "",
-            "labelPosition": "",
-            "tip": "",
-            "tipPosition": "left",
-            "suffixContent": "",
-            "required": false,
-            "requiredMessage": "",
-            "validType": "",
-            "validExpression": "",
-            "validMessage": "",
-            "validMethod": ""
-          },
-          "baseConfig": {
-            "width": "",
-            "placeholder": "值",
-            "prefixIcon": "",
-            "suffixIcon": "",
-            "prefixTag": "",
-            "suffixTag": "",
-            "maxlength": "",
-            "showWordLimit": false,
-            "clearable": false,
-            "showPassword": false,
-            "isTrim": false,
-            "encode": false
-          },
-          "advancedConfig": {
-            "style": "",
-            "vif": "",
-            "disabled": "",
-            "eventChange": ""
-          }
-        },
-        "componentType": "Input",
-        "dataType": "String"
-      }
-    ],
-    "config": {
-      "arrayConfig": {
-        "arrayDefaultLength": 0,
-        "arrangementType": "Vertical",
-        "maxHeight": "",
-        "maxWidth": ""
-      },
-      "formConfig": {
-        "labelWidth": "0",
-        "labelPosition": "",
-        "tip": "",
-        "tipPosition": "left",
-        "suffixContent": "",
-        "required": false,
-        "requiredMessage": "",
-        "validType": "",
-        "validExpression": "",
-        "validMessage": "",
-        "validMethod": ""
-      },
-      "baseConfig": {
-        "componentName": "ElsFormItem",
-        "type": "bottom"
-      },
-      "advancedConfig": {
-        "style": "",
-        "vif": "currNode['dataType'].value==1",
-        "disabled": "",
-        "eventChange": ""
-      }
-    },
-    "dataType": "Array",
-    "arrayDataType": "Object"
-  },
-  {
-    "keyID": "4aa99ce37d6e0fbfb045f18c9faf397d",
-    "keyName": "数据接口",
-    "keyCode": "url",
-    "data": [],
-    "config": {
-      "arrayConfig": {
-        "componentName": "ElsFormItem",
-        "type": "bottom",
-        "arrayDefaultLength": 0,
-        "arrangementType": "Vertical",
-        "maxHeight": "",
-        "maxWidth": ""
-      },
-      "formConfig": {
-        "labelWidth": "",
-        "required": false,
-        "requiredMessage": "",
-        "validType": "",
-        "validExpression": "",
-        "validMessage": "",
-        "validMethod": ""
-      },
-      "baseConfig": {
-        "width": "",
-        "placeholder": "",
-        "prefixIcon": "",
-        "suffixIcon": "",
-        "prefixTag": "",
-        "suffixTag": "",
-        "maxlength": "",
-        "showWordLimit": false,
-        "clearable": false,
-        "isPassword": false,
-        "isTrim": false,
-        "encode": false
-      },
-      "advancedConfig": {
-        "style": "",
-        "vif": "currNode['dataType'].value==2",
-        "disabled": "",
-        "eventChange": ""
-      }
-    },
-    "componentType": "Input",
-    "dataType": "String"
-  },
-  {
-    "keyID": "6ac45742d153533c89be8c38ea6a03ff",
-    "keyName": "",
-    "keyCode": "",
-    "data": [
-      {
-        "keyID": "84f659e12c75e78abad11c3c31932c0e",
-        "keyName": "显示字段",
-        "keyCode": "labelField",
-        "data": [],
-        "config": {
-          "arrayConfig": {
-            "componentName": "ElsFormItem",
-            "type": "bottom",
-            "arrayDefaultLength": 0,
-            "arrangementType": "Vertical",
-            "maxHeight": "",
-            "maxWidth": ""
-          },
-          "formConfig": {
-            "labelWidth": "",
-            "required": false,
-            "requiredMessage": "",
-            "validType": "",
-            "validExpression": "",
-            "validMessage": "",
-            "validMethod": ""
-          },
-          "baseConfig": {
-            "width": "",
-            "placeholder": "",
-            "prefixIcon": "",
-            "suffixIcon": "",
-            "prefixTag": "",
-            "suffixTag": "",
-            "maxlength": "",
-            "showWordLimit": false,
-            "clearable": false,
-            "isPassword": false,
-            "isTrim": false,
-            "encode": false
-          },
-          "advancedConfig": {
-            "style": "",
-            "vif": "",
-            "disabled": "",
-            "eventChange": ""
-          }
-        },
-        "componentType": "Input",
-        "dataType": "String"
-      },
-      {
-        "keyID": "3116242ce5345ebe9efa0a0e3169c247",
-        "keyName": "值字段",
-        "keyCode": "valueField",
-        "data": [],
-        "config": {
-          "arrayConfig": {
-            "componentName": "ElsFormItem",
-            "type": "bottom",
-            "arrayDefaultLength": 0,
-            "arrangementType": "Vertical",
-            "maxHeight": "",
-            "maxWidth": ""
-          },
-          "formConfig": {
-            "labelWidth": "",
-            "required": false,
-            "requiredMessage": "",
-            "validType": "",
-            "validExpression": "",
-            "validMessage": "",
-            "validMethod": ""
-          },
-          "baseConfig": {
-            "width": "",
-            "placeholder": "",
-            "prefixIcon": "",
-            "suffixIcon": "",
-            "prefixTag": "",
-            "suffixTag": "",
-            "maxlength": "",
-            "showWordLimit": false,
-            "clearable": false,
-            "isPassword": false,
-            "isTrim": false,
-            "encode": false
-          },
-          "advancedConfig": {
-            "style": "",
-            "vif": "",
-            "disabled": "",
-            "eventChange": ""
-          }
-        },
-        "componentType": "Input",
-        "dataType": "String"
-      }
-    ],
-    "config": {
-      "arrayConfig": {},
-      "formConfig": {
-        "labelWidth": "",
-        "required": false,
-        "requiredMessage": "",
-        "validType": "",
-        "validExpression": "",
-        "validMessage": "",
-        "validMethod": ""
-      },
-      "baseConfig": {
-        "gutter": "",
-        "justify": "",
-        "align": "",
-        "tag": ""
-      },
-      "advancedConfig": {
-        "style": "",
-        "vif": "currNode['dataType'].value==2",
-        "disabled": "",
-        "eventChange": ""
-      }
-    },
-    "componentType": "Row",
-    "dataType": "None"
+    "formItem": false
   }
 ]

@@ -198,48 +198,47 @@ function handleSelectTemplate({selectItem}){
             <els-caption type="left">步骤配置</els-caption>
             <els-container ref="attrContainer" @validate="setValidateStatus">
                 <els-form v-model="item.data" label-width="120px" ref="itemForm">
-                <els-input prop="Name" label="步骤名称" required></els-input>
-                <els-input prop="CancelCondition" label="取消条件"></els-input>
-                <els-radio-button prop="ErrorBehavior" label="出错处理">
-                    <els-option :value="''">默认</els-option>
-                    <els-option value="Retry">重试</els-option>
-                    <els-option value="Suspend">暂停</els-option>
-                    <els-option value="Terminate">终止</els-option>
-                    <els-option value="Compensate">补偿</els-option>
-                </els-radio-button>
-                <els-time-picker v-if="item.data.ErrorBehavior === 'Retry'" label="重试间隔"
-                    prop="RetryInterval"></els-time-picker>
-                <els-caption type="left">Inputs
-                    <el-tooltip placement="top">
-                        <template #content>
-                            <div>字符串类型需要添加前后单引号</div>
-                        </template>
-                        <el-icon style="margin-left:5px;cursor: pointer;"><Question-Filled /></el-icon>
-                    </el-tooltip>
-                </els-caption>
-                <component :is="dynamicName" v-model="item.data.Inputs" ref="dynamicTag" :config="currConfig.InputControl"></component>
-                <template v-if="item.data.StepType == 'UserTask'">
-                    <els-caption type="left">审批配置
+                    <els-input prop="Name" label="步骤名称" required></els-input>
+                    <els-input prop="CancelCondition" label="取消条件"></els-input>
+                    <els-radio-button prop="ErrorBehavior" label="出错处理">
+                        <els-option :value="''">默认</els-option>
+                        <els-option value="Retry">重试</els-option>
+                        <els-option value="Suspend">暂停</els-option>
+                        <els-option value="Terminate">终止</els-option>
+                        <els-option value="Compensate">补偿</els-option>
+                    </els-radio-button>
+                    <els-time-picker v-if="item.data.ErrorBehavior === 'Retry'" label="重试间隔"
+                        prop="RetryInterval"></els-time-picker>
+                    <els-caption type="left">Inputs
                         <el-tooltip placement="top">
                             <template #content>
-                                <div>用户在审批时需要输入的参数</div>
+                                <div>字符串类型需要添加前后单引号</div>
                             </template>
                             <el-icon style="margin-left:5px;cursor: pointer;"><Question-Filled /></el-icon>
                         </el-tooltip>
                     </els-caption>
-                    <els-select label="选择模板" v-model="selectTemplate" :url="userTaskTemplateUrl" labelField="TemplateName" valueField="TemplateID" @select="handleSelectTemplate"></els-select>
-                    <component :is="dynamicDesignerName" ref="dynamicTemplate" v-model="item.data.AuditorInputs" 
-                        :visibleFields="['keyName', 'keyCode', 'dataType', 'componentType', 'required','oper','config']"></component>
-                </template>
-
-                <els-caption type="left">Outputs</els-caption>
-                <els-form-item label="输出字段" v-if="currConfig.OutputFields" tip="用step.字段名取值">
-                    {{ currConfig.OutputFields }}
-                </els-form-item>
-                <els-form-item label="输出" tip="json kv，此处定义的对象属性会添加到全局的data里">
-                    <els-json-editor :mainMenuBar="false" v-model="item.data.Outputs"
-                        style="height: 300px;width:100%;"></els-json-editor>
-                </els-form-item>
+                    <component :is="dynamicName" v-model="item.data.Inputs" ref="dynamicTag" :config="currConfig.InputControl"></component>
+                    <template v-if="item.data.StepType == 'When'">
+                        <els-caption type="left">审批配置
+                            <el-tooltip placement="top">
+                                <template #content>
+                                    <div>用户在审批时需要输入的参数</div>
+                                </template>
+                                <el-icon style="margin-left:5px;cursor: pointer;"><Question-Filled /></el-icon>
+                            </el-tooltip>
+                        </els-caption>
+                        <els-select label="选择模板" v-model="selectTemplate" :url="userTaskTemplateUrl" labelField="TemplateName" valueField="TemplateID" @select="handleSelectTemplate"></els-select>
+                        <component :is="dynamicDesignerName" ref="dynamicTemplate" v-model="item.data.AuditorInputs" 
+                            :visibleFields="['keyName', 'keyCode', 'dataType', 'componentType', 'required','oper','config']"></component>
+                    </template>
+                    <els-caption type="left">Outputs</els-caption>
+                    <els-form-item label="输出字段" v-if="currConfig.OutputFields" tip="用step.字段名取值">
+                        {{ currConfig.OutputFields }}
+                    </els-form-item>
+                    <els-form-item label="输出" tip="json kv，此处定义的对象属性会添加到全局的data里">
+                        <els-json-editor :mainMenuBar="false" v-model="item.data.Outputs"
+                            style="height: 300px;width:100%;"></els-json-editor>
+                    </els-form-item>
 
 
             </els-form>

@@ -86,6 +86,7 @@ placeholder.value='请输入'+(props.label??'')
 }
 </script>
 <template>
+    
     <div class="els-node">
         <ElsFormNode  tagName="Input" v-bind="lessCom.getFormNodeProps(props)">
             <el-input  v-model="inputValue"  v-if="!isMobile" :style="[{ width: currWidth.appendPx() }]" v-bind="attrs">

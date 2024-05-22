@@ -1,7 +1,9 @@
 <template>
   <el-tabs>
     <el-tab-pane label="配置">
-      <els-dynamic-designer v-model="config" ></els-dynamic-designer>
+      <els-dynamic-designer v-model="config" >
+      
+      </els-dynamic-designer>
     </el-tab-pane>
     <el-tab-pane label="表单属性">
       <els-dynamic-render v-model="initValue" :config="config"></els-dynamic-render>

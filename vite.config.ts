@@ -21,17 +21,12 @@ export default defineConfig({
 			// 确保外部化处理那些你不想打包进库的依赖
 			external: [
 			"vue",
-			'@fortawesome/fontawesome-svg-core',
-			'@fortawesome/free-regular-svg-icons',
-			'@fortawesome/free-solid-svg-icons',
-			'@fortawesome/vue-fontawesome',
 			'@vueuse/core',
 			'axios',
 			'consola',
 			'element-plus',
 			'escape-html',
 			'file-saver',
-			'fortawesome',
 			'less',
 			'lodash',
 			'md-editor-v3',

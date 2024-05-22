@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, nextTick, onBeforeUnmount, onMounted,watch,reactive } from 'vue'
+import { ref, nextTick, onBeforeUnmount, onMounted,watch,reactive, provide } from 'vue'
 import { lessCom } from '../../utlis/com'
 import {useValue,useContainer } from '../../utlis/use';
 
@@ -26,7 +26,7 @@ const dataForm = ref()
 const submitButton = ref()
 const modelValue =defineModel<any>({default:()=>{return reactive<object>({});}})
 const currLabelPosition = ref(getValue<string>('labelPosition','right'))
-const currLabelWidth = ref(getValue<string>('labelWidth','100'))
+const currLabelWidth = ref(getValue<string>('labelWidth', '100'))
 const isMobile= getValue<boolean>("isMobile",false);
 const elsApiResult =container?.$apiResult
 const elsPageStore =container?.$pageStore
@@ -201,7 +201,7 @@ defineExpose({
 </script>
 
 <template>
-    <el-form :model="modelValue" ref="dataForm" onsubmit="return false;" :label-width="currLabelWidth" :label-position="currLabelPosition" v-if="!isMobile">
+    <el-form :model="modelValue" ref="dataForm" onsubmit="return false;" :label-width="currLabelPosition==='top'?'': currLabelWidth" :label-position="currLabelPosition" v-if="!isMobile">
         <slot></slot>
     </el-form>
     <van-form ref="dataForm" :label-align="currLabelPosition" v-else>
@@ -209,4 +209,11 @@ defineExpose({
     </van-form>
 </template>
 
-
+<style scoped lang="less">
+.van-form{flex-grow: 1}
+.el-form:deep{
+>.el-form-item{
+    margin-bottom: 18px;
+}
+}
+</style>

@@ -327,7 +327,8 @@ defineExpose({
         <els-dialog :visible="true" @close="closeViewDialog" width="90%" destroy-on-close :append-to-body="true">
           <DynamicDesignerView :dataTypes="currDynamicDataType" :camelCase="camelCase"
             :componentTypes="currComponentTypes" :appendComponentTypes="appendComponentTypes"
-            :componentRelateDataType="componentRelateDataType" v-model="designerObj"></DynamicDesignerView>
+            :componentRelateDataType="componentRelateDataType" v-model="designerObj">
+          </DynamicDesignerView>
         </els-dialog>
       </template>
     </ElsFormNode>

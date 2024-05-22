@@ -3,8 +3,9 @@ import { getCurrentInstance} from 'vue'
 import { exportJsonToExcel, exportTableToExcelEl, exportTableToExcelElMuti } from '../Export2Excel.js'
 import {  QueryMethod } from '../enums';
 import { ElMessage } from 'element-plus'
+import useClipboard from "vue-clipboard3";
 import shortid from 'shortid'
-
+const { toClipboard } = useClipboard()
 
 
 
@@ -531,6 +532,26 @@ export const lessCom = {
                 reject(action)
             });
         })
+    },
+    removeUndefinedOrWhiteSpaceProps(obj){
+        return Object.keys(obj)
+        .filter(key => obj[key] !== undefined&&obj[key]!==null&&obj[key]!=='')
+        .reduce((result, key) => {
+          result[key] = obj[key];
+          return result;
+        }, {});
+
+    },
+    clip(text) {
+        return async () => {
+            try {
+              await toClipboard(text);
+              ElMessage.success('复制成功')
+            } catch (e) {
+              console.error(e);
+              ElMessage.error('复制失败')
+            }
+          };
     },
     isSameObject(obj1: { [x: string]: any; }, obj2: { [x: string]: any; }) {
         // 检查对象类型

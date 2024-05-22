@@ -6,7 +6,7 @@ import { ElMessage } from 'element-plus'
 import { DynamicConfig } from '../../utlis/interfaces'
 import DynamicDesignerInner from './DynamicDesignerInner.vue'
 import { useValue } from '../../utlis/use'
-import {property_form,property_array,property_advanced,property_arrayAndObject} from '../../utlis/dynamic/propertys'
+import {property_formItem,property_array,property_advanced,property_arrayAndObject} from '../../utlis/dynamic/propertys'
 
 defineOptions({
   name: 'ElsDynamicDesigner',
@@ -85,7 +85,14 @@ const currComponentType = computed(() => {
 })
 const currComponentTypeData = computed(() => {
   if (controlData) {
-    return controlData.filter(ele => !currDataType.value || ele.dataTypes.includes(currDataType.value?.value) || ele.dataTypes.includes(currDataType.value?.type))
+    if(currDataType.value==='None'){
+      return controlData.filter(ele => !currDataType.value || ele.dataTypes.includes(currDataType.value?.value) || ele.dataTypes.includes(currDataType.value?.type))
+      .filter(ele=>ele.type==='Row'||ele.type==='Caption')
+    }
+ else{
+  return controlData.filter(ele => !currDataType.value || ele.dataTypes.includes(currDataType.value?.value) || ele.dataTypes.includes(currDataType.value?.type))
+  .filter(ele=>ele.group==='Form')
+ }
 
   }
   return []
@@ -165,7 +172,7 @@ function handleChangeDataType() {
   currItem.value.componentType = undefined;
   nextTick(() => {
     if (currComponentTypeData.value.length) {
-      if (isObject.value) {
+      if (isObject.value||currDataType.value.type==='None') {
         currItem.value.componentType = ''
       }
       else if (currDataType.value && currDataType.value.type !== 'Array') {
@@ -402,7 +409,7 @@ function validationCode(rule, value, callback) {
               </ElsDynamicRender>
             </el-tab-pane>
             <el-tab-pane label="表单属性" v-if="itemDataType.type != 'None'">
-              <ElsDynamicRender ref="formRender"  v-model="currItem.config.formConfig" :config="property_form" inputWidth="100%">
+              <ElsDynamicRender ref="formRender"  v-model="currItem.config.formConfig" :config="property_formItem" inputWidth="100%">
               </ElsDynamicRender>
             </el-tab-pane>
             <el-tab-pane label="高级属性">

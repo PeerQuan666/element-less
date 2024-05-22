@@ -67,17 +67,20 @@ function handleValueChange(val) {
         <DynamicDesignerViewOperate :nodeItem="nodeItem"></DynamicDesignerViewOperate>
 
         <template v-if="nodeItem.componentGroup == 'Container'">
-            <els-form-node :hasFormItem="false" v-if="nodeItem.keyCode && nodeItem.formItem" v-bind="getFormItemAttr()">
-                <DynamicDesignerViewWrap :parentNode="nodeItem" :nodeItem="nodeItem">
-                </DynamicDesignerViewWrap>
-            </els-form-node>
-            <DynamicDesignerViewWrap v-else :parentNode="nodeItem" :nodeItem="nodeItem">
+            <DynamicDesignerViewWrap  :parentNode="nodeItem" :nodeItem="nodeItem">
             </DynamicDesignerViewWrap>
         </template>
 
+     
+
+
+        <DynamicDesignerViewShow v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Show'&&nodeItem.keyCode"
+            :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style" :title="nodeItem.keyName" v-model="nodeItem.value">
+        </DynamicDesignerViewShow>
         <DynamicDesignerViewShow v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Show'"
             :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style" :title="nodeItem.keyName">
         </DynamicDesignerViewShow>
+
 
         <template v-else-if="isMobile&&(nodeItem.componentTypeName==='Input'||nodeItem.componentTypeName==='Textarea')">
             <DynamicDesignerViewInnerItem :disabled="handleDisabledExpress()"   v-bind="getFormItemAttr()" @valueChange="handleValueChange($event)"

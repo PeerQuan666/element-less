@@ -18,7 +18,8 @@ const props = withDefaults(defineProps<TabsProps>(), ({
     resetValueByChangeData: true,
     isInitTriggerSelect: true,
     validTrigger: 'change',
-    labelWidth:"0"
+    labelWidth:"0",
+    hasFormItem:true
 
 }))
 const provideOptionData = ref<any>({ type: 'tabs' })
@@ -59,6 +60,7 @@ watch(() => props.selectIndex, () => {
 
 
 watch(() => props.url, () => {
+    if(!props.url){return}
     if (props.resetValueByChangeData) {
         selectValue.value = "";
     }
@@ -178,7 +180,7 @@ function handleComitSelect(value: string | number | boolean) {
     }
 }
 function readData() {
-
+    if(!props.url){return}
     let currUrl = props.url?.replacePowerUrl() ?? '';
 
     queryData['idString'] = selectValue.value?.toString();
@@ -257,46 +259,49 @@ setValue({
 
 </script>
 <template>
-    <div class="els-node">
-        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)" ref="formNode" tagName="Tab">
-            <el-tabs v-model="selectValue" ref="elsTabs">
-                <slot name="extra">
-                </slot>
-                <template #label v-if="$slots.label">
-                    <slot name="label"></slot>
-                </template>
-                <template v-if="(url || data && data.length || options.length)">
-                    <template v-if="valueField">
-                        <els-option @click.native="handleClickOption(item)" v-for="(item, index) in options"
-                            :disabled="item[disabledField] === true" :key="item[valueField]" :label="item[labelField]"
-                            :value="item[valueField]">
-                            <slot name="default" :item="item">
-                            </slot>
-                        </els-option>
-                    </template>
-                    <template v-else>
-                        <els-option @click.native="handleClickOption(item)" v-for="(item, index) in options"
-                            :disabled="item[disabledField] === true" :label="item[labelField]">
-                            <slot name="default" :item="item">
-                            </slot>
-                        </els-option>
-                    </template>
-                </template>
-                <slot name="default" v-else></slot>
+    <div class="els-node" :style="labelWidth==='0'?'--margin-bottom:0px': ''">
+        <el-tabs v-model="selectValue" ref="elsTabs">
+            <slot name="extra">
+            </slot>
+            <template #label v-if="$slots.label">
+                <slot name="label"></slot>
+            </template>
+            <template v-if="(url || data && data.length || options.length)">
                 <template v-if="valueField">
-                    <els-option v-for="(item, index) in noExistOption" :key="item[valueField]" :label="item[labelField]"
+                    <els-option @click.native="handleClickOption(item)" v-for="(item, index) in options"
+                        :disabled="item[disabledField] === true" :key="item[valueField]" :label="item[labelField]"
                         :value="item[valueField]">
+                        <slot name="default" :item="item">
+                        </slot>
                     </els-option>
                 </template>
                 <template v-else>
-                    <els-option v-for="(item, index) in noExistOption" :label="item[labelField]">
+                    <els-option @click.native="handleClickOption(item)" v-for="(item, index) in options"
+                        :disabled="item[disabledField] === true" :label="item[labelField]">
+                        <slot name="default" :item="item">
+                        </slot>
                     </els-option>
                 </template>
-            </el-tabs>
-        </ElsFormNode>
+            </template>
+            <slot name="default" v-else></slot>
+            <template v-if="valueField">
+                <els-option v-for="(item, index) in noExistOption" :key="item[valueField]" :label="item[labelField]"
+                    :value="item[valueField]">
+                </els-option>
+            </template>
+            <template v-else>
+                <els-option v-for="(item, index) in noExistOption" :label="item[labelField]">
+                </els-option>
+            </template>
+        </el-tabs>
     </div>
 
 </template>
-<style scoped>
-.el-tabs{flex-grow: 1   }
+<style scoped lang="less">
+.els-node:deep{
+    >.el-form-item>.el-form-item__content{
+        margin-bottom: var(--margin-bottom);
+    }
+}
+.els-node,.el-tabs{flex-grow: 1   }
 </style>

@@ -1,6 +1,6 @@
   
  export enum DynamicComponentGroup{
     Form='Form',
-    Desc='Desc',
+    Show='Show',
     Container='Container',
 }

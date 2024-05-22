@@ -224,7 +224,7 @@ function returnResult() {
     if (val.length > 0) {
         const currVal = lessCom.cloneObj(val)
         dynamicHandler.returnConfig(currVal)
-        if (typeof (val) === 'object') {
+        if (typeof (props.modelValue) === 'object') {
             emits('update:modelValue', currVal)
             return currVal
         } else {
@@ -233,7 +233,7 @@ function returnResult() {
 
         }
     } else {
-        if (typeof (val) === 'object') {
+        if (typeof (props.modelValue) === 'object') {
             emits('update:modelValue', [])
             return []
         } else {
@@ -273,8 +273,12 @@ function setSelectItem(item) {
 
 function handleClone(item) {
     item = lessCom.cloneObj(item)
-    item.keyID = "key_" + lessCom.randomNumber().toString(),
+    item.keyID = "key_" + lessCom.randomNumber().toString()
+    if(item.componentGroup!=='Container'&&item.componentGroup!=='Show'){
         item.keyCode = 'key_' + lessCom.randomNumber()
+    }else{
+        item.keyCode=''
+    }
     return item
 }
 function handleMove(e) {
@@ -404,7 +408,7 @@ function clearAll() {
 }
 function validationCode(rule, value, callback) {
     console.log(rule)
-    if (value === ''&&currSelectItem.value.componentGroup!=='Container') {
+    if (value === ''&&currSelectItem.value.componentGroup!=='Container'&&currSelectItem.value.componentGroup!=='Show') {
         callback(new Error('keyCode不能为空'))
     } else if (currSelectData.value && currSelectData.value.filter(ele => ele.keyCode == value).length > 1) {
         ElMessage.warning(`[${value}]重复`)
@@ -518,8 +522,8 @@ setValue({
         <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
             <div style="display:flex;background:#f8f8f8;" class="els-dynamic-view">
                 <div style="flex-basis:260px;flex-shrink: 0;background: #fff;" class="els-dynamic-view-components">
-
-                    <el-tabs stretch>
+                    <slot name="left" v-bind="{ data: controlData}">
+                        <el-tabs stretch>
                         <el-tab-pane label="表单组件">
                             <el-collapse v-model="activeNames">
                                 <el-collapse-item title="基础类型" name="1">
@@ -586,7 +590,9 @@ setValue({
                                 </el-collapse-item>
                             </el-collapse>
                         </el-tab-pane>
-                    </el-tabs>
+                     </el-tabs>
+                    </slot>
+                 
                 </div>
                 <div style="flex-grow:1">
                     <div class="main-tool">
@@ -675,42 +681,42 @@ setValue({
                         <el-tabs stretch v-if="currSelectItem && currPropertys && showPropertys">
                             <el-tab-pane label="基础属性" v-if="currSelectItem.dataType&&currSelectItem.formItem">
                                 <els-form v-model="currSelectItem" labelPosition="top">
-                                    <els-input label="名称" prop="keyName" :required="currSelectItem.componentGroup!=='Container'"></els-input>
-                                    <els-input label="字段名" prop="keyCode" @input="handleChangeKeyCode"
-                                        :validMethod="validationCode" :required="currSelectItem.componentGroup!=='Container'"></els-input>
-                                    <els-select label="数据类型"
-                                        v-if="currSelectItem.dataTypeName != 'Array' && currSelectItem.dataTypeName != 'Object'"
+                                    <els-input label="名称" prop="keyName" v-if="currSelectItem.componentGroup==='Form'" :required="currSelectItem.componentGroup!=='Container'&&currSelectItem!=='Show'"></els-input>
+                                    <els-input label="字段名" prop="keyCode" v-if="currSelectItem.formItem"  @input="handleChangeKeyCode"
+                                        :validMethod="validationCode" :required="currSelectItem.componentGroup!=='Container'&&currSelectItem.componentGroup!=='Show'"></els-input>
+                                    <els-select label="数据类型" 
+                                        v-if="currSelectItem.dataTypeName != 'Array' && currSelectItem.dataTypeName != 'Object'&&currSelectItem==='Form'"
                                         required :data="getDataTypeData(currSelectItem.componentType)"
                                         @select="(sitem) => { currSelectItem.dataTypeName = sitem.selectItem.type }"
                                         valueField="value" labelField="label" placeholder="值类型"
                                         prop="dataType"></els-select>
                                     <els-select label="数据类型"
-                                        v-if="currSelectItem.dataTypeName == 'Array' && currSelectItem.componentType"
+                                        v-if="currSelectItem.dataTypeName == 'Array' && currSelectItem.componentType&&currSelectItem==='Form'"
                                         required :data="getDataTypeData(currSelectItem.componentType)"
                                         @select="(sitem) => { currSelectItem.arrayDataTypeName = sitem.selectItem.type }"
                                         valueField="value" labelField="label" placeholder="值类型"
                                         prop="arrayDataType"></els-select>
-                                    <els-textarea label="默认值" prop="defaultValue" :rows="3"></els-textarea>
+                                    <els-textarea label="默认值" prop="defaultValue" :rows="3"  v-if="currSelectItem.componentGroup==='Form'" ></els-textarea>
                                 </els-form>
                             </el-tab-pane>
                             <el-tab-pane label="组件属性" v-if="currPropertys.length">
-                                <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.baseConfig"
+                                <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.baseConfig" :isMobile="false"
                                     :nodeType="{ dataType: currSelectItem.dataTypeName != 'Array' ? currSelectItem.dataTypeName : currSelectItem.arrayDataTypeName, componentName: currSelectItem.componentName }"
                                     :config="currPropertys" inputWidth="100%">
                                 </ElsDynamicRender>
                             </el-tab-pane>
                             <el-tab-pane label="数组属性" v-if="currSelectItem.dataTypeName == 'Array'">
-                                <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.arrayConfig"
+                                <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.arrayConfig"  :isMobile="false"
                                     :config="property_array" inputWidth="100%">
                                 </ElsDynamicRender>
                             </el-tab-pane>
-                            <el-tab-pane label="表单属性" v-if="currSelectItem.dataTypeName != 'None'">
-                                <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.formConfig"
+                            <el-tab-pane label="表单属性" v-if="currSelectItem.componentGroup == 'Form'">
+                                <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.formConfig"  :isMobile="false"
                                     :config="property_formItem" inputWidth="100%">
                                 </ElsDynamicRender>
                             </el-tab-pane>
                             <el-tab-pane label="高级属性">
-                                <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.advancedConfig"
+                                <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.advancedConfig"  :isMobile="false"
                                     :config="property_advanced" inputWidth="100%">
                                 </ElsDynamicRender>
                             </el-tab-pane>
@@ -719,11 +725,11 @@ setValue({
             </div>
         </ElsFormNode>
     </div>
-    <els-dialog v-model="viewPriview" :width="deviceType == 'PC' ? '70%' : '40%'" contentHeight="60%" title="预览效果">
+    <els-dialog v-model="viewPriview" :width="deviceType == 'PC' ? '70%' : '40%'" top="20px" contentHeight="60%" title="预览效果">
         <el-tabs>
             <el-tab-pane label="预览">
-                <div class="main" :class="deviceType">
-                    <div class="main-inner">
+                <div class="preview-main" :class="deviceType">
+                    <div class="preview-main-inner">
                         <ElsDynamicRender  v-model="formValue" :config="renderData" :isMobile="deviceType == 'H5'">
                         </ElsDynamicRender>
                     </div>
@@ -753,11 +759,11 @@ setValue({
 
 }
 
-.main.H5 {
+.main.H5,.preview-main.H5 {
     width: 420px;
     margin: auto;
 
-    .main-inner {
+    .main-inner,.preview-main-inner {
         border-radius: 15px;
         box-shadow: 0 0 1px 10px #495060;
         padding: 5px;
@@ -811,6 +817,18 @@ setValue({
                 }
             }
         }
+    }
+}
+
+.preview-main-inner {
+    min-height: 600px;
+    background: #fff;
+    padding: 10px;
+    margin: 10px;
+    display: grid;
+
+    .el-card__body {
+        padding-top: 5px;
     }
 }
 

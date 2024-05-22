@@ -113,13 +113,14 @@ export class DynamicHandler {
         item.dataTypeName = currDataType?.type
         item.arrayDataTypeName = currArrayDataType?.type
         item.componentName = currcomponentType?.componentName
+        item.formItem=currcomponentType?.formItem
+        item.componentGroup=currcomponentType?.group
+
     }
     initConfigType(data) {
         data.forEach((ele) => {
             this.initTypeName(ele)
-            if (ele.dataTypeName == 'Object' || (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object')) {
-                this.initConfigType(ele.data)
-            } else if (ele.dataTypeName == 'None' && ele.componentTypeName == 'Row') {
+            if (ele.dataTypeName == 'Object' || (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object')||ele.componentGroup == 'Container') {
                 this.initConfigType(ele.data)
             }
             else {
@@ -128,13 +129,14 @@ export class DynamicHandler {
             }
         })
     }
+    
     initConfig(data) {
         data.forEach((ele) => {
             if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
                 this.initConfig(ele.data)
             } else if (ele.dataTypeName == 'Object') {
                 this.initConfig(ele.data)
-            } else if (ele.dataTypeName == 'None' && ele.componentName == 'ElsRow') {
+            } else if (ele.componentGroup == 'Container') {
                 this.initConfig(ele.data)
             }
             if (!ele.keyID) {
@@ -148,7 +150,7 @@ export class DynamicHandler {
                 this.returnArrayConfig(ele)
             } else if (ele.dataTypeName == 'Object') {
                 this.returnConfig(ele.data)
-            } else if (ele.dataTypeName == 'None' && ele.componentName == 'ElsRow') {
+            } else if (ele.componentGroup == 'Container') {
                 this.returnConfig(ele.data)
             }
             delete ele.componentGroup
@@ -156,6 +158,7 @@ export class DynamicHandler {
             delete ele.arrayDataTypeName
             delete ele.componentName
             delete ele.componentTypeName
+            delete ele.componentShow
             delete ele.value
         })
     }
@@ -198,7 +201,7 @@ export class DynamicHandler {
                 this.returnArrayConfig(ele)
             } else if (ele.dataTypeName == 'Object') {
                 this.returnConfig(ele.data)
-            } else if (ele.dataTypeName == 'None' && ele.componentName == 'ElsRow') {
+            } else if (ele.componentGroup == 'Container') {
                 this.returnConfig(ele.data)
             }
         })
@@ -209,6 +212,7 @@ export class DynamicHandler {
             valueData = {}
         }
         data.forEach((ele) => {
+         
             if (ele.keyCode) {
                 const currVal = valueData[ele.keyCode]
                 if (currVal === undefined) {
@@ -220,14 +224,12 @@ export class DynamicHandler {
             } else {
                 this.getDefaultValue(ele)
             }
-
             this.initTypeName(ele)
-
             if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object' && !ele.componentTypeName) {
                 this.recoverArrayData(ele, valueData[ele.keyCode])
             } else if (ele.dataTypeName == 'Object') {
                 this.recoverData(ele.data, valueData[ele.keyCode])
-            } else if (ele.dataTypeName == 'None' && ele.componentTypeName == 'Row') {
+            }else if(ele.componentGroup==='Container'){
                 this.recoverData(ele.data, valueData)
             }
             if (this.appendUrlParams && ['Checkbox', 'Select', 'Radio', 'Upload', 'DataModal'].includes(ele.componentTypeName ?? '') && ele.config.baseConfig && (ele.config.baseConfig.url || ele.config.baseConfig.modalUrl)) {
@@ -237,7 +239,8 @@ export class DynamicHandler {
                 }
 
             }
-
+    
+           
         })
     }
     appendUploadParams(item) {
@@ -290,11 +293,9 @@ export class DynamicHandler {
                 this.initTypeName(ele)
                 var currItem = Object.assign({}, ele)
                 this.getDefaultValue(currItem);
-
-
                 if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
                     this.recoverArrayData(currItem)
-                } else if (ele.dataTypeName == 'Object' || ele.componentTypeName == 'Row') {
+                } else if (ele.dataTypeName == 'Object' || ele.componentGroup == 'Container') {
                     this.recoverData(currItem.data)
                 }
                 currData.push(currItem)
@@ -314,10 +315,10 @@ export class DynamicHandler {
         } else {
             item.value = [];
             let defaultArrayData: any = [];
-            if (item.config.baseConfig.arrayDefaultLength === undefined || item.config.baseConfig.arrayDefaultLength === '') {
+            if (item.config.arrayConfig.arrayDefaultLength === undefined || item.config.arrayConfig.arrayDefaultLength === '') {
                 defaultArrayData.push(lessCom.cloneObj(item["arrayObjData"]))
             } else {
-                for (let i = 0; i < item.config.baseConfig.arrayDefaultLength; i++) {
+                for (let i = 0; i < item.config.arrayConfig.arrayDefaultLength; i++) {
                     defaultArrayData.push(lessCom.cloneObj(item["arrayObjData"]))
                 }
             }
@@ -334,35 +335,49 @@ export class DynamicHandler {
     getConfigValue(data, showKeyField) {
         let currData = {}
         data.forEach((ele) => {
-            if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
-                currData[ele[showKeyField]] = this.getArrayConfigValue(ele, showKeyField)
+            if(ele.formItem){
+                if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
+                    currData[ele[showKeyField]] = this.getArrayConfigValue(ele, showKeyField)
+                }
+                else if (ele.dataTypeName === 'Array' && !ele.arrayDataTypeName) {
+                    currData[ele[showKeyField]] = [ele.defaultValue]
+                }
+                else if (ele.dataTypeName == 'Object') {
+                    currData[ele[showKeyField]] = this.getConfigValue(ele.data, showKeyField)
+                } else if (ele.componentGroup == 'Container') {
+                    if(ele[showKeyField]){
+                        currData[ele[showKeyField]] = this.getConfigValue(ele.data, showKeyField)
+                    }else{
+                        currData = Object.assign(currData, this.getConfigValue(ele.data, showKeyField))
+                    }
+                }
+                else if (ele[showKeyField]) {
+                    currData[ele[showKeyField]] = ele.value
+                }
             }
-            else if (ele.dataTypeName === 'Array' && !ele.arrayDataTypeName) {
-                currData[ele[showKeyField]] = [ele.defaultValue]
-            }
-            else if (ele.dataTypeName == 'Object') {
-                currData[ele[showKeyField]] = this.getConfigValue(ele.data, showKeyField)
-            } else if (ele.dataTypeName == 'None' && ele.componentName == 'ElsRow') {
-                currData = Object.assign(currData, this.getConfigValue(ele.data, showKeyField))
-            }
-            else if (ele[showKeyField]) {
-                currData[ele[showKeyField]] = ele.value
-            }
+          
         })
         return currData
     }
     getArrayConfigValue(item, showKeyField) {
         let currValue = {}
         item.data.forEach(ele => {
-            if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
-                currValue[ele[showKeyField]] = this.getArrayConfigValue(ele, showKeyField)
-            } else if (ele.dataTypeName == 'Object') {
-                currValue[ele[showKeyField]] = this.getConfigValue(ele.data, showKeyField)
-            } else if (ele.dataTypeName == 'None' && ele.componentName == 'ElsRow') {
-                currValue = Object.assign(currValue, this.getConfigValue(ele.data, showKeyField))
-            } else if (ele[showKeyField]) {
-                currValue[ele[showKeyField]] = ele.value
+            if(ele.formItem){
+                if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
+                    currValue[ele[showKeyField]] = this.getArrayConfigValue(ele, showKeyField)
+                } else if (ele.dataTypeName == 'Object') {
+                    currValue[ele[showKeyField]] = this.getConfigValue(ele.data, showKeyField)
+                } else if (ele.componentGroup == 'Container') {
+                    if(ele[showKeyField]){
+                        currValue[ele[showKeyField]] = this.getConfigValue(ele.data, showKeyField)
+                    }else{
+                        currValue = Object.assign(currValue, this.getConfigValue(ele.data, showKeyField))
+                    }
+                } else if (ele[showKeyField]) {
+                    currValue[ele[showKeyField]] = ele.value
+                }
             }
+           
         })
         return [currValue]
     }
@@ -465,22 +480,9 @@ export class DynamicHandler {
     result(renderData) {
         var currData = {};
         renderData.forEach(ele => {
-            if (ele.componentGroup !== 'Desc') {
-                if (ele.dataTypeName == 'Object' && ele.keyCode) {
-                    currData[ele.keyCode] = this.childResult(ele)
-                }
-                else if (ele.dataTypeName == 'None' && ele.componentTypeName == 'Row') {
-                    Object.assign(currData, this.childResult(ele))
-                }
-                else if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object' && ele.keyCode) {
-                    currData[ele.keyCode] = this.childResultList(ele)
-                } else if (ele.keyCode) {
-                    currData[ele.keyCode] = ele.value
-                }
-            }
-
+            Object.assign(currData,this.itemValue(ele))
+           
         })
-
         return currData
 
     }
@@ -496,21 +498,9 @@ export class DynamicHandler {
             }
             return {}
         }
-
         currData.forEach(ele => {
-            if (ele.componentTypeName !== 'Caption') {
-                if (ele.dataTypeName == 'Object' && ele.keyCode) {
-                    currItem[ele.keyCode] = this.childResult(ele)
-                }
-                else if (ele.dataTypeName == 'None' && ele.componentTypeName == 'Row') {
-                    Object.assign(currItem, this.childResult(ele))
-                }
-                else if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object' && ele.keyCode) {
-                    currItem[ele.keyCode] = this.childResultList(ele)
-                } else if (ele.keyCode) {
-                    currItem[ele.keyCode] = ele.value;
-                }
-            }
+            Object.assign(currItem,this.itemValue(ele))
+            
         })
         return currItem;
     }
@@ -524,23 +514,39 @@ export class DynamicHandler {
         let currList: any = [];
         item.data.forEach(ele => {
             if (Array.isArray(ele)) {
-                let currData = {}
+                let currItem = {}
                 ele.forEach(cele => {
-                    if (cele.dataTypeName === 'Array') {
-                        currData[cele.keyCode] = this.childResultList(cele)
-                    } else if (cele.dataTypeName === 'Object') {
-                        currData[cele.keyCode] = this.childResult(cele);
-                    } else {
-                        currData[cele.keyCode] = cele.value
-                    }
-
+                    Object.assign(currItem,this.itemValue(cele))
                 })
-                currList.push(currData);
+                currList.push(currItem);
             }
 
         })
         return currList;
 
+    }
+    itemValue(item){
+        let currValue = {}
+        if (item.formItem||item.dataTypeName == 'Array'||item.dataType==='Object') {
+            if (item.dataTypeName == 'Object' && item.keyCode) {
+                currValue[item.keyCode] = this.childResult(item)
+            }
+            else if (item.componentGroup == 'Container') {
+                if(item.keyCode){
+                    currValue[item.keyCode] = this.childResult(item)
+                }else{
+                  Object.assign(currValue, this.childResult(item))
+                }
+            }
+            else if (item.dataTypeName == 'Array' && item.arrayDataTypeName == 'Object' && item.keyCode) {
+                currValue[item.keyCode] = this.childResultList(item)
+            } else if (item.keyCode) {
+                currValue[item.keyCode] = item.value;
+            }
+        }else if(item.componentGroup==='Container'){
+            Object.assign(currValue, this.childResult(item))
+        }
+        return currValue;
     }
 
 }

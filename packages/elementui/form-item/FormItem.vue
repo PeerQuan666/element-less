@@ -169,17 +169,25 @@ if (!props.hasFormItem) {
         </template>
     </el-form-item>
 </template>
-<style lang="less">
-.el-form-item__content {
-    column-gap: 5px;
+<style lang="less" scoped>
+.el-form-item:deep{
+
+    .el-form-item__content{
+        column-gap: 5px;
+        &:has(>span[class^=els-form-item-append]) {
+            flex-wrap: nowrap;
+        }
+        >.el-form{
+            flex-grow: 1;
+        }
+    }
+    .els-form-item-label {
+        display: flex;
+        align-items: center;
+    }
+
 }
 
-.els-form-item-label {
-    display: flex;
-    align-items: center;
-}
 
-.el-form-item__content:has(span[class^=els-form-item-append]) {
-    flex-wrap: nowrap;
-}
+
 </style>
