@@ -38,7 +38,12 @@ function handleIfExpress() {
 
     return true;
 }
-
+function handleValueChange(val, item) {
+    if (item.config.advancedConfig && item.config.advancedConfig.eventChange) {
+        let currEvent = new Function('val,parentNode,currNode', item.config.advancedConfig.eventChange)
+        currEvent(val, getParentNode(), getCurrNode());
+    }
+}
 function getFormItemAttr() {
     const currFormConfig = lessCom.cloneObj(nodeItem.value.config.formConfig)
     if ((nodeItem.value.dataTypeName == 'None' || nodeItem.value.config.baseConfig?.componentName == 'ElsCaption' || nodeItem.value.componentTypeName === 'Row')) {
@@ -110,12 +115,12 @@ function getFormItemAttr() {
           
         </els-form-node>
         <template v-else-if="isMobile&&nodeItem.componentTypeName && nodeItem.componentGroup === 'Form'">
-            <DynamicRenderInnerItem :nodeItem="nodeItem" v-model="nodeItem.value"  v-bind="getFormItemAttr()" >
+            <DynamicRenderInnerItem :nodeItem="nodeItem" v-model="nodeItem.value"  v-bind="getFormItemAttr()"   @valueChange="handleValueChange($event, nodeItem)">
             </DynamicRenderInnerItem>
         </template>
         <els-form-node :hasFormItem="false" v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Form'"
             v-bind="getFormItemAttr()"  :tagName="nodeItem.componentTypeName">
-            <DynamicRenderInnerItem :nodeItem="nodeItem" v-model="nodeItem.value" >
+            <DynamicRenderInnerItem :nodeItem="nodeItem" v-model="nodeItem.value"  @valueChange="handleValueChange($event, nodeItem)" >
             </DynamicRenderInnerItem>
         </els-form-node>
     </template>

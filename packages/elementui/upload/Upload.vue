@@ -531,6 +531,8 @@ defineExpose({
 
             img {
                 border-radius: 6px;
+                width: 100%;
+                height: 100%;
             }
         }
 
@@ -567,4 +569,4 @@ defineExpose({
     }
 
 }
-</style>../../utlis/interfaces.js
+</style>

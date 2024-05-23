@@ -155,6 +155,7 @@ currComponentTypes.value.forEach((ele) => {
         restrictParent: ele.restrictParent,
         formItem:ele.formItem,
         componentShow:ele.isShow,
+        componentPreview:ele.preview,
         config: {
             formConfig: {},
             baseConfig: {},
@@ -522,8 +523,8 @@ setValue({
         <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
             <div style="display:flex;background:#f8f8f8;" class="els-dynamic-view">
                 <div style="flex-basis:260px;flex-shrink: 0;background: #fff;" class="els-dynamic-view-components">
-                    <slot name="left" v-bind="{ data: controlData}">
-                        <el-tabs stretch>
+                    <slot name="left"  v-bind="{ data: controlData,diyData:diyData}">
+                      <el-tabs stretch>
                         <el-tab-pane label="表单组件">
                             <el-collapse v-model="activeNames">
                                 <el-collapse-item title="基础类型" name="1">
@@ -592,7 +593,6 @@ setValue({
                         </el-tab-pane>
                      </el-tabs>
                     </slot>
-                 
                 </div>
                 <div style="flex-grow:1">
                     <div class="main-tool">

@@ -38,6 +38,14 @@ const selectArrayDataTypeItem = ref()
 const attrDrawVisible=ref(false)
 const formRender=ref()
 
+if(controlData){
+  controlData.forEach(ele=>{
+    //适配低版本名称
+    if(ele.label==='栅格行'){ele.label="容器"}
+  })
+}
+
+
 function handleRemove(item) {
   var index = currData.value.indexOf(item)
   currData.value.splice(index, 1)
@@ -85,7 +93,7 @@ const currComponentType = computed(() => {
 })
 const currComponentTypeData = computed(() => {
   if (controlData) {
-    if(currDataType.value==='None'){
+    if(currDataType.value.type==='None'){
       return controlData.filter(ele => !currDataType.value || ele.dataTypes.includes(currDataType.value?.value) || ele.dataTypes.includes(currDataType.value?.type))
       .filter(ele=>ele.type==='Row'||ele.type==='Caption')
     }

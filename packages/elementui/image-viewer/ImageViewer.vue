@@ -20,6 +20,7 @@ const isMobile = getValue<boolean>('isMobile', false)
 const isInit=ref(false)
 const urls = ref<Array<string>>()
 let index = props.initialIndex
+let currIndex=ref(props.initialIndex)
 function initData() {
     if (props.url) {
         if (Array.isArray(props.url)) {
@@ -29,11 +30,18 @@ function initData() {
         }
         if (props.currentUrl) {
             index = urls.value.indexOf(props.currentUrl)
+            currIndex.value=index
         }
+       
     }
 }
+function handleSwitch(eIndex){
+    currIndex.value=eIndex
+}
 function copyPicUrl(){
-lessCom.clip('ssss')
+    if(urls.value){
+        lessCom.clip(urls.value[currIndex.value])
+    }
 }
 watch(() => props.url, () => {
     initData()
@@ -41,15 +49,21 @@ watch(() => props.url, () => {
 
 onMounted(()=>{
     isInit.value=true
-
 })
 
 </script>
 <template>
 
-    <el-image-viewer :url-list="urls" :initial-index="index" v-if="!isMobile">
-        <teleport to=".el-image-viewer__actions__inner" v-if="isInit">
-            <el-icon @click="copyPicUrl"><Link /></el-icon>
+    <el-image-viewer :url-list="urls" :initial-index="index" v-if="!isMobile" @switch="handleSwitch">
+        <teleport to=".el-image-viewer__actions__inner" v-if="isInit" >
+            <el-tooltip
+                append-to="body"
+                effect="dark"
+                content="复制链接"
+                placement="top"
+            >
+                <el-icon @click="copyPicUrl"><Link /></el-icon>
+            </el-tooltip>
         </teleport>
     </el-image-viewer>
     <van-image-preview v-model:show="visible" :images="urls" :startPosition="index" :show-index="false" v-else>

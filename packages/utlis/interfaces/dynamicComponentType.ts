@@ -13,5 +13,6 @@ export interface DynamicComponentType{
     formItem:boolean,
     restrictChild?:string,
     restrictParent?:string,
-    isShow:boolean
+    isShow:boolean,
+    preview?:string
 }

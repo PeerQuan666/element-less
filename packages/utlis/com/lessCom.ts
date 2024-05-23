@@ -543,15 +543,13 @@ export const lessCom = {
 
     },
     clip(text) {
-        return async () => {
-            try {
-              await toClipboard(text);
-              ElMessage.success('复制成功')
-            } catch (e) {
-              console.error(e);
-              ElMessage.error('复制失败')
-            }
-          };
+    
+        toClipboard(text).then(res=>{
+            ElMessage.success('复制成功')
+        }).catch(err=>{
+            ElMessage.error('复制失败')
+        });
+       
     },
     isSameObject(obj1: { [x: string]: any; }, obj2: { [x: string]: any; }) {
         // 检查对象类型

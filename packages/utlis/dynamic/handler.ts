@@ -159,6 +159,10 @@ export class DynamicHandler {
             delete ele.componentName
             delete ele.componentTypeName
             delete ele.componentShow
+            delete ele.componentPreview
+            delete ele.restrictChild
+            delete ele.restrictParent
+            delete ele.formItem
             delete ele.value
         })
     }
@@ -527,7 +531,7 @@ export class DynamicHandler {
     }
     itemValue(item){
         let currValue = {}
-        if (item.formItem||item.dataTypeName == 'Array'||item.dataType==='Object') {
+        if (item.formItem||item.componentGroup==='Form'||item.dataTypeName == 'Array'||item.dataType==='Object') {
             if (item.dataTypeName == 'Object' && item.keyCode) {
                 currValue[item.keyCode] = this.childResult(item)
             }
@@ -543,7 +547,8 @@ export class DynamicHandler {
             } else if (item.keyCode) {
                 currValue[item.keyCode] = item.value;
             }
-        }else if(item.componentGroup==='Container'){
+        }
+        else if(item.componentGroup==='Container'){
             Object.assign(currValue, this.childResult(item))
         }
         return currValue;
