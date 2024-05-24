@@ -308,14 +308,14 @@ defineExpose({
     <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
       <div class="els-dynamic-config" ref="designerContainer" >
         <div class="els-dynamic-config-tool">
-          <ElsRadioButton v-model="designType" v-if="designerVisible">
+          <!-- <ElsRadioButton v-model="designType" v-if="designerVisible">
             <ElsOption value="精简模式"><el-icon>
                 <MoreFilled />
               </el-icon></ElsOption>
             <ElsOption value="设计模式"><el-icon>
                 <Grid />
               </el-icon></ElsOption>
-          </ElsRadioButton>
+          </ElsRadioButton> -->
           <els-data-modal style="margin-left:5px;margin-bottom:5px;" title="导入配置" buttonLabel="导入配置" icon="Edit"
             :hasInput="false" :open="handleOpenImport" :confirm="handleImportDesigner">
             <ElsJsonEditor v-model="importJSON" style="height: 500px;"></ElsJsonEditor>

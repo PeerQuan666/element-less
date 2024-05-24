@@ -1,8 +1,7 @@
 <template>
   <el-tabs>
     <el-tab-pane label="配置">
-      <els-dynamic-designer v-model="config" >
-      
+      <els-dynamic-designer v-model="config" allowCreateType isReturnTemplateValue  v-model:templateValue="templateValue">
       </els-dynamic-designer>
     </el-tab-pane>
     <el-tab-pane label="表单属性">
@@ -17,6 +16,7 @@
 import { ref,provide } from 'vue'
 const config = ref([])
 const show=ref()
+const templateValue=ref()
 const initValue = ref()
 provide('isMobile',true)
 

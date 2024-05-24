@@ -1,4 +1,4 @@
-import { E } from "./index-3549be7a.js";
+import { E } from "./index-b2f66d49.js";
 import "vue";
 import "axios";
 import "file-saver";

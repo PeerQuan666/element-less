@@ -111,7 +111,7 @@ function getComponentType(val){
         </template>
       </el-popconfirm>
     </span>
-    <div class="els-dynamicc-d-head" v-if="!isContainer">
+    <div class="els-dynamicc-d-head" v-if="isContainer!==true">
       <span class="keyName" v-if="columnVisible('keyName')">名称</span>
       <span class="keyCode" v-if="columnVisible('keyCode')">编码</span>
       <span class="dataType" v-if="columnVisible('dataType')">类型</span>

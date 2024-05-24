@@ -339,7 +339,7 @@ export class DynamicHandler {
     getConfigValue(data, showKeyField) {
         let currData = {}
         data.forEach((ele) => {
-            if(ele.formItem){
+            if(ele.formItem||ele.componentGroup==='Form'||ele.dataTypeName == 'Array'||ele.dataType==='Object'){
                 if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
                     currData[ele[showKeyField]] = this.getArrayConfigValue(ele, showKeyField)
                 }
@@ -366,7 +366,7 @@ export class DynamicHandler {
     getArrayConfigValue(item, showKeyField) {
         let currValue = {}
         item.data.forEach(ele => {
-            if(ele.formItem){
+            if(ele.formItem||ele.componentGroup==='Form'||ele.dataTypeName == 'Array'||ele.dataType==='Object'){
                 if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
                     currValue[ele[showKeyField]] = this.getArrayConfigValue(ele, showKeyField)
                 } else if (ele.dataTypeName == 'Object') {

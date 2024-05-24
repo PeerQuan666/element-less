@@ -1,9 +1,6 @@
 import { App } from 'vue'
 
 
-
-
-
 // 导出所有组件
 import ElsInput from './elementui/input'
 import ElsTextarea from './elementui/textarea'

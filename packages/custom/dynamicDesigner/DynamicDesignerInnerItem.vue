@@ -153,7 +153,7 @@ const currPropertys = computed(() => {
 watch(() => currItem.value.componentType, () => {
   if (isRow.value) {
     currItem.value.data.length = 0
-    currItem.value.dataType = 0;
+    currItem.value.dataType = 'None';
     currItem.value.data.push(
       {
         keyID: lessCom.generateID(),
@@ -263,7 +263,6 @@ function validationCode(rule, value, callback) {
         <els-input placeholder="编码" v-if="itemDataType.type != 'None'" :validMethod="validationCode" required clearable @blur="handleChangeKeyCode" prop="keyCode"></els-input>
       </span>
       <span class="dataType" v-if="columnVisible('dataType')">
-
         <el-popover v-if="selectDataTypeItem && selectDataTypeItem.id"  width="400" placement="right">
           <div >
             <div class="dataType-detail-t"><span>{{ selectDataTypeItem.type==='Enum'?'Enum':'Object' }}</span><span
@@ -429,13 +428,12 @@ function validationCode(rule, value, callback) {
         </els-form>
   </els-drawer>
 </template>
-<style lang="less" scoped>
-//has影响性能
-.el-select-dropdown__list:has(>li[class^=dynamic-create-dtype]) {
-
+<style lang="less">
+ .el-select-dropdown__list:has(>li[class^=dynamic-create-dtype]) {
   padding-bottom: 30px !important;
-
-}
+  }
+</style>
+<style lang="less" scoped>
 
 .dynamic-create-dtype {
   cursor: pointer;
