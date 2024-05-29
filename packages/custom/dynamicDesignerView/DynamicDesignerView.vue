@@ -40,7 +40,7 @@ const viewPriview = ref(false)
 const formValue = ref()
 const deviceType = ref('PC')
 const controlData = ref<any>([])
-const diyData = ref<any>([])
+const customData = ref<any>([])
 const startCreate = ref(false)
 const dataTypeData = getValue<any>("dataTypeData")
 const componentData = getValue<any>("componentData")
@@ -164,12 +164,11 @@ currComponentTypes.value.forEach((ele) => {
         },
         value: initValue(currType?.type)
     }
-    if (['String', 'Number', 'Bool', 'Object', 'Array'].includes(currType.type) || currComponent.componentGroup === 'Container' || currComponent.componentGroup === 'Show') {
+    if(ele.isCustom){
+        customData.value.push(currComponent)
+    }else if (['String', 'Number', 'Bool', 'Object', 'Array'].includes(currType.type) || currComponent.componentGroup === 'Container' || currComponent.componentGroup === 'Show') {
         controlData.value.push(currComponent)
-    } else {
-        diyData.value.push(currComponent)
-    }
-
+    } 
 })
 function initValue(type) {
     switch (type) {
@@ -523,7 +522,7 @@ setValue({
         <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
             <div style="display:flex;background:#f8f8f8;" class="els-dynamic-view">
                 <div style="flex-basis:260px;flex-shrink: 0;background: #fff;" class="els-dynamic-view-components">
-                    <slot name="left"  v-bind="{ data: controlData,diyData:diyData}">
+                    <slot name="left"  v-bind="{ data: controlData,customData:customData}">
                       <el-tabs stretch>
                         <el-tab-pane label="表单组件">
                             <el-collapse v-model="activeNames">
@@ -550,8 +549,8 @@ setValue({
                                         </template>
                                     </draggable>
                                 </el-collapse-item>
-                                <el-collapse-item title="自定义类型" name="3" v-if="diyData.length">
-                                    <draggable tag="ul" :list="diyData" item-key="keyID"
+                                <el-collapse-item title="自定义类型" name="3" v-if="customData.length">
+                                    <draggable tag="ul" :list="customData" item-key="keyID"
                                         :group="{ name: 'dragGroup', pull: 'clone', put: false }" :clone="handleClone"
                                         :sort="false">
                                         <template #item="{ element, index }">

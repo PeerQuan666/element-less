@@ -92,7 +92,7 @@ function handleSaveType() {
 
             }
             currComponentType.group = "Form"
-
+            currComponentType.isCustom=true
             const currDataType={
                     id:id,
                     label: label, 

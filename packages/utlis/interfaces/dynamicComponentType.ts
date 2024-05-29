@@ -14,5 +14,6 @@ export interface DynamicComponentType{
     restrictChild?:string,
     restrictParent?:string,
     isShow:boolean,
-    preview?:string
+    preview?:string,
+    isCustom?:boolean
 }
