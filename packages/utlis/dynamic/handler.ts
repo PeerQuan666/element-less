@@ -104,17 +104,19 @@ export class DynamicHandler {
         const currDataType = this.dataTypes.find(d => d.value === item.dataType || d.type === item.dataType)
         const currArrayDataType = this.dataTypes.find(d => d.value === item.arrayDataType || d.type === item.arrayDataType)
         const currcomponentType = this.componentTypes.find(d => d.value === item.componentType || d.type === item.componentType)
-        if (currDataType?.type === 'Object' || currDataType?.type === 'Array') {
-            item.componentGroup = 'Form'
-        } else {
-            item.componentGroup = currcomponentType?.group
-        }
         item.componentTypeName = currcomponentType?.type
         item.dataTypeName = currDataType?.type
         item.arrayDataTypeName = currArrayDataType?.type
         item.componentName = currcomponentType?.componentName
         item.formItem=currcomponentType?.formItem
         item.componentGroup=currcomponentType?.group
+        if (currDataType?.type === 'Object' || currDataType?.type === 'Array') {
+            item.formItem=true
+            item.componentGroup = 'Form'
+        } else {
+            item.componentGroup = currcomponentType?.group
+        }
+       
 
     }
     initConfigType(data) {
@@ -231,7 +233,7 @@ export class DynamicHandler {
             this.initTypeName(ele)
             if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object' && !ele.componentTypeName) {
                 this.recoverArrayData(ele, valueData[ele.keyCode])
-            } else if (ele.dataTypeName == 'Object') {
+            } else if (ele.dataTypeName == 'Object'||(ele.componentGroup==='Container'&&ele.formItem&&ele.keyCode)) {
                 this.recoverData(ele.data, valueData[ele.keyCode])
             }else if(ele.componentGroup==='Container'){
                 this.recoverData(ele.data, valueData)
@@ -398,7 +400,7 @@ export class DynamicHandler {
                     }
                     break
                 case 'Bool':
-                    if (item.defaultValue?.toLowerCase() === 'true') {
+                    if (item.defaultValue?.toString().toLowerCase() === 'true') {
                         item.value = true;
                     } else {
                         item.value = false

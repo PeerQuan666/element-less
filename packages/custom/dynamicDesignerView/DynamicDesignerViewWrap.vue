@@ -15,10 +15,9 @@ const { getValue,setValue } = useValue(props)
 const getSelectItem = getValue<Function>('getSelectItem', () => { })
 const setSelectItem = getValue<Function>('setSelectItem', () => { })
 const handleMove = getValue<Function>('handleMove', () => { })
-const isInit=ref(false)
 const componentAttr=computed<any>(()=>{
     if(props.nodeItem.componentTypeName=='Option'){
-        return {label:props.nodeItem.config.baseConfig.label||props.nodeItem.keyName,value:props.nodeItem.config.baseConfig.value||props.nodeItem.keyCode}
+        return {label:props.nodeItem.config.baseConfig.label||props.nodeItem.keyName,value:props.nodeItem.config.baseConfig.value||props.nodeItem.keyID}
     }
     return {}
 })

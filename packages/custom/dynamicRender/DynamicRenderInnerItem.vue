@@ -41,13 +41,22 @@ function handleClear() {
         currValue.value = '';
     }
 }
-
+function setDefaultPropertys(currBaseConfig,defaultPropertys){
+    for(const key in  defaultPropertys){
+        if(!currBaseConfig[key]){
+            currBaseConfig[key]=defaultPropertys[key]
+        }
+        else  if(typeof(defaultPropertys[key])==='object'){
+            setDefaultPropertys(currBaseConfig['key'],defaultPropertys[key])
+        }
+    }
+}
 const baseAttrs = computed(() => {
 
     let baseConfig = {}
     const currControl = controlData.find(ele => ele.value == props.nodeItem.componentType)
     if (currControl?.defaultPropertys) {
-        const currBaseConfig = Object.assign({}, currControl?.defaultPropertys, props.nodeItem.config.baseConfig)
+        const currBaseConfig = Object.assign({}, props.nodeItem.config.baseConfig)
         for (var key in currBaseConfig) {
             if (key) {
                 if (currBaseConfig[key] === undefined || currBaseConfig[key] === '') {
@@ -55,6 +64,7 @@ const baseAttrs = computed(() => {
                 }
             }
         }
+        lessCom.setDefaultPropertys(currBaseConfig,currControl.defaultPropertys)
         baseConfig = currBaseConfig
     }
     const currAttrs = Object.assign(lessCom.cloneObj(baseConfig), { 'style': props.nodeItem.config.advancedConfig.style }, attrs);

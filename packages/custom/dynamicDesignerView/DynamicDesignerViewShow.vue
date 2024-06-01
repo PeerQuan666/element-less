@@ -15,14 +15,13 @@ const controlData = getValue<any>("componentData", [])
 const props = defineProps<Props>()
 const attrs = useAttrs()
 
-
 const baseAttrs = computed(() => {
     let baseConfig={}
     const currNodeItem=props.nodeItem
     const currControl = controlData.find(ele => ele.value == currNodeItem.componentType)
     
     if (currControl?.defaultPropertys) {
-        const currBaseConfig = Object.assign({}, currControl?.defaultPropertys, currNodeItem.config.baseConfig)
+        const currBaseConfig = currNodeItem.config.baseConfig
         for (var key in currBaseConfig) {
             if (key) {
                 if (currBaseConfig[key] === undefined || currBaseConfig[key] === '') {
@@ -30,13 +29,13 @@ const baseAttrs = computed(() => {
                 }
             }
         }
+        lessCom.setDefaultPropertys(currBaseConfig,currControl.defaultPropertys)
         baseConfig = currBaseConfig
     }
 
     const currAttrs = Object.assign({},{ 'style': currNodeItem.config.advancedConfig.style }, attrs,lessCom.cloneObj(baseConfig));
 
     currAttrs["label"]=currNodeItem.keyName
-
     return currAttrs
 })
 const componentAttrs = ref<any>(baseAttrs)
@@ -50,6 +49,7 @@ watchEffect(() => {
 </script>
 
 <template>
+
     <template v-if="componentName">
         <component  :is="componentName"  v-bind="componentAttrs"  >
         </component>

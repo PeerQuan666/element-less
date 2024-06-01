@@ -189,6 +189,16 @@ export const lessCom = {
         }
         return "";
     },
+    setDefaultPropertys(basePropertys:Record<string,any>,defaultPropertys:Record<string,any>){
+        for(const key in  defaultPropertys){
+            if(!basePropertys[key]){
+                basePropertys[key]=defaultPropertys[key]
+            }
+            else  if(typeof(defaultPropertys[key])==='object'){
+                this.setDefaultPropertys(basePropertys[key],defaultPropertys[key])
+            }
+        }
+    },
     formatDate(date: string | number | Date, fmt: string) {
         if(typeof(date)==='string'||typeof(date)==='number'){
             date = new Date(date);

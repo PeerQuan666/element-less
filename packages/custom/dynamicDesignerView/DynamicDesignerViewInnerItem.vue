@@ -19,20 +19,24 @@ const setSelectItem = getValue<Function>('setSelectItem', () => { })
 function handleSelectItem() {
     setSelectItem(props.nodeItem)
 }
+
 const baseAttrs = computed(() => {
     let baseConfig={}
     const currNodeItem=props.nodeItem
     const currControl = controlData.find(ele => ele.value == currNodeItem.componentType)
     
     if (currControl?.defaultPropertys) {
-        const currBaseConfig = Object.assign({}, currControl?.defaultPropertys, currNodeItem.config.baseConfig)
-        for (var key in currBaseConfig) {
+
+        const currBaseConfig =currNodeItem.config.baseConfig
+        for (const key in currBaseConfig) {
             if (key) {
                 if (currBaseConfig[key] === undefined || currBaseConfig[key] === '') {
                     delete currBaseConfig[key]
                 }
             }
         }
+        lessCom.setDefaultPropertys(currBaseConfig,currControl.defaultPropertys)
+
         baseConfig = currBaseConfig
     }
 

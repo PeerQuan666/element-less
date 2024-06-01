@@ -260,7 +260,7 @@ setValue({
 </script>
 <template>
     <div class="els-node" :style="labelWidth==='0'?'--margin-bottom:0px': ''">
-        <el-tabs v-model="selectValue" ref="elsTabs">
+        <el-tabs v-model="selectValue" ref="elsTabs" v-bind="attrs">
             <slot name="extra">
             </slot>
             <template #label v-if="$slots.label">

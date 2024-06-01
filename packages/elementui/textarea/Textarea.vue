@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, useSlots } from 'vue'
 import { FormItemProps } from '../../utlis/interfaces'
+import { useModel } from '../../utlis/use'
 defineOptions({
     name: 'ElsTextarea',
 })
@@ -15,21 +16,36 @@ const props = withDefaults(defineProps<Props>(), {
     encodeType: 'url',
     validTrigger: 'blur',
 })
-const emits = defineEmits(['update:modelValue'])
-const slots = useSlots()
-const slotNames: any = []
-for (const slotItem in slots) {
-    slotNames.push(slotItem)
-}
+const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
+
 const inputValue = ref()
 
-watch(() => props.modelValue, (val) => {
-    inputValue.value = val
+watch(currModelValue, (val) => {
+    const currValue = val
+    if (currValue) {
+        
+            inputValue.value = currValue
+        
+    }
 }, { immediate: true })
 
+
+
+
 watch(inputValue, (val) => {
-    emits('update:modelValue', val)
+    handleReturnResult(val)
 })
+
+
+function handleReturnResult(val) {
+    let currValue = val
+  
+    returnModelValue(currValue)
+}
+
 </script>
 <template>
     <els-input type="textarea" v-bind="props"  v-model="inputValue" >
@@ -41,4 +57,4 @@ watch(inputValue, (val) => {
     position: relative;
     width: 100%;
 }
-</style>../../utlis/interfaces
+</style>

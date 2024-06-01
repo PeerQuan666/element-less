@@ -19,6 +19,7 @@ import {
     property_tip,
     property_form,
     property_card,
+    property_slider
 } from '../propertys'
 import { DynamicComponentType} from '../../interfaces'
 import { DynamicComponentGroup } from '../../enums'
@@ -26,6 +27,7 @@ export const dynamicComponentTypes: Array<DynamicComponentType> = [
     { componentName: 'ElsInput',  label: '输入框', value: "Input", type: "Input", dataTypes: ['String'], defaultPropertys: {}, propertys: property_input, group: DynamicComponentGroup.Form,formItem:true ,isShow:true},
     { componentName: 'ElsTextarea', label: '文本域', value: 'Textarea', type: "Textarea", dataTypes: ['String'], defaultPropertys: {}, propertys: property_textarea, group: DynamicComponentGroup.Form ,formItem:true,isShow:true},
     { componentName: 'ElsInputNumber', label: '数字输入框', value: 'InputNumber', type: "InputNumber", dataTypes: ['Number'], defaultPropertys: {}, propertys: property_inputNumber, group: DynamicComponentGroup.Form ,formItem:true,isShow:true},
+    { componentName: 'ElsSlider', label: 'Slider滑块', value: 'Slider', type: "Slider", dataTypes: ['Number'], defaultPropertys: {}, propertys: property_slider, group: DynamicComponentGroup.Form ,formItem:true,isShow:true},
     { componentName: 'ElsSwitch', label: '开关', value: 'Switch', type: "Switch", dataTypes: ['Bool', 'String', 'Number'], defaultPropertys: {}, propertys: property_switch, group: DynamicComponentGroup.Form ,formItem:true,isShow:true},
     { componentName: 'ElsCheckbox', label: '多选列表', value: 'Checkbox', type: "Checkbox", dataTypes: ['String'], defaultPropertys: {}, propertys: property_checkbox, group: DynamicComponentGroup.Form ,formItem:true,isShow:true},
     { componentName: 'ElsSelect', label: '下拉列表', value: 'Select', type: "Select", dataTypes: ['String', 'Number', 'Bool'], defaultPropertys: {}, propertys: property_select, group: DynamicComponentGroup.Form ,formItem:true,isShow:true},

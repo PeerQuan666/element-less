@@ -70,10 +70,7 @@ function handleValueChange(val) {
             <DynamicDesignerViewWrap  :parentNode="nodeItem" :nodeItem="nodeItem">
             </DynamicDesignerViewWrap>
         </template>
-
-     
-
-
+        
         <DynamicDesignerViewShow v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Show'&&nodeItem.keyCode"
             :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style" :title="nodeItem.keyName" v-model="nodeItem.value">
         </DynamicDesignerViewShow>

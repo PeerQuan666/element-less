@@ -14,7 +14,7 @@ import DynamicRenderForm from './DynamicRenderForm.vue'
 
 
 interface Props {
-    index:number
+    index:number,
 }
 
 
@@ -24,7 +24,7 @@ const isMobile = getValue<boolean>('isMobile', false)
 const nodeItem = defineModel<any>("nodeItem", { default: () => { return reactive<Record<string, any>>([]); } })
 const getCurrNode = getValue<Function>('getCurrNode', () => { return {} })
 const getParentNode = getValue<Function>('getParentNode', () => { return {} })
-
+const getFormPropIndex=getValue<Function>('getFormPropIndex',()=>{return ""})
 
 function handleIfExpress() {
     try {
@@ -68,8 +68,8 @@ function getFormItemAttr() {
     if (nodeItem.value.description) {
         currFormConfig['tip'] = nodeItem.value.description
     }
-    
-    currFormConfig['prop'] = `[${props.index}].value`
+    const currPropsIndex=getFormPropIndex()
+    currFormConfig['prop'] = currPropsIndex+`[${props.index}].value`
     
     currFormConfig['label'] = nodeItem.value.keyName
     return currFormConfig
@@ -98,7 +98,7 @@ function getFormItemAttr() {
         </DynamicRenderShow>
 
         <template  v-else-if="nodeItem.componentGroup == 'Container'">
-            <DynamicRenderInnerWrap :parentNode="nodeItem" :nodeItem="nodeItem"  >
+            <DynamicRenderInnerWrap :parentNode="nodeItem" :nodeItem="nodeItem"  :index="index" >
             </DynamicRenderInnerWrap>
         </template>
         

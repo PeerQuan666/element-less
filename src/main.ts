@@ -10,7 +10,8 @@ import router from './router'
 import ElementLess from '../packages/index'
 import pinia from '../packages/utlis/pinia'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-
+import '../resume-component/style.css'
+import ResumeComponent from '../resume-component/resume-component.js'
 
 const app = createApp(App)
 app.config.globalProperties.$lessConfig = {
@@ -64,5 +65,6 @@ app.use(VueUeditorWrap)
 app.use(router)
 app.use(ElementPlus)
 app.use(ElementLess)
+app.use(ResumeComponent)
 
 app.mount('#app')

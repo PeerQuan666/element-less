@@ -5,18 +5,18 @@ import { useValue } from '../../utlis/use'
 import DynamicRenderInner from './DynamicRenderInner.vue'
 
 interface Props {
+    index:number,
     nodeItem: Record<string, any>,
     parentNode?: Record<string, any>,
 }
 
 
 const props =defineProps<Props>()
-const {getValue}=useValue()
-const isMobile=getValue<boolean>('isMobile',false)
+const {getValue,setValue}=useValue()
 const emits = defineEmits(['update:data'])
-
+const getFormPropIndex=getValue<Function>('getFormPropIndex',()=>{return ""})
 const getNodeData=getValue<Function>('getNodeData',{})
-    const getParentNodeData=getValue<Function>('getParentNodeData',{})
+const getParentNodeData=getValue<Function>('getParentNodeData',{})
 
 
 const parentNode=computed(()=>{
@@ -47,9 +47,17 @@ const componentAttr=computed<any>(()=>{
     return baseConfig
 })
 
+setValue({
+    getFormPropIndex:()=>{
+        let  currPropIndex= getFormPropIndex()
+        currPropIndex+=`[${props.index}].data`
+        return currPropIndex
+    }
+})
+
 </script>
 <template>
      <component :is="nodeItem?.componentName"  :style="nodeItem.config.advancedConfig?.style" v-bind="componentAttr" v-if="handleIfExpress(nodeItem)">
-        <DynamicRenderInner v-for="item in nodeItem.data" :nodeItem="item" :key="item.keyID"></DynamicRenderInner>
+        <DynamicRenderInner v-for="(item,index) in nodeItem.data" :nodeItem="item" :index="index" :key="item.keyID"></DynamicRenderInner>
      </component>
 </template>

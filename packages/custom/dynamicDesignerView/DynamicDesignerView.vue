@@ -26,7 +26,8 @@ interface Props extends FormItemProps {
     componentTypes?: Array<DynamicComponentType>,
     appendComponentTypes?: Array<DynamicComponentType>,
     componentRelateDataType?: Record<string, any>,
-    initRootForm?:boolean
+    initRootForm?:boolean,
+    onSave?:Function
 
 }
 const props = defineProps<Props>()
@@ -162,7 +163,8 @@ currComponentTypes.value.forEach((ele) => {
             advancedConfig: {},
             arrayConfig: {}
         },
-        value: initValue(currType?.type)
+        value: initValue(currType?.type),
+        defaultValue:''
     }
     if(ele.isCustom){
         customData.value.push(currComponent)
@@ -498,7 +500,9 @@ function getDeviceType(){
 }
 function handleSave(){
     const result=returnResult()
-    emits('save',result)
+    if(props.onSave){
+        props.onSave(result)
+    }
 }
 setValue({
     "isMobile": false,
@@ -634,7 +638,7 @@ setValue({
                                     <View />
                                 </el-icon>预览
                             </el-link>
-                            <el-link type="primary" @click="handleSave">
+                            <el-link type="primary" @click="handleSave" v-if="onSave">
                                 <el-icon>
                                     <Check />
                                 </el-icon>保存

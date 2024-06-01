@@ -1,22 +1,31 @@
 <script setup lang="ts">
-import { ref, watch,useAttrs } from "vue";
+import { ref, watch, useAttrs } from "vue";
 import JsonEditorVue from 'json-editor-vue'
-
-
+import { lessCom } from '../../utlis/com'
+import { useModel } from '../../utlis/use'
+import { FormItemProps } from '../../utlis/interfaces'
 defineOptions({
     name: 'ElsJsonEditor',
-    inheritAttrs:false
+    inheritAttrs: false
 })
-const attrs=useAttrs()
+const attrs = useAttrs()
 const emits = defineEmits(['update:modelValue'])
 
-interface Props {
+interface Props extends FormItemProps{
     modelValue?: any
 }
 
 const props = defineProps<Props>()
 const currData = ref({})
-watch(() => props.modelValue, (val) => {
+const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
+
+
+
+
+watch(currModelValue, (val) => {
     if (val) {
         if (typeof (val) === 'object') {
             currData.value = val
@@ -24,37 +33,56 @@ watch(() => props.modelValue, (val) => {
             currData.value = JSON.parse(val)
         }
     }
-
 }, { immediate: true, deep: true })
 
+
+
+
 watch(currData, (val) => {
-    if (typeof (props.modelValue) === 'object') {
-        if(typeof(val)==='string'){
-            try{
-               const currValue= JSON.parse(val)
-               emits('update:modelValue', currValue)
-            }catch(err){
-                
+    if (typeof (currModelValue.value) === 'object') {
+        if (typeof (val) === 'string') {
+            try {
+                const currValue = JSON.parse(val)
+                handleReturnResult(currValue)
+            } catch (err) {
+
             }
-        }else{
-            emits('update:modelValue', val)
+        } else {
+            handleReturnResult(val)
         }
-    
+
         return
     }
-    emits('update:modelValue', JSON.stringify(val))
-  
-},{deep:true})
-const jsonEditor=ref()
+    if(typeof(val)==='object'){
+        handleReturnResult(JSON.stringify(val))
+        return 
+    }
+    handleReturnResult(val)
+    
+
+}, { deep: true })
+
+
+function handleReturnResult(val) {
+    let currValue = val
+    returnModelValue(currValue)
+}
+
+const jsonEditor = ref()
 
 </script>
-<template >
-    <div class="els-jsoneditor" style="width: 100%;">
-        <JsonEditorVue v-model="currData" v-bind="attrs" ref="jsonEditor" mode="text" />
+<template>
+    <div class="els-node">
+        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
+            <div class="els-jsoneditor" >
+              <JsonEditorVue v-model="currData" v-bind="attrs" ref="jsonEditor" mode="text" />
+            </div>
+        </ElsFormNode>
     </div>
 </template>
 <style lang="less">
 .els-jsoneditor {
+    flex-grow: 1;
     .full-screen {
         right: 0 !important;
         top: 0 !important;
@@ -63,7 +91,8 @@ const jsonEditor=ref()
     .jsoneditor-poweredBy {
         display: none;
     }
-    .cm-content{
+
+    .cm-content {
         padding: 0;
     }
 }

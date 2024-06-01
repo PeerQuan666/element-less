@@ -2478,18 +2478,26 @@ const _sfc_main$1t = /* @__PURE__ */ defineComponent({
     queryRange: { type: Boolean },
     queryRangeOrEqual: { type: Boolean }
   },
-  emits: ["update:modelValue"],
-  setup(__props, { emit: __emit }) {
+  setup(__props) {
     const props = __props;
-    const emits = __emit;
-    useSlots();
+    const {
+      currModelValue,
+      returnModelValue
+    } = useModel(props);
     const inputValue = ref$1();
-    watch(() => props.modelValue, (val) => {
-      inputValue.value = val;
+    watch(currModelValue, (val) => {
+      const currValue = val;
+      if (currValue) {
+        inputValue.value = currValue;
+      }
     }, { immediate: true });
     watch(inputValue, (val) => {
-      emits("update:modelValue", val);
+      handleReturnResult(val);
     });
+    function handleReturnResult(val) {
+      let currValue = val;
+      returnModelValue(currValue);
+    }
     return (_ctx, _cache) => {
       const _component_els_input = resolveComponent("els-input");
       return openBlock(), createBlock(_component_els_input, mergeProps({ type: "textarea" }, props, {
@@ -2499,8 +2507,8 @@ const _sfc_main$1t = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Textarea_vue_vue_type_style_index_0_scoped_272f018f_lang = "";
-const Textarea = /* @__PURE__ */ _export_sfc(_sfc_main$1t, [["__scopeId", "data-v-272f018f"]]);
+const Textarea_vue_vue_type_style_index_0_scoped_bbb02661_lang = "";
+const Textarea = /* @__PURE__ */ _export_sfc(_sfc_main$1t, [["__scopeId", "data-v-bbb02661"]]);
 Textarea.install = (app) => {
   app.component(Textarea.__name, Textarea);
 };
@@ -2605,7 +2613,7 @@ _sfc_main$1s.install = (app) => {
   app.component(_sfc_main$1s.__name, _sfc_main$1s);
 };
 const _hoisted_1$R = { class: "els-node" };
-const _hoisted_2$v = {
+const _hoisted_2$w = {
   key: 0,
   class: "check"
 };
@@ -3026,7 +3034,7 @@ const _sfc_main$1r = /* @__PURE__ */ defineComponent({
                         value: item[_ctx.valueField]
                       }, {
                         default: withCtx(() => [
-                          _ctx.multiple ? (openBlock(), createElementBlock("i", _hoisted_2$v)) : createCommentVNode("", true),
+                          _ctx.multiple ? (openBlock(), createElementBlock("i", _hoisted_2$w)) : createCommentVNode("", true),
                           renderSlot(_ctx.$slots, "default", { item }, () => [
                             createTextVNode(toDisplayString(item[_ctx.labelField]), 1)
                           ], true)
@@ -3287,7 +3295,7 @@ const _hoisted_1$P = {
   key: 1,
   style: { "width": "100%" }
 };
-const _hoisted_2$u = { class: "els-radio-group-item" };
+const _hoisted_2$v = { class: "els-radio-group-item" };
 const _sfc_main$1p = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsOptionGroup" },
   __name: "OptionGroup",
@@ -3313,7 +3321,7 @@ const _sfc_main$1p = /* @__PURE__ */ defineComponent({
         ]),
         _: 3
       }, 16, ["label"])) : (openBlock(), createElementBlock("div", _hoisted_1$P, [
-        createElementVNode("div", _hoisted_2$u, toDisplayString(_ctx.label), 1),
+        createElementVNode("div", _hoisted_2$v, toDisplayString(_ctx.label), 1),
         renderSlot(_ctx.$slots, "default", normalizeProps(guardReactiveProps(unref(attrs))), void 0, true)
       ]));
     };
@@ -3322,7 +3330,7 @@ const _sfc_main$1p = /* @__PURE__ */ defineComponent({
 const OptionGroup_vue_vue_type_style_index_0_scoped_230c4001_lang = "";
 const OptionGroup = /* @__PURE__ */ _export_sfc(_sfc_main$1p, [["__scopeId", "data-v-230c4001"]]);
 const _hoisted_1$O = { class: "els-node" };
-const _hoisted_2$t = { key: 0 };
+const _hoisted_2$u = { key: 0 };
 const _sfc_main$1o = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsRadio",
@@ -3623,7 +3631,7 @@ const _sfc_main$1o = /* @__PURE__ */ defineComponent({
               class: normalizeClass(radioClass),
               style: normalizeStyle(radioStyle)
             }, [
-              props.filterable ? (openBlock(), createElementBlock("div", _hoisted_2$t, [
+              props.filterable ? (openBlock(), createElementBlock("div", _hoisted_2$u, [
                 _ctx.filterable ? (openBlock(), createBlock(_component_el_input, {
                   key: 0,
                   style: { "width": "200px" },
@@ -3722,7 +3730,7 @@ ElsRadio.install = (app) => {
   app.component(ElsRadio.__name, ElsRadio);
 };
 const _hoisted_1$N = { class: "els-node" };
-const _hoisted_2$s = {
+const _hoisted_2$t = {
   key: 0,
   style: { "margin-bottom": "15px", "text-align": "left" }
 };
@@ -4092,7 +4100,7 @@ const _sfc_main$1n = /* @__PURE__ */ defineComponent({
               class: normalizeClass(checkboxClass),
               style: normalizeStyle(checkboxStyle)
             }, [
-              _ctx.showCheckall || _ctx.filterable ? (openBlock(), createElementBlock("div", _hoisted_2$s, [
+              _ctx.showCheckall || _ctx.filterable ? (openBlock(), createElementBlock("div", _hoisted_2$t, [
                 _ctx.showCheckall ? (openBlock(), createBlock(_component_el_checkbox, {
                   key: 0,
                   indeterminate: isIndeterminate.value,
@@ -5040,7 +5048,7 @@ FormQuery.install = (app) => {
   app.component(FormQuery.__name, FormQuery);
 };
 const _hoisted_1$M = ["innerHTML"];
-const _hoisted_2$r = { class: "els-form-item-append" };
+const _hoisted_2$s = { class: "els-form-item-append" };
 const _hoisted_3$k = ["innerHTML"];
 const _sfc_main$1g = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsFormItem" },
@@ -5239,7 +5247,7 @@ const _sfc_main$1g = /* @__PURE__ */ defineComponent({
               createElementVNode("div", { innerHTML: _ctx.tip }, null, 8, _hoisted_1$M)
             ]),
             default: withCtx(() => [
-              createElementVNode("span", _hoisted_2$r, [
+              createElementVNode("span", _hoisted_2$s, [
                 createVNode(_component_el_icon, { style: { "margin-left": "5px", "cursor": "pointer" } }, {
                   default: withCtx(() => [
                     createVNode(_component_Question_Filled)
@@ -5298,7 +5306,7 @@ FormItem.install = (app) => {
   app.component(FormItem.__name, FormItem);
 };
 const _hoisted_1$L = ["innerHTML"];
-const _hoisted_2$q = { key: 1 };
+const _hoisted_2$r = { key: 1 };
 const _hoisted_3$j = /* @__PURE__ */ createElementVNode("i", { class: "el-icon-question" }, null, -1);
 const _hoisted_4$e = ["innerHTML"];
 const _hoisted_5$b = ["innerHTML"];
@@ -5567,7 +5575,7 @@ const _sfc_main$1f = /* @__PURE__ */ defineComponent({
               _ctx.headerFormatter ? (openBlock(), createElementBlock("span", {
                 key: 0,
                 innerHTML: _ctx.headerFormatter
-              }, null, 8, _hoisted_1$L)) : _ctx.tipContent ? (openBlock(), createElementBlock("span", _hoisted_2$q, [
+              }, null, 8, _hoisted_1$L)) : _ctx.tipContent ? (openBlock(), createElementBlock("span", _hoisted_2$r, [
                 createTextVNode(toDisplayString(unref(attrs)["label"]) + " ", 1),
                 createVNode(_component_el_tooltip, {
                   content: _ctx.tipContent,
@@ -5724,7 +5732,7 @@ const _hoisted_1$K = {
   key: 0,
   class: "select_container"
 };
-const _hoisted_2$p = { key: 0 };
+const _hoisted_2$q = { key: 0 };
 const _hoisted_3$i = {
   key: 0,
   class: "els-bottom-scroll-fixed"
@@ -6955,7 +6963,7 @@ const _sfc_main$1e = /* @__PURE__ */ defineComponent({
               }, {
                 default: withCtx(() => [
                   renderSlot(_ctx.$slots, "checklabel", { checkItem: element }, () => [
-                    _ctx.showCheckField ? (openBlock(), createElementBlock("span", _hoisted_2$p, toDisplayString(element[_ctx.showCheckField]), 1)) : createCommentVNode("", true)
+                    _ctx.showCheckField ? (openBlock(), createElementBlock("span", _hoisted_2$q, toDisplayString(element[_ctx.showCheckField]), 1)) : createCommentVNode("", true)
                   ])
                 ]),
                 _: 2
@@ -7415,7 +7423,7 @@ _sfc_main$16.install = (app) => {
   app.component(_sfc_main$16.__name, _sfc_main$16);
 };
 const _hoisted_1$J = { class: "els-node" };
-const _hoisted_2$o = ["onDblclick"];
+const _hoisted_2$p = ["onDblclick"];
 const _sfc_main$15 = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsTreeSelect", inheritAttrs: false },
   __name: "TreeSelect",
@@ -7988,7 +7996,7 @@ const _sfc_main$15 = /* @__PURE__ */ defineComponent({
                   unref(currMultiple) ? (openBlock(), createElementBlock("span", {
                     key: 0,
                     onDblclick: ($event) => handleAllSelect(node)
-                  }, toDisplayString(node.label), 41, _hoisted_2$o)) : (openBlock(), createElementBlock("span", {
+                  }, toDisplayString(node.label), 41, _hoisted_2$p)) : (openBlock(), createElementBlock("span", {
                     key: 1,
                     class: normalizeClass({ "els-tree-selected": viewData.value && viewData.value[_ctx.valueField] == data.sourceData[_ctx.valueField] })
                   }, [
@@ -8019,7 +8027,7 @@ TreeSelect.install = (app) => {
   app.component(TreeSelect.__name, TreeSelect);
 };
 const _hoisted_1$I = { class: "els-node" };
-const _hoisted_2$n = { class: "els-tree" };
+const _hoisted_2$o = { class: "els-tree" };
 const _hoisted_3$h = ["onDblclick"];
 const _hoisted_4$c = ["onDblclick"];
 const _sfc_main$14 = /* @__PURE__ */ defineComponent({
@@ -8647,7 +8655,7 @@ const _sfc_main$14 = /* @__PURE__ */ defineComponent({
       const _component_ElsFormNode = resolveComponent("ElsFormNode");
       const _directive_loading = resolveDirective("loading");
       return openBlock(), createElementBlock("div", _hoisted_1$I, [
-        createElementVNode("div", _hoisted_2$n, [
+        createElementVNode("div", _hoisted_2$o, [
           createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom).getFormNodeProps(props))), {
             default: withCtx(() => [
               _ctx.filterable ? (openBlock(), createBlock(_component_el_input, {
@@ -9062,7 +9070,7 @@ _sfc_main$13.install = (app) => {
   app.component(_sfc_main$13.__name, _sfc_main$13);
 };
 const _hoisted_1$G = ["title"];
-const _hoisted_2$m = ["title"];
+const _hoisted_2$n = ["title"];
 const _hoisted_3$g = ["title"];
 const _sfc_main$12 = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsMenuItem" },
@@ -9132,7 +9140,7 @@ const _sfc_main$12 = /* @__PURE__ */ defineComponent({
               _ctx.item.label ? (openBlock(), createElementBlock("span", {
                 key: 0,
                 title: _ctx.item.label
-              }, toDisplayString(_ctx.item.label), 9, _hoisted_2$m)) : createCommentVNode("", true)
+              }, toDisplayString(_ctx.item.label), 9, _hoisted_2$n)) : createCommentVNode("", true)
             ], 2)
           ]),
           default: withCtx(() => [
@@ -9291,7 +9299,7 @@ const _hoisted_1$E = {
   key: 0,
   class: "leo_image_empty"
 };
-const _hoisted_2$l = ["width"];
+const _hoisted_2$m = ["width"];
 const _hoisted_3$f = /* @__PURE__ */ createElementVNode("path", {
   d: "M345.15968 357.80096a48.54784 48.54784 0 1 0 48.52736 48.54784 48.58368 48.58368 0 0 0-48.52736-48.54784zM844.68736 174.08H184.43264A102.656 102.656 0 0 0 81.92 276.64896v470.70208A102.656 102.656 0 0 0 184.43264 849.92h660.25472A102.65088 102.65088 0 0 0 947.2 747.35104V276.64896A102.65088 102.65088 0 0 0 844.68736 174.08zM345.15968 295.02976a111.32416 111.32416 0 1 1-111.2576 111.31904 111.42144 111.42144 0 0 1 111.2576-111.31904z m-72.45312 444.544l-42.496-46.17728 174.71488-161.0496L483.88096 611.328l-44.35968 44.39552-36.38272-36.4032z m517.6064-25.12896l-134.55872-151.552-171.12064 183.42912L438.784 703.488l218.112-233.82016 180.3264 203.10016z",
   fill: "#7da3cc",
@@ -9373,7 +9381,7 @@ const _sfc_main$$ = /* @__PURE__ */ defineComponent({
             xmlns: "http://www.w3.org/2000/svg",
             "p-id": "4592",
             width: _ctx.width
-          }, _hoisted_4$b, 8, _hoisted_2$l)),
+          }, _hoisted_4$b, 8, _hoisted_2$m)),
           _ctx.emptyDesc ? (openBlock(), createElementBlock("div", {
             key: 0,
             innerHTML: _ctx.emptyDesc,
@@ -10054,7 +10062,7 @@ _sfc_main$X.install = (app) => {
   app.component(_sfc_main$X.__name, _sfc_main$X);
 };
 const _hoisted_1$B = ["src"];
-const _hoisted_2$k = ["src"];
+const _hoisted_2$l = ["src"];
 const _sfc_main$W = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsDialog"
@@ -10244,7 +10252,7 @@ const _sfc_main$W = /* @__PURE__ */ defineComponent({
                 src: dialogUrl.value,
                 frameborder: "0",
                 style: normalizeStyle(contentStyle.value)
-              }, null, 12, _hoisted_2$k)) : createCommentVNode("", true)
+              }, null, 12, _hoisted_2$l)) : createCommentVNode("", true)
             ])
           ], 4)), [
             [_directive_loading, pageLoading.value]
@@ -10384,7 +10392,7 @@ _sfc_main$V.install = (app) => {
   app.component(_sfc_main$V.__name, _sfc_main$V);
 };
 const _hoisted_1$z = { class: "el-dropdown-link" };
-const _hoisted_2$j = ["innerHTML"];
+const _hoisted_2$k = ["innerHTML"];
 const _hoisted_3$e = ["innerHTML"];
 const _sfc_main$U = /* @__PURE__ */ defineComponent({
   ...{
@@ -10557,7 +10565,7 @@ const _sfc_main$U = /* @__PURE__ */ defineComponent({
         default: withCtx(() => [
           renderSlot(_ctx.$slots, "default", {}, () => [
             createElementVNode("span", _hoisted_1$z, [
-              createElementVNode("span", { innerHTML: showTitle.value }, null, 8, _hoisted_2$j),
+              createElementVNode("span", { innerHTML: showTitle.value }, null, 8, _hoisted_2$k),
               createVNode(_component_el_icon, { class: "el-icon--right" }, {
                 default: withCtx(() => [
                   createVNode(_component_arrow_down)
@@ -11931,7 +11939,7 @@ function showNotify(options) {
 }
 withInstall(stdin_default);
 const _hoisted_1$w = { class: "els-node" };
-const _hoisted_2$i = {
+const _hoisted_2$j = {
   key: 0,
   class: "els_upload_container"
 };
@@ -12297,7 +12305,7 @@ ${res[apiConfig.$messageField]}` });
           tagName: "Upload"
         }), {
           default: withCtx(() => [
-            !unref(isMobile) ? (openBlock(), createElementBlock("div", _hoisted_2$i, [
+            !unref(isMobile) ? (openBlock(), createElementBlock("div", _hoisted_2$j, [
               createVNode(_component_el_upload, mergeProps({
                 ref_key: "fileUpload",
                 ref: fileUpload,
@@ -13590,7 +13598,6 @@ const _sfc_main$K = /* @__PURE__ */ defineComponent({
   },
   __name: "Tabs",
   props: {
-    type: {},
     modelValue: {},
     labelField: { default: "label" },
     valueField: { default: "value" },
@@ -13850,11 +13857,11 @@ const _sfc_main$K = /* @__PURE__ */ defineComponent({
         class: "els-node",
         style: normalizeStyle(_ctx.labelWidth === "0" ? "--margin-bottom:0px" : "")
       }, [
-        createVNode(_component_el_tabs, {
+        createVNode(_component_el_tabs, mergeProps({
           modelValue: selectValue.value,
           "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => selectValue.value = $event),
           ref: "elsTabs"
-        }, createSlots({
+        }, unref(attrs)), createSlots({
           default: withCtx(() => [
             renderSlot(_ctx.$slots, "extra", {}, void 0, true),
             _ctx.url || _ctx.data && _ctx.data.length || options.length ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
@@ -13905,18 +13912,18 @@ const _sfc_main$K = /* @__PURE__ */ defineComponent({
             ]),
             key: "0"
           } : void 0
-        ]), 1032, ["modelValue"])
+        ]), 1040, ["modelValue"])
       ], 4);
     };
   }
 });
-const Tabs_vue_vue_type_style_index_0_scoped_75d87db2_lang = "";
-const Tabs = /* @__PURE__ */ _export_sfc(_sfc_main$K, [["__scopeId", "data-v-75d87db2"]]);
+const Tabs_vue_vue_type_style_index_0_scoped_c1fa819a_lang = "";
+const Tabs = /* @__PURE__ */ _export_sfc(_sfc_main$K, [["__scopeId", "data-v-c1fa819a"]]);
 Tabs.install = (app) => {
   app.component(Tabs.__name, Tabs);
 };
 const _hoisted_1$q = ["onClick"];
-const _hoisted_2$h = { class: "air-table__context--info" };
+const _hoisted_2$i = { class: "air-table__context--info" };
 const _sfc_main$J = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsMenuContext" },
   __name: "MenuContext",
@@ -13990,7 +13997,7 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
             createElementVNode("i", {
               class: normalizeClass(item[unref(iconFieldname)])
             }, null, 2),
-            createElementVNode("span", _hoisted_2$h, toDisplayString(item[unref(nameFieldname)]), 1)
+            createElementVNode("span", _hoisted_2$i, toDisplayString(item[unref(nameFieldname)]), 1)
           ], 8, _hoisted_1$q);
         }), 128))
       ], 6)), [
@@ -14008,7 +14015,7 @@ const _hoisted_1$p = {
   key: 0,
   class: "els-table-operate"
 };
-const _hoisted_2$g = { class: "els-table-operate-link" };
+const _hoisted_2$h = { class: "els-table-operate-link" };
 const _hoisted_3$c = ["onClick"];
 const _sfc_main$I = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsMenuDropdown" },
@@ -14115,7 +14122,7 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
               })
             ]),
             default: withCtx(() => [
-              createElementVNode("span", _hoisted_2$g, [
+              createElementVNode("span", _hoisted_2$h, [
                 createTextVNode(toDisplayString(_ctx.unFoldCount > 0 ? "更多操作" : "操作") + " ", 1),
                 createVNode(_component_el_icon, { class: "el-icon--right" }, {
                   default: withCtx(() => [
@@ -14170,7 +14177,7 @@ MenuDropdown.install = (app) => {
   app.component(MenuDropdown.__name, MenuDropdown);
 };
 const _hoisted_1$o = { class: "els-tool-menu" };
-const _hoisted_2$f = { class: "els-tool-menu-button" };
+const _hoisted_2$g = { class: "els-tool-menu-button" };
 const _hoisted_3$b = {
   key: 0,
   class: "operationlog"
@@ -14368,7 +14375,7 @@ const _sfc_main$H = /* @__PURE__ */ defineComponent({
       const _component_el_dialog = resolveComponent("el-dialog");
       const _component_els_dialog = resolveComponent("els-dialog");
       return openBlock(), createElementBlock("div", _hoisted_1$o, [
-        createElementVNode("div", _hoisted_2$f, [
+        createElementVNode("div", _hoisted_2$g, [
           (openBlock(true), createElementBlock(Fragment, null, renderList(menuData, (menu) => {
             return openBlock(), createBlock(_component_el_button, {
               type: menu[unref(buttonColorFieldname)],
@@ -14678,9 +14685,9 @@ const _hoisted_1$n = {
   key: 0,
   class: "els-caption-sub-header"
 };
-const _hoisted_2$e = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("i", { class: "dec" }, null, -1));
+const _hoisted_2$f = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("i", { class: "dec" }, null, -1));
 const _hoisted_3$a = [
-  _hoisted_2$e
+  _hoisted_2$f
 ];
 const _hoisted_4$8 = { class: "els-caption-title" };
 const _sfc_main$F = /* @__PURE__ */ defineComponent({
@@ -14811,7 +14818,7 @@ Caption.install = (app) => {
   app.component(Caption.__name, Caption);
 };
 const _hoisted_1$m = { class: "els-datamodal" };
-const _hoisted_2$d = { class: "dialog-footer" };
+const _hoisted_2$e = { class: "dialog-footer" };
 const _sfc_main$E = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsDataModal" },
   __name: "DataModal",
@@ -15003,7 +15010,7 @@ const _sfc_main$E = /* @__PURE__ */ defineComponent({
           !modalUrl.value ? {
             name: "footer",
             fn: withCtx(() => [
-              createElementVNode("span", _hoisted_2$d, [
+              createElementVNode("span", _hoisted_2$e, [
                 createVNode(_component_el_button, {
                   onClick: _cache[1] || (_cache[1] = ($event) => dialogVisible.value = false)
                 }, {
@@ -25940,10 +25947,619 @@ const property_card = [
     "formItem": false
   }
 ];
+const property_slider = [
+  {
+    "keyID": "-xCWZnR6-",
+    "keyName": "Form",
+    "keyCode": "ZMn4o0KEwK",
+    "data": [
+      {
+        "keyID": "key_72374",
+        "keyName": "栅格行",
+        "keyCode": "",
+        "data": [
+          {
+            "keyID": "key_29856",
+            "keyName": "最小值",
+            "keyCode": "min",
+            "data": [],
+            "dataType": "Number",
+            "arrayDataType": "",
+            "componentTypeLabel": "数字输入框",
+            "componentType": "InputNumber",
+            "config": {
+              "formConfig": {
+                "labelWidth": "",
+                "suffixContent": "",
+                "required": false,
+                "requiredMessage": "",
+                "tip": "",
+                "tipPosition": "left",
+                "validType": "",
+                "validMessage": "",
+                "validExpression": "",
+                "validMethod": ""
+              },
+              "baseConfig": {
+                "controls-position": "",
+                "width": "",
+                "step": "",
+                "precision": "",
+                "min": "",
+                "max": ""
+              },
+              "advancedConfig": {
+                "style": "",
+                "vif": "",
+                "disabled": "",
+                "eventChange": ""
+              },
+              "arrayConfig": {}
+            },
+            "defaultValue": "0"
+          },
+          {
+            "keyID": "key_57632",
+            "keyName": "最大值",
+            "keyCode": "max",
+            "data": [],
+            "dataType": "Number",
+            "arrayDataType": "",
+            "componentTypeLabel": "数字输入框",
+            "componentType": "InputNumber",
+            "config": {
+              "formConfig": {
+                "labelWidth": "",
+                "suffixContent": "",
+                "required": false,
+                "requiredMessage": "",
+                "tip": "",
+                "tipPosition": "left",
+                "validType": "",
+                "validMessage": "",
+                "validExpression": "",
+                "validMethod": ""
+              },
+              "baseConfig": {
+                "controls-position": "",
+                "width": "",
+                "step": "",
+                "precision": "",
+                "min": "",
+                "max": ""
+              },
+              "advancedConfig": {
+                "style": "",
+                "vif": "",
+                "disabled": "",
+                "eventChange": ""
+              },
+              "arrayConfig": {}
+            },
+            "defaultValue": "100"
+          }
+        ],
+        "dataType": "None",
+        "arrayDataType": "",
+        "componentTypeLabel": "栅格行",
+        "componentType": "Row",
+        "config": {
+          "formConfig": {},
+          "baseConfig": {
+            "gutter": "",
+            "justify": "",
+            "align": "",
+            "tag": "div"
+          },
+          "advancedConfig": {
+            "style": "",
+            "vif": "",
+            "disabled": "",
+            "eventChange": ""
+          },
+          "arrayConfig": {}
+        },
+        "defaultValue": ""
+      },
+      {
+        "keyID": "key_62468",
+        "keyName": "栅格行",
+        "keyCode": "",
+        "data": [
+          {
+            "keyID": "key_83066",
+            "keyName": "步长",
+            "keyCode": "step",
+            "data": [],
+            "dataType": "Number",
+            "arrayDataType": "",
+            "componentTypeLabel": "数字输入框",
+            "componentType": "InputNumber",
+            "config": {
+              "formConfig": {
+                "labelWidth": "",
+                "suffixContent": "",
+                "required": false,
+                "requiredMessage": "",
+                "tip": "",
+                "tipPosition": "left",
+                "validType": "",
+                "validMessage": "",
+                "validExpression": "",
+                "validMethod": ""
+              },
+              "baseConfig": {
+                "controls-position": "",
+                "width": "",
+                "step": "",
+                "precision": "",
+                "min": "",
+                "max": ""
+              },
+              "advancedConfig": {
+                "style": "",
+                "vif": "",
+                "disabled": "",
+                "eventChange": ""
+              },
+              "arrayConfig": {}
+            },
+            "defaultValue": ""
+          },
+          {
+            "keyID": "key_67912",
+            "keyName": "是否禁用",
+            "keyCode": "disabled",
+            "data": [],
+            "dataType": "Bool",
+            "arrayDataType": "",
+            "componentTypeLabel": "开关",
+            "componentType": "Switch",
+            "config": {
+              "formConfig": {
+                "labelWidth": "",
+                "suffixContent": "",
+                "required": false,
+                "requiredMessage": "",
+                "tip": "",
+                "tipPosition": "left",
+                "validType": "",
+                "validMessage": "",
+                "validExpression": "",
+                "validMethod": ""
+              },
+              "baseConfig": {
+                "active-text": "",
+                "inactive-text": "",
+                "active-value": true,
+                "inactive-value": false
+              },
+              "advancedConfig": {
+                "style": "",
+                "vif": "",
+                "disabled": "",
+                "eventChange": ""
+              },
+              "arrayConfig": {}
+            },
+            "defaultValue": ""
+          }
+        ],
+        "dataType": "None",
+        "arrayDataType": "",
+        "componentTypeLabel": "栅格行",
+        "componentType": "Row",
+        "config": {
+          "formConfig": {},
+          "baseConfig": {
+            "gutter": "",
+            "justify": "",
+            "align": "",
+            "tag": "div"
+          },
+          "advancedConfig": {
+            "style": "",
+            "vif": "",
+            "disabled": "",
+            "eventChange": ""
+          },
+          "arrayConfig": {}
+        },
+        "defaultValue": ""
+      },
+      {
+        "keyID": "key_56324",
+        "keyName": "栅格行",
+        "keyCode": "",
+        "data": [
+          {
+            "keyID": "key_9098",
+            "keyName": "是否显示输入框",
+            "keyCode": "show-input",
+            "data": [],
+            "dataType": "Bool",
+            "arrayDataType": "",
+            "componentTypeLabel": "开关",
+            "componentType": "Switch",
+            "config": {
+              "formConfig": {
+                "labelWidth": "",
+                "suffixContent": "",
+                "required": false,
+                "requiredMessage": "",
+                "tip": "",
+                "tipPosition": "left",
+                "validType": "",
+                "validMessage": "",
+                "validExpression": "",
+                "validMethod": ""
+              },
+              "baseConfig": {
+                "active-text": "",
+                "inactive-text": "",
+                "active-value": true,
+                "inactive-value": false
+              },
+              "advancedConfig": {
+                "style": "",
+                "vif": "",
+                "disabled": "",
+                "eventChange": ""
+              },
+              "arrayConfig": {}
+            },
+            "defaultValue": ""
+          },
+          {
+            "keyID": "key_28166",
+            "keyName": "是否显示输入框的控制按钮",
+            "keyCode": "show-input-controls",
+            "data": [],
+            "dataType": "Bool",
+            "arrayDataType": "",
+            "componentTypeLabel": "开关",
+            "componentType": "Switch",
+            "config": {
+              "formConfig": {
+                "labelWidth": "",
+                "suffixContent": "",
+                "required": false,
+                "requiredMessage": "",
+                "tip": "",
+                "tipPosition": "left",
+                "validType": "",
+                "validMessage": "",
+                "validExpression": "",
+                "validMethod": ""
+              },
+              "baseConfig": {
+                "active-text": "",
+                "inactive-text": "",
+                "active-value": true,
+                "inactive-value": false
+              },
+              "advancedConfig": {
+                "style": "",
+                "vif": "",
+                "disabled": "",
+                "eventChange": ""
+              },
+              "arrayConfig": {}
+            },
+            "defaultValue": "true"
+          }
+        ],
+        "dataType": "None",
+        "arrayDataType": "",
+        "componentTypeLabel": "栅格行",
+        "componentType": "Row",
+        "config": {
+          "formConfig": {},
+          "baseConfig": {
+            "gutter": "",
+            "justify": "",
+            "align": "",
+            "tag": "div"
+          },
+          "advancedConfig": {
+            "style": "",
+            "vif": "",
+            "disabled": "",
+            "eventChange": ""
+          },
+          "arrayConfig": {}
+        },
+        "defaultValue": ""
+      },
+      {
+        "keyID": "key_68410",
+        "keyName": "栅格行",
+        "keyCode": "",
+        "data": [
+          {
+            "keyID": "key_92947",
+            "keyName": "是否显示间断点",
+            "keyCode": "show-stops",
+            "data": [],
+            "dataType": "Bool",
+            "arrayDataType": "",
+            "componentTypeLabel": "开关",
+            "componentType": "Switch",
+            "config": {
+              "formConfig": {
+                "labelWidth": "",
+                "suffixContent": "",
+                "required": false,
+                "requiredMessage": "",
+                "tip": "",
+                "tipPosition": "left",
+                "validType": "",
+                "validMessage": "",
+                "validExpression": "",
+                "validMethod": ""
+              },
+              "baseConfig": {
+                "active-text": "",
+                "inactive-text": "",
+                "active-value": true,
+                "inactive-value": false
+              },
+              "advancedConfig": {
+                "style": "",
+                "vif": "",
+                "disabled": "",
+                "eventChange": ""
+              },
+              "arrayConfig": {}
+            },
+            "defaultValue": ""
+          },
+          {
+            "keyID": "key_92105",
+            "keyName": "是否显示提示信息",
+            "keyCode": "show-tooltip",
+            "data": [],
+            "dataType": "Bool",
+            "arrayDataType": "",
+            "componentTypeLabel": "开关",
+            "componentType": "Switch",
+            "config": {
+              "formConfig": {
+                "labelWidth": "",
+                "suffixContent": "",
+                "required": false,
+                "requiredMessage": "",
+                "tip": "",
+                "tipPosition": "left",
+                "validType": "",
+                "validMessage": "",
+                "validExpression": "",
+                "validMethod": ""
+              },
+              "baseConfig": {
+                "active-text": "",
+                "inactive-text": "",
+                "active-value": true,
+                "inactive-value": false
+              },
+              "advancedConfig": {
+                "style": "",
+                "vif": "",
+                "disabled": "",
+                "eventChange": ""
+              },
+              "arrayConfig": {}
+            },
+            "defaultValue": "true"
+          }
+        ],
+        "dataType": "None",
+        "arrayDataType": "",
+        "componentTypeLabel": "栅格行",
+        "componentType": "Row",
+        "config": {
+          "formConfig": {},
+          "baseConfig": {
+            "gutter": "",
+            "justify": "",
+            "align": "",
+            "tag": "div"
+          },
+          "advancedConfig": {
+            "style": "",
+            "vif": "",
+            "disabled": "",
+            "eventChange": ""
+          },
+          "arrayConfig": {}
+        },
+        "defaultValue": ""
+      },
+      {
+        "keyID": "key_75887",
+        "keyName": "栅格行",
+        "keyCode": "",
+        "data": [
+          {
+            "keyID": "key_29769",
+            "keyName": "垂直模式",
+            "keyCode": "vertical",
+            "data": [],
+            "dataType": "Bool",
+            "arrayDataType": "",
+            "componentTypeLabel": "开关",
+            "componentType": "Switch",
+            "config": {
+              "formConfig": {
+                "labelWidth": "",
+                "suffixContent": "",
+                "required": false,
+                "requiredMessage": "",
+                "tip": "",
+                "tipPosition": "left",
+                "validType": "",
+                "validMessage": "",
+                "validExpression": "",
+                "validMethod": ""
+              },
+              "baseConfig": {
+                "active-text": "",
+                "inactive-text": "",
+                "active-value": true,
+                "inactive-value": false
+              },
+              "advancedConfig": {
+                "style": "",
+                "vif": "",
+                "disabled": "",
+                "eventChange": ""
+              },
+              "arrayConfig": {}
+            },
+            "defaultValue": ""
+          },
+          {
+            "keyID": "key_65684",
+            "keyName": "滑块高度，垂直模式必填",
+            "keyCode": "height",
+            "data": [],
+            "dataType": "String",
+            "arrayDataType": "",
+            "componentTypeLabel": "输入框",
+            "componentType": "Input",
+            "config": {
+              "formConfig": {
+                "labelWidth": "",
+                "suffixContent": "",
+                "required": false,
+                "requiredMessage": "",
+                "tip": "",
+                "tipPosition": "left",
+                "validType": "",
+                "validMessage": "",
+                "validExpression": "",
+                "validMethod": ""
+              },
+              "baseConfig": {
+                "width": "150",
+                "placeholder": "",
+                "prefixIcon": "",
+                "suffixIcon": "",
+                "prefixTag": "",
+                "suffixTag": "",
+                "showWordLimit": false,
+                "maxlength": "",
+                "clearable": true,
+                "showPassword": false,
+                "isTrim": false,
+                "encode": false
+              },
+              "advancedConfig": {
+                "style": "",
+                "vif": "",
+                "disabled": "",
+                "eventChange": ""
+              },
+              "arrayConfig": {}
+            },
+            "defaultValue": ""
+          }
+        ],
+        "dataType": "None",
+        "arrayDataType": "",
+        "componentTypeLabel": "栅格行",
+        "componentType": "Row",
+        "config": {
+          "formConfig": {},
+          "baseConfig": {
+            "gutter": "",
+            "justify": "",
+            "align": "",
+            "tag": "div"
+          },
+          "advancedConfig": {
+            "style": "",
+            "vif": "",
+            "disabled": "",
+            "eventChange": ""
+          },
+          "arrayConfig": {}
+        },
+        "defaultValue": ""
+      },
+      {
+        "keyID": "key_64656",
+        "keyName": "是否开启选择范围",
+        "keyCode": "range",
+        "data": [],
+        "dataType": "Bool",
+        "arrayDataType": "",
+        "componentTypeLabel": "开关",
+        "componentType": "Switch",
+        "config": {
+          "formConfig": {
+            "labelWidth": "",
+            "suffixContent": "",
+            "required": false,
+            "requiredMessage": "",
+            "tip": "",
+            "tipPosition": "left",
+            "validType": "",
+            "validMessage": "",
+            "validExpression": "",
+            "validMethod": ""
+          },
+          "baseConfig": {
+            "active-text": "",
+            "inactive-text": "",
+            "active-value": true,
+            "inactive-value": false
+          },
+          "advancedConfig": {
+            "style": "",
+            "vif": "",
+            "disabled": "",
+            "eventChange": ""
+          },
+          "arrayConfig": {}
+        },
+        "defaultValue": ""
+      }
+    ],
+    "dataType": "None",
+    "arrayDataType": "",
+    "componentTypeLabel": "Form表单",
+    "componentType": "Form",
+    "config": {
+      "baseConfig": {
+        "inline": false,
+        "labelPosition": "top",
+        "labelWidth": "",
+        "labelSuffix": "",
+        "hideRequiredAsterisk": false,
+        "requireAsteriskPosition": "",
+        "showMessage": true,
+        "inlineMessage": false,
+        "statusIcon": false,
+        "disabled": false,
+        "scrollToError": false,
+        "scrollIntoViewOptions": false
+      },
+      "advancedConfig": {
+        "style": "",
+        "vif": "",
+        "disabled": "",
+        "eventChange": ""
+      },
+      "arrayConfig": {}
+    }
+  }
+];
 const dynamicComponentTypes = [
   { componentName: "ElsInput", label: "输入框", value: "Input", type: "Input", dataTypes: ["String"], defaultPropertys: {}, propertys: property_input, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
   { componentName: "ElsTextarea", label: "文本域", value: "Textarea", type: "Textarea", dataTypes: ["String"], defaultPropertys: {}, propertys: property_textarea, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
   { componentName: "ElsInputNumber", label: "数字输入框", value: "InputNumber", type: "InputNumber", dataTypes: ["Number"], defaultPropertys: {}, propertys: property_inputNumber, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
+  { componentName: "ElsSlider", label: "Slider滑块", value: "Slider", type: "Slider", dataTypes: ["Number"], defaultPropertys: {}, propertys: property_slider, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
   { componentName: "ElsSwitch", label: "开关", value: "Switch", type: "Switch", dataTypes: ["Bool", "String", "Number"], defaultPropertys: {}, propertys: property_switch, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
   { componentName: "ElsCheckbox", label: "多选列表", value: "Checkbox", type: "Checkbox", dataTypes: ["String"], defaultPropertys: {}, propertys: property_checkbox, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
   { componentName: "ElsSelect", label: "下拉列表", value: "Select", type: "Select", dataTypes: ["String", "Number", "Bool"], defaultPropertys: {}, propertys: property_select, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
@@ -26072,17 +26688,18 @@ class DynamicHandler {
     const currDataType = this.dataTypes.find((d2) => d2.value === item.dataType || d2.type === item.dataType);
     const currArrayDataType = this.dataTypes.find((d2) => d2.value === item.arrayDataType || d2.type === item.arrayDataType);
     const currcomponentType = this.componentTypes.find((d2) => d2.value === item.componentType || d2.type === item.componentType);
-    if ((currDataType == null ? void 0 : currDataType.type) === "Object" || (currDataType == null ? void 0 : currDataType.type) === "Array") {
-      item.componentGroup = "Form";
-    } else {
-      item.componentGroup = currcomponentType == null ? void 0 : currcomponentType.group;
-    }
     item.componentTypeName = currcomponentType == null ? void 0 : currcomponentType.type;
     item.dataTypeName = currDataType == null ? void 0 : currDataType.type;
     item.arrayDataTypeName = currArrayDataType == null ? void 0 : currArrayDataType.type;
     item.componentName = currcomponentType == null ? void 0 : currcomponentType.componentName;
     item.formItem = currcomponentType == null ? void 0 : currcomponentType.formItem;
     item.componentGroup = currcomponentType == null ? void 0 : currcomponentType.group;
+    if ((currDataType == null ? void 0 : currDataType.type) === "Object" || (currDataType == null ? void 0 : currDataType.type) === "Array") {
+      item.formItem = true;
+      item.componentGroup = "Form";
+    } else {
+      item.componentGroup = currcomponentType == null ? void 0 : currcomponentType.group;
+    }
   }
   initConfigType(data) {
     data.forEach((ele) => {
@@ -26342,7 +26959,7 @@ class DynamicHandler {
           }
           break;
         case "Bool":
-          if (((_a2 = item.defaultValue) == null ? void 0 : _a2.toLowerCase()) === "true") {
+          if (((_a2 = item.defaultValue) == null ? void 0 : _a2.toString().toLowerCase()) === "true") {
             item.value = true;
           } else {
             item.value = false;
@@ -26977,7 +27594,7 @@ const _sfc_main$x = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$i = { class: "els-dynamic-create" };
-const _hoisted_2$c = { style: { "margin-bottom": "10px" } };
+const _hoisted_2$d = { style: { "margin-bottom": "10px" } };
 const _hoisted_3$9 = { class: "dialog-footer" };
 const _sfc_main$w = /* @__PURE__ */ defineComponent({
   ...{
@@ -27253,7 +27870,7 @@ const _sfc_main$w = /* @__PURE__ */ defineComponent({
                   ]),
                   _: 1
                 }, 8, ["modelValue"])) : (openBlock(), createElementBlock(Fragment, { key: 1 }, [
-                  createElementVNode("div", _hoisted_2$c, [
+                  createElementVNode("div", _hoisted_2$d, [
                     createVNode(_component_el_link, {
                       type: "primary",
                       onClick: _cache[5] || (_cache[5] = ($event) => createResultVisible.value = !createResultVisible.value)
@@ -27285,7 +27902,7 @@ const _hoisted_1$h = {
   key: 0,
   class: "tag-name"
 };
-const _hoisted_2$b = {
+const _hoisted_2$c = {
   key: 1,
   class: "els-dynamicc-d-head"
 };
@@ -27399,7 +28016,7 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
   emits: ["update:data", "removeItem"],
   setup(__props, { emit: __emit }) {
     const DynamicDesignerInnerItem = defineAsyncComponent(() => {
-      return import("./DynamicDesignerInnerItem-500b7f5a.js");
+      return import("./DynamicDesignerInnerItem-2405fc84.js");
     });
     const { getValue: getValue2 } = useValue();
     const tagID = getValue2("tagID");
@@ -27538,7 +28155,7 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
               _: 1
             })
           ])) : createCommentVNode("", true),
-          _ctx.isContainer !== true ? (openBlock(), createElementBlock("div", _hoisted_2$b, [
+          _ctx.isContainer !== true ? (openBlock(), createElementBlock("div", _hoisted_2$c, [
             unref(columnVisible)("keyName") ? (openBlock(), createElementBlock("span", _hoisted_3$8, "名称")) : createCommentVNode("", true),
             unref(columnVisible)("keyCode") ? (openBlock(), createElementBlock("span", _hoisted_4$7, "编码")) : createCommentVNode("", true),
             unref(columnVisible)("dataType") ? (openBlock(), createElementBlock("span", _hoisted_5$7, "类型")) : createCommentVNode("", true),
@@ -27747,19 +28364,29 @@ const _sfc_main$u = /* @__PURE__ */ defineComponent({
     function handleSelectItem() {
       setSelectItem(props.nodeItem);
     }
+    function setDefaultPropertys(currBaseConfig, defaultPropertys) {
+      for (const key in defaultPropertys) {
+        if (!currBaseConfig[key]) {
+          currBaseConfig[key] = defaultPropertys[key];
+        } else if (typeof defaultPropertys[key] === "object") {
+          setDefaultPropertys(currBaseConfig["key"], defaultPropertys[key]);
+        }
+      }
+    }
     const baseAttrs2 = computed(() => {
       let baseConfig = {};
       const currNodeItem = props.nodeItem;
       const currControl = controlData.find((ele) => ele.value == currNodeItem.componentType);
       if (currControl == null ? void 0 : currControl.defaultPropertys) {
-        const currBaseConfig = Object.assign({}, currControl == null ? void 0 : currControl.defaultPropertys, currNodeItem.config.baseConfig);
-        for (var key in currBaseConfig) {
+        const currBaseConfig = Object.assign({}, currNodeItem.config.baseConfig);
+        for (const key in currBaseConfig) {
           if (key) {
             if (currBaseConfig[key] === void 0 || currBaseConfig[key] === "") {
               delete currBaseConfig[key];
             }
           }
         }
+        setDefaultPropertys(currBaseConfig, currControl.defaultPropertys);
         baseConfig = currBaseConfig;
       }
       const currAttrs = Object.assign(lessCom.cloneObj(baseConfig), { "style": currNodeItem.config.advancedConfig.style }, attrs);
@@ -27808,7 +28435,7 @@ const _hoisted_1$g = {
   key: 0,
   class: "els-dynamic-d-v-item-type"
 };
-const _hoisted_2$a = { class: "els-dynamic-d-v-item-move" };
+const _hoisted_2$b = { class: "els-dynamic-d-v-item-move" };
 const _sfc_main$t = /* @__PURE__ */ defineComponent({
   __name: "DynamicDesignerViewOperate",
   props: {
@@ -27848,7 +28475,7 @@ const _sfc_main$t = /* @__PURE__ */ defineComponent({
           createElementVNode("span", null, toDisplayString(_ctx.nodeItem.dataTypeName === "Array" ? `Array
             <${_ctx.nodeItem.arrayDataTypeName ? _ctx.nodeItem.arrayDataTypeName : "T"}>` : _ctx.nodeItem.dataTypeName), 1)
         ])) : createCommentVNode("", true),
-        createElementVNode("span", _hoisted_2$a, [
+        createElementVNode("span", _hoisted_2$b, [
           !handleIfExpress() ? (openBlock(), createBlock(_component_el_icon, { key: 0 }, {
             default: withCtx(() => [
               createVNode(_component_Hide)
@@ -27897,10 +28524,9 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
     });
     const handleMove = getValue2("handleMove", () => {
     });
-    ref$1(false);
     const componentAttr = computed(() => {
       if (props.nodeItem.componentTypeName == "Option") {
-        return { label: props.nodeItem.config.baseConfig.label || props.nodeItem.keyName, value: props.nodeItem.config.baseConfig.value || props.nodeItem.keyCode };
+        return { label: props.nodeItem.config.baseConfig.label || props.nodeItem.keyName, value: props.nodeItem.config.baseConfig.value || props.nodeItem.keyID };
       }
       return {};
     });
@@ -27987,8 +28613,8 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const DynamicDesignerViewWrap_vue_vue_type_style_index_0_scoped_ded6ac09_lang = "";
-const DynamicDesignerViewWrap = /* @__PURE__ */ _export_sfc(_sfc_main$s, [["__scopeId", "data-v-ded6ac09"]]);
+const DynamicDesignerViewWrap_vue_vue_type_style_index_0_scoped_d6120862_lang = "";
+const DynamicDesignerViewWrap = /* @__PURE__ */ _export_sfc(_sfc_main$s, [["__scopeId", "data-v-d6120862"]]);
 const _sfc_main$r = /* @__PURE__ */ defineComponent({
   ...{
     inheritAttrs: false
@@ -28404,12 +29030,12 @@ const useDesign = defineStore("design", () => {
     clear
   };
 });
-const _withScopeId = (n2) => (pushScopeId("data-v-47b08474"), n2 = n2(), popScopeId(), n2);
+const _withScopeId = (n2) => (pushScopeId("data-v-d5990ab4"), n2 = n2(), popScopeId(), n2);
 const _hoisted_1$e = {
   style: { "display": "flex", "background": "#f8f8f8" },
   class: "els-dynamic-view"
 };
-const _hoisted_2$9 = {
+const _hoisted_2$a = {
   style: { "flex-basis": "260px", "flex-shrink": "0", "background": "#fff" },
   class: "els-dynamic-view-components"
 };
@@ -28483,6 +29109,7 @@ const _sfc_main$n = /* @__PURE__ */ defineComponent({
     appendComponentTypes: {},
     componentRelateDataType: {},
     initRootForm: { type: Boolean },
+    onSave: { type: Function },
     prop: {},
     label: {},
     hasFormItem: { type: Boolean },
@@ -28638,7 +29265,8 @@ const _sfc_main$n = /* @__PURE__ */ defineComponent({
           advancedConfig: {},
           arrayConfig: {}
         },
-        value: initValue(currType == null ? void 0 : currType.type)
+        value: initValue(currType == null ? void 0 : currType.type),
+        defaultValue: ""
       };
       if (ele.isCustom) {
         customData.value.push(currComponent);
@@ -28941,7 +29569,9 @@ const _sfc_main$n = /* @__PURE__ */ defineComponent({
     }
     function handleSave() {
       const result = returnResult();
-      emits("save", result);
+      if (props.onSave) {
+        props.onSave(result);
+      }
     }
     setValue({
       "isMobile": false,
@@ -28987,7 +29617,7 @@ const _sfc_main$n = /* @__PURE__ */ defineComponent({
           createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom).getFormNodeProps(props))), {
             default: withCtx(() => [
               createElementVNode("div", _hoisted_1$e, [
-                createElementVNode("div", _hoisted_2$9, [
+                createElementVNode("div", _hoisted_2$a, [
                   renderSlot(_ctx.$slots, "left", normalizeProps(guardReactiveProps({ data: controlData.value, customData: customData.value })), () => [
                     createVNode(_component_el_tabs, { stretch: "" }, {
                       default: withCtx(() => [
@@ -29243,7 +29873,8 @@ const _sfc_main$n = /* @__PURE__ */ defineComponent({
                         ]),
                         _: 1
                       }),
-                      createVNode(_component_el_link, {
+                      _ctx.onSave ? (openBlock(), createBlock(_component_el_link, {
+                        key: 0,
                         type: "primary",
                         onClick: handleSave
                       }, {
@@ -29257,7 +29888,7 @@ const _sfc_main$n = /* @__PURE__ */ defineComponent({
                           createTextVNode("保存 ")
                         ]),
                         _: 1
-                      })
+                      })) : createCommentVNode("", true)
                     ])
                   ]),
                   createElementVNode("div", {
@@ -29507,8 +30138,8 @@ const _sfc_main$n = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const DynamicDesignerView_vue_vue_type_style_index_0_scoped_47b08474_lang = "";
-const DynamicDesignerView = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["__scopeId", "data-v-47b08474"]]);
+const DynamicDesignerView_vue_vue_type_style_index_0_scoped_d5990ab4_lang = "";
+const DynamicDesignerView = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["__scopeId", "data-v-d5990ab4"]]);
 const _hoisted_1$d = { class: "els-dynamic-config-tool" };
 const _sfc_main$m = /* @__PURE__ */ defineComponent({
   ...{
@@ -29604,6 +30235,9 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
       });
     }
     const dynamicHandler = new DynamicHandler(currDynamicDataType.value, currComponentTypes.value);
+    function getConverToJsonResult(obj) {
+      return dynamicHandler.jsonToConfig(obj);
+    }
     function initData(data = null) {
       let currData = props.modelValue;
       if (data) {
@@ -29788,13 +30422,19 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
       getSelectItem,
       setSelectItem,
       openCreateType,
-      openCreateComponent
+      openCreateComponent,
+      getConverToJsonResult
     });
     __expose({
       initData,
       returnTemplateValue
     });
     return (_ctx, _cache) => {
+      const _component_MoreFilled = resolveComponent("MoreFilled");
+      const _component_el_icon = resolveComponent("el-icon");
+      const _component_ElsOption = resolveComponent("ElsOption");
+      const _component_Grid = resolveComponent("Grid");
+      const _component_ElsRadioButton = resolveComponent("ElsRadioButton");
       const _component_ElsJsonEditor = resolveComponent("ElsJsonEditor");
       const _component_els_data_modal = resolveComponent("els-data-modal");
       const _component_els_dialog = resolveComponent("els-dialog");
@@ -29808,6 +30448,37 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
               ref: designerContainer
             }, [
               createElementVNode("div", _hoisted_1$d, [
+                _ctx.designerVisible ? (openBlock(), createBlock(_component_ElsRadioButton, {
+                  key: 0,
+                  modelValue: designType.value,
+                  "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => designType.value = $event)
+                }, {
+                  default: withCtx(() => [
+                    createVNode(_component_ElsOption, { value: "精简模式" }, {
+                      default: withCtx(() => [
+                        createVNode(_component_el_icon, null, {
+                          default: withCtx(() => [
+                            createVNode(_component_MoreFilled)
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    }),
+                    createVNode(_component_ElsOption, { value: "设计模式" }, {
+                      default: withCtx(() => [
+                        createVNode(_component_el_icon, null, {
+                          default: withCtx(() => [
+                            createVNode(_component_Grid)
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    })
+                  ]),
+                  _: 1
+                }, 8, ["modelValue"])) : createCommentVNode("", true),
                 createVNode(_component_els_data_modal, {
                   style: { "margin-left": "5px", "margin-bottom": "5px" },
                   title: "导入配置",
@@ -29820,7 +30491,7 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
                   default: withCtx(() => [
                     createVNode(_component_ElsJsonEditor, {
                       modelValue: importJSON.value,
-                      "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => importJSON.value = $event),
+                      "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => importJSON.value = $event),
                       style: { "height": "500px" }
                     }, null, 8, ["modelValue"])
                   ]),
@@ -29848,7 +30519,7 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
                   appendComponentTypes: _ctx.appendComponentTypes,
                   componentRelateDataType: _ctx.componentRelateDataType,
                   modelValue: designerObj.value,
-                  "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => designerObj.value = $event)
+                  "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => designerObj.value = $event)
                 }, null, 8, ["dataTypes", "camelCase", "componentTypes", "appendComponentTypes", "componentRelateDataType", "modelValue"])
               ]),
               _: 1
@@ -29859,9 +30530,9 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
         createVNode(_sfc_main$w, {
           save: handleSaveNewType,
           visible: createVisible.value,
-          "onUpdate:visible": _cache[2] || (_cache[2] = ($event) => createVisible.value = $event),
+          "onUpdate:visible": _cache[3] || (_cache[3] = ($event) => createVisible.value = $event),
           modelValue: dynamicNewType.value,
-          "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => dynamicNewType.value = $event),
+          "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => dynamicNewType.value = $event),
           camelCase: _ctx.camelCase,
           componentTypes: currComponentTypes.value,
           dataTypes: currDynamicDataType.value
@@ -29913,11 +30584,20 @@ const _sfc_main$l = /* @__PURE__ */ defineComponent({
         currValue.value = "";
       }
     }
+    function setDefaultPropertys(currBaseConfig, defaultPropertys) {
+      for (const key in defaultPropertys) {
+        if (!currBaseConfig[key]) {
+          currBaseConfig[key] = defaultPropertys[key];
+        } else if (typeof defaultPropertys[key] === "object") {
+          setDefaultPropertys(currBaseConfig["key"], defaultPropertys[key]);
+        }
+      }
+    }
     const baseAttrs2 = computed(() => {
       let baseConfig = {};
       const currControl = controlData.find((ele) => ele.value == props.nodeItem.componentType);
       if (currControl == null ? void 0 : currControl.defaultPropertys) {
-        const currBaseConfig = Object.assign({}, currControl == null ? void 0 : currControl.defaultPropertys, props.nodeItem.config.baseConfig);
+        const currBaseConfig = Object.assign({}, props.nodeItem.config.baseConfig);
         for (var key in currBaseConfig) {
           if (key) {
             if (currBaseConfig[key] === void 0 || currBaseConfig[key] === "") {
@@ -29925,6 +30605,7 @@ const _sfc_main$l = /* @__PURE__ */ defineComponent({
             }
           }
         }
+        setDefaultPropertys(currBaseConfig, currControl.defaultPropertys);
         baseConfig = currBaseConfig;
       }
       const currAttrs = Object.assign(lessCom.cloneObj(baseConfig), { "style": props.nodeItem.config.advancedConfig.style }, attrs);
@@ -30299,7 +30980,7 @@ const _sfc_main$i = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$c = { class: "els-dynamic-array" };
-const _hoisted_2$8 = { class: "els-dynamic-r-mobile-title" };
+const _hoisted_2$9 = { class: "els-dynamic-r-mobile-title" };
 const _hoisted_3$6 = ["onClick"];
 const _sfc_main$h = /* @__PURE__ */ defineComponent({
   __name: "DynamicRenderInnerObjectArray",
@@ -30364,7 +31045,7 @@ const _sfc_main$h = /* @__PURE__ */ defineComponent({
                 key: element.itemKey
               }, {
                 title: withCtx(() => [
-                  createElementVNode("div", _hoisted_2$8, [
+                  createElementVNode("div", _hoisted_2$9, [
                     createElementVNode("span", null, toDisplayString(nodeItem.value.keyName + " " + ($index + 1)), 1),
                     createElementVNode("span", {
                       class: "txt-red",
@@ -31575,7 +32256,7 @@ _sfc_main$c.install = (app) => {
   app.component(_sfc_main$c.__name, _sfc_main$c);
 };
 const _hoisted_1$a = { class: "convertImage" };
-const _hoisted_2$7 = { class: "content" };
+const _hoisted_2$8 = { class: "content" };
 const _sfc_main$b = /* @__PURE__ */ defineComponent({
   ...{ name: "ElsAceEditor" },
   __name: "AceEditor",
@@ -31669,31 +32350,31 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
     }
     onMounted(() => {
       if (props.language === "json") {
-        const currModule = import("./mode-json-ac59d821.js").then((n2) => n2.m);
+        const currModule = import("./mode-json-474a0638.js").then((n2) => n2.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/json", res);
           init();
         });
       } else if (props.language === "javascript") {
-        const currModule = import("./mode-javascript-446042df.js").then((n2) => n2.m);
+        const currModule = import("./mode-javascript-d237ee54.js").then((n2) => n2.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/javascript", res);
           init();
         });
       } else if (props.language === "csharp") {
-        const currModule = import("./mode-csharp-02d287f9.js").then((n2) => n2.m);
+        const currModule = import("./mode-csharp-0c0aa204.js").then((n2) => n2.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/csharp", res);
           init();
         });
       } else if (props.language === "mysql") {
-        const currModule = import("./mode-mysql-ba48c002.js").then((n2) => n2.m);
+        const currModule = import("./mode-mysql-6f63589a.js").then((n2) => n2.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/mysql", res);
           init();
         });
       } else if (props.language === "css") {
-        const currModule = import("./mode-css-c97bdf28.js").then((n2) => n2.m);
+        const currModule = import("./mode-css-a5243b8c.js").then((n2) => n2.m);
         currModule.then((res) => {
           ace.config.setModuleUrl("ace/mode/css", res);
           init();
@@ -31702,7 +32383,7 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
     });
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", _hoisted_1$a, [
-        createElementVNode("div", _hoisted_2$7, [
+        createElementVNode("div", _hoisted_2$8, [
           createElementVNode("div", {
             id: tagID,
             style: normalizeStyle([{ "width": _ctx.width }, { "height": _ctx.height }]),
@@ -83084,10 +83765,8 @@ function Fu(t2) {
   }, t2;
 }
 const Uu = Fu(on);
-const _hoisted_1$8 = {
-  class: "els-jsoneditor",
-  style: { "width": "100%" }
-};
+const _hoisted_1$8 = { class: "els-node" };
+const _hoisted_2$7 = { class: "els-jsoneditor" };
 const _sfc_main$8 = /* @__PURE__ */ defineComponent({
   ...{
     name: "ElsJsonEditor",
@@ -83095,15 +83774,43 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
   },
   __name: "JsonEditor",
   props: {
-    modelValue: {}
+    modelValue: {},
+    prop: {},
+    label: {},
+    hasFormItem: { type: Boolean },
+    span: {},
+    aIndex: {},
+    tip: {},
+    tipPosition: {},
+    suffixContent: {},
+    labelWidth: {},
+    tagName: {},
+    required: { type: Boolean },
+    requiredMessage: {},
+    validType: {},
+    validExpression: {},
+    validMessage: {},
+    validMethod: { type: Function },
+    validTrigger: {},
+    queryField: {},
+    queryMethod: {},
+    queryDataType: {},
+    queryDefaultValue: {},
+    queryAutoReadData: {},
+    queryAroundComma: { type: Boolean },
+    queryRange: { type: Boolean },
+    queryRangeOrEqual: { type: Boolean }
   },
   emits: ["update:modelValue"],
   setup(__props, { emit: __emit }) {
     const attrs = useAttrs();
-    const emits = __emit;
     const props = __props;
     const currData = ref$1({});
-    watch(() => props.modelValue, (val) => {
+    const {
+      currModelValue,
+      returnModelValue
+    } = useModel(props);
+    watch(currModelValue, (val) => {
       if (val) {
         if (typeof val === "object") {
           currData.value = val;
@@ -83113,31 +83820,47 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
       }
     }, { immediate: true, deep: true });
     watch(currData, (val) => {
-      if (typeof props.modelValue === "object") {
+      if (typeof currModelValue.value === "object") {
         if (typeof val === "string") {
           try {
             const currValue = JSON.parse(val);
-            emits("update:modelValue", currValue);
+            handleReturnResult(currValue);
           } catch (err) {
           }
         } else {
-          emits("update:modelValue", val);
+          handleReturnResult(val);
         }
         return;
       }
-      emits("update:modelValue", JSON.stringify(val));
+      if (typeof val === "object") {
+        handleReturnResult(JSON.stringify(val));
+        return;
+      }
+      handleReturnResult(val);
     }, { deep: true });
+    function handleReturnResult(val) {
+      let currValue = val;
+      returnModelValue(currValue);
+    }
     const jsonEditor = ref$1();
     return (_ctx, _cache) => {
+      const _component_ElsFormNode = resolveComponent("ElsFormNode");
       return openBlock(), createElementBlock("div", _hoisted_1$8, [
-        createVNode(unref(Uu), mergeProps({
-          modelValue: currData.value,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => currData.value = $event)
-        }, unref(attrs), {
-          ref_key: "jsonEditor",
-          ref: jsonEditor,
-          mode: "text"
-        }), null, 16, ["modelValue"])
+        createVNode(_component_ElsFormNode, normalizeProps(guardReactiveProps(unref(lessCom).getFormNodeProps(props))), {
+          default: withCtx(() => [
+            createElementVNode("div", _hoisted_2$7, [
+              createVNode(unref(Uu), mergeProps({
+                modelValue: currData.value,
+                "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => currData.value = $event)
+              }, unref(attrs), {
+                ref_key: "jsonEditor",
+                ref: jsonEditor,
+                mode: "text"
+              }), null, 16, ["modelValue"])
+            ])
+          ]),
+          _: 1
+        }, 16)
       ]);
     };
   }
