@@ -325,11 +325,11 @@ defineExpose({
             <ElsJsonEditor v-model="importJSON" style="height: 500px;"></ElsJsonEditor>
           </els-data-modal>
         </div>
-        <DynamicDesignerInner v-if="designType === '精简模式'" :data="designerObj" ></DynamicDesignerInner>
+        <DynamicDesignerInner v-if="designType === '精简模式'" :data="designerObj"  ></DynamicDesignerInner>
       </div>
       <template v-if="designType !== '精简模式'">
-        <els-dialog :visible="true" @close="closeViewDialog" width="90%" destroy-on-close :append-to-body="true">
-          <DynamicDesignerView :dataTypes="currDynamicDataType" :camelCase="camelCase"
+        <els-dialog :visible="true" @close="closeViewDialog" width="90%" destroy-on-close :append-to-body="true" top="10px">
+          <DynamicDesignerView :dataTypes="currDynamicDataType" :camelCase="camelCase" :initRootForm="false"
             :componentTypes="currComponentTypes" :appendComponentTypes="appendComponentTypes"
             :componentRelateDataType="componentRelateDataType" v-model="designerObj">
           </DynamicDesignerView>

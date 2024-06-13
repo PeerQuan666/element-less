@@ -40,8 +40,7 @@ setValue({
         <els-list v-model="nodeItem.data" @add="handleAddItem"
             :sortable="!isMobile"
             :isRemove="!isMobile"
-            itemKey="keyID"
-            :innerFormData="Object.assign({}, nodeItem.config.baseConfig)"
+            :hasForm="false"
             :item-class-name="[{ 'els-dynamic-r-array':nodeItem.arrayDataTypeName === 'Object' || nodeItem.componentTypeName === 'DynamicRender'  },{'els-dynamic-r-array-mobile':isMobile}]"
             :style="[
             { 'max-width': (nodeItem.config.arrayConfig.maxWidth ? nodeItem.config.arrayConfig.maxWidth + 'px' : '') },
@@ -51,25 +50,26 @@ setValue({
             :class="{ 'horizontal': nodeItem.config.arrayConfig.arrangementType === 'Horizontal' }">
             <template #default="{ element, $item,$index }">
                 <div :key="element.keyID" class="els-dynamic-array-inner">
-                    <van-cell-group  :title="nodeItem.keyName" v-if="isMobile" :key="element.itemKey" >
-                        <template #title>
-                            <div class="els-dynamic-r-mobile-title"><span>{{ nodeItem.keyName+' '+($index+1) }}</span><span class="txt-red" @click="handleRemove($index)">删除</span></div>
+                    <els-form v-model="nodeItem.data[$index]" v-bind="Object.assign({}, nodeItem.config.baseConfig)">
+                        <van-cell-group  :title="nodeItem.keyName" v-if="isMobile" :key="element.itemKey" >
+                            <template #title>
+                                <div class="els-dynamic-r-mobile-title"><span>{{ nodeItem.keyName+' '+($index+1) }}</span><span class="txt-red" @click="handleRemove($index)">删除</span></div>
+                            </template>
+                            <DynamicRenderInner v-for="item,index in $item" :nodeItem="item" :key="item.keyID" :index="index">
+                        </DynamicRenderInner>
+                        </van-cell-group>
+                        <template v-else>
+                            <DynamicRenderInner v-for="item,index in $item" :nodeItem="item" :key="item.keyID" :index="index">
+                            </DynamicRenderInner>
                         </template>
-                        <DynamicRenderInner v-for="item in $item" :nodeItem="item" :key="item.keyID">
-                       </DynamicRenderInner>
-                    </van-cell-group>
-                    <template v-else>
-                        <DynamicRenderInner v-for="item in $item" :nodeItem="item" :key="item.keyID">
-                       </DynamicRenderInner>
-                    </template>
-                   
+                   </els-form>
                 </div>
             </template>
         </els-list>
     </div>
 </template>
 <style scoped lang="less">
-.els-dynamic-array:deep {
+.els-dynamic-array:deep{
     &{
         flex-grow:1
     }

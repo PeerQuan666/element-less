@@ -19,6 +19,8 @@ import { createPinia } from 'pinia'
 import 'element-plus/dist/index.css'
 import 'vant/lib/index.css';
 import DefaultTheme from 'vitepress/theme'
+import {install} from '@icon-park/vue-next/es/all';
+import '@icon-park/vue-next/styles/index.css';
 export default {
     ...DefaultTheme,
     
@@ -72,7 +74,7 @@ export default {
                 }
             }
         }
-
+        install(app)
         app.use(createPinia())
         app.use(VueUeditorWrap)
         app.use(ElementPlus);

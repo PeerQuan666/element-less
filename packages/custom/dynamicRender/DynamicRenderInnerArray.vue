@@ -135,7 +135,7 @@ watch(() => nodeItem.value.config.arrayConfig.arrayDefaultLength, (val) => {
 </template>
 <style scoped lang="less">
 .els-dynamic-array-render{
-:v-deep(.van-field){
+.van-field:deep{
     padding-left: 0;
 }
 }

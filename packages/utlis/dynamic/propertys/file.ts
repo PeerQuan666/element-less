@@ -20,13 +20,6 @@ export const property_file= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
-			  "maxlength": "",
 			  "showWordLimit": 0,
 			  "clearable": 0,
 			  "isPassword": 0,
@@ -42,8 +35,7 @@ export const property_file= [
 			"arrayConfig": {}
 		  },
 		  "componentType": "Input",
-		  "dataType": "String",
-		  "formItem": true
+		  "dataType": "String"
 		},
 		{
 		  "keyID": "d1dbb0e693a82a2e813338c4b5f7a8fe",
@@ -61,13 +53,6 @@ export const property_file= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
-			  "maxlength": "",
 			  "showWordLimit": 0,
 			  "clearable": 0,
 			  "isPassword": 0,
@@ -83,8 +68,7 @@ export const property_file= [
 			"arrayConfig": {}
 		  },
 		  "componentType": "Input",
-		  "dataType": "String",
-		  "formItem": true
+		  "dataType": "String"
 		},
 		{
 		  "keyID": "6883b83615ea250e48565d57b2d35129",
@@ -107,13 +91,6 @@ export const property_file= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "showWordLimit": 0,
 				  "clearable": 0,
 				  "isPassword": 0,
@@ -129,8 +106,7 @@ export const property_file= [
 				"arrayConfig": {}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			},
 			{
 			  "keyID": "61f4392caabdb4e90c59c255cb086457",
@@ -148,13 +124,6 @@ export const property_file= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "showWordLimit": 0,
 				  "clearable": 0,
 				  "isPassword": 0,
@@ -170,8 +139,7 @@ export const property_file= [
 				"arrayConfig": {}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			}
 		  ],
 		  "config": {
@@ -191,8 +159,7 @@ export const property_file= [
 			"arrayConfig": {}
 		  },
 		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  "dataType": "None"
 		},
 		{
 		  "keyID": "7a9f6a9ff34b9e589df040d2d2bf2767",
@@ -210,13 +177,6 @@ export const property_file= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
-			  "maxlength": "",
 			  "showWordLimit": 0,
 			  "clearable": 0,
 			  "isPassword": 0,
@@ -232,8 +192,7 @@ export const property_file= [
 			"arrayConfig": {}
 		  },
 		  "componentType": "Input",
-		  "dataType": "String",
-		  "formItem": true
+		  "dataType": "String"
 		},
 		{
 		  "keyID": "8e919598c1c6dec8a810c374c3016cde",
@@ -256,8 +215,6 @@ export const property_file= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "active-text": "",
-				  "inactive-text": "",
 				  "active-value": true,
 				  "inactive-value": false
 				},
@@ -270,8 +227,7 @@ export const property_file= [
 				"arrayConfig": {}
 			  },
 			  "componentType": "Switch",
-			  "dataType": "Bool",
-			  "formItem": true
+			  "dataType": "Bool"
 			},
 			{
 			  "keyID": "84485b20c71735b2d9657f23878c88ef",
@@ -289,13 +245,6 @@ export const property_file= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "showWordLimit": 0,
 				  "clearable": 0,
 				  "isPassword": 0,
@@ -311,8 +260,7 @@ export const property_file= [
 				"arrayConfig": {}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			}
 		  ],
 		  "config": {
@@ -332,8 +280,7 @@ export const property_file= [
 			"arrayConfig": {}
 		  },
 		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  "dataType": "None"
 		},
 		{
 		  "keyID": "4c677ddcf8d255b83e352de09cca5550",
@@ -356,8 +303,6 @@ export const property_file= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "active-text": "",
-				  "inactive-text": "",
 				  "active-value": true,
 				  "inactive-value": false
 				},
@@ -370,8 +315,7 @@ export const property_file= [
 				"arrayConfig": {}
 			  },
 			  "componentType": "Switch",
-			  "dataType": "Bool",
-			  "formItem": true
+			  "dataType": "Bool"
 			},
 			{
 			  "keyID": "302ea0f0796e7becdbd254d712f57132",
@@ -389,8 +333,6 @@ export const property_file= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "active-text": "",
-				  "inactive-text": "",
 				  "active-value": true,
 				  "inactive-value": false
 				},
@@ -403,8 +345,7 @@ export const property_file= [
 				"arrayConfig": {}
 			  },
 			  "componentType": "Switch",
-			  "dataType": "Bool",
-			  "formItem": true
+			  "dataType": "Bool"
 			}
 		  ],
 		  "config": {
@@ -424,8 +365,110 @@ export const property_file= [
 			"arrayConfig": {}
 		  },
 		  "componentType": "Row",
+		  "dataType": "None"
+		},
+		{
+		  "keyID": "key_57512",
+		  "keyName": "栅格行",
+		  "keyCode": "",
+		  "data": [
+			{
+			  "keyID": "key_40520",
+			  "keyName": "显示输入框",
+			  "keyCode": "showInput",
+			  "data": [],
+			  "dataType": "Bool",
+			  "arrayDataType": "",
+			  "componentTypeLabel": "开关",
+			  "componentType": "Switch",
+			  "config": {
+				"formConfig": {
+				  "labelWidth": "",
+				  "suffixContent": "",
+				  "required": false,
+				  "requiredMessage": "",
+				  "tip": "",
+				  "tipPosition": "left",
+				  "validType": "",
+				  "validMessage": "",
+				  "validExpression": "",
+				  "validMethod": ""
+				},
+				"baseConfig": {
+				  "active-value": true,
+				  "inactive-value": false
+				},
+				"advancedConfig": {
+				  "style": "",
+				  "vif": "",
+				  "disabled": "",
+				  "eventChange": ""
+				},
+				"arrayConfig": {}
+			  },
+			  "defaultValue": "true"
+			},
+			{
+			  "keyID": "key_39528",
+			  "keyName": "输入框宽度",
+			  "keyCode": "inputWidth",
+			  "data": [],
+			  "dataType": "String",
+			  "arrayDataType": "",
+			  "componentTypeLabel": "输入框",
+			  "componentType": "Input",
+			  "config": {
+				"formConfig": {
+				  "labelWidth": "",
+				  "suffixContent": "",
+				  "required": false,
+				  "requiredMessage": "",
+				  "tip": "",
+				  "tipPosition": "left",
+				  "validType": "",
+				  "validMessage": "",
+				  "validExpression": "",
+				  "validMethod": ""
+				},
+				"baseConfig": {
+				  "showWordLimit": false,
+				  "clearable": true,
+				  "showPassword": false,
+				  "isTrim": false,
+				  "encode": false
+				},
+				"advancedConfig": {
+				  "style": "",
+				  "vif": "currNode['showInput'].value===true",
+				  "disabled": "",
+				  "eventChange": ""
+				},
+				"arrayConfig": {}
+			  },
+			  "defaultValue": ""
+			}
+		  ],
 		  "dataType": "None",
-		  "formItem": false
+		  "arrayDataType": "",
+		  "componentTypeLabel": "栅格行",
+		  "componentType": "Row",
+		  "config": {
+			"formConfig": {},
+			"baseConfig": {
+			  "gutter": "",
+			  "justify": "",
+			  "align": "",
+			  "tag": "div"
+			},
+			"advancedConfig": {
+			  "style": "",
+			  "vif": "",
+			  "disabled": "",
+			  "eventChange": ""
+			},
+			"arrayConfig": {}
+		  },
+		  "defaultValue": ""
 		}
 	  ],
 	  "dataType": "None",
@@ -454,7 +497,6 @@ export const property_file= [
 		  "eventChange": ""
 		},
 		"arrayConfig": {}
-	  },
-	  "formItem": false
+	  }
 	}
   ]

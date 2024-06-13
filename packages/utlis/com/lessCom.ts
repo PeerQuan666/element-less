@@ -17,7 +17,9 @@ export const lessCom = {
     },
     getFormNodeProps(props){
         const param =  (({
-            prop,label,
+            prop,
+            label,
+            placeholder,
             hasFormItem,
             span,
             aIndex,
@@ -41,6 +43,7 @@ export const lessCom = {
             queryRange,
             queryRangeOrEqual
         }) => ({  prop,label,
+            placeholder,
             hasFormItem,
             span,
             aIndex,

@@ -403,7 +403,7 @@ function validationCode(rule, value, callback) {
     </DynamicDesignerInner>
   </els-form>
   <els-drawer v-model="attrDrawVisible"  :title="'设置属性'" :direction="settingDirection" :initBody="true" class="work-flow-drawer" size="30%" :show-close="false" append-to-body :lock-scroll="false">
-    <els-form labelWidth="120">
+  
           <el-tabs>
             <el-tab-pane label="组件属性" v-if="currItem.componentType">
               <ElsDynamicRender v-model="currItem.config.baseConfig"
@@ -425,7 +425,7 @@ function validationCode(rule, value, callback) {
               </ElsDynamicRender>
             </el-tab-pane>
           </el-tabs>
-        </els-form>
+
   </els-drawer>
 </template>
 <style lang="less">

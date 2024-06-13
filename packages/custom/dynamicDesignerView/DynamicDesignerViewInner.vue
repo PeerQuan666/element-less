@@ -109,7 +109,6 @@ function handleValueChange(val) {
     position: relative;
     margin-bottom: 5px;
     padding: 20px 5px 5px 5px;
-    ;
     border: 1px dashed #aaaaaabf;
 
     &.selected {
@@ -140,8 +139,8 @@ function handleValueChange(val) {
         padding: 0;
     }
 }
-
-.el-form-item:deep>.el-form-item__content {
+.el-form-item:deep{
+    >.el-form-item__content {
     >.el-form {
         .el-form-item {
             margin-bottom: 18px !important;
@@ -149,6 +148,8 @@ function handleValueChange(val) {
     }
 
 }
+}
+
 
 .el-form-item {
     margin-bottom: 0px;

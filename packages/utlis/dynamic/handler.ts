@@ -117,7 +117,6 @@ export class DynamicHandler {
             item.componentGroup = currcomponentType?.group
         }
        
-
     }
     initConfigType(data) {
         data.forEach((ele) => {
@@ -218,7 +217,6 @@ export class DynamicHandler {
             valueData = {}
         }
         data.forEach((ele) => {
-         
             if (ele.keyCode) {
                 const currVal = valueData[ele.keyCode]
                 if (currVal === undefined) {

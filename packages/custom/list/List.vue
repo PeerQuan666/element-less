@@ -91,7 +91,6 @@ watch(() => props.labelWidth, (val) => {
     }
 
 })
-const test=ref()
 watchEffect(() => {
     if (props.hasForm && dropData.value.length) {
         if (typeof (dropData.value[0]) !== 'object'||!props.itemKey) {
@@ -106,6 +105,7 @@ watchEffect(() => {
 
 </script>
 <template>
+
     <component :is="outContainer" class="els-list" :class="[{ 'el-list-mobile': isMobile }]" :labelWidth="currLabelWidth" v-bind="outFormData">
         <draggable :list="dropData" handle=".el-icon-rank" v-bind="attrs" :item-key="currItemKey">
             <template #item="{ element, index }">

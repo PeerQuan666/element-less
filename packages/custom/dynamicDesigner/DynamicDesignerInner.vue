@@ -218,6 +218,5 @@ function getComponentType(val){
 
 .el-icon-remove{color:red;}
 .els-dynamic-d-flat-item-container{padding-left:5px !important;}
-.els-dynamic-config-root>::v-deep(.els-list)>.els-list-add{padding-left: 5px;}
+.els-dynamic-config-root>.els-list:deep>.els-list-add{padding-left: 5px;}
 </style>
-../../utlis/interfaces.js

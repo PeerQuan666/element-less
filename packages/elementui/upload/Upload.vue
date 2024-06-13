@@ -26,7 +26,7 @@ interface Props extends FormItemProps {
     fileTypes?: string,
     resourceCode?: string,
     restrictCode?: string,
-    showInput?: boolean,
+    showInput?: Boolean,
     inputPlaceholder?: string,
     inputWidth?: string,
     hasMd5Parameter?: string,
@@ -344,11 +344,17 @@ watch(() => props.url, () => {
     initUrl()
 }, { immediate: true })
 
-onMounted(() => {
-    currShowInput.value = props.showInput
-    if (props.type == UploadType.File && !multiple.value) {
+watchEffect(()=>{
+    if(props.showInput!==undefined){
+        currShowInput.value = props.showInput.valueOf()
+    }
+    if (props.type == UploadType.File && !multiple.value&&props.showInput===undefined) {
         currShowInput.value = true;
     }
+})
+
+onMounted(() => {
+   
 
     initFileUrl()
     initUrl()

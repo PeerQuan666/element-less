@@ -2,7 +2,7 @@
     
 <script lang="ts" setup>
 
-import { ref, reactive, watch, useAttrs, computed, nextTick, useSlots, onMounted } from 'vue'
+import { ref, reactive, watch, useAttrs, computed, nextTick, useSlots, onMounted,watchEffect } from 'vue'
 import { ElMessage } from 'element-plus';
 import { useValue } from '../../utlis/use';
 import { lessCom } from '../../utlis/com'
@@ -397,38 +397,21 @@ onMounted(() => {
         initSelectIndex();
     }
 })
-
-
-const value = ref('')
-const options1 = [
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-    disabled: true,
-  },
-  {
-    value: 'Option3',
-    label: 'Option3',
-  },
-  {
-    value: 'Option4',
-    label: 'Option4',
-  },
-  {
-    value: 'Option5',
-    label: 'Option5',
-  },
-]
+const currPlaceholder=ref()
+watchEffect(()=>{
+    if(isMobile){
+        currPlaceholder.value=props.placeholder||'请选择'+props.label
+    }else{
+        currPlaceholder.value=props.placeholder??''
+    }
+})
 </script>
 <template>
+
     <div class="els-node">
         <ElsFormNode v-bind="lessCom.getFormNodeProps(props)" ref="formNode" tagName="Select">
             <template v-if="!isMobile">
-                <el-select v-if="!isVirtual" v-model="selectValue" :allowCreate="allowCreate" :multiple="multiple"
+                <el-select v-if="!isVirtual" v-model="selectValue" :allowCreate="allowCreate" :multiple="multiple" :placeholder="currPlaceholder"
                     :remote-method="handleSearch" :style="{ width: currWidth?.appendPx() }" :loading="currLoading"
                     remote-show-suffix @visible-change="handleVisibleChange" @clear="handleClear" v-bind="attrs">
 
@@ -476,7 +459,7 @@ const options1 = [
                     </template>
 
                 </el-select>
-                <el-select-v2 v-else v-model="selectValue" :options="options"
+                <el-select-v2 v-else v-model="selectValue" :options="options" :placeholder="currPlaceholder"
                     :props="{ disabled: disabledField, label: labelField, value: valueField }" :multiple="multiple" v-bind="attrs"
                     :loading="currLoading" @clear="handleClear" @visible-change="handleVisibleChange"
                     :style="{ width: currWidth?.appendPx() }" :remote-method="handleSearch">
@@ -574,4 +557,4 @@ const options1 = [
     display: none;
 }
 
-</style>../../utlis/interfaces.js
+</style>

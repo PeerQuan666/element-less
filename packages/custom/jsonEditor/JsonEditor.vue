@@ -80,6 +80,11 @@ const jsonEditor = ref()
         </ElsFormNode>
     </div>
 </template>
+<style scoped>
+.els-node:has(>div[class*=els-jsoneditor]) {
+    width: 100%;
+}
+</style>
 <style lang="less">
 .els-jsoneditor {
     flex-grow: 1;

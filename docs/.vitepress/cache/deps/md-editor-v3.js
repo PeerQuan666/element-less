@@ -1,9 +1,9 @@
 import {
   markdown
-} from "./chunk-Y22FX4VR.js";
-import "./chunk-GNIA7QHR.js";
-import "./chunk-37KZVLMF.js";
+} from "./chunk-QU2NWNC6.js";
+import "./chunk-7H6PW3HW.js";
 import "./chunk-ETGI5LAL.js";
+import "./chunk-37KZVLMF.js";
 import {
   defaultKeymap,
   deleteLine,
@@ -15,7 +15,7 @@ import {
   redo,
   searchKeymap,
   undo
-} from "./chunk-6NX7GCNI.js";
+} from "./chunk-KMIWLYJ3.js";
 import {
   autocompletion,
   closeBrackets,
@@ -2802,7 +2802,7 @@ var languages = [
     alias: ["xhtml"],
     extensions: ["html", "htm", "handlebars", "hbs"],
     load() {
-      return import("./dist-ZM4YW64G.js").then((m) => m.html());
+      return import("./dist-C2ZLEVWK.js").then((m) => m.html());
     }
   }),
   LanguageDescription.of({
@@ -2846,7 +2846,7 @@ var languages = [
     name: "Liquid",
     extensions: ["liquid"],
     load() {
-      return import("./dist-CXT55GSM.js").then((m) => m.liquid());
+      return import("./dist-CEEQ5ZTQ.js").then((m) => m.liquid());
     }
   }),
   LanguageDescription.of({
@@ -2859,7 +2859,7 @@ var languages = [
     name: "Markdown",
     extensions: ["md", "markdown", "mkd"],
     load() {
-      return import("./dist-PUEK4BZV.js").then((m) => m.markdown());
+      return import("./dist-2OZ3QOYU.js").then((m) => m.markdown());
     }
   }),
   LanguageDescription.of({
@@ -2878,7 +2878,7 @@ var languages = [
     name: "PHP",
     extensions: ["php", "php3", "php4", "php5", "php7", "phtml"],
     load() {
-      return import("./dist-EQALDNW7.js").then((m) => m.php());
+      return import("./dist-KZGIZ5H4.js").then((m) => m.php());
     }
   }),
   LanguageDescription.of({
@@ -3767,13 +3767,13 @@ var languages = [
     name: "Vue",
     extensions: ["vue"],
     load() {
-      return import("./dist-64DFZTBY.js").then((m) => m.vue());
+      return import("./dist-AESW4HCE.js").then((m) => m.vue());
     }
   }),
   LanguageDescription.of({
     name: "Angular Template",
     load() {
-      return import("./dist-OTOEWJCG.js").then((m) => m.angular());
+      return import("./dist-7FRFS5GV.js").then((m) => m.angular());
     }
   })
 ];

@@ -19,7 +19,7 @@ const isMobile = getValue<boolean>('isMobile', false)
 
 function handleAddComponent(e) {
     recordComponent()
-    setSelectItem(nodeItem.value.data[e.newIndex], nodeItem.value.data)
+    setSelectItem(nodeItem.value.data[e.newIndex])
     initArrayChild()
 
 }

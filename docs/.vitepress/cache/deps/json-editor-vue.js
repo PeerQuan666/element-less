@@ -18,7 +18,7 @@ import {
   searchKeymap,
   undo,
   undoDepth
-} from "./chunk-6NX7GCNI.js";
+} from "./chunk-KMIWLYJ3.js";
 import {
   autocompletion,
   closeBrackets,

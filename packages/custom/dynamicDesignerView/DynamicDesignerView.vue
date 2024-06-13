@@ -30,7 +30,9 @@ interface Props extends FormItemProps {
     onSave?:Function
 
 }
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(),{
+    initRootForm:true
+})
 const { getValue, setValue } = useValue(props)
 
 const isDisabledUndo = ref(true)
@@ -103,6 +105,7 @@ const objectData = ref<any>([
         componentName: '',
         componentType: '',
         formItem:true,
+        icon:'internal-data',
         config: {
             formConfig: {},
             baseConfig: {},
@@ -126,6 +129,7 @@ const objectData = ref<any>([
         arrayDataTypeName: '',
         arrayDataType: '',
         formItem:true,
+        icon:'view-grid-list',
         config: {
             formConfig: {},
             baseConfig: {},
@@ -157,6 +161,7 @@ currComponentTypes.value.forEach((ele) => {
         formItem:ele.formItem,
         componentShow:ele.isShow,
         componentPreview:ele.preview,
+        icon:ele.icon,
         config: {
             formConfig: {},
             baseConfig: {},
@@ -522,7 +527,7 @@ setValue({
 })
 </script>
 <template>
-    <div >
+    <div>
         <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
             <div style="display:flex;background:#f8f8f8;" class="els-dynamic-view">
                 <div style="flex-basis:260px;flex-shrink: 0;background: #fff;" class="els-dynamic-view-components">
@@ -536,6 +541,7 @@ setValue({
                                         :clone="handleClone" :sort="false">
                                         <template #item="{ element, index }">
                                             <li class="container-widget-item" :key="index">
+                                                <component :is="'icon-'+element.icon" theme="outline" size="20" fill="#333"/> 
                                                 {{ element.componentTypeLabel }}
                                             </li>
                                         </template>
@@ -548,6 +554,7 @@ setValue({
                                         <template #item="{ element, index }">
                                             <li class="container-widget-item" :data-type="element.dataTypeName"
                                                 :key="index">
+                                                <component :is="'icon-'+element.icon" theme="outline" size="20" fill="#333"/> 
                                                 {{ element.componentTypeLabel }}
                                             </li>
                                         </template>
@@ -576,6 +583,7 @@ setValue({
                                         <template #item="{ element, index }">
                                             <li class="container-widget-item" :data-type="element.componentType"
                                                 :data-restrict="element.restrictParent" :key="index">
+                                                <component :is="'icon-'+element.icon" theme="outline" size="20" fill="#333"/> 
                                                 {{ element.componentTypeLabel }}
                                             </li>
                                         </template>
@@ -587,6 +595,7 @@ setValue({
                                         :clone="handleClone" :sort="false">
                                         <template #item="{ element, index }">
                                             <li class="container-widget-item" :key="index">
+                                                <component :is="'icon-'+element.icon" theme="outline" size="20" fill="#333"/> 
                                                 {{ element.componentTypeLabel }}
                                             </li>
                                         </template>
@@ -646,9 +655,8 @@ setValue({
                         </span>
                     </div>
                     <div class="main" :class="deviceType">
-                        <ElScrollbar style="height: calc(100vh - 60px);">
                         <div class="main-inner">
-                            <div class="main-create-from" v-if="!startCreate && !renderData.length">
+                            <div class="main-create-from" v-if="!startCreate && !renderData.length&&initRootForm===true">
                                 <div>
                                     <div>是否创建Form表单</div>
                                     <div class="txt-center">
@@ -677,7 +685,6 @@ setValue({
                                 </el-empty>
                             </template>
                         </div>
-                    </ElScrollbar>
                     </div>
                 </div>
                 <div  class="els-dynamic-view-propertys">
@@ -854,22 +861,24 @@ setValue({
     }
 
 
-    .container-widget-item::v-deep {
+    .container-widget-item{
         &:hover {
             background: #F1F2F3;
             border-color: #409eff;
         }
-
         word-wrap: break-word;
         display: inline-block;
         min-height: 32px;
         line-height: 32px;
-        width: 98px;
+        width: 120px;
         cursor: move;
         background: #fff;
         border: 1px solid #e8e9eb;
         border-radius: 4px;
         padding: 0 8px;
+        display: flex;
+        align-items: center;
+        column-gap: 8px;
     }
 }
 

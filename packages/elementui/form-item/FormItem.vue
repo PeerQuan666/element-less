@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useAttrs, computed, useSlots, reactive, onUnmounted } from 'vue'
+import { ref, useAttrs, computed, useSlots, reactive, onUnmounted ,watchEffect} from 'vue'
 
 import { FormItemProps, QueryInfo } from '../../utlis/interfaces'
 import { ElSpace } from 'element-plus';
@@ -27,14 +27,20 @@ const formType = getValue<string>('formType', '')
 const isMobile = getValue<boolean>('isMobile', false)
 const attrs: any = useAttrs()
 const formItem: any = ref()
-const placeholder = ref()
 const showPopup = ref(false)
 const mobileValue = ref()
 
-if (isMobile) {
-    placeholder.value = "请选择" + props.label
-}
+
 const slots = useSlots()
+const currPlaceholder=ref()
+watchEffect(()=>{
+    if(isMobile){
+        currPlaceholder.value=props.placeholder||(props.validTrigger==='change'?'请选择':'请输入')+props.label
+    }else{
+        currPlaceholder.value=props.placeholder
+    }
+})
+
 
 function initRules() {
     if (formItem.value && formItem.value.clearValidate) {
@@ -120,16 +126,17 @@ if (!props.hasFormItem) {
 
 </script>
 <template>
+    
     <template v-if="isMobile">
         <slot v-if="props.tagName === 'Input'"></slot>
         <template v-else-if="props.tagName == 'Select' || props.tagName == 'Datepicker' || props.tagName === 'Timepicker'">
-            <van-field is-link v-model="mobileValue" readonly @click="showPopup = true" :placeholder="placeholder"
+            <van-field is-link v-model="mobileValue" readonly @click="showPopup = true" :placeholder="currPlaceholder"
                 :required="props.required" :label="label" :rules="itemRules"></van-field>
             <van-popup v-model:show="showPopup" position="bottom">
                 <slot></slot>
             </van-popup>
         </template>
-        <van-field v-model="mobileValue" v-bind="props" :label="label" :rules="itemRules" :placeholder="placeholder"
+        <van-field v-model="mobileValue" v-bind="props" :label="label" :rules="itemRules" :placeholder="currPlaceholder"
             :required="props.required" v-else>
             <template #input>
                 <slot v-bind="attrs"></slot>
@@ -171,7 +178,6 @@ if (!props.hasFormItem) {
 </template>
 <style lang="less" scoped>
 .el-form-item:deep{
-
     .el-form-item__content{
         column-gap: 5px;
         &:has(>span[class^=els-form-item-append]) {
@@ -185,7 +191,6 @@ if (!props.hasFormItem) {
         display: flex;
         align-items: center;
     }
-
 }
 
 

@@ -6,7 +6,7 @@ defineOptions({
     name: 'ElsTextarea',
 })
 interface Props extends FormItemProps {
-    modelValue?: ''
+    modelValue?: any,
     width?: number | string,
     encode?: boolean,
     encodeType?: string,
@@ -24,12 +24,8 @@ const {
 const inputValue = ref()
 
 watch(currModelValue, (val) => {
-    const currValue = val
-    if (currValue) {
-        
-            inputValue.value = currValue
-        
-    }
+  
+  inputValue.value = val
 }, { immediate: true })
 
 

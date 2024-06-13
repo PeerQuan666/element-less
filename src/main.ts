@@ -12,8 +12,10 @@ import pinia from '../packages/utlis/pinia'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import '../resume-component/style.css'
 import ResumeComponent from '../resume-component/resume-component.js'
-
+import {install} from '@icon-park/vue-next/es/all';
+import '@icon-park/vue-next/styles/index.css';
 const app = createApp(App)
+install(app)
 app.config.globalProperties.$lessConfig = {
     api: {
         code: 'ResultCode',

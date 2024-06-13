@@ -303,5 +303,5 @@ setValue({
         margin-bottom: var(--margin-bottom);
     }
 }
-.els-node,.el-tabs{flex-grow: 1   }
+.els-node,.el-tabs{flex-grow: 1}
 </style>

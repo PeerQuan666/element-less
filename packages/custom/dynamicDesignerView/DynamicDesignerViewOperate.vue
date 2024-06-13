@@ -8,7 +8,7 @@ const { getValue } = useValue(props)
 const removeItem = getValue<Function>('removeItem', () => { })
 const getCurrNode = getValue<Function>('getCurrNode', () => { return {} })
 const getParentNode = getValue<Function>('getParentNode', () => { return {} })
-
+const setSelectItem = getValue<Function>('setSelectItem', () => { })
 function handleIfExpress() {
     try {
         if (props.nodeItem.config.advancedConfig && props.nodeItem.config.advancedConfig.vif) {
@@ -21,7 +21,10 @@ function handleIfExpress() {
 
     return true;
 }
-
+function handleRemove(item){
+    removeItem(item)
+    setSelectItem(null)
+}
 
 </script>
 
@@ -36,7 +39,7 @@ function handleIfExpress() {
         <el-icon v-if="!handleIfExpress()">
             <Hide />
         </el-icon>
-        <el-popconfirm title="确定删除吗？" @confirm="removeItem(nodeItem)">
+        <el-popconfirm title="确定删除吗？" @confirm="handleRemove(nodeItem)">
             <template #reference>
                 <el-icon class="el-icon-remove">
                     <Delete />
@@ -50,7 +53,7 @@ function handleIfExpress() {
 <style scoped>
 
 .els-dynamic-d-v-item-type {
-        position: absolute;
+    position: absolute;
     z-index: 2;
     background: #aaaaaabf;
     color: #fff;

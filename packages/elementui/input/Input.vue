@@ -78,18 +78,20 @@ function handleReturnResult(val) {
     returnModelValue(currValue)
 }
 
-const placeholder=ref()
-if(isMobile){
-placeholder.value='请输入'+(props.label??'')
-}else{
-    placeholder.value=attrs.placeholder
-}
+const currPlaceholder=ref()
+watchEffect(()=>{
+    if(isMobile){
+        currPlaceholder.value=props.placeholder||'请输入'+props.label
+    }else{
+        currPlaceholder.value=props.placeholder
+    }
+})
 </script>
 <template>
     
     <div class="els-node">
         <ElsFormNode  tagName="Input" v-bind="lessCom.getFormNodeProps(props)">
-            <el-input  v-model="inputValue"  v-if="!isMobile" :style="[{ width: currWidth.appendPx() }]" v-bind="attrs">
+            <el-input  v-model="inputValue"  v-if="!isMobile" :style="[{ width: currWidth.appendPx() }]" v-bind="attrs" :placeholder="currPlaceholder">
                 <template v-for="item in slotNames" :slot="item">
                     <slot :name="item"></slot>
                 </template>
@@ -102,7 +104,7 @@ placeholder.value='请输入'+(props.label??'')
                     <slot name="append"></slot>
                 </template>
             </el-input>
-            <van-field v-else v-model="inputValue"  :required="props.required" :label="label" :rules="useFormValidation(props,attrs).initRules()"   v-bind="attrs" :placeholder="placeholder" ></van-field>
+            <van-field v-else v-model="inputValue"  :required="props.required" :label="label" :rules="useFormValidation(props,attrs).initRules()"   v-bind="attrs" :placeholder="currPlaceholder" ></van-field>
 
         </ElsFormNode>
     </div>

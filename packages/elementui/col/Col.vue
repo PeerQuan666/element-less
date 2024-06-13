@@ -59,7 +59,6 @@ const colKls = computed(() => {
 
   pos.forEach((prop) => {
     const size = props[prop]
-    console.log(prop,size)
     if (lessCom.isNumber(size.toString())||prop==='span') {
       if (prop === 'span') classes.push(ns.b(`${size!=24&&size!=0?size:currSpan.value}`))
       else if (size > 0) classes.push(ns.b(`${prop}-${props[prop]}`))

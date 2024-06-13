@@ -3,7 +3,7 @@ import {ref} from 'vue'
 import draggable from 'vuedraggable'
 import {computed} from 'vue'
 import { useValue } from '../../utlis/use'
-import { lessCom } from '../../utlis/com'
+import { lessCom ,ElsMessage} from '../../utlis/com'
 import DynamicDesignerViewOperate from './DynamicDesignerViewOperate.vue'
 interface Props {
     nodeItem: Record<string, any>,
@@ -12,6 +12,7 @@ interface Props {
 import DynamicDesignerViewInner from './DynamicDesignerViewInner.vue'
 const props=defineProps<Props>()
 const { getValue,setValue } = useValue(props)
+const recordComponent = getValue<Function>('recordComponent', () => { })
 const getSelectItem = getValue<Function>('getSelectItem', () => { })
 const setSelectItem = getValue<Function>('setSelectItem', () => { })
 const handleMove = getValue<Function>('handleMove', () => { })
@@ -21,6 +22,13 @@ const componentAttr=computed<any>(()=>{
     }
     return {}
 })
+
+function handleAddComponent(e) {
+    recordComponent()
+    setSelectItem(props.nodeItem.data[e.newIndex])
+}
+
+
 setValue({
     removeItem:(item)=>{
         lessCom.removeArrayItem(props.parentNode.data,item)
@@ -37,7 +45,7 @@ setValue({
         :data-type="nodeItem.componentType"
         :list="nodeItem.data"
         :move="handleMove"
-        :style="[{ 'min-height': '30px' }, { 'width': '100%' },{'padding':'10px 0px'}]" itemKey="keyID" :sort="true"  handle=".els-view-move">
+        :style="[{ 'min-height': '30px' }, { 'width': '100%' },{'padding':'10px 0px'}]" itemKey="keyID" :sort="true"  handle=".els-view-move" @add="handleAddComponent">
         <template #item="{ element }">
             <els-col   class="create" v-if="nodeItem.componentTypeName==='Row'&&element.componentTypeName!=='Col'" :key="'col'+element.keyID">
                 <DynamicDesignerViewInner :nodeItem="element"></DynamicDesignerViewInner>
@@ -56,9 +64,9 @@ setValue({
             :data-type="nodeItem.componentType"
             :list="nodeItem.data"
             :move="handleMove"
-            :style="[{ 'min-height': '30px' }, { 'width': '100%' },{'padding':'10px 0px'}]" itemKey="keyID" :sort="true" handle=".els-view-move" >
+            :style="[{ 'min-height': '30px' }, { 'width': '100%' },{'padding':'10px 0px'}]" itemKey="keyID" :sort="true" handle=".els-view-move" @add="handleAddComponent" >
             <template #item="{ element }">
-                <DynamicDesignerViewInner  :data-type="element.componentType"     :data-restrict="element.restrictParent" :nodeItem="element"  :key="'wrap'+element.keyID"></DynamicDesignerViewInner>
+                <DynamicDesignerViewInner  :data-type="element.componentType"  :data-restrict="element.restrictParent" :nodeItem="element"  :key="'wrap'+element.keyID"></DynamicDesignerViewInner>
             </template>
         </draggable>
     </component>
@@ -75,7 +83,7 @@ setValue({
     }
 }
 
-.els-dynamic-designer-wrap:deep{
+.els-dynamic-designer-wrap{
     .el-form-item{
         .el-tabs__content{
             &>.els-dynamic-d-v-item{
@@ -88,7 +96,7 @@ setValue({
 
 }
 
-.el-row:deep{
+.el-row{
     >.el-col {
         position: relative;
         padding-top: 5px;
@@ -132,7 +140,7 @@ setValue({
     }
 }
 
-.els-dynamic-designer-empty:deep {
+.els-dynamic-designer-empty{
     height: 50px;
     color: #a7b1bd;
     justify-content: center;

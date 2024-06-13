@@ -14,7 +14,7 @@ const {getValue} =useValue()
 const controlData = getValue<any>("componentData", [])
 const props = defineProps<Props>()
 const attrs = useAttrs()
-const currValue = ref()
+const currValue = ref('')
 const setSelectItem = getValue<Function>('setSelectItem', () => { })
 function handleSelectItem() {
     setSelectItem(props.nodeItem)
