@@ -1,9 +1,11 @@
 <template>
+    
     <els-form v-model="editData" ref="editForm" >
         <els-input label="名称" prop="name" required  validExpression="^[A-Za-z0-9]+$" ></els-input>
         <els-date-picker label="时间"   prop="birth" required></els-date-picker>
         <els-upload type="Pic" label="头像" prop="pic"></els-upload>
-        <els-json-editor prop="remark" label="简介"></els-json-editor>
+        <els-wang-editor prop="remark" label="简介" width="300" height="500" mode="simple" ></els-wang-editor>
+        <els-ace-editor prop="remark" label="简介" width="300" height="500" ></els-ace-editor>
     </els-form>
   
 </template>

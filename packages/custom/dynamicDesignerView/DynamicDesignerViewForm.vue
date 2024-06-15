@@ -68,9 +68,9 @@ setValue({
 <template>
     <els-form v-if="isRoot" v-model="nodeItem" v-bind="nodeItem.config.baseConfig"
         :class="{ 'selected': getSelectItem()?.keyID == nodeItem.keyID }" @click.stop="setSelectItem(nodeItem)">
-        <draggable tag="div" :class="[{ 'els-dynamic-designer-empty': nodeItem.data.length == 0 && !isRoot }]"
+        <draggable tag="div" class="els-dynamic-root-form" :class="[{ 'els-dynamic-designer-empty': nodeItem.data.length == 0 && !isRoot }]"
             :list="nodeItem.data" v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }"
-            :style="[{ 'min-height': '650px' }]" :data-type="nodeItem.dataTypeName" :sort="true" itemKey="keyID"
+             :data-type="nodeItem.dataTypeName" :sort="true" itemKey="keyID"
             handle=".els-view-move" @add="handleAddComponent">
             <template #item="{ element }">
                 <DynamicDesignerViewInner :nodeItem="element" :key="element.keyID" ></DynamicDesignerViewInner>
@@ -107,6 +107,9 @@ setValue({
         border: 2px solid #409EFF;
 
     }
+}
+.els-dynamic-root-form{
+    height: calc(100vh - var(--gapTop) - 40px);
 }
 
 .els-dynamic-designer-empty {

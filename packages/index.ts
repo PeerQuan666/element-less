@@ -73,6 +73,7 @@ import ElsHighlight from './custom/highlight'
 import ElsUEditor from './custom/uEditor'
 import ElsAceEditor from './custom/aceEditor'
 import ElsMdEditor from './custom/mdEditor'
+import ElsWangEditor from './custom/wangEditor'
 import ElsJsonViewer from './custom/jsonViewer'
 import ElsJsonEditor from './custom/jsonEditor'
 import ElsWorkPlan from './custom/workPlan'
@@ -136,6 +137,7 @@ const components = [
     ElsJsonViewer,
     ElsMdEditor,
     ElsAceEditor,
+    ElsWangEditor,
     ElsDynamicDesignerView,
     ElsJsonEditor,
     ElsHighlight,

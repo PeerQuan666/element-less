@@ -93,4 +93,3 @@ onMounted(() => {
 <template >
     <vue-ueditor-wrap v-model="editorContent" @before-init="addXiumiDialog" :config="configData"></vue-ueditor-wrap>
 </template>
-../../utlis/interfaces.js

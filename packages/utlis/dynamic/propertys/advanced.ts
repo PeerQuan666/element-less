@@ -28,13 +28,6 @@ export const property_advanced=  [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
-			  "maxlength": "",
 			  "clearable": false,
 			  "isPassword": false,
 			  "showWordLimit": false,
@@ -49,8 +42,7 @@ export const property_advanced=  [
 			}
 		  },
 		  "componentType": "Input",
-		  "dataType": "String",
-		  "formItem": true
+		  "dataType": "String"
 		},
 		{
 		  "keyID": "547a134a89e4db5901ca6e78562aeb82",
@@ -76,13 +68,6 @@ export const property_advanced=  [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
-			  "maxlength": "",
 			  "clearable": false,
 			  "isPassword": false,
 			  "showWordLimit": false,
@@ -97,8 +82,7 @@ export const property_advanced=  [
 			}
 		  },
 		  "componentType": "Input",
-		  "dataType": "String",
-		  "formItem": true
+		  "dataType": "String"
 		},
 		{
 		  "keyID": "ea340531c2311a6c0224fc377228b2b9",
@@ -124,13 +108,6 @@ export const property_advanced=  [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
-			  "maxlength": "",
 			  "clearable": false,
 			  "isPassword": false,
 			  "showWordLimit": false,
@@ -145,43 +122,43 @@ export const property_advanced=  [
 			}
 		  },
 		  "componentType": "Input",
-		  "dataType": "String",
-		  "formItem": true
+		  "dataType": "String"
 		},
 		{
-		  "keyID": "b910183c4d2efd6d5e2e314b33188e3a",
+		  "keyID": "key_32027",
 		  "keyName": "OnChange",
 		  "keyCode": "eventChange",
 		  "data": [],
+		  "dataType": "String",
+		  "arrayDataType": "",
+		  "componentTypeLabel": "Ace编辑器",
+		  "componentType": "AceEditor",
+		  "icon": "text-style",
 		  "config": {
-			"arrayConfig": {
-			  "componentName": "ElsFormItem",
-			  "type": "bottom",
-			  "arrayDefaultLength": 0,
-			  "arrangementType": "Vertical",
-			  "maxHeight": "",
-			  "maxWidth": ""
-			},
 			"formConfig": {
 			  "labelWidth": "",
+			  "suffixContent": "",
 			  "required": false,
 			  "requiredMessage": "",
+			  "tip": "",
+			  "tipPosition": "left",
 			  "validType": "",
-			  "validExpression": "",
 			  "validMessage": "",
+			  "validExpression": "",
 			  "validMethod": ""
 			},
-			"baseConfig": {},
+			"baseConfig": {
+			  "readonly": false
+			},
 			"advancedConfig": {
 			  "style": "",
 			  "vif": "",
 			  "disabled": "",
 			  "eventChange": ""
-			}
+			},
+			"arrayConfig": {}
 		  },
-		  "componentType": "Textarea",
-		  "dataType": "String",
-		  "formItem": true
+		  "defaultValue": ""
 		}
 	  ],
 	  "dataType": "None",
@@ -210,7 +187,6 @@ export const property_advanced=  [
 		  "eventChange": ""
 		},
 		"arrayConfig": {}
-	  },
-	  "formItem": false
+	  }
 	}
   ]

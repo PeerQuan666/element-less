@@ -343,3 +343,26 @@ pre[class*=language-]::selection,pre[class*=language-] ::selection,code[class*=l
 :root {
   --vp-layout-max-width: 1480px !important;
 }
+body:has(div[class^=els-dynamic-d-view]){
+  .container{margin: 0 !important;max-width: 100%;}
+  .vp-doc a{color:var(--el-color-primary);}
+  .vp-doc li + li{margin-top: unset;}
+  .example-showcase{
+    padding: 1rem;
+  }
+  .VPDoc{
+    padding: 0 !important;
+    .aside{display: none;}
+    .container {
+      margin: 0;
+      max-width: 100% !important;
+      width: 100% !important;
+      >.content{
+        width: 100% !important;
+        max-width:  100% !important;
+        padding-bottom: 0 !important;
+      }
+    }
+  }
+}
+

@@ -23,7 +23,7 @@ export default defineConfig({
         nav:[
             { text: "首页", link: "/" },
             { text: "使用指南", link: "/design/" },
-            { text: "演示页", link: "/pages/" },
+            { text: "低代码", link: "/dynamic/" },
             { text: "组件", link: "/demo/" }
           ],
         sidebar:slidebar

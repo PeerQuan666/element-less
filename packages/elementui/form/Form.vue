@@ -28,6 +28,7 @@ const modelValue =defineModel<any>({default:()=>{return reactive<object>({});}})
 const currLabelPosition = ref(getValue<string>('labelPosition','right'))
 const currLabelWidth = ref(getValue<string>('labelWidth', '100'))
 const isMobile= getValue<boolean>("isMobile",false);
+const inline=getValue<string>('inline')
 const elsApiResult =container?.$apiResult
 const elsPageStore =container?.$pageStore
 const validateStore = { id: tagID, validate: validate }
@@ -35,8 +36,9 @@ const saveStore = { id: tagID, save: saveData }
 
 
 watch(()=>props.labelWidth,(val)=>{
-    if(val){
+    if(val!==undefined){
         currLabelWidth.value =val
+        initLabelWidth()
     }
 })
 
@@ -46,9 +48,8 @@ watch(()=>props.labelPosition,(val)=>{
         currLabelPosition.value =val
     }
 })
-
-onMounted(() => {
-    if (getValue<string>('inline') === undefined && (!lessCom.isDef(currLabelWidth.value)||currLabelWidth.value==="")) {
+function initLabelWidth(){
+    if (!inline && (!lessCom.isDef(currLabelWidth.value)||currLabelWidth.value==="")) {
         currLabelWidth.value = '100'
     }
  
@@ -56,6 +57,9 @@ onMounted(() => {
         currLabelWidth.value = currLabelWidth.value.appendPx()
     }
 
+}
+onMounted(() => {
+    initLabelWidth()
     if (elsPageStore) {
         elsPageStore.value.saveForms.push(saveStore)
         elsPageStore.value.validates.push(validateStore)

@@ -141,6 +141,15 @@ export const lessCom = {
             $homeUrl:proxy.$lessConfig.uEditor['homeUrl'],
         }
     },
+    getWangEditorConfig(){
+        const { proxy } = getCurrentInstance() as any
+        if(!proxy||!proxy.$lessConfig){
+            return {}
+        }
+        return {
+            $serverUrl:proxy.$lessConfig.wangEditor['serverUrl'],
+        }
+    },
     getUploadConfig(){
         const { proxy } = getCurrentInstance() as any
         if(!proxy||!proxy.$lessConfig){

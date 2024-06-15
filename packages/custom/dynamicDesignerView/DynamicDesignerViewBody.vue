@@ -23,8 +23,9 @@ setValue({
 })
 </script>
 <template>
-   <ElScrollbar style="height: calc(100vh - 100px);" v-if="renderData && renderData.length && renderData[0].componentType === 'Form'">
-    <DynamicDesignerViewForm :nodeItem="renderData[0]" :isRoot="true"
+    
+   <ElScrollbar style="height: calc(100vh - var(--gapTop) - '40px');" v-if="renderData && renderData.length && renderData[0].componentType === 'Form'">
+    <DynamicDesignerViewForm :nodeItem="renderData[0]" :isRoot="true" v-if="renderData && renderData.length && renderData[0].componentType === 'Form'"
         ></DynamicDesignerViewForm>
     </ElScrollbar>
         <els-form v-model="renderData" v-else>

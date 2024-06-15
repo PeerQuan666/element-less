@@ -399,17 +399,7 @@ defineExpose({
 }
 
 .els-dynamic-config {
-//has影响性能
-  // :has(div[class^='el-form-item']) {
-  //   .els-list-add {
-  //     margin-left: 5px
-  //   }
-  // }
-  // :has(div[class*='virtual']) {
-  //   .els-list-add {
-  //     margin-left: 5px
-  //   }
-  // }
+
   .selected{
   border: 1px dashed #aaaaaabf;
 }

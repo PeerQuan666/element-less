@@ -63,4 +63,3 @@ onMounted(() => {
 <template >
     <MdEditor v-model="markDownContent" @htmlChanged="returnHtml"></MdEditor>
 </template>
-../../utlis/interfaces.js

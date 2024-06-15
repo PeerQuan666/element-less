@@ -12,7 +12,8 @@ export default defineConfig({
 		copyPublicDir:false,
 		outDir: "element-less", //输出文件名称
 		lib: {
-			formats:['iife','es', 'umd','cjs'],
+			// formats:['iife','es', 'umd','cjs'],
+			formats:['iife'],
 			entry: path.resolve(__dirname, "./packages/index.ts"), //指定组件编译入口文件
 			name: "element-less",
 			fileName: "element-less",
@@ -27,7 +28,6 @@ export default defineConfig({
 			'element-plus',
 			'escape-html',
 			'file-saver',
-			'less',
 			'lodash',
 			'md-editor-v3',
 			'nprogress',
@@ -42,9 +42,11 @@ export default defineConfig({
 			'vuex',
 			'xlsx',
 			'element-less',
-			'vite-plugin-compression',
 			'vue-json-viewer',
-			'ace-builds'
+			'ace-builds',
+			'@icon-park/vue-next',
+			'@wangeditor/editor',
+			'json-editor-vue'
 		],
 			output: {
 				name: 'ElementLess',
@@ -65,7 +67,9 @@ export default defineConfig({
 					"ace-builds":'ace',
 					'file-saver':'fileSave',
 					'vue-json-viewer':'JsonView.default',
-					'prismjs':'Prism'
+					'json-editor-vue':'JsonEditorVue.default',
+					'prismjs':'Prism',
+					'@wangeditor/editor':'wangEditor'
 				},
 			},
 		}, 

@@ -46,8 +46,11 @@ export default {
                 data_md5: 'Md5Value',
             },
             uEditor: {
-                serverUrl: 'http://manage.ybt2023.com/UEditorTest/Upload',
+                serverUrl: 'http://manage.ybt2023.com/Home/Upload',
                 homeUrl: '/UEditor/'
+            },
+            wangEditor: {
+                serverUrl: 'http://manage.ybt2023.com/Home/TestUpload',
             },
             menu: {
                 id: 'MenuID',

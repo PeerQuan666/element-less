@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { watch, ref, computed, nextTick } from 'vue'
+import { watch, ref, computed, nextTick ,onMounted} from 'vue'
 import DynamicDesignerViewBody from './DynamicDesignerViewBody.vue'
 import { FormItemProps, DynamicComponentType, DynamicDataType } from '../../utlis/interfaces'
 import { dynamicDataTypes, dynamicComponentTypes, DynamicHandler } from '../../utlis/dynamic'
 import { property_form, property_formItem, property_array, property_advanced, property_arrayAndObject } from '../../utlis/dynamic/propertys'
-import {ElScrollbar} from 'element-plus'
 import { lessCom } from '../../utlis/com'
 import { useDesign } from './stateDesign.js'
 import { ElMessage } from 'element-plus'
@@ -47,7 +46,8 @@ const customData = ref<any>([])
 const startCreate = ref(false)
 const dataTypeData = getValue<any>("dataTypeData")
 const componentData = getValue<any>("componentData")
-
+const mainInner=ref()
+const gapTop=ref(0)
 
 const currDynamicDataType = ref<any>([])
 if (dataTypeData) {
@@ -258,6 +258,7 @@ watch(renderData, () => {
 const currSelectItem = ref()
 const currSelectData = ref()
 const showPropertys = ref(false)
+
 function setSelectItem(item) {
     if (!item) {
         currSelectItem.value = null
@@ -525,12 +526,17 @@ setValue({
     recordComponent,
 
 })
+
+onMounted(() => {
+    gapTop.value= (mainInner.value.getBoundingClientRect().top+20).appendPx()
+})
+
 </script>
 <template>
-    <div>
+    <div ref="designer" :style="`--gapTop:${gapTop}`">
         <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-            <div style="display:flex;background:#f8f8f8;" class="els-dynamic-view">
-                <div style="flex-basis:260px;flex-shrink: 0;background: #fff;" class="els-dynamic-view-components">
+            <div style="display:flex;background:#f8f8f8;" class="els-dynamic-d-view">
+                <div style="flex-basis:260px;flex-shrink: 0;background: #fff;" class="els-dynamic-d-view-components">
                     <slot name="left"  v-bind="{ data: controlData,customData:customData}">
                       <el-tabs stretch>
                         <el-tab-pane label="表单组件">
@@ -610,20 +616,10 @@ setValue({
                     <div class="main-tool">
                         <span style="display: flex; align-items: center;cursor: pointer;">
                             <el-button link @click="unDoComponent" type="primary" :disabled="isDisabledUndo">
-                                <svg t="1697597294665" class="icon" viewBox="0 0 1137 1024" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" p-id="1473" width="32" height="32">
-                                    <path
-                                        d="M489.244444 568.888889l60.681482 75.851852H265.481481l64.474075-265.481482 60.681481 72.05926c34.133333-30.340741 109.985185-68.266667 238.933333-68.266667 201.007407 0 280.651852 204.8 280.651852 204.8S792.651852 455.111111 663.703704 455.111111c-98.607407 0-155.496296 75.851852-174.45926 113.777778z"
-                                        p-id="1474" fill="#409eff"></path>
-                                </svg>
+                                <icon-back theme="outline" size="20" fill="#333"/>
                             </el-button>
                             <el-button link @click="reDoComponent" :disabled="isDisabledReDo">
-                                <svg t="1697597431667" class="icon" viewBox="0 0 1137 1024" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" p-id="980" width="32" height="32">
-                                    <path
-                                        d="M611.783111 569.344L549.622519 644.740741h284.444444l-65.498074-265.481482-59.922963 72.666074c-35.422815-28.48237-108.278519-68.342519-238.667852-68.342518-202.827852 0-280.651852 206.01363-280.651852 206.013629s116.318815-132.778667 246.215111-132.778666c97.204148-0.037926 153.865481 74.827852 176.241778 112.526222z"
-                                        p-id="981" fill="#409eff"></path>
-                                </svg>
+                                <icon-next theme="outline" size="20" fill="#333"/>
                             </el-button>
                             <els-radio-button v-model="deviceType">
                                 <els-option>PC</els-option>
@@ -655,7 +651,7 @@ setValue({
                         </span>
                     </div>
                     <div class="main" :class="deviceType">
-                        <div class="main-inner">
+                        <div class="main-inner" ref="mainInner">
                             <div class="main-create-from" v-if="!startCreate && !renderData.length&&initRootForm===true">
                                 <div>
                                     <div>是否创建Form表单</div>
@@ -680,14 +676,14 @@ setValue({
                                 </DynamicDesignerViewBody>
                                 <DynamicDesignerViewBody v-else :type="deviceType" :renderData="renderData">
                                 </DynamicDesignerViewBody>
-                                <el-empty v-if="!renderData.length||(renderData.length&&renderData[0].componentType==='Form'&&!renderData[0].data.length)" style="margin-top: -650px">
+                                <el-empty v-if="!renderData.length||(renderData.length&&renderData[0].componentType==='Form'&&!renderData[0].data.length)" style="margin-bottom: 25vh">
                                     <template #description>请点击拖动<span class="txt-red">左侧</span>组件到此处</template>
                                 </el-empty>
                             </template>
                         </div>
                     </div>
                 </div>
-                <div  class="els-dynamic-view-propertys">
+                <div  class="els-dynamic-d-view-propertys">
                         <el-tabs stretch v-if="currSelectItem && currPropertys && showPropertys">
                             <el-tab-pane label="基础属性" v-if="currSelectItem.dataType&&currSelectItem.formItem">
                                 <els-form v-model="currSelectItem" labelPosition="top">
@@ -753,15 +749,20 @@ setValue({
 </template>
 
 <style lang="less" scoped>
-.main-tool {
+.main-tool:deep {
     display: flex;
     gap: 5px;
     justify-content: space-between;
     background: #fff;
     line-height: 42px;
     padding: 0 15px;
+    svg path {
+            stroke: var(--el-color-primary);
+            fill: var(--el-color-primary) 
+        }
     .is-disabled{
         svg path {
+            stroke: #a8abb2;
             fill: #a8abb2
         }
     }
@@ -789,7 +790,7 @@ setValue({
 }
 
 .main-inner {
-    height: calc(100vh - 90px);
+    height: calc(100vh - var(--gapTop));
     background: #fff;
     padding: 10px;
     margin: 10px;
@@ -842,7 +843,7 @@ setValue({
     }
 }
 
-.els-dynamic-view-components {
+.els-dynamic-d-view-components {
     .el-collapse-item__header {
         font-weight: bold;
     }
@@ -869,8 +870,7 @@ setValue({
         word-wrap: break-word;
         display: inline-block;
         min-height: 32px;
-        line-height: 32px;
-        width: 120px;
+        width: 48%;
         cursor: move;
         background: #fff;
         border: 1px solid #e8e9eb;
@@ -883,7 +883,7 @@ setValue({
 }
 
 
-.els-dynamic-view {
+.els-dynamic-d-view {
     .ghost {
         content: "";
         font-size: 0;
@@ -897,17 +897,17 @@ setValue({
         overflow: hidden;
         width: 100%
     }
-    .els-dynamic-view-propertys:deep{
+    .els-dynamic-d-view-propertys:deep{
         form,.el-tabs,.el-form-item,.el-tabs__content,.el-tab-pane,.el-tab-pane>div{
             height: 100%;
         }
     }
-    .els-dynamic-view-propertys {
+    .els-dynamic-d-view-propertys {
         flex-basis: 400px;
-    width: 400px;
-    flex-shrink: 0;
-    background: rgb(255, 255, 255);
-    padding: 0px 10px;
+        width: 400px;
+        flex-shrink: 0;
+        background: rgb(255, 255, 255);
+        padding: 0px 10px;
         .el-row {
             flex-direction: column;
         }
