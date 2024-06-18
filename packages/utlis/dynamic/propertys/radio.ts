@@ -30,8 +30,6 @@ export const property_radio= [
 			"baseConfig": {
 			  "type": "button",
 			  "dataType": "String",
-			  "width": "",
-			  "optionWidth": "",
 			  "data": [
 				{
 				  "label": "radio",
@@ -42,7 +40,6 @@ export const property_radio= [
 				  "value": "button"
 				}
 			  ],
-			  "url": "",
 			  "labelField": "label",
 			  "valueField": "value"
 			},
@@ -55,8 +52,7 @@ export const property_radio= [
 		  },
 		  "componentType": "Radio",
 		  "dataType": "String",
-		  "defaultValue": "button",
-		  "formItem": true
+		  "defaultValue": "button"
 		},
 		{
 		  "keyID": "c22a17d687c1569a7fe2e7979b12e9a0",
@@ -87,8 +83,6 @@ export const property_radio= [
 			"baseConfig": {
 			  "type": "button",
 			  "dataType": 1,
-			  "width": "",
-			  "optionWidth": "",
 			  "data": [
 				{
 				  "label": "数据列表",
@@ -99,7 +93,6 @@ export const property_radio= [
 				  "value": 2
 				}
 			  ],
-			  "url": "",
 			  "labelField": "label",
 			  "valueField": "value"
 			},
@@ -112,8 +105,7 @@ export const property_radio= [
 		  },
 		  "componentType": "Radio",
 		  "dataType": "Number",
-		  "defaultValue": "1",
-		  "formItem": true
+		  "defaultValue": "1"
 		},
 		{
 		  "keyID": "31aec5af7c8512667d41fdc786abf868",
@@ -136,24 +128,20 @@ export const property_radio= [
 				},
 				"formConfig": {
 				  "labelWidth": "",
+				  "suffixContent": "",
 				  "required": false,
 				  "requiredMessage": "",
+				  "tip": "",
+				  "tipPosition": "left",
 				  "validType": "",
-				  "validExpression": "",
 				  "validMessage": "",
+				  "validExpression": "",
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "showWordLimit": false,
 				  "clearable": false,
-				  "isPassword": false,
+				  "showPassword": false,
 				  "isTrim": false,
 				  "encode": false
 				},
@@ -165,8 +153,7 @@ export const property_radio= [
 				}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			},
 			{
 			  "keyID": "a61c2f0caca98debc569b26c7d3b0c8c",
@@ -192,13 +179,6 @@ export const property_radio= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "showWordLimit": false,
 				  "clearable": false,
 				  "isPassword": false,
@@ -213,8 +193,7 @@ export const property_radio= [
 				}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			}
 		  ],
 		  "config": {
@@ -229,7 +208,7 @@ export const property_radio= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"
@@ -242,8 +221,7 @@ export const property_radio= [
 			}
 		  },
 		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  "dataType": "None"
 		},
 		{
 		  "keyID": "key_99574",
@@ -282,14 +260,8 @@ export const property_radio= [
 					  "validMethod": ""
 					},
 					"baseConfig": {
-					  "width": "",
 					  "placeholder": "显示文本",
-					  "prefixIcon": "",
-					  "suffixIcon": "",
-					  "prefixTag": "",
-					  "suffixTag": "",
 					  "showWordLimit": false,
-					  "maxlength": "",
 					  "clearable": false,
 					  "showPassword": false,
 					  "isTrim": false,
@@ -303,8 +275,7 @@ export const property_radio= [
 					}
 				  },
 				  "componentType": "Input",
-				  "dataType": "String",
-				  "formItem": true
+				  "dataType": "String"
 				},
 				{
 				  "keyID": "aa9af377f57b5b1c70ae39952200040f",
@@ -333,14 +304,8 @@ export const property_radio= [
 					  "validMethod": ""
 					},
 					"baseConfig": {
-					  "width": "",
 					  "placeholder": "值",
-					  "prefixIcon": "",
-					  "suffixIcon": "",
-					  "prefixTag": "",
-					  "suffixTag": "",
 					  "showWordLimit": false,
-					  "maxlength": "",
 					  "clearable": false,
 					  "showPassword": false,
 					  "isTrim": false,
@@ -354,8 +319,7 @@ export const property_radio= [
 					}
 				  },
 				  "componentType": "Input",
-				  "dataType": "String",
-				  "formItem": true
+				  "dataType": "String"
 				}
 			  ],
 			  "dataType": "None",
@@ -427,10 +391,11 @@ export const property_radio= [
 			  "eventChange": ""
 			},
 			"arrayConfig": {
-			  "arrayDefaultLength": "",
+			  "arrayDefaultLength": "1",
 			  "arrangementType": "Vertical",
 			  "maxHeight": "",
-			  "maxWidth": ""
+			  "maxWidth": "",
+			  "borderType": ""
 			}
 		  }
 		},
@@ -458,13 +423,6 @@ export const property_radio= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
-			  "maxlength": "",
 			  "showWordLimit": false,
 			  "clearable": false,
 			  "isPassword": false,
@@ -479,8 +437,7 @@ export const property_radio= [
 			}
 		  },
 		  "componentType": "Input",
-		  "dataType": "String",
-		  "formItem": true
+		  "dataType": "String"
 		},
 		{
 		  "keyID": "6ac45742d153533c89be8c38ea6a03ff",
@@ -511,13 +468,6 @@ export const property_radio= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "showWordLimit": false,
 				  "clearable": false,
 				  "isPassword": false,
@@ -532,8 +482,7 @@ export const property_radio= [
 				}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			},
 			{
 			  "keyID": "3116242ce5345ebe9efa0a0e3169c247",
@@ -559,13 +508,6 @@ export const property_radio= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "showWordLimit": false,
 				  "clearable": false,
 				  "isPassword": false,
@@ -580,8 +522,7 @@ export const property_radio= [
 				}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			}
 		  ],
 		  "config": {
@@ -609,8 +550,7 @@ export const property_radio= [
 			}
 		  },
 		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  "dataType": "None"
 		}
 	  ],
 	  "dataType": "None",
@@ -639,7 +579,6 @@ export const property_radio= [
 		  "eventChange": ""
 		},
 		"arrayConfig": {}
-	  },
-	  "formItem": false
+	  }
 	}
   ]

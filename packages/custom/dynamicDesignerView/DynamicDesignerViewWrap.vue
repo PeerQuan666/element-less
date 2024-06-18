@@ -96,7 +96,20 @@ setValue({
 
 }
 
-.el-row{
+.el-row:deep{
+    &:has(>div[class*='ghost']){
+        flex-wrap: unset !important;
+        column-gap: 20px;
+        >.el-col{
+            flex:auto;
+            
+        }
+    }
+
+    >.ghost{
+        width: 1px !important;
+        min-height: 85px;
+    }
     >.el-col {
         position: relative;
         padding-top: 5px;
@@ -140,12 +153,15 @@ setValue({
     }
 }
 
-.els-dynamic-designer-empty{
+.els-dynamic-designer-empty:deep{
     height: 50px;
     color: #a7b1bd;
     justify-content: center;
     display: flex;
-
+    >.ghost{
+        width: 100% !important; 
+        min-height: 1px;
+    }
     &::after {
         content: '拖动组件到此处';
         margin: auto;

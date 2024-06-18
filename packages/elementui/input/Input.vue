@@ -81,7 +81,7 @@ function handleReturnResult(val) {
 const currPlaceholder=ref()
 watchEffect(()=>{
     if(isMobile){
-        currPlaceholder.value=props.placeholder||'请输入'+props.label
+        currPlaceholder.value=props.placeholder||'请输入'+(props.label??'')
     }else{
         currPlaceholder.value=props.placeholder
     }

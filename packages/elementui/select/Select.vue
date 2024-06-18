@@ -153,10 +153,7 @@ function initSelectValue() {
     if (props.allowCreate) {
         currValueType = ValueType.String
     }
-    currModelValue.value
-
-
-    if (currModelValue.value === '' || currModelValue.value === undefined ||currModelValue.value === null|| selectValue.value.toString() === currModelValue.value.toString()) {
+    if (currModelValue.value === undefined ||currModelValue.value === null|| selectValue.value.toString() === currModelValue.value.toString()) {
         return
     }
     if (props.multiple) {
@@ -165,7 +162,10 @@ function initSelectValue() {
           //去除前后逗号
           selectValue.value = selectValue.value.trimComma();
         }
-        if (currValueType === ValueType.Number) {
+        if(currModelValue.value===''){
+            selectValue.value=[]
+        }
+        else if (currValueType === ValueType.Number) {
             selectValue.value = selectValue.value.toString().toListNumber(props.valueSeparator)
         } else if (currValueType === ValueType.String) {
             selectValue.value = selectValue.value.toString().toList(props.valueSeparator)
@@ -180,7 +180,10 @@ function initSelectValue() {
             selectValue.value = selectValue.value.toString().toList(props.valueSeparator)
         }
     } else {
-        if (currValueType === ValueType.Number) {
+        if(currModelValue.value===''){
+            selectValue.value=''
+        }
+        else if (currValueType === ValueType.Number) {
             selectValue.value = parseFloat(currModelValue.value.toString());
         }
         else if (currValueType === ValueType.String) {
@@ -311,7 +314,9 @@ function handleSearch(searchValue: string) {
 function readData() {
     currLoading.value = true;
     let currUrl = props.url?.replacePowerUrl() ?? '';
-
+    if(!props.url){
+        return
+    }
     return new Promise((resolve, reject) => {
         currUrl.post(queryData).then(res => {
             if (res[$codeField] == $success) {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, computed, reactive } from 'vue'
+import { watch, computed, reactive,ref } from 'vue'
 import { lessCom } from '../../utlis/com'
 import { useValue } from '../../utlis/use'
 import DynamicRenderInner from './DynamicRenderInner.vue'
@@ -7,9 +7,10 @@ import DynamicRenderInner from './DynamicRenderInner.vue'
 interface Props {
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
 })
 const { getValue, setValue } = useValue()
+const list=ref()
 const nodeItem = defineModel<any>("nodeItem", { default: () => { return reactive<Record<string, any>>([]); } })
 const getCurrNode = getValue<Function>('getCurrNode', () => { return {} })
 const getNodeValue = getValue<Function>('getNodeValue', () => { return {} })
@@ -20,8 +21,7 @@ function handleAddItem() {
 
 
 function handleRemove(index) {
-    nodeItem.value.data.splice(index, 1)
-
+    list.value.remove(index)
 }
 
 
@@ -37,7 +37,9 @@ setValue({
 </script>
 <template>
     <div  class="els-dynamic-array">
-        <els-list v-model="nodeItem.data" @add="handleAddItem"
+        <els-list v-model="nodeItem.data"
+            ref="list"
+             @add="handleAddItem"
             :sortable="!isMobile"
             :isRemove="!isMobile"
             :hasForm="false"
@@ -53,7 +55,7 @@ setValue({
                     <els-form v-model="nodeItem.data[$index]" v-bind="Object.assign({}, nodeItem.config.baseConfig)">
                         <van-cell-group  :title="nodeItem.keyName" v-if="isMobile" :key="element.itemKey" >
                             <template #title>
-                                <div class="els-dynamic-r-mobile-title"><span>{{ nodeItem.keyName+' '+($index+1) }}</span><span class="txt-red" @click="handleRemove($index)">删除</span></div>
+                                <div class="els-dynamic-r-mobile-title"><span>{{ nodeItem.keyName+' '+($index+1) }}</span><span class="els-dynamic-remove" @click="handleRemove($index)">删除</span></div>
                             </template>
                             <DynamicRenderInner v-for="item,index in $item" :nodeItem="item" :key="item.keyID" :index="index">
                         </DynamicRenderInner>
@@ -73,39 +75,12 @@ setValue({
     &{
         flex-grow:1
     }
-    
-    .els-dynamic-array-render {
+    .els-dynamic-array-inner{
         flex-grow: 1;
-        flex-wrap: 'wrap';
-        gap: 5px;
-        overflow-y: scroll;
-        .els-dynamic-r-array {
-            border: 1px solid #dcdfe6;
-            padding: 5px 60px 5px 5px;
-            position: relative;
-            margin-bottom: 10px;
-            >.els-list-operate {
-                position: absolute;
-                right: 0;
-                top: 0;
-                background: #e5efff;
-                margin-left: 0px !important;
-            }
-            .els-dynamic-array-inner {
-                flex-grow: 1;
-                >.van-cell-group__title>.els-dynamic-r-mobile-title{
-                    display:flex;justify-content: space-between;
-                }
-            }
-        }
-        .els-dynamic-r-array-mobile{
-            border:unset;
-            padding:5px;
-            margin-bottom: 0px;
-        }
+        .els-dynamic-r-mobile-title{
+            display:flex;justify-content: space-between;
+        } 
     }
-
-   
-
+    .els-dynamic-remove{color:var(--el-color-danger);}
 }
 </style>

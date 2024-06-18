@@ -30,8 +30,6 @@ export const property_select= [
 			"baseConfig": {
 			  "type": "button",
 			  "dataType": "String",
-			  "width": "",
-			  "optionWidth": "",
 			  "data": [
 				{
 				  "label": "数据列表",
@@ -42,7 +40,6 @@ export const property_select= [
 				  "value": 2
 				}
 			  ],
-			  "url": "",
 			  "labelField": "label",
 			  "valueField": "value"
 			},
@@ -55,8 +52,7 @@ export const property_select= [
 		  },
 		  "componentType": "Radio",
 		  "dataType": "Number",
-		  "defaultValue": "1",
-		  "formItem": true
+		  "defaultValue": "1"
 		},
 		{
 		  "keyID": "67cecb440365abb61e4aace2d5686cb9",
@@ -95,14 +91,8 @@ export const property_select= [
 					  "validMethod": ""
 					},
 					"baseConfig": {
-					  "width": "",
 					  "placeholder": "显示文本",
-					  "prefixIcon": "",
-					  "suffixIcon": "",
-					  "prefixTag": "",
-					  "suffixTag": "",
 					  "showWordLimit": false,
-					  "maxlength": "",
 					  "clearable": false,
 					  "showPassword": false,
 					  "isTrim": false,
@@ -116,8 +106,7 @@ export const property_select= [
 					}
 				  },
 				  "componentType": "Input",
-				  "dataType": "String",
-				  "formItem": true
+				  "dataType": "String"
 				},
 				{
 				  "keyID": "aa9af377f57b5b1c70ae39952200040f",
@@ -146,14 +135,8 @@ export const property_select= [
 					  "validMethod": ""
 					},
 					"baseConfig": {
-					  "width": "",
 					  "placeholder": "值",
-					  "prefixIcon": "",
-					  "suffixIcon": "",
-					  "prefixTag": "",
-					  "suffixTag": "",
 					  "showWordLimit": false,
-					  "maxlength": "",
 					  "clearable": false,
 					  "showPassword": false,
 					  "isTrim": false,
@@ -167,8 +150,7 @@ export const property_select= [
 					}
 				  },
 				  "componentType": "Input",
-				  "dataType": "String",
-				  "formItem": true
+				  "dataType": "String"
 				}
 			  ],
 			  "dataType": "None",
@@ -183,7 +165,7 @@ export const property_select= [
 			  "config": {
 				"formConfig": {},
 				"baseConfig": {
-				  "gutter": "10",
+				  "gutter": 10,
 				  "justify": "",
 				  "align": "",
 				  "tag": "div"
@@ -201,26 +183,40 @@ export const property_select= [
 		  ],
 		  "config": {
 			"arrayConfig": {
-			  "arrayDefaultLength": 0,
+			  "arrayDefaultLength": "1",
 			  "arrangementType": "Vertical",
 			  "maxHeight": "",
-			  "maxWidth": ""
+			  "maxWidth": "",
+			  "borderType": ""
 			},
 			"formConfig": {
 			  "labelWidth": "0",
-			  "tip": "",
-			  "tipPosition": "left",
 			  "suffixContent": "",
 			  "required": false,
 			  "requiredMessage": "",
+			  "tip": "",
+			  "tipPosition": "left",
 			  "validType": "",
-			  "validExpression": "",
 			  "validMessage": "",
+			  "validExpression": "",
 			  "validMethod": ""
 			},
 			"baseConfig": {
 			  "componentName": "ElsFormItem",
-			  "type": "bottom"
+			  "title": "",
+			  "type": "bottom",
+			  "inline": false,
+			  "labelPosition": "right",
+			  "labelWidth": "",
+			  "labelSuffix": "",
+			  "hideRequiredAsterisk": false,
+			  "requireAsteriskPosition": "",
+			  "showMessage": false,
+			  "inlineMessage": false,
+			  "statusIcon": false,
+			  "disabled": false,
+			  "scrollToError": false,
+			  "scrollIntoViewOptions": false
 			},
 			"advancedConfig": {
 			  "style": "",
@@ -259,14 +255,7 @@ export const property_select= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
 			  "showWordLimit": false,
-			  "maxlength": "",
 			  "clearable": false,
 			  "showPassword": false,
 			  "isTrim": false,
@@ -280,8 +269,7 @@ export const property_select= [
 			}
 		  },
 		  "componentType": "Input",
-		  "dataType": "String",
-		  "formItem": true
+		  "dataType": "String"
 		},
 		{
 		  "keyID": "6ac45742d153533c89be8c38ea6a03ff",
@@ -312,13 +300,6 @@ export const property_select= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "showWordLimit": false,
 				  "clearable": false,
 				  "isPassword": false,
@@ -333,8 +314,7 @@ export const property_select= [
 				}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			},
 			{
 			  "keyID": "3116242ce5345ebe9efa0a0e3169c247",
@@ -363,13 +343,6 @@ export const property_select= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "showWordLimit": false,
 				  "clearable": false,
 				  "showPassword": false,
@@ -384,8 +357,7 @@ export const property_select= [
 				}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			}
 		  ],
 		  "config": {
@@ -413,8 +385,7 @@ export const property_select= [
 			}
 		  },
 		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  "dataType": "None"
 		},
 		{
 		  "keyID": "key_16781",
@@ -440,8 +411,6 @@ export const property_select= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "active-text": "",
-				  "inactive-text": "",
 				  "active-value": true,
 				  "inactive-value": false
 				},
@@ -454,8 +423,7 @@ export const property_select= [
 				"arrayConfig": {}
 			  },
 			  "componentType": "Switch",
-			  "dataType": "Bool",
-			  "formItem": true
+			  "dataType": "Bool"
 			},
 			{
 			  "keyID": "key_71189",
@@ -482,8 +450,6 @@ export const property_select= [
 				"baseConfig": {
 				  "type": "button",
 				  "dataType": 1,
-				  "width": "",
-				  "optionWidth": "",
 				  "data": [
 					{
 					  "label": "数字",
@@ -493,10 +459,7 @@ export const property_select= [
 					  "label": "字符串",
 					  "value": "string"
 					}
-				  ],
-				  "url": "",
-				  "labelField": "",
-				  "valueField": ""
+				  ]
 				},
 				"advancedConfig": {
 				  "style": "",
@@ -505,15 +468,13 @@ export const property_select= [
 				  "eventChange": ""
 				},
 				"arrayConfig": {}
-			  },
-			  "formItem": true
+			  }
 			}
 		  ],
 		  "dataType": "None",
 		  "arrayDataType": "",
 		  "componentTypeLabel": "栅格行",
 		  "componentType": "Row",
-		  "formItem": false,
 		  "config": {
 			"formConfig": {},
 			"baseConfig": {
@@ -555,8 +516,6 @@ export const property_select= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "active-text": "",
-				  "inactive-text": "",
 				  "active-value": true,
 				  "inactive-value": false
 				},
@@ -570,8 +529,7 @@ export const property_select= [
 			  },
 			  "componentType": "Switch",
 			  "dataType": "Bool",
-			  "defaultValue": "true",
-			  "formItem": true
+			  "defaultValue": "true"
 			},
 			{
 			  "keyID": "050471fcd7085a37d8cefba26e3371ee",
@@ -592,8 +550,6 @@ export const property_select= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "active-text": "",
-				  "inactive-text": "",
 				  "active-value": true,
 				  "inactive-value": false
 				},
@@ -607,8 +563,7 @@ export const property_select= [
 			  },
 			  "componentType": "Switch",
 			  "dataType": "Bool",
-			  "defaultValue": "",
-			  "formItem": true
+			  "defaultValue": ""
 			}
 		  ],
 		  "config": {
@@ -628,8 +583,7 @@ export const property_select= [
 			"arrayConfig": {}
 		  },
 		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  "dataType": "None"
 		},
 		{
 		  "keyID": "546662ca44854844760cd0fc4898ed72",
@@ -655,14 +609,7 @@ export const property_select= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
 				  "showWordLimit": false,
-				  "maxlength": "",
 				  "clearable": false,
 				  "showPassword": false,
 				  "isTrim": false,
@@ -677,8 +624,7 @@ export const property_select= [
 				"arrayConfig": {}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			},
 			{
 			  "keyID": "0f273ad1e2f7cfde654ba61f8b7c7696",
@@ -696,13 +642,6 @@ export const property_select= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "showWordLimit": false,
 				  "clearable": false,
 				  "isPassword": false,
@@ -718,8 +657,7 @@ export const property_select= [
 				"arrayConfig": {}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			}
 		  ],
 		  "config": {
@@ -739,8 +677,7 @@ export const property_select= [
 			"arrayConfig": {}
 		  },
 		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  "dataType": "None"
 		},
 		{
 		  "keyID": "365c62d24d6308cf925c4b12015ced92",
@@ -766,8 +703,6 @@ export const property_select= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "active-text": "",
-				  "inactive-text": "",
 				  "active-value": true,
 				  "inactive-value": false
 				},
@@ -781,8 +716,7 @@ export const property_select= [
 			  },
 			  "componentType": "Switch",
 			  "dataType": "Bool",
-			  "defaultValue": "true",
-			  "formItem": true
+			  "defaultValue": "true"
 			},
 			{
 			  "keyID": "af94f7071b16b8ec37b188ca79f98c3b",
@@ -803,8 +737,6 @@ export const property_select= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "active-text": "",
-				  "inactive-text": "",
 				  "active-value": true,
 				  "inactive-value": false
 				},
@@ -818,8 +750,7 @@ export const property_select= [
 			  },
 			  "componentType": "Switch",
 			  "dataType": "Bool",
-			  "defaultValue": "true",
-			  "formItem": true
+			  "defaultValue": "true"
 			}
 		  ],
 		  "config": {
@@ -839,8 +770,7 @@ export const property_select= [
 			"arrayConfig": {}
 		  },
 		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  "dataType": "None"
 		},
 		{
 		  "keyID": "645dfc27b5e7fc8d70eed47c2bc868c4",
@@ -861,8 +791,6 @@ export const property_select= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "active-text": "",
-			  "inactive-text": "",
 			  "active-value": true,
 			  "inactive-value": false
 			},
@@ -875,8 +803,7 @@ export const property_select= [
 			"arrayConfig": {}
 		  },
 		  "componentType": "Switch",
-		  "dataType": "Bool",
-		  "formItem": true
+		  "dataType": "Bool"
 		}
 	  ],
 	  "dataType": "None",
@@ -905,7 +832,6 @@ export const property_select= [
 		  "eventChange": ""
 		},
 		"arrayConfig": {}
-	  },
-	  "formItem": false
+	  }
 	}
   ]

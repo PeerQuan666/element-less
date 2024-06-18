@@ -43,4 +43,4 @@ watch(currValue, (val) => {
         <van-switch v-model="currValue" :active-value="1" :inactive-value="0"  v-bind="attrs"  v-else />
      </ElsFormNode>
     </div>
-</template>../../utlis/interfaces.js
+</template>

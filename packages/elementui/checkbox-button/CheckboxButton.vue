@@ -18,7 +18,8 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
     noExistOptionPrefix: '未知选项',
     hasNoExistOption: true,
     resetValueByChangeData: true,
-    type: 'button'
+    type: 'button',
+    validTrigger:"change"
 })
 selectValue.value = props.modelValue ?? ''
 watch(() => props.modelValue, (val) => {

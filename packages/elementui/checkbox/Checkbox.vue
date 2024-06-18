@@ -207,11 +207,15 @@ function initSelectValue() {
     if (typeof (currValue) == "string") {
         currValue = currValue.replace(/^,+/, "").replace(/,+$/, "");
     }
-    if (currValue === '' || currValue === undefined||currValue === null|| selectValue.value.toString() ===  currValue.toString()) {
+    if (currValue === undefined||currValue === null|| selectValue.value.toString() ===  currValue.toString()) {
         return
     }
+
     if (!multiple.value) {
-        if (currValueType === ValueType.Number) {
+    if(currValue===''){
+        selectValue.value=''
+      }
+      else  if (currValueType === ValueType.Number) {
             singleSelectValue.value = parseFloat(currValue);
         }
         else if (currValueType === ValueType.String) {
@@ -224,7 +228,10 @@ function initSelectValue() {
         }
         return;
     } else {
-        if (currValueType === ValueType.Number) {
+        if(currValue===''){
+            selectValue.value.length= currValue.split(',')
+        }
+        else   if (currValueType === ValueType.Number) {
             selectValue.value = currValue.split(',').map(ele => parseFloat(ele));
         } else if (currValueType === ValueType.String && currValue !== "") {
             selectValue.value = currValue.split(',')
@@ -238,6 +245,9 @@ function initSelectValue() {
 
 }
 function readData() {
+    if(!props.url){
+        return
+    }
     let currUrl = props.url?.replacePowerUrl() ?? '';
     return new Promise((resolve, reject) => {
         currUrl.post(queryData).then(res => {

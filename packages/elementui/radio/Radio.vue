@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watch, useAttrs, computed, nextTick,watchEffect, onMounted } from 'vue'
+import { ref, reactive, watch, useAttrs, computed, nextTick, watchEffect, onMounted } from 'vue'
 
 import { lessCom } from '../../utlis/com'
 import { useValue } from '../../utlis/use';
@@ -10,10 +10,10 @@ import ElsOptionGroup from '../option-group/OptionGroup.vue';
 
 import { ValueType } from '../../utlis/enums'
 import { RadioProps } from '../../utlis/interfaces'
-import {useModel,useMobile} from '../../utlis/use'
+import { useModel, useMobile } from '../../utlis/use'
 defineOptions({
     name: 'ElsRadio',
-    inheritAttrs:false
+    inheritAttrs: false
 })
 
 const props = withDefaults(defineProps<RadioProps>(), ({
@@ -29,7 +29,7 @@ const props = withDefaults(defineProps<RadioProps>(), ({
     validTrigger: 'change',
 
 }))
-const {setValue}=useValue(props)
+const { setValue } = useValue(props)
 
 const { $codeField, $messageField, $dataField, $success } = lessCom.getApiConfig()
 const selectValue = ref<any>('')
@@ -45,7 +45,7 @@ const originalData: Array<Record<string, any>> = reactive([])
 const queryData = reactive({ searchKey: '', idString: '' })
 const attrs = useAttrs()
 const radioStyle: any = reactive([]);
-const formNode=ref()
+const formNode = ref()
 const emits = defineEmits(['select', 'readdataed', 'click-option', 'update:modelValue', 'update:select', 'update:select-label', 'change'])
 const optionData = computed<Array<Record<string, any>>>(() => {
     return options.concat(extraOption).concat(noExistOption);
@@ -56,7 +56,7 @@ const {
     returnModelValue,
 } = useModel(props)
 
-const {isMobile,onMobileConfirm,onMobileHiddenPopup} =useMobile(formNode)
+const { isMobile, onMobileConfirm, onMobileHiddenPopup } = useMobile(formNode)
 
 watch(selectValue, (val) => {
     handleReturnResult(val);
@@ -95,18 +95,18 @@ watch(filterText, (val) => {
     }))
 
 })
-const provideOptionData=ref<any>({type:'radio',optionWidth:''})
+const provideOptionData = ref<any>({ type: 'radio', optionWidth: '' })
 
-watchEffect(()=>{
+watchEffect(() => {
 
     if (props.type == 'button') {
-        provideOptionData.value.type= 'radiobutton'
+        provideOptionData.value.type = 'radiobutton'
     } else {
-        provideOptionData.value.type= 'radio'
+        provideOptionData.value.type = 'radio'
 
     }
-    if(props.optionWidth){
-        provideOptionData.value.optionWidth=props.optionWidth
+    if (props.optionWidth) {
+        provideOptionData.value.optionWidth = props.optionWidth
     }
 })
 
@@ -133,19 +133,22 @@ if (props.height) {
 }
 
 
-watch(currModelValue,()=>{
+watch(currModelValue, () => {
     initSelectValue()
 
 })
 
 function initSelectValue() {
 
-    const currValue=currModelValue.value
+    const currValue = currModelValue.value
     let currValueType = props.valueType;
-    if (currValue === '' || currValue === undefined||currValue===null || selectValue.value.toString() ===  currValue.toString()) {
-        
-        return }
-    if (currValueType === ValueType.Number) {
+    if (currValue === undefined || currValue === null || selectValue.value.toString() === currValue.toString()) {
+        return
+    }
+    if (currValue === '') {
+        selectValue.value = ''
+    }
+    else if (currValueType === ValueType.Number) {
         selectValue.value = parseFloat(currValue.toString());
     }
     else if (currValueType === ValueType.String) {
@@ -159,7 +162,7 @@ function initSelectValue() {
     initNoExistData()
 }
 function initSelectIndex() {
-    const currValue=currModelValue.value
+    const currValue = currModelValue.value
     if (props.selectIndex > -1 && !currValue) {
         if (optionData.value.length) {
             selectValue.value = optionData.value[props.selectIndex][props.valueField];
@@ -218,7 +221,9 @@ function handleComitSelect(value: string | number | boolean) {
 function readData() {
 
     let currUrl = props.url?.replacePowerUrl() ?? '';
-
+    if(!props.url){
+        return
+    }
     queryData['idString'] = selectValue.value?.toString();
 
     return new Promise((resolve, reject) => {
@@ -276,69 +281,70 @@ initSelect.value = props.isInitTriggerSelect;
 if (props.modelValue === '') {
     initSelect.value = true;
 }
-onMounted(()=>{
+onMounted(() => {
     if (props.url) {
-    readData()
-} else {
-    if (props.data) {
-        options.push(...props.data)
-        originalData.push(...props.data)
+        readData()
+    } else {
+        if (props.data) {
+            options.push(...props.data)
+            originalData.push(...props.data)
+        }
+        initSelectValue()
+        initSelectIndex();
     }
-    initSelectValue()
-    initSelectIndex();
-}
 })
 setValue({
-    "provideOption":provideOptionData,
+    "provideOption": provideOptionData,
     setExtraOption
 })
 
 </script>
 <template>
-       <div class="els-node">
-    <ElsFormNode v-bind="lessCom.getFormNodeProps(props)" ref="formNode" tagName="Radio">
-        <div :class="radioClass" :style="radioStyle" >
-            <div v-if="props.filterable">
-                <el-input style="width:200px;" suffix-icon="Search" v-if="filterable" placeholder="输入关键字进行过滤"
-                    v-model="filterText" clearable>
-                </el-input>
-            </div>
-            <el-radio v-if="!url && (!data || !data.length) && !optionData.length" ref="leo-radio" v-model="selectValue"
-                v-bind="attrs">
-                <slot name="default"></slot>
-            </el-radio>
-            <el-radio-group v-else v-model="selectValue" ref="els-radio-group" v-bind="attrs">
-                <slot name="extra"></slot>
-                <el-empty v-if="filterText && !optionData.length"></el-empty>
-                <template v-else-if="(url || data && data.length > 0 || options.length) && !groupField">
-                    <els-option :type="type" v-for="(item, index) in options" :key="index" :value="item[valueField]"
-                        :disabled="item[disabledField] === true" @click.native="handleClickOption(item)">
-                        <slot name="default" :item="item">
-                            {{ item[labelField] }}
-                        </slot>
-                    </els-option>
-                </template>
-                <template v-else-if="(url || data && data.length > 0) && groupField">
-                    <template v-for="gitem in lessCom.dtGroupBy(options, groupField)">
-                        <els-option-group :label="gitem.key ?? '未分组'">
-                            <els-option :type="type" v-for="(item, index) in gitem.value" :key="index"
-                                :value="item[valueField]" :disabled="item[disabledField] === true"
-                                @click.native="handleClickOption(item)">
-                                <slot name="default" :item="item">
-                                    {{ item[labelField] }}
-                                </slot>
-                            </els-option>
-                        </els-option-group>
+    <div class="els-node">
+        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)" ref="formNode" tagName="Radio">
+            <div :class="radioClass" :style="radioStyle">
+                <div v-if="props.filterable">
+                    <el-input style="width:200px;" suffix-icon="Search" v-if="filterable" placeholder="输入关键字进行过滤"
+                        v-model="filterText" clearable>
+                    </el-input>
+                </div>
+                <el-radio v-if="!url && (!data || !data.length) && !optionData.length" ref="leo-radio"
+                    v-model="selectValue" v-bind="attrs">
+                    <slot name="default"></slot>
+                </el-radio>
+                <el-radio-group v-else v-model="selectValue" ref="els-radio-group" v-bind="attrs">
+                    <slot name="extra"></slot>
+                    <el-empty v-if="filterText && !optionData.length"></el-empty>
+                    <template v-else-if="(url || data && data.length > 0 || options.length) && !groupField">
+                        <els-option :type="type" v-for="(item, index) in options" :key="index" :value="item[valueField]"
+                            :disabled="item[disabledField] === true" @click.native="handleClickOption(item)">
+                            <slot name="default" :item="item">
+                                {{ item[labelField] }}
+                            </slot>
+                        </els-option>
                     </template>
-                </template>
-                <slot name="default" v-else>
-                </slot>
-                <els-option :type="type" v-for="(item) in noExistOption" :key="item[valueField]" :value="item[valueField]"
-                    @click.native="handleClickOption(item)">{{ item[labelField] }}</els-option>
-            </el-radio-group>
-        </div>
+                    <template v-else-if="(url || data && data.length > 0) && groupField">
+                        <template v-for="gitem in lessCom.dtGroupBy(options, groupField)">
+                            <els-option-group :label="gitem.key ?? '未分组'">
+                                <els-option :type="type" v-for="(item, index) in gitem.value" :key="index"
+                                    :value="item[valueField]" :disabled="item[disabledField] === true"
+                                    @click.native="handleClickOption(item)">
+                                    <slot name="default" :item="item">
+                                        {{ item[labelField] }}
+                                    </slot>
+                                </els-option>
+                            </els-option-group>
+                        </template>
+                    </template>
+                    <slot name="default" v-else>
+                    </slot>
+                    <els-option :type="type" v-for="(item) in noExistOption" :key="item[valueField]"
+                        :value="item[valueField]" @click.native="handleClickOption(item)">{{ item[labelField]
+                        }}</els-option>
+                </el-radio-group>
+            </div>
 
-     </ElsFormNode>
+        </ElsFormNode>
     </div>
 </template>
 
@@ -376,4 +382,5 @@ setValue({
     overflow-y: scroll;
     border: 1px solid #dcdfe6;
     padding: 5px;
-}</style>
+}
+</style>

@@ -29,8 +29,6 @@ export const property_form=[
                 "validMethod": ""
               },
               "baseConfig": {
-                "active-text": "",
-                "inactive-text": "",
                 "active-value": true,
                 "inactive-value": false
               },
@@ -43,8 +41,7 @@ export const property_form=[
               "arrayConfig": {}
             },
             "componentType": "Switch",
-            "dataType": "Bool",
-            "formItem": true
+            "dataType": "Bool"
           },
           {
             "keyID": "key_15571",
@@ -68,8 +65,6 @@ export const property_form=[
               "baseConfig": {
                 "type": "button",
                 "dataType": 1,
-                "width": "",
-                "optionWidth": "",
                 "data": [
                   {
                     "label": "right",
@@ -83,10 +78,7 @@ export const property_form=[
                     "label": "top",
                     "value": "top"
                   }
-                ],
-                "url": "",
-                "labelField": "",
-                "valueField": ""
+                ]
               },
               "advancedConfig": {
                 "style": "",
@@ -98,14 +90,13 @@ export const property_form=[
             },
             "componentType": "Radio",
             "dataType": "String",
-            "formItem": true
+            "defaultValue": "right"
           }
         ],
         "dataType": "None",
         "arrayDataType": "",
         "componentTypeLabel": "栅格行",
         "componentType": "Row",
-        "formItem": false,
         "config": {
           "formConfig": {},
           "baseConfig": {
@@ -148,14 +139,7 @@ export const property_form=[
                 "validMethod": ""
               },
               "baseConfig": {
-                "width": "",
-                "placeholder": "",
-                "prefixIcon": "",
-                "suffixIcon": "",
-                "prefixTag": "",
-                "suffixTag": "",
                 "showWordLimit": false,
-                "maxlength": "",
                 "clearable": true,
                 "showPassword": false,
                 "isTrim": false,
@@ -170,8 +154,7 @@ export const property_form=[
               "arrayConfig": {}
             },
             "componentType": "Input",
-            "dataType": "String",
-            "formItem": true
+            "dataType": "String"
           },
           {
             "keyID": "key_71304",
@@ -193,14 +176,7 @@ export const property_form=[
                 "validMethod": ""
               },
               "baseConfig": {
-                "width": "",
-                "placeholder": "",
-                "prefixIcon": "",
-                "suffixIcon": "",
-                "prefixTag": "",
-                "suffixTag": "",
                 "showWordLimit": false,
-                "maxlength": "",
                 "clearable": true,
                 "showPassword": false,
                 "isTrim": false,
@@ -215,15 +191,13 @@ export const property_form=[
               "arrayConfig": {}
             },
             "componentType": "Input",
-            "dataType": "String",
-            "formItem": true
+            "dataType": "String"
           }
         ],
         "dataType": "None",
         "arrayDataType": "",
         "componentTypeLabel": "栅格行",
         "componentType": "Row",
-        "formItem": false,
         "config": {
           "formConfig": {},
           "baseConfig": {
@@ -266,8 +240,6 @@ export const property_form=[
                 "validMethod": ""
               },
               "baseConfig": {
-                "active-text": "",
-                "inactive-text": "",
                 "active-value": true,
                 "inactive-value": false
               },
@@ -280,8 +252,7 @@ export const property_form=[
               "arrayConfig": {}
             },
             "componentType": "Switch",
-            "dataType": "Bool",
-            "formItem": true
+            "dataType": "Bool"
           },
           {
             "keyID": "key_25603",
@@ -305,8 +276,6 @@ export const property_form=[
               "baseConfig": {
                 "type": "button",
                 "dataType": 1,
-                "width": "",
-                "optionWidth": "",
                 "data": [
                   {
                     "label": "left",
@@ -316,10 +285,7 @@ export const property_form=[
                     "label": "right",
                     "value": "right"
                   }
-                ],
-                "url": "",
-                "labelField": "",
-                "valueField": ""
+                ]
               },
               "advancedConfig": {
                 "style": "",
@@ -330,15 +296,13 @@ export const property_form=[
               "arrayConfig": {}
             },
             "componentType": "Radio",
-            "dataType": "String",
-            "formItem": true
+            "dataType": "String"
           }
         ],
         "dataType": "None",
         "arrayDataType": "",
         "componentTypeLabel": "栅格行",
         "componentType": "Row",
-        "formItem": false,
         "config": {
           "formConfig": {},
           "baseConfig": {
@@ -381,8 +345,6 @@ export const property_form=[
                 "validMethod": ""
               },
               "baseConfig": {
-                "active-text": "",
-                "inactive-text": "",
                 "active-value": true,
                 "inactive-value": false
               },
@@ -395,8 +357,7 @@ export const property_form=[
               "arrayConfig": {}
             },
             "componentType": "Switch",
-            "dataType": "Bool",
-            "formItem": true
+            "dataType": "Bool"
           },
           {
             "keyID": "key_25024",
@@ -418,8 +379,6 @@ export const property_form=[
                 "validMethod": ""
               },
               "baseConfig": {
-                "active-text": "",
-                "inactive-text": "",
                 "active-value": true,
                 "inactive-value": false
               },
@@ -432,15 +391,13 @@ export const property_form=[
               "arrayConfig": {}
             },
             "componentType": "Switch",
-            "dataType": "Bool",
-            "formItem": true
+            "dataType": "Bool"
           }
         ],
         "dataType": "None",
         "arrayDataType": "",
         "componentTypeLabel": "栅格行",
         "componentType": "Row",
-        "formItem": false,
         "config": {
           "formConfig": {},
           "baseConfig": {
@@ -483,8 +440,6 @@ export const property_form=[
                 "validMethod": ""
               },
               "baseConfig": {
-                "active-text": "",
-                "inactive-text": "",
                 "active-value": true,
                 "inactive-value": false
               },
@@ -497,8 +452,7 @@ export const property_form=[
               "arrayConfig": {}
             },
             "componentType": "Switch",
-            "dataType": "Bool",
-            "formItem": true
+            "dataType": "Bool"
           },
           {
             "keyID": "key_3462",
@@ -520,8 +474,6 @@ export const property_form=[
                 "validMethod": ""
               },
               "baseConfig": {
-                "active-text": "",
-                "inactive-text": "",
                 "active-value": true,
                 "inactive-value": false
               },
@@ -534,15 +486,13 @@ export const property_form=[
               "arrayConfig": {}
             },
             "componentType": "Switch",
-            "dataType": "Bool",
-            "formItem": true
+            "dataType": "Bool"
           }
         ],
         "dataType": "None",
         "arrayDataType": "",
         "componentTypeLabel": "栅格行",
         "componentType": "Row",
-        "formItem": false,
         "config": {
           "formConfig": {},
           "baseConfig": {
@@ -585,8 +535,6 @@ export const property_form=[
                 "validMethod": ""
               },
               "baseConfig": {
-                "active-text": "",
-                "inactive-text": "",
                 "active-value": true,
                 "inactive-value": false
               },
@@ -599,8 +547,7 @@ export const property_form=[
               "arrayConfig": {}
             },
             "componentType": "Switch",
-            "dataType": "Bool",
-            "formItem": true
+            "dataType": "Bool"
           },
           {
             "keyID": "key_72238",
@@ -622,8 +569,6 @@ export const property_form=[
                 "validMethod": ""
               },
               "baseConfig": {
-                "active-text": "",
-                "inactive-text": "",
                 "active-value": true,
                 "inactive-value": false
               },
@@ -636,15 +581,13 @@ export const property_form=[
               "arrayConfig": {}
             },
             "componentType": "Switch",
-            "dataType": "Bool",
-            "formItem": true
+            "dataType": "Bool"
           }
         ],
         "dataType": "None",
         "arrayDataType": "",
         "componentTypeLabel": "栅格行",
         "componentType": "Row",
-        "formItem": false,
         "config": {
           "formConfig": {},
           "baseConfig": {
@@ -689,7 +632,6 @@ export const property_form=[
         "eventChange": ""
       },
       "arrayConfig": {}
-    },
-    "formItem": false
+    }
   }
 ]

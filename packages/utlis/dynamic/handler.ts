@@ -451,6 +451,10 @@ export class DynamicHandler {
                     }
                     break
                 case 'Bool':
+                    if(typeof(item.defaultValue)==='boolean'){
+                        item.value =item.defaultValue
+                        return
+                    }
                     if (item.defaultValue?.toLowerCase() === 'true') {
                         item.value = true;
                     } else {

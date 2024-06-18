@@ -203,7 +203,7 @@ export const lessCom = {
     },
     setDefaultPropertys(basePropertys:Record<string,any>,defaultPropertys:Record<string,any>){
         for(const key in  defaultPropertys){
-            if(!basePropertys[key]){
+            if(!this.isDef(basePropertys[key])||basePropertys[key]===''){
                 basePropertys[key]=defaultPropertys[key]
             }
             else  if(typeof(defaultPropertys[key])==='object'){

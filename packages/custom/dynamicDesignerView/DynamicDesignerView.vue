@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { watch, ref, computed, nextTick ,onMounted} from 'vue'
+import DynamicDesignerViewBaseSetting from './DynamicDesignerViewBaseSetting.vue'
 import DynamicDesignerViewBody from './DynamicDesignerViewBody.vue'
 import { FormItemProps, DynamicComponentType, DynamicDataType } from '../../utlis/interfaces'
 import { dynamicDataTypes, dynamicComponentTypes, DynamicHandler } from '../../utlis/dynamic'
@@ -47,7 +48,9 @@ const startCreate = ref(false)
 const dataTypeData = getValue<any>("dataTypeData")
 const componentData = getValue<any>("componentData")
 const mainInner=ref()
+const designer=ref()
 const gapTop=ref(0)
+const designerTop=ref(0)
 
 const currDynamicDataType = ref<any>([])
 if (dataTypeData) {
@@ -290,7 +293,7 @@ function handleClone(item) {
     return item
 }
 function handleMove(e) {
-    if (e.draggedContext.element.componentGroup === 'Container') {
+    if (e.draggedContext&&e.draggedContext.element?.componentGroup === 'Container') {
         if (!e.to || !e.to.className) {
             if (e.dragged.dataset['restrict']) {
                 return false
@@ -300,7 +303,6 @@ function handleMove(e) {
         if (e.to.dataset["restrict"]) {
             return e.to.dataset['restrict'] == e.dragged.dataset['type']
         }
-
 
         if (e.dragged.dataset['restrict']) {
             return e.dragged.dataset['restrict'] == e.to.dataset['type']
@@ -425,11 +427,7 @@ function validationCode(rule, value, callback) {
         callback()
     }
 }
-function handleChangeKeyCode(keyCode) {
-    if (props.camelCase) {
-        currSelectItem.value.keyCode = keyCode.replace(keyCode[0], keyCode[0].toLowerCase())
-    }
-}
+
 function createRootForm() {
     renderData.value.push(
         {
@@ -514,66 +512,69 @@ setValue({
     "isMobile": false,
     "dataTypeData": currDynamicDataType.value,
     "componentData": currComponentTypes.value,
+    validationCode,
     setSelectItem,
     getSelectItem,
     handleMove,
     getCurrNode,
     getNodeValue,
     getDeviceType,
+    getDataTypeData,
     removeItem: (item) => {
         lessCom.removeArrayItem(renderData.value, item)
     },
     recordComponent,
 
 })
-
+const test=ref({ "modelData": { "title": "基本资料", "iconfont": "icon-jibenziliao", "name": "小猪课堂", "age": 25, "address": "四川成都", "avatar": "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg", "phoneNumber": "028-1234321", "email": "12322233@qq.com", "abstract": "我是一个没有感情的工作机器", "workService": 3, "isShow": { "age": true, "address": true, "avatar": true, "workService": true, "phoneNumber": true, "email": true, "abstract": true, "degree": true }, "model": "BASE_INFO", "show": true, "degree": "本科" }, "modelStyle": { "themeColor": "#4d4d4d", "firstTitleFontSize": "20px", "textColor": "#7c7b7b", "textFontSize": "14px", "textFontWeight": 500, "titleColor": "#121c26", "titleFontSize": "30px", "titleFontWeight": 500, "backgroundColor": "", "mBottom": "0px", "mTop": "0px", "pTop": "0", "pBottom": "40px", "pLeftRight": "40px" } })
 onMounted(() => {
     gapTop.value= (mainInner.value.getBoundingClientRect().top+20).appendPx()
+    designerTop.value=designer.value.getBoundingClientRect().top
 })
 
 </script>
 <template>
-    <div ref="designer" :style="`--gapTop:${gapTop}`">
+    <div ref="designer" :style="`--gapTop:${gapTop};--designerTop:${designerTop}`">
         <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
             <div style="display:flex;background:#f8f8f8;" class="els-dynamic-d-view">
-                <div style="flex-basis:260px;flex-shrink: 0;background: #fff;" class="els-dynamic-d-view-components">
+                <div style="flex-basis:260px;flex-shrink: 0;background: #fff;" class="els-dynamic-d-view-components" >
                     <slot name="left"  v-bind="{ data: controlData,customData:customData}">
                       <el-tabs stretch>
                         <el-tab-pane label="表单组件">
                             <el-collapse v-model="activeNames">
                                 <el-collapse-item title="基础类型" name="1">
-                                    <draggable tag="ul" :list="controlData.filter(ele => ele.componentGroup === 'Form')"
+                                    <draggable tag="div" class="container-widget" :list="controlData.filter(ele => ele.componentGroup === 'Form')"
                                         item-key="keyID" :group="{ name: 'dragGroup', pull: 'clone', put: false }"
                                         :clone="handleClone" :sort="false">
                                         <template #item="{ element, index }">
-                                            <li class="container-widget-item" :key="index">
+                                            <div class="container-widget-item" :key="index">
                                                 <component :is="'icon-'+element.icon" theme="outline" size="20" fill="#333"/> 
                                                 {{ element.componentTypeLabel }}
-                                            </li>
+                                            </div>
                                         </template>
                                     </draggable>
                                 </el-collapse-item>
                                 <el-collapse-item title="对象类型" name="2">
-                                    <draggable tag="ul" :list="objectData" item-key="keyID" :move="handleMove"
+                                    <draggable tag="div" class="container-widget" :list="objectData" item-key="keyID" :move="handleMove"
                                         :group="{ name: 'dragGroup', pull: 'clone', put: false }" :clone="handleClone"
                                         :sort="false">
                                         <template #item="{ element, index }">
-                                            <li class="container-widget-item" :data-type="element.dataTypeName"
+                                            <div class="container-widget-item" :data-type="element.dataTypeName"
                                                 :key="index">
                                                 <component :is="'icon-'+element.icon" theme="outline" size="20" fill="#333"/> 
                                                 {{ element.componentTypeLabel }}
-                                            </li>
+                                            </div>
                                         </template>
                                     </draggable>
                                 </el-collapse-item>
                                 <el-collapse-item title="自定义类型" name="3" v-if="customData.length">
-                                    <draggable tag="ul" :list="customData" item-key="keyID"
+                                    <draggable tag="div" class="container-widget" :list="customData" item-key="keyID"
                                         :group="{ name: 'dragGroup', pull: 'clone', put: false }" :clone="handleClone"
                                         :sort="false">
                                         <template #item="{ element, index }">
-                                            <li class="container-widget-item" :key="index">
+                                            <div class="container-widget-item" :key="index">
                                                 {{ element.componentTypeLabel }}
-                                            </li>
+                                            </div>
                                         </template>
                                     </draggable>
                                 </el-collapse-item>
@@ -582,28 +583,28 @@ onMounted(() => {
                         <el-tab-pane label="展示组件">
                             <el-collapse v-model="viewActiveNames">
                                 <el-collapse-item title="容器" name="1">
-                                    <draggable tag="ul" :move="handleMove"
+                                    <draggable tag="div" class="container-widget" :move="handleMove"
                                         :list="controlData.filter(ele => ele.componentGroup === 'Container'&&ele.componentShow)"
                                         item-key="keyID" :group="{ name: 'dragGroup', pull: 'clone', put: false }"
                                         :clone="handleClone" :sort="false">
                                         <template #item="{ element, index }">
-                                            <li class="container-widget-item" :data-type="element.componentType"
+                                            <div class="container-widget-item" :data-type="element.componentType"
                                                 :data-restrict="element.restrictParent" :key="index">
                                                 <component :is="'icon-'+element.icon" theme="outline" size="20" fill="#333"/> 
                                                 {{ element.componentTypeLabel }}
-                                            </li>
+                                            </div>
                                         </template>
                                     </draggable>
                                 </el-collapse-item>
                                 <el-collapse-item title="展示" name="2">
-                                    <draggable tag="ul" :list="controlData.filter(ele => ele.componentGroup === 'Show')"
+                                    <draggable tag="div" class="container-widget" :list="controlData.filter(ele => ele.componentGroup === 'Show')"
                                         item-key="keyID" :group="{ name: 'dragGroup', pull: 'clone', put: false }"
                                         :clone="handleClone" :sort="false">
                                         <template #item="{ element, index }">
-                                            <li class="container-widget-item" :key="index">
+                                            <div class="container-widget-item" :key="index">
                                                 <component :is="'icon-'+element.icon" theme="outline" size="20" fill="#333"/> 
                                                 {{ element.componentTypeLabel }}
-                                            </li>
+                                            </div>
                                         </template>
                                     </draggable>
                                 </el-collapse-item>
@@ -671,39 +672,23 @@ onMounted(() => {
                                     </div>
                                 </div>
                             </div>
-                            <template v-else>
+                            <div v-else style="position: relative;">
                                 <DynamicDesignerViewBody v-if="deviceType=='H5'" :isMobile="true" :renderData="renderData">
                                 </DynamicDesignerViewBody>
                                 <DynamicDesignerViewBody v-else :type="deviceType" :renderData="renderData">
                                 </DynamicDesignerViewBody>
-                                <el-empty v-if="!renderData.length||(renderData.length&&renderData[0].componentType==='Form'&&!renderData[0].data.length)" style="margin-bottom: 25vh">
+                                <el-empty  v-if="!renderData.length||(renderData.length&&renderData[0].componentType==='Form'&&!renderData[0].data.length)" >
                                     <template #description>请点击拖动<span class="txt-red">左侧</span>组件到此处</template>
                                 </el-empty>
-                            </template>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div  class="els-dynamic-d-view-propertys">
+                    <slot name="right"  v-bind="{ selectItem: currSelectItem,propertys:currPropertys}">
                         <el-tabs stretch v-if="currSelectItem && currPropertys && showPropertys">
                             <el-tab-pane label="基础属性" v-if="currSelectItem.dataType&&currSelectItem.formItem">
-                                <els-form v-model="currSelectItem" labelPosition="top">
-                                    <els-input label="名称" prop="keyName" v-if="currSelectItem.componentGroup==='Form'" :required="currSelectItem.componentGroup!=='Container'&&currSelectItem!=='Show'"></els-input>
-                                    <els-input label="字段名" prop="keyCode" v-if="currSelectItem.formItem"  @input="handleChangeKeyCode"
-                                        :validMethod="validationCode" :required="currSelectItem.componentGroup!=='Container'&&currSelectItem.componentGroup!=='Show'"></els-input>
-                                    <els-select label="数据类型" 
-                                        v-if="currSelectItem.dataTypeName != 'Array' && currSelectItem.dataTypeName != 'Object'&&currSelectItem==='Form'"
-                                        required :data="getDataTypeData(currSelectItem.componentType)"
-                                        @select="(sitem) => { currSelectItem.dataTypeName = sitem.selectItem.type }"
-                                        valueField="value" labelField="label" placeholder="值类型"
-                                        prop="dataType"></els-select>
-                                    <els-select label="数据类型"
-                                        v-if="currSelectItem.dataTypeName == 'Array' && currSelectItem.componentType&&currSelectItem==='Form'"
-                                        required :data="getDataTypeData(currSelectItem.componentType)"
-                                        @select="(sitem) => { currSelectItem.arrayDataTypeName = sitem.selectItem.type }"
-                                        valueField="value" labelField="label" placeholder="值类型"
-                                        prop="arrayDataType"></els-select>
-                                    <els-textarea label="默认值" prop="defaultValue" :rows="3"  v-if="currSelectItem.componentGroup==='Form'" ></els-textarea>
-                                </els-form>
+                              <DynamicDesignerViewBaseSetting :nodeItem="currSelectItem"></DynamicDesignerViewBaseSetting>
                             </el-tab-pane>
                             <el-tab-pane label="组件属性" v-if="currPropertys.length">
                                 <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.baseConfig" :isMobile="false"
@@ -727,11 +712,12 @@ onMounted(() => {
                                 </ElsDynamicRender>
                             </el-tab-pane>
                         </el-tabs>
+                    </slot>
                 </div>
             </div>
         </ElsFormNode>
     </div>
-    <els-dialog v-model="viewPriview" :width="deviceType == 'PC' ? '70%' : '40%'" top="20px" contentHeight="60%" title="预览效果">
+    <els-dialog v-model="viewPriview"  class="preview-dialog" destroy-on-close @close="formValue={};" :width="deviceType == 'PC' ? '70%' : '40%'" top="20px" contentHeight="60%" title="预览效果">
         <el-tabs>
             <el-tab-pane label="预览">
                 <div class="preview-main" :class="deviceType">
@@ -791,6 +777,7 @@ onMounted(() => {
 
 .main-inner {
     height: calc(100vh - var(--gapTop));
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     background: #fff;
     padding: 10px;
     margin: 10px;
@@ -844,6 +831,9 @@ onMounted(() => {
 }
 
 .els-dynamic-d-view-components {
+    border-right: 1px solid #eaecef;
+    height: calc(100vh - var(--designerTop));
+    overflow-y: scroll;
     .el-collapse-item__header {
         font-weight: bold;
     }
@@ -852,7 +842,7 @@ onMounted(() => {
         padding: 0px 10px;
     }
 
-    ul {
+    .container-widget {
         padding-left: 0 !important;
         display: flex;
         gap: 5px;
@@ -879,6 +869,7 @@ onMounted(() => {
         display: flex;
         align-items: center;
         column-gap: 8px;
+        box-sizing: border-box;
     }
 }
 
@@ -898,11 +889,18 @@ onMounted(() => {
         width: 100%
     }
     .els-dynamic-d-view-propertys:deep{
+       
+        overflow-y: scroll;
         form,.el-tabs,.el-form-item,.el-tabs__content,.el-tab-pane,.el-tab-pane>div{
             height: 100%;
         }
+        .el-tabs__content{
+            padding: 0px 12px;
+        }
     }
     .els-dynamic-d-view-propertys {
+        height: calc(100vh - var(--designerTop));
+        border-left: 1px solid #eaecef;
         flex-basis: 400px;
         width: 400px;
         flex-shrink: 0;
@@ -915,6 +913,12 @@ onMounted(() => {
         .el-col {
             max-width: 100%;
         }
+    
     }
+}
+.el-empty{
+    position: absolute;
+    width: 100%;
+    top: calc(50vh - 200px);
 }
 </style>

@@ -20,6 +20,7 @@ interface Props extends FormItemProps {
   serverUrl?: string,
   resourceCode?: string,
   restrictCode?: string,
+  toolbarKeys?:string,
   config?:Record<string,any>
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -48,7 +49,7 @@ if (props.modelValue) {
   editorContent.value = currModelValue.value
 }
 type InsertFnType = (url: string, poster: string) => void
-const toolbarConfig = {}
+const toolbarConfig:any = {}
 const editorConfig: any = {
   placeholder: props.placeholder,
   MENU_CONF: {
@@ -104,6 +105,9 @@ const editorConfig: any = {
 }
 if(props.config){
   Object.assign(editorConfig,props.config)
+}
+if(props.toolbarKeys){
+  toolbarConfig.toolbarKeys=props.toolbarKeys.split(',')
 }
 
 // 组件销毁时，也及时销毁编辑器

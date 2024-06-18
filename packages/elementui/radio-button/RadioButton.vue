@@ -9,6 +9,7 @@ defineOptions({
 })
 const slots = useSlots()
 const emits=defineEmits(['update:modelValue'])
+import {useModel,useMobile} from '../../utlis/use'
 const selectValue=ref('')
 const props:any = withDefaults(defineProps<RadioProps>(), ({
     type: 'button',
@@ -21,12 +22,19 @@ const props:any = withDefaults(defineProps<RadioProps>(), ({
     resetValueByChangeData: true,
     isInitTriggerSelect: true,
 }))
-selectValue.value=props.modelValue
-watch(() => props.modelValue, (val) => {
+
+const {
+    currModelValue,
+    returnModelValue,
+} = useModel(props)
+
+watch(currModelValue,(val)=>{
     selectValue.value=val
 })
+
+
 watch(selectValue,(value)=>{
-    emits('update:modelValue', value)
+    returnModelValue(value)
 })
 const slotNames:any=[]
 for(const slotItem in slots){
@@ -41,4 +49,3 @@ for(const slotItem in slots){
     </template>
     </els-radio>
 </template>
-../../utlis/lessPrototype.js../../utlis/interfaces.js

@@ -12,6 +12,7 @@ const renderData = defineModel<any>("renderData", { default: () => { return reac
 const props = withDefaults(defineProps<Props>(), {  })
 
 const { setValue ,getValue} = useValue(props)
+const handleMove = getValue<Function>('handleMove', () => { })
 const setSelectItem = getValue<Function>('setSelectItem', () => { })
 const recordComponent = getValue<Function>('recordComponent', () => { })
 function handleAddComponent(e) {
@@ -25,12 +26,14 @@ setValue({
 <template>
     
    <ElScrollbar style="height: calc(100vh - var(--gapTop) - '40px');" v-if="renderData && renderData.length && renderData[0].componentType === 'Form'">
-    <DynamicDesignerViewForm :nodeItem="renderData[0]" :isRoot="true" v-if="renderData && renderData.length && renderData[0].componentType === 'Form'"
-        ></DynamicDesignerViewForm>
+    <DynamicDesignerViewForm :nodeItem="renderData[0]" :isRoot="true" v-if="renderData && renderData.length && renderData[0].componentType === 'Form'" ></DynamicDesignerViewForm>
     </ElScrollbar>
         <els-form v-model="renderData" v-else>
             <draggable tag="div" :list="renderData" v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }"
-                :style="[{ 'min-height': '650px'},{'overflow':'scroll'},{'max-height':'calc(100vh - 100px)'}]" :sort="true" itemKey="keyID" handle=".els-view-move" @add="handleAddComponent">
+                :style="[{ 'min-height': '650px'},{'overflow':'scroll'},{'max-height':'calc(100vh - 100px)'}]" 
+                :sort="true" itemKey="keyID" handle=".els-view-move" @add="handleAddComponent"
+                 :move="handleMove" 
+                >
                 <template #item="{ element }">
                     <DynamicDesignerViewInner :nodeItem="element" :key="element.keyID">
                     </DynamicDesignerViewInner>

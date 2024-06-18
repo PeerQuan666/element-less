@@ -49,7 +49,6 @@ watchEffect(() => {
 </script>
 
 <template>
-
     <template v-if="componentName">
         <component  :is="componentName"  v-bind="componentAttrs"  >
         </component>

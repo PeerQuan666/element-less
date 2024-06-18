@@ -16,7 +16,7 @@ const getSelectItem = getValue<Function>('getSelectItem', () => { })
 const getCurrNode = getValue<Function>('getCurrNode', () => { return {}})
 const getNodeValue = getValue<Function>('getNodeValue', () => { return {}})
 const isMobile = getValue<boolean>('isMobile', false)
-
+const handleMove = getValue<Function>('handleMove', () => { })
 function handleAddComponent(e) {
     recordComponent()
     setSelectItem(nodeItem.value.data[e.newIndex])
@@ -71,7 +71,7 @@ setValue({
         <draggable tag="div" class="els-dynamic-root-form" :class="[{ 'els-dynamic-designer-empty': nodeItem.data.length == 0 && !isRoot }]"
             :list="nodeItem.data" v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }"
              :data-type="nodeItem.dataTypeName" :sort="true" itemKey="keyID"
-            handle=".els-view-move" @add="handleAddComponent">
+            handle=".els-view-move" @add="handleAddComponent"      :move="handleMove" >
             <template #item="{ element }">
                 <DynamicDesignerViewInner :nodeItem="element" :key="element.keyID" ></DynamicDesignerViewInner>
             </template>
@@ -83,7 +83,7 @@ setValue({
                 v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }" :style="[{ 'min-height': '50px' }]"
                 :data-type="nodeItem.dataTypeName" :sort="true" itemKey="keyID" handle=".els-view-move"
                 @add="handleAddComponent">
-                <template #item="{ element }">              
+                <template #item="{ element }"      :move="handleMove" >              
                     <DynamicDesignerViewInner  :nodeItem="element" :key="element.keyID"></DynamicDesignerViewInner>
                 </template>
             </draggable>

@@ -13,7 +13,6 @@ export const property_tabs=[
         "arrayDataType": "",
         "componentTypeLabel": "单选列表",
         "componentType": "Radio",
-        "formItem": true,
         "config": {
           "formConfig": {
             "labelWidth": "",
@@ -30,8 +29,6 @@ export const property_tabs=[
           "baseConfig": {
             "type": "button",
             "dataType": 1,
-            "width": "",
-            "optionWidth": "",
             "data": [
               {
                 "label": "card",
@@ -41,10 +38,7 @@ export const property_tabs=[
                 "label": "border-card",
                 "value": "border-card"
               }
-            ],
-            "url": "",
-            "labelField": "",
-            "valueField": ""
+            ]
           },
           "advancedConfig": {
             "style": "",
@@ -64,7 +58,6 @@ export const property_tabs=[
         "arrayDataType": "",
         "componentTypeLabel": "单选列表",
         "componentType": "Radio",
-        "formItem": true,
         "config": {
           "formConfig": {
             "labelWidth": "",
@@ -81,8 +74,6 @@ export const property_tabs=[
           "baseConfig": {
             "type": "button",
             "dataType": 1,
-            "width": "",
-            "optionWidth": "",
             "data": [
               {
                 "label": "top",
@@ -100,10 +91,7 @@ export const property_tabs=[
                 "label": "left",
                 "value": "left"
               }
-            ],
-            "url": "",
-            "labelField": "",
-            "valueField": ""
+            ]
           },
           "advancedConfig": {
             "style": "",
@@ -112,7 +100,8 @@ export const property_tabs=[
             "eventChange": ""
           },
           "arrayConfig": {}
-        }
+        },
+        "defaultValue": "top"
       },
       {
         "keyID": "key_36118",
@@ -128,7 +117,6 @@ export const property_tabs=[
             "arrayDataType": "",
             "componentTypeLabel": "开关",
             "componentType": "Switch",
-            "formItem": true,
             "config": {
               "formConfig": {
                 "labelWidth": "",
@@ -143,8 +131,6 @@ export const property_tabs=[
                 "validMethod": ""
               },
               "baseConfig": {
-                "active-text": "",
-                "inactive-text": "",
                 "active-value": true,
                 "inactive-value": false
               },
@@ -166,7 +152,6 @@ export const property_tabs=[
             "arrayDataType": "",
             "componentTypeLabel": "开关",
             "componentType": "Switch",
-            "formItem": true,
             "config": {
               "formConfig": {
                 "labelWidth": "",
@@ -181,8 +166,6 @@ export const property_tabs=[
                 "validMethod": ""
               },
               "baseConfig": {
-                "active-text": "",
-                "inactive-text": "",
                 "active-value": true,
                 "inactive-value": false
               },
@@ -200,7 +183,6 @@ export const property_tabs=[
         "arrayDataType": "",
         "componentTypeLabel": "栅格行",
         "componentType": "Row",
-        "formItem": false,
         "config": {
           "formConfig": {},
           "baseConfig": {
@@ -243,8 +225,6 @@ export const property_tabs=[
                 "validMethod": ""
               },
               "baseConfig": {
-                "active-text": "",
-                "inactive-text": "",
                 "active-value": true,
                 "inactive-value": false
               },
@@ -257,8 +237,7 @@ export const property_tabs=[
               "arrayConfig": {}
             },
             "componentType": "Switch",
-            "dataType": "Bool",
-            "formItem": true
+            "dataType": "Bool"
           },
           {
             "keyID": "key_57531",
@@ -269,7 +248,6 @@ export const property_tabs=[
             "arrayDataType": "",
             "componentTypeLabel": "开关",
             "componentType": "Switch",
-            "formItem": true,
             "config": {
               "formConfig": {
                 "labelWidth": "",
@@ -284,8 +262,6 @@ export const property_tabs=[
                 "validMethod": ""
               },
               "baseConfig": {
-                "active-text": "",
-                "inactive-text": "",
                 "active-value": true,
                 "inactive-value": false
               },
@@ -303,7 +279,6 @@ export const property_tabs=[
         "arrayDataType": "",
         "componentTypeLabel": "栅格行",
         "componentType": "Row",
-        "formItem": false,
         "config": {
           "formConfig": {},
           "baseConfig": {
@@ -348,7 +323,6 @@ export const property_tabs=[
         "eventChange": ""
       },
       "arrayConfig": {}
-    },
-    "formItem": false
+    }
   }
 ]

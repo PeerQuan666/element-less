@@ -239,6 +239,46 @@ export const property_wangEditor=[
           "arrayConfig": {}
         },
         "defaultValue": ""
+      },
+      {
+        "keyID": "key_28599",
+        "keyName": "工具栏配置",
+        "keyCode": "toolbarKeys",
+        "data": [],
+        "dataType": "String",
+        "arrayDataType": "",
+        "componentTypeLabel": "输入框",
+        "componentType": "Input",
+        "icon": "text",
+        "config": {
+          "formConfig": {
+            "labelWidth": "",
+            "suffixContent": "",
+            "required": false,
+            "requiredMessage": "",
+            "tip": "",
+            "tipPosition": "left",
+            "validType": "",
+            "validMessage": "",
+            "validExpression": "",
+            "validMethod": ""
+          },
+          "baseConfig": {
+            "showWordLimit": false,
+            "clearable": true,
+            "showPassword": false,
+            "isTrim": false,
+            "encode": false
+          },
+          "advancedConfig": {
+            "style": "",
+            "vif": "",
+            "disabled": "",
+            "eventChange": ""
+          },
+          "arrayConfig": {}
+        },
+        "defaultValue": ""
       }
     ],
     "dataType": "None",

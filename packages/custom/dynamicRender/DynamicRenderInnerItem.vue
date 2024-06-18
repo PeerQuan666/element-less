@@ -41,16 +41,7 @@ function handleClear() {
         currValue.value = '';
     }
 }
-function setDefaultPropertys(currBaseConfig,defaultPropertys){
-    for(const key in  defaultPropertys){
-        if(!currBaseConfig[key]){
-            currBaseConfig[key]=defaultPropertys[key]
-        }
-        else  if(typeof(defaultPropertys[key])==='object'){
-            setDefaultPropertys(currBaseConfig['key'],defaultPropertys[key])
-        }
-    }
-}
+
 const baseAttrs = computed(() => {
 
     let baseConfig = {}
@@ -191,7 +182,7 @@ function getUrl() {
 <template>
     <template v-if="componentName">
         <el-tag v-if="showText">{{ showText }}</el-tag>
-        <component v-else :is="componentName" v-bind="componentAttrs" v-model="currValue" :url="getUrl()"
+        <component v-else :is="componentName" v-bind="componentAttrs" v-model="currValue"  :url="getUrl()"
             @clear="handleClear">
         </component>
     </template>

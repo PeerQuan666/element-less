@@ -238,5 +238,3 @@ function onConfirm(){
         </ElsFormNode>
     </div>
 </template>
-
-../../utlis/interfaces.js

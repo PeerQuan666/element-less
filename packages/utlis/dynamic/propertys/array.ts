@@ -33,13 +33,6 @@ export const property_array= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "clearable": false,
 				  "isPassword": false,
 				  "showWordLimit": false,
@@ -54,8 +47,7 @@ export const property_array= [
 				}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			},
 			{
 			  "keyID": "edaf433262508ded4e1c74c5b49ada4f",
@@ -83,8 +75,6 @@ export const property_array= [
 				"baseConfig": {
 				  "type": "button",
 				  "dataType": "String",
-				  "width": "",
-				  "optionWidth": "",
 				  "data": [
 					{
 					  "label": "竖向",
@@ -94,10 +84,7 @@ export const property_array= [
 					  "label": "横向",
 					  "value": "Horizontal"
 					}
-				  ],
-				  "url": "",
-				  "labelField": "",
-				  "valueField": ""
+				  ]
 				},
 				"advancedConfig": {
 				  "style": "",
@@ -108,8 +95,7 @@ export const property_array= [
 			  },
 			  "componentType": "Radio",
 			  "dataType": "String",
-			  "defaultValue": "Vertical",
-			  "formItem": true
+			  "defaultValue": "Vertical"
 			}
 		  ],
 		  "config": {
@@ -124,7 +110,7 @@ export const property_array= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"
@@ -137,8 +123,7 @@ export const property_array= [
 			}
 		  },
 		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  "dataType": "None"
 		},
 		{
 		  "keyID": "defc0de4b548d1bd1a6fcf696d5d2af0",
@@ -169,13 +154,6 @@ export const property_array= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "clearable": false,
 				  "isPassword": false,
 				  "showWordLimit": false,
@@ -190,8 +168,7 @@ export const property_array= [
 				}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			},
 			{
 			  "keyID": "5cf5299550b805c06fd2dd49dab399c6",
@@ -217,13 +194,6 @@ export const property_array= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "clearable": false,
 				  "isPassword": false,
 				  "showWordLimit": false,
@@ -238,8 +208,7 @@ export const property_array= [
 				}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			}
 		  ],
 		  "config": {
@@ -253,7 +222,7 @@ export const property_array= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"
@@ -266,8 +235,54 @@ export const property_array= [
 			}
 		  },
 		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  "dataType": "None"
+		},
+		{
+		  "keyID": "key_60254",
+		  "keyName": "边框类型",
+		  "keyCode": "borderType",
+		  "data": [],
+		  "dataType": "String",
+		  "arrayDataType": "",
+		  "componentTypeLabel": "单选列表",
+		  "componentType": "Radio",
+		  "icon": "radio-two",
+		  "config": {
+			"formConfig": {
+			  "labelWidth": "",
+			  "suffixContent": "",
+			  "required": false,
+			  "requiredMessage": "",
+			  "tip": "",
+			  "tipPosition": "left",
+			  "validType": "",
+			  "validMessage": "",
+			  "validExpression": "",
+			  "validMethod": ""
+			},
+			"baseConfig": {
+			  "type": "button",
+			  "dataType": 1,
+			  "data": [
+				{
+				  "label": "无边框",
+				  "value": ""
+				},
+				{
+				  "label": "有边框",
+				  "value": "border1"
+				}
+			  ]
+			},
+			"advancedConfig": {
+			  "style": "",
+			  "vif": "",
+			  "disabled": "",
+			  "eventChange": ""
+			},
+			"arrayConfig": {}
+		  },
+		  "defaultValue": ""
 		}
 	  ],
 	  "dataType": "None",
@@ -296,7 +311,6 @@ export const property_array= [
 		  "eventChange": ""
 		},
 		"arrayConfig": {}
-	  },
-	  "formItem": false
+	  }
 	}
   ]

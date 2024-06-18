@@ -5,36 +5,39 @@ export const property_row=[
 	  "keyCode": "LkpifbtVZ3",
 	  "data": [
 		{
-		  "keyID": "key_70676",
+		  "keyID": "key_28431",
 		  "keyName": "栅格间隔",
 		  "keyCode": "gutter",
 		  "data": [],
+		  "dataType": "Number",
+		  "arrayDataType": "",
+		  "componentTypeLabel": "Slider滑块",
+		  "componentType": "Slider",
+		  "icon": "hand-drag",
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
-			  "tip": "",
-			  "tipPosition": "left",
 			  "suffixContent": "",
 			  "required": false,
 			  "requiredMessage": "",
-			  "validType": "Number",
-			  "validExpression": "",
+			  "tip": "",
+			  "tipPosition": "left",
+			  "validType": "",
 			  "validMessage": "",
+			  "validExpression": "",
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
-			  "maxlength": "",
-			  "showWordLimit": false,
-			  "clearable": true,
-			  "isPassword": false,
-			  "isTrim": false,
-			  "encode": false
+			  "min": 0,
+			  "max": 100,
+			  "step": 0,
+			  "disabled": false,
+			  "show-input": false,
+			  "show-input-controls": true,
+			  "show-stops": false,
+			  "show-tooltip": true,
+			  "vertical": false,
+			  "range": false
 			},
 			"advancedConfig": {
 			  "style": "",
@@ -44,41 +47,65 @@ export const property_row=[
 			},
 			"arrayConfig": {}
 		  },
-		  "componentType": "Input",
-		  "dataType": "String",
-		  "formItem": true
+		  "defaultValue": ""
 		},
 		{
-		  "keyID": "key_84180",
+		  "keyID": "key_67610",
 		  "keyName": "水平排列",
 		  "keyCode": "justify",
 		  "data": [],
+		  "dataType": "String",
+		  "arrayDataType": "",
+		  "componentTypeLabel": "下拉列表",
+		  "componentType": "Select",
+		  "icon": "full-selection",
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
-			  "tip": "",
-			  "tipPosition": "left",
 			  "suffixContent": "",
 			  "required": false,
 			  "requiredMessage": "",
+			  "tip": "",
+			  "tipPosition": "left",
 			  "validType": "",
-			  "validExpression": "",
 			  "validMessage": "",
+			  "validExpression": "",
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
-			  "maxlength": "",
-			  "showWordLimit": false,
+			  "dataType": 1,
+			  "data": [
+				{
+				  "label": "start",
+				  "value": "start"
+				},
+				{
+				  "label": "end",
+				  "value": "end"
+				},
+				{
+				  "label": "center",
+				  "value": "center"
+				},
+				{
+				  "label": "space-around",
+				  "value": "space-around"
+				},
+				{
+				  "label": "space-between",
+				  "value": "space-between"
+				},
+				{
+				  "label": "space-evenly",
+				  "value": "space-evenly"
+				}
+			  ],
+			  "multiple": false,
+			  "filterable": true,
+			  "remote": false,
 			  "clearable": true,
-			  "isPassword": false,
-			  "isTrim": false,
-			  "encode": false
+			  "teleported": true,
+			  "allow-create": false
 			},
 			"advancedConfig": {
 			  "style": "",
@@ -88,41 +115,53 @@ export const property_row=[
 			},
 			"arrayConfig": {}
 		  },
-		  "componentType": "Input",
-		  "dataType": "String",
-		  "formItem": true
+		  "defaultValue": "start"
 		},
 		{
-		  "keyID": "key_9102",
+		  "keyID": "key_57459",
 		  "keyName": "垂直排列",
 		  "keyCode": "align",
 		  "data": [],
+		  "dataType": "String",
+		  "arrayDataType": "",
+		  "componentTypeLabel": "下拉列表",
+		  "componentType": "Select",
+		  "icon": "full-selection",
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
-			  "tip": "",
-			  "tipPosition": "left",
 			  "suffixContent": "",
 			  "required": false,
 			  "requiredMessage": "",
+			  "tip": "",
+			  "tipPosition": "left",
 			  "validType": "",
-			  "validExpression": "",
 			  "validMessage": "",
+			  "validExpression": "",
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
-			  "maxlength": "",
-			  "showWordLimit": false,
+			  "dataType": 1,
+			  "data": [
+				{
+				  "label": "top",
+				  "value": "top"
+				},
+				{
+				  "label": "middle",
+				  "value": "middle"
+				},
+				{
+				  "label": "bottom",
+				  "value": "bottom"
+				}
+			  ],
+			  "multiple": false,
+			  "filterable": true,
+			  "remote": false,
 			  "clearable": true,
-			  "isPassword": false,
-			  "isTrim": false,
-			  "encode": false
+			  "teleported": true,
+			  "allow-create": false
 			},
 			"advancedConfig": {
 			  "style": "",
@@ -132,9 +171,7 @@ export const property_row=[
 			},
 			"arrayConfig": {}
 		  },
-		  "componentType": "Input",
-		  "dataType": "String",
-		  "formItem": true
+		  "defaultValue": ""
 		},
 		{
 		  "keyID": "key_35514",
@@ -155,13 +192,6 @@ export const property_row=[
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
-			  "maxlength": "",
 			  "showWordLimit": false,
 			  "clearable": true,
 			  "isPassword": false,
@@ -178,8 +208,7 @@ export const property_row=[
 		  },
 		  "componentType": "Input",
 		  "dataType": "String",
-		  "defaultValue": "div",
-		  "formItem": true
+		  "defaultValue": "div"
 		}
 	  ],
 	  "dataType": "None",
@@ -208,7 +237,6 @@ export const property_row=[
 		  "eventChange": ""
 		},
 		"arrayConfig": {}
-	  },
-	  "formItem": false
+	  }
 	}
   ]

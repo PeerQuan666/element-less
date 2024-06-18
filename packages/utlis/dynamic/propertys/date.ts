@@ -62,15 +62,10 @@ export const property_date= [
 				  "value": "dates"
 				}
 			  ],
-			  "url": "",
-			  "labelField": "",
-			  "valueField": "",
 			  "multiple": false,
 			  "clearable": false,
 			  "filterable": false,
 			  "allow-create": false,
-			  "width": "",
-			  "placeholder": "",
 			  "teleported": true,
 			  "remote": false
 			},
@@ -83,8 +78,7 @@ export const property_date= [
 			"arrayConfig": {}
 		  },
 		  "componentType": "Select",
-		  "dataType": "String",
-		  "formItem": true
+		  "dataType": "String"
 		},
 		{
 		  "keyID": "54b51767d5823fedde4bf4d81161d56b",
@@ -105,13 +99,6 @@ export const property_date= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
-			  "maxlength": "",
 			  "showWordLimit": false,
 			  "clearable": false,
 			  "isPassword": false,
@@ -127,8 +114,7 @@ export const property_date= [
 			"arrayConfig": {}
 		  },
 		  "componentType": "Input",
-		  "dataType": "String",
-		  "formItem": true
+		  "dataType": "String"
 		},
 		{
 		  "keyID": "7b0cb2c91ce84caa8130caab6e9c5b8f",
@@ -154,13 +140,6 @@ export const property_date= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "showWordLimit": false,
 				  "clearable": false,
 				  "isPassword": false,
@@ -176,8 +155,7 @@ export const property_date= [
 				"arrayConfig": {}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			},
 			{
 			  "keyID": "d65abcb2dcfbcee1c8cc1c125b1f8c82",
@@ -198,13 +176,6 @@ export const property_date= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "showWordLimit": false,
 				  "clearable": false,
 				  "isPassword": false,
@@ -220,8 +191,7 @@ export const property_date= [
 				"arrayConfig": {}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			}
 		  ],
 		  "config": {
@@ -241,8 +211,7 @@ export const property_date= [
 			"arrayConfig": {}
 		  },
 		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  "dataType": "None"
 		},
 		{
 		  "keyID": "eebed46cca84132e0d2da329e3b5b537",
@@ -268,8 +237,6 @@ export const property_date= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "active-text": "",
-				  "inactive-text": "",
 				  "active-value": true,
 				  "inactive-value": false
 				},
@@ -283,8 +250,7 @@ export const property_date= [
 			  },
 			  "componentType": "Switch",
 			  "dataType": "Bool",
-			  "defaultValue": "true",
-			  "formItem": true
+			  "defaultValue": "true"
 			},
 			{
 			  "keyID": "c739beaf93387f2638fe67377db95dd7",
@@ -305,8 +271,6 @@ export const property_date= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "active-text": "",
-				  "inactive-text": "",
 				  "active-value": true,
 				  "inactive-value": false
 				},
@@ -320,8 +284,7 @@ export const property_date= [
 			  },
 			  "componentType": "Switch",
 			  "dataType": "Bool",
-			  "defaultValue": "true",
-			  "formItem": true
+			  "defaultValue": "true"
 			}
 		  ],
 		  "config": {
@@ -341,8 +304,113 @@ export const property_date= [
 			"arrayConfig": {}
 		  },
 		  "componentType": "Row",
+		  "dataType": "None"
+		},
+		{
+		  "keyID": "key_56521",
+		  "keyName": "栅格行",
+		  "keyCode": "",
+		  "data": [
+			{
+			  "keyID": "key_53228",
+			  "keyName": "是否开启快捷选项",
+			  "keyCode": "isShortcuts",
+			  "data": [],
+			  "dataType": "Bool",
+			  "arrayDataType": "",
+			  "componentTypeLabel": "开关",
+			  "componentType": "Switch",
+			  "icon": "switch-one",
+			  "config": {
+				"formConfig": {
+				  "labelWidth": "",
+				  "suffixContent": "",
+				  "required": false,
+				  "requiredMessage": "",
+				  "tip": "",
+				  "tipPosition": "left",
+				  "validType": "",
+				  "validMessage": "",
+				  "validExpression": "",
+				  "validMethod": ""
+				},
+				"baseConfig": {
+				  "active-value": true,
+				  "inactive-value": false
+				},
+				"advancedConfig": {
+				  "style": "",
+				  "vif": "",
+				  "disabled": "",
+				  "eventChange": ""
+				},
+				"arrayConfig": {}
+			  },
+			  "defaultValue": ""
+			},
+			{
+			  "keyID": "key_86638",
+			  "keyName": "值分隔符",
+			  "keyCode": "valueSeparator",
+			  "data": [],
+			  "dataType": "String",
+			  "arrayDataType": "",
+			  "componentTypeLabel": "输入框",
+			  "componentType": "Input",
+			  "icon": "text",
+			  "config": {
+				"formConfig": {
+				  "labelWidth": "",
+				  "suffixContent": "",
+				  "required": false,
+				  "requiredMessage": "",
+				  "tip": "",
+				  "tipPosition": "left",
+				  "validType": "",
+				  "validMessage": "",
+				  "validExpression": "",
+				  "validMethod": ""
+				},
+				"baseConfig": {
+				  "showWordLimit": false,
+				  "clearable": true,
+				  "showPassword": false,
+				  "isTrim": false,
+				  "encode": false
+				},
+				"advancedConfig": {
+				  "style": "",
+				  "vif": "currNode['type'].value.indexOf('range')>-1",
+				  "disabled": "",
+				  "eventChange": ""
+				},
+				"arrayConfig": {}
+			  },
+			  "defaultValue": ","
+			}
+		  ],
 		  "dataType": "None",
-		  "formItem": false
+		  "arrayDataType": "",
+		  "componentTypeLabel": "栅格行",
+		  "componentType": "Row",
+		  "icon": "layout-two",
+		  "config": {
+			"formConfig": {},
+			"baseConfig": {
+			  "gutter": 0,
+			  "justify": "start",
+			  "align": "",
+			  "tag": "div"
+			},
+			"advancedConfig": {
+			  "style": "",
+			  "vif": "",
+			  "disabled": "",
+			  "eventChange": ""
+			},
+			"arrayConfig": {}
+		  },
+		  "defaultValue": ""
 		}
 	  ],
 	  "dataType": "None",
@@ -371,7 +439,6 @@ export const property_date= [
 		  "eventChange": ""
 		},
 		"arrayConfig": {}
-	  },
-	  "formItem": false
+	  }
 	}
   ]

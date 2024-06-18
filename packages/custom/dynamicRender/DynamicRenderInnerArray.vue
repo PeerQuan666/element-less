@@ -117,7 +117,10 @@ watch(() => nodeItem.value.config.arrayConfig.arrayDefaultLength, (val) => {
 <template>
    
     <div class="els-dynamic-array-render" :class="{ 'horizontal': nodeItem.config.arrayConfig.arrangementType === 'Horizontal' }"   style=" flex-grow:1">
-        <els-list v-model="nodeItem.value" @add="handleAddItem"  :item-class-name="{'els-dynamic-r-array':nodeItem.arrayDataTypeName==='Object'||nodeItem.componentTypeName==='DynamicRender'}"  :style="[
+        <els-list  v-model="nodeItem.value" @add="handleAddItem"  
+            :item-class-name="nodeItem.arrayDataTypeName==='Object'||nodeItem.componentTypeName==='DynamicRender'?'els-dynamic-r-array':''" 
+            :borderType="nodeItem.config.arrayConfig.borderType"
+            :style="[
             { 'max-width': (nodeItem.config.arrayConfig.maxWidth ? nodeItem.config.arrayConfig.maxWidth + 'px' : '') },
             { 'max-height': (nodeItem.config.arrayConfig.maxHeight ? nodeItem.config.arrayConfig.maxHeight + 'px' : '') },
             { 'display': nodeItem.config.arrayConfig.arrangementType === 'Horizontal' ? 'flex' : '' },
@@ -126,7 +129,7 @@ watch(() => nodeItem.value.config.arrayConfig.arrayDefaultLength, (val) => {
                 <DynamicRenderInnerItem  
                     :class="{'els-dynamic-r-array-item':nodeItem.componentName==='ElsDynamicRender'}" v-bind="formAttrs" 
                      :key="index" :parent-node="parentNode" :curr-node="nodeItem"
-                    :disabled="handleDisabledExpress()" v-model="element.value" prop="value" requiredMessage="不能为空" :nodeItem="nodeItem"
+                    :disabled="handleDisabledExpress()" v-model="element.value" prop="value" requiredMessage="不能为空"  :nodeItem="nodeItem"
                     :style="nodeItem.config.advancedConfig.style" @valueChange="handleValueChange">
                 </DynamicRenderInnerItem>
             </template>
@@ -134,8 +137,14 @@ watch(() => nodeItem.value.config.arrayConfig.arrayDefaultLength, (val) => {
     </div>
 </template>
 <style scoped lang="less">
-.els-dynamic-array-render{
-.van-field:deep{
+.el-form:deep{
+    >div{
+        &::-webkit-scrollbar {background:none; height: 0}
+    }
+}
+
+.els-dynamic-array-render:deep{
+.van-field{
     padding-left: 0;
 }
 }

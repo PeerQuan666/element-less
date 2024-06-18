@@ -86,6 +86,7 @@ const jsonEditor = ref()
 }
 </style>
 <style lang="less">
+.els-node{flex-grow: 1;}
 .els-jsoneditor {
     flex-grow: 1;
     .full-screen {

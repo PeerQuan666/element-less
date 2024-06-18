@@ -271,7 +271,9 @@ function filterNode(value, data) {
 
 function readData() {
     let currUrl = props.url?.replacePowerUrl() ?? '';
-
+    if(!props.url){
+        return
+    }
     return new Promise((resolve, reject) => {
         if (!props.url) {
             resolve(false)
