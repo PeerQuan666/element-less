@@ -81,6 +81,8 @@ import ElsWorkPlan from './custom/workPlan'
 import ElsCron from './custom/cron'
 import ElsWorkFlow from './custom/workFlow'
 import ElsStampBadge from './custom/stampBadge'
+import ElsZoomAndOut from './custom/zoomAndOut'
+
 
 const components = [
     ElsInput,
@@ -146,7 +148,8 @@ const components = [
     ElsWorkPlan,
     ElsCron,
     ElsWorkFlow,
-    ElsStampBadge
+    ElsStampBadge,
+    ElsZoomAndOut
 ]
 
 

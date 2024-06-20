@@ -50,6 +50,7 @@ const mainInner=ref()
 const designer=ref()
 const gapTop=ref(0)
 const designerTop=ref(0)
+const mainZoom=ref(1)
 
 const currDynamicDataType = ref<any>([])
 if (dataTypeData) {
@@ -625,6 +626,8 @@ onMounted(() => {
                                 <els-option>PC</els-option>
                                 <els-option>H5</els-option>
                             </els-radio-button>
+                            <ElsZoomAndOut v-model="mainZoom" :min="0.5" :max="1.5"></ElsZoomAndOut>
+
                         </span>
                         <span style="display: flex; align-items: center;gap: 5px;">
                             <el-link type="primary" @click="clearAll">
@@ -651,7 +654,7 @@ onMounted(() => {
                         </span>
                     </div>
                     <div class="main" :class="deviceType">
-                        <div class="main-inner" ref="mainInner">
+                        <div class="main-inner" ref="mainInner" :style="`--mainZoom:${mainZoom}`">
                             <div class="main-create-from" v-if="!startCreate && !renderData.length&&initRootForm===true">
                                 <div>
                                     <div>是否创建Form表单</div>
@@ -751,7 +754,10 @@ onMounted(() => {
             fill: #a8abb2
         }
     }
-    
+    .zoom-and-out-box{
+        position: absolute;
+       left: calc(50% - 88px);
+    }
 
 }
 
@@ -781,7 +787,7 @@ onMounted(() => {
     padding: 10px;
     margin: 10px;
     display: grid;
-
+    zoom: var(--mainZoom);
     .el-card__body {
         padding-top: 5px;
     }
