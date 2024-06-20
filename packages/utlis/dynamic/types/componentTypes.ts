@@ -26,7 +26,8 @@ import {
     property_collapse,
     property_collapseItem,
     property_formItemCom,
-    property_colorPicker
+    property_colorPicker,
+    property_alert
 } from '../propertys'
 import { DynamicComponentType } from '../../interfaces'
 import { DynamicComponentGroup } from '../../enums'
@@ -54,13 +55,16 @@ export const dynamicComponentTypes: Array<DynamicComponentType> = [
     { componentName: 'ElsCol', icon:'margin', label: '栅格列', value: 'Col', type: "Col", dataTypes: ['None'], defaultPropertys: {}, propertys: property_col, group: DynamicComponentGroup.Container, restrictParent: 'Row', formItem: false, isShow: true },
     { componentName: 'ElsTabs',icon:'label', label: 'Tabs标签页', value: 'Tabs', type: "Tabs", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_tabs, group: DynamicComponentGroup.Container, restrictChild: 'TabPane', formItem: true, isShow: true },
     { componentName: 'ElsOption',icon:'bookmark', label: 'Tabs选项', value: 'TabPane', type: "Option", dataTypes: ['None'], defaultPropertys: {}, propertys: property_tabPane, group: DynamicComponentGroup.Container, restrictParent: 'Tabs', formItem: true, isShow: true },
-    { componentName: 'ElsCaption',icon:'dividing-line', label: '分隔描述', value: 'Caption', type: "Caption", dataTypes: ['None', 'String'], defaultPropertys: {}, propertys: property_caption, group: DynamicComponentGroup.Show, formItem: true, isShow: true },
-    { componentName: 'ElsTip',icon:'tips', label: '页面提示', value: 'Tip', type: "Tip", dataTypes: ['None'], defaultPropertys: {}, propertys: property_tip, group: DynamicComponentGroup.Show, formItem: false, isShow: true },
+   
     { componentName: 'ElsForm',icon:'form-one', label: 'Form表单', value: 'Form', type: "Form", dataTypes: ['None'], defaultPropertys: {}, propertys: property_form, group: DynamicComponentGroup.Container, formItem: false, isShow: false },
     { componentName: 'ElCollapse',icon:'menu-unfold', label: '折叠面板', value: 'Collapse', type: "Collapse", dataTypes: ['None'], defaultPropertys: {}, propertys: property_collapse, group: DynamicComponentGroup.Container, restrictChild: 'CollapseItem', formItem: false, isShow: true },
     { componentName: 'ElCollapseItem',icon:'hamburger-button', label: '折叠节点', value: 'CollapseItem', type: "CollapseItem", dataTypes: ['None'], defaultPropertys: {}, propertys: property_collapseItem, group: DynamicComponentGroup.Container, restrictParent: 'Collapse', formItem: false, isShow: true },
     { componentName: 'ElCard',icon:'bank-card', label: 'Card卡片', value: 'Card', type: "Card", dataTypes: ['None'], defaultPropertys: {}, propertys: property_card, group: DynamicComponentGroup.Container, formItem: false, isShow: true },
     { componentName: 'ElsFormItem',icon:'form-one', label: 'Form表单项', value: 'FormItem', type: "FormItem", dataTypes: ['None'], defaultPropertys: {}, propertys: property_formItemCom, group: DynamicComponentGroup.Container, formItem: false, isShow: true },
     { componentName: 'div',icon:'code', label: 'Div标签', value: 'Html', type: "Html", dataTypes: ['None'], defaultPropertys: {}, propertys: [], group: DynamicComponentGroup.Container, formItem: false, isShow: true },
+
+    { componentName: 'ElsCaption',icon:'dividing-line', label: '分隔描述', value: 'Caption', type: "Caption", dataTypes: ['None', 'String'], defaultPropertys: {}, propertys: property_caption, group: DynamicComponentGroup.Show, formItem: true, isShow: true },
+    { componentName: 'ElsTip',icon:'tips', label: '页面提示', value: 'Tip', type: "Tip", dataTypes: ['None'], defaultPropertys: {}, propertys: property_tip, group: DynamicComponentGroup.Show, formItem: false, isShow: true },
+    { componentName: 'ElAlert',icon:'topic-discussion', label: 'Alert提示', value: 'Alert', type: "Alert", dataTypes: ['None'], defaultPropertys: {}, propertys: property_alert, group: DynamicComponentGroup.Show, formItem: false, isShow: true },
 
 ]
