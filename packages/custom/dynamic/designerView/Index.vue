@@ -657,20 +657,31 @@ onMounted(() => {
                         <div class="main-inner" ref="mainInner" :style="`--mainZoom:${mainZoom}`">
                             <div class="main-create-from" v-if="!startCreate && !renderData.length&&initRootForm===true">
                                 <div>
-                                    <div>是否创建Form表单</div>
-                                    <div class="txt-center">
-                                        <el-button type="info" @click="startCreate = true;">
-                                            <div>
-                                                <div>否</div>
-                                                <div>(页面已有Form表单)</div>
+                                    <div class="txt-center confirm-inner">
+                                        <el-card class="confirm-item ">
+                                            <div class="confirm-title confirm-no-title">
+                                                <el-icon><Close /></el-icon>
                                             </div>
-                                        </el-button>
-                                        <el-button type="primary" @click="createRootForm">
-                                            <div>
-                                                <div>是</div>
-                                                <div>(没有Form表单创建一个)</div>
+                                            <div class="confirm-body confirm-no-body">
+                                                <div>页面已有Form表单</div>
+                                                <div>
+                                                <el-button type="info" @click="startCreate = true;">直接进入</el-button>
                                             </div>
-                                        </el-button>
+                                            </div>
+                                           
+                                        </el-card>
+                                        <el-card class="confirm-item ">
+                                            <div class="confirm-title confirm-yes-title"><el-icon><Check /></el-icon></div>
+                                            <div class="confirm-body confirm-yes-body">
+                                            <div>
+                                                没有Form表单创建一个
+                                            </div>
+                                            <div>
+                                                <el-button type="primary" @click="createRootForm">创建表单</el-button>
+                                            </div>
+                                            </div>
+                                          
+                                        </el-card>
                                     </div>
                                 </div>
                             </div>
@@ -792,14 +803,72 @@ onMounted(() => {
         padding-top: 5px;
     }
 
-    .main-create-from {
+    .main-create-from:deep {
         display: flex;
         justify-content: center;
         align-items: center;
-        background: #7f7f7f;
+        background: #c7e9f9;
         color: #fff;
         font-size: 20px;
+   
+        .confirm-item{
+            width: 200px;
+           
+            border:unset;
+            
+            .el-card__body{padding: 0;}
+            .confirm-title{
+                .el-icon{
+                    font-size: 40px;
+                    border: 1px solid;
+                    border-radius: 40px;
+                }
+                color: #fff;
+                height: 100px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center; 
+            }
+        }
+        .confirm-body{
+            height: 130px;
+            font-size: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .confirm-no-body{
+            .el-button{
+                background: #f56160;
+                border: unset;
+                
+                &:hover{
+                    box-shadow: 3px 4px 7px #f56160;
+              }
+            }
+        }
+        .confirm-yes-body{
+            .el-button{
+       
+                background: #61c1f5;
+                border: unset;
+              &:hover{
+                box-shadow: 3px 4px 7px #61c1f5;
+              }
+            }
+        }
 
+        .confirm-no-title{
+            background: #f56160;
+        
+        }
+.confirm-yes-title{
+    background:  #61c1f5;
+   
+}
         >div {
             display: flex;
             flex-direction: column;
@@ -808,6 +877,7 @@ onMounted(() => {
             >div {
                 display: flex;
                 justify-content: center;
+                column-gap: 60px;
 
                 >button {
                     >span>div>div:first-of-type {

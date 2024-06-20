@@ -43,6 +43,7 @@ setValue({
 
 </script>
 <template>
+    
     <draggable v-if="nodeItem.componentName==='ElsRow'" :tag="nodeItem.componentName" @click.stop="setSelectItem(nodeItem)" :key="nodeItem.keyID" :componentData="Object.assign(nodeItem.config.baseConfig??{},componentAttr)"
         v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }"
         class="els-dynamic-designer-wrap"
@@ -56,10 +57,9 @@ setValue({
             <els-col   class="create" v-if="nodeItem.componentTypeName==='Row'&&element.componentTypeName!=='Col'" :key="'col'+element.keyID">
                 <DynamicDesignerViewInner :nodeItem="element"></DynamicDesignerViewInner>
             </els-col>
-            <DynamicDesignerViewWrap v-else  :data-type="element.componentType"     :data-restrict="element.restrictParent" :parentNode="nodeItem" :nodeItem="element" :key="element.keyID"></DynamicDesignerViewWrap>
+            <Wrap v-else  :data-type="element.componentType"     :data-restrict="element.restrictParent" :parentNode="nodeItem" :nodeItem="element" :key="element.keyID"></Wrap>
         </template>
     </draggable>
-
     <component v-else :is="nodeItem.componentName" 
        :class="{ 'selected': getSelectItem()?.keyID == nodeItem.keyID }"
        :style="nodeItem.config.advancedConfig?.style"
