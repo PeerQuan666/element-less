@@ -7,13 +7,13 @@ import ElementPlus from 'element-plus'
 import "jsoneditor";
 // 引入 router
 import router from './router'
+import vant from 'vant'
 import ElementLess from '../packages/index'
 import pinia from '../packages/utlis/pinia'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import '../resume-component/style.css'
-import ResumeComponent from '../resume-component/resume-component.js'
 import {install} from '@icon-park/vue-next/es/all';
 import '@icon-park/vue-next/styles/index.css';
+import 'vant/lib/index.css'
 const app = createApp(App)
 install(app)
 app.config.globalProperties.$lessConfig = {
@@ -67,6 +67,6 @@ app.use(VueUeditorWrap)
 app.use(router)
 app.use(ElementPlus)
 app.use(ElementLess)
-app.use(ResumeComponent)
+app.use(vant)
 
 app.mount('#app')

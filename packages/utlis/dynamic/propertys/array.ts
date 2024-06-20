@@ -238,15 +238,176 @@ export const property_array= [
 		  "dataType": "None"
 		},
 		{
-		  "keyID": "key_60254",
-		  "keyName": "边框类型",
-		  "keyCode": "borderType",
+		  "keyID": "key_37653",
+		  "keyName": "栅格行",
+		  "keyCode": "",
+		  "data": [
+			{
+			  "keyID": "key_60254",
+			  "keyName": "边框类型",
+			  "keyCode": "borderType",
+			  "data": [],
+			  "dataType": "String",
+			  "arrayDataType": "",
+			  "componentTypeLabel": "单选列表",
+			  "componentType": "Radio",
+			  "icon": "radio-two",
+			  "config": {
+				"formConfig": {
+				  "labelWidth": "",
+				  "suffixContent": "",
+				  "required": false,
+				  "requiredMessage": "",
+				  "tip": "",
+				  "tipPosition": "left",
+				  "validType": "",
+				  "validMessage": "",
+				  "validExpression": "",
+				  "validMethod": ""
+				},
+				"baseConfig": {
+				  "type": "button",
+				  "dataType": 1,
+				  "data": [
+					{
+					  "label": "无边框",
+					  "value": ""
+					},
+					{
+					  "label": "有边框",
+					  "value": "border1"
+					}
+				  ]
+				},
+				"advancedConfig": {
+				  "style": "",
+				  "vif": "",
+				  "disabled": "",
+				  "eventChange": ""
+				},
+				"arrayConfig": {}
+			  },
+			  "defaultValue": ""
+			},
+			{
+			  "keyID": "key_2064",
+			  "keyName": "选项组件",
+			  "keyCode": "itemComponent",
+			  "data": [],
+			  "dataType": "String",
+			  "arrayDataType": "",
+			  "componentTypeLabel": "单选列表",
+			  "componentType": "Radio",
+			  "icon": "radio-two",
+			  "config": {
+				"formConfig": {
+				  "labelWidth": "",
+				  "suffixContent": "",
+				  "required": false,
+				  "requiredMessage": "",
+				  "tip": "",
+				  "tipPosition": "left",
+				  "validType": "",
+				  "validMessage": "",
+				  "validExpression": "",
+				  "validMethod": ""
+				},
+				"baseConfig": {
+				  "type": "button",
+				  "dataType": 1,
+				  "data": [
+					{
+					  "label": "div",
+					  "value": "div"
+					},
+					{
+					  "label": "折叠面板",
+					  "value": "collapse"
+					}
+				  ]
+				},
+				"advancedConfig": {
+				  "style": "",
+				  "vif": "",
+				  "disabled": "",
+				  "eventChange": ""
+				},
+				"arrayConfig": {}
+			  },
+			  "defaultValue": "div"
+			}
+		  ],
+		  "dataType": "None",
+		  "arrayDataType": "",
+		  "componentTypeLabel": "栅格行",
+		  "componentType": "Row",
+		  "icon": "layout-two",
+		  "config": {
+			"formConfig": {},
+			"baseConfig": {
+			  "gutter": 0,
+			  "justify": "start",
+			  "align": "",
+			  "tag": "div"
+			},
+			"advancedConfig": {
+			  "style": "",
+			  "vif": "",
+			  "disabled": "",
+			  "eventChange": ""
+			},
+			"arrayConfig": {}
+		  },
+		  "defaultValue": ""
+		},
+		{
+		  "keyID": "key_84480",
+		  "keyName": "选项标题",
+		  "keyCode": "itemComponentTitle",
 		  "data": [],
 		  "dataType": "String",
 		  "arrayDataType": "",
-		  "componentTypeLabel": "单选列表",
-		  "componentType": "Radio",
-		  "icon": "radio-two",
+		  "componentTypeLabel": "Ace编辑器",
+		  "componentType": "AceEditor",
+		  "icon": "text-style",
+		  "config": {
+			"formConfig": {
+			  "labelWidth": "",
+			  "suffixContent": "",
+			  "required": false,
+			  "requiredMessage": "",
+			  "tip": "仅支持表达式",
+			  "tipPosition": "left",
+			  "validType": "",
+			  "validMessage": "",
+			  "validExpression": "",
+			  "validMethod": ""
+			},
+			"baseConfig": {
+			  "rows": 10,
+			  "readonly": false,
+			  "language": "javascript"
+			},
+			"advancedConfig": {
+			  "style": "",
+			  "vif": "",
+			  "disabled": "",
+			  "eventChange": ""
+			},
+			"arrayConfig": {}
+		  },
+		  "defaultValue": ""
+		},
+		{
+		  "keyID": "key_48027",
+		  "keyName": "新增按钮标题",
+		  "keyCode": "addButtonText",
+		  "data": [],
+		  "dataType": "String",
+		  "arrayDataType": "",
+		  "componentTypeLabel": "输入框",
+		  "componentType": "Input",
+		  "icon": "text",
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -261,18 +422,11 @@ export const property_array= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "type": "button",
-			  "dataType": 1,
-			  "data": [
-				{
-				  "label": "无边框",
-				  "value": ""
-				},
-				{
-				  "label": "有边框",
-				  "value": "border1"
-				}
-			  ]
+			  "showWordLimit": false,
+			  "clearable": true,
+			  "showPassword": false,
+			  "isTrim": false,
+			  "encode": false
 			},
 			"advancedConfig": {
 			  "style": "",
@@ -282,7 +436,7 @@ export const property_array= [
 			},
 			"arrayConfig": {}
 		  },
-		  "defaultValue": ""
+		  "defaultValue": "新增"
 		}
 	  ],
 	  "dataType": "None",

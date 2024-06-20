@@ -5,124 +5,116 @@ export const property_advanced=  [
 	  "keyCode": "svztNK4JzQ",
 	  "data": [
 		{
-		  "keyID": "4dad2b3589d6f8e5c71c1d9d32f3b09e",
-		  "keyName": "样式",
+		  "keyID": "key_62151",
+		  "keyName": "样式配置",
 		  "keyCode": "style",
 		  "data": [],
+		  "dataType": "String",
+		  "arrayDataType": "",
+		  "componentTypeLabel": "Ace编辑器",
+		  "componentType": "AceEditor",
+		  "icon": "text-style",
 		  "config": {
-			"arrayConfig": {
-			  "componentName": "ElsFormItem",
-			  "type": "bottom",
-			  "arrayDefaultLength": 0,
-			  "arrangementType": "Vertical",
-			  "maxHeight": "",
-			  "maxWidth": ""
-			},
 			"formConfig": {
 			  "labelWidth": "",
+			  "suffixContent": "",
 			  "required": false,
 			  "requiredMessage": "",
+			  "tip": "",
+			  "tipPosition": "left",
 			  "validType": "",
-			  "validExpression": "",
 			  "validMessage": "",
+			  "validExpression": "",
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "clearable": false,
-			  "isPassword": false,
-			  "showWordLimit": false,
-			  "isTrim": false,
-			  "encode": false
+			  "rows": 10,
+			  "readonly": false,
+			  "language": "css"
 			},
 			"advancedConfig": {
 			  "style": "",
 			  "vif": "",
 			  "disabled": "",
 			  "eventChange": ""
-			}
+			},
+			"arrayConfig": {}
 		  },
-		  "componentType": "Input",
-		  "dataType": "String"
+		  "defaultValue": ""
 		},
 		{
-		  "keyID": "547a134a89e4db5901ca6e78562aeb82",
-		  "keyName": "v-if",
+		  "keyID": "key_8382",
+		  "keyName": "显示配置",
 		  "keyCode": "vif",
 		  "data": [],
+		  "dataType": "String",
+		  "arrayDataType": "",
+		  "componentTypeLabel": "Ace编辑器",
+		  "componentType": "AceEditor",
+		  "icon": "text-style",
 		  "config": {
-			"arrayConfig": {
-			  "componentName": "ElsFormItem",
-			  "type": "bottom",
-			  "arrayDefaultLength": 0,
-			  "arrangementType": "Vertical",
-			  "maxHeight": "",
-			  "maxWidth": ""
-			},
 			"formConfig": {
 			  "labelWidth": "",
+			  "suffixContent": "",
 			  "required": false,
 			  "requiredMessage": "",
+			  "tip": "",
+			  "tipPosition": "left",
 			  "validType": "",
-			  "validExpression": "",
 			  "validMessage": "",
+			  "validExpression": "",
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "clearable": false,
-			  "isPassword": false,
-			  "showWordLimit": false,
-			  "isTrim": false,
-			  "encode": false
+			  "rows": 10,
+			  "readonly": false
 			},
 			"advancedConfig": {
 			  "style": "",
 			  "vif": "",
 			  "disabled": "",
 			  "eventChange": ""
-			}
+			},
+			"arrayConfig": {}
 		  },
-		  "componentType": "Input",
-		  "dataType": "String"
+		  "defaultValue": ""
 		},
 		{
-		  "keyID": "ea340531c2311a6c0224fc377228b2b9",
-		  "keyName": "Disabled",
+		  "keyID": "key_8351",
+		  "keyName": "禁用配置",
 		  "keyCode": "disabled",
 		  "data": [],
+		  "dataType": "String",
+		  "arrayDataType": "",
+		  "componentTypeLabel": "Ace编辑器",
+		  "componentType": "AceEditor",
+		  "icon": "text-style",
 		  "config": {
-			"arrayConfig": {
-			  "componentName": "ElsFormItem",
-			  "type": "bottom",
-			  "arrayDefaultLength": 0,
-			  "arrangementType": "Vertical",
-			  "maxHeight": "",
-			  "maxWidth": ""
-			},
 			"formConfig": {
 			  "labelWidth": "",
+			  "suffixContent": "",
 			  "required": false,
 			  "requiredMessage": "",
+			  "tip": "",
+			  "tipPosition": "left",
 			  "validType": "",
-			  "validExpression": "",
 			  "validMessage": "",
+			  "validExpression": "",
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "clearable": false,
-			  "isPassword": false,
-			  "showWordLimit": false,
-			  "isTrim": false,
-			  "encode": false
+			  "rows": 10,
+			  "readonly": false
 			},
 			"advancedConfig": {
 			  "style": "",
 			  "vif": "",
 			  "disabled": "",
 			  "eventChange": ""
-			}
+			},
+			"arrayConfig": {}
 		  },
-		  "componentType": "Input",
-		  "dataType": "String"
+		  "defaultValue": ""
 		},
 		{
 		  "keyID": "key_32027",
@@ -148,7 +140,9 @@ export const property_advanced=  [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "readonly": false
+			  "rows": 10,
+			  "readonly": false,
+			  "language": "javascript"
 			},
 			"advancedConfig": {
 			  "style": "",

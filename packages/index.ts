@@ -51,6 +51,7 @@ import ElsDatePicker from './elementui/date-picker'
 import ElsDatePickerRange from './elementui/date-picker-range'
 import ElsCollapseTransition from './elementui/collapse-transition'
 import ElsTabs from './elementui/tabs'
+import ElsColorPicker from './elementui/color-picker'
 
 import ElsMenuContext from './custom/menu-context'
 import ElsMenuDropdown from './custom/menu-dropdown'
@@ -64,10 +65,10 @@ import ElsButtonExport from './custom/button-export'
 import ElsList from './custom/list'
 import ElsTip from './custom/tip'
 import ElsFormNode from './custom/form-node'
-import ElsDynamicDesigner from './custom/dynamicDesigner'
-import ElsDynamicRender from './custom/dynamicRender'
+import ElsDynamicDesigner from './custom/dynamic/designer'
+import ElsDynamicRender from './custom/dynamic/render'
 import ElsContainer from './custom/container/Container.vue'
-import ElsDynamicDesignerView  from './custom/dynamicDesignerView'
+import ElsDynamicDesignerView  from './custom/dynamic/designerView'
 
 import ElsHighlight from './custom/highlight'
 import ElsUEditor from './custom/uEditor'
@@ -115,6 +116,7 @@ const components = [
     ElsSlider,
     ElsSwitch,
     ElsTabs,
+    ElsColorPicker,
 
 
     ElsDynamicDesigner,
@@ -145,7 +147,6 @@ const components = [
     ElsCron,
     ElsWorkFlow,
     ElsStampBadge
-    
 ]
 
 

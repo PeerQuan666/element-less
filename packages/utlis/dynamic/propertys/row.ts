@@ -47,7 +47,7 @@ export const property_row=[
 			},
 			"arrayConfig": {}
 		  },
-		  "defaultValue": ""
+		  "defaultValue": 10
 		},
 		{
 		  "keyID": "key_67610",

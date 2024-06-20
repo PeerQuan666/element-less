@@ -5,6 +5,8 @@ import { useVModel } from '@vueuse/core'
 import ElsForm from '../../elementui/form/Form.vue';
 import { lessCom } from '../../utlis/com';
 import { useValue } from '../../utlis/use'
+import { wrap } from 'module';
+import { nextTick } from 'process';
 
 defineOptions({ name: "ElsList", inheritAttrs: false })
 const emits = defineEmits(['add', 'update:modelValue'])
@@ -20,9 +22,12 @@ interface Props {
     onAdd?: Function,
     itemKey?: string,
     labelWidth?: string,
-    outFormData?:Record<string, any>,
-    innerFormData?:Record<string, any>,
-    borderType?:string
+    outFormAttrs?: Record<string, any>,
+    innerFormAttrs?: Record<string, any>,
+    borderType?: string,
+    itemComponent?: string,
+    itemComponentTitle?: Function | string,
+    addButtonText?: string
 
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -33,10 +38,16 @@ const props = withDefaults(defineProps<Props>(), {
     hasForm: true,
     isConfirmRemove: true,
     itemKey: '',
-    borderType:''
+    borderType: '',
+    itemComponent: 'div'
 
 })
 const { getValue } = useValue(props)
+
+const wrapComponent = ref('div')
+const currItemComponent = ref('div')
+const wrapRef = ref()
+const wrapValue=ref(0)
 const isMobile = getValue<boolean>('isMobile', false);
 let container = h('div')
 let outContainer = h('div')
@@ -45,9 +56,16 @@ const currLabelPosition = ref(getValue<any>('labelPosition', ''))
 const currData = useVModel(props, 'modelValue', emits)
 const dropData = ref<any>([])
 const currItemKey = ref(props.itemKey)
-const notObjectArray=ref(false)
-const currItemClassName=ref()
-const currBorderType=ref()
+const notObjectArray = ref(false)
+const currItemClassName = ref()
+const currBorderType = ref()
+
+if (props.itemComponent === 'collapse') {
+    currItemComponent.value = 'el-collapse-item'
+    wrapComponent.value = 'el-collapse'
+
+}
+
 watch(() => props.modelValue, (val) => {
     if (props.itemKey) {
         dropData.value = val
@@ -80,6 +98,13 @@ function handleAdd() {
     } else {
         dropData.value.push({})
     }
+    if (props.itemComponent === 'collapse') {
+        nextTick(()=>{
+         wrapValue.value=dropData.value.length-1
+        })
+    }
+
+
 
 }
 function handleRemove(item) {
@@ -103,116 +128,167 @@ watch(() => props.labelWidth, (val) => {
 })
 
 watchEffect(() => {
-    currItemClassName.value=props.itemClassName
-    currBorderType.value=props.borderType
+    currItemClassName.value = props.itemClassName
+    currBorderType.value = props.borderType
     if (props.hasForm && dropData.value.length) {
-        if (typeof (dropData.value[0]) !== 'object'||!props.itemKey) {
+        if (typeof (dropData.value[0]) !== 'object' || !props.itemKey) {
             outContainer = h(ElsForm, { modelValue: dropData })
             container = h('div')
-            notObjectArray.value=true
+            notObjectArray.value = true
 
         } else {
             container = h(ElsForm)
             outContainer = h('div')
-           
+
         }
     }
-    if(!props.hasForm||props.itemKey&&!currBorderType.value){
-        currBorderType.value='border1'
+    if (!props.hasForm || props.itemKey && !currBorderType.value) {
+        currBorderType.value = 'border1'
     }
-    if(isMobile){
-        currBorderType.value=''
+    if (isMobile || props.itemComponent !== 'div') {
+        currBorderType.value = ''
+    }
+    if (props.itemComponent === 'div') {
+        currItemClassName.value += ' listitem flex'
     }
 })
 defineExpose({
-    remove:handleRemoveIndex
+    remove: handleRemoveIndex
 })
 
 </script>
 <template>
-    <component :is="outContainer" class="els-list" :class="[{ 'el-list-mobile': isMobile }]" :labelWidth="currLabelWidth" v-bind="outFormData">
+    <component :is="outContainer" class="els-list" :class="[{ 'el-list-mobile': isMobile }]"
+        :labelWidth="currLabelWidth" v-bind="outFormAttrs">
         <draggable :list="dropData" handle=".el-icon-rank" v-bind="attrs" :item-key="currItemKey">
             <template #item="{ element, index }">
-                <component :is="container" class="els-list-inner-form" :class="currBorderType" v-model="dropData[index]" :labelWidth="currLabelWidth" v-bind="innerFormData">
-                    <div class="listitem flex" :class="currItemClassName">
-                        <slot v-if="itemKey" name="default"
-                            v-bind="{ item: element, index: index, $item: element, $index: index, element: element }">
-                        </slot>
-                        <slot v-else name="default"
-                            v-bind="{ item: element.value, index: index, $item: element.value, $index: index, element: element }">
-                        </slot>
-                        <template v-if="sortable || isRemove">
-                            <span class="els-list-operate" v-if="!currBorderType" style="margin-left:10px;">
-                            <slot name="drag" v-if="sortable && isModify">
-                                <el-icon class="el-icon-rank">
-                                    <Rank />
-                                </el-icon>
+                <component :is="wrapComponent" v-model="wrapValue" accordion>
+                    <component :is="container" class="els-list-inner-form" :class="currBorderType"
+                        v-model="dropData[index]" :labelWidth="currLabelWidth" v-bind="innerFormAttrs">
+
+                        <component :is="currItemComponent" :class="currItemClassName" :name="index">
+                            <template #title v-if="itemComponent">
+                                <div class="els-list-title">
+                                    <slot name="itemTitle"
+                                        v-bind="{ item: element, index: index, $item: element, $index: index, element: element }">
+                                        <div>
+                                            <div v-if="typeof (itemComponentTitle) === 'function'"
+                                                v-html="itemComponentTitle()"></div>
+                                            <div v-else-if="itemComponentTitle" v-html="itemComponentTitle"></div>
+                                            <div v-else>还未设置标题</div>
+                                        </div>
+                                    </slot>
+                                    <span class="els-list-operate">
+                                        <slot name="drag" v-if="sortable && isModify">
+                                            <el-icon class="el-icon-rank">
+                                                <Rank />
+                                            </el-icon>
+                                        </slot>
+
+                                        <slot name="remove" v-if="isModify && isRemove">
+                                            <el-popconfirm title="确定删除吗？" @confirm="handleRemove(element)"
+                                                v-if="isConfirmRemove">
+                                                <template #reference>
+                                                    <el-icon class="el-icon-remove">
+                                                        <Delete />
+                                                    </el-icon>
+                                                </template>
+                                            </el-popconfirm>
+                                            <el-icon class="el-icon-remove" v-else @click="handleRemove(element)">
+                                                <Delete />
+                                            </el-icon>
+                                        </slot>
+                                    </span>
+                                </div>
+
+
+                            </template>
+                            <slot v-if="itemKey" name="default"
+                                v-bind="{ item: element, index: index, $item: element, $index: index, element: element }">
                             </slot>
-                            <slot name="remove" v-if="isModify && isRemove">
-                                <el-popconfirm title="确定删除吗？" @confirm="handleRemove(element)" v-if="isConfirmRemove">
-                                    <template #reference>
-                                        <el-icon class="el-icon-remove">
+                            <slot v-else name="default"
+                                v-bind="{ item: element.value, index: index, $item: element.value, $index: index, element: element }">
+                            </slot>
+                            <template v-if="(sortable || isRemove) && itemComponent === 'div'">
+                                <span class="els-list-operate" v-if="!currBorderType" style="margin-left:10px;">
+                                    <slot name="drag" v-if="sortable && isModify">
+                                        <el-icon class="el-icon-rank">
+                                            <Rank />
+                                        </el-icon>
+                                    </slot>
+                                    <slot name="remove" v-if="isModify && isRemove">
+                                        <el-popconfirm title="确定删除吗？" @confirm="handleRemove(element)"
+                                            v-if="isConfirmRemove">
+                                            <template #reference>
+                                                <el-icon class="el-icon-remove">
+                                                    <Remove />
+                                                </el-icon>
+                                            </template>
+                                        </el-popconfirm>
+                                        <el-icon class="el-icon-remove" v-else @click="handleRemove(element)">
                                             <Remove />
                                         </el-icon>
-                                    </template>
-                                </el-popconfirm>
-                                <el-icon class="el-icon-remove" v-else @click="handleRemove(element)">
-                                    <Remove />
-                                </el-icon>
-                            </slot>
-                           </span>
-                           <template v-else>
-                                <div class="els-list-index">{{index+1}}</div>
-                                <div class="els-list-handle">
-                                    <el-icon class="el-icon-add" v-if="index===dropData.length-1" @click="handleAdd"><Plus /></el-icon>
-                                    <el-popconfirm title="确定删除吗？" @confirm="handleRemove(element)" v-if="isConfirmRemove">
-                                        <template #reference>
-                                            <el-icon  class="el-icon-remove"><Minus /></el-icon>
-                                        </template>
-                                    </el-popconfirm>
-                                    <el-icon v-else @click="handleRemove(element)"  class="el-icon-remove"><Minus /></el-icon>
-                                    <el-icon class="el-icon-rank">
-                                        <Rank />
-                                    </el-icon>
-                                </div>
-                           </template>
-                        </template>
-                    </div>
+                                    </slot>
+                                </span>
+                                <template v-else>
+                                    <div class="els-list-index">{{ index + 1 }}</div>
+                                    <div class="els-list-handle">
+                                        <el-icon class="el-icon-add" v-if="index === dropData.length - 1"
+                                            @click="handleAdd">
+                                            <Plus />
+                                        </el-icon>
+                                        <el-popconfirm title="确定删除吗？" @confirm="handleRemove(element)"
+                                            v-if="isConfirmRemove">
+                                            <template #reference>
+                                                <el-icon class="el-icon-remove">
+                                                    <Minus />
+                                                </el-icon>
+                                            </template>
+                                        </el-popconfirm>
+                                        <el-icon v-else @click="handleRemove(element)" class="el-icon-remove">
+                                            <Minus />
+                                        </el-icon>
+                                        <el-icon class="el-icon-rank">
+                                            <Rank />
+                                        </el-icon>
+                                    </div>
+                                </template>
+                            </template>
+                        </component>
+                    </component>
                 </component>
-
             </template>
         </draggable>
-        <div v-if="isModify && isAdd&&currBorderType!=='border1'"  class="els-list-bottom" :class="[{ 'els-list-add': !isMobile }]"
-            :style="`--marginleft:${(currLabelWidth&&currLabelPosition!=='top') ? '100px': isMobile&&!notObjectArray?'var(--van-cell-horizontal-padding)': '0px'}`">
+        <div v-if="isModify && isAdd && (currBorderType !== 'border1'||(dropData.length===0&&currBorderType === 'border1'))" class="els-list-bottom"
+            :class="[{ 'els-list-add': !isMobile }]"
+            :style="`--marginleft:${(currLabelWidth && currLabelPosition !== 'top') ? '100px' : isMobile && !notObjectArray ? 'var(--van-cell-horizontal-padding)' : '0px'}`">
             <slot name="add">
-                <span v-if="isMobile" class="mobile-add" @click="handleAdd">
-                    <van-icon name="plus" />
-                    添加
-                </span>
-                <el-button v-else type="info" icon="edit" @click="handleAdd">添加</el-button>
+                <el-button type="primary" link icon="plus" @click="handleAdd">{{ addButtonText || '添加' }}</el-button>
             </slot>
         </div>
     </component>
 </template>
 
-<style lang="less">
+<style lang="less" scoped>
 .els-list {
+    .els-list-operate {
+        display: flex;
+        column-gap: 5px;
+        cursor: pointer;
+        align-items: center;
+    }
+
     .listitem {
         margin-bottom: 10px;
         display: flex;
         align-items: center;
-        .el-icon-add{
-            color:var(--el-color-primary) !important;
-        }
-        .el-icon-remove {
-                color: var(--el-color-danger) !important;
-            }
-        .els-list-operate {
-            display: flex;
-            column-gap: 5px;
-            cursor: pointer;
 
-         
+        .el-icon-add {
+            color: var(--el-color-primary) !important;
+        }
+
+        .el-icon-remove {
+            color: var(--el-color-danger) !important;
         }
 
         >.els-node {
@@ -222,9 +298,10 @@ defineExpose({
 
     .els-list-bottom {
         padding-left: var(--marginleft) !important;
+
         .mobile-add {
             color: #409eff;
-           
+
         }
 
     }
@@ -235,6 +312,7 @@ defineExpose({
 
     .listitem:has(div[class^=el-form-item]) {
         margin-bottom: 0px;
+
         .els-list-operate {
             margin-bottom: 18px;
         }
@@ -248,8 +326,8 @@ defineExpose({
 
 }
 
-.border1{
-    .listitem{
+.border1 {
+    .listitem {
         border: 1px dashed #d9d9d9;
         border-radius: 5px;
         padding-top: 5px;
@@ -258,7 +336,8 @@ defineExpose({
         padding-left: 5px;
         padding-right: 5px;
     }
-    .els-list-index{
+
+    .els-list-index {
         align-items: center;
         background: #eee;
         border-radius: 15px;
@@ -270,9 +349,10 @@ defineExpose({
         left: 10px;
         position: absolute;
         width: 30px;
-        
+
     }
-    .els-list-handle{
+
+    .els-list-handle {
         background-color: #fff;
         border: 1px dashed #d9d9d9;
         border-radius: 15px;
@@ -282,28 +362,30 @@ defineExpose({
         padding: 3px 8px;
         position: absolute;
         right: 15px;
-        .el-icon{
+
+        .el-icon {
             cursor: pointer;
             height: 20px;
             position: relative;
             width: 20px;
         }
     }
-   
+
 }
 
 .el-list-mobile {
     .listitem {
         margin-bottom: 0;
     }
+
     .els-list-bottom {
         padding: var(--van-cell-vertical-padding) var(--van-cell-horizontal-padding);
 
     }
-    >div>.els-list-inner-form{
-        &:first-of-type{
-            >.listitem>.els-node>
-            .van-cell{
+
+    >div>.els-list-inner-form {
+        &:first-of-type {
+            >.listitem>.els-node>.van-cell {
                 padding-top: 0;
             }
         }
@@ -314,5 +396,31 @@ defineExpose({
     //         padding-top: 0;
     //     }
     // }
+}
+
+.el-collapse:deep {
+    margin-bottom: 10px;
+    border: 1px solid #ebeef5;
+    border-radius: 5px;
+    overflow: hidden;
+
+    .el-collapse-item__header {
+        --el-collapse-header-bg-color: #fcfcfc;
+        padding: 0 5px;
+        min-height: 48px;
+        position: relative;
+        height: auto;
+    }
+
+    .el-collapse-item__content {
+        padding: 10px;
+    }
+}
+
+.els-list-title {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    margin-right: 5px;
 }
 </style>

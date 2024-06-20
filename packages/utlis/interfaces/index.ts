@@ -12,3 +12,5 @@ export * from './tabsProps';
 export * from './rangeFormItemProps';
 export * from './timePickerProps';
 export * from './validProps';
+export * from './dynamicRule';
+export * from './dynamicRuleValue';

@@ -26,13 +26,6 @@ export const property_switch= [
 				  "maxWidth": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "clearable": false,
 				  "isPassword": false,
 				  "showWordLimit": false,
@@ -54,8 +47,7 @@ export const property_switch= [
 				  "disabled": "",
 				  "eventChange": ""
 				}
-			  },
-			  "formItem": true
+			  }
 			},
 			{
 			  "keyID": "48ead6ddb42e9c3a891f93808e1d2b6a",
@@ -72,13 +64,6 @@ export const property_switch= [
 				  "maxWidth": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "clearable": false,
 				  "isPassword": false,
 				  "showWordLimit": false,
@@ -102,14 +87,13 @@ export const property_switch= [
 				}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			}
 		  ],
 		  "config": {
 			"arrayConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"
@@ -123,8 +107,7 @@ export const property_switch= [
 			}
 		  },
 		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  "dataType": "None"
 		},
 		{
 		  "keyID": "45a75049e36ff499df10b614583a5ec0",
@@ -148,13 +131,6 @@ export const property_switch= [
 				  "maxWidth": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "clearable": false,
 				  "isPassword": false,
 				  "showWordLimit": false,
@@ -176,8 +152,7 @@ export const property_switch= [
 				  "disabled": "",
 				  "eventChange": ""
 				}
-			  },
-			  "formItem": true
+			  }
 			},
 			{
 			  "keyID": "e5c98755d594ae59898a6d524dd81fc9",
@@ -194,13 +169,6 @@ export const property_switch= [
 				  "maxWidth": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "clearable": false,
 				  "isPassword": false,
 				  "showWordLimit": false,
@@ -224,8 +192,7 @@ export const property_switch= [
 				}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			}
 		  ],
 		  "config": {
@@ -245,8 +212,7 @@ export const property_switch= [
 			}
 		  },
 		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  "dataType": "None"
 		}
 	  ],
 	  "dataType": "None",
@@ -256,7 +222,7 @@ export const property_switch= [
 	  "config": {
 		"baseConfig": {
 		  "inline": false,
-		  "labelPosition": "",
+		  "labelPosition": "top",
 		  "labelWidth": "",
 		  "labelSuffix": "",
 		  "hideRequiredAsterisk": false,
@@ -275,7 +241,6 @@ export const property_switch= [
 		  "eventChange": ""
 		},
 		"arrayConfig": {}
-	  },
-	  "formItem": false
+	  }
 	}
   ]

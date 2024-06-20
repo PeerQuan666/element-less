@@ -22,7 +22,11 @@ import {
     property_slider,
     property_aceEditor,
     property_wangEditor,
-    property_tree
+    property_tree,
+    property_collapse,
+    property_collapseItem,
+    property_formItemCom,
+    property_colorPicker
 } from '../propertys'
 import { DynamicComponentType } from '../../interfaces'
 import { DynamicComponentGroup } from '../../enums'
@@ -42,8 +46,10 @@ export const dynamicComponentTypes: Array<DynamicComponentType> = [
     { componentName: 'ElsDatePicker',icon:'calendar-dot', label: '日期选择器', value: 'Datepicker', type: "Datepicker", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_date, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
     { componentName: 'ElsTimePicker',icon:'time', label: '时间选择器', value: 'Timepicker', type: "Timepicker", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_time, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
     { componentName: 'ElsTree',icon:'tree-list', label: '树形控件', value: 'Tree', type: "Tree", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_tree, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
+    { componentName: 'ElsColorPicker',icon:'platte', label: '取色器', value: 'ColorPicker', type: "ColorPicker", dataTypes: ['String'], defaultPropertys: {}, propertys: property_colorPicker, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
     { componentName: 'ElsWangEditor',icon:'word', label: '富文本', value: 'WangEditor', type: "WangEditor", dataTypes: ['String'], defaultPropertys: {}, propertys: property_wangEditor, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
     { componentName: 'ElsAceEditor',icon:'text-style', label: 'Ace编辑器', value: 'AceEditor', type: "AceEditor", dataTypes: ['String'], defaultPropertys: {}, propertys: property_aceEditor, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
+   
     { componentName: 'ElsRow',icon:'layout-two', label: '栅格行', value: 'Row', type: "Row", dataTypes: ['None'], defaultPropertys: {}, propertys: property_row, group: DynamicComponentGroup.Container, formItem: false, isShow: true },
     { componentName: 'ElsCol', icon:'margin', label: '栅格列', value: 'Col', type: "Col", dataTypes: ['None'], defaultPropertys: {}, propertys: property_col, group: DynamicComponentGroup.Container, restrictParent: 'Row', formItem: false, isShow: true },
     { componentName: 'ElsTabs',icon:'label', label: 'Tabs标签页', value: 'Tabs', type: "Tabs", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_tabs, group: DynamicComponentGroup.Container, restrictChild: 'TabPane', formItem: true, isShow: true },
@@ -51,6 +57,10 @@ export const dynamicComponentTypes: Array<DynamicComponentType> = [
     { componentName: 'ElsCaption',icon:'dividing-line', label: '分隔描述', value: 'Caption', type: "Caption", dataTypes: ['None', 'String'], defaultPropertys: {}, propertys: property_caption, group: DynamicComponentGroup.Show, formItem: true, isShow: true },
     { componentName: 'ElsTip',icon:'tips', label: '页面提示', value: 'Tip', type: "Tip", dataTypes: ['None'], defaultPropertys: {}, propertys: property_tip, group: DynamicComponentGroup.Show, formItem: false, isShow: true },
     { componentName: 'ElsForm',icon:'form-one', label: 'Form表单', value: 'Form', type: "Form", dataTypes: ['None'], defaultPropertys: {}, propertys: property_form, group: DynamicComponentGroup.Container, formItem: false, isShow: false },
+    { componentName: 'ElCollapse',icon:'menu-unfold', label: '折叠面板', value: 'Collapse', type: "Collapse", dataTypes: ['None'], defaultPropertys: {}, propertys: property_collapse, group: DynamicComponentGroup.Container, restrictChild: 'CollapseItem', formItem: false, isShow: true },
+    { componentName: 'ElCollapseItem',icon:'hamburger-button', label: '折叠节点', value: 'CollapseItem', type: "CollapseItem", dataTypes: ['None'], defaultPropertys: {}, propertys: property_collapseItem, group: DynamicComponentGroup.Container, restrictParent: 'Collapse', formItem: false, isShow: true },
     { componentName: 'ElCard',icon:'bank-card', label: 'Card卡片', value: 'Card', type: "Card", dataTypes: ['None'], defaultPropertys: {}, propertys: property_card, group: DynamicComponentGroup.Container, formItem: false, isShow: true },
+    { componentName: 'ElsFormItem',icon:'form-one', label: 'Form表单项', value: 'FormItem', type: "FormItem", dataTypes: ['None'], defaultPropertys: {}, propertys: property_formItemCom, group: DynamicComponentGroup.Container, formItem: false, isShow: true },
+    { componentName: 'div',icon:'code', label: 'Div标签', value: 'Html', type: "Html", dataTypes: ['None'], defaultPropertys: {}, propertys: [], group: DynamicComponentGroup.Container, formItem: false, isShow: true },
 
 ]
