@@ -3,17 +3,17 @@ export const property_col=[
     "keyID": "untiJKEYR",
     "keyName": "Form",
     "keyCode": "Ezz2jZxspu",
-    "data": [
+    "children": [
       {
         "keyID": "key_80837",
         "keyName": "",
         "keyCode": "",
-        "data": [
+        "children": [
           {
             "keyID": "amRf_-v-c8",
             "keyName": "栅格占据的列数",
             "keyCode": "span",
-            "data": [],
+            "children": [],
             "config": {
               "formConfig": {
                 "labelWidth": "",
@@ -47,7 +47,7 @@ export const property_col=[
             "keyID": "key_13088",
             "keyName": "栅格左侧的间隔格数",
             "keyCode": "offset",
-            "data": [],
+            "children": [],
             "required": false,
             "config": {
               "formConfig": {
@@ -114,12 +114,12 @@ export const property_col=[
         "keyID": "key_56814",
         "keyName": "",
         "keyCode": "",
-        "data": [
+        "children": [
           {
             "keyID": "GUGcGyiCtE",
             "keyName": "栅格向右移动格数",
             "keyCode": "push",
-            "data": [],
+            "children": [],
             "config": {
               "formConfig": {
                 "labelWidth": "",
@@ -153,7 +153,7 @@ export const property_col=[
             "keyID": "key_79617",
             "keyName": "栅格向左移动格数",
             "keyCode": "pull",
-            "data": [],
+            "children": [],
             "required": false,
             "config": {
               "formConfig": {
@@ -220,12 +220,12 @@ export const property_col=[
         "keyID": "key_23579",
         "keyName": "",
         "keyCode": "",
-        "data": [
+        "children": [
           {
             "keyID": "M7ul0WybOM",
             "keyName": "<768px 响应式栅格数或者栅格属性对象",
             "keyCode": "xs",
-            "data": [],
+            "children": [],
             "config": {
               "formConfig": {
                 "labelWidth": "",
@@ -259,7 +259,7 @@ export const property_col=[
             "keyID": "key_4591",
             "keyName": "≥768px 响应式栅格数或者栅格属性对象",
             "keyCode": "sm",
-            "data": [],
+            "children": [],
             "required": false,
             "config": {
               "formConfig": {
@@ -326,12 +326,12 @@ export const property_col=[
         "keyID": "key_5928",
         "keyName": "",
         "keyCode": "",
-        "data": [
+        "children": [
           {
             "keyID": "oUY6LTnRNS",
             "keyName": "≥992px 响应式栅格数或者栅格属性对象",
             "keyCode": "md",
-            "data": [],
+            "children": [],
             "config": {
               "formConfig": {
                 "labelWidth": "",
@@ -365,7 +365,7 @@ export const property_col=[
             "keyID": "key_30246",
             "keyName": "≥1200px 响应式栅格数或者栅格属性对象",
             "keyCode": "lg",
-            "data": [],
+            "children": [],
             "required": false,
             "config": {
               "formConfig": {
@@ -432,12 +432,12 @@ export const property_col=[
         "keyID": "key_49374",
         "keyName": "",
         "keyCode": "",
-        "data": [
+        "children": [
           {
             "keyID": "YVf1thFm-J",
             "keyName": "≥1920px 响应式栅格数或者栅格属性对象",
             "keyCode": "xl",
-            "data": [],
+            "children": [],
             "config": {
               "formConfig": {
                 "labelWidth": "",
@@ -471,7 +471,7 @@ export const property_col=[
             "keyID": "key_66198",
             "keyName": "自定义元素标签",
             "keyCode": "tag",
-            "data": [],
+            "children": [],
             "required": false,
             "config": {
               "formConfig": {

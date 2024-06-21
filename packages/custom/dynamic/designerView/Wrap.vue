@@ -31,7 +31,7 @@ const componentAttr=computed<any>(()=>{
 
 function handleAddComponent(e) {
     recordComponent()
-    setSelectItem(props.nodeItem.data[e.newIndex])
+    setSelectItem(props.nodeItem.children[e.newIndex])
 }
 
 
@@ -47,10 +47,10 @@ setValue({
     <draggable v-if="nodeItem.componentName==='ElsRow'" :tag="nodeItem.componentName" @click.stop="setSelectItem(nodeItem)" :key="nodeItem.keyID" :componentData="Object.assign(nodeItem.config.baseConfig??{},componentAttr)"
         v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }"
         class="els-dynamic-designer-wrap"
-        :class="[{ 'selected': getSelectItem()?.keyID == nodeItem.keyID },{ 'els-dynamic-designer-empty': nodeItem.data.length == 0 }]"
+        :class="[{ 'selected': getSelectItem()?.keyID == nodeItem.keyID },{ 'els-dynamic-designer-empty': nodeItem.children.length == 0 }]"
         :data-restrict="nodeItem.restrictChild"
         :data-type="nodeItem.componentType"
-        :list="nodeItem.data"
+        :list="nodeItem.children"
         :move="handleMove"
         :style="wrapStyle" itemKey="keyID" :sort="true"  handle=".els-view-move" @add="handleAddComponent">
         <template #item="{ element }">
@@ -69,10 +69,10 @@ setValue({
         <draggable   :key="nodeItem.keyID" 
             v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }"
             class="els-dynamic-designer-wrap"
-            :class="[{ 'selected': getSelectItem()?.keyID == nodeItem.keyID },{ 'els-dynamic-designer-empty': nodeItem.data.length == 0 }]"
+            :class="[{ 'selected': getSelectItem()?.keyID == nodeItem.keyID },{ 'els-dynamic-designer-empty': nodeItem.children.length == 0 }]"
             :data-restrict="nodeItem.restrictChild"
             :data-type="nodeItem.componentType"
-            :list="nodeItem.data"
+            :list="nodeItem.children"
             :move="handleMove"
             :style="wrapStyle" itemKey="keyID" :sort="true" handle=".els-view-move" @add="handleAddComponent" >
             <template #item="{ element }">

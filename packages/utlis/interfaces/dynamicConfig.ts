@@ -7,7 +7,7 @@ export interface DynamicConfig{
     required?:boolean,
     validExpression?:string,
     componentType?: any,
-    data: Array<DynamicConfig>,
+    children: Array<DynamicConfig>,
     isShow?:boolean,
     description?:string,
     isAdd?:boolean,

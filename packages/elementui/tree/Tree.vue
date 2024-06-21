@@ -252,15 +252,15 @@ function initSelectValue() {
         } else {
             selectValue.value = currValue;
         }
-        defaultSelectValue.value=currValue;
-        if (props.valueField != currIdField.value) {
-            if (optionData && optionData.value.length) {
-               const currOption=optionData.value.find(ele =>currValue===ele[props.valueField])
-               if(currOption){
-                  defaultSelectValue.value = currOption[currIdField.value]
-               }
-            }
-        }
+        // defaultSelectValue.value=currValue;
+        // if (props.valueField != currIdField.value) {
+        //     if (optionData && optionData.value.length) {
+        //        const currOption=optionData.value.find(ele =>currValue===ele[props.valueField])
+        //        if(currOption){
+        //           defaultSelectValue.value = currOption[currIdField.value]
+        //        }
+        //     }
+        // }
         selectOptionData.value.forEach(ele => {
             pushExpendData(ele)
             pushParentExpendData(ele)

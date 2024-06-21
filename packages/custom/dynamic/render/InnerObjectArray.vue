@@ -37,7 +37,7 @@ function getItemTitle(item) {
 
 setValue({
     getCurrNode: () => {
-        return getNodeValue(nodeItem.value.data)
+        return getNodeValue(nodeItem.value.children)
     },
     getParentNode: () => {
         return getCurrNode()
@@ -47,7 +47,7 @@ setValue({
 </script>
 <template>
     <div class="els-dynamic-array">
-        <els-list v-model="nodeItem.data" ref="list" @add="handleAddItem" :sortable="!isMobile" :isRemove="!isMobile"
+        <els-list v-model="nodeItem.children" ref="list" @add="handleAddItem" :sortable="!isMobile" :isRemove="!isMobile"
             :hasForm="false" :wrapComponent="nodeItem.config.arrayConfig.wrapComponent"
             :itemComponent="nodeItem.config.arrayConfig.itemComponent"
             :item-class-name="[{ 'els-dynamic-r-array': nodeItem.arrayDataTypeName === 'Object' || nodeItem.componentTypeName === 'DynamicRender' }, { 'els-dynamic-r-array-mobile': isMobile }]"
@@ -62,7 +62,7 @@ setValue({
             </template>
             <template #default="{ element, $item, $index }">
                 <div :key="element.keyID" class="els-dynamic-array-inner">
-                    <els-form v-model="nodeItem.data[$index]" v-bind="Object.assign({}, nodeItem.config.baseConfig)">
+                    <els-form v-model="nodeItem.children[$index]" v-bind="Object.assign({}, nodeItem.config.baseConfig)">
                         <van-cell-group :title="nodeItem.keyName" v-if="isMobile" :key="element.itemKey">
                             <template #title>
                                 <div class="els-dynamic-r-mobile-title"><span>{{ nodeItem.keyName + ' ' + ($index + 1)

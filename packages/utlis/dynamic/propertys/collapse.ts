@@ -3,12 +3,12 @@ export const property_collapse=[
       "keyID": "bvGJH6YqU",
       "keyName": "Form",
       "keyCode": "YdSrTuE_yR",
-      "data": [
+      "children": [
         {
           "keyID": "key_53472",
           "keyName": "是否手风琴模式",
           "keyCode": "accordion",
-          "data": [],
+          "children": [],
           "dataType": "Bool",
           "arrayDataType": "",
           "componentTypeLabel": "开关",

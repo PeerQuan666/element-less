@@ -3,17 +3,17 @@ export const property_array= [
 	  "keyID": "Vl4-Mdwr0",
 	  "keyName": "Form",
 	  "keyCode": "aOMFB1QUf_",
-	  "data": [
+	  "children": [
 		{
 		  "keyID": "21495f7038e07647da73fe77bee26c5c",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "23094851a18f1b7ca349e5746a409b5f",
 			  "keyName": "初始化长度",
 			  "keyCode": "arrayDefaultLength",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -53,7 +53,7 @@ export const property_array= [
 			  "keyID": "edaf433262508ded4e1c74c5b49ada4f",
 			  "keyName": "排列方式",
 			  "keyCode": "arrangementType",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -129,12 +129,12 @@ export const property_array= [
 		  "keyID": "defc0de4b548d1bd1a6fcf696d5d2af0",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "363e3ca88e8ddbcff3c8804f2397832f",
 			  "keyName": "最大高度",
 			  "keyCode": "maxHeight",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -174,7 +174,7 @@ export const property_array= [
 			  "keyID": "5cf5299550b805c06fd2dd49dab399c6",
 			  "keyName": "最大宽度",
 			  "keyCode": "maxWidth",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -241,12 +241,12 @@ export const property_array= [
 		  "keyID": "key_37653",
 		  "keyName": "栅格行",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "key_60254",
 			  "keyName": "边框类型",
 			  "keyCode": "borderType",
-			  "data": [],
+			  "children": [],
 			  "dataType": "String",
 			  "arrayDataType": "",
 			  "componentTypeLabel": "单选列表",
@@ -293,7 +293,7 @@ export const property_array= [
 			  "keyID": "key_2064",
 			  "keyName": "选项组件",
 			  "keyCode": "itemComponent",
-			  "data": [],
+			  "children": [],
 			  "dataType": "String",
 			  "arrayDataType": "",
 			  "componentTypeLabel": "单选列表",
@@ -364,7 +364,7 @@ export const property_array= [
 		  "keyID": "key_84480",
 		  "keyName": "选项标题",
 		  "keyCode": "itemComponentTitle",
-		  "data": [],
+		  "children": [],
 		  "dataType": "String",
 		  "arrayDataType": "",
 		  "componentTypeLabel": "Ace编辑器",
@@ -402,7 +402,7 @@ export const property_array= [
 		  "keyID": "key_48027",
 		  "keyName": "新增按钮标题",
 		  "keyCode": "addButtonText",
-		  "data": [],
+		  "children": [],
 		  "dataType": "String",
 		  "arrayDataType": "",
 		  "componentTypeLabel": "输入框",

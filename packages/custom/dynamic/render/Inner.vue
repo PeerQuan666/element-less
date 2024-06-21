@@ -3,12 +3,11 @@ import {  reactive } from 'vue'
 import { lessCom } from '../../../utlis/com'
 import { useValue } from '../../../utlis/use'
 const { getValue } = useValue()
-
+import DynamicRenderInnerObjectArray from './InnerObjectArray.vue'
 import DynamicRenderInnerItem from './InnerItem.vue'
 import DynamicRenderInnerArray from './InnerArray.vue'
 import DynamicRenderInnerWrap from './InnerWrap.vue'
 import DynamicRenderShow from './Show.vue'
-import DynamicRenderInnerObjectArray from './InnerObjectArray.vue'
 import DynamicRenderForm from './Form.vue'
 
 

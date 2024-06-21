@@ -3,17 +3,17 @@ export const property_input=[
 	  "keyID": "v8qaDQ_NP",
 	  "keyName": "Form",
 	  "keyCode": "74uqSY7ESS",
-	  "data": [
+	  "children": [
 		{
 		  "keyID": "60bf4a26d64d17b6a3ea163a3b943e75",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "b74ea924c95546db4eee695f8435740d",
 			  "keyName": "宽度",
 			  "keyCode": "width",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -64,7 +64,7 @@ export const property_input=[
 			  "keyID": "5035ac60096d1c2921b602b1b718dba9",
 			  "keyName": "占位文本",
 			  "keyCode": "placeholder",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -136,12 +136,12 @@ export const property_input=[
 		  "keyID": "2044936212a1c0f8d532891fa3bf451c",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "82d11804c5e576417f66eb84a75ee1d5",
 			  "keyName": "开始图标",
 			  "keyCode": "prefixIcon",
-			  "data": [],
+			  "children": [],
 			  "componentType": "Input",
 			  "dataType": "String",
 			  "config": {
@@ -192,7 +192,7 @@ export const property_input=[
 			  "keyID": "b969b9e494756bf702412cd6ce19d2da",
 			  "keyName": "末尾图标",
 			  "keyCode": "suffixIcon",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -264,12 +264,12 @@ export const property_input=[
 		  "keyID": "key_42835",
 		  "keyName": "栅格行",
 		  "keyCode": "key_35221",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "15fd0aef25983bb34d83a7ec8b28f88d",
 			  "keyName": "开始标签",
 			  "keyCode": "prefixTag",
-			  "data": [],
+			  "children": [],
 			  "componentType": "Input",
 			  "dataType": "String",
 			  "config": {
@@ -320,7 +320,7 @@ export const property_input=[
 			  "keyID": "59e529d5077bbcb7f78f58491c86d7dd",
 			  "keyName": "末尾标签",
 			  "keyCode": "suffixTag",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -394,12 +394,12 @@ export const property_input=[
 		  "keyID": "key_31337",
 		  "keyName": "栅格行",
 		  "keyCode": "key_77174",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "d9b1e919d3433933c28ed5dd4af12b0f",
 			  "keyName": "显示字数",
 			  "keyCode": "showWordLimit",
-			  "data": [],
+			  "children": [],
 			  "dataType": "Bool",
 			  "componentType": "Switch",
 			  "config": {
@@ -442,7 +442,7 @@ export const property_input=[
 			  "keyID": "22dfb3b30a67173376365ecb9739b63b",
 			  "keyName": "最大长度",
 			  "keyCode": "maxlength",
-			  "data": [],
+			  "children": [],
 			  "componentType": "Input",
 			  "dataType": "String",
 			  "config": {
@@ -516,12 +516,12 @@ export const property_input=[
 		  "keyID": "key_66276",
 		  "keyName": "栅格行",
 		  "keyCode": "key_60682",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "3b91bea58458a51fbc8809be51881b29",
 			  "keyName": "显示清除",
 			  "keyCode": "clearable",
-			  "data": [],
+			  "children": [],
 			  "componentType": "Switch",
 			  "dataType": "Bool",
 			  "config": {
@@ -565,7 +565,7 @@ export const property_input=[
 			  "keyID": "a1d2f8181ccb54c494963d2bdbaf65af",
 			  "keyName": "密码框",
 			  "keyCode": "showPassword",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -631,12 +631,12 @@ export const property_input=[
 		  "keyID": "key_95273",
 		  "keyName": "栅格行",
 		  "keyCode": "key_4063",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "03a20ae3d70dd25afa8b07e95af9de78",
 			  "keyName": "清除前后空格",
 			  "keyCode": "isTrim",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -679,7 +679,7 @@ export const property_input=[
 			  "keyID": "c232677203ac847728c56baffe182660",
 			  "keyName": "Url编码",
 			  "keyCode": "encode",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",

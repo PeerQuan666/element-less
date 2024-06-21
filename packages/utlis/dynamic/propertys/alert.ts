@@ -1,18 +1,153 @@
-export const property_colorPicker=[
+export const property_alert= [
     {
-      "keyID": "4KlLP0W-r",
+      "keyID": "nPQVLntuR",
       "keyName": "Form",
-      "keyCode": "sgBxNuD1Hy",
+      "keyCode": "CaBByu3NIN",
       "children": [
         {
-          "keyID": "key_89633",
+          "keyID": "key_73598",
+          "keyName": "标题",
+          "keyCode": "title",
+          "children": [],
+          "dataType": "String",
+          "arrayDataType": "",
+          "componentTypeLabel": "输入框",
+          "componentType": "Input",
+          "icon": "text",
+          "config": {
+            "formConfig": {
+              "labelWidth": "",
+              "suffixContent": "",
+              "required": false,
+              "requiredMessage": "",
+              "tip": "",
+              "tipPosition": "left",
+              "validType": "",
+              "validMessage": "",
+              "validExpression": "",
+              "validMethod": ""
+            },
+            "baseConfig": {
+              "showWordLimit": false,
+              "clearable": true,
+              "showPassword": false,
+              "isTrim": false,
+              "encode": false
+            },
+            "advancedConfig": {
+              "style": "",
+              "vif": "",
+              "disabled": "",
+              "eventChange": ""
+            },
+            "arrayConfig": {}
+          },
+          "defaultValue": ""
+        },
+        {
+          "keyID": "key_56115",
+          "keyName": " 类型",
+          "keyCode": "type",
+          "children": [],
+          "dataType": "String",
+          "arrayDataType": "",
+          "componentTypeLabel": "单选列表",
+          "componentType": "Radio",
+          "icon": "radio-two",
+          "config": {
+            "formConfig": {
+              "labelWidth": "",
+              "suffixContent": "",
+              "required": false,
+              "requiredMessage": "",
+              "tip": "",
+              "tipPosition": "left",
+              "validType": "",
+              "validMessage": "",
+              "validExpression": "",
+              "validMethod": ""
+            },
+            "baseConfig": {
+              "type": "button",
+              "dataType": 1,
+              "data": [
+                {
+                  "label": "success",
+                  "value": "success"
+                },
+                {
+                  "label": "warning",
+                  "value": "warning"
+                },
+                {
+                  "label": "info",
+                  "value": "info"
+                },
+                {
+                  "label": "error",
+                  "value": "error"
+                }
+              ]
+            },
+            "advancedConfig": {
+              "style": "",
+              "vif": "",
+              "disabled": "",
+              "eventChange": ""
+            },
+            "arrayConfig": {}
+          },
+          "defaultValue": "info"
+        },
+        {
+          "keyID": "key_17880",
+          "keyName": "描述性文本",
+          "keyCode": "description",
+          "children": [],
+          "dataType": "String",
+          "arrayDataType": "",
+          "componentTypeLabel": "文本域",
+          "componentType": "Textarea",
+          "icon": "expand-text-input",
+          "config": {
+            "formConfig": {
+              "labelWidth": "",
+              "suffixContent": "",
+              "required": false,
+              "requiredMessage": "",
+              "tip": "",
+              "tipPosition": "left",
+              "validType": "",
+              "validMessage": "",
+              "validExpression": "",
+              "validMethod": ""
+            },
+            "baseConfig": {
+              "rows": "3",
+              "autosize": false,
+              "showWordLimit": false,
+              "encode": false,
+              "clearable": false
+            },
+            "advancedConfig": {
+              "style": "",
+              "vif": "",
+              "disabled": "",
+              "eventChange": ""
+            },
+            "arrayConfig": {}
+          },
+          "defaultValue": ""
+        },
+        {
+          "keyID": "key_81311",
           "keyName": "栅格行",
           "keyCode": "",
           "children": [
             {
-              "keyID": "key_58750",
-              "keyName": "是否显示文本框",
-              "keyCode": "showInput",
+              "keyID": "key_61386",
+              "keyName": "是否可以关闭",
+              "keyCode": "closable",
               "children": [],
               "dataType": "Bool",
               "arrayDataType": "",
@@ -44,18 +179,18 @@ export const property_colorPicker=[
                 },
                 "arrayConfig": {}
               },
-              "defaultValue": false
+              "defaultValue": true
             },
             {
-              "keyID": "key_38251",
-              "keyName": "文本框宽度",
-              "keyCode": "inputWidth",
+              "keyID": "key_85085",
+              "keyName": "文字是否居中",
+              "keyCode": "center",
               "children": [],
-              "dataType": "String",
+              "dataType": "Bool",
               "arrayDataType": "",
-              "componentTypeLabel": "输入框",
-              "componentType": "Input",
-              "icon": "text",
+              "componentTypeLabel": "开关",
+              "componentType": "Switch",
+              "icon": "switch-one",
               "config": {
                 "formConfig": {
                   "labelWidth": "",
@@ -70,11 +205,8 @@ export const property_colorPicker=[
                   "validMethod": ""
                 },
                 "baseConfig": {
-                  "showWordLimit": false,
-                  "clearable": true,
-                  "showPassword": false,
-                  "isTrim": false,
-                  "encode": false
+                  "active-value": true,
+                  "inactive-value": false
                 },
                 "advancedConfig": {
                   "style": "",
@@ -111,14 +243,54 @@ export const property_colorPicker=[
           "defaultValue": ""
         },
         {
-          "keyID": "key_20312",
+          "keyID": "key_26006",
+          "keyName": "自定义关闭按钮文本",
+          "keyCode": "close-text",
+          "children": [],
+          "dataType": "String",
+          "arrayDataType": "",
+          "componentTypeLabel": "输入框",
+          "componentType": "Input",
+          "icon": "text",
+          "config": {
+            "formConfig": {
+              "labelWidth": "",
+              "suffixContent": "",
+              "required": false,
+              "requiredMessage": "",
+              "tip": "",
+              "tipPosition": "left",
+              "validType": "",
+              "validMessage": "",
+              "validExpression": "",
+              "validMethod": ""
+            },
+            "baseConfig": {
+              "showWordLimit": false,
+              "clearable": true,
+              "showPassword": false,
+              "isTrim": false,
+              "encode": false
+            },
+            "advancedConfig": {
+              "style": "",
+              "vif": "",
+              "disabled": "",
+              "eventChange": ""
+            },
+            "arrayConfig": {}
+          },
+          "defaultValue": ""
+        },
+        {
+          "keyID": "key_53960",
           "keyName": "栅格行",
           "keyCode": "",
           "children": [
             {
-              "keyID": "key_65488",
-              "keyName": "是否支持透明度选择",
-              "keyCode": "show-alpha",
+              "keyID": "key_64089",
+              "keyName": "是否显示类型图标",
+              "keyCode": "show-icon",
               "children": [],
               "dataType": "Bool",
               "arrayDataType": "",
@@ -153,75 +325,9 @@ export const property_colorPicker=[
               "defaultValue": false
             },
             {
-              "keyID": "key_19316",
-              "keyName": "渲染至 body 下",
-              "keyCode": "teleported",
-              "children": [],
-              "dataType": "Bool",
-              "arrayDataType": "",
-              "componentTypeLabel": "开关",
-              "componentType": "Switch",
-              "icon": "switch-one",
-              "config": {
-                "formConfig": {
-                  "labelWidth": "",
-                  "suffixContent": "",
-                  "required": false,
-                  "requiredMessage": "",
-                  "tip": "",
-                  "tipPosition": "left",
-                  "validType": "",
-                  "validMessage": "",
-                  "validExpression": "",
-                  "validMethod": ""
-                },
-                "baseConfig": {
-                  "active-value": true,
-                  "inactive-value": false
-                },
-                "advancedConfig": {
-                  "style": "",
-                  "vif": "",
-                  "disabled": "",
-                  "eventChange": ""
-                },
-                "arrayConfig": {}
-              },
-              "defaultValue": true
-            }
-          ],
-          "dataType": "None",
-          "arrayDataType": "",
-          "componentTypeLabel": "栅格行",
-          "componentType": "Row",
-          "icon": "layout-two",
-          "config": {
-            "formConfig": {},
-            "baseConfig": {
-              "gutter": 10,
-              "justify": "start",
-              "align": "",
-              "tag": "div"
-            },
-            "advancedConfig": {
-              "style": "",
-              "vif": "",
-              "disabled": "",
-              "eventChange": ""
-            },
-            "arrayConfig": {}
-          },
-          "defaultValue": ""
-        },
-        {
-          "keyID": "key_21986",
-          "keyName": "栅格行",
-          "keyCode": "",
-          "children": [
-            {
-              "keyID": "key_55768",
-              "keyName": "v-model 颜色的格式",
-              "keyCode": "color-format",
+              "keyID": "key_19398",
+              "keyName": "主题样式",
+              "keyCode": "effect",
               "children": [],
               "dataType": "String",
               "arrayDataType": "",
@@ -245,24 +351,12 @@ export const property_colorPicker=[
                   "dataType": 1,
                   "data": [
                     {
-                      "label": "hsl",
-                      "value": "hsl"
+                      "label": "light",
+                      "value": "light"
                     },
                     {
-                      "label": "hsv",
-                      "value": "hsv"
-                    },
-                    {
-                      "label": "hex",
-                      "value": "hex"
-                    },
-                    {
-                      "label": "rgb",
-                      "value": "rgb"
-                    },
-                    {
-                      "label": "hex",
-                      "value": "hex"
+                      "label": "dark",
+                      "value": "dark"
                     }
                   ],
                   "multiple": false,
@@ -280,44 +374,7 @@ export const property_colorPicker=[
                 },
                 "arrayConfig": {}
               },
-              "defaultValue": ""
-            },
-            {
-              "keyID": "key_88935",
-              "keyName": "是否触发表单的校验",
-              "keyCode": "validate-event",
-              "children": [],
-              "dataType": "Bool",
-              "arrayDataType": "",
-              "componentTypeLabel": "开关",
-              "componentType": "Switch",
-              "icon": "switch-one",
-              "config": {
-                "formConfig": {
-                  "labelWidth": "",
-                  "suffixContent": "",
-                  "required": false,
-                  "requiredMessage": "",
-                  "tip": "",
-                  "tipPosition": "left",
-                  "validType": "",
-                  "validMessage": "",
-                  "validExpression": "",
-                  "validMethod": ""
-                },
-                "baseConfig": {
-                  "active-value": true,
-                  "inactive-value": false
-                },
-                "advancedConfig": {
-                  "style": "",
-                  "vif": "",
-                  "disabled": "",
-                  "eventChange": ""
-                },
-                "arrayConfig": {}
-              },
-              "defaultValue": true
+              "defaultValue": "light"
             }
           ],
           "dataType": "None",

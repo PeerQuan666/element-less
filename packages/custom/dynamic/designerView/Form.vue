@@ -19,23 +19,23 @@ const isMobile = getValue<boolean>('isMobile', false)
 const handleMove = getValue<Function>('handleMove', () => { })
 function handleAddComponent(e) {
     recordComponent()
-    setSelectItem(nodeItem.value.data[e.newIndex])
+    setSelectItem(nodeItem.value.children[e.newIndex])
     initArrayChild()
 
 }
 function initArrayChild() {
     if (nodeItem.value.dataTypeName === 'Array' && !nodeItem.value.arrayDataTypeName) {
-        if (nodeItem.value.data.length > 0) {
-            const child = nodeItem.value.data[0];
+        if (nodeItem.value.children.length > 0) {
+            const child = nodeItem.value.children[0];
             if (child.dataTypeName === 'Array') {
                 ElsMessage.warning('数组不能嵌套数组')
-                nodeItem.value.data.splice(0, 1)
+                nodeItem.value.children.splice(0, 1)
                 setSelectItem()
                 return
             }
             if (child.componentGroup == 'Container' || child.componentGroup == 'Show') {
                 ElsMessage.warning('请先拖入固定类型的组件')
-                nodeItem.value.data.splice(0, 1)
+                nodeItem.value.children.splice(0, 1)
                 setSelectItem()
                 return
             }
@@ -45,7 +45,7 @@ function initArrayChild() {
             nodeItem.value.componentGroup = child.componentGroup
             nodeItem.value.componentType = child.componentType
             nodeItem.value.componentTypeName = child.componentTypeName
-            nodeItem.value.data = child.data
+            nodeItem.value.children = child.children
         }
         recordComponent()
     }
@@ -54,13 +54,13 @@ function initArrayChild() {
 
 setValue({
     getCurrNode: () => {
-        return getNodeValue(nodeItem.value.data)
+        return getNodeValue(nodeItem.value.children)
     },
     getParentNode: () => {
         return getCurrNode()
     },
     removeItem: (item) => {
-        lessCom.removeArrayItem(nodeItem.value.data, item)
+        lessCom.removeArrayItem(nodeItem.value.children, item)
     }
 })
 
@@ -68,8 +68,8 @@ setValue({
 <template>
     <els-form v-if="isRoot" v-model="nodeItem" v-bind="nodeItem.config.baseConfig"
         :class="{ 'selected': getSelectItem()?.keyID == nodeItem.keyID }" @click.stop="setSelectItem(nodeItem)">
-        <draggable tag="div" class="els-dynamic-root-form" :class="[{ 'els-dynamic-designer-empty': nodeItem.data.length == 0 && !isRoot }]"
-            :list="nodeItem.data" v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }"
+        <draggable tag="div" class="els-dynamic-root-form" :class="[{ 'els-dynamic-designer-empty': nodeItem.children.length == 0 && !isRoot }]"
+            :list="nodeItem.children" v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }"
              :data-type="nodeItem.dataTypeName" :sort="true" itemKey="keyID"
             handle=".els-view-move" @add="handleAddComponent"      :move="handleMove" >
             <template #item="{ element }">
@@ -79,7 +79,7 @@ setValue({
     </els-form>
     <els-form v-else v-model="nodeItem" v-bind="nodeItem.config.baseConfig">
         <component :is="isMobile?'van-cell-group':'div'" :title="nodeItem.keyName">
-            <draggable  :class="[{ 'els-dynamic-designer-empty': nodeItem.data.length == 0 }]" :list="nodeItem.data"
+            <draggable  :class="[{ 'els-dynamic-designer-empty': nodeItem.children.length == 0 }]" :list="nodeItem.children"
                 v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }" :style="[{ 'min-height': '50px' }]"
                 :data-type="nodeItem.dataTypeName" :sort="true" itemKey="keyID" handle=".els-view-move"
                 @add="handleAddComponent">

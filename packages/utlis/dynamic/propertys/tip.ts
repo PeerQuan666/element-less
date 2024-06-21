@@ -3,12 +3,12 @@ export const property_tip=[
 	  "keyID": "Mr2vVYlye",
 	  "keyName": "Form",
 	  "keyCode": "izyUms_5_x",
-	  "data": [
+	  "children": [
 		{
 		  "keyID": "key_24074",
 		  "keyName": "标题",
 		  "keyCode": "title",
-		  "data": [],
+		  "children": [],
 		  "required": false,
 		  "config": {
 			"formConfig": {
@@ -55,7 +55,7 @@ export const property_tip=[
 		  "keyID": "key_65627",
 		  "keyName": "类型",
 		  "keyCode": "type",
-		  "data": [],
+		  "children": [],
 		  "required": false,
 		  "config": {
 			"formConfig": {
@@ -107,7 +107,7 @@ export const property_tip=[
 		  "keyID": "key_11682",
 		  "keyName": "内容",
 		  "keyCode": "content",
-		  "data": [],
+		  "children": [],
 		  "required": false,
 		  "config": {
 			"formConfig": {

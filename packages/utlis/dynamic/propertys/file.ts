@@ -3,12 +3,12 @@ export const property_file= [
 	  "keyID": "Dk_AtK1Hi",
 	  "keyName": "Form",
 	  "keyCode": "krt_u2Vccc",
-	  "data": [
+	  "children": [
 		{
 		  "keyID": "9116dba237f1b937269b287d469c0edb",
 		  "keyName": "上传地址",
 		  "keyCode": "url",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -41,7 +41,7 @@ export const property_file= [
 		  "keyID": "d1dbb0e693a82a2e813338c4b5f7a8fe",
 		  "keyName": "大小限制M",
 		  "keyCode": "sizeLimit",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -74,12 +74,12 @@ export const property_file= [
 		  "keyID": "6883b83615ea250e48565d57b2d35129",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "a3934e6fea5f41511c66c31a3f63007f",
 			  "keyName": "ResourceCode",
 			  "keyCode": "resourceCode",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -112,7 +112,7 @@ export const property_file= [
 			  "keyID": "61f4392caabdb4e90c59c255cb086457",
 			  "keyName": "RestrictCode",
 			  "keyCode": "restrictCode",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -165,7 +165,7 @@ export const property_file= [
 		  "keyID": "7a9f6a9ff34b9e589df040d2d2bf2767",
 		  "keyName": "文件类型",
 		  "keyCode": "fileTypes",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -198,12 +198,12 @@ export const property_file= [
 		  "keyID": "8e919598c1c6dec8a810c374c3016cde",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "c94910ab0d713424101851dff9de13d7",
 			  "keyName": "多文件",
 			  "keyCode": "multiple",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -233,7 +233,7 @@ export const property_file= [
 			  "keyID": "84485b20c71735b2d9657f23878c88ef",
 			  "keyName": "限制数量",
 			  "keyCode": "limit",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -286,12 +286,12 @@ export const property_file= [
 		  "keyID": "4c677ddcf8d255b83e352de09cca5550",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "a19a0247f9c0f1cea8a61f0d6f07f657",
 			  "keyName": "上传文件历史",
 			  "keyCode": "showFileList",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -321,7 +321,7 @@ export const property_file= [
 			  "keyID": "302ea0f0796e7becdbd254d712f57132",
 			  "keyName": "返回MD5参数",
 			  "keyCode": "hasMd5Parameter",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -371,12 +371,12 @@ export const property_file= [
 		  "keyID": "key_57512",
 		  "keyName": "栅格行",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "key_40520",
 			  "keyName": "显示输入框",
 			  "keyCode": "showInput",
-			  "data": [],
+			  "children": [],
 			  "dataType": "Bool",
 			  "arrayDataType": "",
 			  "componentTypeLabel": "开关",
@@ -412,7 +412,7 @@ export const property_file= [
 			  "keyID": "key_39528",
 			  "keyName": "输入框宽度",
 			  "keyCode": "inputWidth",
-			  "data": [],
+			  "children": [],
 			  "dataType": "String",
 			  "arrayDataType": "",
 			  "componentTypeLabel": "输入框",

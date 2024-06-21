@@ -3,12 +3,12 @@ export const property_pic= [
 	  "keyID": "EgsVnCFE-",
 	  "keyName": "Form",
 	  "keyCode": "2slU0tvIbQ",
-	  "data": [
+	  "children": [
 		{
 		  "keyID": "9116dba237f1b937269b287d469c0edb",
 		  "keyName": "上传地址",
 		  "keyCode": "url",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -49,7 +49,7 @@ export const property_pic= [
 		  "keyID": "d1dbb0e693a82a2e813338c4b5f7a8fe",
 		  "keyName": "大小限制M",
 		  "keyCode": "sizeLimit",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -90,7 +90,7 @@ export const property_pic= [
 		  "keyID": "81704d07c46be9883f52fff36096c470",
 		  "keyName": "尺寸限制",
 		  "keyCode": "picLimitType",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -148,12 +148,12 @@ export const property_pic= [
 		  "keyID": "b0c58a556779de8a47657b5d3edef014",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "ff0df9e76d758379b9f8e8700511bfb5",
 			  "keyName": "限制宽度",
 			  "keyCode": "picWidthLimit",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -194,7 +194,7 @@ export const property_pic= [
 			  "keyID": "1941031bd3d8bdd983a7c61913ac3d5f",
 			  "keyName": "限制高度",
 			  "keyCode": "picHeightLimit",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -256,12 +256,12 @@ export const property_pic= [
 		  "keyID": "6883b83615ea250e48565d57b2d35129",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "a3934e6fea5f41511c66c31a3f63007f",
 			  "keyName": "ResourceCode",
 			  "keyCode": "resourceCode",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -302,7 +302,7 @@ export const property_pic= [
 			  "keyID": "61f4392caabdb4e90c59c255cb086457",
 			  "keyName": "RestrictCode",
 			  "keyCode": "restrictCode",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -364,7 +364,7 @@ export const property_pic= [
 		  "keyID": "7a9f6a9ff34b9e589df040d2d2bf2767",
 		  "keyName": "文件类型",
 		  "keyCode": "fileTypes",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -405,12 +405,12 @@ export const property_pic= [
 		  "keyID": "e5041a10342b4f1a233398c4241c0450",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "302ea0f0796e7becdbd254d712f57132",
 			  "keyName": "返回MD5参数",
 			  "keyCode": "hasMd5Parameter",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -443,7 +443,7 @@ export const property_pic= [
 			  "keyID": "45821220bef3c5ef1ac3bfa11af3bb38",
 			  "keyName": "返回尺寸",
 			  "keyCode": "isReturnSize",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",

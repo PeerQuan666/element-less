@@ -3,12 +3,12 @@ export const property_checkbox= [
 	  "keyID": "5W_uKsZTW",
 	  "keyName": "Form",
 	  "keyCode": "6TtTFqx7LM",
-	  "data": [
+	  "children": [
 		{
 		  "keyID": "bc2fec2427ddd08fe7598b05dacedf29",
 		  "keyName": "按钮样式",
 		  "keyCode": "type",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"arrayConfig": {
 			  "componentName": "ElsFormItem",
@@ -61,7 +61,7 @@ export const property_checkbox= [
 		  "keyID": "c22a17d687c1569a7fe2e7979b12e9a0",
 		  "keyName": "数据源",
 		  "keyCode": "dataType",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"arrayConfig": {
 			  "componentName": "ElsFormItem",
@@ -111,12 +111,12 @@ export const property_checkbox= [
 		  "keyID": "31aec5af7c8512667d41fdc786abf868",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "0b03a97658d4d34efe23eb40baa11766",
 			  "keyName": "宽度",
 			  "keyCode": "width",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -156,7 +156,7 @@ export const property_checkbox= [
 			  "keyID": "a61c2f0caca98debc569b26c7d3b0c8c",
 			  "keyName": "选项宽度",
 			  "keyCode": "optionWidth",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -224,17 +224,17 @@ export const property_checkbox= [
 		  "keyID": "67cecb440365abb61e4aace2d5686cb9",
 		  "keyName": "数据列表",
 		  "keyCode": "data",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "key_35649",
 			  "keyName": "栅格行",
 			  "keyCode": "key_86229",
-			  "data": [
+			  "children": [
 				{
 				  "keyID": "6f3b17406d7edb401dcecddcb764c7e4",
 				  "keyName": "",
 				  "keyCode": "label",
-				  "data": [],
+				  "children": [],
 				  "config": {
 					"arrayConfig": {
 					  "componentName": "ElsFormItem",
@@ -278,7 +278,7 @@ export const property_checkbox= [
 				  "keyID": "aa9af377f57b5b1c70ae39952200040f",
 				  "keyName": "",
 				  "keyCode": "value",
-				  "data": [],
+				  "children": [],
 				  "config": {
 					"arrayConfig": {
 					  "componentName": "ElsFormItem",
@@ -398,7 +398,7 @@ export const property_checkbox= [
 		  "keyID": "4aa99ce37d6e0fbfb045f18c9faf397d",
 		  "keyName": "数据接口",
 		  "keyCode": "url",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"arrayConfig": {
 			  "componentName": "ElsFormItem",
@@ -441,12 +441,12 @@ export const property_checkbox= [
 		  "keyID": "6ac45742d153533c89be8c38ea6a03ff",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "84f659e12c75e78abad11c3c31932c0e",
 			  "keyName": "显示字段",
 			  "keyCode": "labelField",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -486,7 +486,7 @@ export const property_checkbox= [
 			  "keyID": "3116242ce5345ebe9efa0a0e3169c247",
 			  "keyName": "值字段",
 			  "keyCode": "valueField",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",

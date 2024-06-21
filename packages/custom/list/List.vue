@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { useAttrs, h, watchEffect, ref, watch, computed } from 'vue'
+import { useAttrs, h, watchEffect, ref, watch,nextTick } from 'vue'
 import draggable from 'vuedraggable'
 import { useVModel } from '@vueuse/core'
 import ElsForm from '../../elementui/form/Form.vue';
 import { lessCom } from '../../utlis/com';
 import { useValue } from '../../utlis/use'
-import { wrap } from 'module';
-import { nextTick } from 'process';
 
 defineOptions({ name: "ElsList", inheritAttrs: false })
 const emits = defineEmits(['add', 'update:modelValue'])
@@ -51,7 +49,7 @@ const wrapValue=ref(0)
 const isMobile = getValue<boolean>('isMobile', false);
 let container = h('div')
 let outContainer = h('div')
-const currLabelWidth = ref(getValue<any>('labelWidth', ''))
+const currLabelWidth = ref(getValue<any>('labelWidth', undefined))
 const currLabelPosition = ref(getValue<any>('labelPosition', ''))
 const currData = useVModel(props, 'modelValue', emits)
 const dropData = ref<any>([])
@@ -128,7 +126,7 @@ watch(() => props.labelWidth, (val) => {
 })
 
 watchEffect(() => {
-    currItemClassName.value = props.itemClassName
+    currItemClassName.value = props.itemClassName??''
     currBorderType.value = props.borderType
     if (props.hasForm && dropData.value.length) {
         if (typeof (dropData.value[0]) !== 'object' || !props.itemKey) {
@@ -142,7 +140,7 @@ watchEffect(() => {
 
         }
     }
-    if (!props.hasForm || props.itemKey && !currBorderType.value) {
+    if ((!props.hasForm || props.itemKey) && !currBorderType.value) {
         currBorderType.value = 'border1'
     }
     if (isMobile || props.itemComponent !== 'div') {
@@ -261,7 +259,7 @@ defineExpose({
         </draggable>
         <div v-if="isModify && isAdd && (currBorderType !== 'border1'||(dropData.length===0&&currBorderType === 'border1'))" class="els-list-bottom"
             :class="[{ 'els-list-add': !isMobile }]"
-            :style="`--marginleft:${(currLabelWidth && currLabelPosition !== 'top') ? '100px' : isMobile && !notObjectArray ? 'var(--van-cell-horizontal-padding)' : '0px'}`">
+            :style="`--marginleft:${(currLabelWidth==='' && currLabelPosition !== 'top') ? '100px' : isMobile && !notObjectArray ? 'var(--van-cell-horizontal-padding)' : '0px'}`">
             <slot name="add">
                 <el-button type="primary" link icon="plus" @click="handleAdd">{{ addButtonText || '添加' }}</el-button>
             </slot>

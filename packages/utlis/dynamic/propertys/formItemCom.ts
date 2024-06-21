@@ -3,17 +3,17 @@ export const property_formItemCom= [
       "keyID": "Xelv2rRdy",
       "keyName": "Form",
       "keyCode": "-KEM53Hf3A",
-      "data": [
+      "children": [
         {
           "keyID": "key_89918",
           "keyName": "栅格行",
           "keyCode": "",
-          "data": [
+          "children": [
             {
               "keyID": "key_26809",
               "keyName": "标签文本",
               "keyCode": "label",
-              "data": [],
+              "children": [],
               "dataType": "String",
               "arrayDataType": "",
               "componentTypeLabel": "输入框",
@@ -53,7 +53,7 @@ export const property_formItemCom= [
               "keyID": "key_28981",
               "keyName": "字段名",
               "keyCode": "prop",
-              "data": [],
+              "children": [],
               "dataType": "String",
               "arrayDataType": "",
               "componentTypeLabel": "输入框",
@@ -117,12 +117,12 @@ export const property_formItemCom= [
           "keyID": "key_93516",
           "keyName": "栅格行",
           "keyCode": "key_50881",
-          "data": [
+          "children": [
             {
               "keyID": "df00a4f076ce4e506722745d162e9376",
               "keyName": "标签宽度",
               "keyCode": "labelWidth",
-              "data": [],
+              "children": [],
               "config": {
                 "formConfig": {
                   "labelWidth": "",
@@ -166,7 +166,7 @@ export const property_formItemCom= [
               "keyID": "a84e0da7179e1989fce69a6b1051d2c4",
               "keyName": "末尾文本",
               "keyCode": "suffixContent",
-              "data": [],
+              "children": [],
               "config": {
                 "formConfig": {
                   "labelWidth": "",
@@ -225,12 +225,12 @@ export const property_formItemCom= [
           "keyID": "key_9474",
           "keyName": "栅格行",
           "keyCode": "key_72621",
-          "data": [
+          "children": [
             {
               "keyID": "9dd4009cc368dad04d55cbe8cb319da2",
               "keyName": "必填",
               "keyCode": "required",
-              "data": [],
+              "children": [],
               "config": {
                 "arrayConfig": {
                   "componentName": "ElsFormItem",
@@ -271,7 +271,7 @@ export const property_formItemCom= [
               "keyID": "9ab4327a9c9b957cf540c5e0f3a47c8a",
               "keyName": "必填提示",
               "keyCode": "requiredMessage",
-              "data": [],
+              "children": [],
               "config": {
                 "arrayConfig": {
                   "componentName": "ElsFormItem",
@@ -337,12 +337,12 @@ export const property_formItemCom= [
           "keyID": "key_11869",
           "keyName": "栅格行",
           "keyCode": "key_76827",
-          "data": [
+          "children": [
             {
               "keyID": "771af881f8915302c10fcea5f1312f63",
               "keyName": "提示",
               "keyCode": "tip",
-              "data": [],
+              "children": [],
               "config": {
                 "formConfig": {
                   "labelWidth": "",
@@ -379,7 +379,7 @@ export const property_formItemCom= [
               "keyID": "f1a38c4eaeb9bbe3b697c671d900497d",
               "keyName": "提示位置",
               "keyCode": "tipPosition",
-              "data": [],
+              "children": [],
               "config": {
                 "formConfig": {
                   "labelWidth": "",
@@ -446,12 +446,12 @@ export const property_formItemCom= [
           "keyID": "key_40492",
           "keyName": "栅格行",
           "keyCode": "key_63768",
-          "data": [
+          "children": [
             {
               "keyID": "646142315e6fa3eec4419608c4e54a3a",
               "keyName": "验证类型",
               "keyCode": "validType",
-              "data": [],
+              "children": [],
               "config": {
                 "arrayConfig": {
                   "componentName": "ElsFormItem",
@@ -538,7 +538,7 @@ export const property_formItemCom= [
               "keyID": "941bbb888a12ef04a65a1c55e3dfe39f",
               "keyName": "验证提示",
               "keyCode": "validMessage",
-              "data": [],
+              "children": [],
               "config": {
                 "arrayConfig": {
                   "componentName": "ElsFormItem",
@@ -604,7 +604,7 @@ export const property_formItemCom= [
           "keyID": "2af80b82fb30f321bae44c308323ee1c",
           "keyName": "正则验证",
           "keyCode": "validExpression",
-          "data": [],
+          "children": [],
           "config": {
             "arrayConfig": {
               "componentName": "ElsFormItem",
@@ -647,7 +647,7 @@ export const property_formItemCom= [
           "keyID": "a837c7ae457d6e715641397cc13963cd",
           "keyName": "验证方法",
           "keyCode": "validMethod",
-          "data": [],
+          "children": [],
           "config": {
             "arrayConfig": {
               "componentName": "ElsFormItem",
@@ -690,7 +690,7 @@ export const property_formItemCom= [
           "keyID": "key_89831",
           "keyName": "验证触发类型",
           "keyCode": "trigger",
-          "data": [],
+          "children": [],
           "dataType": "String",
           "arrayDataType": "",
           "componentTypeLabel": "单选列表",

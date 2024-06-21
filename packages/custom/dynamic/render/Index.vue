@@ -116,6 +116,7 @@ function initData() {
     } else {
         currData = lessCom.cloneObj(props.config)
     }
+    currData=dynamicHandler.compatibleVersion(currData)
     initShowConfig(currData, props.showConfig);
     dynamicHandler.recoverData(currData, valueData.value);
     renderData.length = 0;
@@ -132,7 +133,7 @@ function initShowConfig(data, showConfigData) {
             if (currData) {
                 currData.isShow = ele.isShow;
                 if (currData.dataTypeName == 'Object' || currData.arrayDataTypeName == 'Object') {
-                    initShowConfig(currData.data, ele.data)
+                    initShowConfig(currData.children, ele.children)
                 }
             }
         })
@@ -140,8 +141,8 @@ function initShowConfig(data, showConfigData) {
     else {
         data.forEach(ele => {
             ele.isShow = true
-            if(ele.data){
-                initShowConfig(ele.data, null)
+            if(ele.children){
+                initShowConfig(ele.children, null)
 
             }
         })
@@ -166,7 +167,7 @@ function getCurrNodeValueData(){
     let currData = {}
     renderData.forEach(ele => {
         if (ele.componentGroup == 'Container') {
-            ele.data.forEach(cele => {
+            ele.children.forEach(cele => {
                 currData[cele.keyCode] = cele
             })
         } else {
@@ -179,7 +180,7 @@ function getCurrNodeValueData(){
 
 function getContainerValue(item) {
     const currData = {}
-    item.data.forEach(cele => {
+    item.children.forEach(cele => {
         if (cele.componentGroup === 'Container') {
             Object.assign(currData, getContainerValue(cele))
         } else if (cele.keyCode) {

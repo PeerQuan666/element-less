@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import {  watch, ref } from 'vue'
-import { FormItemProps,DynamicComponentType, DynamicDataType} from '../../../utlis/interfaces'
-import {DynamicHandler, dynamicDataTypes, dynamicComponentTypes } from '../../../utlis/dynamic'
+import { watch, ref } from 'vue'
+import { FormItemProps, DynamicComponentType, DynamicDataType } from '../../../utlis/interfaces'
+import { DynamicHandler, dynamicDataTypes, dynamicComponentTypes } from '../../../utlis/dynamic'
 import { lessCom } from '../../../utlis/com'
 import { ElMessage } from 'element-plus'
 import { useValue } from '../../../utlis/use'
 import DynamicCreate from '../create/Index.vue'
 import DynamicDesignerInner from './Inner.vue'
 import DynamicDesignerView from '../designerView/Index.vue'
-
+import { DynamicConfig } from '../../../utlis/interfaces'
 defineOptions({
   name: 'ElsDynamicDesigner',
 })
 interface Props extends FormItemProps {
-  modelValue?: any,
+  modelValue?: Array<DynamicConfig> | string,
   camelCase?: boolean,
   dataTypes?: Array<DynamicDataType>,
   appendDataTypes?: Array<DynamicDataType>,
@@ -21,7 +21,7 @@ interface Props extends FormItemProps {
   appendComponentTypes?: Array<DynamicComponentType>,
   componentRelateDataType?: Record<string, any>,
   componentSettingVisible?: boolean,
-  visibleFields?:Array<string>,
+  visibleFields?: Array<string>,
   designerVisible?: boolean,
   isReturnTemplateValue?: boolean,
   templateValue?: any,
@@ -31,21 +31,21 @@ interface Props extends FormItemProps {
   createComponentMethod?: Function,
   saveTypeUrl?: string,
   saveComponentUrl?: string,
-  ignoreFields?:Array<string>,
-  settingDirection?:string,
+  ignoreFields?: Array<string>,
+  settingDirection?: string,
 
 
 }
 const { $codeField, $messageField, $success } = lessCom.getApiConfig()
-const props = withDefaults(defineProps<Props>(), { componentSettingVisible: true, designerVisible: true,settingDirection:'rtl' })
+const props = withDefaults(defineProps<Props>(), { componentSettingVisible: true, designerVisible: true, settingDirection: 'rtl' })
 const emits = defineEmits(['update:modelValue', 'update:templateValue'])
-const {setValue} =useValue(props)
+const { setValue } = useValue(props)
 
 const designerJSON = ref()
 const importJSON = ref()
 const designerContainer = ref()
-const designerObj = ref([])
-const actualDom=ref<Array<string>>([])
+const designerObj = ref<Array<DynamicConfig>>([])
+const actualDom = ref<Array<string>>([])
 const designType = ref('精简模式')
 const dynamicNewType = ref<any>()
 const currItemKey = ref()
@@ -86,37 +86,42 @@ const dynamicHandler = new DynamicHandler(currDynamicDataType.value, currCompone
 function getConverToJsonResult(obj) {
   return dynamicHandler.jsonToConfig(obj)
 }
-function initData(data=null) {
-  let currData=props.modelValue
-  if(data){
-    currData=data
+function initData(data = null) {
+  let currData = props.modelValue
+  if (data) {
+    currData = data
   }
   if (currData && typeof (currData) === 'string') {
     if (currData != JSON.stringify(designerObj.value)) {
       designerJSON.value = currData
       designerObj.value = JSON.parse(currData)
-     
+
     }
   } else if (currData && typeof (currData) === 'object') {
     designerJSON.value = JSON.stringify(currData)
-    designerObj.value =lessCom.cloneObj(currData)
+    designerObj.value = lessCom.cloneObj(currData)
   }
-  if(props.ignoreFields){
-      props.ignoreFields.forEach(ele=>{
-        delete  designerObj.value[ele]
-      })
-    }
+  if (props.ignoreFields) {
+    props.ignoreFields.forEach(ele => {
+      delete designerObj.value[ele]
+    })
+  }
+  designerObj.value = dynamicHandler.compatibleVersion(designerObj.value)
   dynamicHandler.initConfig(designerObj.value)
 }
 
 function handleImportDesigner() {
+
+  let currRenderData = {}
   if (typeof (importJSON.value) === 'string') {
-    designerObj.value = JSON.parse(importJSON.value)
+    currRenderData = JSON.parse(importJSON.value)
 
   } else {
-    designerObj.value = importJSON.value
+    currRenderData = importJSON.value
 
   }
+  designerObj.value = dynamicHandler.compatibleVersion(currRenderData)
+
   dynamicHandler.initConfig(designerObj.value)
   return Promise.resolve(true)
 }
@@ -163,7 +168,7 @@ function setMouseOverItem(keyID) {
 const currSelectItemKey = ref()
 
 function getSelectItem() {
-return actualDom.value
+  return actualDom.value
 }
 function setSelectItem(keyID) {
   currItemKey.value = keyID
@@ -201,7 +206,7 @@ function returnTemplateValue() {
 
 
 function closeViewDialog() {
-  actualDom.value.length=0;
+  actualDom.value.length = 0;
   designType.value = '精简模式'
 }
 
@@ -276,8 +281,8 @@ function handleSaveNewType(data) {
 
 }
 
-function columnVisible(field){
-  if(!props.visibleFields){
+function columnVisible(field) {
+  if (!props.visibleFields) {
     return true;
   }
   return props.visibleFields.includes(field)
@@ -286,10 +291,10 @@ function columnVisible(field){
 initData()
 
 setValue({
-  "tagID":'els-dynamic-designer-' + lessCom.generateID(),
+  "tagID": 'els-dynamic-designer-' + lessCom.generateID(),
   'dataTypeData': currDynamicDataType.value,
-  'isMobile':false,
-  'componentData':currComponentTypes.value,
+  'isMobile': false,
+  'componentData': currComponentTypes.value,
   columnVisible,
   getMouseOverItem,
   setMouseOverItem,
@@ -310,25 +315,18 @@ defineExpose({
 <template>
   <div>
     <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-      <div class="els-dynamic-config" ref="designerContainer" >
+      <div class="els-dynamic-config" ref="designerContainer">
         <div class="els-dynamic-config-tool">
-          <!-- <ElsRadioButton v-model="designType" v-if="designerVisible">
-            <ElsOption value="精简模式"><el-icon>
-                <MoreFilled />
-              </el-icon></ElsOption>
-            <ElsOption value="设计模式"><el-icon>
-                <Grid />
-              </el-icon></ElsOption>
-          </ElsRadioButton> -->
           <els-data-modal style="margin-left:5px;margin-bottom:5px;" title="导入配置" buttonLabel="导入配置" icon="Edit"
             :hasInput="false" :open="handleOpenImport" :confirm="handleImportDesigner">
             <ElsJsonEditor v-model="importJSON" style="height: 500px;"></ElsJsonEditor>
           </els-data-modal>
         </div>
-        <DynamicDesignerInner v-if="designType === '精简模式'" :data="designerObj"  ></DynamicDesignerInner>
+        <DynamicDesignerInner v-if="designType === '精简模式'" :children="designerObj"></DynamicDesignerInner>
       </div>
       <template v-if="designType !== '精简模式'">
-        <els-dialog :visible="true" @close="closeViewDialog" width="90%" destroy-on-close :append-to-body="true" top="10px">
+        <els-dialog :visible="true" @close="closeViewDialog" width="90%" destroy-on-close :append-to-body="true"
+          top="10px">
           <DynamicDesignerView :dataTypes="currDynamicDataType" :camelCase="camelCase" :initRootForm="false"
             :componentTypes="currComponentTypes" :appendComponentTypes="appendComponentTypes"
             :componentRelateDataType="componentRelateDataType" v-model="designerObj">
@@ -343,68 +341,20 @@ defineExpose({
 
   </div>
 </template>
-<style lang="less">
+<style lang="less" scoped>
 .els-dynamic-config {
+  --keyNameW: 120px;
+  --requiredW: 60px;
+  --dataTypeW: 190px;
+  --configW: 40px;
+  --descriptionW: 200px;
   flex-grow: 1;
-
-  .els-list-add {
-    margin-left: 0;
-    button {
-      height: 24px;
-      font-size: 12px;
-      padding: 7px;
-      background: #fff;
-      color: #575757;
-    }
-  }
-
-  .els-dynamicc-d-empty {
-    text-align: center;
-    font-size: 12px;
-    background: #f8f8f8;
-    padding: 5px;
-    font-style: italic;
-    margin-bottom: 5px;
-  }
-}
-
-.els-dynamic-config-tool {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-
-  button {
-    margin-bottom: 0px !important;
-  }
-}
-
-.els-dynamicc-d-head {
-  padding-left: 5px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  display: flex;
-  font-size: 14px;
-  line-height: 24px;
-
-}
-
-.dataType-detail-t {
-  display: flex;
-  justify-content: space-between;
-
-  span+span {
-    cursor: pointer;
-  }
-
-}
-
-.els-dynamic-config {
-
-  .selected{
-  border: 1px dashed #aaaaaabf;
-}
   border: 1px solid #dcdfe6;
   padding: 10px;
+
+  .selected {
+    border: 1px dashed #aaaaaabf;
+  }
 
   .txt-blue-light {
     .el-input__inner {
@@ -412,172 +362,14 @@ defineExpose({
     }
   }
 
-  .keyName {
-    width: 120px;
-  }
-
-  .keyCode {
-    width: 120px;
-  }
-
-  .dataType {
-    width: 190px;
-    display: flex;
-
-    .els-node {
-      flex-grow: 1;
-    }
-  }
-
-  .componentType {
-    width: 120px;
-  }
-
-  .defaultValue {
-
-    width: 120px;
-  }
-
-  .config {
-    width: 40px;
-  }
-
-  .required {
-    width: 60px;
-
-  }
-
-  .description {
-    width: 200px;
-  }
-
-  .oper {
-    width: 60px;
-
-  }
-
-  .listitem {
-    display: initial;
-  }
-}
-
-
-.els-dynamic-d-oper {
-  display: flex;
-  gap: 5px;
-
-  .el-icon-rank {
-    cursor: all-scroll;
-  }
-
-
-}
-.el-icon-remove {
-    cursor: pointer;
-    color: red;
-  }
-.els-dynamic-d-item-div.virtual{
-  span{display: flex;}
-  font-size: 12px;
-  padding-top: 3px;
-  .el-input__wrapper{width: 100%;margin-right: 5px;overflow: hidden;}
-  .el-input__wrapper:hover{box-shadow:0 0 0 1px var(--el-input-border-color,var(--el-border-color)) inset;}
-  .el-input__inner{
-    overflow: hidden;
-  }
-  
-}
-.els-dynamic-d-item-div {
-  margin-bottom: 2px;
-  display: flex;
-  align-items: center;
-  padding-left: 5px;
-  padding-right: 5px;
-
-  .el-form-item {
-    padding: 0;
-  }
-
-  .oper {
-    font-size: 13px;
-  }
-
-}
-
-
-.els-dynamic-d-item-div .el-form-item {
-
-  margin-bottom: 2px !important;
-  margin-right: 5px !important;
-}
-
-.els-dynamic-d-item-parentdiv {
-  background: #f5f5f5;
-  border: solid 1px #e6e6e6;
-  padding: 5px 5px 5px 0px;
-  margin-bottom: 5px;
-
-  .els-dynamic-d-flat-item-child {
-    margin-left: 26px !important;
-    background: #fff;
-    padding: 5px !important;
-    border: 1px solid #e4e4e4;
-    padding-top: 5px !important;
-
-  }
-}
-
-.els-dynamic-d-flat-item-child {
- 
-  .els-list-add {
-    margin-left: 0px;
-    padding-left: 3px;
-  }
-
-  .els-dynamic-d-item-div {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-
-}
-
-
-.els-dynamic-d-item-container {
-  border: dashed 1px #409eff;
-  margin-bottom: 5px;
-
-  .els-dynamic-d-item-container {
-    border-left: 0;
-  }
-
-  .els-dynamic-d-flat-item-child {
-    margin-left: 0px !important;
-    border: 0 !important;
-    padding: 10px 60px 5px 0px;
-    position: relative;
-  }
-
-  .tag-name {
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-    top: 0px;
-    background: #d8f0ff;
-    font-size: 13px;
+  .els-dynamic-config-tool {
     display: flex;
     align-items: center;
-    column-gap: 3px;
-    z-index: 1;
+    margin-bottom: 5px;
+
+    button {
+      margin-bottom: 0px !important;
+    }
   }
-}
-
-.els-dynamic-d-item-container>.els-dynamic-d-item-div {
-  background: #b7daff;
-}
-
-
-.els-dynamic-d-item-container>.els-dynamic-d-flat-item-child {
-  margin-left: 0 !important;
 }
 </style>

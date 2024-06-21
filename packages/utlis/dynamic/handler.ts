@@ -1,7 +1,7 @@
-import {dynamicComponentTypes,dynamicDataTypes} from './types'
-import {  DynamicConfig } from '../interfaces'
+import { dynamicComponentTypes, dynamicDataTypes } from './types'
+import { DynamicConfig } from '../interfaces'
 import { ElMessage } from 'element-plus'
-import {lessCom} from '../com'
+import { lessCom } from '../com'
 export class DynamicHandler {
     componentTypes: any = []
     dataTypes: any = []
@@ -26,6 +26,18 @@ export class DynamicHandler {
         this.uploadUrl = uploadUrl
         this.resourceCode = resourceCode
         this.restrictCode = restrictCode
+    }
+    //兼容版本数据
+    compatibleVersion(data){
+        const cloneData=lessCom.cloneObj(data)
+        cloneData.forEach(ele=>{
+            //重命名data节点为children
+            if(ele.data&&!ele.children){
+                ele.children= this.compatibleVersion(ele.data)
+                delete ele.data
+            }
+        })
+        return cloneData
     }
     jsonValueType(val) {
         let currType: any = typeof (val)
@@ -81,7 +93,7 @@ export class DynamicHandler {
                     "keyID": "key_" + lessCom.randomNumber().toString(),
                     "keyName": key,
                     "keyCode": key,
-                    "data": currData,
+                    "children": currData,
                     "dataType": currType?.value,
                     "arrayDataType": currArrayType?.value,
                     "componentType": componentName,
@@ -108,21 +120,22 @@ export class DynamicHandler {
         item.dataTypeName = currDataType?.type
         item.arrayDataTypeName = currArrayDataType?.type
         item.componentName = currcomponentType?.componentName
-        item.formItem=currcomponentType?.formItem
-        item.componentGroup=currcomponentType?.group
+        item.formItem = currcomponentType?.formItem
+        item.componentGroup = currcomponentType?.group
         if (currDataType?.type === 'Object' || currDataType?.type === 'Array') {
-            item.formItem=true
+            item.formItem = true
             item.componentGroup = 'Form'
         } else {
             item.componentGroup = currcomponentType?.group
         }
-       
+
     }
     initConfigType(data) {
+   
         data.forEach((ele) => {
             this.initTypeName(ele)
-            if (ele.dataTypeName == 'Object' || (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object')||ele.componentGroup == 'Container') {
-                this.initConfigType(ele.data)
+            if (ele.dataTypeName == 'Object' || (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') || ele.componentGroup == 'Container') {
+                this.initConfigType(ele.children)
             }
             else {
                 this.getTemplateDefaultValue(ele)
@@ -130,15 +143,15 @@ export class DynamicHandler {
             }
         })
     }
-    
-    initConfig(data) {
-        data.forEach((ele) => {
+
+    initConfig(children) {
+        children.forEach((ele) => {
             if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
-                this.initConfig(ele.data)
+                this.initConfig(ele.children)
             } else if (ele.dataTypeName == 'Object') {
-                this.initConfig(ele.data)
+                this.initConfig(ele.children)
             } else if (ele.componentGroup == 'Container') {
-                this.initConfig(ele.data)
+                this.initConfig(ele.children)
             }
             if (!ele.keyID) {
                 ele.keyID = "key_" + lessCom.randomNumber().toString()
@@ -150,9 +163,9 @@ export class DynamicHandler {
             if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
                 this.returnArrayConfig(ele)
             } else if (ele.dataTypeName == 'Object') {
-                this.returnConfig(ele.data)
+                this.returnConfig(ele.children)
             } else if (ele.componentGroup == 'Container') {
-                this.returnConfig(ele.data)
+                this.returnConfig(ele.children)
             }
             delete ele.componentGroup
             delete ele.dataTypeName
@@ -185,7 +198,7 @@ export class DynamicHandler {
                     if (currConfig) {
                         currData[currConfig.keyName] = sourceData[key]
                         if (typeof (sourceData[key]) === 'object' && !Array.isArray(sourceData[key])) {
-                            currData[currConfig.keyName] = this.toKeyNameData(currConfig.data, sourceData[key])
+                            currData[currConfig.keyName] = this.toKeyNameData(currConfig.children, sourceData[key])
                         }
                     } else {
                         currData[key] = sourceData[key]
@@ -201,13 +214,13 @@ export class DynamicHandler {
     returnArrayConfig(item) {
         delete item.arrayObjData
         delete item.value
-        item.data.forEach(ele => {
+        item.children.forEach(ele => {
             if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
                 this.returnArrayConfig(ele)
             } else if (ele.dataTypeName == 'Object') {
-                this.returnConfig(ele.data)
+                this.returnConfig(ele.children)
             } else if (ele.componentGroup == 'Container') {
-                this.returnConfig(ele.data)
+                this.returnConfig(ele.children)
             }
         })
 
@@ -231,10 +244,10 @@ export class DynamicHandler {
             this.initTypeName(ele)
             if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object' && !ele.componentTypeName) {
                 this.recoverArrayData(ele, valueData[ele.keyCode])
-            } else if (ele.dataTypeName == 'Object'||(ele.componentGroup==='Container'&&ele.formItem&&ele.keyCode)) {
-                this.recoverData(ele.data, valueData[ele.keyCode])
-            }else if(ele.componentGroup==='Container'){
-                this.recoverData(ele.data, valueData)
+            } else if (ele.dataTypeName == 'Object' || (ele.componentGroup === 'Container' && ele.formItem && ele.keyCode)) {
+                this.recoverData(ele.children, valueData[ele.keyCode])
+            } else if (ele.componentGroup === 'Container') {
+                this.recoverData(ele.children, valueData)
             }
             if (this.appendUrlParams && ['Checkbox', 'Select', 'Radio', 'Upload', 'DataModal'].includes(ele.componentTypeName ?? '') && ele.config.baseConfig && (ele.config.baseConfig.url || ele.config.baseConfig.modalUrl)) {
                 this.appendCommonParams(ele)
@@ -243,8 +256,8 @@ export class DynamicHandler {
                 }
 
             }
-    
-           
+
+
         })
     }
     appendUploadParams(item) {
@@ -293,14 +306,14 @@ export class DynamicHandler {
 
         if (!item["arrayObjData"]) {
             let currData: any = [];
-            item.data.forEach(ele => {
+            item.children.forEach(ele => {
                 this.initTypeName(ele)
                 var currItem = Object.assign({}, ele)
                 this.getDefaultValue(currItem);
                 if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
                     this.recoverArrayData(currItem)
                 } else if (ele.dataTypeName == 'Object' || ele.componentGroup == 'Container') {
-                    this.recoverData(currItem.data)
+                    this.recoverData(currItem.children)
                 }
                 currData.push(currItem)
             })
@@ -315,7 +328,7 @@ export class DynamicHandler {
                 this.recoverData(itemData, ele)
                 arrayData.push(itemData)
             })
-            item.data = arrayData
+            item.children = arrayData
         } else {
             item.value = [];
             let defaultArrayData: any = [];
@@ -326,7 +339,7 @@ export class DynamicHandler {
                     defaultArrayData.push(lessCom.cloneObj(item["arrayObjData"]))
                 }
             }
-            item.data = defaultArrayData
+            item.children = defaultArrayData
         }
     }
 
@@ -339,7 +352,7 @@ export class DynamicHandler {
     getConfigValue(data, showKeyField) {
         let currData = {}
         data.forEach((ele) => {
-            if(ele.formItem||ele.componentGroup==='Form'||ele.dataTypeName == 'Array'||ele.dataType==='Object'){
+            if (ele.formItem || ele.componentGroup === 'Form' || ele.dataTypeName == 'Array' || ele.dataType === 'Object') {
                 if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
                     currData[ele[showKeyField]] = this.getArrayConfigValue(ele, showKeyField)
                 }
@@ -347,41 +360,41 @@ export class DynamicHandler {
                     currData[ele[showKeyField]] = [ele.defaultValue]
                 }
                 else if (ele.dataTypeName == 'Object') {
-                    currData[ele[showKeyField]] = this.getConfigValue(ele.data, showKeyField)
+                    currData[ele[showKeyField]] = this.getConfigValue(ele.children, showKeyField)
                 } else if (ele.componentGroup == 'Container') {
-                    if(ele[showKeyField]){
-                        currData[ele[showKeyField]] = this.getConfigValue(ele.data, showKeyField)
-                    }else{
-                        currData = Object.assign(currData, this.getConfigValue(ele.data, showKeyField))
+                    if (ele[showKeyField]) {
+                        currData[ele[showKeyField]] = this.getConfigValue(ele.children, showKeyField)
+                    } else {
+                        currData = Object.assign(currData, this.getConfigValue(ele.children, showKeyField))
                     }
                 }
                 else if (ele[showKeyField]) {
                     currData[ele[showKeyField]] = ele.value
                 }
             }
-          
+
         })
         return currData
     }
     getArrayConfigValue(item, showKeyField) {
         let currValue = {}
-        item.data.forEach(ele => {
-            if(ele.formItem||ele.componentGroup==='Form'||ele.dataTypeName == 'Array'||ele.dataType==='Object'){
+        item.children.forEach(ele => {
+            if (ele.formItem || ele.componentGroup === 'Form' || ele.dataTypeName == 'Array' || ele.dataType === 'Object') {
                 if (ele.dataTypeName == 'Array' && ele.arrayDataTypeName == 'Object') {
                     currValue[ele[showKeyField]] = this.getArrayConfigValue(ele, showKeyField)
                 } else if (ele.dataTypeName == 'Object') {
-                    currValue[ele[showKeyField]] = this.getConfigValue(ele.data, showKeyField)
+                    currValue[ele[showKeyField]] = this.getConfigValue(ele.children, showKeyField)
                 } else if (ele.componentGroup == 'Container') {
-                    if(ele[showKeyField]){
-                        currValue[ele[showKeyField]] = this.getConfigValue(ele.data, showKeyField)
-                    }else{
-                        currValue = Object.assign(currValue, this.getConfigValue(ele.data, showKeyField))
+                    if (ele[showKeyField]) {
+                        currValue[ele[showKeyField]] = this.getConfigValue(ele.children, showKeyField)
+                    } else {
+                        currValue = Object.assign(currValue, this.getConfigValue(ele.children, showKeyField))
                     }
                 } else if (ele[showKeyField]) {
                     currValue[ele[showKeyField]] = ele.value
                 }
             }
-           
+
         })
         return [currValue]
     }
@@ -451,8 +464,8 @@ export class DynamicHandler {
                     }
                     break
                 case 'Bool':
-                    if(typeof(item.defaultValue)==='boolean'){
-                        item.value =item.defaultValue
+                    if (typeof (item.defaultValue) === 'boolean') {
+                        item.value = item.defaultValue
                         return
                     }
                     if (item.defaultValue?.toLowerCase() === 'true') {
@@ -488,15 +501,15 @@ export class DynamicHandler {
     result(renderData) {
         var currData = {};
         renderData.forEach(ele => {
-            Object.assign(currData,this.itemValue(ele))
-           
+            Object.assign(currData, this.itemValue(ele))
+
         })
         return currData
 
     }
     childResult(item) {
         var currItem = {};
-        var currData = item.data;
+        var currData = item.children;
         if (currData === "" || !Array.isArray(currData)) {
             return "";
         }
@@ -507,24 +520,24 @@ export class DynamicHandler {
             return {}
         }
         currData.forEach(ele => {
-            Object.assign(currItem,this.itemValue(ele))
-            
+            Object.assign(currItem, this.itemValue(ele))
+
         })
         return currItem;
     }
     childResultList(item) {
-        if (!item.data || !item.data.length) {
+        if (!item.children || !item.children.length) {
             if (item.value) {
                 return item.value
             }
             return []
         }
         let currList: any = [];
-        item.data.forEach(ele => {
+        item.children.forEach(ele => {
             if (Array.isArray(ele)) {
                 let currItem = {}
                 ele.forEach(cele => {
-                    Object.assign(currItem,this.itemValue(cele))
+                    Object.assign(currItem, this.itemValue(cele))
                 })
                 currList.push(currItem);
             }
@@ -533,17 +546,17 @@ export class DynamicHandler {
         return currList;
 
     }
-    itemValue(item){
+    itemValue(item) {
         let currValue = {}
-        if (item.formItem||item.componentGroup==='Form'||item.dataTypeName == 'Array'||item.dataType==='Object') {
+        if (item.formItem || item.componentGroup === 'Form' || item.dataTypeName == 'Array' || item.dataType === 'Object') {
             if (item.dataTypeName == 'Object' && item.keyCode) {
                 currValue[item.keyCode] = this.childResult(item)
             }
             else if (item.componentGroup == 'Container') {
-                if(item.keyCode){
+                if (item.keyCode) {
                     currValue[item.keyCode] = this.childResult(item)
-                }else{
-                  Object.assign(currValue, this.childResult(item))
+                } else {
+                    Object.assign(currValue, this.childResult(item))
                 }
             }
             else if (item.dataTypeName == 'Array' && item.arrayDataTypeName == 'Object' && item.keyCode) {
@@ -552,7 +565,7 @@ export class DynamicHandler {
                 currValue[item.keyCode] = item.value;
             }
         }
-        else if(item.componentGroup==='Container'){
+        else if (item.componentGroup === 'Container') {
             Object.assign(currValue, this.childResult(item))
         }
         return currValue;

@@ -3,12 +3,12 @@ export const property_arrayAndObject= [
 	  "keyID": "v6YY_KtAl",
 	  "keyName": "Form",
 	  "keyCode": "qWdajno2Mq",
-	  "data": [
+	  "children": [
 		{
 		  "keyID": "e6b2986e1a5a954b6f2972791efe6d8c",
 		  "keyName": "标签类型",
 		  "keyCode": "componentName",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"arrayConfig": {
 			  "componentName": "ElsFormItem",
@@ -65,7 +65,7 @@ export const property_arrayAndObject= [
 		  "keyID": "key_99212",
 		  "keyName": "标题",
 		  "keyCode": "title",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -109,7 +109,7 @@ export const property_arrayAndObject= [
 		  "keyID": "d95dcc72d437eb45e99b0b2207b1cf3e",
 		  "keyName": "显示类型",
 		  "keyCode": "type",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"arrayConfig": {
 			  "componentName": "ElsFormItem",

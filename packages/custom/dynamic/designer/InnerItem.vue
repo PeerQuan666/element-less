@@ -13,7 +13,7 @@ defineOptions({
 })
 interface Props {
   depath: number,
-  data: Array<DynamicConfig>,
+  children: Array<DynamicConfig>,
   item: DynamicConfig
 }
 const props = defineProps<Props>()
@@ -31,7 +31,7 @@ const dataTypeData = getValue<any>("dataTypeData", null)
 const controlData = getValue<any>("componentData", null)
 
 const currDepath = ref(props.depath + 1)
-const currData = useVModel(props, 'data', emits)
+const currData = useVModel(props, 'children', emits)
 const currItem = useVModel(props, 'item', emits)
 const selectDataTypeItem = ref()
 const selectArrayDataTypeItem = ref()
@@ -44,7 +44,6 @@ if(controlData){
     if(ele.label==='栅格行'){ele.label="容器"}
   })
 }
-
 
 function handleRemove(item) {
   var index = currData.value.indexOf(item)
@@ -134,7 +133,6 @@ const currPropertys = computed(() => {
     }
   }
   else {
-
     if (!currItem.value.componentType) {
       currItem.value.config = {
         formConfig: {},
@@ -152,14 +150,14 @@ const currPropertys = computed(() => {
 
 watch(() => currItem.value.componentType, () => {
   if (isRow.value) {
-    currItem.value.data.length = 0
+    currItem.value.children.length = 0
     currItem.value.dataType = 'None';
-    currItem.value.data.push(
+    currItem.value.children.push(
       {
         keyID: lessCom.generateID(),
         keyName: '',
         keyCode: '',
-        data: [],
+        children: [],
         config: {
           formConfig: {},
           baseConfig: {},
@@ -168,7 +166,7 @@ watch(() => currItem.value.componentType, () => {
         },
       })
   } else {
-    currItem.value.data.length = 0
+    currItem.value.children.length = 0
 
   }
 })
@@ -197,12 +195,12 @@ function handleChangeDataType() {
 
   })
   if (isObject.value) {
-    currItem.value.data.length = 0
-    currItem.value.data.push({
+    currItem.value.children.length = 0
+    currItem.value.children.push({
       keyID: lessCom.generateID(),
       keyName: '',
       keyCode: '',
-      data: [],
+      children: [],
       config: {
         formConfig: {},
         baseConfig: {},
@@ -211,7 +209,7 @@ function handleChangeDataType() {
       },
     })
   } else {
-    currItem.value.data.length = 0;
+    currItem.value.children.length = 0;
   }
 }
 
@@ -230,6 +228,15 @@ function handleChangeRequired(val){
       formRender.value.initData()
     }
 }
+function handleSelectComponent(item){
+  if(item.preSelectValue&&item.selectItem){
+    if(item.selectItem.defaultPropertys){
+      currItem.value.config.baseConfig=Object.assign({},item.selectItem.defaultPropertys)
+    }else{
+      currItem.value.config.baseConfig={}
+    }
+  }
+}
 watch(()=>currItem.value.config.formConfig.required,(val)=>{
   if(currItem.value.required!==val){
     currItem.value.required=val
@@ -239,7 +246,7 @@ function validationCode(rule, value, callback) {
   console.log(rule)
   if (value === '') {
     callback(new Error('keyCode不能为空'))
-  } else if (props.data.filter(ele => ele.keyCode == value).length > 1) {
+  } else if (props.children.filter(ele => ele.keyCode == value).length > 1) {
     ElMessage.warning(`[${value}]重复`)
     callback(new Error('keyCode重复'))
   } else {
@@ -359,6 +366,7 @@ function validationCode(rule, value, callback) {
           <els-select
             v-if="itemDataType.type != 'Object' && currArrayDataType.type != 'Object' || (isObject && currComponentTypeData.length)"
             filterable :disabled="currItem.dataType === undefined" placeholder="组件" clearable prop="componentType"
+            @select="handleSelectComponent"
             :data="currComponentTypeData" valueField="value" labelField="label">
             <template #extra v-if="allowCreateComponent">
               <li class="dynamic-create-dtype" @click="openCreateComponent()">创建组件</li>
@@ -397,14 +405,13 @@ function validationCode(rule, value, callback) {
         </span>
       </span>
     </div>
-    <DynamicDesignerInner :data="currItem.data" @removeItem="handleRemove(item)"
+    <DynamicDesignerInner :children="currItem.children" @removeItem="handleRemove(item)"
       v-if="(isObject && !currItem.componentType) || isRow" :config="currItem.config.advancedConfig" :is-container="isRow"
       :depath="currDepath">
     </DynamicDesignerInner>
   </els-form>
-  <els-drawer v-model="attrDrawVisible"  :title="'设置属性'" :direction="settingDirection" :initBody="true" class="work-flow-drawer" size="30%" :show-close="false" append-to-body :lock-scroll="false">
-  
-          <el-tabs>
+  <els-drawer v-model="attrDrawVisible"  :title="'设置属性'" :direction="settingDirection"  class="work-flow-drawer" size="30%" :show-close="false" append-to-body :lock-scroll="false">
+          <el-tabs stretch>
             <el-tab-pane label="组件属性" v-if="currItem.componentType">
               <ElsDynamicRender v-model="currItem.config.baseConfig"
                 :nodeType="{ dataType: currDataType?.type, componentName: currComponentType?.componentName }"
@@ -428,35 +435,158 @@ function validationCode(rule, value, callback) {
 
   </els-drawer>
 </template>
+
 <style lang="less">
- .el-select-dropdown__list:has(>li[class^=dynamic-create-dtype]) {
-  padding-bottom: 30px !important;
+.el-select-dropdown__list{
+  .dynamic-create-dtype {
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    color: #409eff;
+    padding: 5px 0;
+    border-top: 1px solid #e8e8e8;
   }
+  &:has(>li[class^=dynamic-create-dtype]) {
+   padding-bottom: 30px !important;
+  }
+}
+
 </style>
 <style lang="less" scoped>
-
-.dynamic-create-dtype {
-  cursor: pointer;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  z-index: 1;
-  background: #fff;
+.els-dynamic-d-item-div:deep{
+  margin-bottom: 2px;
   display: flex;
-  justify-content: center;
-  color: #409eff;
-  padding: 5px 0;
-  border-top: 1px solid #e8e8e8;
-}
-.els-dynamic-d-item-div{
+  align-items: center;
+  padding-left: 5px;
+  padding-right: 5px;
+  .el-form-item {
+    padding: 0;
+    margin-bottom: 2px !important;
+    margin-right: 5px !important;
+  }
+  .oper {
+    font-size: 13px;
+  }
+
   padding-top: 3px;
+  &.setting{
+    background: #b1deff;
+  }
+  &.virtual{
+    span{display: flex;}
+    font-size: 12px;
+    padding-top: 3px;
+    .el-input__wrapper{width: 100%;margin-right: 5px;overflow: hidden;}
+    .el-input__wrapper:hover{box-shadow:0 0 0 1px var(--el-input-border-color,var(--el-border-color)) inset;}
+    .el-input__inner{
+      overflow: hidden;
+    }
+    
+  }
+
+  .els-dynamic-d-oper{
+    display: flex;
+    gap: 5px;
+    .el-icon-rank {
+      cursor: all-scroll;
+    }
+    .el-icon-remove{
+         color: red !important;
+         cursor: pointer;
+    }
+  }
+  .dataType-detail-t {
+    display: flex;
+    justify-content: space-between;
+    span+span {
+      cursor: pointer;
+    }
+
+  }
+  
+  .keyName,.keyCode,.componentType,.defaultValue {
+    width: var(--keyNameW);
+  }
+
+  .required,.oper  {
+    width: var(--requiredW);
+
+  }
+  .dataType {
+    width: var(--dataTypeW);
+    display: flex;
+
+    .els-node {
+      flex-grow: 1;
+    }
+  }
+
+  .config {
+    width: var(--configW);
+  }
+  .description {
+    width:  var(--descriptionW);
+  }
+
+
 }
-.els-dynamic-d-item-div.setting{
-  background: #b1deff;
+
+.els-dynamic-d-item-parentdiv:deep {
+  background: #f5f5f5;
+  border: solid 1px #e6e6e6;
+  padding: 5px 5px 5px 0px;
+  margin-bottom: 5px;
+
+  .els-dynamic-d-flat-item-child {
+    margin-left: 26px !important;
+    background: #fff;
+    padding: 5px !important;
+    border: 1px solid #e4e4e4;
+    padding-top: 5px !important;
+
+  }
 }
-.els-dynamic-d-oper{
-  .el-icon-remove{
-                color: red !important;
-            }
+
+
+
+.els-dynamic-d-item-container {
+  border: dashed 1px #409eff;
+  margin-bottom: 5px;
+
+  .els-dynamic-d-item-container {
+    border-left: 0;
+  }
+
+  .els-dynamic-d-flat-item-child {
+    margin-left: 0px !important;
+    border: 0 !important;
+    padding: 10px 60px 5px 0px;
+    position: relative;
+  }
+
+  .tag-name {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0px;
+    background: #d8f0ff;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    column-gap: 3px;
+    z-index: 1;
+  }
+  >.els-dynamic-d-item-div {
+    background: #b7daff;
+  }
+  >.els-dynamic-d-flat-item-child {
+    margin-left: 0 !important;
+  }
 }
-</style>../../utlis/interfaces.js
+
+</style>

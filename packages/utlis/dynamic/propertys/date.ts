@@ -3,12 +3,12 @@ export const property_date= [
 	  "keyID": "d-IxbEMp2",
 	  "keyName": "Form",
 	  "keyCode": "AmQzTkQr1H",
-	  "data": [
+	  "children": [
 		{
 		  "keyID": "3169c3c3186532321c4f0ac69cad4939",
 		  "keyName": "类型",
 		  "keyCode": "type",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -84,7 +84,7 @@ export const property_date= [
 		  "keyID": "54b51767d5823fedde4bf4d81161d56b",
 		  "keyName": "宽度",
 		  "keyCode": "width",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -120,12 +120,12 @@ export const property_date= [
 		  "keyID": "7b0cb2c91ce84caa8130caab6e9c5b8f",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "d4d89b4984ee0d263b582c99872c06cd",
 			  "keyName": "显示格式",
 			  "keyCode": "format",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -161,7 +161,7 @@ export const property_date= [
 			  "keyID": "d65abcb2dcfbcee1c8cc1c125b1f8c82",
 			  "keyName": "值格式",
 			  "keyCode": "valueFormat",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -217,12 +217,12 @@ export const property_date= [
 		  "keyID": "eebed46cca84132e0d2da329e3b5b537",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "6ba1e2ef0f37b5c5d6926ade6cc90288",
 			  "keyName": "可输入",
 			  "keyCode": "editable",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -256,7 +256,7 @@ export const property_date= [
 			  "keyID": "c739beaf93387f2638fe67377db95dd7",
 			  "keyName": "可清除",
 			  "keyCode": "clearable",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -310,12 +310,12 @@ export const property_date= [
 		  "keyID": "key_56521",
 		  "keyName": "栅格行",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "key_53228",
 			  "keyName": "是否开启快捷选项",
 			  "keyCode": "isShortcuts",
-			  "data": [],
+			  "children": [],
 			  "dataType": "Bool",
 			  "arrayDataType": "",
 			  "componentTypeLabel": "开关",
@@ -352,7 +352,7 @@ export const property_date= [
 			  "keyID": "key_86638",
 			  "keyName": "值分隔符",
 			  "keyCode": "valueSeparator",
-			  "data": [],
+			  "children": [],
 			  "dataType": "String",
 			  "arrayDataType": "",
 			  "componentTypeLabel": "输入框",

@@ -3,17 +3,17 @@ export const property_textarea = [
 	  "keyID": "4Y8u4nFn9",
 	  "keyName": "Form",
 	  "keyCode": "i66WlHthYk",
-	  "data": [
+	  "children": [
 		{
 		  "keyID": "60bf4a26d64d17b6a3ea163a3b943e75",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "b74ea924c95546db4eee695f8435740d",
 			  "keyName": "宽度",
 			  "keyCode": "width",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -61,7 +61,7 @@ export const property_textarea = [
 			  "keyID": "5035ac60096d1c2921b602b1b718dba9",
 			  "keyName": "占位文本",
 			  "keyCode": "placeholder",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -130,12 +130,12 @@ export const property_textarea = [
 		  "keyID": "1ef4e73659bba931a3dd811634c80a98",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "1e389ba8d8c039908ab9c01aba79412c",
 			  "keyName": "行数",
 			  "keyCode": "rows",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -177,7 +177,7 @@ export const property_textarea = [
 			  "keyID": "65727a4022f5d7626e84ddca19aa9a0a",
 			  "keyName": "高度自适应",
 			  "keyCode": "autosize",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -231,12 +231,12 @@ export const property_textarea = [
 		  "keyID": "1325b3da1e90a5c3f3e776fcd20daee8",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "22dfb3b30a67173376365ecb9739b63b",
 			  "keyName": "最大长度",
 			  "keyCode": "maxlength",
-			  "data": [],
+			  "children": [],
 			  "componentType": "Input",
 			  "dataType": "String",
 			  "config": {
@@ -284,7 +284,7 @@ export const property_textarea = [
 			  "keyID": "d9b1e919d3433933c28ed5dd4af12b0f",
 			  "keyName": "显示字数",
 			  "keyCode": "showWordLimit",
-			  "data": [],
+			  "children": [],
 			  "dataType": "Bool",
 			  "componentType": "Switch",
 			  "config": {
@@ -345,12 +345,12 @@ export const property_textarea = [
 		  "keyID": "c5d440baf1db26a5dbe3b6190da5a7ed",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "c232677203ac847728c56baffe182660",
 			  "keyName": "Url编码",
 			  "keyCode": "encode",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -390,7 +390,7 @@ export const property_textarea = [
 			  "keyID": "3b91bea58458a51fbc8809be51881b29",
 			  "keyName": "显示清除",
 			  "keyCode": "clearable",
-			  "data": [],
+			  "children": [],
 			  "componentType": "Switch",
 			  "dataType": "Bool",
 			  "config": {

@@ -3,12 +3,12 @@ export const property_row=[
 	  "keyID": "t1-s7NaUS",
 	  "keyName": "Form",
 	  "keyCode": "LkpifbtVZ3",
-	  "data": [
+	  "children": [
 		{
 		  "keyID": "key_28431",
 		  "keyName": "栅格间隔",
 		  "keyCode": "gutter",
-		  "data": [],
+		  "children": [],
 		  "dataType": "Number",
 		  "arrayDataType": "",
 		  "componentTypeLabel": "Slider滑块",
@@ -53,7 +53,7 @@ export const property_row=[
 		  "keyID": "key_67610",
 		  "keyName": "水平排列",
 		  "keyCode": "justify",
-		  "data": [],
+		  "children": [],
 		  "dataType": "String",
 		  "arrayDataType": "",
 		  "componentTypeLabel": "下拉列表",
@@ -121,7 +121,7 @@ export const property_row=[
 		  "keyID": "key_57459",
 		  "keyName": "垂直排列",
 		  "keyCode": "align",
-		  "data": [],
+		  "children": [],
 		  "dataType": "String",
 		  "arrayDataType": "",
 		  "componentTypeLabel": "下拉列表",
@@ -177,7 +177,7 @@ export const property_row=[
 		  "keyID": "key_35514",
 		  "keyName": "元素标签",
 		  "keyCode": "tag",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",

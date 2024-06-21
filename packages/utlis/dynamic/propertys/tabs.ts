@@ -3,12 +3,12 @@ export const property_tabs=[
     "keyID": "ARVQ0FCl_",
     "keyName": "Form",
     "keyCode": "FE6q5TTUVq",
-    "data": [
+    "children": [
       {
         "keyID": "key_47877",
         "keyName": "风格类型",
         "keyCode": "type",
-        "data": [],
+        "children": [],
         "dataType": "String",
         "arrayDataType": "",
         "componentTypeLabel": "单选列表",
@@ -53,7 +53,7 @@ export const property_tabs=[
         "keyID": "key_88308",
         "keyName": "选项卡所在位置",
         "keyCode": "tab-position",
-        "data": [],
+        "children": [],
         "dataType": "String",
         "arrayDataType": "",
         "componentTypeLabel": "单选列表",
@@ -107,12 +107,12 @@ export const property_tabs=[
         "keyID": "key_36118",
         "keyName": "栅格行",
         "keyCode": "key_12849",
-        "data": [
+        "children": [
           {
             "keyID": "key_79961",
             "keyName": "标签是否可关闭",
             "keyCode": "closable",
-            "data": [],
+            "children": [],
             "dataType": "Bool",
             "arrayDataType": "",
             "componentTypeLabel": "开关",
@@ -147,7 +147,7 @@ export const property_tabs=[
             "keyID": "key_24929",
             "keyName": "标签是否可增加",
             "keyCode": "addable",
-            "data": [],
+            "children": [],
             "dataType": "Bool",
             "arrayDataType": "",
             "componentTypeLabel": "开关",
@@ -204,12 +204,12 @@ export const property_tabs=[
         "keyID": "key_51153",
         "keyName": "栅格行",
         "keyCode": "key_49724",
-        "data": [
+        "children": [
           {
             "keyID": "key_44602",
             "keyName": "是否同时可增加和关闭",
             "keyCode": "editable",
-            "data": [],
+            "children": [],
             "required": false,
             "config": {
               "formConfig": {
@@ -243,7 +243,7 @@ export const property_tabs=[
             "keyID": "key_57531",
             "keyName": "标签的宽度是否自撑开",
             "keyCode": "stretch",
-            "data": [],
+            "children": [],
             "dataType": "Bool",
             "arrayDataType": "",
             "componentTypeLabel": "开关",

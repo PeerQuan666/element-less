@@ -3,17 +3,17 @@ export const property_inputNumber=  [
 	  "keyID": "EUGQ3uNqf",
 	  "keyName": "Form",
 	  "keyCode": "5JjD5I0VNH",
-	  "data": [
+	  "children": [
 		{
 		  "keyID": "a5b1d96caf744c084e55faaf50fe6ca9",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "0617de43dd3d85138ceaeec3f84663ca",
 			  "keyName": "按钮位置",
 			  "keyCode": "controls-position",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -74,7 +74,7 @@ export const property_inputNumber=  [
 			  "keyID": "d9f0df9fd6c6f08f1f28a21d1ccd9b5d",
 			  "keyName": "宽度",
 			  "keyCode": "width",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -153,12 +153,12 @@ export const property_inputNumber=  [
 		  "keyID": "985a7032310af215d2c9d81dd772fc95",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "c9f44ef72fef38bc8af1d6769ab18ba9",
 			  "keyName": "步长",
 			  "keyCode": "step",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -209,7 +209,7 @@ export const property_inputNumber=  [
 			  "keyID": "da1d5bb5312c470f8aafe1b24393cb2b",
 			  "keyName": "精度",
 			  "keyCode": "precision",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -288,12 +288,12 @@ export const property_inputNumber=  [
 		  "keyID": "2ab3238e666f131cfed8e45ce011d14d",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "c14353bb00866f80739b8819a94c0360",
 			  "keyName": "最小值",
 			  "keyCode": "min",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -344,7 +344,7 @@ export const property_inputNumber=  [
 			  "keyID": "c2f434f74d12246bad8f4bffb7df7d56",
 			  "keyName": "最大值",
 			  "keyCode": "max",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",

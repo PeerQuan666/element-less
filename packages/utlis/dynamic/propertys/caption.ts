@@ -3,12 +3,12 @@ export const property_caption=  [
 	  "keyID": "X1-juiMV6",
 	  "keyName": "Form",
 	  "keyCode": "vinufU2njG",
-	  "data": [
+	  "children": [
 		{
 		  "keyID": "be4a36ad3dc655baa5d0eab3ae93a494",
 		  "keyName": "标题",
 		  "keyCode": "title",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -52,7 +52,7 @@ export const property_caption=  [
 		  "keyID": "d95dcc72d437eb45e99b0b2207b1cf3e",
 		  "keyName": "显示类型",
 		  "keyCode": "type",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"arrayConfig": {
 			  "componentName": "ElsFormItem",

@@ -3,12 +3,12 @@ export const property_select= [
 	  "keyID": "M_kzawTmA",
 	  "keyName": "Form",
 	  "keyCode": "g2IUO-5Ioa",
-	  "data": [
+	  "children": [
 		{
 		  "keyID": "c22a17d687c1569a7fe2e7979b12e9a0",
 		  "keyName": "数据源",
 		  "keyCode": "dataType",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"arrayConfig": {
 			  "componentName": "ElsFormItem",
@@ -58,17 +58,17 @@ export const property_select= [
 		  "keyID": "67cecb440365abb61e4aace2d5686cb9",
 		  "keyName": "数据列表",
 		  "keyCode": "data",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "key_84693",
 			  "keyName": "栅格行",
 			  "keyCode": "key_1213",
-			  "data": [
+			  "children": [
 				{
 				  "keyID": "6f3b17406d7edb401dcecddcb764c7e4",
 				  "keyName": "",
 				  "keyCode": "label",
-				  "data": [],
+				  "children": [],
 				  "config": {
 					"arrayConfig": {
 					  "componentName": "ElsFormItem",
@@ -112,7 +112,7 @@ export const property_select= [
 				  "keyID": "aa9af377f57b5b1c70ae39952200040f",
 				  "keyName": "",
 				  "keyCode": "value",
-				  "data": [],
+				  "children": [],
 				  "config": {
 					"arrayConfig": {
 					  "componentName": "ElsFormItem",
@@ -232,7 +232,7 @@ export const property_select= [
 		  "keyID": "4aa99ce37d6e0fbfb045f18c9faf397d",
 		  "keyName": "数据接口",
 		  "keyCode": "url",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"arrayConfig": {
 			  "componentName": "ElsFormItem",
@@ -275,12 +275,12 @@ export const property_select= [
 		  "keyID": "6ac45742d153533c89be8c38ea6a03ff",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "84f659e12c75e78abad11c3c31932c0e",
 			  "keyName": "显示字段",
 			  "keyCode": "labelField",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -320,7 +320,7 @@ export const property_select= [
 			  "keyID": "3116242ce5345ebe9efa0a0e3169c247",
 			  "keyName": "值字段",
 			  "keyCode": "valueField",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"arrayConfig": {
 				  "componentName": "ElsFormItem",
@@ -391,12 +391,12 @@ export const property_select= [
 		  "keyID": "key_16781",
 		  "keyName": "栅格行",
 		  "keyCode": "key_72437",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "5c703310ff0bb2e0813d72c109c2e11e",
 			  "keyName": "多选",
 			  "keyCode": "multiple",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -429,7 +429,7 @@ export const property_select= [
 			  "keyID": "key_71189",
 			  "keyName": "值类型",
 			  "keyCode": "valueType",
-			  "data": [],
+			  "children": [],
 			  "dataType": "String",
 			  "arrayDataType": "",
 			  "componentTypeLabel": "单选列表",
@@ -496,12 +496,12 @@ export const property_select= [
 		  "keyID": "850f1351229ab44321526e778bd89d7f",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "d9363d60122ee734a915d63607a072d1",
 			  "keyName": "是否筛选",
 			  "keyCode": "filterable",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -535,7 +535,7 @@ export const property_select= [
 			  "keyID": "050471fcd7085a37d8cefba26e3371ee",
 			  "keyName": "远程搜索",
 			  "keyCode": "remote",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -589,12 +589,12 @@ export const property_select= [
 		  "keyID": "546662ca44854844760cd0fc4898ed72",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "dee3c6c8402ca1fba8fe695c6dcacbc0",
 			  "keyName": "宽度",
 			  "keyCode": "width",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -630,7 +630,7 @@ export const property_select= [
 			  "keyID": "0f273ad1e2f7cfde654ba61f8b7c7696",
 			  "keyName": "占位文本",
 			  "keyCode": "placeholder",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -683,12 +683,12 @@ export const property_select= [
 		  "keyID": "365c62d24d6308cf925c4b12015ced92",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "717bb3d97275644535b5314d957f1b7a",
 			  "keyName": "显示清除",
 			  "keyCode": "clearable",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -722,7 +722,7 @@ export const property_select= [
 			  "keyID": "af94f7071b16b8ec37b188ca79f98c3b",
 			  "keyName": "元素插入Body",
 			  "keyCode": "teleported",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -776,7 +776,7 @@ export const property_select= [
 		  "keyID": "645dfc27b5e7fc8d70eed47c2bc868c4",
 		  "keyName": "允许创建",
 		  "keyCode": "allow-create",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",

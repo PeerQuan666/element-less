@@ -3,12 +3,12 @@ export const property_datamodal=[
 	  "keyID": "e15n2QiSm",
 	  "keyName": "Form",
 	  "keyCode": "h3mvYQq6FI",
-	  "data": [
+	  "children": [
 		{
 		  "keyID": "5e6a12e2af64c446f348f1e26c4ddc9c",
 		  "keyName": "按钮文本",
 		  "keyCode": "buttonLabel",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -52,12 +52,12 @@ export const property_datamodal=[
 		  "keyID": "d2835e6475ee0ed3d227451021029bd8",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "c1d53a89bba399d3a92d8c5da572eb9c",
 			  "keyName": "显示输入框",
 			  "keyCode": "hasInput",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -94,7 +94,7 @@ export const property_datamodal=[
 			  "keyID": "e470d73c5920324862ec0b282b43a78c",
 			  "keyName": "输入框宽度",
 			  "keyCode": "inputWidth",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -159,7 +159,7 @@ export const property_datamodal=[
 		  "keyID": "833125df2e85a8dfcc45a41551c8f6b8",
 		  "keyName": "弹窗标题",
 		  "keyCode": "title",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -203,12 +203,12 @@ export const property_datamodal=[
 		  "keyID": "34e5d6d9d646cd77098f9b4f9b057422",
 		  "keyName": "",
 		  "keyCode": "",
-		  "data": [
+		  "children": [
 			{
 			  "keyID": "e2389627302a5276b6dbc374e95da0fd",
 			  "keyName": "弹窗宽度",
 			  "keyCode": "width",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -252,7 +252,7 @@ export const property_datamodal=[
 			  "keyID": "464b8e722ef921cd4cf003b05200834b",
 			  "keyName": "弹窗高度",
 			  "keyCode": "height",
-			  "data": [],
+			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -317,7 +317,7 @@ export const property_datamodal=[
 		  "keyID": "9495b741e0a80d7c6a7ab0f5a2968016",
 		  "keyName": "跳转类型",
 		  "keyCode": "targetType",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -375,7 +375,7 @@ export const property_datamodal=[
 		  "keyID": "11495a7047412ffe5ad3afc18b4ca815",
 		  "keyName": "弹窗地址",
 		  "keyCode": "url",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -419,7 +419,7 @@ export const property_datamodal=[
 		  "keyID": "eaf764e8002b9bde9219cdc29e25be92",
 		  "keyName": "数据接口",
 		  "keyCode": "dataUrl",
-		  "data": [],
+		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",

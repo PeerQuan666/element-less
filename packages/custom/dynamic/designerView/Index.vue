@@ -97,7 +97,7 @@ const objectData = ref<any>([
         keyID: "key_" + lessCom.randomNumber().toString(),
         keyName: 'Object',
         keyCode: 'object_' + (Math.random() * 100000).toString().toInt(),
-        data: [],
+        children: [],
         dataType: currDynamicDataType.value.find(cele => cele.type == 'Object')?.value,
         dataTypeName: 'Object',
         arrayDataTypeName: '',
@@ -121,7 +121,7 @@ const objectData = ref<any>([
         keyID: "key_" + lessCom.randomNumber().toString(),
         keyName: 'Array',
         keyCode: 'array_' + (Math.random() * 100000).toString().toInt(),
-        data: [],
+        children: [],
         dataType: currDynamicDataType.value.find(cele => cele.type == 'Array')?.value,
         dataTypeName: 'Array',
         componentGroup: 'Form',
@@ -149,7 +149,7 @@ currComponentTypes.value.forEach((ele) => {
         keyID: "key_" + lessCom.randomNumber().toString(),
         keyName: ele.label,
         keyCode: 'key_' + (Math.random() * 100000).toString().toInt(),
-        data: [],
+        children: [],
         dataType: currType?.value,
         dataTypeName: ele.dataTypes[0],
         arrayDataTypeName: '',
@@ -212,6 +212,7 @@ function initData() {
         } else {
             renderData.value = lessCom.cloneObj(JSON.parse(props.modelValue))
         }
+        renderData.value=dynamicHandler.compatibleVersion(renderData.value)  
         dynamicHandler.initConfigType(renderData.value)
     }
     else if(props.initRootForm){
@@ -323,7 +324,7 @@ const currPropertys = computed(() => {
 
                 if (currVal?.type == 'Array' && arrayVal?.type === 'Object' || currVal?.type == 'Object') {4
                     const propertyData:any =lessCom.cloneObj(property_arrayAndObject)
-                    propertyData[0].data.push(...property_form[0].data)
+                    propertyData[0].children.push(...property_form[0].children)
                     return propertyData
                 }
             } else {
@@ -396,14 +397,15 @@ function getDataTypeData(componentType) {
 }
 
 function handleImportDesigner() {
-
+     let currRenderData={}
     if (typeof (importJSON.value) === 'string') {
-        renderData.value = JSON.parse(importJSON.value)
+        currRenderData = JSON.parse(importJSON.value)
 
     } else {
-        renderData.value = importJSON.value
+        currRenderData= importJSON.value
 
     }
+    renderData.value=dynamicHandler.compatibleVersion(currRenderData)  
     dynamicHandler.initConfigType(renderData.value)
     recordComponent()
     return Promise.resolve(true)
@@ -434,7 +436,7 @@ function createRootForm() {
             "keyID": lessCom.generateID(),
             "keyName": "Form",
             "keyCode": lessCom.generateID(),
-            "data": [],
+            "children": [],
             "dataType": "None",
             "dataTypeName":"None",
             "arrayDataType": "",
@@ -444,26 +446,12 @@ function createRootForm() {
             "componentGroup":"Container",
             "config": {
                 "baseConfig": {
-                    "inline": false,
-                    "labelPosition": "",
-                    "labelWidth": "",
-                    "labelSuffix": "",
-                    "hideRequiredAsterisk": false,
-                    "requireAsteriskPosition": "",
-                    "showMessage": true,
-                    "inlineMessage": false,
-                    "statusIcon": false,
-                    "disabled": false,
-                    "scrollToError": false,
-                    "scrollIntoViewOptions": false
                 },
                 "advancedConfig": {
-                    "style": "",
-                    "vif": "",
-                    "disabled": "",
-                    "eventChange": ""
                 },
-                "arrayConfig": {}
+                "arrayConfig": {
+
+                }
             }
         })
     startCreate.value = true
@@ -472,7 +460,7 @@ function createRootForm() {
 
 function getContainerValue(item) {
     const currData = {}
-    item.data.forEach(cele => {
+    item.children.forEach(cele => {
         if (cele.componentGroup === 'Container') {
             Object.assign(currData, getContainerValue(cele))
         } else if (cele.keyCode) {
@@ -526,7 +514,6 @@ setValue({
     recordComponent,
 
 })
-const test=ref({ "modelData": { "title": "基本资料", "iconfont": "icon-jibenziliao", "name": "小猪课堂", "age": 25, "address": "四川成都", "avatar": "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg", "phoneNumber": "028-1234321", "email": "12322233@qq.com", "abstract": "我是一个没有感情的工作机器", "workService": 3, "isShow": { "age": true, "address": true, "avatar": true, "workService": true, "phoneNumber": true, "email": true, "abstract": true, "degree": true }, "model": "BASE_INFO", "show": true, "degree": "本科" }, "modelStyle": { "themeColor": "#4d4d4d", "firstTitleFontSize": "20px", "textColor": "#7c7b7b", "textFontSize": "14px", "textFontWeight": 500, "titleColor": "#121c26", "titleFontSize": "30px", "titleFontWeight": 500, "backgroundColor": "", "mBottom": "0px", "mTop": "0px", "pTop": "0", "pBottom": "40px", "pLeftRight": "40px" } })
 onMounted(() => {
     gapTop.value= (mainInner.value.getBoundingClientRect().top+20).appendPx()
     designerTop.value=designer.value.getBoundingClientRect().top
@@ -690,7 +677,7 @@ onMounted(() => {
                                 </DynamicDesignerViewBody>
                                 <DynamicDesignerViewBody v-else :type="deviceType" :renderData="renderData">
                                 </DynamicDesignerViewBody>
-                                <el-empty  v-if="!renderData.length||(renderData.length&&renderData[0].componentType==='Form'&&!renderData[0].data.length)" >
+                                <el-empty  v-if="!renderData.length||(renderData.length&&renderData[0].componentType==='Form'&&!renderData[0].children.length)" >
                                     <template #description>请点击拖动<span class="txt-red">左侧</span>组件到此处</template>
                                 </el-empty>
                             </div>

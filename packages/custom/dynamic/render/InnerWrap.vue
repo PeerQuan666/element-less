@@ -49,7 +49,7 @@ const componentAttr = computed<any>(() => {
 setValue({
     getFormPropIndex: () => {
         let currPropIndex = getFormPropIndex()
-        currPropIndex += `[${props.index}].data`
+        currPropIndex += `[${props.index}].children`
         return currPropIndex
     }
 })
@@ -58,7 +58,7 @@ setValue({
 <template>
     <component :is="nodeItem?.componentName" :style="nodeItem.config.advancedConfig?.style" v-bind="componentAttr"
         v-if="handleIfExpress(nodeItem)">
-        <DynamicRenderInner v-for="(item, index) in nodeItem.data" :nodeItem="item" :index="index" :key="item.keyID">
+        <DynamicRenderInner v-for="(item, index) in nodeItem.children" :nodeItem="item" :index="index" :key="item.keyID">
         </DynamicRenderInner>
     </component>
 </template>

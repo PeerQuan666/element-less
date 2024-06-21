@@ -3,12 +3,12 @@ export const property_collapseItem=[
       "keyID": "cEgtJBMc4",
       "keyName": "Form",
       "keyCode": "Dux8C_ZmsE",
-      "data": [
+      "children": [
         {
           "keyID": "key_33750",
           "keyName": "标题",
           "keyCode": "title",
-          "data": [],
+          "children": [],
           "dataType": "String",
           "arrayDataType": "",
           "componentTypeLabel": "输入框",
@@ -48,7 +48,7 @@ export const property_collapseItem=[
           "keyID": "key_92089",
           "keyName": "唯一标志符",
           "keyCode": "name",
-          "data": [],
+          "children": [],
           "dataType": "String",
           "arrayDataType": "",
           "componentTypeLabel": "输入框",

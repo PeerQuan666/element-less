@@ -3,17 +3,17 @@ export const property_slider=[
       "keyID": "-xCWZnR6-",
       "keyName": "Form",
       "keyCode": "ZMn4o0KEwK",
-      "data": [
+      "children": [
         {
           "keyID": "key_72374",
           "keyName": "栅格行",
           "keyCode": "",
-          "data": [
+          "children": [
             {
               "keyID": "key_29856",
               "keyName": "最小值",
               "keyCode": "min",
-              "data": [],
+              "children": [],
               "dataType": "Number",
               "arrayDataType": "",
               "componentTypeLabel": "数字输入框",
@@ -53,7 +53,7 @@ export const property_slider=[
               "keyID": "key_57632",
               "keyName": "最大值",
               "keyCode": "max",
-              "data": [],
+              "children": [],
               "dataType": "Number",
               "arrayDataType": "",
               "componentTypeLabel": "数字输入框",
@@ -116,12 +116,12 @@ export const property_slider=[
           "keyID": "key_62468",
           "keyName": "栅格行",
           "keyCode": "",
-          "data": [
+          "children": [
             {
               "keyID": "key_83066",
               "keyName": "步长",
               "keyCode": "step",
-              "data": [],
+              "children": [],
               "dataType": "Number",
               "arrayDataType": "",
               "componentTypeLabel": "数字输入框",
@@ -161,7 +161,7 @@ export const property_slider=[
               "keyID": "key_67912",
               "keyName": "是否禁用",
               "keyCode": "disabled",
-              "data": [],
+              "children": [],
               "dataType": "Bool",
               "arrayDataType": "",
               "componentTypeLabel": "开关",
@@ -222,12 +222,12 @@ export const property_slider=[
           "keyID": "key_56324",
           "keyName": "栅格行",
           "keyCode": "",
-          "data": [
+          "children": [
             {
               "keyID": "key_9098",
               "keyName": "是否显示输入框",
               "keyCode": "show-input",
-              "data": [],
+              "children": [],
               "dataType": "Bool",
               "arrayDataType": "",
               "componentTypeLabel": "开关",
@@ -265,7 +265,7 @@ export const property_slider=[
               "keyID": "key_28166",
               "keyName": "是否显示输入框的控制按钮",
               "keyCode": "show-input-controls",
-              "data": [],
+              "children": [],
               "dataType": "Bool",
               "arrayDataType": "",
               "componentTypeLabel": "开关",
@@ -326,12 +326,12 @@ export const property_slider=[
           "keyID": "key_68410",
           "keyName": "栅格行",
           "keyCode": "",
-          "data": [
+          "children": [
             {
               "keyID": "key_92947",
               "keyName": "是否显示间断点",
               "keyCode": "show-stops",
-              "data": [],
+              "children": [],
               "dataType": "Bool",
               "arrayDataType": "",
               "componentTypeLabel": "开关",
@@ -369,7 +369,7 @@ export const property_slider=[
               "keyID": "key_92105",
               "keyName": "是否显示提示信息",
               "keyCode": "show-tooltip",
-              "data": [],
+              "children": [],
               "dataType": "Bool",
               "arrayDataType": "",
               "componentTypeLabel": "开关",
@@ -430,12 +430,12 @@ export const property_slider=[
           "keyID": "key_75887",
           "keyName": "栅格行",
           "keyCode": "",
-          "data": [
+          "children": [
             {
               "keyID": "key_29769",
               "keyName": "垂直模式",
               "keyCode": "vertical",
-              "data": [],
+              "children": [],
               "dataType": "Bool",
               "arrayDataType": "",
               "componentTypeLabel": "开关",
@@ -473,7 +473,7 @@ export const property_slider=[
               "keyID": "key_65684",
               "keyName": "滑块高度，垂直模式必填",
               "keyCode": "height",
-              "data": [],
+              "children": [],
               "dataType": "String",
               "arrayDataType": "",
               "componentTypeLabel": "输入框",
@@ -542,7 +542,7 @@ export const property_slider=[
           "keyID": "key_64656",
           "keyName": "是否开启选择范围",
           "keyCode": "range",
-          "data": [],
+          "children": [],
           "dataType": "Bool",
           "arrayDataType": "",
           "componentTypeLabel": "开关",

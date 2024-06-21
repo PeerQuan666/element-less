@@ -13,7 +13,7 @@ const getNodeValue = getValue<Function>('getNodeValue', () => { return {} })
 const isMobile = getValue<boolean>('isMobile', false)
 setValue({
     getCurrNode: () => {
-        return getNodeValue(nodeItem.value.data)
+        return getNodeValue(nodeItem.value.children)
     },
     getParentNode: () => {
         return getCurrNode()
@@ -23,16 +23,16 @@ setValue({
 </script>
 <template>
     <template v-if="isMobile">
-        <els-form v-model="nodeItem.data" v-bind="nodeItem.config.baseConfig">
+        <els-form v-model="nodeItem.children" v-bind="nodeItem.config.baseConfig">
             <component :is="'van-cell-group'" :title="nodeItem.keyName">
-                <DynamicRenderInner v-for="(item, index) in nodeItem.data" :index="index" :nodeItem="item"
+                <DynamicRenderInner v-for="(item, index) in nodeItem.children" :index="index" :nodeItem="item"
                     :key="item.keyID"></DynamicRenderInner>
             </component>
         </els-form>
     </template>
     <template v-else>
-        <els-form v-model="nodeItem.data" v-bind="nodeItem.config.baseConfig">
-            <DynamicRenderInner v-for="(item, index) in nodeItem.data" :index="index" :nodeItem="item" :key="item.keyID">
+        <els-form v-model="nodeItem.children" v-bind="nodeItem.config.baseConfig">
+            <DynamicRenderInner v-for="(item, index) in nodeItem.children" :index="index" :nodeItem="item" :key="item.keyID">
             </DynamicRenderInner>
         </els-form>
     </template>

@@ -3,17 +3,17 @@ export const property_tabPane=[
     "keyID": "qAZtxtwv7",
     "keyName": "Form",
     "keyCode": "zXWdN4iTVh",
-    "data": [
+    "children": [
       {
         "keyID": "key_57308",
         "keyName": "栅格行",
         "keyCode": "key_43347",
-        "data": [
+        "children": [
           {
             "keyID": "key_77618",
             "keyName": "选项卡标题",
             "keyCode": "label",
-            "data": [],
+            "children": [],
             "required": false,
             "config": {
               "formConfig": {
@@ -58,7 +58,7 @@ export const property_tabPane=[
             "keyID": "key_36419",
             "keyName": "选项卡值",
             "keyCode": "value",
-            "data": [],
+            "children": [],
             "required": false,
             "config": {
               "formConfig": {
@@ -126,12 +126,12 @@ export const property_tabPane=[
         "keyID": "key_1048",
         "keyName": "栅格行",
         "keyCode": "key_86020",
-        "data": [
+        "children": [
           {
             "keyID": "key_39130",
             "keyName": "标签是否可关闭",
             "keyCode": "closable",
-            "data": [],
+            "children": [],
             "dataType": "Bool",
             "arrayDataType": "",
             "componentTypeLabel": "开关",
@@ -169,7 +169,7 @@ export const property_tabPane=[
             "keyID": "key_44602",
             "keyName": "是否禁用",
             "keyCode": "disabled",
-            "data": [],
+            "children": [],
             "required": false,
             "config": {
               "formConfig": {
@@ -229,7 +229,7 @@ export const property_tabPane=[
         "keyID": "key_63199",
         "keyName": "标签是否延迟渲染",
         "keyCode": "lazy",
-        "data": [],
+        "children": [],
         "dataType": "Bool",
         "arrayDataType": "",
         "componentTypeLabel": "开关",
