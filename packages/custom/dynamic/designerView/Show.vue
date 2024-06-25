@@ -34,8 +34,6 @@ const baseAttrs = computed(() => {
     }
 
     const currAttrs = Object.assign({},{ 'style': currNodeItem.config.advancedConfig.style }, attrs,lessCom.cloneObj(baseConfig));
-
-    currAttrs["label"]=currNodeItem.keyName
     return currAttrs
 })
 const componentAttrs = ref<any>(baseAttrs)

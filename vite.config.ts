@@ -12,8 +12,8 @@ export default defineConfig({
 		copyPublicDir:false,
 		outDir: "element-less", //输出文件名称
 		lib: {
-			// formats:['iife','es', 'umd','cjs'],
-			formats:['iife'],
+			formats:['iife','es', 'umd','cjs'],
+			// formats:['iife'],
 			entry: path.resolve(__dirname, "./packages/index.ts"), //指定组件编译入口文件
 			name: "element-less",
 			fileName: "element-less",

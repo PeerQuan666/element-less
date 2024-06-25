@@ -109,7 +109,7 @@ setValue({
     }
 }
 .els-dynamic-root-form{
-    height: calc(100vh - var(--gapTop) - 40px);
+    height: var(--mainHeight);
 }
 
 .els-dynamic-designer-empty {

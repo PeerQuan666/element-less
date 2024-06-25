@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import './style.css'
+
 import 'element-plus/dist/index.css'
 import VueUeditorWrap from "vue-ueditor-wrap"
 import App from './App.vue'
@@ -11,6 +12,8 @@ import vant from 'vant'
 import ElementLess from '../packages/index'
 import pinia from '../packages/utlis/pinia'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import ResumeComponent from '../resume-component/resume-component.js'
+import '../resume-component/style.css'
 import {install} from '@icon-park/vue-next/es/all';
 import '@icon-park/vue-next/styles/index.css';
 import 'vant/lib/index.css'
@@ -68,5 +71,6 @@ app.use(router)
 app.use(ElementPlus)
 app.use(ElementLess)
 app.use(vant)
+app.use(ResumeComponent)
 
 app.mount('#app')

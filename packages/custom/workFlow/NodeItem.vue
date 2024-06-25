@@ -217,7 +217,7 @@ function handleSelectTemplate({selectItem}){
                             <el-icon style="margin-left:5px;cursor: pointer;"><Question-Filled /></el-icon>
                         </el-tooltip>
                     </els-caption>
-                    <component :is="dynamicName" v-model="item.data.Inputs" ref="dynamicTag" :config="currConfig.InputControl"></component>
+                    <component :is="dynamicName" v-model="item.data.Inputs"  ref="dynamicTag" :config="currConfig.InputControl"></component>
                     <template v-if="item.data.StepType == 'When'">
                         <els-caption type="left">审批配置
                             <el-tooltip placement="top">
@@ -228,7 +228,7 @@ function handleSelectTemplate({selectItem}){
                             </el-tooltip>
                         </els-caption>
                         <els-select label="选择模板" v-model="selectTemplate" :url="userTaskTemplateUrl" labelField="TemplateName" valueField="TemplateID" @select="handleSelectTemplate"></els-select>
-                        <component :is="dynamicDesignerName" ref="dynamicTemplate" v-model="item.data.AuditorInputs" 
+                        <component :is="dynamicDesignerName" ref="dynamicTemplate" v-model="item.data.AuditorInputs" :modelProps="{children:'data'}"
                             :visibleFields="['keyName', 'keyCode', 'dataType', 'componentType', 'required','oper','config']"></component>
                     </template>
                     <els-caption type="left">Outputs</els-caption>

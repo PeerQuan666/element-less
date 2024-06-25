@@ -366,6 +366,9 @@ defineExpose({
             height: 20px;
             position: relative;
             width: 20px;
+            &:before{
+                content: unset;
+            }
         }
     }
 

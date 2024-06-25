@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { watch, ref } from 'vue'
-import { FormItemProps, DynamicComponentType, DynamicDataType } from '../../../utlis/interfaces'
+import { FormItemProps, DynamicComponentType, DynamicDataType,DynamicConfigProps } from '../../../utlis/interfaces'
 import { DynamicHandler, dynamicDataTypes, dynamicComponentTypes } from '../../../utlis/dynamic'
 import { lessCom } from '../../../utlis/com'
 import { ElMessage } from 'element-plus'
@@ -33,6 +33,8 @@ interface Props extends FormItemProps {
   saveComponentUrl?: string,
   ignoreFields?: Array<string>,
   settingDirection?: string,
+  importProcess?: Function,
+  modelProps?:DynamicConfigProps
 
 
 }
@@ -111,21 +113,32 @@ function initData(data = null) {
 }
 
 function handleImportDesigner() {
-
+  let currImportJson = importJSON.value
+  if (props.importProcess) {
+    currImportJson = props.importProcess(importJSON.value)
+  }
+  importDesigner(currImportJson)
+  dynamicHandler.initConfig(designerObj.value)
+  return Promise.resolve(true)
+}
+function importDesigner(jsonData) {
   let currRenderData = {}
-  if (typeof (importJSON.value) === 'string') {
-    currRenderData = JSON.parse(importJSON.value)
+  if (typeof (jsonData) === 'string') {
+    currRenderData = JSON.parse(jsonData)
 
   } else {
-    currRenderData = importJSON.value
+    currRenderData = jsonData
 
   }
   designerObj.value = dynamicHandler.compatibleVersion(currRenderData)
 
-  dynamicHandler.initConfig(designerObj.value)
-  return Promise.resolve(true)
 }
+
 function handleOpenImport() {
+  if(props.modelProps){
+    importJSON.value = dynamicHandler.toPropsData(designerObj.value,props.modelProps)
+    return
+  }
   importJSON.value = designerObj.value
 }
 
@@ -178,15 +191,19 @@ function setSelectItem(keyID) {
 
 watch(designerObj, (val) => {
   if (val) {
+    let currVal = val
+    if(props.modelProps){
+        currVal = dynamicHandler.toPropsData(currVal,props.modelProps)
+    }
 
+    returnTemplateValue()
     if (typeof (props.modelValue) === 'object') {
-      emits('update:modelValue', val)
-
+      emits('update:modelValue', currVal)
     } else {
-      emits('update:modelValue', JSON.stringify(val))
+      emits('update:modelValue', JSON.stringify(currVal))
 
     }
-    returnTemplateValue()
+
   }
 }, { deep: true, immediate: true })
 
@@ -308,6 +325,7 @@ setValue({
 
 defineExpose({
   initData,
+  importDesigner,
   returnTemplateValue
 })
 
@@ -324,15 +342,6 @@ defineExpose({
         </div>
         <DynamicDesignerInner v-if="designType === '精简模式'" :children="designerObj"></DynamicDesignerInner>
       </div>
-      <template v-if="designType !== '精简模式'">
-        <els-dialog :visible="true" @close="closeViewDialog" width="90%" destroy-on-close :append-to-body="true"
-          top="10px">
-          <DynamicDesignerView :dataTypes="currDynamicDataType" :camelCase="camelCase" :initRootForm="false"
-            :componentTypes="currComponentTypes" :appendComponentTypes="appendComponentTypes"
-            :componentRelateDataType="componentRelateDataType" v-model="designerObj">
-          </DynamicDesignerView>
-        </els-dialog>
-      </template>
     </ElsFormNode>
 
     <DynamicCreate :save="handleSaveNewType" v-model:visible="createVisible" v-model="dynamicNewType"

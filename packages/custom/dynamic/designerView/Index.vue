@@ -1,20 +1,26 @@
 <script setup lang="ts">
-import { watch, ref, computed, nextTick ,onMounted} from 'vue'
+import { watch, ref, computed, nextTick, onMounted } from 'vue'
+import Icon from './icon/index.vue'
 import DynamicDesignerViewBaseSetting from './BaseSetting.vue'
 import DynamicDesignerViewBody from './Body.vue'
-import { FormItemProps, DynamicComponentType, DynamicDataType } from '../../../utlis/interfaces'
+import DynamicRenderAsync from '../render/IndexAsync.vue'
+import { FormItemProps, DynamicComponentType, DynamicDataType,DynamicConfigProps } from '../../../utlis/interfaces'
 import { dynamicDataTypes, dynamicComponentTypes, DynamicHandler } from '../../../utlis/dynamic'
 import { property_form, property_formItem, property_array, property_advanced, property_arrayAndObject } from '../../../utlis/dynamic/propertys'
-import { lessCom,ElsMessage } from '../../../utlis/com'
+import { lessCom, ElsMessage } from '../../../utlis/com'
 import { useDesign } from './stateDesign.js'
 import { useValue } from '../../../utlis/use'
 import lodash from 'lodash';
 import draggable from 'vuedraggable'
+import { useAttrs } from 'vue'
 const { debounce } = lodash;
+
+
 const useDesignStore = useDesign()
-const emits = defineEmits(['update:modelValue','save'])
+const emits = defineEmits(['update:modelValue', 'save'])
 defineOptions({
-    name: 'ElsDynamicDesignerView'
+    name: 'ElsDynamicDesignerView',
+    inheritAttrs: false
 })
 
 interface Props extends FormItemProps {
@@ -25,15 +31,18 @@ interface Props extends FormItemProps {
     componentTypes?: Array<DynamicComponentType>,
     appendComponentTypes?: Array<DynamicComponentType>,
     componentRelateDataType?: Record<string, any>,
-    initRootForm?:boolean,
-    onSave?:Function
+    initRootForm?: boolean,
+    onSave?: Function,
+    importProcess?: Function,
+    height?: string,
+    modelProps?:DynamicConfigProps
 
 }
-const props = withDefaults(defineProps<Props>(),{
-    initRootForm:true
+const props = withDefaults(defineProps<Props>(), {
+    initRootForm: true
 })
 const { getValue, setValue } = useValue(props)
-
+const attrs = useAttrs()
 const isDisabledUndo = ref(true)
 const isDisabledReDo = ref(true)
 const activeNames = ref<any>(['1', '2', '3'])
@@ -46,11 +55,13 @@ const customData = ref<any>([])
 const startCreate = ref(false)
 const dataTypeData = getValue<any>("dataTypeData")
 const componentData = getValue<any>("componentData")
-const mainInner=ref()
-const designer=ref()
-const gapTop=ref(0)
-const designerTop=ref(0)
-const mainZoom=ref(1)
+const mainInner = ref()
+const designer = ref()
+const asideHeight = ref()
+const mainHeight = ref()
+const mainEmptyHeight = ref()
+const mainZoom = ref(1)
+const selectProperty=ref('0')
 
 const currDynamicDataType = ref<any>([])
 if (dataTypeData) {
@@ -107,8 +118,8 @@ const objectData = ref<any>([
         componentTypeLabel: 'Object',
         componentName: '',
         componentType: '',
-        formItem:true,
-        icon:'internal-data',
+        formItem: true,
+        icon: 'internal-data',
         config: {
             formConfig: {},
             baseConfig: {},
@@ -131,8 +142,8 @@ const objectData = ref<any>([
         componentType: '',
         arrayDataTypeName: '',
         arrayDataType: '',
-        formItem:true,
-        icon:'view-grid-list',
+        formItem: true,
+        icon: 'view-grid-list',
         config: {
             formConfig: {},
             baseConfig: {},
@@ -161,10 +172,10 @@ currComponentTypes.value.forEach((ele) => {
         componentType: ele.value,
         restrictChild: ele.restrictChild,
         restrictParent: ele.restrictParent,
-        formItem:ele.formItem,
-        componentShow:ele.isShow,
-        componentPreview:ele.preview,
-        icon:ele.icon,
+        formItem: ele.formItem,
+        componentShow: ele.isShow,
+        componentPreview: ele.preview,
+        icon: ele.icon,
         config: {
             formConfig: {},
             baseConfig: {},
@@ -172,13 +183,13 @@ currComponentTypes.value.forEach((ele) => {
             arrayConfig: {}
         },
         value: initValue(currType?.type),
-        defaultValue:''
+        defaultValue: ''
     }
-    if(ele.isCustom){
+    if (ele.isCustom) {
         customData.value.push(currComponent)
-    }else if (['String', 'Number', 'Bool', 'Object', 'Array'].includes(currType.type) || currComponent.componentGroup === 'Container' || currComponent.componentGroup === 'Show') {
+    } else if (['String', 'Number', 'Bool', 'Object', 'Array'].includes(currType.type) || currComponent.componentGroup === 'Container' || currComponent.componentGroup === 'Show') {
         controlData.value.push(currComponent)
-    } 
+    }
 })
 function initValue(type) {
     switch (type) {
@@ -202,7 +213,13 @@ function handleOpenImport() {
     const val = renderData.value
     const currVal = lessCom.cloneObj(val)
     dynamicHandler.returnConfig(currVal)
+
+    if(props.modelProps){
+        importJSON.value = dynamicHandler.toPropsData(currVal,props.modelProps)
+        return
+    }
     importJSON.value = currVal
+
 }
 function initData() {
     if (props.modelValue) {
@@ -212,10 +229,10 @@ function initData() {
         } else {
             renderData.value = lessCom.cloneObj(JSON.parse(props.modelValue))
         }
-        renderData.value=dynamicHandler.compatibleVersion(renderData.value)  
+        renderData.value = dynamicHandler.compatibleVersion(renderData.value)
         dynamicHandler.initConfigType(renderData.value)
     }
-    else if(props.initRootForm){
+    else if (props.initRootForm) {
         createRootForm()
     }
     if (renderData.value.length) {
@@ -231,10 +248,17 @@ const debouncedReturnResult = computed<Function>(() => {
 
 })
 function returnResult() {
+
+
     const val = renderData.value
     if (val.length > 0) {
-        const currVal = lessCom.cloneObj(val)
+        let currVal = lessCom.cloneObj(val)
+
         dynamicHandler.returnConfig(currVal)
+
+        if(props.modelProps){
+            currVal = dynamicHandler.toPropsData(currVal,props.modelProps)
+        }
         if (typeof (props.modelValue) === 'object') {
             emits('update:modelValue', currVal)
             return currVal
@@ -264,17 +288,25 @@ const currSelectData = ref()
 const showPropertys = ref(false)
 
 function setSelectItem(item) {
+
     if (!item) {
         currSelectItem.value = null
         showPropertys.value = false
         return
     }
-    nextTick(()=>{
+    nextTick(() => {
         if (!currSelectItem.value || currSelectItem.value.keyID != item.keyID) {
             showPropertys.value = false
             currSelectItem.value = item
             nextTick(() => {
                 showPropertys.value = true
+                if(currSelectItem.value.formItem){
+                    selectProperty.value='base'
+                }
+                else if(currPropertys.value.length){
+                    selectProperty.value='component'
+                }
+                
             })
         }
     })
@@ -286,15 +318,15 @@ function setSelectItem(item) {
 function handleClone(item) {
     item = lessCom.cloneObj(item)
     item.keyID = "key_" + lessCom.randomNumber().toString()
-    if(item.componentGroup!=='Container'&&item.componentGroup!=='Show'){
+    if (item.componentGroup !== 'Container' && item.componentGroup !== 'Show') {
         item.keyCode = 'key_' + lessCom.randomNumber()
-    }else{
-        item.keyCode=''
+    } else {
+        item.keyCode = ''
     }
     return item
 }
 function handleMove(e) {
-    if (e.draggedContext&&e.draggedContext.element?.componentGroup === 'Container') {
+    if (e.draggedContext && e.draggedContext.element?.componentGroup === 'Container') {
         if (!e.to || !e.to.className) {
             if (e.dragged.dataset['restrict']) {
                 return false
@@ -322,8 +354,9 @@ const currPropertys = computed(() => {
                 const currVal = currDynamicDataType.value.find(ele => ele.value == currSelectItem.value.dataType)
                 const arrayVal = currDynamicDataType.value.find(ele => ele.value == currSelectItem.value.arrayDataType)
 
-                if (currVal?.type == 'Array' && arrayVal?.type === 'Object' || currVal?.type == 'Object') {4
-                    const propertyData:any =lessCom.cloneObj(property_arrayAndObject)
+                if (currVal?.type == 'Array' && arrayVal?.type === 'Object' || currVal?.type == 'Object') {
+
+                    const propertyData: any = lessCom.cloneObj(property_arrayAndObject)
                     propertyData[0].children.push(...property_form[0].children)
                     return propertyData
                 }
@@ -336,8 +369,8 @@ const currPropertys = computed(() => {
                         const currVal = currDynamicDataType.value.find(ele => ele.value == currSelectItem.value.dataType)
                         const arrayVal = currDynamicDataType.value.find(ele => ele.value == currSelectItem.value.arrayDataType)
 
-                        if (currVal?.type == 'Array' && arrayVal?.type === 'Object' || currVal?.type == 'Object' || currControlData.type === 'DynamicRender') {
-                            return lessCom.cloneObj(Object.assign([...property_arrayAndObject,...property_form]) )
+                        if (currVal?.type == 'Array' && (arrayVal?.type === 'Object' || currVal?.type == 'Object' || currControlData.type === 'DynamicRender')) {
+                            return lessCom.cloneObj(Object.assign([...property_arrayAndObject, ...property_form]))
                         } else {
                             return []
                         }
@@ -397,30 +430,40 @@ function getDataTypeData(componentType) {
 }
 
 function handleImportDesigner() {
-     let currRenderData={}
-    if (typeof (importJSON.value) === 'string') {
-        currRenderData = JSON.parse(importJSON.value)
-
-    } else {
-        currRenderData= importJSON.value
-
+    let currImportJson = importJSON.value
+    if (props.importProcess) {
+        currImportJson = props.importProcess(importJSON.value)
     }
-    renderData.value=dynamicHandler.compatibleVersion(currRenderData)  
+    importDesigner(importJSON.value)
     dynamicHandler.initConfigType(renderData.value)
     recordComponent()
     return Promise.resolve(true)
 }
+
+function importDesigner(jsonData) {
+    let currRenderData = {}
+    if (typeof (jsonData) === 'string') {
+        currRenderData = JSON.parse(jsonData)
+
+    } else {
+        currRenderData = jsonData
+
+    }
+    renderData.value = dynamicHandler.compatibleVersion(currRenderData)
+
+}
+
 function clearAll() {
     isDisabledReDo.value = true;
     isDisabledUndo.value = true;
-    startCreate.value=false
+    startCreate.value = false
     useDesignStore.clear()
-    renderData.value.length=0
+    renderData.value.length = 0
     currSelectItem.value = null
 }
 function validationCode(rule, value, callback) {
     console.log(rule)
-    if (value === ''&&currSelectItem.value.componentGroup!=='Container'&&currSelectItem.value.componentGroup!=='Show') {
+    if (value === '' && currSelectItem.value.componentGroup !== 'Container' && currSelectItem.value.componentGroup !== 'Show') {
         callback(new Error('keyCode不能为空'))
     } else if (currSelectData.value && currSelectData.value.filter(ele => ele.keyCode == value).length > 1) {
         ElsMessage.warning(`[${value}]重复`)
@@ -438,12 +481,12 @@ function createRootForm() {
             "keyCode": lessCom.generateID(),
             "children": [],
             "dataType": "None",
-            "dataTypeName":"None",
+            "dataTypeName": "None",
             "arrayDataType": "",
-            "componentName":"Form",
+            "componentName": "Form",
             "componentTypeLabel": "Form表单",
             "componentType": "Form",
-            "componentGroup":"Container",
+            "componentGroup": "Container",
             "config": {
                 "baseConfig": {
                 },
@@ -471,7 +514,7 @@ function getContainerValue(item) {
     return currData
 }
 
-const getNodeValue=function(data){
+const getNodeValue = function (data) {
     let currData = {}
     data.forEach(ele => {
         if (ele.componentGroup === 'Container') {
@@ -483,16 +526,16 @@ const getNodeValue=function(data){
     })
     return currData
 }
-const getCurrNode=function(){
+const getCurrNode = function () {
     return getNodeValue(renderData)
 }
 
-function getDeviceType(){
+function getDeviceType() {
     return deviceType
 }
-function handleSave(){
-    const result=returnResult()
-    if(props.onSave){
+function handleSave() {
+    const result = returnResult()
+    if (props.onSave) {
         props.onSave(result)
     }
 }
@@ -514,100 +557,125 @@ setValue({
     recordComponent,
 
 })
+
+
+
 onMounted(() => {
-    gapTop.value= (mainInner.value.getBoundingClientRect().top+20).appendPx()
-    designerTop.value=designer.value.getBoundingClientRect().top
+    asideHeight.value = props.height?.appendPx() || 'calc(100vh - 102px)'
+    mainHeight.value = props.height?.appendPx() || 'calc(100vh - 102px)'
+    mainEmptyHeight.value = props.height ? (props.height.toInt() / 2).appendPx() : '158px'
+
+})
+
+defineExpose({
+    initData,
+    importDesigner
 })
 
 </script>
 <template>
-    <div ref="designer" :style="`--gapTop:${gapTop};--designerTop:${designerTop}`">
+    <div ref="designer"
+        :style="`--mainEmptyHeight:${mainEmptyHeight};--mainHeight:${mainHeight};--asideHeight:${asideHeight}`"
+        v-bind="attrs">
         <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
             <div style="display:flex;background:#f8f8f8;" class="els-dynamic-d-view">
-                <div style="flex-basis:260px;flex-shrink: 0;background: #fff;" class="els-dynamic-d-view-components" >
-                    <slot name="left"  v-bind="{ data: controlData,customData:customData}">
-                      <el-tabs stretch>
-                        <el-tab-pane label="表单组件">
-                            <el-collapse v-model="activeNames">
-                                <el-collapse-item title="基础类型" name="1">
-                                    <draggable tag="div" class="container-widget" :list="controlData.filter(ele => ele.componentGroup === 'Form')"
-                                        item-key="keyID" :group="{ name: 'dragGroup', pull: 'clone', put: false }"
-                                        :clone="handleClone" :sort="false">
-                                        <template #item="{ element, index }">
-                                            <div class="container-widget-item" :key="index">
-                                                <component :is="'icon-'+element.icon" theme="outline" size="20" fill="#333"/> 
-                                                {{ element.componentTypeLabel }}
-                                            </div>
-                                        </template>
-                                    </draggable>
-                                </el-collapse-item>
-                                <el-collapse-item title="对象类型" name="2">
-                                    <draggable tag="div" class="container-widget" :list="objectData" item-key="keyID" :move="handleMove"
-                                        :group="{ name: 'dragGroup', pull: 'clone', put: false }" :clone="handleClone"
-                                        :sort="false">
-                                        <template #item="{ element, index }">
-                                            <div class="container-widget-item" :data-type="element.dataTypeName"
-                                                :key="index">
-                                                <component :is="'icon-'+element.icon" theme="outline" size="20" fill="#333"/> 
-                                                {{ element.componentTypeLabel }}
-                                            </div>
-                                        </template>
-                                    </draggable>
-                                </el-collapse-item>
-                                <el-collapse-item title="自定义类型" name="3" v-if="customData.length">
-                                    <draggable tag="div" class="container-widget" :list="customData" item-key="keyID"
-                                        :group="{ name: 'dragGroup', pull: 'clone', put: false }" :clone="handleClone"
-                                        :sort="false">
-                                        <template #item="{ element, index }">
-                                            <div class="container-widget-item" :key="index">
-                                                {{ element.componentTypeLabel }}
-                                            </div>
-                                        </template>
-                                    </draggable>
-                                </el-collapse-item>
-                            </el-collapse>
-                        </el-tab-pane>
-                        <el-tab-pane label="展示组件">
-                            <el-collapse v-model="viewActiveNames">
-                                <el-collapse-item title="布局" name="1">
-                                    <draggable tag="div" class="container-widget" :move="handleMove"
-                                        :list="controlData.filter(ele => ele.componentGroup === 'Container'&&ele.componentShow)"
-                                        item-key="keyID" :group="{ name: 'dragGroup', pull: 'clone', put: false }"
-                                        :clone="handleClone" :sort="false">
-                                        <template #item="{ element, index }">
-                                            <div class="container-widget-item" :data-type="element.componentType"
-                                                :data-restrict="element.restrictParent" :key="index">
-                                                <component :is="'icon-'+element.icon" theme="outline" size="20" fill="#333"/> 
-                                                {{ element.componentTypeLabel }}
-                                            </div>
-                                        </template>
-                                    </draggable>
-                                </el-collapse-item>
-                                <el-collapse-item title="展示" name="2">
-                                    <draggable tag="div" class="container-widget" :list="controlData.filter(ele => ele.componentGroup === 'Show')"
-                                        item-key="keyID" :group="{ name: 'dragGroup', pull: 'clone', put: false }"
-                                        :clone="handleClone" :sort="false">
-                                        <template #item="{ element, index }">
-                                            <div class="container-widget-item" :key="index">
-                                                <component :is="'icon-'+element.icon" theme="outline" size="20" fill="#333"/> 
-                                                {{ element.componentTypeLabel }}
-                                            </div>
-                                        </template>
-                                    </draggable>
-                                </el-collapse-item>
-                            </el-collapse>
-                        </el-tab-pane>
-                     </el-tabs>
+                <div style="flex-basis:260px;flex-shrink: 0;background: #fff;" class="els-dynamic-d-view-components">
+                    <slot name="left" v-bind="{ data: controlData, customData: customData }">
+                        <el-tabs stretch>
+                            <el-tab-pane label="表单组件">
+                                <ElScrollbar style="height:var(--asideHeight);" ref="scroll">
+                                    <el-collapse v-model="activeNames">
+                                        <el-collapse-item title="基础类型" name="1">
+                                            <draggable tag="div" class="container-widget"
+                                                :list="controlData.filter(ele => ele.componentGroup === 'Form')"
+                                                item-key="keyID"
+                                                :group="{ name: 'dragGroup', pull: 'clone', put: false }"
+                                                :clone="handleClone" :sort="false">
+                                                <template #item="{ element, index }">
+                                                    <div class="container-widget-item" :key="index">
+                                                        <Icon :name="element.icon" />
+                                                        {{ element.componentTypeLabel }}
+                                                    </div>
+                                                </template>
+                                            </draggable>
+                                        </el-collapse-item>
+                                        <el-collapse-item title="对象类型" name="2">
+                                            <draggable tag="div" class="container-widget" :list="objectData"
+                                                item-key="keyID" :move="handleMove"
+                                                :group="{ name: 'dragGroup', pull: 'clone', put: false }"
+                                                :clone="handleClone" :sort="false">
+                                                <template #item="{ element, index }">
+                                                    <div class="container-widget-item" :data-type="element.dataTypeName"
+                                                        :key="index">
+                                                        <Icon :name="element.icon" />
+                                                        {{ element.componentTypeLabel }}
+                                                    </div>
+                                                </template>
+                                            </draggable>
+                                        </el-collapse-item>
+                                        <el-collapse-item title="自定义类型" name="3" v-if="customData.length">
+                                            <draggable tag="div" class="container-widget" :list="customData"
+                                                item-key="keyID"
+                                                :group="{ name: 'dragGroup', pull: 'clone', put: false }"
+                                                :clone="handleClone" :sort="false">
+                                                <template #item="{ element, index }">
+                                                    <div class="container-widget-item" :key="index">
+                                                        {{ element.componentTypeLabel }}
+                                                    </div>
+                                                </template>
+                                            </draggable>
+                                        </el-collapse-item>
+                                    </el-collapse>
+                                </ElScrollbar>
+
+                            </el-tab-pane>
+                            <el-tab-pane label="展示组件">
+                                <ElScrollbar style="height:var(--asideHeight);" ref="scroll">
+                                    <el-collapse v-model="viewActiveNames">
+                                        <el-collapse-item title="布局" name="1">
+                                            <draggable tag="div" class="container-widget" :move="handleMove"
+                                                :list="controlData.filter(ele => ele.componentGroup === 'Container' && ele.componentShow)"
+                                                item-key="keyID"
+                                                :group="{ name: 'dragGroup', pull: 'clone', put: false }"
+                                                :clone="handleClone" :sort="false">
+                                                <template #item="{ element, index }">
+                                                    <div class="container-widget-item"
+                                                        :data-type="element.componentType"
+                                                        :data-restrict="element.restrictParent" :key="index">
+                                                        <Icon :name="element.icon" />
+                                                        {{ element.componentTypeLabel }}
+                                                    </div>
+                                                </template>
+                                            </draggable>
+                                        </el-collapse-item>
+                                        <el-collapse-item title="展示" name="2">
+                                            <draggable tag="div" class="container-widget"
+                                                :list="controlData.filter(ele => ele.componentGroup === 'Show')"
+                                                item-key="keyID"
+                                                :group="{ name: 'dragGroup', pull: 'clone', put: false }"
+                                                :clone="handleClone" :sort="false">
+                                                <template #item="{ element, index }">
+                                                    <div class="container-widget-item" :key="index">
+                                                        <Icon :name="element.icon" />
+                                                        {{ element.componentTypeLabel }}
+                                                    </div>
+                                                </template>
+                                            </draggable>
+                                        </el-collapse-item>
+                                    </el-collapse>
+                                </ElScrollbar>
+                            </el-tab-pane>
+                        </el-tabs>
                     </slot>
                 </div>
                 <div style="flex-grow:1">
                     <div class="main-tool">
                         <span style="display: flex; align-items: center;cursor: pointer;">
                             <el-button link @click="unDoComponent" type="primary" :disabled="isDisabledUndo">
-                                <icon-back theme="outline" size="20" fill="#333"/>
+                                <Icon name="back" />
                             </el-button>
                             <el-button link @click="reDoComponent" :disabled="isDisabledReDo">
-                                <icon-next theme="outline" size="20" fill="#333"/>
+                                <Icon name="next" />
                             </el-button>
                             <els-radio-button v-model="deviceType">
                                 <els-option>PC</els-option>
@@ -642,74 +710,93 @@ onMounted(() => {
                     </div>
                     <div class="main" :class="deviceType">
                         <div class="main-inner" ref="mainInner" :style="`--mainZoom:${mainZoom}`">
-                            <div class="main-create-from" v-if="!startCreate && !renderData.length&&initRootForm===true">
+                            <div class="main-create-from"
+                                v-if="!startCreate && !renderData.length && initRootForm === true">
                                 <div>
                                     <div class="txt-center confirm-inner">
                                         <el-card class="confirm-item ">
                                             <div class="confirm-title confirm-no-title">
-                                                <el-icon><Close /></el-icon>
+                                                <el-icon>
+                                                    <Close />
+                                                </el-icon>
                                             </div>
                                             <div class="confirm-body confirm-no-body">
                                                 <div>页面已有Form表单</div>
                                                 <div>
-                                                <el-button type="info" @click="startCreate = true;">直接进入</el-button>
+                                                    <el-button type="info" @click="startCreate = true;">直接进入</el-button>
+                                                </div>
                                             </div>
-                                            </div>
-                                           
+
                                         </el-card>
                                         <el-card class="confirm-item ">
-                                            <div class="confirm-title confirm-yes-title"><el-icon><Check /></el-icon></div>
+                                            <div class="confirm-title confirm-yes-title"><el-icon>
+                                                    <Check />
+                                                </el-icon></div>
                                             <div class="confirm-body confirm-yes-body">
-                                            <div>
-                                                没有Form表单创建一个
+                                                <div>
+                                                    没有Form表单创建一个
+                                                </div>
+                                                <div>
+                                                    <el-button type="primary" @click="createRootForm">创建表单</el-button>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <el-button type="primary" @click="createRootForm">创建表单</el-button>
-                                            </div>
-                                            </div>
-                                          
+
                                         </el-card>
                                     </div>
                                 </div>
                             </div>
                             <div v-else style="position: relative;">
-                                <DynamicDesignerViewBody v-if="deviceType=='H5'" :isMobile="true" :renderData="renderData">
+                                <DynamicDesignerViewBody v-if="deviceType == 'H5'" :isMobile="true"
+                                    :renderData="renderData">
                                 </DynamicDesignerViewBody>
                                 <DynamicDesignerViewBody v-else :type="deviceType" :renderData="renderData">
                                 </DynamicDesignerViewBody>
-                                <el-empty  v-if="!renderData.length||(renderData.length&&renderData[0].componentType==='Form'&&!renderData[0].children.length)" >
+                                <el-empty
+                                    v-if="!renderData.length || (renderData.length && renderData[0].componentType === 'Form' && !renderData[0].children.length)">
                                     <template #description>请点击拖动<span class="txt-red">左侧</span>组件到此处</template>
                                 </el-empty>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div  class="els-dynamic-d-view-propertys">
-                    <slot name="right"  v-bind="{ selectItem: currSelectItem,propertys:currPropertys}">
-                        <el-tabs stretch v-if="currSelectItem && currPropertys && showPropertys">
-                            <el-tab-pane label="基础属性" v-if="currSelectItem.dataType&&currSelectItem.formItem">
-                              <DynamicDesignerViewBaseSetting :nodeItem="currSelectItem"></DynamicDesignerViewBaseSetting>
+                <div class="els-dynamic-d-view-propertys">
+                    <slot name="right" v-bind="{ selectItem: currSelectItem, propertys: currPropertys }">
+                        <el-tabs stretch v-if="currSelectItem && currPropertys && showPropertys" v-model="selectProperty">
+                            <el-tab-pane label="基础属性" v-if="currSelectItem.dataType && currSelectItem.formItem" name="base">
+                                <ElScrollbar style="height:var(--asideHeight);" ref="scroll" v-if="selectProperty==='base'">
+                                    <DynamicDesignerViewBaseSetting :nodeItem="currSelectItem">
+                                    </DynamicDesignerViewBaseSetting>
+                                </ElScrollbar>
                             </el-tab-pane>
-                            <el-tab-pane label="组件属性" v-if="currPropertys.length">
-                                <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.baseConfig" :isMobile="false"
-                                    :nodeType="{ dataType: currSelectItem.dataTypeName != 'Array' ? currSelectItem.dataTypeName : currSelectItem.arrayDataTypeName, componentName: currSelectItem.componentName }"
-                                    :config="currPropertys" inputWidth="100%">
-                                </ElsDynamicRender>
+                            <el-tab-pane label="组件属性" v-if="currPropertys.length" name="component">
+                                <ElScrollbar style="height:var(--asideHeight);" ref="scroll" v-if="selectProperty==='component'">
+                                    <DynamicRenderAsync v-model="currSelectItem.config.baseConfig" :isMobile="false"
+                                        :nodeType="{ dataType: currSelectItem.dataTypeName != 'Array' ? currSelectItem.dataTypeName : currSelectItem.arrayDataTypeName, componentName: currSelectItem.componentName }"
+                                        :config="currPropertys" inputWidth="100%">
+                                    </DynamicRenderAsync>
+                                </ElScrollbar>
                             </el-tab-pane>
-                            <el-tab-pane label="数组属性" v-if="currSelectItem.dataTypeName == 'Array'">
-                                <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.arrayConfig"  :isMobile="false"
-                                    :config="property_array" inputWidth="100%">
-                                </ElsDynamicRender>
+                            <el-tab-pane label="数组属性" v-if="currSelectItem.dataTypeName == 'Array'" name="array">
+                                <ElScrollbar style="height:var(--asideHeight);" ref="scroll" v-if="selectProperty==='array'">
+                                    <DynamicRenderAsync v-model="currSelectItem.config.arrayConfig" :isMobile="false"
+                                        :config="property_array" inputWidth="100%">
+                                    </DynamicRenderAsync>
+                                </ElScrollbar>
+
                             </el-tab-pane>
-                            <el-tab-pane label="表单属性" v-if="currSelectItem.componentGroup == 'Form'">
-                                <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.formConfig"  :isMobile="false"
-                                    :config="property_formItem" inputWidth="100%">
-                                </ElsDynamicRender>
+                            <el-tab-pane label="表单属性" v-if="currSelectItem.componentGroup == 'Form'" name="form" >
+                                <ElScrollbar style="height:var(--asideHeight);" ref="scroll" v-if="selectProperty==='form'">
+                                    <DynamicRenderAsync v-model="currSelectItem.config.formConfig" :isMobile="false"
+                                        :config="property_formItem" inputWidth="100%">
+                                    </DynamicRenderAsync>
+                                </ElScrollbar>
                             </el-tab-pane>
-                            <el-tab-pane label="高级属性">
-                                <ElsDynamicRender isAsyncComponent v-model="currSelectItem.config.advancedConfig"  :isMobile="false"
-                                    :config="property_advanced" inputWidth="100%">
-                                </ElsDynamicRender>
+                            <el-tab-pane label="高级属性" name="advanced">
+                                <ElScrollbar style="height:var(--asideHeight);" ref="scroll" v-if="selectProperty==='advanced'">
+                                    <DynamicRenderAsync v-model="currSelectItem.config.advancedConfig" :isMobile="false"
+                                        :config="property_advanced" inputWidth="100%">
+                                    </DynamicRenderAsync>
+                                </ElScrollbar>
                             </el-tab-pane>
                         </el-tabs>
                     </slot>
@@ -717,13 +804,14 @@ onMounted(() => {
             </div>
         </ElsFormNode>
     </div>
-    <els-dialog v-model="viewPriview"  class="preview-dialog" destroy-on-close @close="formValue={};" :width="deviceType == 'PC' ? '70%' : '40%'" top="20px" contentHeight="60%" title="预览效果">
+    <els-dialog v-model="viewPriview" class="preview-dialog" destroy-on-close @close="formValue = {};"
+        :width="deviceType == 'PC' ? '70%' : '40%'" top="20px" contentHeight="60%" title="预览效果">
         <el-tabs>
             <el-tab-pane label="预览">
                 <div class="preview-main" :class="deviceType">
                     <div class="preview-main-inner">
-                        <ElsDynamicRender  v-model="formValue" :config="renderData" :isMobile="deviceType == 'H5'">
-                        </ElsDynamicRender>
+                        <DynamicRenderAsync v-model="formValue" :config="renderData" :isMobile="deviceType == 'H5'">
+                        </DynamicRenderAsync>
                     </div>
                 </div>
             </el-tab-pane>
@@ -740,52 +828,59 @@ onMounted(() => {
     gap: 5px;
     justify-content: space-between;
     background: #fff;
-    line-height: 42px;
+    line-height: 40px;
     padding: 0 15px;
+
     svg path {
-            stroke: var(--el-color-primary);
-            fill: var(--el-color-primary) 
-        }
-    .is-disabled{
+        stroke: var(--el-color-primary);
+        fill: var(--el-color-primary)
+    }
+
+    .is-disabled {
         svg path {
             stroke: #a8abb2;
             fill: #a8abb2
         }
     }
-    .zoom-and-out-box{
+
+    .zoom-and-out-box {
         position: absolute;
-       left: calc(50% - 88px);
+        left: calc(50% - 88px);
     }
 
 }
 
-.main.H5,.preview-main.H5 {
+.main.H5,
+.preview-main.H5 {
     width: 420px;
     margin: auto;
 
-    .main-inner,.preview-main-inner {
+    .main-inner,
+    .preview-main-inner {
         border-radius: 15px;
         box-shadow: 0 0 1px 10px #495060;
         padding: 5px;
-        .main-create-from{
-            >div{
-                >.txt-center{
+
+        .main-create-from {
+            >div {
+                >.txt-center {
                     width: 150px;
                 }
             }
         }
     }
-    
+
 }
 
 .main-inner {
-    height: calc(100vh - var(--gapTop));
+    height: var(--mainHeight);
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     background: #fff;
     padding: 10px;
     margin: 10px;
     display: grid;
     zoom: var(--mainZoom);
+
     .el-card__body {
         padding-top: 5px;
     }
@@ -797,28 +892,33 @@ onMounted(() => {
         background: #c7e9f9;
         color: #fff;
         font-size: 20px;
-   
-        .confirm-item{
+
+        .confirm-item {
             width: 200px;
-           
-            border:unset;
-            
-            .el-card__body{padding: 0;}
-            .confirm-title{
-                .el-icon{
+
+            border: unset;
+
+            .el-card__body {
+                padding: 0;
+            }
+
+            .confirm-title {
+                .el-icon {
                     font-size: 40px;
                     border: 1px solid;
                     border-radius: 40px;
                 }
+
                 color: #fff;
                 height: 100px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                align-items: center; 
+                align-items: center;
             }
         }
-        .confirm-body{
+
+        .confirm-body {
             height: 130px;
             font-size: 15px;
             display: flex;
@@ -827,35 +927,40 @@ onMounted(() => {
             align-items: center;
             gap: 10px;
         }
-        .confirm-no-body{
-            .el-button{
+
+        .confirm-no-body {
+            .el-button {
                 background: #f56160;
                 border: unset;
-                
-                &:hover{
+
+                &:hover {
                     box-shadow: 3px 4px 7px #f56160;
-              }
-            }
-        }
-        .confirm-yes-body{
-            .el-button{
-       
-                background: #61c1f5;
-                border: unset;
-              &:hover{
-                box-shadow: 3px 4px 7px #61c1f5;
-              }
+                }
             }
         }
 
-        .confirm-no-title{
-            background: #f56160;
-        
+        .confirm-yes-body {
+            .el-button {
+
+                background: #61c1f5;
+                border: unset;
+
+                &:hover {
+                    box-shadow: 3px 4px 7px #61c1f5;
+                }
+            }
         }
-.confirm-yes-title{
-    background:  #61c1f5;
-   
-}
+
+        .confirm-no-title {
+            background: #f56160;
+
+        }
+
+        .confirm-yes-title {
+            background: #61c1f5;
+
+        }
+
         >div {
             display: flex;
             flex-direction: column;
@@ -894,8 +999,8 @@ onMounted(() => {
 
 .els-dynamic-d-view-components {
     border-right: 1px solid #eaecef;
-    height: calc(100vh - var(--designerTop));
     overflow-y: scroll;
+
     .el-collapse-item__header {
         font-weight: bold;
     }
@@ -914,11 +1019,12 @@ onMounted(() => {
     }
 
 
-    .container-widget-item{
+    .container-widget-item {
         &:hover {
             background: #F1F2F3;
             border-color: #409eff;
         }
+
         word-wrap: break-word;
         display: inline-block;
         min-height: 32px;
@@ -931,7 +1037,7 @@ onMounted(() => {
         display: flex;
         align-items: center;
         column-gap: 8px;
-        box-sizing: border-box;
+        box-sizing: border-box !important;
     }
 }
 
@@ -950,24 +1056,35 @@ onMounted(() => {
         overflow: hidden;
         width: 100%
     }
-    .els-dynamic-d-view-propertys:deep{
-       
+
+    .els-dynamic-d-view-propertys:deep {
+
         overflow-y: scroll;
-        form,.el-tabs,.el-form-item,.el-tabs__content,.el-tab-pane,.el-tab-pane>div{
+
+        form,
+        .el-tabs,
+        .el-form-item,
+        .el-tabs__content,
+        .el-tab-pane,
+        .el-tab-pane>div {
             height: 100%;
         }
-        .el-tabs__content{
-            padding: 0px 12px;
+
+        .el-tabs__content {
+            .els-dynamic-render {
+                padding: 0px 12px;
+            }
         }
     }
+
     .els-dynamic-d-view-propertys {
-        height: calc(100vh - var(--designerTop));
         border-left: 1px solid #eaecef;
         flex-basis: 400px;
         width: 400px;
         flex-shrink: 0;
         background: rgb(255, 255, 255);
         padding: 0px 10px;
+
         .el-row {
             flex-direction: column;
         }
@@ -975,12 +1092,13 @@ onMounted(() => {
         .el-col {
             max-width: 100%;
         }
-    
+
     }
 }
-.el-empty{
+
+.el-empty {
     position: absolute;
     width: 100%;
-    top: calc(50vh - 200px);
+    top: calc(50vh - var(--mainEmptyHeight));
 }
 </style>

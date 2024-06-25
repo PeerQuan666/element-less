@@ -62,32 +62,46 @@ function handleValueChange(val) {
 
 </script>
 <template>
-    <div class="els-dynamic-d-v-item" :style="nodeItem.config.advancedConfig?.style" :data-restrict="nodeItem.restrictChild" :data-type="nodeItem.componentType"
+    <div class="els-dynamic-d-v-item" :style="nodeItem.config.advancedConfig?.style"
+        :data-restrict="nodeItem.restrictChild" :data-type="nodeItem.componentType"
         :class="{ 'selected': getSelectItem()?.keyID == nodeItem.keyID }" @click.stop="handleSelectItem">
         <DynamicDesignerViewOperate :nodeItem="nodeItem"></DynamicDesignerViewOperate>
 
         <template v-if="nodeItem.componentGroup == 'Container'">
-            <DynamicDesignerViewWrap  :parentNode="nodeItem" :nodeItem="nodeItem">
+            <DynamicDesignerViewWrap :parentNode="nodeItem" :nodeItem="nodeItem">
             </DynamicDesignerViewWrap>
         </template>
-        
-        <DynamicDesignerViewShow v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Show'&&nodeItem.keyCode"
-            :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style" :title="nodeItem.keyName" v-model="nodeItem.value">
+
+        <DynamicDesignerViewShow
+            v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Show' && nodeItem.keyCode"
+            :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style" :title="nodeItem.keyName"
+            v-model="nodeItem.value">
         </DynamicDesignerViewShow>
         <DynamicDesignerViewShow v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Show'"
             :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style" :title="nodeItem.keyName">
         </DynamicDesignerViewShow>
 
 
-        <template v-else-if="isMobile&&(nodeItem.componentTypeName==='Input'||nodeItem.componentTypeName==='Textarea')">
-            <DynamicDesignerViewInnerItem :disabled="handleDisabledExpress()"   v-bind="getFormItemAttr()" @valueChange="handleValueChange($event)"
-                :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style">
+        <template v-else-if="isMobile && (nodeItem.componentTypeName === 'Input' || nodeItem.componentTypeName === 'Textarea')">
+            <DynamicDesignerViewInnerItem :disabled="handleDisabledExpress()" v-bind="getFormItemAttr()"
+                @valueChange="handleValueChange($event)" :nodeItem="nodeItem"
+                :style="nodeItem.config.advancedConfig.style">
             </DynamicDesignerViewInnerItem>
-        </template> 
-        <els-form-node v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Form'" :hasFormItem="false" :tagName="nodeItem.componentTypeName"
+        </template>
+        <els-form-node v-else-if="nodeItem.componentTypeName && nodeItem.componentGroup === 'Form'" :hasFormItem="false"
+            :hasForm="nodeItem.dataTypeName !== 'Object'" :tagName="nodeItem.componentTypeName"
             v-bind="getFormItemAttr()">
-            <DynamicDesignerViewInnerItem :disabled="handleDisabledExpress()" @valueChange="handleValueChange($event)"
-                :nodeItem="nodeItem" :style="nodeItem.config.advancedConfig.style">
+            <template v-if="nodeItem.dataTypeName === 'Object'">
+                <component :is="'van-cell-group'" :title="nodeItem.keyName">
+                    <DynamicDesignerViewInnerItem :disabled="handleDisabledExpress()"
+                        @valueChange="handleValueChange($event)" :nodeItem="nodeItem"
+                        :style="nodeItem.config.advancedConfig.style">
+                    </DynamicDesignerViewInnerItem>
+                </component>
+            </template>
+            <DynamicDesignerViewInnerItem v-else :disabled="handleDisabledExpress()"
+                @valueChange="handleValueChange($event)" :nodeItem="nodeItem"
+                :style="nodeItem.config.advancedConfig.style">
             </DynamicDesignerViewInnerItem>
         </els-form-node>
         <template v-else-if="nodeItem.dataTypeName === 'Array' || nodeItem.dataTypeName == 'Object'">
@@ -97,11 +111,11 @@ function handleValueChange(val) {
                 </els-caption>
                 <DynamicDesignerViewForm :nodeItem="nodeItem"></DynamicDesignerViewForm>
             </template>
-            <els-form-node :hasForm="!isMobile"  v-else v-bind="getFormItemAttr()">
+            <els-form-node :hasForm="!isMobile" v-else v-bind="getFormItemAttr()">
                 <DynamicDesignerViewForm :nodeItem="nodeItem"></DynamicDesignerViewForm>
             </els-form-node>
         </template>
-        
+
     </div>
 </template>
 <style scoped lang="less">
@@ -113,6 +127,7 @@ function handleValueChange(val) {
 
     &.selected {
         border: 2px solid #409EFF;
+
         >.els-dynamic-d-v-item-type,
         >.els-dynamic-d-v-item-move {
             background: #409effbd;
@@ -124,16 +139,19 @@ function handleValueChange(val) {
         padding: 5px
     }
 
-    &:has(>div[class*="el-tab-pane"]),&:has(>div[class*="el-collapse-item"])  {
+    &:has(>div[class*="el-tab-pane"]),
+    &:has(>div[class*="el-collapse-item"]) {
         border: 0px;
         padding: 0px;
         margin: 0px;
     }
+
     &:has(>div[class*="el-collapse-item"]) {
         >.els-dynamic-d-v-item-move {
             display: none;
         }
     }
+
     &:has(>div[class*="els-dynamic-designer-empty"]) {
         padding: 0;
     }
@@ -142,15 +160,16 @@ function handleValueChange(val) {
         padding: 0;
     }
 }
-.el-form-item:deep{
-    >.el-form-item__content {
-    >.el-form {
-        .el-form-item {
-            margin-bottom: 18px !important;
-        }
-    }
 
-}
+.el-form-item:deep {
+    >.el-form-item__content {
+        >.el-form {
+            .el-form-item {
+                margin-bottom: 18px !important;
+            }
+        }
+
+    }
 }
 
 

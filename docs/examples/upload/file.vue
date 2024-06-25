@@ -5,6 +5,5 @@
 <script setup>
 import { ref,provide } from 'vue'
 const fileValue = ref('saa')
-provide('isMobile',true)
 </script>
   

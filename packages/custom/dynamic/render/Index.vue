@@ -1,20 +1,14 @@
 <script setup lang="ts">
-import { watch, ref, reactive, defineAsyncComponent } from 'vue'
+import { watch, ref, reactive, defineAsyncComponent,useAttrs } from 'vue'
 import { dynamicDataTypes, dynamicComponentTypes, DynamicHandler } from '../../../utlis/dynamic'
 import { lessCom } from '../../../utlis/com'
 import { FormItemProps,DynamicComponentType, DynamicDataType  } from '../../../utlis/interfaces'
-import DynamicRenderInner from './Inner.vue'
 import DynamicRenderForm from './Form.vue'
+import DynamicRenderInner from './Inner.vue'
 
 import { useValue } from '../../../utlis/use'
 
-const DynamicRenderInnerAsync = defineAsyncComponent(() => {
-    return import('./Inner.vue')
-})
 
-const DynamicRenderFormAsync = defineAsyncComponent(() => {
-    return import('./Form.vue')
-})
 
 defineOptions({
     name: 'ElsDynamicRender',
@@ -33,7 +27,6 @@ interface Props extends FormItemProps {
     appendDataTypes?: Array<DynamicDataType>,
     componentTypes?: Array<DynamicComponentType>,
     appendComponentTypes?: Array<DynamicComponentType>,
-    isAsyncComponent?: boolean,
     labelPosition?:string,
     isMobile?:Boolean
 }
@@ -42,9 +35,10 @@ const props = defineProps<Props>()
 const {getValue,setValue} =useValue(props)
 const emits = defineEmits(['update:modelValue'])
 const idataTypes = getValue<any>("dataTypeData", null)
+const attrs=useAttrs()
 const icomponentTypes = getValue<any>("componentData", null)
-const renderData: Array<Record<string, any>> = reactive([])
-const valueData: Record<string, any> = ref({})
+const renderData = ref<Array<Record<string, any>>>([])
+const valueData = ref<Record<string, any>>({})
 const provideData = ref({ nodeType: props.nodeType })
 
 
@@ -119,8 +113,8 @@ function initData() {
     currData=dynamicHandler.compatibleVersion(currData)
     initShowConfig(currData, props.showConfig);
     dynamicHandler.recoverData(currData, valueData.value);
-    renderData.length = 0;
-    renderData.push(...currData.filter(ele => ele.isShow == 1));
+    renderData.value.length = 0;
+    renderData.value.push(...currData.filter(ele => ele.isShow == 1));
 }
 
 function initShowConfig(data, showConfigData) {
@@ -153,7 +147,7 @@ function initShowConfig(data, showConfigData) {
 function handleReturnResult() {
     //有配置再更新直
     if (props.config) {
-        const currData = dynamicHandler.result(renderData)
+        const currData = dynamicHandler.result(renderData.value)
         if (typeof (props.modelValue) == 'object') {
             emits('update:modelValue', currData)
             return
@@ -165,7 +159,7 @@ function handleReturnResult() {
 
 function getCurrNodeValueData(){
     let currData = {}
-    renderData.forEach(ele => {
+    renderData.value.forEach(ele => {
         if (ele.componentGroup == 'Container') {
             ele.children.forEach(cele => {
                 currData[cele.keyCode] = cele
@@ -204,7 +198,7 @@ const getNodeValue=function(data){
     return currData
 }
 const getCurrNode=function(){
-    return getNodeValue(renderData)
+    return getNodeValue(renderData.value)
 }
 
 
@@ -223,42 +217,26 @@ defineExpose({
 })
 </script>
 <template>
-    <div>
-        <ElsFormNode v-bind="lessCom.getFormNodeProps(props)" labelWidth="0px">
-            <div class="els-dynamic-render">
-                <template v-if="isAsyncComponent">
-                    <suspense v-if="isAsyncComponent">
-                        <template #default>
-                            <div>
-                                <DynamicRenderFormAsync  :nodeItem="renderData[0]" v-if="renderData&&renderData.length&&renderData[0].componentTypeName==='Form'">
-                                </DynamicRenderFormAsync>
-                                <els-form v-model="renderData" v-else>
-                                    <DynamicRenderInnerAsync v-for="(item,index) in renderData" :index="index" :nodeItem="item" :keyID="item.keyID">
-                                    </DynamicRenderInnerAsync>
-                                </els-form>
-                            </div>
-                        </template>
-                        <template #fallback>
-                            <el-skeleton animated>
-                            </el-skeleton>
-                        </template>
-                    </suspense>
-                </template>
-                <template v-else>
-                    <DynamicRenderForm  :nodeItem="renderData[0]" :isRoot="true" v-if="renderData&&renderData.length&&renderData[0].componentType==='Form'">
-                    </DynamicRenderForm>
-                    <els-form v-model="renderData" v-else>
-                        <DynamicRenderInner v-for="(item,index) in renderData"  :index="index" :nodeItem="item" :key="item.keyID">
-                        </DynamicRenderInner>
-                    </els-form>
-                </template>
-              
+    <div class="els-node els-dynamic-render">
+        <ElsFormNode v-bind="Object.assign({},attrs,lessCom.getFormNodeProps(props))" :labelWidth="(label===''||label===undefined)?'0':undefined" >
+            <div class="els-dynamic-render-inner">
+                <DynamicRenderForm  :nodeItem="renderData[0]"  :isRoot="true" v-if="renderData&&renderData.length&&renderData[0].componentTypeName==='Form'">
+                </DynamicRenderForm>
+                <els-form v-model="renderData" v-else>
+                    <DynamicRenderInner v-for="(item,index) in renderData" :index="index" :nodeItem="item" :keyID="item.keyID">
+                    </DynamicRenderInner>
+                </els-form>
             </div>
         </ElsFormNode>
     </div>
 </template>
 <style lang="less">
+.els-dynamic-render >.el-form-item{
+      margin-bottom: 0px !important;
+    }
+</style>
+<style lang="less" scoped>
 ::-webkit-scrollbar {background:none; }
-.els-dynamic-render{flex-grow: 1;}
+.els-dynamic-render,.els-dynamic-render-inner{flex-grow: 1;}
 
 </style>

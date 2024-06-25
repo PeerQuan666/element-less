@@ -64,3 +64,12 @@ function handleChangeKeyCode(keyCode) {
     </els-form>
 
 </template>
+<style scoped lang="less">
+.el-form:deep{
+    .el-form-item {
+        margin-bottom: 18px;
+    }
+}
+</style>
+
+

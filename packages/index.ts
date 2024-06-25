@@ -1,5 +1,6 @@
 import { App } from 'vue'
 
+import {lessCom} from  './utlis/com'
 
 // 导出所有组件
 import ElsInput from './elementui/input'
@@ -161,6 +162,7 @@ const ElementLess = {
             }
         });
     },
+    utlis:lessCom
 
 };
 components.forEach((item) => {

@@ -25,11 +25,11 @@ function handleRemove(index) {
     list.value.remove(index)
 }
 function getItemTitle(item) {
-    try{
-        const currItemValue=getNodeValue(item.value)
+    try {
+        const currItemValue = getNodeValue(item.value)
         let currEvent = new Function('parentNode,currNode,item', "return " + nodeItem.value.config.arrayConfig.itemComponentTitle);
-        return currEvent(getParentNode(), getCurrNode(), currItemValue)||'请设置标题';
-    }catch(err){
+        return currEvent(getParentNode(), getCurrNode(), currItemValue) || '请设置标题';
+    } catch (err) {
         console.log(err)
         return '标题语法错误'
     }
@@ -47,8 +47,8 @@ setValue({
 </script>
 <template>
     <div class="els-dynamic-array">
-        <els-list v-model="nodeItem.children" ref="list" @add="handleAddItem" :sortable="!isMobile" :isRemove="!isMobile"
-            :hasForm="false" :wrapComponent="nodeItem.config.arrayConfig.wrapComponent"
+        <els-list v-model="nodeItem.children" ref="list" @add="handleAddItem" :sortable="!isMobile"
+            :isRemove="!isMobile" :hasForm="false" :wrapComponent="nodeItem.config.arrayConfig.wrapComponent"
             :itemComponent="nodeItem.config.arrayConfig.itemComponent"
             :item-class-name="[{ 'els-dynamic-r-array': nodeItem.arrayDataTypeName === 'Object' || nodeItem.componentTypeName === 'DynamicRender' }, { 'els-dynamic-r-array-mobile': isMobile }]"
             :style="[
@@ -62,12 +62,12 @@ setValue({
             </template>
             <template #default="{ element, $item, $index }">
                 <div :key="element.keyID" class="els-dynamic-array-inner">
-                    <els-form v-model="nodeItem.children[$index]" v-bind="Object.assign({}, nodeItem.config.baseConfig)">
+                    <els-form v-model="nodeItem.children[$index]"
+                        v-bind="Object.assign({}, nodeItem.config.baseConfig)">
                         <van-cell-group :title="nodeItem.keyName" v-if="isMobile" :key="element.itemKey">
                             <template #title>
-                                <div class="els-dynamic-r-mobile-title"><span>{{ nodeItem.keyName + ' ' + ($index + 1)
-                                        }}</span><span class="els-dynamic-remove"
-                                        @click="handleRemove($index)">删除</span></div>
+                                <div class="els-dynamic-r-mobile-title"><span>{{ nodeItem.keyName + ' ' + ($index + 1)}}</span>
+                                    <span class="els-dynamic-remove" @click="handleRemove($index)">删除</span></div>
                             </template>
                             <DynamicRenderInner v-for="item, index in $item" :nodeItem="item" :key="item.keyID"
                                 :index="index">
@@ -101,6 +101,11 @@ setValue({
 
     .els-dynamic-remove {
         color: var(--el-color-danger);
+    }
+
+    .horizontal {
+        flex-wrap:wrap;
+        gap: 5px;
     }
 }
 </style>

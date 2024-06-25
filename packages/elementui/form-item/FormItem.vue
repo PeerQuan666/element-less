@@ -188,7 +188,7 @@ if (!props.hasFormItem) {
         }
     }
     .els-form-item-label {
-        display: flex;
+        display: inline-flex;
         align-items: center;
     }
 }

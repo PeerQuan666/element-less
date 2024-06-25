@@ -1,8 +1,9 @@
 import { dynamicComponentTypes, dynamicDataTypes } from './types'
-import { DynamicConfig } from '../interfaces'
+import { DynamicConfig ,DynamicConfigProps} from '../interfaces'
 import { ElMessage } from 'element-plus'
 import { lessCom } from '../com'
 export class DynamicHandler {
+
     componentTypes: any = []
     dataTypes: any = []
     appendUrlParams: any = []
@@ -28,6 +29,20 @@ export class DynamicHandler {
         this.restrictCode = restrictCode
     }
     //兼容版本数据
+    toPropsData(data,configProps:DynamicConfigProps){
+        if(!configProps){
+            return data
+        }
+        const cloneData=lessCom.cloneObj(data)
+        cloneData.forEach(ele=>{
+            //重命名data节点为children
+            if(configProps.children&&ele.children&&!ele[configProps.children]){
+                ele[configProps.children]=this.toPropsData(ele.children,configProps)
+                delete ele.children
+            }
+        })
+        return cloneData
+    }
     compatibleVersion(data){
         const cloneData=lessCom.cloneObj(data)
         cloneData.forEach(ele=>{
@@ -549,7 +564,7 @@ export class DynamicHandler {
     itemValue(item) {
         let currValue = {}
         if (item.formItem || item.componentGroup === 'Form' || item.dataTypeName == 'Array' || item.dataType === 'Object') {
-            if (item.dataTypeName == 'Object' && item.keyCode) {
+            if (item.dataTypeName == 'Object' && item.keyCode&&!item.componentTypeName) {
                 currValue[item.keyCode] = this.childResult(item)
             }
             else if (item.componentGroup == 'Container') {
@@ -559,7 +574,7 @@ export class DynamicHandler {
                     Object.assign(currValue, this.childResult(item))
                 }
             }
-            else if (item.dataTypeName == 'Array' && item.arrayDataTypeName == 'Object' && item.keyCode) {
+            else if (item.dataTypeName == 'Array' && item.arrayDataTypeName == 'Object' && item.keyCode&&!item.componentTypeName) {
                 currValue[item.keyCode] = this.childResultList(item)
             } else if (item.keyCode) {
                 currValue[item.keyCode] = item.value;

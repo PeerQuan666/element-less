@@ -1,59 +1,57 @@
 <template>
- <els-dynamic-designer v-model="config" >
+ <els-dynamic-designer v-model="config" :modelProps="{children:'data'}" :appendComponentTypes="componentTypes" >
 </els-dynamic-designer>
 
 </template>
 
 <script setup>
 import { ref } from 'vue'
-const test=ref('<p>sadasdsadsa</p>')
-const config = ref([
-  {
-    "keyID": "key_16486",
-    "keyName": "a",
-    "keyCode": "a",
-    "required": false,
-    "config": {
-      "formConfig": {},
-      "baseConfig": {
-        "type": "File"
-      },
-      "advancedConfig": {},
-      "arrayConfig": {}
-    },
-    "componentType": "UploadFile",
-    "dataType": "String",
-    "data": []
-  },
-  {
-    "keyID": "key_7706",
-    "keyName": "b",
-    "keyCode": "b",
-    "data": [
-      {
-        "keyID": "key_95198",
-        "keyName": "bb",
-        "keyCode": "bb",
-        "data": [],
-        "required": false,
-        "config": {
-          "formConfig": {},
-          "baseConfig": {},
-          "advancedConfig": {},
-          "arrayConfig": {}
+const componentTypes=ref([
+{
+        "id": 211,
+        "componentName": "ElsDynamicRender",
+        "label": "测试组件",
+        "value": "测试组件",
+        "type": "DynamicRender",
+        "dataTypes": [
+            "Object"
+        ],
+        "defaultPropertys": {
+            "hasForm":false,
+            "config": [
+                {
+                    "keyID": "key0_000",
+                    "keyName": "ddd",
+                    "keyCode": "ddd",
+                    "data": [
+
+                    ],
+                    "dataType": "String",
+                    "componentType": "Input",
+                    "required": true,
+                    "description": "ddd",
+                    "config": {
+                        "formConfig": {
+
+                        },
+                        "baseConfig": {
+
+                        },
+                        "advancedConfig": {
+
+                        },
+                        "arrayConfig": {
+
+                        }
+                    },
+                    "arrayDataType": "",
+                    "defaultValue": ""
+                }
+            ]
         },
-        "componentType": "Input",
-        "dataType": "String"
-      }
-    ],
-    "required": false,
-    "config": {
-      "formConfig": {},
-      "baseConfig": {},
-      "advancedConfig": {},
-      "arrayConfig": {}
-    },
-    "dataType": "Object"
-  }
+        "group": "Form"
+}
 ])
+const test=ref('<p>sadasdsadsa</p>')
+const config = ref()
 </script>

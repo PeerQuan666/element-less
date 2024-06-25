@@ -72,7 +72,10 @@ function handleAddItem() {
 }
 const formAttrs = computed(() => {
     const currFormConfig = lessCom.cloneObj(nodeItem.value.config.formConfig)
-    currFormConfig.labelWidth = '0px'
+    if(nodeItem.value.arrayDataTypeName!=='Object'){
+      currFormConfig.labelWidth = '0px'
+    }
+ 
     if (currFormConfig) {
         if (currFormConfig.validMethod) {
             let currEvent = new Function('parentNode,currNode', "return " + currFormConfig.validMethod);
@@ -110,6 +113,9 @@ watch(() => nodeItem.value.config.arrayConfig.arrayDefaultLength, (val) => {
     initDefault(val)
 })
 
+const isObject=computed(()=>{
+    return nodeItem.value.arrayDataTypeName==='Object';
+})
 
 
 </script>
@@ -123,7 +129,7 @@ watch(() => nodeItem.value.config.arrayConfig.arrayDefaultLength, (val) => {
             { 'max-width': (nodeItem.config.arrayConfig.maxWidth ? nodeItem.config.arrayConfig.maxWidth + 'px' : '') },
             { 'max-height': (nodeItem.config.arrayConfig.maxHeight ? nodeItem.config.arrayConfig.maxHeight + 'px' : '') },
             { 'display': nodeItem.config.arrayConfig.arrangementType === 'Horizontal' ? 'flex' : '' },
-            { 'flex-wrap': 'wrap' }, { 'gap': '5px' }, { 'overflow': 'scroll' },{'padding-right':isMobile?'0px':'20px'}]">
+            { 'flex-wrap': 'wrap' }, { 'gap': '5px' }, { 'overflow': 'scroll' },{'padding-right':isMobile||isObject?'0px':'20px'}]">
             <template #default="{ element,index }">
                 <DynamicRenderInnerItem  
                     :class="{'els-dynamic-r-array-item':nodeItem.componentName==='ElsDynamicRender'}" v-bind="formAttrs" 
@@ -134,7 +140,7 @@ watch(() => nodeItem.value.config.arrayConfig.arrayDefaultLength, (val) => {
             </template>
         </els-list>
     </div>
-</template>
+</template> 
 <style scoped lang="less">
 .el-form:deep{
     >div{

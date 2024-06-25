@@ -14,3 +14,6 @@ export interface DynamicConfig{
     config:{formConfig:Record<string,any>,baseConfig:Record<string,any>,arrayConfig: Record<string,any>,advancedConfig:Record<string,any>},
     defaultValue?: any
 }
+export interface DynamicConfigProps{
+    children:string
+}

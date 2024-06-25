@@ -60,7 +60,7 @@ const reduce = () => {
         justify-content: center;
         padding-bottom: 3px;
         transition: all 0.3s;
-
+        box-sizing: border-box !important;
         &:hover {
             border-color: #74a274;
             opacity: 0.9;

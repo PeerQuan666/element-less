@@ -49,7 +49,6 @@ function handleReturnResult(val) {
 
 function init() {
     let options = {
-        theme: "ace/theme/" + (props.theme ? props.theme : "xcode"),
         mode: "ace/mode/" + (props.language ? props.language : "javascript"),
         tabSize: 2,
         maxLines:props.rows,

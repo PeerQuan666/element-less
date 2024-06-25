@@ -150,7 +150,7 @@ function handleSuccess(res, file, fileList) {
         if (isMobile) {
             showNotify({ type: 'warning', message: `文件上传失败\n${res[apiConfig.$messageField]}` });
         } else {
-            ElNotification.call({
+            ElNotification({
                 title: '文件上传失败',
                 dangerouslyUseHTMLString: true,
                 message: `<div><strong class="red">${file.name}-文件上传失败</strong></div><div>${res[apiConfig.$messageField]}</div>`,

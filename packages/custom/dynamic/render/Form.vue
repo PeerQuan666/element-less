@@ -22,9 +22,9 @@ setValue({
 
 </script>
 <template>
-    <template v-if="isMobile">
+    <template v-if="isMobile&&!isRoot">
         <els-form v-model="nodeItem.children" v-bind="nodeItem.config.baseConfig">
-            <component :is="'van-cell-group'" :title="nodeItem.keyName">
+            <component :is="'van-cell-group'" :title="nodeItem.keyName" >
                 <DynamicRenderInner v-for="(item, index) in nodeItem.children" :index="index" :nodeItem="item"
                     :key="item.keyID"></DynamicRenderInner>
             </component>
