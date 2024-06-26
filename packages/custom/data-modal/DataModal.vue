@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, watch, useAttrs,watchEffect} from 'vue'
+import { ref, computed, watch, useAttrs, watchEffect } from 'vue'
 import { FormItemProps } from '../../utlis/interfaces'
 import { lessCom } from "../../utlis/com";
-import {useModel} from '../../utlis/use'
+import { useModel } from '../../utlis/use'
 defineOptions({ name: "ElsDataModal" })
 const emits = defineEmits(['update:select', 'update:modelValue', 'update:select-label'])
 
@@ -22,10 +22,10 @@ interface Props extends FormItemProps {
     labelField?: string,
     valueField?: string,
     multiple?: boolean,
-    open?:Function,
-    close?:Function,
+    open?: Function,
+    close?: Function,
     confirm?: Function,
-    componentName?:string
+    componentName?: string
 }
 const props = withDefaults(defineProps<Props>(), {
     inputWidth: '200',
@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<Props>(), {
     hasButton: true,
     width: '50%',
     height: '500px',
-    componentName:'el-button'
+    componentName: 'el-button'
 
 })
 
@@ -49,13 +49,16 @@ const {
     currModelValue,
     returnModelValue,
 } = useModel(props)
- 
-watchEffect(()=>{
-    const currValue=currModelValue.value
+
+watchEffect(() => {
+    const currValue = currModelValue.value
     currSelectValue.value = currValue ?? ''
 })
 
 
+watch(currSelectValue, (val) => {
+    returnModelValue(val)
+})
 
 watch(() => props.selectLabel, (val) => {
     currSelectLabel.value = val
@@ -79,26 +82,26 @@ function registEvent() {
     window[tagID.value] = handleSelect
 }
 function handleOpenModal() {
-    if(props.open){
+    if (props.open) {
         props.open()
     }
     dialogVisible.value = true
 }
-function handleCloseModal(){
-    if(props.close){
+function handleCloseModal() {
+    if (props.close) {
         props.close()
     }
 }
-const confirmLoading=ref(false)
+const confirmLoading = ref(false)
 function handleConfirm() {
-    confirmLoading.value=true
+    confirmLoading.value = true
     if (props.confirm) {
         props.confirm().then(res => {
             if (res) {
                 dialogVisible.value = false
-             
+
             }
-            confirmLoading.value=false
+            confirmLoading.value = false
         })
 
     }
@@ -124,8 +127,8 @@ function handleReturnResult() {
         emits("update:select", currSelectData.value)
     }
     else {
-        currSelectValue.value=''
-        currSelectLabel.value=''
+        currSelectValue.value = ''
+        currSelectLabel.value = ''
         emits("update:select-label", '')
         returnModelValue('')
         emits("update:select", null)
@@ -149,30 +152,40 @@ const modalUrl = computed(() => {
 })
 
 </script>
-<template >
-    
-    <span class="els-datamodal">
-        <el-input v-model="currSelectValue" v-if="hasInput" 
-            :style="(inputWidth ? 'width:' + inputWidth.appendPx() : '')"></el-input>
-        <component :is="componentName" type="primary" v-bind="attrs" v-if="hasButton" @click.native="handleOpenModal" >{{ buttonLabel?buttonLabel:'选择' }}</component>
-        <el-tag v-if="currSelectLabel">{{ currSelectLabel }}</el-tag>
-    </span>
-    <els-dialog :title="title" :width="width" :contentHeight="height" v-model="dialogVisible" :url="modalUrl" @close="handleCloseModal">
-            <slot></slot>
-            <template #footer v-if="!modalUrl">
-                <span class="dialog-footer">
-                    <el-button @click="dialogVisible = false">取消</el-button>
-                    <el-button type="primary" :loading="confirmLoading" @click="handleConfirm">
-                        提交
-                    </el-button>
-                </span>
-            </template>
-        </els-dialog>
+<template>
+    <div class="els-node">
+        <ElsFormNode tagName="Input" v-bind="lessCom.getFormNodeProps(props)">
+            <span class="els-datamodal">
+                <el-input v-model="currSelectValue" v-if="hasInput"
+                    :style="(inputWidth ? 'width:' + inputWidth.appendPx() : '')"></el-input>
+                <component :is="componentName" type="primary" v-bind="attrs" v-if="hasButton"
+                    @click.native="handleOpenModal">{{ buttonLabel ? buttonLabel : '选择' }}</component>
+                <el-tag v-if="currSelectLabel">{{ currSelectLabel }}</el-tag>
+            </span>
+        </ElsFormNode>
+    </div>
+    <els-dialog :title="title" :width="width" :contentHeight="height" v-model="dialogVisible" :url="modalUrl"
+        @close="handleCloseModal">
+        <slot></slot>
+        <template #footer v-if="!modalUrl">
+            <span class="dialog-footer">
+                <el-button @click="dialogVisible = false">取消</el-button>
+                <el-button type="primary" :loading="confirmLoading" @click="handleConfirm">
+                    提交
+                </el-button>
+            </span>
+        </template>
+    </els-dialog>
 </template>
 
 <style scoped>
 .dialog-footer button:first-child {
     margin-right: 10px;
 }
-.els-datamodal{display: flex;align-items: center;gap: 5px;}
+
+.els-datamodal {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 </style>../../utlis/interfaces.js

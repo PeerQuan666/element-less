@@ -33,3 +33,8 @@ docs/.vuepress/.cache/
 docs/.vuepress/.temp/
 docs/.vuepress/dist/
 
+docs/.vitepress/cache/
+element-less/
+resume-component/
+src/utlis/http.js
+src/

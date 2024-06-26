@@ -1,6 +1,6 @@
 <template>
- <els-dynamic-designer v-model="config" :modelProps="{children:'data'}" :appendComponentTypes="componentTypes" >
-</els-dynamic-designer>
+ <els-dynamic-designer-view v-model="config" :modelProps="{children:'data'}" :appendComponentTypes="componentTypes" >
+</els-dynamic-designer-view>
 
 </template>
 
