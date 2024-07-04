@@ -46,7 +46,7 @@ setValue({
 
 </script>
 <template>
-    <div class="els-dynamic-array">
+    <div class="els-dynamic-array" :style="nodeItem.config.advancedConfig?.style">
         <els-list v-model="nodeItem.children" ref="list" @add="handleAddItem" :sortable="!isMobile"
             :isRemove="!isMobile" :hasForm="false" :wrapComponent="nodeItem.config.arrayConfig.wrapComponent"
             :itemComponent="nodeItem.config.arrayConfig.itemComponent"
@@ -55,7 +55,7 @@ setValue({
             { 'max-width': (nodeItem.config.arrayConfig.maxWidth ? nodeItem.config.arrayConfig.maxWidth + 'px' : '') },
             { 'max-height': (nodeItem.config.arrayConfig.maxHeight ? nodeItem.config.arrayConfig.maxHeight + 'px' : '') },
             { 'display': nodeItem.config.arrayConfig.arrangementType === 'Horizontal' ? 'flex' : '' },
-        ]" class="els-dynamic-array-render"
+             ]" class="els-dynamic-array-render"
             :class="{ 'horizontal': nodeItem.config.arrayConfig.arrangementType === 'Horizontal' }">
             <template #itemTitle="{ element, $item, $index }" v-if="nodeItem.config.arrayConfig.itemComponentTitle">
                 <div v-html="getItemTitle(element)"></div>

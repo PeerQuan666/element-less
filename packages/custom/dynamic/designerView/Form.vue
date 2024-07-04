@@ -70,7 +70,7 @@ setValue({
         :class="{ 'selected': getSelectItem()?.keyID == nodeItem.keyID }" @click.stop="setSelectItem(nodeItem)">
         <draggable tag="div" class="els-dynamic-root-form" :class="[{ 'els-dynamic-designer-empty': nodeItem.children.length == 0 && !isRoot }]"
             :list="nodeItem.children" v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }"
-             :data-type="nodeItem.dataTypeName" :sort="true" itemKey="keyID"
+             :data-type="nodeItem.arrayDataTypeName||nodeItem.dataTypeName" :sort="true" itemKey="keyID"
             handle=".els-view-move" @add="handleAddComponent"      :move="handleMove" >
             <template #item="{ element }">
                 <DynamicDesignerViewInner :nodeItem="element" :key="element.keyID" ></DynamicDesignerViewInner>
@@ -81,7 +81,7 @@ setValue({
         <component :is="isMobile?'van-cell-group':'div'" :title="nodeItem.keyName">
             <draggable  :class="[{ 'els-dynamic-designer-empty': nodeItem.children.length == 0 }]" :list="nodeItem.children"
                 v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }" :style="[{ 'min-height': '50px' }]"
-                :data-type="nodeItem.dataTypeName" :sort="true" itemKey="keyID" handle=".els-view-move"
+                :data-type="nodeItem.arrayDataTypeName||nodeItem.dataTypeName" :sort="true" itemKey="keyID" handle=".els-view-move"
                 @add="handleAddComponent">
                 <template #item="{ element }"      :move="handleMove" >              
                     <DynamicDesignerViewInner  :nodeItem="element" :key="element.keyID"></DynamicDesignerViewInner>

@@ -1,5 +1,10 @@
 <template>
-    <els-data-modal v-model="selectValue" title="选择数据" width="30%" :confirm="handleConfim">
+    <els-data-modal v-model="selectValue" title="选择数据" width="30%" :confirm="handleConfim" buttonLabel="编辑">
+        <template #customDisplay>
+          <div>aaa:{{ editData.input1 }}</div>
+          <div>bbb:{{ editData.input2 }}</div>
+
+        </template>
         <els-form v-model="editData" ref="editForm">
             <els-input prop="input1" label="开始" required width="200"></els-input>
             <els-input prop="input2" label="结束" width="200"></els-input>

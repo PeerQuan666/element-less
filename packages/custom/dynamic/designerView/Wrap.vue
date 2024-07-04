@@ -37,13 +37,12 @@ function handleAddComponent(e) {
 
 setValue({
     removeItem:(item)=>{
-        lessCom.removeArrayItem(props.parentNode.data,item)
+        lessCom.removeArrayItem(props.parentNode.children,item)
     }
 })
 
 </script>
 <template>
-    
     <draggable v-if="nodeItem.componentName==='ElsRow'" :tag="nodeItem.componentName" @click.stop="setSelectItem(nodeItem)" :key="nodeItem.keyID" :componentData="Object.assign(nodeItem.config.baseConfig??{},componentAttr)"
         v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }"
         class="els-dynamic-designer-wrap"

@@ -27,7 +27,8 @@ import {
     property_collapseItem,
     property_formItemCom,
     property_colorPicker,
-    property_alert
+    property_alert,
+    property_button
 } from '../propertys'
 import { DynamicComponentType } from '../../interfaces'
 import { DynamicComponentGroup } from '../../enums'
@@ -43,7 +44,7 @@ export const dynamicComponentTypes: Array<DynamicComponentType> = [
     { componentName: 'ElsUpload',icon:'add-picture', label: '图片', value: 'UploadPic', type: "UploadPic", dataTypes: ['String'], defaultPropertys: { 'type': 'Pic' }, propertys: property_pic, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
     { componentName: 'ElsUpload',icon:'picture-album', label: '图集', value: 'UploadMutiPic', type: "UploadMutiPic", dataTypes: ['String'], defaultPropertys: { 'type': 'Pic', 'multiple': true }, propertys: property_pic, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
     { componentName: 'ElsUpload', icon:'upload', label: '文件', value: 'UploadFile', type: "UploadFile", dataTypes: ['String'], defaultPropertys: { 'type': 'File' }, propertys: property_file, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
-    { componentName: 'ElsDataModal',icon:'share', label: '弹窗', value: 'DataModal', type: "DataModal", dataTypes: ['String'], defaultPropertys: {}, propertys: property_datamodal, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
+    { componentName: 'ElsDataModal',icon:'share', label: '弹窗选择', value: 'DataModal', type: "DataModal", dataTypes: ['String'], defaultPropertys: {}, propertys: property_datamodal, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
     { componentName: 'ElsDatePicker',icon:'calendar-dot', label: '日期选择器', value: 'Datepicker', type: "Datepicker", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_date, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
     { componentName: 'ElsTimePicker',icon:'time', label: '时间选择器', value: 'Timepicker', type: "Timepicker", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_time, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
     { componentName: 'ElsTree',icon:'tree-list', label: '树形控件', value: 'Tree', type: "Tree", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_tree, group: DynamicComponentGroup.Form, formItem: true, isShow: true },
@@ -66,5 +67,6 @@ export const dynamicComponentTypes: Array<DynamicComponentType> = [
     { componentName: 'ElsCaption',icon:'dividing-line', label: '分隔描述', value: 'Caption', type: "Caption", dataTypes: ['None', 'String'], defaultPropertys: {}, propertys: property_caption, group: DynamicComponentGroup.Show, formItem: true, isShow: true },
     { componentName: 'ElsTip',icon:'tips', label: '页面提示', value: 'Tip', type: "Tip", dataTypes: ['None'], defaultPropertys: {}, propertys: property_tip, group: DynamicComponentGroup.Show, formItem: false, isShow: true },
     { componentName: 'ElAlert',icon:'topic-discussion', label: 'Alert提示', value: 'Alert', type: "Alert", dataTypes: ['None'], defaultPropertys: {}, propertys: property_alert, group: DynamicComponentGroup.Show, formItem: false, isShow: true },
+    { componentName: 'ElButton',icon:'button', label: 'Button按钮', value: 'Button', type: "Button", dataTypes: ['None'], defaultPropertys: {}, propertys: property_button, group: DynamicComponentGroup.Show, formItem: false, isShow: true },
 
 ]

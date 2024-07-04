@@ -51,7 +51,7 @@ watchEffect(() => {
 
 <template>
     <template v-if="componentName">
-        <component :is="componentName" v-model="modelValue" v-bind="componentAttrs">
+        <component :is="componentName" v-model="modelValue" v-bind="componentAttrs">三十岁
         </component>
     </template>
     <els-tip v-else type="danger">未设置组件名</els-tip>

@@ -1,14 +1,12 @@
-
-    
 <script lang="ts" setup>
 
-import { ref, reactive, watch, useAttrs, computed, nextTick, useSlots, onMounted,watchEffect } from 'vue'
+import { ref, reactive, watch, useAttrs, computed, nextTick, useSlots, onMounted, watchEffect } from 'vue'
 import { ElMessage } from 'element-plus';
 import { useValue } from '../../utlis/use';
 import { lessCom } from '../../utlis/com'
 import { ValueType } from '../../utlis/enums'
 import { FormItemProps } from '../../utlis/interfaces'
-import { useModel,useMobile } from '../../utlis/use'
+import { useModel, useMobile } from '../../utlis/use'
 defineOptions({
     name: 'ElsSelect',
     inheritAttrs: false
@@ -53,7 +51,7 @@ const props = withDefaults(defineProps<Props>(), {
     validTrigger: 'change',
 })
 
-const {getValue,setValue}=useValue(props)
+const { getValue, setValue } = useValue(props)
 
 const slots = useSlots()
 const attrs: Record<string, any> = useAttrs()
@@ -73,7 +71,7 @@ const defaultSlotData: Array<Record<string, any>> = reactive([])
 const queryData = reactive({ searchKey: '', idString: '' })
 const formInputWidth = getValue<string>('inputWidth', '')
 const currWidth = ref(props.width ?? '')
-const formNode=ref()
+const formNode = ref()
 if (!currWidth.value) {
     if (formInputWidth) {
         currWidth.value = formInputWidth
@@ -85,10 +83,10 @@ const {
     returnModelValue,
 } = useModel(props)
 
-const {isMobile,onMobileConfirm,onMobileHiddenPopup} =useMobile(formNode)
+const { isMobile, onMobileConfirm, onMobileHiddenPopup } = useMobile(formNode)
 
 watch(() => props.multiple, (val) => {
-    if (val||isMobile) {
+    if (val || isMobile) {
         selectValue.value = []
 
     } else {
@@ -132,7 +130,7 @@ watch(() => props.data, (val) => {
 }, { deep: true })
 
 watch(selectValue, (val: any) => {
-    if (props.multiple||isMobile) {
+    if ((props.multiple || isMobile) &&Array.isArray(val)) {
         handleReturnResult((val as Array<string | number>).join(props.valueSeparator));
         return
     }
@@ -153,17 +151,17 @@ function initSelectValue() {
     if (props.allowCreate) {
         currValueType = ValueType.String
     }
-    if (currModelValue.value === undefined ||currModelValue.value === null|| selectValue.value.toString() === currModelValue.value.toString()) {
+    if (currModelValue.value === undefined || currModelValue.value === null || selectValue.value.toString() === currModelValue.value.toString()) {
         return
     }
-    if (props.multiple) {
+    if (props.multiple||isMobile) {
         selectValue.value = currModelValue.value
         if (typeof (selectValue.value) === "string") {
-          //去除前后逗号
-          selectValue.value = selectValue.value.trimComma();
+            //去除前后逗号
+            selectValue.value = selectValue.value.trimComma();
         }
-        if(currModelValue.value===''){
-            selectValue.value=[]
+        if (currModelValue.value === '') {
+            selectValue.value = []
         }
         else if (currValueType === ValueType.Number) {
             selectValue.value = selectValue.value.toString().toListNumber(props.valueSeparator)
@@ -180,8 +178,8 @@ function initSelectValue() {
             selectValue.value = selectValue.value.toString().toList(props.valueSeparator)
         }
     } else {
-        if(currModelValue.value===''){
-            selectValue.value=''
+        if (currModelValue.value === '') {
+            selectValue.value = ''
         }
         else if (currValueType === ValueType.Number) {
             selectValue.value = parseFloat(currModelValue.value.toString());
@@ -196,6 +194,7 @@ function initSelectValue() {
         }
     }
     initNoExistData();
+    onConfirm()
 }
 
 
@@ -314,7 +313,7 @@ function handleSearch(searchValue: string) {
 function readData() {
     currLoading.value = true;
     let currUrl = props.url?.replacePowerUrl() ?? '';
-    if(!props.url){
+    if (!props.url) {
         return
     }
     return new Promise((resolve, reject) => {
@@ -380,13 +379,14 @@ if ((attrs["remote"] === true || attrs["remote"] === '') && props.url) {
     }
 }
 currLoading.value = props.loading
-function onConfirm(){
-   const showText= optionData.value.filter(ele =>selectValue.value.indexOf(ele[props.valueField]) > -1).map(ele => ele[props.labelField]).toString()
+
+function onConfirm() {
+    const showText = optionData.value.filter(ele => selectValue.value.indexOf(ele[props.valueField]) > -1).map(ele => ele[props.labelField]).toString()
     onMobileConfirm(showText)
 }
 
 setValue({
-    "provideOption":provideOptionData,
+    "provideOption": provideOptionData,
     setExtraOption
 })
 
@@ -402,24 +402,23 @@ onMounted(() => {
         initSelectIndex();
     }
 })
-const currPlaceholder=ref()
-watchEffect(()=>{
-    if(isMobile){
-        currPlaceholder.value=props.placeholder||'请选择'+props.label
-    }else{
-        currPlaceholder.value=props.placeholder??''
+const currPlaceholder = ref()
+watchEffect(() => {
+    if (isMobile) {
+        currPlaceholder.value = props.placeholder || '请选择' + props.label
+    } else {
+        currPlaceholder.value = props.placeholder ?? ''
     }
 })
 </script>
 <template>
-
     <div class="els-node">
         <ElsFormNode v-bind="lessCom.getFormNodeProps(props)" ref="formNode" tagName="Select">
             <template v-if="!isMobile">
-                <el-select v-if="!isVirtual" v-model="selectValue" :allowCreate="allowCreate" :multiple="multiple" :placeholder="currPlaceholder"
-                    :remote-method="handleSearch" :style="{ width: currWidth?.appendPx() }" :loading="currLoading"
-                    remote-show-suffix @visible-change="handleVisibleChange" @clear="handleClear" v-bind="attrs">
-
+                <el-select v-if="!isVirtual" v-model="selectValue" :allowCreate="allowCreate" :multiple="multiple"
+                    :placeholder="currPlaceholder" :remote-method="handleSearch"
+                    :style="{ width: currWidth?.appendPx() }" :loading="currLoading" remote-show-suffix
+                    @visible-change="handleVisibleChange" @clear="handleClear" v-bind="attrs">
                     <slot name="extra">
                     </slot>
                     <template
@@ -437,8 +436,8 @@ watchEffect(()=>{
                         v-else-if="(url || data && data.length > 0 || options.length) && groupField && !defaultSlotData.length">
                         <el-option-group v-for="group in lessCom.dtGroupBy(options, groupField)" :key="group.key"
                             :label="group.key">
-                            <el-option @click="handleClickOption(item)" v-for="item in group.value" :key="item[valueField]"
-                                :label="item[labelField]" :value="item[valueField]">
+                            <el-option @click="handleClickOption(item)" v-for="item in group.value"
+                                :key="item[valueField]" :label="item[labelField]" :value="item[valueField]">
                                 <i class="check" v-if="multiple"></i>
                                 <slot name="default" :item="item">
                                     {{ item[labelField] }}
@@ -465,8 +464,8 @@ watchEffect(()=>{
 
                 </el-select>
                 <el-select-v2 v-else v-model="selectValue" :options="options" :placeholder="currPlaceholder"
-                    :props="{ disabled: disabledField, label: labelField, value: valueField }" :multiple="multiple" v-bind="attrs"
-                    :loading="currLoading" @clear="handleClear" @visible-change="handleVisibleChange"
+                    :props="{ disabled: disabledField, label: labelField, value: valueField }" :multiple="multiple"
+                    v-bind="attrs" :loading="currLoading" @clear="handleClear" @visible-change="handleVisibleChange"
                     :style="{ width: currWidth?.appendPx() }" :remote-method="handleSearch">
                     <template #default="{ item }">
                         <i class="check" v-if="multiple"></i>
@@ -485,7 +484,9 @@ watchEffect(()=>{
                 </el-select-v2>
             </template>
             <template v-else>
-                <van-picker v-model="selectValue" :columns="optionData" @confirm="onConfirm" :columns-field-names="{text: props.labelField, value: props.valueField}" @cancel="onMobileHiddenPopup" v-bind="attrs" >
+                <van-picker v-model="selectValue" :columns="optionData" @confirm="onConfirm"
+                    :columns-field-names="{ text: props.labelField, value: props.valueField }"
+                    @cancel="onMobileHiddenPopup" v-bind="attrs">
                     <template #option="option">
                         <slot name="default" :item="option">
                             {{ option[labelField] }}
@@ -493,12 +494,10 @@ watchEffect(()=>{
                     </template>
                 </van-picker>
             </template>
-          
-
         </ElsFormNode>
     </div>
 </template>
-<style lang="less"  scoped>
+<style lang="less" scoped>
 .els-node:has(>div[class^=el-select]) {
     display: inline-block;
     position: relative;
@@ -558,8 +557,8 @@ watchEffect(()=>{
     }
 }
 
-.el-select-dropdown__item.selected::after,.el-select-dropdown__option-item.is-selected::after {
+.el-select-dropdown__item.selected::after,
+.el-select-dropdown__option-item.is-selected::after {
     display: none;
 }
-
 </style>

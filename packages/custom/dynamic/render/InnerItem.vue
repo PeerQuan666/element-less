@@ -63,7 +63,7 @@ const baseAttrs = computed(() => {
 
     for(const name of parseNumbers){
         if(currAttrs[name]){
-            currAttrs[name]=parseInt(currAttrs[name])
+            currAttrs[name]=parseFloat(currAttrs[name])
         }else{
             delete currAttrs[name]
         }

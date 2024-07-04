@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useAttrs, watch, watchEffect } from 'vue'
+import { ref, useAttrs, watch, watchEffect,onMounted } from 'vue'
 
 import { DatePickerProps } from '../../utlis/interfaces'
 import { lessCom } from '../../utlis/com'
@@ -39,7 +39,7 @@ const {isMobile,onMobileConfirm,onMobileHiddenPopup} =useMobile(formNode)
 
 const columnsType =ref(['year', 'month', 'day'])
 
-mobileDateValue.value=[new Date().getFullYear(),new Date().getMonth(),new Date().getDay()]
+mobileDateValue.value=[new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate()]
 
 function initValue() {
     if (props.type == "daterange" || props.type == "datetimerange" || props.type == "monthrange" || props.type == 'dates') {
@@ -57,9 +57,8 @@ function initValue() {
     } else {
         if (dateValue.value != currModelValue.value) {
             dateValue.value =  currModelValue.value
-          
+            mobileDateValue.value=dateValue.value.splice(' ')[0].split(props.valueFormat?.indexOf('-')?'-':'/')
             if(props.type.indexOf('time')>-1){
-                mobileDateValue.value=dateValue.value.splice(' ')[0].split(props.valueFormat?.indexOf('-')?'-':'/')
                 mobileTimeValue.value=dateValue.value.splice(' ')[1].split(':')
             }
         }
@@ -312,7 +311,14 @@ watch(currModelValue, (currValue) => {
     } else {
         dateValue.value = currValue
         //手机端
-
+        if(currValue){
+            const currDate=new Date(currValue)
+            mobileDateValue.value=[currDate.getFullYear(),currDate.getMonth()+1,currDate.getDate()]
+            if(props.type.indexOf('time')){
+                setMobileTime(currDate)
+            }
+        }
+    
     }
 }, { immediate: true })
 
@@ -324,6 +330,10 @@ watchEffect(() => {
         currValueFormat.value = "x";
     }
     currWidth.value = props.width
+    let currDate=new Date()
+    if(currModelValue.value){
+        currDate=new Date(currModelValue.value)
+    }
     if (!currValueFormat.value) {
         switch (props.type) {
             case 'year':
@@ -332,7 +342,9 @@ watchEffect(() => {
                     currWidth.value = '100'
                 }
                 columnsType.value=['year'];
-                mobileDateValue.value=[new Date().getFullYear().toString()]
+                if(!currModelValue.value){
+                    mobileDateValue.value=[currDate.getFullYear().toString()]
+                }
                 break;
             case 'monthrange':
             case 'month':
@@ -341,7 +353,9 @@ watchEffect(() => {
                     currWidth.value = '120'
                 }
                 columnsType.value=['year', 'month'];
-                mobileDateValue.value=[new Date().getFullYear().toString(),new Date().getMonth().toString()]
+                if(!currModelValue.value){
+                 mobileDateValue.value=[currDate.getFullYear().toString(),currDate.getMonth().toString()]
+                }
                 break;
             case 'daterange':
             case 'dates':
@@ -355,7 +369,9 @@ watchEffect(() => {
                     currValueFormat.value = "YYYY-M M-DD HH:mm:ss"
                 }
                 columnsType.value=['year', 'month','day'];
-                mobileDateValue.value=[new Date().getFullYear().toString(),new Date().getMonth().toString(),new Date().getDay()]
+                if(!currModelValue.value){
+                mobileDateValue.value=[currDate.getFullYear().toString(),(currDate.getMonth()+1).toString(),currDate.getDate()]
+                }
                 break;
             case 'datetimerange':
                 currValueFormat.value = "YYYY-MM-DD HH:mm:ss"
@@ -371,8 +387,10 @@ watchEffect(() => {
                 if (!currWidth.value) {
                     currWidth.value = '200'
                 }
-                mobileDateValue.value=[new Date().getFullYear().toString(),new Date().getMonth().toString(),new Date().getDay()]
-                mobileTimeValue.value=["00","00"]
+                if(!currModelValue.value){
+                    mobileDateValue.value=[currDate.getFullYear().toString(),(currDate.getMonth()+1).toString(),currDate.getDate()]
+                    mobileTimeValue.value=["00","00"]
+                }
                 break;
             case 'week':
                 currValueFormat.value = "YYYY-MM-DD"
@@ -398,6 +416,9 @@ watchEffect(() => {
 })
 
 function onConfirm(){
+    if(!isMobile){
+        return;
+    }
     if(mobileTimeValue.value){
         dateValue.value=`${mobileDateValue.value.join(currValueFormat.value.indexOf('-')>-1?'-':'/')} ${mobileTimeValue.value.join(':')}`
     }else{
@@ -407,8 +428,14 @@ function onConfirm(){
     onMobileConfirm(dateValue.value)
 
 }
+function setMobileTime(date:Date){
+    mobileTimeValue.value=[date.getHours().toString().padStart(2,'0'),date.getMinutes().toString().padStart(2,'0'),date.getSeconds().toString().padStart(2,'0')]
+}
+onMounted(() => {
+    initValue()
+    onConfirm()
+})
 
-initValue();
 
 
 </script>
@@ -437,7 +464,7 @@ initValue();
                     >
                     <van-date-picker
                         v-model="mobileDateValue"
-                        
+                        :columnsType="['hour', 'minute', 'second']"
                     />
                     <van-time-picker v-model="mobileTimeValue" />
                     </van-picker-group>
@@ -445,5 +472,3 @@ initValue();
         </ElsFormNode>
     </div>
 </template>
-
-../../utlis/interfaces.js

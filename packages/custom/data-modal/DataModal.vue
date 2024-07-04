@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, useAttrs, watchEffect } from 'vue'
+import { ref, computed, watch, useAttrs, watchEffect,useSlots } from 'vue'
 import { FormItemProps } from '../../utlis/interfaces'
 import { lessCom } from "../../utlis/com";
 import { useModel } from '../../utlis/use'
@@ -25,7 +25,8 @@ interface Props extends FormItemProps {
     open?: Function,
     close?: Function,
     confirm?: Function,
-    componentName?: string
+    componentName?: string,
+    customDisplay?: Function | string,
 }
 const props = withDefaults(defineProps<Props>(), {
     inputWidth: '200',
@@ -45,6 +46,7 @@ const currSelectData = ref<any>()
 
 const dialogVisible = ref(false)
 const attrs = useAttrs()
+const slots=useSlots()
 const {
     currModelValue,
     returnModelValue,
@@ -103,8 +105,8 @@ function handleConfirm() {
             }
             confirmLoading.value = false
         })
-
     }
+    confirmLoading.value = false
 }
 
 function handleReturnResult() {
@@ -155,13 +157,25 @@ const modalUrl = computed(() => {
 <template>
     <div class="els-node">
         <ElsFormNode tagName="Input" v-bind="lessCom.getFormNodeProps(props)">
-            <span class="els-datamodal">
+            <div class="els-datamodal-custom"  v-if="customDisplay||slots.customDisplay">
+                <div class="els-datamodal-custom-inner">
+                    <slot name="customDisplay">
+                        <div v-if="typeof (customDisplay) === 'function'"
+                            v-html="customDisplay()"></div>
+                        <div v-else-if="customDisplay" v-html="customDisplay"></div>
+                    </slot>
+                </div>
+                <component :is="componentName" type="primary" v-bind="attrs" v-if="hasButton"
+                @click.native="handleOpenModal">{{ buttonLabel ? buttonLabel : '选择' }}</component>
+            </div>
+            <span class="els-datamodal" v-else>
                 <el-input v-model="currSelectValue" v-if="hasInput"
                     :style="(inputWidth ? 'width:' + inputWidth.appendPx() : '')"></el-input>
                 <component :is="componentName" type="primary" v-bind="attrs" v-if="hasButton"
                     @click.native="handleOpenModal">{{ buttonLabel ? buttonLabel : '选择' }}</component>
                 <el-tag v-if="currSelectLabel">{{ currSelectLabel }}</el-tag>
             </span>
+            
         </ElsFormNode>
     </div>
     <els-dialog :title="title" :width="width" :contentHeight="height" v-model="dialogVisible" :url="modalUrl"
@@ -188,4 +202,19 @@ const modalUrl = computed(() => {
     align-items: center;
     gap: 5px;
 }
-</style>../../utlis/interfaces.js
+.els-datamodal-custom{
+    background: #fcfcfc;
+    padding: 0 5px;
+    min-height: 48px;
+    position: relative;
+    height: auto;
+    border:1px solid #ebeef5;
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+    border-radius: 5px;
+    .els-datamodal-custom-inner{
+        flex:auto;
+    }
+}
+</style>

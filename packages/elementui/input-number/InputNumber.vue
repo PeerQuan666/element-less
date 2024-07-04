@@ -9,7 +9,8 @@ defineOptions({
 })
 interface Props extends FormItemProps {
     width?:string
-    modelValue?: number|string
+    modelValue?: number|string,
+    precision?:Number
 }
 const {getValue}=useValue()
 const isMobile = getValue<boolean>('isMobile', false)
@@ -47,8 +48,8 @@ watch(currValue, (val) => {
 <template>
        <div class="els-node">
         <ElsFormNode v-bind="lessCom.getFormNodeProps(props)">
-            <el-input-number v-model="currValue" v-if="!isMobile" :style="[{ width: width?.appendPx() }]"  v-bind="attrs"></el-input-number>
-            <van-stepper v-else v-model="currValue"   v-bind="attrs"/>
+            <el-input-number v-model="currValue" v-if="!isMobile" :style="[{ width: width?.appendPx() }]" :precision="precision" v-bind="attrs"></el-input-number>
+            <van-stepper v-else v-model="currValue" :decimal-length="precision"  v-bind="attrs"/>
         
         </ElsFormNode>
     </div>

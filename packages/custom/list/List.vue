@@ -149,6 +149,7 @@ watchEffect(() => {
     if (props.itemComponent === 'div') {
         currItemClassName.value += ' listitem flex'
     }
+   
 })
 defineExpose({
     remove: handleRemoveIndex
@@ -411,6 +412,7 @@ defineExpose({
         min-height: 48px;
         position: relative;
         height: auto;
+        .els-list-operate{margin-bottom: 0 !important;}
     }
 
     .el-collapse-item__content {

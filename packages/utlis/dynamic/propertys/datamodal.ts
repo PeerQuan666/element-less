@@ -3,12 +3,38 @@ export const property_datamodal=[
 	  "keyID": "e15n2QiSm",
 	  "keyName": "Form",
 	  "keyCode": "h3mvYQq6FI",
-	  "children": [
+	  "dataType": "None",
+	  "arrayDataType": "",
+	  "componentTypeLabel": "Form表单",
+	  "componentType": "Form",
+	  "config": {
+		"baseConfig": {
+		  "inline": false,
+		  "labelPosition": "top",
+		  "labelWidth": "",
+		  "labelSuffix": "",
+		  "hideRequiredAsterisk": false,
+		  "requireAsteriskPosition": "",
+		  "showMessage": true,
+		  "inlineMessage": false,
+		  "statusIcon": false,
+		  "disabled": false,
+		  "scrollToError": false,
+		  "scrollIntoViewOptions": false
+		},
+		"advancedConfig": {
+		  "style": "",
+		  "vif": "",
+		  "disabled": "",
+		  "eventChange": ""
+		},
+		"arrayConfig": {}
+	  },
+	  "data": [
 		{
 		  "keyID": "5e6a12e2af64c446f348f1e26c4ddc9c",
 		  "keyName": "按钮文本",
 		  "keyCode": "buttonLabel",
-		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -23,13 +49,6 @@ export const property_datamodal=[
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
-			  "maxlength": "",
 			  "showWordLimit": false,
 			  "clearable": false,
 			  "isPassword": false,
@@ -46,18 +65,35 @@ export const property_datamodal=[
 		  },
 		  "componentType": "Input",
 		  "dataType": "String",
-		  "formItem": true
+		  "data": []
 		},
 		{
 		  "keyID": "d2835e6475ee0ed3d227451021029bd8",
 		  "keyName": "",
 		  "keyCode": "",
-		  "children": [
+		  "config": {
+			"formConfig": {},
+			"baseConfig": {
+			  "gutter": "10",
+			  "justify": "",
+			  "align": "",
+			  "tag": "div"
+			},
+			"advancedConfig": {
+			  "style": "",
+			  "vif": "",
+			  "disabled": "",
+			  "eventChange": ""
+			},
+			"arrayConfig": {}
+		  },
+		  "componentType": "Row",
+		  "dataType": "None",
+		  "data": [
 			{
 			  "keyID": "c1d53a89bba399d3a92d8c5da572eb9c",
 			  "keyName": "显示输入框",
 			  "keyCode": "hasInput",
-			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -72,8 +108,6 @@ export const property_datamodal=[
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "active-text": "",
-				  "inactive-text": "",
 				  "active-value": true,
 				  "inactive-value": false
 				},
@@ -87,14 +121,13 @@ export const property_datamodal=[
 			  },
 			  "componentType": "Switch",
 			  "dataType": "Bool",
-			  "defaultValue": "true",
-			  "formItem": true
+			  "defaultValue": true,
+			  "data": []
 			},
 			{
 			  "keyID": "e470d73c5920324862ec0b282b43a78c",
 			  "keyName": "输入框宽度",
 			  "keyCode": "inputWidth",
-			  "children": [],
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
@@ -109,13 +142,6 @@ export const property_datamodal=[
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
 				  "showWordLimit": false,
 				  "clearable": false,
 				  "isPassword": false,
@@ -132,34 +158,14 @@ export const property_datamodal=[
 			  },
 			  "componentType": "Input",
 			  "dataType": "String",
-			  "formItem": true
+			  "data": []
 			}
-		  ],
-		  "config": {
-			"formConfig": {},
-			"baseConfig": {
-			  "gutter": "10",
-			  "justify": "",
-			  "align": "",
-			  "tag": "div"
-			},
-			"advancedConfig": {
-			  "style": "",
-			  "vif": "",
-			  "disabled": "",
-			  "eventChange": ""
-			},
-			"arrayConfig": {}
-		  },
-		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  ]
 		},
 		{
 		  "keyID": "833125df2e85a8dfcc45a41551c8f6b8",
 		  "keyName": "弹窗标题",
 		  "keyCode": "title",
-		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -174,13 +180,6 @@ export const property_datamodal=[
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
-			  "maxlength": "",
 			  "showWordLimit": false,
 			  "clearable": false,
 			  "isPassword": false,
@@ -197,102 +196,12 @@ export const property_datamodal=[
 		  },
 		  "componentType": "Input",
 		  "dataType": "String",
-		  "formItem": true
+		  "data": []
 		},
 		{
 		  "keyID": "34e5d6d9d646cd77098f9b4f9b057422",
 		  "keyName": "",
 		  "keyCode": "",
-		  "children": [
-			{
-			  "keyID": "e2389627302a5276b6dbc374e95da0fd",
-			  "keyName": "弹窗宽度",
-			  "keyCode": "width",
-			  "children": [],
-			  "config": {
-				"formConfig": {
-				  "labelWidth": "",
-				  "tip": "",
-				  "tipPosition": "left",
-				  "suffixContent": "",
-				  "required": false,
-				  "requiredMessage": "",
-				  "validType": "",
-				  "validExpression": "",
-				  "validMessage": "",
-				  "validMethod": ""
-				},
-				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
-				  "showWordLimit": false,
-				  "clearable": false,
-				  "isPassword": false,
-				  "isTrim": false,
-				  "encode": false
-				},
-				"advancedConfig": {
-				  "style": "",
-				  "vif": "",
-				  "disabled": "",
-				  "eventChange": ""
-				},
-				"arrayConfig": {}
-			  },
-			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
-			},
-			{
-			  "keyID": "464b8e722ef921cd4cf003b05200834b",
-			  "keyName": "弹窗高度",
-			  "keyCode": "height",
-			  "children": [],
-			  "config": {
-				"formConfig": {
-				  "labelWidth": "",
-				  "tip": "",
-				  "tipPosition": "left",
-				  "suffixContent": "",
-				  "required": false,
-				  "requiredMessage": "",
-				  "validType": "",
-				  "validExpression": "",
-				  "validMessage": "",
-				  "validMethod": ""
-				},
-				"baseConfig": {
-				  "width": "",
-				  "placeholder": "",
-				  "prefixIcon": "",
-				  "suffixIcon": "",
-				  "prefixTag": "",
-				  "suffixTag": "",
-				  "maxlength": "",
-				  "showWordLimit": false,
-				  "clearable": false,
-				  "isPassword": false,
-				  "isTrim": false,
-				  "encode": false
-				},
-				"advancedConfig": {
-				  "style": "",
-				  "vif": "",
-				  "disabled": "",
-				  "eventChange": ""
-				},
-				"arrayConfig": {}
-			  },
-			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
-			}
-		  ],
 		  "config": {
 			"formConfig": {},
 			"baseConfig": {
@@ -311,13 +220,85 @@ export const property_datamodal=[
 		  },
 		  "componentType": "Row",
 		  "dataType": "None",
-		  "formItem": false
+		  "data": [
+			{
+			  "keyID": "e2389627302a5276b6dbc374e95da0fd",
+			  "keyName": "弹窗宽度",
+			  "keyCode": "width",
+			  "config": {
+				"formConfig": {
+				  "labelWidth": "",
+				  "tip": "",
+				  "tipPosition": "left",
+				  "suffixContent": "",
+				  "required": false,
+				  "requiredMessage": "",
+				  "validType": "",
+				  "validExpression": "",
+				  "validMessage": "",
+				  "validMethod": ""
+				},
+				"baseConfig": {
+				  "showWordLimit": false,
+				  "clearable": false,
+				  "isPassword": false,
+				  "isTrim": false,
+				  "encode": false
+				},
+				"advancedConfig": {
+				  "style": "",
+				  "vif": "",
+				  "disabled": "",
+				  "eventChange": ""
+				},
+				"arrayConfig": {}
+			  },
+			  "componentType": "Input",
+			  "dataType": "String",
+			  "data": []
+			},
+			{
+			  "keyID": "464b8e722ef921cd4cf003b05200834b",
+			  "keyName": "弹窗高度",
+			  "keyCode": "height",
+			  "config": {
+				"formConfig": {
+				  "labelWidth": "",
+				  "tip": "",
+				  "tipPosition": "left",
+				  "suffixContent": "",
+				  "required": false,
+				  "requiredMessage": "",
+				  "validType": "",
+				  "validExpression": "",
+				  "validMessage": "",
+				  "validMethod": ""
+				},
+				"baseConfig": {
+				  "showWordLimit": false,
+				  "clearable": false,
+				  "isPassword": false,
+				  "isTrim": false,
+				  "encode": false
+				},
+				"advancedConfig": {
+				  "style": "",
+				  "vif": "",
+				  "disabled": "",
+				  "eventChange": ""
+				},
+				"arrayConfig": {}
+			  },
+			  "componentType": "Input",
+			  "dataType": "String",
+			  "data": []
+			}
+		  ]
 		},
 		{
 		  "keyID": "9495b741e0a80d7c6a7ab0f5a2968016",
 		  "keyName": "跳转类型",
 		  "keyCode": "targetType",
-		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -347,15 +328,10 @@ export const property_datamodal=[
 				  "value": "normal"
 				}
 			  ],
-			  "url": "",
-			  "labelField": "",
-			  "valueField": "",
 			  "multiple": false,
 			  "clearable": false,
 			  "filterable": false,
 			  "allow-create": false,
-			  "width": "",
-			  "placeholder": "",
 			  "teleported": true,
 			  "remote": false
 			},
@@ -369,13 +345,12 @@ export const property_datamodal=[
 		  },
 		  "componentType": "Select",
 		  "dataType": "String",
-		  "formItem": true
+		  "data": []
 		},
 		{
 		  "keyID": "11495a7047412ffe5ad3afc18b4ca815",
 		  "keyName": "弹窗地址",
 		  "keyCode": "url",
-		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -390,13 +365,6 @@ export const property_datamodal=[
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
-			  "maxlength": "",
 			  "showWordLimit": false,
 			  "clearable": false,
 			  "isPassword": false,
@@ -413,13 +381,12 @@ export const property_datamodal=[
 		  },
 		  "componentType": "Input",
 		  "dataType": "String",
-		  "formItem": true
+		  "data": []
 		},
 		{
 		  "keyID": "eaf764e8002b9bde9219cdc29e25be92",
 		  "keyName": "数据接口",
 		  "keyCode": "dataUrl",
-		  "children": [],
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
@@ -434,13 +401,6 @@ export const property_datamodal=[
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "width": "",
-			  "placeholder": "",
-			  "prefixIcon": "",
-			  "suffixIcon": "",
-			  "prefixTag": "",
-			  "suffixTag": "",
-			  "maxlength": "",
 			  "showWordLimit": false,
 			  "clearable": false,
 			  "isPassword": false,
@@ -457,36 +417,8 @@ export const property_datamodal=[
 		  },
 		  "componentType": "Input",
 		  "dataType": "String",
-		  "formItem": true
+		  "data": []
 		}
-	  ],
-	  "dataType": "None",
-	  "arrayDataType": "",
-	  "componentTypeLabel": "Form表单",
-	  "componentType": "Form",
-	  "config": {
-		"baseConfig": {
-		  "inline": false,
-		  "labelPosition": "top",
-		  "labelWidth": "",
-		  "labelSuffix": "",
-		  "hideRequiredAsterisk": false,
-		  "requireAsteriskPosition": "",
-		  "showMessage": true,
-		  "inlineMessage": false,
-		  "statusIcon": false,
-		  "disabled": false,
-		  "scrollToError": false,
-		  "scrollIntoViewOptions": false
-		},
-		"advancedConfig": {
-		  "style": "",
-		  "vif": "",
-		  "disabled": "",
-		  "eventChange": ""
-		},
-		"arrayConfig": {}
-	  },
-	  "formItem": false
+	  ]
 	}
-  ]
+  ]	
