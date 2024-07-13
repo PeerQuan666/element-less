@@ -25,7 +25,7 @@ import {
   capitalize,
   cloneVNode,
   compatUtils,
-  compile,
+  compileToFunction,
   computed2 as computed,
   createApp,
   createBaseVNode,
@@ -64,7 +64,7 @@ import {
   hydrate,
   initCustomFormatter,
   initDirectivesForSSR,
-  init_vue_runtime_esm_bundler,
+  init_vue_esm_bundler,
   inject,
   isMemoSame,
   isProxy,
@@ -159,9 +159,9 @@ import {
   withMemo,
   withModifiers,
   withScopeId
-} from "./chunk-Y3E3Y6KD.js";
+} from "./chunk-4IFYGZA2.js";
 import "./chunk-TIUEEL27.js";
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 export {
   BaseTransition,
   BaseTransitionPropsValidators,
@@ -189,7 +189,7 @@ export {
   capitalize,
   cloneVNode,
   compatUtils,
-  compile,
+  compileToFunction as compile,
   computed,
   createApp,
   createBlock,

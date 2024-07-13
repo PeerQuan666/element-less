@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import Form from './Form.vue'
 
-// 使用install方法，在app.use挂载
-Form.install = (app: App): void => {
-  app.component(Form.__name as string, Form)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import Form from './src/form.vue'
 
-export default Form
+export const ElsForm = withInstall(Form)
+
+export default ElsForm
+
+export * from './src/form'

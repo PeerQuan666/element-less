@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import DatePickerRange from './DatePickerRange.vue'
 
-// 使用install方法，在app.use挂载
-DatePickerRange.install = (app: App): void => {
-  app.component(DatePickerRange.__name as string, DatePickerRange)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import DatePickerRange from './src/datePickerRange.vue'
 
-export default DatePickerRange
+export const ElsDatePickerRange = withInstall(DatePickerRange)
+
+export default ElsDatePickerRange
+
+export * from './src/datePickerRange'

@@ -1,9 +1,8 @@
-import type { App } from 'vue'
-import TimePickerRange from './TimePickerRange.vue'
 
-// 使用install方法，在app.use挂载
-TimePickerRange.install = (app: App): void => {
-  app.component(TimePickerRange.__name as string, TimePickerRange)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import TimePickerRange from './src/timePickerRange.vue'
 
-export default TimePickerRange
+export const ElsTimePickerRange = withInstall(TimePickerRange)
+
+export default ElsTimePickerRange
+export * from './src/timePickerRange'

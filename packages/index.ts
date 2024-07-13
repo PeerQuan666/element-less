@@ -1,6 +1,6 @@
 import { App } from 'vue'
 
-import {lessCom} from  './utlis/com'
+import utils,{ElsMessage} from  './utils'
 
 // 导出所有组件
 import ElsInput from './elementui/input'
@@ -19,15 +19,7 @@ import ElsForm from './elementui/form'
 import ElsFormQuery from './elementui/form-query'
 import ElsFormItem from './elementui/form-item'
 import ElsTable from './elementui/table'
-import ElsColumn from './elementui/table-column'
-import ElsColumnBool from './elementui/table-column-bool'
-import ElsColumnCheckbox from './elementui/table-column-checkbox'
-import ElsColumnEnum from './elementui/table-column-enum'
-import ElsColumnExpand from './elementui/table-column-expand'
-import ElsColumnHeader from './elementui/table-column-header'
-import ElsColumnImage from './elementui/table-column-image'
-import ElsColumnOperate from './elementui/table-column-operate'
-import ElsColumnSelect from './elementui/table-column-select'
+import {ElsColumn,ElsColumnBool,ElsColumnCheckbox,ElsColumnEnum,ElsColumnExpand,ElsColumnHeader,ElsColumnImage,ElsColumnOperate,ElsColumnSelect} from './elementui/table-column'
 import ElsTreeSelect from './elementui/tree-select'
 import ElsTree from './elementui/tree'
 import ElsMenu from './elementui/menu'
@@ -41,8 +33,7 @@ import ElsCascader from './elementui/cascader'
 import ElsCascaderPanel from './elementui/cascader-panel'
 import ElsDialog from './elementui/dialog'
 import ElsDrawer from './elementui/drawer'
-import ElsDropdown from './elementui/dropdown'
-import ElsDropdownGroup from './elementui/dropdown/DropdownGroup.vue'
+import {ElsDropdown,ElsDropdownGroup} from './elementui/dropdown'
 import ElsSlider from './elementui/slider'
 import ElsInputNumber from './elementui/input-number'
 import ElsUpload from './elementui/upload'
@@ -68,7 +59,7 @@ import ElsTip from './custom/tip'
 import ElsFormNode from './custom/form-node'
 import ElsDynamicDesigner from './custom/dynamic/designer'
 import ElsDynamicRender from './custom/dynamic/render'
-import ElsContainer from './custom/container/Container.vue'
+import ElsContainer from './custom/container'
 import ElsDynamicDesignerView  from './custom/dynamic/designerView'
 
 import ElsHighlight from './custom/highlight'
@@ -162,7 +153,8 @@ const ElementLess = {
             }
         });
     },
-    utlis:lessCom
+    utlis:utils,
+    ElsMessage:ElsMessage
 
 };
 components.forEach((item) => {
@@ -170,4 +162,6 @@ components.forEach((item) => {
         ElementLess[item.name]=item
     }
 });
+
+export * from './elementui/input'
 export default ElementLess;

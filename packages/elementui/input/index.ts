@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import Input from './Input.vue'
 
-// 使用install方法，在app.use挂载
-Input.install = (app: App): void => {
-  app.component(Input.__name as string, Input)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import Input from './src/input.vue'
 
-export default Input
+export const ElsInput = withInstall(Input)
+
+export default ElsInput
+
+export * from './src/input'

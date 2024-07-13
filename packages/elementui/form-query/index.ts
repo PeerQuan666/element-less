@@ -1,9 +1,10 @@
-import type { App } from 'vue'
-import FormQuery from './FormQuery.vue'
 
-// 使用install方法，在app.use挂载
-FormQuery.install = (app: App): void => {
-  app.component(FormQuery.__name as string, FormQuery)
-}
+import { withInstall } from 'element-plus/es/utils/index'
 
-export default FormQuery
+import FormQuery from './src/formQuery.vue'
+
+export const ElsFormQuery= withInstall(FormQuery)
+
+export default ElsFormQuery
+
+export * from './src/formQuery'

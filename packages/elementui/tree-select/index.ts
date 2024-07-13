@@ -1,9 +1,7 @@
-import type { App } from 'vue'
-import TreeSelect from './TreeSelect.vue'
 
-// 使用install方法，在app.use挂载
-TreeSelect.install = (app: App): void => {
-  app.component(TreeSelect.__name as string, TreeSelect)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import TreeSelect from './src/treeSelect.vue'
 
-export default TreeSelect
+export const ElsTreeSelect = withInstall(TreeSelect)
+
+export default ElsTreeSelect

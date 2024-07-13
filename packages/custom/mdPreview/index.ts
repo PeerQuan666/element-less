@@ -1,9 +1,8 @@
-import type { App } from 'vue'
-import ElsMdPreview from './ElsMdPreview.vue'
 
-// 使用install方法，在app.use挂载
-ElsMdPreview.install = (app: App): void => {
-  app.component(ElsMdPreview.__name as string, ElsMdPreview)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import MdPreview from './src/mdPreview.vue'
 
+export const ElsMdPreview = withInstall(MdPreview)
 export default ElsMdPreview
+
+

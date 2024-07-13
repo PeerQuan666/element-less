@@ -1,9 +1,8 @@
-import type { App } from 'vue'
-import ButtonExport from './ButtonExport.vue'
 
-// 使用install方法，在app.use挂载
-ButtonExport.install = (app: App): void => {
-  app.component(ButtonExport.__name as string, ButtonExport)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import ButtonExport from './src/buttonExport.vue'
 
-export default ButtonExport
+export const ElsButtonExport = withInstall(ButtonExport)
+
+export default ElsButtonExport
+

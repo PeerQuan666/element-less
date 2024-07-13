@@ -1,9 +1,8 @@
-import type { App } from 'vue'
-import Dropdown from './Dropdown.vue'
 
-// 使用install方法，在app.use挂载
-Dropdown.install = (app: App): void => {
-  app.component(Dropdown.__name as string, Dropdown)
-}
-
-export default Dropdown
+import { withInstall } from 'element-plus/es/utils/index'
+import Dropdown from './src/dropdown.vue'
+import DropdownGroup from './src/dropdownGroup.vue'
+export const ElsDropdown = withInstall(Dropdown)
+export const ElsDropdownGroup = withInstall(DropdownGroup)
+export default ElsDropdown
+export * from './src/dropdown'

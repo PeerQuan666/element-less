@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import Image from './Image.vue'
 
-// 使用install方法，在app.use挂载
-Image.install = (app: App): void => {
-  app.component(Image.__name as string, Image)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import Image from './src/image.vue'
 
-export default Image
+export const ElsImage = withInstall(Image)
+
+export default ElsImage
+
+export * from './src/image'

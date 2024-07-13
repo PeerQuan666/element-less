@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import Container from '../container/Container.vue'
 
-// 使用install方法，在app.use挂载
-Container.install = (app: App): void => {
-  app.component(Container.__name as string, Container)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import Container from './src/container.vue'
 
-export default Container
+export const ElsContainer = withInstall(Container)
+
+export default ElsContainer
+
+export * from './src/container'

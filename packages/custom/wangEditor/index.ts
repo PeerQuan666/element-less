@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import WangEditor from './WangEditor.vue'
 
-// 使用install方法，在app.use挂载
-WangEditor.install = (app: App): void => {
-  app.component(WangEditor.__name as string, WangEditor)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import WangEditor from './src/wangEditor.vue'
 
-export default WangEditor
+export const ElsWangEditor = withInstall(WangEditor)
+export default ElsWangEditor
+
+export * from './src/wangEditor'
+

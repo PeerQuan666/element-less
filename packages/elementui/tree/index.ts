@@ -1,9 +1,8 @@
-import type { App } from 'vue'
-import Tree from './Tree.vue'
 
-// 使用install方法，在app.use挂载
-Tree.install = (app: App): void => {
-  app.component(Tree.__name as string, Tree)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import Tree from './src/tree.vue'
 
-export default Tree
+export const ElsTree = withInstall(Tree)
+
+export default ElsTree
+export * from './src/tree'

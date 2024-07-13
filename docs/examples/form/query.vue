@@ -14,12 +14,12 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import {lessCom} from '../../../packages/utlis/com'
+import utils from '@/utils'
 const queryForm = ref()
 const formData = ref({})
 function handleSearch() {
     queryForm.value.query().then(res => {
-        console.info(lessCom.getQueryParameters(res))
+        console.info(utils.getQueryParameters(res))
     })
 
 

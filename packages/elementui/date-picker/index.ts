@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import DatePicker from './DatePicker.vue'
 
-// 使用install方法，在app.use挂载
-DatePicker.install = (app: App): void => {
-  app.component(DatePicker.__name as string, DatePicker)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import DatePicker from './src/datePicker.vue'
 
-export default DatePicker
+export const ElsDatePicker = withInstall(DatePicker)
+
+export default ElsDatePicker
+
+export * from './src/datePicker'

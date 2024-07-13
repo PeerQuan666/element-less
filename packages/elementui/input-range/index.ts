@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import InputRange from './InputRange.vue'
 
-// 使用install方法，在app.use挂载
-InputRange.install = (app: App): void => {
-  app.component(InputRange.__name as string, InputRange)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import InputRange from './src/inputRange.vue'
 
-export default InputRange
+export const ElsInputRange = withInstall(InputRange)
+
+export default ElsInputRange
+
+export * from './src/inputRange'

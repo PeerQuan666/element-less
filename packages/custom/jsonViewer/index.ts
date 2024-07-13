@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import JsonViewer from './JsonViewer.vue'
 
-// 使用install方法，在app.use挂载
-JsonViewer.install = (app: App): void => {
-  app.component(JsonViewer.__name as string, JsonViewer)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import JsonViewer from './src/jsonViewer.vue'
 
-export default JsonViewer
+export const ElsJsonViewer = withInstall(JsonViewer)
+export default ElsJsonViewer
+
+export * from './src/jsonViewer'
+

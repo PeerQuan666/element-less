@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import StampBadge from './StampBadge.vue'
 
-// 使用install方法，在app.use挂载
-StampBadge.install = (app: App): void => {
-  app.component(StampBadge.__name as string, StampBadge)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import StampBadge from './src/stampBadge.vue'
 
-export default StampBadge
+export const ElsStampBadge = withInstall(StampBadge)
+export default ElsStampBadge
+
+export * from './src/stampBadge'
+

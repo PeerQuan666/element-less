@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import ColorPicker from './ColorPicker.vue'
 
-// 使用install方法，在app.use挂载
-ColorPicker.install = (app: App): void => {
-  app.component(ColorPicker.__name as string, ColorPicker)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import ColorPicker from './src/colorPicker.vue'
 
-export default ColorPicker
+export const ElsColorPicker = withInstall(ColorPicker)
+
+export default ElsColorPicker
+
+export * from './src/colorPicker'

@@ -1,9 +1,7 @@
-import type { App } from 'vue'
-import Textarea from './Textarea.vue'
 
-// 使用install方法，在app.use挂载
-Textarea.install = (app: App): void => {
-  app.component(Textarea.__name as string, Textarea)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import Textarea from './src/textarea.vue'
 
-export default Textarea
+export const ElsTextarea = withInstall(Textarea)
+
+export default ElsTextarea

@@ -59,5 +59,14 @@ export default defineConfig({
         md.use(tooltip)
         md.use(tag)
         md.use(ApiTableContainer)
-    }}
+    }},
+    vite:{
+      resolve: {
+        alias: {
+
+        '@': path.resolve(__dirname, '../../packages'),
+        'vue': 'vue/dist/vue.esm-bundler.js'
+        }
+      }
+    }
   })

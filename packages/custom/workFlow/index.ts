@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import WorkFlow from './WorkFlow.vue'
 
-// 使用install方法，在app.use挂载
-WorkFlow.install = (app: App): void => {
-  app.component(WorkFlow.__name as string, WorkFlow)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import WorkFlow from './src/workFlow.vue'
 
-export default WorkFlow
+export const ElsWorkFlow = withInstall(WorkFlow)
+export default ElsWorkFlow
+
+export * from './src/workFlow'
+

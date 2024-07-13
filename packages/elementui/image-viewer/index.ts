@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import ImageViewer from './ImageViewer.vue'
 
-// 使用install方法，在app.use挂载
-ImageViewer.install = (app: App): void => {
-  app.component(ImageViewer.__name as string, ImageViewer)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import ImageViewer from './src/imageViewer.vue'
 
-export default ImageViewer
+export const ElsImageViewer = withInstall(ImageViewer)
+
+export default ElsImageViewer
+
+export * from './src/imageViewer'

@@ -1,9 +1,10 @@
-import type { App } from 'vue'
-import Table from './Table.vue'
 
-// 使用install方法，在app.use挂载
-Table.install = (app: App): void => {
-  app.component(Table.__name as string, Table)
-}
+import { withInstall } from 'element-plus/es/utils/index'
 
-export default Table
+import Table from './src/table.vue'
+
+export const ElsTable= withInstall(Table)
+
+export default ElsTable
+
+export * from './src/table'

@@ -52,7 +52,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "^20.4.8",
+    "@types/node": "^20.14.9",
     "@types/sortablejs": "^1.15.2",
     "@vitejs/plugin-vue": "^4.2.3",
     "ace-builds": "^1.28.0",

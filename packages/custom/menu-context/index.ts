@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import MenuContext from './MenuContext.vue'
 
-// 使用install方法，在app.use挂载
-MenuContext.install = (app: App): void => {
-  app.component(MenuContext.__name as string, MenuContext)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import MenuContext from './src/menuContext.vue'
 
-export default MenuContext
+export const ElsMenuContext = withInstall(MenuContext)
+export default ElsMenuContext
+
+export * from './src/menuContext'
+

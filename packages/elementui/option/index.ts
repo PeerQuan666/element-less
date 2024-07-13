@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import Option from './Option.vue'
 
-// 使用install方法，在app.use挂载
-Option.install = (app: App): void => {
-  app.component(Option.__name as string, Option)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import Option from './src/option.vue'
 
-export default Option
+export const ElsOption = withInstall(Option)
+
+export default ElsOption
+
+export * from './src/option'

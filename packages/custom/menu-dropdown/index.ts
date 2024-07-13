@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import MenuDropdown from './MenuDropdown.vue'
 
-// 使用install方法，在app.use挂载
-MenuDropdown.install = (app: App): void => {
-  app.component(MenuDropdown.__name as string, MenuDropdown)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import MenuDropdown from './src/menuDropdown.vue'
 
-export default MenuDropdown
+export const ElsMenuDropdown = withInstall(MenuDropdown)
+export default ElsMenuDropdown
+
+export * from './src/menuDropdown'
+

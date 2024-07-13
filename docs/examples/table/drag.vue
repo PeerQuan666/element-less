@@ -11,12 +11,11 @@
         </els-select>
       </template>
     </els-column-bool>
-    <els-column-enum prop="valueType" label="枚举类型" width="100" :enumData="ValueType"></els-column-enum>
+    <els-column-enum prop="valueType" label="枚举类型" width="100"></els-column-enum>
   </els-table>
 </template>
 
 <script setup lang="ts">
-import { ValueType } from '../../../packages/utlis/enums'
 import { ref, reactive } from 'vue'
 const data = reactive([
   { key: '北京', value: 1, group: '分组1', isRelease: 1, valueType: '' },

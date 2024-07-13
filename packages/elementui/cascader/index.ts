@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import Cascader from './Cascader.vue'
 
-// 使用install方法，在app.use挂载
-Cascader.install = (app: App): void => {
-  app.component(Cascader.__name as string, Cascader)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import Cascader from './src/cascader.vue'
 
-export default Cascader
+export const ElsCascader = withInstall(Cascader)
+
+export default ElsCascader
+
+export * from './src/cascader'

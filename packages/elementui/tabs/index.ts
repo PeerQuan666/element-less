@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import Tabs from './Tabs.vue'
 
-// 使用install方法，在app.use挂载
-Tabs.install = (app: App): void => {
-  app.component(Tabs.__name as string, Tabs)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import Tabs from './src/tabs.vue'
 
-export default Tabs
+export const ElsTabs = withInstall(Tabs)
+
+export default ElsTabs
+
+export * from './src/tabs'

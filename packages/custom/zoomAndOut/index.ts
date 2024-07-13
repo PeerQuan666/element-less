@@ -1,9 +1,8 @@
-import type { App } from 'vue'
-import ZoomAndOut from './ZoomAndOut.vue'
 
-// 使用install方法，在app.use挂载
-ZoomAndOut.install = (app: App): void => {
-  app.component(ZoomAndOut.__name as string, ZoomAndOut)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import ZoomAndOut from './src/zoomAndOut.vue'
 
-export default ZoomAndOut
+export const ElsZoomAndOut = withInstall(ZoomAndOut)
+export default ElsZoomAndOut
+
+

@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import Slider from './Slider.vue'
 
-// 使用install方法，在app.use挂载
-Slider.install = (app: App): void => {
-  app.component(Slider.__name as string, Slider)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import Slider from './src/slider.vue'
 
-export default Slider
+export const ElsSlider = withInstall(Slider)
+
+export default ElsSlider
+
+export * from './src/slider'

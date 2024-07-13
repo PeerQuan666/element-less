@@ -12,7 +12,7 @@ import {
   getCurrentInstance,
   h,
   init_shared_esm_bundler,
-  init_vue_runtime_esm_bundler,
+  init_vue_esm_bundler,
   inject,
   isRef,
   isVNode,
@@ -38,7 +38,7 @@ import {
   watchEffect,
   withDirectives,
   withKeys
-} from "./chunk-Y3E3Y6KD.js";
+} from "./chunk-4IFYGZA2.js";
 import "./chunk-TIUEEL27.js";
 
 // node_modules/vant/es/utils/basic.mjs
@@ -110,18 +110,18 @@ var makeStringProp = (defaultVal) => ({
 });
 
 // node_modules/@vant/use/dist/index.esm.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var inBrowser2 = typeof window !== "undefined";
 function raf(fn2) {
   return inBrowser2 ? requestAnimationFrame(fn2) : -1;
@@ -514,7 +514,7 @@ function useCustomFieldValue(customValue) {
 }
 
 // node_modules/vant/es/utils/dom.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 function getScrollTop(el) {
   const top2 = "scrollTop" in el ? el.scrollTop : el.pageYOffset;
   return Math.max(top2, 0);
@@ -691,7 +691,7 @@ function addNumber(num1, num2) {
 }
 
 // node_modules/vant/es/locale/index.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/utils/deep-assign.mjs
 var { hasOwnProperty } = Object.prototype;
@@ -904,17 +904,17 @@ function closest(arr, target) {
 }
 
 // node_modules/vant/es/action-bar/ActionBar.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/composables/use-placeholder.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/composables/use-height.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/composables/on-popup-reopen.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 var POPUP_TOGGLE_KEY = Symbol();
 function onPopupReopen(callback) {
   const popupToggleStatus = inject(POPUP_TOGGLE_KEY, null);
@@ -998,11 +998,11 @@ var stdin_default3 = defineComponent({
 var ActionBar = withInstall(stdin_default3);
 
 // node_modules/vant/es/action-bar-button/ActionBarButton.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/composables/use-expose.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 function useExpose(apis) {
   const instance4 = getCurrentInstance();
   if (instance4) {
@@ -1011,7 +1011,7 @@ function useExpose(apis) {
 }
 
 // node_modules/vant/es/composables/use-route.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 var routeProps = {
   to: [String, Object],
   url: String,
@@ -1035,16 +1035,16 @@ function useRoute() {
 }
 
 // node_modules/vant/es/button/Button.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/icon/Icon.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/badge/Badge.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name2, bem2] = createNamespace("badge");
 var badgeProps = {
   dot: Boolean,
@@ -1148,8 +1148,8 @@ var stdin_default4 = defineComponent({
 var Badge = withInstall(stdin_default4);
 
 // node_modules/vant/es/config-provider/ConfigProvider.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/composables/use-global-z-index.mjs
 var globalZIndex = 2e3;
@@ -1312,8 +1312,8 @@ var Icon = withInstall(stdin_default6);
 var stdin_default7 = Icon;
 
 // node_modules/vant/es/loading/Loading.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name5, bem5] = createNamespace("loading");
 var SpinIcon = Array(12).fill(null).map((_, index) => createVNode("i", {
   "class": bem5("line", String(index + 1))
@@ -1594,8 +1594,8 @@ var stdin_default10 = defineComponent({
 var ActionBarButton = withInstall(stdin_default10);
 
 // node_modules/vant/es/action-bar-icon/ActionBarIcon.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name8, bem8] = createNamespace("action-bar-icon");
 var actionBarIconProps = extend({}, routeProps, {
   dot: Boolean,
@@ -1658,12 +1658,12 @@ var stdin_default11 = defineComponent({
 var ActionBarIcon = withInstall(stdin_default11);
 
 // node_modules/vant/es/action-sheet/ActionSheet.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/popup/Popup.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/popup/shared.mjs
 var popupSharedProps = {
@@ -1697,10 +1697,10 @@ var popupSharedPropKeys = Object.keys(
 );
 
 // node_modules/vant/es/composables/use-lock-scroll.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/composables/use-touch.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 function getDirection(x, y) {
   if (x > y) {
     return "horizontal";
@@ -1819,7 +1819,7 @@ function useLockScroll(rootRef, shouldLock) {
 }
 
 // node_modules/vant/es/composables/use-lazy-render.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 function useLazyRender(show) {
   const inited = ref(false);
   watch(
@@ -1835,7 +1835,7 @@ function useLazyRender(show) {
 }
 
 // node_modules/vant/es/composables/use-scope-id.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 var useScopeId = () => {
   var _a;
   const { scopeId } = ((_a = getCurrentInstance()) == null ? void 0 : _a.vnode) || {};
@@ -1843,8 +1843,8 @@ var useScopeId = () => {
 };
 
 // node_modules/vant/es/overlay/Overlay.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name9, bem9] = createNamespace("overlay");
 var overlayProps = {
   show: Boolean,
@@ -2234,16 +2234,16 @@ var stdin_default14 = defineComponent({
 var ActionSheet = withInstall(stdin_default14);
 
 // node_modules/vant/es/address-edit/AddressEdit.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/area/Area.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/picker/Picker.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/picker/utils.mjs
 var [name12, bem12, t] = createNamespace("picker");
@@ -2314,8 +2314,8 @@ function assignDefaultFields(fields) {
 }
 
 // node_modules/vant/es/picker/PickerColumn.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var DEFAULT_DURATION = 200;
 var MOMENTUM_TIME = 300;
 var MOMENTUM_DISTANCE = 15;
@@ -2512,8 +2512,8 @@ var stdin_default15 = defineComponent({
 });
 
 // node_modules/vant/es/picker/PickerToolbar.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name14] = createNamespace("picker-toolbar");
 var pickerToolbarProps = {
   title: String,
@@ -2573,11 +2573,11 @@ var stdin_default16 = defineComponent({
 });
 
 // node_modules/vant/es/picker-group/PickerGroup.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/composables/use-sync-prop-ref.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 var useSyncPropRef = (getProp, setProp) => {
   const propRef = ref(getProp());
   watch(getProp, (value) => {
@@ -2594,13 +2594,13 @@ var useSyncPropRef = (getProp, setProp) => {
 };
 
 // node_modules/vant/es/tab/Tab.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 init_shared_esm_bundler();
 
 // node_modules/vant/es/tabs/Tabs.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/tabs/utils.mjs
 function scrollLeftTo(scroller, to, duration) {
@@ -2646,7 +2646,7 @@ function scrollTopTo(scroller, to, duration, callback) {
 }
 
 // node_modules/vant/es/composables/use-id.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 var current = 0;
 function useId() {
   const vm = getCurrentInstance();
@@ -2658,7 +2658,7 @@ function useId() {
 }
 
 // node_modules/vant/es/composables/use-refs.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 function useRefs() {
   const refs = ref([]);
   const cache = [];
@@ -2677,7 +2677,7 @@ function useRefs() {
 }
 
 // node_modules/vant/es/composables/use-visibility-change.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 function useVisibilityChange(target, onChange) {
   if (!inBrowser || !window.IntersectionObserver) {
     return;
@@ -2704,8 +2704,8 @@ function useVisibilityChange(target, onChange) {
 }
 
 // node_modules/vant/es/sticky/Sticky.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name15, bem14] = createNamespace("sticky");
 var stickyProps = {
   zIndex: numericProp,
@@ -2841,12 +2841,12 @@ var stdin_default17 = defineComponent({
 var Sticky = withInstall(stdin_default17);
 
 // node_modules/vant/es/tabs/TabsContent.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/swipe/Swipe.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name16, bem15] = createNamespace("swipe");
 var swipeProps = {
   loop: truthProp,
@@ -3623,13 +3623,13 @@ var stdin_default20 = defineComponent({
 });
 
 // node_modules/vant/es/composables/use-tab-status.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 var TAB_STATUS_KEY = Symbol();
 var useTabStatus = () => inject(TAB_STATUS_KEY, null);
 
 // node_modules/vant/es/tab/TabTitle.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name19, bem18] = createNamespace("tab");
 var TabTitle = defineComponent({
   name: name19,
@@ -3715,8 +3715,8 @@ var TabTitle = defineComponent({
 });
 
 // node_modules/vant/es/swipe-item/SwipeItem.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name20, bem19] = createNamespace("swipe-item");
 var stdin_default21 = defineComponent({
   name: name20,
@@ -4371,8 +4371,8 @@ var stdin_default25 = defineComponent({
 var Area = withInstall(stdin_default25);
 
 // node_modules/vant/es/cell/Cell.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name24, bem23] = createNamespace("cell");
 var cellSharedProps = {
   tag: makeStringProp("div"),
@@ -4500,8 +4500,8 @@ var stdin_default26 = defineComponent({
 var Cell = withInstall(stdin_default26);
 
 // node_modules/vant/es/form/Form.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name25, bem24] = createNamespace("form");
 var formProps = {
   colon: Boolean,
@@ -4660,8 +4660,8 @@ var stdin_default27 = defineComponent({
 var Form = withInstall(stdin_default27);
 
 // node_modules/vant/es/field/Field.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/field/utils.mjs
 function isEmptyValue(value) {
@@ -5281,8 +5281,8 @@ var stdin_default28 = defineComponent({
 var Field = withInstall(stdin_default28);
 
 // node_modules/vant/es/toast/Toast.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/toast/lock-click.mjs
 var lockCount = 0;
@@ -5420,11 +5420,11 @@ var stdin_default29 = defineComponent({
 });
 
 // node_modules/vant/es/toast/function-call.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/utils/mount-component.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 function usePopupState() {
   const state = reactive({
     show: false
@@ -5591,8 +5591,8 @@ var allowMultipleToast = (value = true) => {
 var Toast = withInstall(stdin_default29);
 
 // node_modules/vant/es/switch/Switch.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name28, bem27] = createNamespace("switch");
 var switchProps = {
   size: numericProp,
@@ -5675,8 +5675,8 @@ var stdin_default30 = defineComponent({
 var Switch = withInstall(stdin_default30);
 
 // node_modules/vant/es/address-edit/AddressEditDetail.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name29, bem28] = createNamespace("address-edit-detail");
 var t2 = createNamespace("address-edit")[2];
 var stdin_default31 = defineComponent({
@@ -6030,12 +6030,12 @@ var stdin_default32 = defineComponent({
 var AddressEdit = withInstall(stdin_default32);
 
 // node_modules/vant/es/address-list/AddressList.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/radio-group/RadioGroup.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name31, bem30] = createNamespace("radio-group");
 var radioGroupProps = {
   shape: String,
@@ -6078,12 +6078,12 @@ var stdin_default33 = defineComponent({
 var RadioGroup = withInstall(stdin_default33);
 
 // node_modules/vant/es/address-list/AddressListItem.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/tag/Tag.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name32, bem31] = createNamespace("tag");
 var tagProps = {
   size: String,
@@ -6160,12 +6160,12 @@ var stdin_default34 = defineComponent({
 var Tag = withInstall(stdin_default34);
 
 // node_modules/vant/es/radio/Radio.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/checkbox/Checker.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var checkerProps = {
   name: unknownProp,
   disabled: Boolean,
@@ -6515,8 +6515,8 @@ var stdin_default38 = defineComponent({
 var AddressList = withInstall(stdin_default38);
 
 // node_modules/vant/es/back-top/BackTop.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/lazyload/vue-lazyload/util.mjs
 var hasIntersectionObserver = inBrowser2 && "IntersectionObserver" in window && "IntersectionObserverEntry" in window && "intersectionRatio" in window.IntersectionObserverEntry.prototype;
@@ -6787,8 +6787,8 @@ var stdin_default39 = defineComponent({
 var BackTop = withInstall(stdin_default39);
 
 // node_modules/vant/es/barrage/Barrage.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var __async = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
@@ -6920,8 +6920,8 @@ var stdin_default40 = defineComponent({
 var Barrage = withInstall(stdin_default40);
 
 // node_modules/vant/es/calendar/Calendar.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/calendar/utils.mjs
 var [name38, bem37, t5] = createNamespace("calendar");
@@ -6966,8 +6966,8 @@ function calcDateNum(date) {
 }
 
 // node_modules/vant/es/calendar/CalendarMonth.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/date-picker/utils.mjs
 var sharedProps = extend({}, pickerSharedProps, {
@@ -7012,8 +7012,8 @@ var formatValueRange = (values, columns) => values.map((value, index) => {
 });
 
 // node_modules/vant/es/calendar/CalendarDay.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name39] = createNamespace("calendar-day");
 var stdin_default41 = defineComponent({
   name: name39,
@@ -7342,8 +7342,8 @@ var stdin_default42 = defineComponent({
 });
 
 // node_modules/vant/es/calendar/CalendarHeader.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name41] = createNamespace("calendar-header");
 var stdin_default43 = defineComponent({
   name: name41,
@@ -7808,12 +7808,12 @@ var stdin_default44 = defineComponent({
 var Calendar = withInstall(stdin_default44);
 
 // node_modules/vant/es/card/Card.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/image/Image.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name42, bem38] = createNamespace("image");
 var imageProps = {
   src: String,
@@ -8109,8 +8109,8 @@ var stdin_default46 = defineComponent({
 var Card = withInstall(stdin_default46);
 
 // node_modules/vant/es/cascader/Cascader.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name44, bem40, t6] = createNamespace("cascader");
 var cascaderProps = {
   title: String,
@@ -8347,8 +8347,8 @@ var stdin_default47 = defineComponent({
 var Cascader = withInstall(stdin_default47);
 
 // node_modules/vant/es/cell-group/CellGroup.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name45, bem41] = createNamespace("cell-group");
 var cellGroupProps = {
   title: String,
@@ -8391,12 +8391,12 @@ var stdin_default48 = defineComponent({
 var CellGroup = withInstall(stdin_default48);
 
 // node_modules/vant/es/checkbox/Checkbox.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/checkbox-group/CheckboxGroup.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name46, bem42] = createNamespace("checkbox-group");
 var checkboxGroupProps = {
   max: numericProp,
@@ -8551,8 +8551,8 @@ var Checkbox = withInstall(stdin_default50);
 var CheckboxGroup = withInstall(stdin_default49);
 
 // node_modules/vant/es/circle/Circle.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name48, bem44] = createNamespace("circle");
 var uid = 0;
 var format = (rate) => Math.min(Math.max(+rate, 0), 100);
@@ -8703,12 +8703,12 @@ var stdin_default51 = defineComponent({
 var Circle = withInstall(stdin_default51);
 
 // node_modules/vant/es/col/Col.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/row/Row.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name49, bem45] = createNamespace("row");
 var ROW_KEY = Symbol(name49);
 var rowProps = {
@@ -8893,8 +8893,8 @@ var stdin_default53 = defineComponent({
 var Col = withInstall(stdin_default53);
 
 // node_modules/vant/es/collapse/Collapse.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name51, bem47] = createNamespace("collapse");
 var COLLAPSE_KEY = Symbol(name51);
 var collapseProps = {
@@ -8999,8 +8999,8 @@ var stdin_default54 = defineComponent({
 var Collapse = withInstall(stdin_default54);
 
 // node_modules/vant/es/collapse-item/CollapseItem.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name52, bem48] = createNamespace("collapse-item");
 var CELL_SLOTS = ["icon", "title", "value", "label", "right-icon"];
 var collapseItemProps = extend({}, cellSharedProps, {
@@ -9133,8 +9133,8 @@ var CollapseItem = withInstall(stdin_default55);
 var ConfigProvider = withInstall(stdin_default5);
 
 // node_modules/vant/es/contact-card/ContactCard.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name53, bem49, t7] = createNamespace("contact-card");
 var contactCardProps = {
   tel: String,
@@ -9179,8 +9179,8 @@ var stdin_default56 = defineComponent({
 var ContactCard = withInstall(stdin_default56);
 
 // node_modules/vant/es/contact-edit/ContactEdit.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name54, bem50, t8] = createNamespace("contact-edit");
 var DEFAULT_CONTACT = {
   tel: "",
@@ -9287,8 +9287,8 @@ var stdin_default57 = defineComponent({
 var ContactEdit = withInstall(stdin_default57);
 
 // node_modules/vant/es/contact-list/ContactList.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name55, bem51, t9] = createNamespace("contact-list");
 var contactListProps = {
   list: Array,
@@ -9371,8 +9371,8 @@ var stdin_default58 = defineComponent({
 var ContactList = withInstall(stdin_default58);
 
 // node_modules/vant/es/count-down/CountDown.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/count-down/utils.mjs
 function parseFormat(format3, currentTime) {
@@ -9464,8 +9464,8 @@ var stdin_default59 = defineComponent({
 var CountDown = withInstall(stdin_default59);
 
 // node_modules/vant/es/coupon/Coupon.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/coupon/utils.mjs
 function getDate(timeStamp) {
@@ -9555,8 +9555,8 @@ var stdin_default60 = defineComponent({
 var Coupon = withInstall(stdin_default60);
 
 // node_modules/vant/es/coupon-cell/CouponCell.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name58, bem54, t11] = createNamespace("coupon-cell");
 var couponCellProps = {
   title: String,
@@ -9625,12 +9625,12 @@ var stdin_default61 = defineComponent({
 var CouponCell = withInstall(stdin_default61);
 
 // node_modules/vant/es/coupon-list/CouponList.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/empty/Empty.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name59, bem55] = createNamespace("empty");
 var emptyProps = {
   image: makeStringProp("default"),
@@ -10138,8 +10138,8 @@ var stdin_default63 = defineComponent({
 var CouponList = withInstall(stdin_default63);
 
 // node_modules/vant/es/date-picker/DatePicker.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var currentYear = (/* @__PURE__ */ new Date()).getFullYear();
 var [name61] = createNamespace("date-picker");
 var datePickerProps = extend({}, sharedProps, {
@@ -10268,8 +10268,8 @@ var stdin_default64 = defineComponent({
 var DatePicker = withInstall(stdin_default64);
 
 // node_modules/vant/es/dialog/Dialog.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name62, bem57, t13] = createNamespace("dialog");
 var dialogProps = extend({}, popupSharedProps, {
   title: String,
@@ -10478,7 +10478,7 @@ var stdin_default65 = defineComponent({
 });
 
 // node_modules/vant/es/dialog/function-call.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 var instance;
 var DEFAULT_OPTIONS = {
   title: "",
@@ -10558,8 +10558,8 @@ var closeDialog = () => {
 var Dialog = withInstall(stdin_default65);
 
 // node_modules/vant/es/divider/Divider.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name63, bem58] = createNamespace("divider");
 var dividerProps = {
   dashed: Boolean,
@@ -10592,12 +10592,12 @@ var stdin_default66 = defineComponent({
 var Divider = withInstall(stdin_default66);
 
 // node_modules/vant/es/dropdown-item/DropdownItem.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/dropdown-menu/DropdownMenu.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name64, bem59] = createNamespace("dropdown-menu");
 var dropdownMenuProps = {
   overlay: truthProp,
@@ -10934,8 +10934,8 @@ var DropdownItem = withInstall(stdin_default68);
 var DropdownMenu = withInstall(stdin_default67);
 
 // node_modules/vant/es/floating-bubble/FloatingBubble.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var floatingBubbleProps = {
   gap: makeNumberProp(24),
   icon: String,
@@ -11114,8 +11114,8 @@ var stdin_default69 = defineComponent({
 var FloatingBubble = withInstall(stdin_default69);
 
 // node_modules/vant/es/floating-panel/FloatingPanel.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var floatingPanelProps = {
   height: makeNumericProp(0),
   anchors: makeArrayProp(),
@@ -11240,8 +11240,8 @@ var stdin_default70 = defineComponent({
 var FloatingPanel = withInstall(stdin_default70);
 
 // node_modules/vant/es/grid/Grid.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name68, bem63] = createNamespace("grid");
 var gridProps = {
   square: Boolean,
@@ -11285,8 +11285,8 @@ var stdin_default71 = defineComponent({
 var Grid = withInstall(stdin_default71);
 
 // node_modules/vant/es/grid-item/GridItem.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name69, bem64] = createNamespace("grid-item");
 var gridItemProps = extend({}, routeProps, {
   dot: Boolean,
@@ -11426,8 +11426,8 @@ var stdin_default72 = defineComponent({
 var GridItem = withInstall(stdin_default72);
 
 // node_modules/vant/es/highlight/Highlight.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name70, bem65] = createNamespace("highlight");
 var highlightProps = {
   autoEscape: truthProp,
@@ -11548,12 +11548,12 @@ var stdin_default73 = defineComponent({
 var Highlight = withInstall(stdin_default73);
 
 // node_modules/vant/es/image-preview/ImagePreview.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/image-preview/ImagePreviewItem.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var getDistance = (touches) => Math.sqrt((touches[0].clientX - touches[1].clientX) ** 2 + (touches[0].clientY - touches[1].clientY) ** 2);
 var getCenter = (touches) => ({
   x: (touches[0].clientX + touches[1].clientX) / 2,
@@ -12070,7 +12070,7 @@ var stdin_default75 = defineComponent({
 });
 
 // node_modules/vant/es/image-preview/function-call.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 var instance2;
 var defaultConfig = {
   loop: true,
@@ -12136,12 +12136,12 @@ var showImagePreview = (options, startPosition = 0) => {
 var ImagePreview = withInstall(stdin_default75);
 
 // node_modules/vant/es/index-anchor/IndexAnchor.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/index-bar/IndexBar.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 function genAlphabet() {
   const charCodeOfA = "A".charCodeAt(0);
   const indexList = Array(26).fill("").map((_, i) => String.fromCharCode(charCodeOfA + i));
@@ -12445,8 +12445,8 @@ var IndexAnchor = withInstall(stdin_default77);
 var IndexBar = withInstall(stdin_default76);
 
 // node_modules/vant/es/list/List.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name74, bem70, t14] = createNamespace("list");
 var listProps = {
   error: Boolean,
@@ -12585,8 +12585,8 @@ var stdin_default78 = defineComponent({
 var List = withInstall(stdin_default78);
 
 // node_modules/vant/es/nav-bar/NavBar.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name75, bem71] = createNamespace("nav-bar");
 var navBarProps = {
   title: String,
@@ -12689,8 +12689,8 @@ var stdin_default79 = defineComponent({
 var NavBar = withInstall(stdin_default79);
 
 // node_modules/vant/es/notice-bar/NoticeBar.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name76, bem72] = createNamespace("notice-bar");
 var noticeBarProps = {
   text: String,
@@ -12851,8 +12851,8 @@ var stdin_default80 = defineComponent({
 var NoticeBar = withInstall(stdin_default80);
 
 // node_modules/vant/es/notify/Notify.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name77, bem73] = createNamespace("notify");
 var popupInheritProps2 = ["lockScroll", "position", "show", "teleport", "zIndex"];
 var notifyProps = extend({}, popupSharedProps, {
@@ -12889,7 +12889,7 @@ var stdin_default81 = defineComponent({
 });
 
 // node_modules/vant/es/notify/function-call.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 var timer;
 var instance3;
 var parseOptions2 = (message) => isObject(message) ? message : {
@@ -12953,12 +12953,12 @@ var resetNotifyDefaultOptions = () => {
 var Notify = withInstall(stdin_default81);
 
 // node_modules/vant/es/number-keyboard/NumberKeyboard.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/number-keyboard/NumberKeyboardKey.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name78, bem74] = createNamespace("key");
 var CollapseIcon = createVNode("svg", {
   "class": bem74("collapse-icon"),
@@ -13274,8 +13274,8 @@ var stdin_default83 = defineComponent({
 var NumberKeyboard = withInstall(stdin_default83);
 
 // node_modules/vant/es/pagination/Pagination.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name80, bem76, t15] = createNamespace("pagination");
 var makePage = (number, text, active) => ({
   number,
@@ -13429,8 +13429,8 @@ var stdin_default84 = defineComponent({
 var Pagination = withInstall(stdin_default84);
 
 // node_modules/vant/es/password-input/PasswordInput.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name81, bem77] = createNamespace("password-input");
 var passwordInputProps = {
   info: String,
@@ -13511,8 +13511,8 @@ var PasswordInput = withInstall(stdin_default85);
 var PickerGroup = withInstall(stdin_default23);
 
 // node_modules/vant/es/popover/Popover.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/@vant/popperjs/dist/index.esm.mjs
 function getWindow(node) {
@@ -14617,8 +14617,8 @@ var stdin_default86 = defineComponent({
 var Popover = withInstall(stdin_default86);
 
 // node_modules/vant/es/progress/Progress.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name83, bem79] = createNamespace("progress");
 var progressProps = {
   color: String,
@@ -14694,8 +14694,8 @@ var stdin_default87 = defineComponent({
 var Progress = withInstall(stdin_default87);
 
 // node_modules/vant/es/pull-refresh/PullRefresh.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name84, bem80, t16] = createNamespace("pull-refresh");
 var DEFAULT_HEAD_HEIGHT = 50;
 var TEXT_STATUS = ["pulling", "loosing", "success"];
@@ -14885,8 +14885,8 @@ var stdin_default88 = defineComponent({
 var PullRefresh = withInstall(stdin_default88);
 
 // node_modules/vant/es/rate/Rate.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name85, bem81] = createNamespace("rate");
 function getRateStatus(value, index, allowHalf, readonly) {
   if (value >= index) {
@@ -15107,12 +15107,12 @@ var stdin_default89 = defineComponent({
 var Rate = withInstall(stdin_default89);
 
 // node_modules/vant/es/rolling-text/RollingText.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/rolling-text/RollingTextItem.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var props = {
   figureArr: makeArrayProp(),
   delay: Number,
@@ -15251,8 +15251,8 @@ var RollingText = withInstall(stdin_default91);
 var Row = withInstall(stdin_default52);
 
 // node_modules/vant/es/search/Search.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name88, bem84, t17] = createNamespace("search");
 var searchProps = extend({}, fieldSharedProps, {
   label: String,
@@ -15368,8 +15368,8 @@ var stdin_default92 = defineComponent({
 var Search = withInstall(stdin_default92);
 
 // node_modules/vant/es/share-sheet/ShareSheet.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var isImage2 = (name210) => name210 == null ? void 0 : name210.includes("/");
 var popupInheritKeys3 = [...popupSharedPropKeys, "round", "closeOnPopstate", "safeAreaInsetBottom"];
 var iconMap = {
@@ -15489,8 +15489,8 @@ var stdin_default93 = defineComponent({
 var ShareSheet = withInstall(stdin_default93);
 
 // node_modules/vant/es/sidebar/Sidebar.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name90, bem86] = createNamespace("sidebar");
 var SIDEBAR_KEY = Symbol(name90);
 var sidebarProps = {
@@ -15532,8 +15532,8 @@ var stdin_default94 = defineComponent({
 var Sidebar = withInstall(stdin_default94);
 
 // node_modules/vant/es/sidebar-item/SidebarItem.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name91, bem87] = createNamespace("sidebar-item");
 var sidebarItemProps = extend({}, routeProps, {
   dot: Boolean,
@@ -15601,8 +15601,8 @@ var stdin_default95 = defineComponent({
 var SidebarItem = withInstall(stdin_default95);
 
 // node_modules/vant/es/signature/Signature.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name92, bem88, t19] = createNamespace("signature");
 var signatureProps = {
   tips: String,
@@ -15760,12 +15760,12 @@ var stdin_default96 = defineComponent({
 var Signature = withInstall(stdin_default96);
 
 // node_modules/vant/es/skeleton/Skeleton.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/skeleton-title/SkeletonTitle.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name93, bem89] = createNamespace("skeleton-title");
 var skeletonTitleProps = {
   round: Boolean,
@@ -15791,8 +15791,8 @@ var SkeletonTitle = withInstall(stdin_default97);
 var stdin_default98 = SkeletonTitle;
 
 // node_modules/vant/es/skeleton-avatar/SkeletonAvatar.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name94, bem90] = createNamespace("skeleton-avatar");
 var skeletonAvatarProps = {
   avatarSize: numericProp,
@@ -15814,8 +15814,8 @@ var SkeletonAvatar = withInstall(stdin_default99);
 var stdin_default100 = SkeletonAvatar;
 
 // node_modules/vant/es/skeleton-paragraph/SkeletonParagraph.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var DEFAULT_ROW_WIDTH = "100%";
 var skeletonParagraphProps = {
   round: Boolean,
@@ -15930,8 +15930,8 @@ var stdin_default103 = defineComponent({
 var Skeleton = withInstall(stdin_default103);
 
 // node_modules/vant/es/skeleton-image/SkeletonImage.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name97, bem93] = createNamespace("skeleton-image");
 var skeletonImageProps = {
   imageSize: numericProp,
@@ -15955,8 +15955,8 @@ var stdin_default104 = defineComponent({
 var SkeletonImage = withInstall(stdin_default104);
 
 // node_modules/vant/es/slider/Slider.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name98, bem94] = createNamespace("slider");
 var sliderProps = {
   min: makeNumericProp(0),
@@ -16240,8 +16240,8 @@ var stdin_default105 = defineComponent({
 var Slider = withInstall(stdin_default105);
 
 // node_modules/vant/es/space/Space.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name99, bem95] = createNamespace("space");
 var spaceProps = {
   align: String,
@@ -16328,12 +16328,12 @@ var stdin_default106 = defineComponent({
 var Space = withInstall(stdin_default106);
 
 // node_modules/vant/es/step/Step.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/steps/Steps.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name100, bem96] = createNamespace("steps");
 var stepsProps = {
   active: makeNumericProp(0),
@@ -16488,8 +16488,8 @@ var stdin_default108 = defineComponent({
 var Step = withInstall(stdin_default108);
 
 // node_modules/vant/es/stepper/Stepper.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name102, bem98] = createNamespace("stepper");
 var LONG_PRESS_INTERVAL = 200;
 var isEqual = (value1, value2) => String(value1) === String(value2);
@@ -16738,8 +16738,8 @@ var Stepper = withInstall(stdin_default109);
 var Steps = withInstall(stdin_default107);
 
 // node_modules/vant/es/submit-bar/SubmitBar.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name103, bem99, t20] = createNamespace("submit-bar");
 var submitBarProps = {
   tip: String,
@@ -16851,8 +16851,8 @@ var stdin_default110 = defineComponent({
 var SubmitBar = withInstall(stdin_default110);
 
 // node_modules/vant/es/swipe-cell/SwipeCell.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name104, bem100] = createNamespace("swipe-cell");
 var swipeCellProps = {
   name: makeNumericProp(""),
@@ -17020,8 +17020,8 @@ var stdin_default111 = defineComponent({
 var SwipeCell = withInstall(stdin_default111);
 
 // node_modules/vant/es/tabbar/Tabbar.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name105, bem101] = createNamespace("tabbar");
 var tabbarProps = {
   route: Boolean,
@@ -17102,8 +17102,8 @@ var stdin_default112 = defineComponent({
 var Tabbar = withInstall(stdin_default112);
 
 // node_modules/vant/es/tabbar-item/TabbarItem.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name106, bem102] = createNamespace("tabbar-item");
 var tabbarItemProps = extend({}, routeProps, {
   dot: Boolean,
@@ -17218,8 +17218,8 @@ var stdin_default113 = defineComponent({
 var TabbarItem = withInstall(stdin_default113);
 
 // node_modules/vant/es/text-ellipsis/TextEllipsis.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name107, bem103] = createNamespace("text-ellipsis");
 var textEllipsisProps = {
   rows: makeNumericProp(1),
@@ -17377,8 +17377,8 @@ var stdin_default114 = defineComponent({
 var TextEllipsis = withInstall(stdin_default114);
 
 // node_modules/vant/es/time-picker/TimePicker.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name108] = createNamespace("time-picker");
 var validateTime = (val) => /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/.test(val);
 var fullColumns = ["hour", "minute", "second"];
@@ -17514,8 +17514,8 @@ var stdin_default115 = defineComponent({
 var TimePicker = withInstall(stdin_default115);
 
 // node_modules/vant/es/tree-select/TreeSelect.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name109, bem104] = createNamespace("tree-select");
 var treeSelectProps = {
   max: makeNumericProp(Infinity),
@@ -17615,8 +17615,8 @@ var stdin_default116 = defineComponent({
 var TreeSelect = withInstall(stdin_default116);
 
 // node_modules/vant/es/uploader/Uploader.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/uploader/utils.mjs
 var [name110, bem105, t21] = createNamespace("uploader");
@@ -17679,8 +17679,8 @@ function isImageFile(item) {
 }
 
 // node_modules/vant/es/uploader/UploaderPreviewItem.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var stdin_default117 = defineComponent({
   props: {
     name: numericProp,
@@ -18071,8 +18071,8 @@ var stdin_default118 = defineComponent({
 var Uploader = withInstall(stdin_default118);
 
 // node_modules/vant/es/watermark/Watermark.mjs
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var [name111, bem106] = createNamespace("watermark");
 var watermarkProps = {
   gapX: makeNumberProp(0),
@@ -18204,7 +18204,7 @@ var stdin_default119 = defineComponent({
 var Watermark = withInstall(stdin_default119);
 
 // node_modules/vant/es/lazyload/vue-lazyload/lazy.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 
 // node_modules/vant/es/lazyload/vue-lazyload/listener.mjs
 var ReactiveListener = class {
@@ -18849,7 +18849,7 @@ function stdin_default120() {
 }
 
 // node_modules/vant/es/lazyload/vue-lazyload/lazy-component.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 var stdin_default121 = (lazy) => ({
   props: {
     tag: {
@@ -18970,7 +18970,7 @@ var LazyContainerManager = class {
 };
 
 // node_modules/vant/es/lazyload/vue-lazyload/lazy-image.mjs
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
 var stdin_default122 = (lazyManager) => ({
   props: {
     src: [String, Object],

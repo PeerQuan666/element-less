@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import Dialog from './Dialog.vue'
 
-// 使用install方法，在app.use挂载
-Dialog.install = (app: App): void => {
-  app.component(Dialog.__name as string, Dialog)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import Dialog from './src/dialog.vue'
 
-export default Dialog
+export const ElsDialog = withInstall(Dialog)
+
+export default ElsDialog
+
+export * from './src/dialog'

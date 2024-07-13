@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import OptionGroup from './OptionGroup.vue'
 
-// 使用install方法，在app.use挂载
-OptionGroup.install = (app: App): void => {
-  app.component(OptionGroup.__name as string, OptionGroup)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import OptionGroup from './src/optionGroup.vue'
 
-export default OptionGroup
+export const ElsOptionGroup = withInstall(OptionGroup)
+
+export default ElsOptionGroup
+
+export * from './src/optionGroup'

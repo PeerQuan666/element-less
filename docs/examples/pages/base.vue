@@ -3,7 +3,7 @@
     <els-container>
         <els-menu-tool :data="toolData"></els-menu-tool>
         <els-form-query style="margin-top: 10px;" v-model="formData" v-model:queryData="queryData">
-            <els-input label="ID" prop="ID"  clearable validType="Number"></els-input>
+            <els-input label="ID" prop="ID"  clearable validType="number"></els-input>
             <els-select label="作者" prop="AuthorName"  clearable>
                 <els-option>无敌元气妹</els-option>
                 <els-option>稚葵</els-option>
@@ -13,9 +13,12 @@
         </els-form-query>
         <els-table :url="apiUrl"  :page-size="10" row-key="WallID" tableName="第一份数据">
             <els-column-checkbox></els-column-checkbox>
+            <ElsTableColumn   tip="" required valid-type="number"   valid-trigger="blur"></ElsTableColumn>
             <els-column prop="ID" label="ID" align="left" sortable></els-column>
             <els-column prop="AuthorName" label="作者" align="left"></els-column>
         </els-table>
+     <ElsFormItem labelWidth="100"  prop="aaa" valid-type="number" label="xxx"></ElsFormItem>
+     <ElsInput></ElsInput>
     </els-container>
 </template>
   

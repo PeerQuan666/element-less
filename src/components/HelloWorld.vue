@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { ref, watch, watchEffect } from 'vue'
+import utils,{ElsMessage} from '@/utils'
+import DynamicDesignerView from '../../packages/custom/dynamic/designerView'
+import {formItemProps} from '@/props'
+import {useProps} from '@/hooks'
 import ElementLess from '../../element-less/element-less.js'
 import {getResumeComponents,getResumeComponentTypes,getResumeDetail} from '../utlis/http.js'
 defineProps<{ msg: string }>()
@@ -9,12 +13,12 @@ const colorPicker = ref()
 const colorPickerVisible = ref(false)
 const componentData =ref<any>([])
 const dataTypes = ref<any>([])
-
+  
 const resumeValue = ref<any>([])
 const templateResumeData = ref<any>({})
 const templateResumeConfig=ref<any>([])
 const resumeComponents=ref<any>([])
-
+ 
 
 const resumeData = ref<any>([])
 const previewConfig = ref<any>()
@@ -124,6 +128,8 @@ initData()
 
 <template>
 <div>
+<ElInput @change=""></ElInput>
+<ElTable @sort-change=""></ElTable>
   <els-work-flow 
   configUrl="http://localhost:5000/WorkflowManage/SearchAuto/StepReadData"
     userUrl="http://localhost:5000/WorkflowManage/SearchAuto/PowerUserNameReadData"

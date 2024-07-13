@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import Switch from './Switch.vue'
 
-// 使用install方法，在app.use挂载
-Switch.install = (app: App): void => {
-  app.component(Switch.__name as string, Switch)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import Switch from './src/switch.vue'
 
-export default Switch
+export const ElsSwitch = withInstall(Switch)
+
+export default ElsSwitch
+
+export * from './src/switch'

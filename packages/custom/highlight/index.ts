@@ -1,5 +1,5 @@
 import type { App } from 'vue'
-import Highlight from './Highlight.vue'
+import Highlight from './src/highlight.vue'
 
 // 使用install方法，在app.use挂载
 Highlight.install = (app: App): void => {

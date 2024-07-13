@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import FormItem from './FormItem.vue'
 
-// 使用install方法，在app.use挂载
-FormItem.install = (app: App): void => {
-  app.component(FormItem.__name as string, FormItem)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import FormItem from './src/formItem.vue'
 
-export default FormItem
+export const ElsFormItem= withInstall(FormItem)
+
+export default ElsFormItem
+
+export * from './src/formItem'

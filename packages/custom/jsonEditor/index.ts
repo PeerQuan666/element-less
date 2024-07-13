@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import JsonEditor from './JsonEditor.vue'
 
-// 使用install方法，在app.use挂载
-JsonEditor.install = (app: App): void => {
-  app.component(JsonEditor.__name as string, JsonEditor)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import JsonEditor from './src/jsonEditor.vue'
 
-export default JsonEditor
+export const ElsJsonEditor = withInstall(JsonEditor)
+export default ElsJsonEditor
+
+export * from './src/jsonEditor'
+

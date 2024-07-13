@@ -1,9 +1,7 @@
-import type { App } from 'vue'
-import CheckboxButton from './CheckboxButton.vue'
 
-// 使用install方法，在app.use挂载
-CheckboxButton.install = (app: App): void => {
-  app.component(CheckboxButton.__name as string, CheckboxButton)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import CheckboxButton from './src/CheckboxButton.vue'
 
-export default CheckboxButton
+export const ElsCheckboxButton = withInstall(CheckboxButton)
+
+export default ElsCheckboxButton

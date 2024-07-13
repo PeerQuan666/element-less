@@ -24,13 +24,6 @@ star: true
 :::
 
 
-## 查询表单
-
-:::vuefile-demo
-
-form/query
-
-:::
 
 
 

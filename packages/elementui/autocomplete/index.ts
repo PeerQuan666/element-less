@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import Autocomplete from './Autocomplete.vue'
 
-// 使用install方法，在app.use挂载
-Autocomplete.install = (app: App): void => {
-  app.component(Autocomplete.__name as string, Autocomplete)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import Autocomplete from './src/autocomplete.vue'
 
-export default Autocomplete
+export const ElsAutocomplete = withInstall(Autocomplete)
+
+export default ElsAutocomplete
+
+export * from './src/autocomplete'

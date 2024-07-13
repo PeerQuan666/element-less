@@ -1,9 +1,8 @@
-import type { App } from 'vue'
-import SubMenu from './SubMenu.vue'
 
-// 使用install方法，在app.use挂载
-SubMenu.install = (app: App): void => {
-  app.component(SubMenu.__name as string, SubMenu)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import MenuSub from  './src/subMenu.vue' 
 
-export default SubMenu
+export const ElsMenuSub = withInstall(MenuSub)
+
+export default ElsMenuSub
+

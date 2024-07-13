@@ -1,9 +1,10 @@
-import type { App } from 'vue'
-import Index from './Index.vue'
 
-// 使用install方法，在app.use挂载
-Index.install = (app: App): void => {
-  app.component(Index.__name as string, Index)
-}
+import { withInstall } from 'element-plus/es/utils/index'
 
-export default Index
+import Render from './src/render.vue'
+
+export const ElsRender = withInstall(Render)
+
+export default ElsRender
+
+export * from './src/render'

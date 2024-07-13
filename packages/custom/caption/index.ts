@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import Caption from './Caption.vue'
 
-// 使用install方法，在app.use挂载
-Caption.install = (app: App): void => {
-  app.component(Caption.__name as string, Caption)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import Caption from './src/caption.vue'
 
-export default Caption
+export const ElsAceEditor = withInstall(Caption)
+
+export default ElsAceEditor
+
+export * from './src/caption'

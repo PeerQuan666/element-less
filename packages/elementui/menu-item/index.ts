@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import MenuItem from './MenuItem.vue'
 
-// 使用install方法，在app.use挂载
-MenuItem.install = (app: App): void => {
-  app.component(MenuItem.__name as string, MenuItem)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import MenuItem from './src/menuItem.vue'
 
-export default MenuItem
+export const ElsMenuItem = withInstall(MenuItem)
+
+export default ElsMenuItem
+
+export * from './src/menuItem'

@@ -1,14 +1,14 @@
 import {
   createVNode,
   defineComponent,
-  init_vue_runtime_esm_bundler,
+  init_vue_esm_bundler,
   nextTick,
   onBeforeUnmount,
   onDeactivated,
   ref,
   toRef,
   watch
-} from "./chunk-Y3E3Y6KD.js";
+} from "./chunk-4IFYGZA2.js";
 import "./chunk-TIUEEL27.js";
 
 // node_modules/vue-ueditor-wrap/es/utils/camelize.js
@@ -98,8 +98,8 @@ function randomString(length) {
 }
 
 // node_modules/vue-ueditor-wrap/es/vue-ueditor-wrap/VueUeditorWrap.js
-init_vue_runtime_esm_bundler();
-init_vue_runtime_esm_bundler();
+init_vue_esm_bundler();
+init_vue_esm_bundler();
 var VueUeditorWrap_default = defineComponent({
   name: "vue-ueditor-wrap",
   props: {

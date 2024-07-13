@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import Select from './Select.vue'
 
-// 使用install方法，在app.use挂载
-Select.install = (app: App): void => {
-  app.component(Select.__name as string, Select)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import Select from './src/select.vue'
 
-export default Select
+export const ElsSelect= withInstall(Select)
+
+export default ElsSelect
+
+export * from './src/select'

@@ -1,9 +1,8 @@
-import type { App } from 'vue'
-import RadioButton from './RadioButton.vue'
 
-// 使用install方法，在app.use挂载
-RadioButton.install = (app: App): void => {
-  app.component(RadioButton.__name as string, RadioButton)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import RadioButton from './src/radioButton.vue'
 
-export default RadioButton
+export const ElsRadioButton = withInstall(RadioButton)
+
+export default ElsRadioButton
+

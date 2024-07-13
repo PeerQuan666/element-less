@@ -16,6 +16,7 @@
             <els-column prop="AuthorName" label="作者" align="left"></els-column>
         </els-table>
     </els-container>
+    <ElsFormItem></ElsFormItem>
 </template>
  
 <script setup lang="ts">

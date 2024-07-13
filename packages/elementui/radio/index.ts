@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import Radio from './Radio.vue'
 
-// 使用install方法，在app.use挂载
-Radio.install = (app: App): void => {
-  app.component(Radio.__name as string, Radio)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import Radio from './src/radio.vue'
 
-export default Radio
+export const ElsRadio = withInstall(Radio)
+
+export default ElsRadio
+
+export * from './src/radio'

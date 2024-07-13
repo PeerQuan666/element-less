@@ -1,9 +1,7 @@
-import type { App } from 'vue'
-import ButtonSelect from './ButtonSelect.vue'
 
-// 使用install方法，在app.use挂载
-ButtonSelect.install = (app: App): void => {
-  app.component(ButtonSelect.__name as string, ButtonSelect)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import ButtonSelect from './src/buttonSelect.vue'
 
-export default ButtonSelect
+export const ElsButtonSelect = withInstall(ButtonSelect)
+export default ElsButtonSelect
+

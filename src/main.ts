@@ -10,7 +10,7 @@ import "jsoneditor";
 import router from './router'
 import vant from 'vant'
 import ElementLess from '../packages/index'
-import pinia from '../packages/utlis/pinia'
+import pinia from '@/store'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import ResumeComponent from '../resume-component/resume-component.js'
 import '../resume-component/style.css'

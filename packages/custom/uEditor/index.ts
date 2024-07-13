@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import UEditor from './UEditor.vue'
 
-// 使用install方法，在app.use挂载
-UEditor.install = (app: App): void => {
-  app.component(UEditor.__name as string, UEditor)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import UEditor from './src/uEditor.vue'
 
-export default UEditor
+export const ElsUEditor = withInstall(UEditor)
+export default ElsUEditor
+
+export * from './src/uEditor'
+

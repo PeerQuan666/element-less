@@ -1,9 +1,7 @@
-import type { App } from 'vue'
-import FormNode from './FormNode.vue'
 
-// 使用install方法，在app.use挂载
-FormNode.install = (app: App): void => {
-  app.component(FormNode.__name as string, FormNode)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import FormNode from './src/formNode.vue'
 
-export default FormNode
+export const ElsFormNode = withInstall(FormNode)
+
+export default ElsFormNode

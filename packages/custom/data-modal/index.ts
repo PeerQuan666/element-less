@@ -1,9 +1,8 @@
-import type { App } from 'vue'
-import DataModal from './DataModal.vue'
 
-// 使用install方法，在app.use挂载
-DataModal.install = (app: App): void => {
-  app.component(DataModal.__name as string, DataModal)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import DataModal from './src/dataModal.vue'
 
-export default DataModal
+export const ElsDataModal = withInstall(DataModal)
+export default ElsDataModal
+
+export * from './src/dataModal'

@@ -1,9 +1,9 @@
-import type { App } from 'vue'
-import AceEditor from './AceEditor.vue'
 
-// 使用install方法，在app.use挂载
-AceEditor.install = (app: App): void => {
-  app.component(AceEditor.__name as string, AceEditor)
-}
+import { withInstall } from 'element-plus/es/utils/index'
+import AceEditor from './src/aceEditor.vue'
 
-export default AceEditor
+export const ElsAceEditor = withInstall(AceEditor)
+
+export default ElsAceEditor
+
+export * from './src/aceEditor'
