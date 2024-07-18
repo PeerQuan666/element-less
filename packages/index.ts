@@ -1,5 +1,5 @@
 import { App } from 'vue'
-
+import  './utils/lessPrototype'
 import utils,{ElsMessage} from  './utils'
 
 // 导出所有组件

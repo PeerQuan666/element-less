@@ -3,7 +3,7 @@
     <els-container>
         <els-menu-tool :data="toolData"></els-menu-tool>
         <els-form v-model="editData" style="margin-top: 10px;" labelWidth="60" inputWidth="200">
-            <els-input label="名字" prop="name"  required></els-input>
+            <els-input label="名字" prop="name"  required class="aaa"></els-input>
             <els-input label="身价" prop="revenue" required validType="Price"></els-input>
             <els-select label="类型" prop="type" :url="apiUrl" label-field="Name" value-field="ID" required
                 clearable></els-select>
@@ -13,6 +13,12 @@
                 <els-option>福州</els-option>
                 <els-option>厦门</els-option>
             </els-radio-button>
+            <els-checkbox-button label="城市" prop="city1" required>
+                <els-option>北京</els-option>
+                <els-option>天津</els-option>
+                <els-option>福州</els-option>
+                <els-option>厦门</els-option>
+            </els-checkbox-button>
             <els-textarea prop="remark" label="备注" width="500" ></els-textarea>
         </els-form>
     </els-container>
@@ -20,7 +26,7 @@
   
 <script setup lang="ts">
 import { ref } from 'vue'
-const editData = ref({ name:'彭于晏',revenue:100000000,type: '', city: '天津',remark:''})
+const editData = ref({ name:'彭于晏',revenue:100000000,type: '', city: '天津',remark:'',test:''})
 const apiUrl = 'http://manage.ybt2023.com/home/test2'
 const toolData = ref<any>(
     [

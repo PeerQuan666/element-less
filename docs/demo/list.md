@@ -29,6 +29,56 @@ list/base
 
 :::
 
+## 字符串数组
+
+:::tip
+ 当为字符串数组时,设置当前数组索引<code>aIndex</code>，并从插槽中获取当前选项<code>element</code>,<code>v-model</code>等于<code>element.value</code>
+:::
+
+:::vuefile-demo
+
+list/string
+
+:::
+
+## 无主键表单
+
+:::tip
+ 当未设置主键<code>itemKey</code>时,需要设置当前数组索引<code>aIndex</code>
+:::
+
+:::vuefile-demo
+
+list/nokey
+
+:::
+
+## 边框
+
+:::tip
+ 设置<code>borderType=borderType1</code>
+:::
+
+:::vuefile-demo
+
+list/border
+
+:::
+
+
+## 折叠面板
+
+:::tip
+ 设置<code>itemComponent=collapse</code>
+:::
+
+:::vuefile-demo
+
+list/collapse
+
+:::
+
+
 ## List API
 
 ### List属性

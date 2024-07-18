@@ -1,5 +1,5 @@
 <template>
-    <els-list v-model="data" itemKey="id">
+    <els-list v-model="data" itemKey="id" borderType="border1">
         <els-input label="城市" prop="key" width="200" required clearable></els-input>
         <els-select prop="isRelease" label="状态" width="100">
             <els-option :value="1">发布</els-option>

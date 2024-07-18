@@ -6,6 +6,5 @@
 
 <script setup lang="ts">
 import { ref ,provide} from 'vue'
-provide('isMobile',true)
 const time = ref()
 </script>

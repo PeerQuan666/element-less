@@ -1,5 +1,4 @@
 <template>
-  {{ fileValue }}
   <els-upload v-model="fileValue" type="File"  ></els-upload>
 </template>
 <script setup>

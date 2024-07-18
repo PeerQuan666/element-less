@@ -25,6 +25,18 @@ dropdown/base
 
 :::
 
+## 固定标题
+
+:::tip
+设置<code>title</code>
+:::
+
+:::vuefile-demo
+
+dropdown/title
+
+:::
+
 ## 读取接口
 
 :::vuefile-demo

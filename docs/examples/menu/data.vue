@@ -1,8 +1,5 @@
 <template>
-        <els-radio-button v-model="isCollapse">
-        <els-option :value="false">展开</els-option>
-        <els-option :value="true">缩起</els-option>
-    </els-radio-button>
+
     <els-menu 
     width="200"
     :collapse="isCollapse"

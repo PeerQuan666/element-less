@@ -47,11 +47,18 @@ export const formItemProps = buildProps({
     placeholder: String,
 
     /** 
-     * @description 子节点是否自动创建FormItem
+     * @description 子节点是否创建FormItem
     */
-    autoCreateFormItem: {
+    childCreateFormItem: {
         type: Boolean,
         default: true
+    },
+    /**
+     * @description 创建FormItem
+     */
+    createFormItem:{
+        type:Boolean,
+        default:undefined
     },
 
     /**
@@ -106,24 +113,37 @@ export const formItemProps = buildProps({
      * @description 查询默认值
      */
     queryDefaultValue: {
-        type: [String, Number, Boolean]
+        type: [String, Number, Boolean],
+        default:undefined
     },
     /** 
      * @description 自动查询
      */
-    queryAutoReadData: Boolean,
+    queryAutoReadData: {
+        type:Boolean,
+        default:undefined
+    },
     /**
      * @description 查询添加前后逗号
      */
-    queryAroundComma: Boolean,
+    queryAroundComma: {
+        type:Boolean,
+        default:undefined
+    },
     /**
      * @description 范围查询
      */
-    queryRange: Boolean,
+    queryRange: {
+        type:Boolean,
+        default:undefined
+    },
     /**
      * @description 范围查询是否包含等于
      */
-    queryRangeOrEqual: Boolean,
+    queryRangeOrEqual: {
+        type:Boolean,
+        default:undefined
+    },
 
     /**
      * @description 子元素间隔符
@@ -140,6 +160,14 @@ export const formItemProps = buildProps({
     spaceSize: {
         type: [Number, String as PropType<SpaceSize>]
     },
+    /**
+     * @description 范围选择开始字段名
+     */
+    propStart:String,
+    /**
+     * @description 范围选择结束字段名
+     */
+    propEnd:String
 
 
 })

@@ -1,5 +1,6 @@
 <template>
     <els-dropdown 
+    placeholder="请选择"
     v-model="selectValue"
     url="http://manage.ybt2023.com/home/test2" 
     label-field="Name" 
@@ -9,9 +10,9 @@
     ></els-dropdown>
 </template>
 <script setup>
-import { ref,provide } from 'vue'
+import { ref } from 'vue'
 const selectValue=ref()
 function handleCommand(val){
-alert(val)
+console.log(val)
 }
 </script>

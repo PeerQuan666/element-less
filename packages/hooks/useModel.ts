@@ -30,8 +30,20 @@ export const useRangeModel = (props, currValue, startValue, endValue) => {
         if (val) {
             currValue.value = val
             if (!props.single && !startModelValue.value && !endModelValue.value) {
-                startValue.value = currValue.value.toString().split(props.valueSeparator)[0]
-                endValue.value = currValue.value.toString().split(props.valueSeparator)[1]
+                const sVal= currValue.value.toString().split(props.valueSeparator)[0]
+                const eVal=currValue.value.toString().split(props.valueSeparator)[1]
+                if(props.isNumber===true){
+                    if(sVal){
+                        startValue.value =parseFloat(sVal)
+                    }
+                    if(eVal){
+                        endValue.value =parseFloat(eVal)
+                    }
+                  
+                }else{
+                    startValue.value =sVal
+                    endValue.value =eVal
+                }
             }
         }
     }, { immediate: true })
@@ -61,19 +73,19 @@ export const useModel = (props) => {
     const getModelValue = getValue<Function>('getModelValue', () => null)
 
     const startModelValue = computed(() => {
-        if (props.start === undefined && getModelValue && props.propStart) {
+        if (props.start === undefined && getModelValue && props.propStart!==undefined) {
             return getModelValue(props.propStart, props.aIndex)
         }
         return props.start
     })
     const endModelValue = computed(() => {
-        if (props.end === undefined && getModelValue && props.propEnd) {
+        if (props.end === undefined && getModelValue && props.propEnd!==undefined) {
             return getModelValue(props.propEnd, props.aIndex)
         }
         return props.end
     })
     const currModelValue = computed(() => {
-        if (props.modelValue === undefined && getModelValue && props.prop) {
+        if (props.modelValue === undefined && getModelValue && props.prop!==undefined) {
             return getModelValue(props.prop, props.aIndex)
         }
         return props.modelValue

@@ -1,13 +1,9 @@
 <template>
     <els-form v-model="editData" ref="editForm" >
-        <els-input label="名称" prop="name" required  validExpression="^[A-Za-z0-9]+$" ></els-input>
-        <ElsInput label="测试" prop="pic" required  ></ElsInput>
-        <els-form-item label="aaa" prop="remark" tip="aaa" tipPosition="right" queryMethod="Equal">
-            <div>
-                <ElsInput label="测试1" prop="remark" required  ></ElsInput>
-                <ElsInput label="测试2" prop="remark" required  ></ElsInput>
-            </div>
-        </els-form-item>
+        <ElsInput label="名称" prop="name" required  validExpression="^[A-Za-z0-9]+$" ></ElsInput>
+        <ElsDatePicker label="日期" prop="birth" required  ></ElsDatePicker>
+        <ElsUpload type="Pic" label="图片" prop="pic" required  ></ElsUpload>
+        <ElsTextarea label="备注" prop="remark" ></ElsTextarea>
     </els-form>
   
 </template>

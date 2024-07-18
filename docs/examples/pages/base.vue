@@ -17,8 +17,6 @@
             <els-column prop="ID" label="ID" align="left" sortable></els-column>
             <els-column prop="AuthorName" label="作者" align="left"></els-column>
         </els-table>
-     <ElsFormItem labelWidth="100"  prop="aaa" valid-type="number" label="xxx"></ElsFormItem>
-     <ElsInput></ElsInput>
     </els-container>
 </template>
   
