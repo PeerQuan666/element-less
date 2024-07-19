@@ -74,7 +74,7 @@ export const property_datamodal=[
 		  "config": {
 			"formConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"
@@ -205,7 +205,7 @@ export const property_datamodal=[
 		  "config": {
 			"formConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"

@@ -334,7 +334,7 @@ export const property_radio= [
 			  "config": {
 				"formConfig": {},
 				"baseConfig": {
-				  "gutter": "10",
+				  "gutter": 10,
 				  "justify": "",
 				  "align": "",
 				  "tag": "div"
@@ -537,7 +537,7 @@ export const property_radio= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"

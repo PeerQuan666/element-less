@@ -108,7 +108,7 @@ export const property_tabPane=[
         "config": {
           "formConfig": {},
           "baseConfig": {
-            "gutter": "10",
+            "gutter": 10,
             "justify": "",
             "align": "",
             "tag": "div"

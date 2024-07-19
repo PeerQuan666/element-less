@@ -169,7 +169,7 @@ export const property_tree=[
               "formConfig": {},
               "baseConfig": {
                 "gutter": 10,
-                "justify": "",
+                "justify": "start",
                 "align": "",
                 "tag": "div"
               },
@@ -287,7 +287,6 @@ export const property_tree=[
               "baseConfig": {
                 "gutter": 10,
                 "justify": "start",
-                "align": "",
                 "tag": "div"
               },
               "advancedConfig": {
@@ -405,7 +404,6 @@ export const property_tree=[
               "baseConfig": {
                 "gutter": 10,
                 "justify": "start",
-                "align": "",
                 "tag": "div"
               },
               "advancedConfig": {
@@ -426,7 +424,10 @@ export const property_tree=[
             "arrangementType": "Vertical",
             "maxHeight": "",
             "maxWidth": "",
-            "borderType": ""
+            "borderType": "border1",
+            "itemComponent": "div",
+            "itemComponentTitle": "",
+            "addButtonText": "新增"
           },
           "formConfig": {
             "labelWidth": "0",
@@ -611,10 +612,7 @@ export const property_tree=[
             "validMethod": ""
           },
           "baseConfig": {
-            "gutter": 10,
-            "justify": "",
-            "align": "",
-            "tag": ""
+            "gutter": 10
           },
           "advancedConfig": {
             "style": "",
@@ -722,7 +720,6 @@ export const property_tree=[
           "baseConfig": {
             "gutter": 10,
             "justify": "start",
-            "align": "",
             "tag": "div"
           },
           "advancedConfig": {
@@ -831,7 +828,6 @@ export const property_tree=[
           "baseConfig": {
             "gutter": 10,
             "justify": "start",
-            "align": "",
             "tag": "div"
           },
           "advancedConfig": {
@@ -936,8 +932,6 @@ export const property_tree=[
           "formConfig": {},
           "baseConfig": {
             "gutter": 10,
-            "justify": "",
-            "align": "",
             "tag": "div"
           },
           "advancedConfig": {
@@ -1023,7 +1017,7 @@ export const property_tree=[
             },
             "componentType": "Switch",
             "dataType": "Bool",
-            "defaultValue": "true"
+            "defaultValue": false
           },
           {
             "keyID": "050471fcd7085a37d8cefba26e3371ee",
@@ -1057,16 +1051,13 @@ export const property_tree=[
             },
             "componentType": "Switch",
             "dataType": "Bool",
-            "defaultValue": ""
+            "defaultValue": false
           }
         ],
         "config": {
           "formConfig": {},
           "baseConfig": {
-            "gutter": 10,
-            "justify": "",
-            "align": "",
-            "tag": ""
+            "gutter": 10
           },
           "advancedConfig": {
             "style": "",
@@ -1119,7 +1110,7 @@ export const property_tree=[
               },
               "arrayConfig": {}
             },
-            "defaultValue": "true"
+            "defaultValue": true
           },
           {
             "keyID": "key_22262",
@@ -1169,7 +1160,6 @@ export const property_tree=[
           "baseConfig": {
             "gutter": 0,
             "justify": "start",
-            "align": "",
             "tag": "div"
           },
           "advancedConfig": {
@@ -1222,7 +1212,7 @@ export const property_tree=[
               },
               "arrayConfig": {}
             },
-            "defaultValue": "true"
+            "defaultValue": true
           },
           {
             "keyID": "key_5532",
@@ -1259,7 +1249,7 @@ export const property_tree=[
               },
               "arrayConfig": {}
             },
-            "defaultValue": "true"
+            "defaultValue": true
           }
         ],
         "dataType": "None",
@@ -1272,7 +1262,6 @@ export const property_tree=[
           "baseConfig": {
             "gutter": 0,
             "justify": "start",
-            "align": "",
             "tag": "div"
           },
           "advancedConfig": {

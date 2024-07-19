@@ -133,7 +133,7 @@ export const property_inputNumber=  [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"
@@ -268,7 +268,7 @@ export const property_inputNumber=  [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"
@@ -404,7 +404,7 @@ export const property_inputNumber=  [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"

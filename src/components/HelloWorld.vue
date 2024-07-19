@@ -4,6 +4,7 @@ import utils,{ElsMessage} from '@/utils'
 import DynamicDesignerView from '../../packages/custom/dynamic/designerView'
 import {formItemProps} from '@/props'
 import {useProps} from '@/hooks'
+
 import ElementLess from '../../element-less/element-less.js'
 import {getResumeComponents,getResumeComponentTypes,getResumeDetail} from '../utlis/http.js'
 defineProps<{ msg: string }>()

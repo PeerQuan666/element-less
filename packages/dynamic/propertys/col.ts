@@ -10,72 +10,52 @@ export const property_col=[
         "keyCode": "",
         "children": [
           {
-            "keyID": "amRf_-v-c8",
+            "keyID": "key_37404",
             "keyName": "栅格占据的列数",
             "keyCode": "span",
             "children": [],
+            "dataType": "Number",
+            "arrayDataType": "",
+            "componentTypeLabel": "数字输入框",
+            "componentType": "InputNumber",
+            "icon": "list-numbers",
             "config": {
-              "formConfig": {
-                "labelWidth": "",
-                "labelPosition": "",
-                "tip": "",
-                "tipPosition": "left",
-                "suffixContent": "",
-                "required": false,
-                "requiredMessage": "",
-                "validType": "",
-                "validExpression": "",
-                "validMessage": "",
-                "validMethod": ""
-              },
+              "formConfig": {},
               "baseConfig": {
+                "controls-position": "right",
+                "width": "",
+                "step": "",
+                "precision": "",
+                "min": "",
+                "max": ""
               },
-              "advancedConfig": {
-                "style": "",
-                "vif": "",
-                "disabled": "",
-                "eventChange": ""
-              },
+              "advancedConfig": {},
               "arrayConfig": {}
-            },
-            "required": false,
-            "componentType": "Input",
-            "dataType": "String",
-            "formItem": true
+            }
           },
           {
-            "keyID": "key_13088",
+            "keyID": "key_71402",
             "keyName": "栅格左侧的间隔格数",
             "keyCode": "offset",
             "children": [],
-            "required": false,
+            "dataType": "Number",
+            "arrayDataType": "",
+            "componentTypeLabel": "数字输入框",
+            "componentType": "InputNumber",
+            "icon": "list-numbers",
             "config": {
-              "formConfig": {
-                "labelWidth": "",
-                "labelPosition": "",
-                "tip": "",
-                "tipPosition": "left",
-                "suffixContent": "",
-                "required": false,
-                "requiredMessage": "",
-                "validType": "",
-                "validExpression": "",
-                "validMessage": "",
-                "validMethod": ""
-              },
+              "formConfig": {},
               "baseConfig": {
+                "controls-position": "right",
+                "width": "",
+                "step": "",
+                "precision": "",
+                "min": "",
+                "max": ""
               },
-              "advancedConfig": {
-                "style": "",
-                "vif": "",
-                "disabled": "",
-                "eventChange": ""
-              },
+              "advancedConfig": {},
               "arrayConfig": {}
-            },
-            "componentType": "Input",
-            "dataType": "String",
-            "formItem": true
+            }
           }
         ],
         "required": false,
@@ -93,10 +73,7 @@ export const property_col=[
             "validMethod": ""
           },
           "baseConfig": {
-            "gutter": "10",
-            "justify": "",
-            "align": "",
-            "tag": ""
+            "gutter": 10
           },
           "advancedConfig": {
             "style": "",
@@ -107,8 +84,7 @@ export const property_col=[
           "arrayConfig": {}
         },
         "componentType": "Row",
-        "dataType": 0,
-        "formItem": false
+        "dataType": 0
       },
       {
         "keyID": "key_56814",
@@ -116,72 +92,52 @@ export const property_col=[
         "keyCode": "",
         "children": [
           {
-            "keyID": "GUGcGyiCtE",
+            "keyID": "key_19131",
             "keyName": "栅格向右移动格数",
             "keyCode": "push",
             "children": [],
+            "dataType": "Number",
+            "arrayDataType": "",
+            "componentTypeLabel": "数字输入框",
+            "componentType": "InputNumber",
+            "icon": "list-numbers",
             "config": {
-              "formConfig": {
-                "labelWidth": "",
-                "labelPosition": "",
-                "tip": "",
-                "tipPosition": "left",
-                "suffixContent": "",
-                "required": false,
-                "requiredMessage": "",
-                "validType": "",
-                "validExpression": "",
-                "validMessage": "",
-                "validMethod": ""
-              },
+              "formConfig": {},
               "baseConfig": {
+                "controls-position": "right",
+                "width": "",
+                "step": "",
+                "precision": "",
+                "min": "",
+                "max": ""
               },
-              "advancedConfig": {
-                "style": "",
-                "vif": "",
-                "disabled": "",
-                "eventChange": ""
-              },
+              "advancedConfig": {},
               "arrayConfig": {}
-            },
-            "required": false,
-            "componentType": "Input",
-            "dataType": "String",
-            "formItem": true
+            }
           },
           {
-            "keyID": "key_79617",
+            "keyID": "key_40632",
             "keyName": "栅格向左移动格数",
             "keyCode": "pull",
             "children": [],
-            "required": false,
+            "dataType": "Number",
+            "arrayDataType": "",
+            "componentTypeLabel": "数字输入框",
+            "componentType": "InputNumber",
+            "icon": "list-numbers",
             "config": {
-              "formConfig": {
-                "labelWidth": "",
-                "labelPosition": "",
-                "tip": "",
-                "tipPosition": "left",
-                "suffixContent": "",
-                "required": false,
-                "requiredMessage": "",
-                "validType": "",
-                "validExpression": "",
-                "validMessage": "",
-                "validMethod": ""
-              },
+              "formConfig": {},
               "baseConfig": {
+                "controls-position": "right",
+                "width": "",
+                "step": "",
+                "precision": "",
+                "min": "",
+                "max": ""
               },
-              "advancedConfig": {
-                "style": "",
-                "vif": "",
-                "disabled": "",
-                "eventChange": ""
-              },
+              "advancedConfig": {},
               "arrayConfig": {}
-            },
-            "componentType": "Input",
-            "dataType": "String",
-            "formItem": true
+            }
           }
         ],
         "required": false,
@@ -199,10 +155,7 @@ export const property_col=[
             "validMethod": ""
           },
           "baseConfig": {
-            "gutter": "10",
-            "justify": "",
-            "align": "",
-            "tag": ""
+            "gutter": 10
           },
           "advancedConfig": {
             "style": "",
@@ -213,8 +166,7 @@ export const property_col=[
           "arrayConfig": {}
         },
         "componentType": "Row",
-        "dataType": 0,
-        "formItem": false
+        "dataType": 0
       },
       {
         "keyID": "key_23579",
@@ -222,72 +174,52 @@ export const property_col=[
         "keyCode": "",
         "children": [
           {
-            "keyID": "M7ul0WybOM",
-            "keyName": "<768px 响应式栅格数或者栅格属性对象",
+            "keyID": "key_27200",
+            "keyName": "<768px 响应式栅格数",
             "keyCode": "xs",
             "children": [],
+            "dataType": "Number",
+            "arrayDataType": "",
+            "componentTypeLabel": "数字输入框",
+            "componentType": "InputNumber",
+            "icon": "list-numbers",
             "config": {
-              "formConfig": {
-                "labelWidth": "",
-                "labelPosition": "",
-                "tip": "",
-                "tipPosition": "left",
-                "suffixContent": "",
-                "required": false,
-                "requiredMessage": "",
-                "validType": "",
-                "validExpression": "",
-                "validMessage": "",
-                "validMethod": ""
-              },
+              "formConfig": {},
               "baseConfig": {
+                "controls-position": "right",
+                "width": "",
+                "step": "",
+                "precision": "",
+                "min": "",
+                "max": ""
               },
-              "advancedConfig": {
-                "style": "",
-                "vif": "",
-                "disabled": "",
-                "eventChange": ""
-              },
+              "advancedConfig": {},
               "arrayConfig": {}
-            },
-            "required": false,
-            "componentType": "Input",
-            "dataType": "String",
-            "formItem": true
+            }
           },
           {
-            "keyID": "key_4591",
-            "keyName": "≥768px 响应式栅格数或者栅格属性对象",
+            "keyID": "key_30450",
+            "keyName": "≥768px 响应式栅格数",
             "keyCode": "sm",
             "children": [],
-            "required": false,
+            "dataType": "Number",
+            "arrayDataType": "",
+            "componentTypeLabel": "数字输入框",
+            "componentType": "InputNumber",
+            "icon": "list-numbers",
             "config": {
-              "formConfig": {
-                "labelWidth": "",
-                "labelPosition": "",
-                "tip": "",
-                "tipPosition": "left",
-                "suffixContent": "",
-                "required": false,
-                "requiredMessage": "",
-                "validType": "",
-                "validExpression": "",
-                "validMessage": "",
-                "validMethod": ""
-              },
+              "formConfig": {},
               "baseConfig": {
+                "controls-position": "right",
+                "width": "",
+                "step": "",
+                "precision": "",
+                "min": "",
+                "max": ""
               },
-              "advancedConfig": {
-                "style": "",
-                "vif": "",
-                "disabled": "",
-                "eventChange": ""
-              },
+              "advancedConfig": {},
               "arrayConfig": {}
-            },
-            "componentType": "Input",
-            "dataType": "String",
-            "formItem": true
+            }
           }
         ],
         "required": false,
@@ -305,10 +237,9 @@ export const property_col=[
             "validMethod": ""
           },
           "baseConfig": {
-            "gutter": "10",
-            "justify": "",
-            "align": "",
-            "tag": ""
+            "gutter": 10,
+            "justify": "start",
+            "tag": "div"
           },
           "advancedConfig": {
             "style": "",
@@ -319,8 +250,7 @@ export const property_col=[
           "arrayConfig": {}
         },
         "componentType": "Row",
-        "dataType": 0,
-        "formItem": false
+        "dataType": 0
       },
       {
         "keyID": "key_5928",
@@ -328,72 +258,52 @@ export const property_col=[
         "keyCode": "",
         "children": [
           {
-            "keyID": "oUY6LTnRNS",
-            "keyName": "≥992px 响应式栅格数或者栅格属性对象",
+            "keyID": "key_58855",
+            "keyName": "≥992px 响应式栅格数",
             "keyCode": "md",
             "children": [],
+            "dataType": "Number",
+            "arrayDataType": "",
+            "componentTypeLabel": "数字输入框",
+            "componentType": "InputNumber",
+            "icon": "list-numbers",
             "config": {
-              "formConfig": {
-                "labelWidth": "",
-                "labelPosition": "",
-                "tip": "",
-                "tipPosition": "left",
-                "suffixContent": "",
-                "required": false,
-                "requiredMessage": "",
-                "validType": "",
-                "validExpression": "",
-                "validMessage": "",
-                "validMethod": ""
-              },
+              "formConfig": {},
               "baseConfig": {
+                "controls-position": "right",
+                "width": "",
+                "step": "",
+                "precision": "",
+                "min": "",
+                "max": ""
               },
-              "advancedConfig": {
-                "style": "",
-                "vif": "",
-                "disabled": "",
-                "eventChange": ""
-              },
+              "advancedConfig": {},
               "arrayConfig": {}
-            },
-            "required": false,
-            "componentType": "Input",
-            "dataType": "String",
-            "formItem": true
+            }
           },
           {
-            "keyID": "key_30246",
-            "keyName": "≥1200px 响应式栅格数或者栅格属性对象",
+            "keyID": "key_63271",
+            "keyName": "≥1200px 响应式栅格数",
             "keyCode": "lg",
             "children": [],
-            "required": false,
+            "dataType": "Number",
+            "arrayDataType": "",
+            "componentTypeLabel": "数字输入框",
+            "componentType": "InputNumber",
+            "icon": "list-numbers",
             "config": {
-              "formConfig": {
-                "labelWidth": "",
-                "labelPosition": "",
-                "tip": "",
-                "tipPosition": "left",
-                "suffixContent": "",
-                "required": false,
-                "requiredMessage": "",
-                "validType": "",
-                "validExpression": "",
-                "validMessage": "",
-                "validMethod": ""
-              },
+              "formConfig": {},
               "baseConfig": {
+                "controls-position": "right",
+                "width": "",
+                "step": "",
+                "precision": "",
+                "min": "",
+                "max": ""
               },
-              "advancedConfig": {
-                "style": "",
-                "vif": "",
-                "disabled": "",
-                "eventChange": ""
-              },
+              "advancedConfig": {},
               "arrayConfig": {}
-            },
-            "componentType": "Input",
-            "dataType": "String",
-            "formItem": true
+            }
           }
         ],
         "required": false,
@@ -411,10 +321,7 @@ export const property_col=[
             "validMethod": ""
           },
           "baseConfig": {
-            "gutter": "10",
-            "justify": "",
-            "align": "",
-            "tag": ""
+            "gutter": 10
           },
           "advancedConfig": {
             "style": "",
@@ -425,8 +332,7 @@ export const property_col=[
           "arrayConfig": {}
         },
         "componentType": "Row",
-        "dataType": 0,
-        "formItem": false
+        "dataType": 0
       },
       {
         "keyID": "key_49374",
@@ -434,38 +340,28 @@ export const property_col=[
         "keyCode": "",
         "children": [
           {
-            "keyID": "YVf1thFm-J",
-            "keyName": "≥1920px 响应式栅格数或者栅格属性对象",
+            "keyID": "key_2220",
+            "keyName": "≥1920px 响应式栅格数",
             "keyCode": "xl",
             "children": [],
+            "dataType": "Number",
+            "arrayDataType": "",
+            "componentTypeLabel": "数字输入框",
+            "componentType": "InputNumber",
+            "icon": "list-numbers",
             "config": {
-              "formConfig": {
-                "labelWidth": "",
-                "labelPosition": "",
-                "tip": "",
-                "tipPosition": "left",
-                "suffixContent": "",
-                "required": false,
-                "requiredMessage": "",
-                "validType": "",
-                "validExpression": "",
-                "validMessage": "",
-                "validMethod": ""
-              },
+              "formConfig": {},
               "baseConfig": {
+                "controls-position": "right",
+                "width": "",
+                "step": "",
+                "precision": "",
+                "min": "",
+                "max": ""
               },
-              "advancedConfig": {
-                "style": "",
-                "vif": "",
-                "disabled": "",
-                "eventChange": ""
-              },
+              "advancedConfig": {},
               "arrayConfig": {}
-            },
-            "required": false,
-            "componentType": "Input",
-            "dataType": "String",
-            "formItem": true
+            }
           },
           {
             "keyID": "key_66198",
@@ -510,8 +406,7 @@ export const property_col=[
               "arrayConfig": {}
             },
             "componentType": "Input",
-            "dataType": "String",
-            "formItem": true
+            "dataType": "String"
           }
         ],
         "required": false,
@@ -529,10 +424,7 @@ export const property_col=[
             "validMethod": ""
           },
           "baseConfig": {
-            "gutter": "10",
-            "justify": "",
-            "align": "",
-            "tag": ""
+            "gutter": 10
           },
           "advancedConfig": {
             "style": "",
@@ -543,8 +435,7 @@ export const property_col=[
           "arrayConfig": {}
         },
         "componentType": "Row",
-        "dataType": 0,
-        "formItem": false
+        "dataType": 0
       }
     ],
     "dataType": "None",
@@ -573,7 +464,6 @@ export const property_col=[
         "eventChange": ""
       },
       "arrayConfig": {}
-    },
-    "formItem": false
+    }
   }
 ]

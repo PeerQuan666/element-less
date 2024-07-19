@@ -198,7 +198,7 @@ export const property_switch= [
 		  "config": {
 			"arrayConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"

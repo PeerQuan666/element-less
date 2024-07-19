@@ -100,7 +100,7 @@ export const property_form=[
         "config": {
           "formConfig": {},
           "baseConfig": {
-            "gutter": "10",
+            "gutter": 10,
             "justify": "",
             "align": "",
             "tag": "div"
@@ -201,7 +201,7 @@ export const property_form=[
         "config": {
           "formConfig": {},
           "baseConfig": {
-            "gutter": "10",
+            "gutter": 10,
             "justify": "",
             "align": "",
             "tag": "div"
@@ -306,7 +306,7 @@ export const property_form=[
         "config": {
           "formConfig": {},
           "baseConfig": {
-            "gutter": "10",
+            "gutter": 10,
             "justify": "",
             "align": "",
             "tag": "div"
@@ -401,7 +401,7 @@ export const property_form=[
         "config": {
           "formConfig": {},
           "baseConfig": {
-            "gutter": "10",
+            "gutter": 10,
             "justify": "",
             "align": "",
             "tag": "div"
@@ -496,7 +496,7 @@ export const property_form=[
         "config": {
           "formConfig": {},
           "baseConfig": {
-            "gutter": "10",
+            "gutter": 10,
             "justify": "",
             "align": "",
             "tag": "div"
@@ -591,7 +591,7 @@ export const property_form=[
         "config": {
           "formConfig": {},
           "baseConfig": {
-            "gutter": "10",
+            "gutter": 10,
             "justify": "",
             "align": "",
             "tag": "div"
@@ -617,7 +617,6 @@ export const property_form=[
         "labelWidth": "",
         "labelSuffix": "",
         "hideRequiredAsterisk": false,
-        "requireAsteriskPosition": "",
         "showMessage": true,
         "inlineMessage": false,
         "statusIcon": false,

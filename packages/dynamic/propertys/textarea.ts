@@ -109,7 +109,7 @@ export const property_textarea = [
 		  "config": {
 			"arrayConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"
@@ -210,7 +210,7 @@ export const property_textarea = [
 		  "config": {
 			"arrayConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"
@@ -324,7 +324,7 @@ export const property_textarea = [
 		  "config": {
 			"arrayConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"
@@ -430,7 +430,7 @@ export const property_textarea = [
 		  "config": {
 			"arrayConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"

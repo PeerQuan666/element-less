@@ -6,10 +6,11 @@ export class DynamicHandler {
     componentTypes: any = []
     dataTypes: any = []
     appendUrlParams: any = []
+    defaultValueConfig:any={}
     uploadUrl = ''
     resourceCode = ''
     restrictCode = ''
-    constructor(dataTypes, componentTypes = [], appendUrlParams: any = [], uploadUrl = '', resourceCode = '', restrictCode = '') {
+    constructor(dataTypes, componentTypes = [],defaultValueConfig:any={}, urlConfig:any={},uploadConfig:any={}) {
         if (componentTypes) {
             this.componentTypes = componentTypes
 
@@ -22,10 +23,11 @@ export class DynamicHandler {
         } else {
             this.dataTypes.push(...dynamicDataTypes)
         }
-        this.appendUrlParams = appendUrlParams
-        this.uploadUrl = uploadUrl
-        this.resourceCode = resourceCode
-        this.restrictCode = restrictCode
+        this.appendUrlParams = urlConfig.appendUrlParams??[]
+        this.defaultValueConfig=defaultValueConfig
+        this.uploadUrl = uploadConfig.uploadUrl
+        this.resourceCode = uploadConfig.resourceCode
+        this.restrictCode = uploadConfig.restrictCode
     }
     //兼容版本数据
     toPropsData(data,configProps:DynamicConfigProps){
@@ -467,14 +469,16 @@ export class DynamicHandler {
     }
     getDefaultValue(item) {
         const currDataType = this.dataTypes.find(ele => ele.value === item.dataType || ele.type === item.dataType)
-
+      
         if (currDataType) {
+            const hasOwnProp=this.defaultValueConfig.hasOwnProperty(currDataType.type)
+            const baseDefaultValue=this.defaultValueConfig[currDataType.type]
             switch (currDataType.type) {
                 case 'Number':
                     if (item.defaultValue) {
                         item.value = parseFloat(item.defaultValue)
                     } else {
-                        item.value = 0;
+                        item.value=hasOwnProp?baseDefaultValue:0
                     }
                     break
                 case 'Bool':
@@ -485,7 +489,7 @@ export class DynamicHandler {
                     if (item.defaultValue?.toLowerCase() === 'true') {
                         item.value = true;
                     } else {
-                        item.value = false
+                        item.value=hasOwnProp?baseDefaultValue:false
                     }
                     break
                 case 'Object':
@@ -496,7 +500,7 @@ export class DynamicHandler {
                     if (item.defaultValue) {
                         item.value = item.defaultValue;
                     } else {
-                        item.value = ''
+                        item.value=hasOwnProp?baseDefaultValue:''
                     }
                     break
                 default:

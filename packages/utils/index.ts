@@ -132,6 +132,15 @@ export default {
             }
         }
     },
+    removeEmptyProp(obj:any){
+        for (const key in obj) {
+            if (key) {
+                if (obj[key] === undefined || obj[key] === '') {
+                    delete obj[key]
+                }
+            }
+        }
+    },
     formatDate(date: string | number | Date, fmt: string) {
         if(typeof(date)==='string'||typeof(date)==='number'){
             date = new Date(date);

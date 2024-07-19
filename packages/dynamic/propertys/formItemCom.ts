@@ -207,7 +207,7 @@ export const property_formItemCom= [
           "config": {
             "formConfig": {},
             "baseConfig": {
-              "gutter": "10",
+              "gutter": 10,
               "justify": "",
               "align": "",
               "tag": "div"
@@ -319,7 +319,7 @@ export const property_formItemCom= [
           "config": {
             "formConfig": {},
             "baseConfig": {
-              "gutter": "10",
+              "gutter": 10,
               "justify": "",
               "align": "",
               "tag": "div"
@@ -428,7 +428,7 @@ export const property_formItemCom= [
           "config": {
             "formConfig": {},
             "baseConfig": {
-              "gutter": "10",
+              "gutter": 10,
               "justify": "",
               "align": "",
               "tag": "div"
@@ -745,7 +745,6 @@ export const property_formItemCom= [
           "labelWidth": "",
           "labelSuffix": "",
           "hideRequiredAsterisk": false,
-          "requireAsteriskPosition": "",
           "showMessage": true,
           "inlineMessage": false,
           "statusIcon": false,

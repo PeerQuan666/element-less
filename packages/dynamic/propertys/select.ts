@@ -372,7 +372,7 @@ export const property_select= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": ""
@@ -478,7 +478,7 @@ export const property_select= [
 		  "config": {
 			"formConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"
@@ -569,7 +569,7 @@ export const property_select= [
 		  "config": {
 			"formConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": ""
@@ -663,7 +663,7 @@ export const property_select= [
 		  "config": {
 			"formConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": ""

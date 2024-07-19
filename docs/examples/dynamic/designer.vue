@@ -5,7 +5,7 @@
       </els-dynamic-designer>
     </el-tab-pane>
     <el-tab-pane label="表单属性">
-      <els-dynamic-render v-model="initValue" :config="config"></els-dynamic-render>
+      <!-- <els-dynamic-render v-model="initValue" :config="config"></els-dynamic-render> -->
     </el-tab-pane>
     <el-button @click="show=true">点击</el-button>
     <els-dialog v-model="show" title="请输入数据" @confirm="test" show-confirm-button show-cancel-button :confirm="test"><els-input></els-input></els-dialog>

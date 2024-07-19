@@ -34,10 +34,10 @@ export const property_time=[
 				  "suffixIcon": "",
 				  "prefixTag": "",
 				  "suffixTag": "",
-				  "maxlength": "",
 				  "showWordLimit": false,
+				  "maxlength": "",
 				  "clearable": false,
-				  "isPassword": false,
+				  "showPassword": false,
 				  "isTrim": false,
 				  "encode": false
 				},
@@ -50,8 +50,7 @@ export const property_time=[
 				"arrayConfig": {}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			},
 			{
 			  "keyID": "195338e3c039f3098b48bd92be056a3c",
@@ -86,15 +85,14 @@ export const property_time=[
 				"arrayConfig": {}
 			  },
 			  "componentType": "Switch",
-			  "dataType": "Bool",
-			  "formItem": true
+			  "dataType": "Bool"
 			}
 		  ],
 		  "config": {
 			"formConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
-			  "justify": "",
+			  "gutter": 10,
+			  "justify": "start",
 			  "align": "",
 			  "tag": "div"
 			},
@@ -107,8 +105,7 @@ export const property_time=[
 			"arrayConfig": {}
 		  },
 		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  "dataType": "None"
 		},
 		{
 		  "keyID": "7b0cb2c91ce84caa8130caab6e9c5b8f",
@@ -140,10 +137,10 @@ export const property_time=[
 				  "suffixIcon": "",
 				  "prefixTag": "",
 				  "suffixTag": "",
-				  "maxlength": "",
 				  "showWordLimit": false,
+				  "maxlength": "",
 				  "clearable": false,
-				  "isPassword": false,
+				  "showPassword": false,
 				  "isTrim": false,
 				  "encode": false
 				},
@@ -156,8 +153,7 @@ export const property_time=[
 				"arrayConfig": {}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			},
 			{
 			  "keyID": "d65abcb2dcfbcee1c8cc1c125b1f8c82",
@@ -184,10 +180,10 @@ export const property_time=[
 				  "suffixIcon": "",
 				  "prefixTag": "",
 				  "suffixTag": "",
-				  "maxlength": "",
 				  "showWordLimit": false,
+				  "maxlength": "",
 				  "clearable": false,
-				  "isPassword": false,
+				  "showPassword": false,
 				  "isTrim": false,
 				  "encode": false
 				},
@@ -200,16 +196,13 @@ export const property_time=[
 				"arrayConfig": {}
 			  },
 			  "componentType": "Input",
-			  "dataType": "String",
-			  "formItem": true
+			  "dataType": "String"
 			}
 		  ],
 		  "config": {
 			"formConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
-			  "justify": "",
-			  "align": "",
+			  "gutter": 10,
 			  "tag": "div"
 			},
 			"advancedConfig": {
@@ -221,8 +214,7 @@ export const property_time=[
 			"arrayConfig": {}
 		  },
 		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  "dataType": "None"
 		},
 		{
 		  "keyID": "eebed46cca84132e0d2da329e3b5b537",
@@ -263,8 +255,7 @@ export const property_time=[
 			  },
 			  "componentType": "Switch",
 			  "dataType": "Bool",
-			  "defaultValue": "true",
-			  "formItem": true
+			  "defaultValue": true
 			},
 			{
 			  "keyID": "c739beaf93387f2638fe67377db95dd7",
@@ -300,16 +291,13 @@ export const property_time=[
 			  },
 			  "componentType": "Switch",
 			  "dataType": "Bool",
-			  "defaultValue": "true",
-			  "formItem": true
+			  "defaultValue": true
 			}
 		  ],
 		  "config": {
 			"formConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
-			  "justify": "",
-			  "align": "",
+			  "gutter": 10,
 			  "tag": "div"
 			},
 			"advancedConfig": {
@@ -321,8 +309,7 @@ export const property_time=[
 			"arrayConfig": {}
 		  },
 		  "componentType": "Row",
-		  "dataType": "None",
-		  "formItem": false
+		  "dataType": "None"
 		}
 	  ],
 	  "dataType": "None",
@@ -332,7 +319,7 @@ export const property_time=[
 	  "config": {
 		"baseConfig": {
 		  "inline": false,
-		  "labelPosition": "",
+		  "labelPosition": "top",
 		  "labelWidth": "",
 		  "labelSuffix": "",
 		  "hideRequiredAsterisk": false,
@@ -351,7 +338,6 @@ export const property_time=[
 		  "eventChange": ""
 		},
 		"arrayConfig": {}
-	  },
-	  "formItem": false
+	  }
 	}
   ]

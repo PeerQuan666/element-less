@@ -1,4 +1,4 @@
-import { DynamicDataType} from '../../interfaces'
+import { DynamicDataType} from '../interfaces'
 export const dynamicDataTypes: Array<DynamicDataType> = [
     { label: '无', value: 'None', type: 'None' },
     { label: '字符串', value: 'String', type: 'String' },

@@ -205,7 +205,7 @@ export const property_checkbox= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"
@@ -535,7 +535,7 @@ export const property_checkbox= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "gutter": "10",
+			  "gutter": 10,
 			  "justify": "",
 			  "align": "",
 			  "tag": "div"

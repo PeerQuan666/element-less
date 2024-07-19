@@ -1,10 +1,11 @@
-import {DynamicComponentGroup} from '../enums'
+import {DynamicComponentGroup} from '@/utils/types'
 export interface DynamicComponentType{
     id?:string,
     componentName:string,
     label:string,
     value:string,
     type:string,
+    operateType?:string
     description?:string,
     dataTypes?:Array<string>,
     defaultPropertys?:Record<string,any>,

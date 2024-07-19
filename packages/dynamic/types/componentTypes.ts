@@ -30,22 +30,22 @@ import {
     property_alert,
     property_button
 } from '../propertys'
-import { DynamicComponentType } from '../../interfaces'
+import { DynamicComponentType } from '../interfaces'
 export const dynamicComponentTypes: Array<DynamicComponentType> = [
-    { componentName: 'ElsInput', icon: 'text',label: '输入框', value: "Input", type: "Input", dataTypes: ['String'], defaultPropertys: {}, propertys: property_input, group: 'Form', formItem: true, isShow: true },
-    { componentName: 'ElsTextarea',icon:'expand-text-input', label: '文本域', value: 'Textarea', type: "Textarea", dataTypes: ['String'], defaultPropertys: {}, propertys: property_textarea, group: 'Form', formItem: true, isShow: true },
-    { componentName: 'ElsInputNumber',icon:'list-numbers', label: '数字输入框', value: 'InputNumber', type: "InputNumber", dataTypes: ['Number'], defaultPropertys: {}, propertys: property_inputNumber, group: 'Form', formItem: true, isShow: true },
+    { componentName: 'ElsInput', icon: 'text',label: '输入框', value: "Input", type: "Input",operateType:'input', dataTypes: ['String'], defaultPropertys: {}, propertys: property_input, group: 'Form', formItem: true, isShow: true },
+    { componentName: 'ElsTextarea',icon:'expand-text-input', label: '文本域', value: 'Textarea', type: "Textarea",operateType:'input', dataTypes: ['String'], defaultPropertys: {}, propertys: property_textarea, group: 'Form', formItem: true, isShow: true },
+    { componentName: 'ElsInputNumber',icon:'list-numbers', label: '数字输入框', value: 'InputNumber', type: "InputNumber",operateType:'input', dataTypes: ['Number'], defaultPropertys: {}, propertys: property_inputNumber, group: 'Form', formItem: true, isShow: true },
     { componentName: 'ElsSlider', icon:'hand-drag', label: 'Slider滑块', value: 'Slider', type: "Slider", dataTypes: ['Number'], defaultPropertys: {}, propertys: property_slider, group: 'Form', formItem: true, isShow: true },
     { componentName: 'ElsSwitch',icon:'switch-one', label: '开关', value: 'Switch', type: "Switch", dataTypes: ['Bool', 'String', 'Number'], defaultPropertys: {}, propertys: property_switch, group: 'Form', formItem: true, isShow: true },
     { componentName: 'ElsCheckbox',icon:'list-checkbox', label: '多选列表', value: 'Checkbox', type: "Checkbox", dataTypes: ['String'], defaultPropertys: {}, propertys: property_checkbox, group: 'Form', formItem: true, isShow: true },
-    { componentName: 'ElsSelect',  icon:'full-selection',label: '下拉列表', value: 'Select', type: "Select", dataTypes: ['String', 'Number', 'Bool'], defaultPropertys: {}, propertys: property_select, group: 'Form', formItem: true, isShow: true },
+    { componentName: 'ElsSelect',  icon:'full-selection',label: '下拉列表', value: 'Select', type: "Select",operateType:'picker', dataTypes: ['String', 'Number', 'Bool'], defaultPropertys: {}, propertys: property_select, group: 'Form', formItem: true, isShow: true },
     { componentName: 'ElsRadio', icon:'radio-two', label: '单选列表', value: 'Radio', type: "Radio", dataTypes: ['String', 'Number', 'Bool'], defaultPropertys: {}, propertys: property_radio, group: 'Form', formItem: true, isShow: true },
     { componentName: 'ElsUpload',icon:'add-picture', label: '图片', value: 'UploadPic', type: "UploadPic", dataTypes: ['String'], defaultPropertys: { 'type': 'Pic' }, propertys: property_pic, group: 'Form', formItem: true, isShow: true },
     { componentName: 'ElsUpload',icon:'picture-album', label: '图集', value: 'UploadMutiPic', type: "UploadMutiPic", dataTypes: ['String'], defaultPropertys: { 'type': 'Pic', 'multiple': true }, propertys: property_pic, group: 'Form', formItem: true, isShow: true },
     { componentName: 'ElsUpload', icon:'upload', label: '文件', value: 'UploadFile', type: "UploadFile", dataTypes: ['String'], defaultPropertys: { 'type': 'File' }, propertys: property_file, group: 'Form', formItem: true, isShow: true },
     { componentName: 'ElsDataModal',icon:'share', label: '弹窗选择', value: 'DataModal', type: "DataModal", dataTypes: ['String'], defaultPropertys: {}, propertys: property_datamodal, group: 'Form', formItem: true, isShow: true },
-    { componentName: 'ElsDatePicker',icon:'calendar-dot', label: '日期选择器', value: 'Datepicker', type: "Datepicker", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_date, group: 'Form', formItem: true, isShow: true },
-    { componentName: 'ElsTimePicker',icon:'time', label: '时间选择器', value: 'Timepicker', type: "Timepicker", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_time, group: 'Form', formItem: true, isShow: true },
+    { componentName: 'ElsDatePicker',icon:'calendar-dot', label: '日期选择器', value: 'Datepicker', type: "Datepicker", operateType:'picker', dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_date, group: 'Form', formItem: true, isShow: true },
+    { componentName: 'ElsTimePicker',icon:'time', label: '时间选择器', value: 'Timepicker', type: "Timepicker", operateType:'picker', dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_time, group: 'Form', formItem: true, isShow: true },
     { componentName: 'ElsTree',icon:'tree-list', label: '树形控件', value: 'Tree', type: "Tree", dataTypes: ['String', 'Number'], defaultPropertys: {}, propertys: property_tree, group: 'Form', formItem: true, isShow: true },
     { componentName: 'ElsColorPicker',icon:'platte', label: '取色器', value: 'ColorPicker', type: "ColorPicker", dataTypes: ['String'], defaultPropertys: {}, propertys: property_colorPicker, group: 'Form', formItem: true, isShow: true },
     { componentName: 'ElsWangEditor',icon:'word', label: '富文本', value: 'WangEditor', type: "WangEditor", dataTypes: ['String'], defaultPropertys: {}, propertys: property_wangEditor, group: 'Form', formItem: true, isShow: true },

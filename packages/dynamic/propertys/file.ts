@@ -12,7 +12,7 @@ export const property_file= [
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
-			  "required": 0,
+			  "required": false,
 			  "requiredMessage": "",
 			  "validType": "",
 			  "validExpression": "",
@@ -20,11 +20,18 @@ export const property_file= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "showWordLimit": 0,
-			  "clearable": 0,
-			  "isPassword": 0,
-			  "isTrim": 0,
-			  "encode": 0
+			  "width": "",
+			  "placeholder": "",
+			  "prefixIcon": "",
+			  "suffixIcon": "",
+			  "prefixTag": "",
+			  "suffixTag": "",
+			  "showWordLimit": false,
+			  "maxlength": "",
+			  "clearable": false,
+			  "showPassword": false,
+			  "isTrim": false,
+			  "encode": false
 			},
 			"advancedConfig": {
 			  "style": "",
@@ -45,7 +52,7 @@ export const property_file= [
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
-			  "required": 0,
+			  "required": false,
 			  "requiredMessage": "",
 			  "validType": "Float",
 			  "validExpression": "",
@@ -53,11 +60,18 @@ export const property_file= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "showWordLimit": 0,
-			  "clearable": 0,
-			  "isPassword": 0,
-			  "isTrim": 0,
-			  "encode": 0
+			  "width": "",
+			  "placeholder": "",
+			  "prefixIcon": "",
+			  "suffixIcon": "",
+			  "prefixTag": "",
+			  "suffixTag": "",
+			  "showWordLimit": false,
+			  "maxlength": "",
+			  "clearable": false,
+			  "showPassword": false,
+			  "isTrim": false,
+			  "encode": false
 			},
 			"advancedConfig": {
 			  "style": "",
@@ -83,7 +97,7 @@ export const property_file= [
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
-				  "required": 0,
+				  "required": false,
 				  "requiredMessage": "",
 				  "validType": "",
 				  "validExpression": "",
@@ -91,11 +105,18 @@ export const property_file= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "showWordLimit": 0,
-				  "clearable": 0,
-				  "isPassword": 0,
-				  "isTrim": 0,
-				  "encode": 0
+				  "width": "",
+				  "placeholder": "",
+				  "prefixIcon": "",
+				  "suffixIcon": "",
+				  "prefixTag": "",
+				  "suffixTag": "",
+				  "showWordLimit": false,
+				  "maxlength": "",
+				  "clearable": false,
+				  "showPassword": false,
+				  "isTrim": false,
+				  "encode": false
 				},
 				"advancedConfig": {
 				  "style": "",
@@ -116,7 +137,7 @@ export const property_file= [
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
-				  "required": 0,
+				  "required": false,
 				  "requiredMessage": "",
 				  "validType": "",
 				  "validExpression": "",
@@ -124,11 +145,18 @@ export const property_file= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "showWordLimit": 0,
-				  "clearable": 0,
-				  "isPassword": 0,
-				  "isTrim": 0,
-				  "encode": 0
+				  "width": "",
+				  "placeholder": "",
+				  "prefixIcon": "",
+				  "suffixIcon": "",
+				  "prefixTag": "",
+				  "suffixTag": "",
+				  "showWordLimit": false,
+				  "maxlength": "",
+				  "clearable": false,
+				  "showPassword": false,
+				  "isTrim": false,
+				  "encode": false
 				},
 				"advancedConfig": {
 				  "style": "",
@@ -145,9 +173,7 @@ export const property_file= [
 		  "config": {
 			"formConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
-			  "justify": "",
-			  "align": "",
+			  "gutter": 10,
 			  "tag": "div"
 			},
 			"advancedConfig": {
@@ -169,7 +195,7 @@ export const property_file= [
 		  "config": {
 			"formConfig": {
 			  "labelWidth": "",
-			  "required": 0,
+			  "required": false,
 			  "requiredMessage": "",
 			  "validType": "",
 			  "validExpression": "",
@@ -177,11 +203,18 @@ export const property_file= [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "showWordLimit": 0,
-			  "clearable": 0,
-			  "isPassword": 0,
-			  "isTrim": 0,
-			  "encode": 0
+			  "width": "",
+			  "placeholder": "",
+			  "prefixIcon": "",
+			  "suffixIcon": "",
+			  "prefixTag": "",
+			  "suffixTag": "",
+			  "showWordLimit": false,
+			  "maxlength": "",
+			  "clearable": false,
+			  "showPassword": false,
+			  "isTrim": false,
+			  "encode": false
 			},
 			"advancedConfig": {
 			  "style": "",
@@ -207,7 +240,7 @@ export const property_file= [
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
-				  "required": 0,
+				  "required": false,
 				  "requiredMessage": "",
 				  "validType": "",
 				  "validExpression": "",
@@ -215,6 +248,8 @@ export const property_file= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
+				  "active-text": "",
+				  "inactive-text": "",
 				  "active-value": true,
 				  "inactive-value": false
 				},
@@ -227,7 +262,8 @@ export const property_file= [
 				"arrayConfig": {}
 			  },
 			  "componentType": "Switch",
-			  "dataType": "Bool"
+			  "dataType": "Bool",
+			  "defaultValue": false
 			},
 			{
 			  "keyID": "84485b20c71735b2d9657f23878c88ef",
@@ -237,7 +273,7 @@ export const property_file= [
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
-				  "required": 0,
+				  "required": false,
 				  "requiredMessage": "",
 				  "validType": "Number",
 				  "validExpression": "",
@@ -245,11 +281,18 @@ export const property_file= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
-				  "showWordLimit": 0,
-				  "clearable": 0,
-				  "isPassword": 0,
-				  "isTrim": 0,
-				  "encode": 0
+				  "width": "",
+				  "placeholder": "",
+				  "prefixIcon": "",
+				  "suffixIcon": "",
+				  "prefixTag": "",
+				  "suffixTag": "",
+				  "showWordLimit": false,
+				  "maxlength": "",
+				  "clearable": false,
+				  "showPassword": false,
+				  "isTrim": false,
+				  "encode": false
 				},
 				"advancedConfig": {
 				  "style": "",
@@ -266,9 +309,7 @@ export const property_file= [
 		  "config": {
 			"formConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
-			  "justify": "",
-			  "align": "",
+			  "gutter": 10,
 			  "tag": "div"
 			},
 			"advancedConfig": {
@@ -295,7 +336,7 @@ export const property_file= [
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
-				  "required": 0,
+				  "required": false,
 				  "requiredMessage": "",
 				  "validType": "",
 				  "validExpression": "",
@@ -303,6 +344,8 @@ export const property_file= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
+				  "active-text": "",
+				  "inactive-text": "",
 				  "active-value": true,
 				  "inactive-value": false
 				},
@@ -315,7 +358,8 @@ export const property_file= [
 				"arrayConfig": {}
 			  },
 			  "componentType": "Switch",
-			  "dataType": "Bool"
+			  "dataType": "Bool",
+			  "defaultValue": false
 			},
 			{
 			  "keyID": "302ea0f0796e7becdbd254d712f57132",
@@ -325,7 +369,7 @@ export const property_file= [
 			  "config": {
 				"formConfig": {
 				  "labelWidth": "",
-				  "required": 0,
+				  "required": false,
 				  "requiredMessage": "",
 				  "validType": "",
 				  "validExpression": "",
@@ -333,6 +377,8 @@ export const property_file= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
+				  "active-text": "",
+				  "inactive-text": "",
 				  "active-value": true,
 				  "inactive-value": false
 				},
@@ -345,14 +391,15 @@ export const property_file= [
 				"arrayConfig": {}
 			  },
 			  "componentType": "Switch",
-			  "dataType": "Bool"
+			  "dataType": "Bool",
+			  "defaultValue": false
 			}
 		  ],
 		  "config": {
 			"formConfig": {},
 			"baseConfig": {
-			  "gutter": "10",
-			  "justify": "",
+			  "gutter": 10,
+			  "justify": "start",
 			  "align": "",
 			  "tag": "div"
 			},
@@ -395,6 +442,8 @@ export const property_file= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
+				  "active-text": "",
+				  "inactive-text": "",
 				  "active-value": true,
 				  "inactive-value": false
 				},
@@ -406,7 +455,7 @@ export const property_file= [
 				},
 				"arrayConfig": {}
 			  },
-			  "defaultValue": "true"
+			  "defaultValue": true
 			},
 			{
 			  "keyID": "key_39528",
@@ -431,7 +480,14 @@ export const property_file= [
 				  "validMethod": ""
 				},
 				"baseConfig": {
+				  "width": "",
+				  "placeholder": "",
+				  "prefixIcon": "",
+				  "suffixIcon": "",
+				  "prefixTag": "",
+				  "suffixTag": "",
 				  "showWordLimit": false,
+				  "maxlength": "",
 				  "clearable": true,
 				  "showPassword": false,
 				  "isTrim": false,
@@ -455,9 +511,6 @@ export const property_file= [
 		  "config": {
 			"formConfig": {},
 			"baseConfig": {
-			  "gutter": "",
-			  "justify": "",
-			  "align": "",
 			  "tag": "div"
 			},
 			"advancedConfig": {
