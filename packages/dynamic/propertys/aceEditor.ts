@@ -5,7 +5,7 @@ export const property_aceEditor= [
     "keyCode": "UJ7yHGkPIS",
     "children": [
       {
-        "keyID": "key_94757",
+        "keyID": "key_88310",
         "keyName": "行数",
         "keyCode": "rows",
         "children": [],
@@ -14,40 +14,25 @@ export const property_aceEditor= [
         "componentTypeLabel": "Slider滑块",
         "componentType": "Slider",
         "icon": "hand-drag",
+        "slots": [],
         "config": {
-          "formConfig": {
-            "labelWidth": "",
-            "suffixContent": "",
-            "required": false,
-            "requiredMessage": "",
-            "tip": "",
-            "tipPosition": "left",
-            "validType": "",
-            "validMessage": "",
-            "validExpression": "",
-            "validMethod": ""
-          },
+          "formConfig": {},
           "baseConfig": {
             "min": 0,
             "max": 100,
-            "step": 0,
             "disabled": false,
             "show-input": false,
             "show-input-controls": true,
             "show-stops": false,
             "show-tooltip": true,
             "vertical": false,
+            "height": "",
             "range": false
           },
-          "advancedConfig": {
-            "style": "",
-            "vif": "",
-            "disabled": "",
-            "eventChange": ""
-          },
+          "advancedConfig": {},
           "arrayConfig": {}
         },
-        "defaultValue": "10"
+        "defaultValue": 10
       },
       {
         "keyID": "key_51188",

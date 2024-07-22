@@ -28,8 +28,9 @@ export const property_advanced=  [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "rows": 10,
+			  "rows": 5,
 			  "readonly": false,
+			  "theme": "",
 			  "language": "css"
 			},
 			"advancedConfig": {
@@ -66,8 +67,10 @@ export const property_advanced=  [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "rows": 10,
-			  "readonly": false
+			  "rows": 5,
+			  "readonly": false,
+			  "theme": "",
+			  "language": ""
 			},
 			"advancedConfig": {
 			  "style": "",
@@ -103,8 +106,10 @@ export const property_advanced=  [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "rows": 10,
-			  "readonly": false
+			  "rows": 5,
+			  "readonly": false,
+			  "theme": "",
+			  "language": ""
 			},
 			"advancedConfig": {
 			  "style": "",
@@ -118,7 +123,7 @@ export const property_advanced=  [
 		},
 		{
 		  "keyID": "key_32027",
-		  "keyName": "OnChange",
+		  "keyName": "值改变事件",
 		  "keyCode": "eventChange",
 		  "children": [],
 		  "dataType": "String",
@@ -140,8 +145,9 @@ export const property_advanced=  [
 			  "validMethod": ""
 			},
 			"baseConfig": {
-			  "rows": 10,
+			  "rows": 5,
 			  "readonly": false,
+			  "theme": "",
 			  "language": "javascript"
 			},
 			"advancedConfig": {

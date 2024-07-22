@@ -10,6 +10,7 @@ export interface DynamicComponentType{
     dataTypes?:Array<string>,
     defaultPropertys?:Record<string,any>,
     propertys?:Array<Record<string,any>>,
+    events?:Array<string>,
     group:DynamicComponentGroup,
     formItem:boolean,
     restrictChild?:string,
@@ -17,5 +18,6 @@ export interface DynamicComponentType{
     isShow:boolean,
     preview?:string,
     isCustom?:boolean,
-    icon?:string
+    icon?:string,
+    slots?:Array<string>
 }

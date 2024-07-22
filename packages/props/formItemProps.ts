@@ -38,8 +38,7 @@ export const formItemProps = buildProps({
      * @description 子节点类型 移动端使用
      */
     childType: {
-        type: String as PropType<ChildType>,
-        default: 'input'
+        type: String as PropType<ChildType>
     },
     /**
      * @description 占位文本 移动端使用

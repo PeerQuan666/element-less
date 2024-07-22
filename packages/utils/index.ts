@@ -671,6 +671,9 @@ export default {
         });
        
     },
+    isEmptyObject(obj){
+        return Object.keys(obj).length === 0 && obj.constructor === Object;
+    },
     isSameObject(obj1: { [x: string]: any; }, obj2: { [x: string]: any; }) {
         // 检查对象类型
         if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
