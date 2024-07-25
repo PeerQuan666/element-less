@@ -59,6 +59,7 @@ import ElsTip from './custom/tip'
 import ElsFormNode from './custom/form-node'
 import ElsDynamicDesigner from './custom/dynamic/designer'
 import ElsDynamicRender from './custom/dynamic/render'
+
 import ElsContainer from './custom/container'
 import ElsDynamicDesignerView  from './custom/dynamic/designerView'
 

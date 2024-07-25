@@ -1,21 +1,17 @@
-
 <template>
   <div style="margin-bottom:10px">
     <el-button @click="handleSave" type="primary" v-if="eidtStatus">批量保存</el-button>
     <el-button @click="handleEdit" type="primary" v-if="!eidtStatus">批量编辑</el-button>
     <el-button @click="handleUnEdit" type="info" v-else>取消编辑</el-button>
   </div>
+  {{ data }}
   <els-table :data="data" rowKey="value" :showEditColumn="true" saveUrl="save" ref="dataTable"
     v-model:editStatus="eidtStatus">
     <els-column-checkbox></els-column-checkbox>
     <els-column prop="key" label="默认类型" isEdit required></els-column>
-    <els-column-bool prop="isRelease" label="Bool类型" width="130" :is-edit="true" :require="true">
-      <template #edit>
-        <els-select required clearable>
-          <els-option :value="1">发布</els-option>
-          <els-option :value="0">未发布</els-option>
-        </els-select>
-      </template>
+    <els-column-bool prop="isRelease" label="Bool类型" width="130" :is-edit="true" :require="true"
+      :editComponent="{ name: 'els-select', props: { data: [{ label: '已发布', value: 1 },{ label: '未发布', value: 0 }] } }">
+
     </els-column-bool>
     <els-column prop="valueType" label="类型" width="100"></els-column>
   </els-table>
@@ -43,4 +39,3 @@ function handleUnEdit() {
 
 }
 </script>
-

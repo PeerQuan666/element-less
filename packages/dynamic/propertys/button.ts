@@ -1,4 +1,4 @@
-export const property_button= [
+export const property_button=[
   {
     "keyID": "Q-937hf8q",
     "keyName": "Form",
@@ -372,6 +372,76 @@ export const property_button= [
           "arrayConfig": {}
         },
         "defaultValue": ""
+      },
+      {
+        "keyID": "key_41000",
+        "keyName": "点击事件",
+        "keyCode": "eventClick",
+        "children": [],
+        "dataType": "String",
+        "arrayDataType": "",
+        "componentTypeLabel": "弹窗选择",
+        "componentType": "DataModal",
+        "icon": "share",
+        "operateType": "button",
+        "slots": [
+          {
+            "name": "default",
+            "children": [
+              {
+                "keyID": "key_89190",
+                "keyName": "编辑事件",
+                "keyCode": "default",
+                "children": [],
+                "dataType": "String",
+                "dataTypeName": "String",
+                "arrayDataTypeName": "",
+                "arrayDataType": "",
+                "componentGroup": "Form",
+                "componentTypeLabel": "Ace编辑器",
+                "componentTypeName": "AceEditor",
+                "componentName": "ElsAceEditor",
+                "componentType": "AceEditor",
+                "formItem": true,
+                "componentShow": true,
+                "icon": "text-style",
+                "slots": [],
+                "config": {
+                  "formConfig": {},
+                  "baseConfig": {
+                    "rows": 10,
+                    "readonly": false,
+                    "theme": "",
+                    "language": ""
+                  },
+                  "advancedConfig": {},
+                  "arrayConfig": {}
+                }
+              }
+            ]
+          }
+        ],
+        "config": {
+          "formConfig": {},
+          "baseConfig": {
+            "buttonLabel": "编辑事件",
+            "buttonWidth": "100%",
+            "hasInput": false,
+            "inputWidth": "",
+            "title": "点击事件",
+            "width": "",
+            "height": "",
+            "targetType": "",
+            "url": "",
+            "dataUrl": "",
+            "buttonComponent": "",
+            "showBadge": true,
+            "buttonProps": {},
+            "functionconfirm": ""
+          },
+          "advancedConfig": {},
+          "arrayConfig": {}
+        }
       }
     ],
     "dataType": "None",

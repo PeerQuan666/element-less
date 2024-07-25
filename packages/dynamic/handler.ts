@@ -138,7 +138,7 @@ export class DynamicHandler {
         item.componentName = currcomponentType?.componentName
         item.formItem = currcomponentType?.formItem
         item.componentGroup = currcomponentType?.group
-        if (currDataType?.type === 'Object' || currDataType?.type === 'Array') {
+        if ((currDataType?.type === 'Object' || currDataType?.type === 'Array')&&!item.componentTypeName) {
             item.formItem = true
             item.componentGroup = 'Form'
         } else {
@@ -445,6 +445,10 @@ export class DynamicHandler {
                     }
                     break
                 case 'Array':
+                    if(!item.arrayDataType){
+                        item.value = []
+                        return
+                    }
                     const currArrayDataType = this.dataTypes.find(ele => ele.value === item.arrayDataType || ele.type === item.arrayDataType)
                     if (item.defaultValue) {
                         item.value = JSON.parse(item.defaultValue)

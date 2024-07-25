@@ -29,7 +29,9 @@ import {
     property_colorPicker,
     property_alert,
     property_button,
-    property_jsonEditor
+    property_jsonEditor,
+    property_table,
+    property_dialog
 } from '../propertys'
 import { DynamicComponentType } from '../interfaces'
 export const dynamicComponentTypes: Array<DynamicComponentType> = [
@@ -189,8 +191,37 @@ export const dynamicComponentTypes: Array<DynamicComponentType> = [
         operateType:'button',
         dataTypes: ['String','Object'],
         defaultPropertys: {
-            'functionopen':'slotValue["default"]["default"]?slotValue["default"]["default"]=currValue.value:slotValue["default"]=currValue.value;',
-            'functionconfirm':'slotValue["default"]["default"]?currValue.value= slotValue["default"]["default"]:currValue.value=slotValue["default"];return Promise.resolve(true);'
+            'functionopen':`
+                if(dataType==='String'&&typeof(currValue.value)==='string'){
+                    if(slotRootHasDefault){
+                        slotValue["default"]={default:currValue.value};
+                    }else{
+                         slotValue["default"]=currValue.value
+                    }
+                    return
+                }
+                const cloneObjValue=utils.cloneObj(currValue.value)
+                if(slotRootHasDefault){
+                    slotValue["default"]["default"]=cloneObjValue
+                }else{
+                    slotValue["default"]= cloneObjValue;
+                    
+                }
+              
+             `,
+            'functionconfirm':`
+                let defaultValue=slotValue["default"];
+                if(typeof(defaultValue)==='string'){
+                    defaultValue=JSON.parse(defaultValue)
+                } 
+                defaultValue=utils.cloneObj(defaultValue)
+                if(slotRootHasDefault){
+                    currValue.value=defaultValue.default
+                }else{
+                    currValue.value=defaultValue
+                }
+                return Promise.resolve(true);
+            `
         },
         propertys: property_datamodal,
         events:['open','close','confirm'],
@@ -416,6 +447,20 @@ export const dynamicComponentTypes: Array<DynamicComponentType> = [
         isShow: true
     },
     {
+        componentName: 'ElsDialog',
+        icon: 'share',
+        label: 'Dialog弹窗',
+        value: 'Dialog',
+        type: "Dialog",
+        operateType:'button',
+        dataTypes: ['None'],
+        propertys: property_dialog,
+        slots: [],
+        group: 'Container',
+        formItem: false,
+        isShow: true
+    },
+    {
         componentName: 'div',
         icon: 'code',
         label: 'Div标签',
@@ -479,6 +524,19 @@ export const dynamicComponentTypes: Array<DynamicComponentType> = [
         propertys: property_button,
         group: 'Show',
         formItem: false,
+        isShow: true
+    },
+    {
+        componentName: 'ElsTable',
+        icon: 'table',
+        label: 'Table表格',
+        value: 'Table',
+        type: "Table",
+        dataTypes: ['Array'],
+        defaultPropertys: {},
+        propertys: property_table,
+        group: 'Show',
+        formItem: true,
         isShow: true
     },
     

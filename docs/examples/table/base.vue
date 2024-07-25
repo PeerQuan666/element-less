@@ -1,7 +1,7 @@
 
 <template>
-  <els-table :data="data">
-    <els-column prop="key" label="城市" width="100"  ></els-column>
+  <els-table v-model="data" >
+    <els-column prop="key" label="城市" width="100" isEdit ></els-column>
     <els-column prop="value" label="值" ></els-column>
   </els-table>
 </template>

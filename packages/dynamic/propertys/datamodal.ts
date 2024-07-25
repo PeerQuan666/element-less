@@ -514,7 +514,12 @@ export const property_datamodal=[
 			  "slots": [],
 			  "config": {
 				"formConfig": {},
-				"baseConfig": {},
+				"baseConfig": {
+				  "active-text": "",
+				  "inactive-text": "",
+				  "active-value": true,
+				  "inactive-value": false
+				},
 				"advancedConfig": {},
 				"arrayConfig": {}
 			  }
@@ -632,7 +637,7 @@ export const property_datamodal=[
 		  "keyName": "确认事件",
 		  "keyCode": "functionconfirm",
 		  "children": [],
-		  "dataType": "Object",
+		  "dataType": "String",
 		  "arrayDataType": "",
 		  "componentTypeLabel": "弹窗选择",
 		  "componentType": "DataModal",
