@@ -1,5 +1,4 @@
 <template>
-    {{ start }}
     <els-time-picker-range  v-model="time" v-model:start="start" v-model:end="end"  label="时间范围"></els-time-picker-range>
 </template>
 

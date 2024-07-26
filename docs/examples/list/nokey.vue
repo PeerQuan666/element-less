@@ -1,7 +1,7 @@
 <template>
     <els-list v-model="data" >
         <template #default="{$index}">
-            <els-input label="城市" prop="key" width="200" required clearable :aIndex="$index"></els-input>
+            <els-input label="城市" prop="key"  required clearable :aIndex="$index"></els-input>
             <els-select prop="isRelease" label="状态" width="100"  :aIndex="$index">
                 <els-option :value="1">发布</els-option>
                 <els-option :value="0">未发布</els-option>

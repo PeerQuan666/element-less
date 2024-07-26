@@ -35,6 +35,14 @@ form/edit
 
 :::
 
+## 查询表单
+
+:::vuefile-demo
+
+form/query
+
+:::
+
 ## Form API
 
 ### Form属性

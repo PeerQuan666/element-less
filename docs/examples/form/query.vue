@@ -1,6 +1,5 @@
 <template>
-    <els-form-query ref="queryForm" v-model="formData">
-   
+    <els-form-query ref="queryForm">
         <els-select label="城市" prop="selectValue" required clearable>
             <els-option :value="1">北京</els-option>
             <els-option :value="2">天津</els-option>

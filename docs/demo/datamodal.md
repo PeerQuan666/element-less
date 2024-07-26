@@ -27,6 +27,18 @@ dataModal/base
 :::
 
 
+<!-- more -->
+
+## 自定义显示
+
+
+:::vuefile-demo
+
+dataModal/custom
+
+:::
+
+
 ## 弹出新页面选择数据
 
 :::tip
