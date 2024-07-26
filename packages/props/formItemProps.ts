@@ -4,7 +4,7 @@ import { formItemProps as _formItemProps } from 'element-plus'
 
 import { QueryMethod, ValidType, QueryDataType, ValidTriggerType } from '../utils/types'
 import { buildProps } from 'element-plus/es/utils/index'
-import type { ChildType, TipPosition,SpaceSize } from '../utils/types';
+import type { ChildType, TipPosition, SpaceSize } from '../utils/types';
 
 export const formItemProps = buildProps({
     ..._formItemProps,
@@ -55,9 +55,9 @@ export const formItemProps = buildProps({
     /**
      * @description 创建FormItem
      */
-    createFormItem:{
-        type:Boolean,
-        default:undefined
+    createFormItem: {
+        type: Boolean,
+        default: undefined
     },
 
     /**
@@ -89,7 +89,7 @@ export const formItemProps = buildProps({
      */
     validTrigger: {
         type: String as PropType<ValidTriggerType>,
-        default:'blur'
+        default: 'blur'
     },
 
     /**
@@ -100,7 +100,7 @@ export const formItemProps = buildProps({
      * @description 查询方法
      */
     queryMethod: {
-        type:String as PropType<QueryMethod>
+        type: String as PropType<QueryMethod>
     },
     /**
      * @description 查询数据类型
@@ -113,35 +113,35 @@ export const formItemProps = buildProps({
      */
     queryDefaultValue: {
         type: [String, Number, Boolean],
-        default:undefined
+        default: undefined
     },
     /** 
      * @description 自动查询
      */
     queryAutoReadData: {
-        type:Boolean,
-        default:undefined
+        type: Boolean,
+        default: undefined
     },
     /**
      * @description 查询添加前后逗号
      */
     queryAroundComma: {
-        type:Boolean,
-        default:undefined
+        type: Boolean,
+        default: undefined
     },
     /**
      * @description 范围查询
      */
     queryRange: {
-        type:Boolean,
-        default:undefined
+        type: Boolean,
+        default: undefined
     },
     /**
      * @description 范围查询是否包含等于
      */
     queryRangeOrEqual: {
-        type:Boolean,
-        default:undefined
+        type: Boolean,
+        default: undefined
     },
 
     /**
@@ -162,11 +162,18 @@ export const formItemProps = buildProps({
     /**
      * @description 范围选择开始字段名
      */
-    propStart:String,
+    propStart: String,
     /**
      * @description 范围选择结束字段名
      */
-    propEnd:String
-
+    propEnd: String,
+    /**
+   * @description 表单域标签的位置
+   */
+    labelPosition: {
+        type: String,
+        values: ['left', 'right', 'top'],
+        default: undefined,
+    },
 
 })

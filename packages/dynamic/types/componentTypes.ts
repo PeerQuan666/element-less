@@ -31,7 +31,8 @@ import {
     property_button,
     property_jsonEditor,
     property_table,
-    property_dialog
+    property_dialog,
+    property_drawer
 } from '../propertys'
 import { DynamicComponentType } from '../interfaces'
 export const dynamicComponentTypes: Array<DynamicComponentType> = [
@@ -194,9 +195,9 @@ export const dynamicComponentTypes: Array<DynamicComponentType> = [
             'functionopen':`
                 if(dataType==='String'&&typeof(currValue.value)==='string'){
                     if(slotRootHasDefault){
-                        slotValue["default"]={default:currValue.value};
+                        slotValue["default"]={default:JSON.parse(currValue.value)};
                     }else{
-                         slotValue["default"]=currValue.value
+                         slotValue["default"]=JSON.parse(currValue.value)
                     }
                     return
                 }
@@ -216,9 +217,18 @@ export const dynamicComponentTypes: Array<DynamicComponentType> = [
                 } 
                 defaultValue=utils.cloneObj(defaultValue)
                 if(slotRootHasDefault){
-                    currValue.value=defaultValue.default
+                    if(dataType==='String'){
+                      currValue.value=JSON.stringify(defaultValue.default) 
+
+                    }else{
+                      currValue.value=defaultValue.default
+                    }
                 }else{
-                    currValue.value=defaultValue
+                    if(dataType==='String'){
+                        currValue.value=JSON.stringify(defaultValue) 
+                    }else{
+                        currValue.value=defaultValue
+                    }
                 }
                 return Promise.resolve(true);
             `
@@ -452,9 +462,21 @@ export const dynamicComponentTypes: Array<DynamicComponentType> = [
         label: 'Dialog弹窗',
         value: 'Dialog',
         type: "Dialog",
-        operateType:'button',
         dataTypes: ['None'],
         propertys: property_dialog,
+        slots: [],
+        group: 'Container',
+        formItem: false,
+        isShow: true
+    },
+    {
+        componentName: 'ElsDrawer',
+        icon: 'share',
+        label: 'Drawer抽屉',
+        value: 'Drawer',
+        type: "Drawer",
+        dataTypes: ['None'],
+        propertys: property_drawer,
         slots: [],
         group: 'Container',
         formItem: false,

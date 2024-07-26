@@ -1,10 +1,21 @@
 <template>
-    <els-form v-model="editData" ref="editForm" >
+    {{  editData}}
+    <els-form v-model="editData" ref="editForm" labelPosition="top" >
         <ElsInput label="名称" prop="name" required  validExpression="^[A-Za-z0-9]+$" ></ElsInput>
-        <ElsDatePicker label="日期" prop="birth" required  ></ElsDatePicker>
-        <ElsUpload type="Pic" label="图片" prop="pic" required  ></ElsUpload>
-        <ElsTextarea label="备注" prop="remark" ></ElsTextarea>
-    </els-form>
+        <els-form>
+            <ElsDatePicker label="日期" prop="birth" required  ></ElsDatePicker>
+            <ElsUpload type="Pic" label="图片" prop="pic" required  ></ElsUpload>
+            <els-container>
+
+       
+            <els-form>
+             <ElsTextarea label="备注" prop="remark" ></ElsTextarea>
+             
+            </els-form>
+        </els-container>
+
+        </els-form>
+    </els-form> 
   
 </template>
 

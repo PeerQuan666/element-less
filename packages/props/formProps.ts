@@ -24,6 +24,15 @@ export const formProps = buildProps({
     /**
      * 输入框宽度
      */
-    inputWidth: String
+    inputWidth: String,
+    
+      /**
+     * @description 表单域标签的位置
+     */
+    labelPosition: {
+        type: String,
+        values: ['left', 'right', 'top'],
+        default: undefined,
+      },
 
 })

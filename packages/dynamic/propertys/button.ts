@@ -389,6 +389,34 @@ export const property_button=[
             "name": "default",
             "children": [
               {
+                "keyID": "id_IiSNL74rz",
+                "keyName": "页面提示",
+                "keyCode": "",
+                "children": [],
+                "dataType": "None",
+                "dataTypeName": "None",
+                "arrayDataTypeName": "",
+                "arrayDataType": "",
+                "componentGroup": "Show",
+                "componentTypeLabel": "页面提示",
+                "componentTypeName": "Tip",
+                "componentName": "ElsTip",
+                "componentType": "Tip",
+                "formItem": false,
+                "componentShow": true,
+                "icon": "tips",
+                "slots": [],
+                "config": {
+                  "formConfig": {},
+                  "baseConfig": {
+                    "title": "事件参数",
+                    "content": "组件:refs,全局数据:globalData,父节点:parentNode,当前节点:currNode,工具类:utils,插槽值:slotValue"
+                  },
+                  "advancedConfig": {},
+                  "arrayConfig": {}
+                }
+              },
+              {
                 "keyID": "key_89190",
                 "keyName": "编辑事件",
                 "keyCode": "default",
