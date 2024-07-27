@@ -12,7 +12,7 @@ import tag from './plugins/tag'
 const slidebar =  getSidebar(__dirname, '');
 
 export default defineConfig({
-    // base: "/element-less/",
+    base: "/element-less/",
     themeConfig:{
         search:{provider: 'local'},
         siteTitle:'Element-Less',
