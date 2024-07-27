@@ -1,12 +1,13 @@
 {
-  "name": "element-less",
-  "version": "1.0.0",
-  "description": "基于ElementUI二次封装组件库，简洁高效",
-  "main": "element-less.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": ["vue","vite","element-plus","vant","element-less","lowerCode"],
-  "author": "PeerQuan <PeerQuan@qq.com>",
-  "license": "ISC"
-}
+    "name": "element-less",
+    "version": "1.0.0",
+    "description": "基于ElementUI二次封装组件库，简洁高效",
+    "main": "element-less.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": ["vue","vite","element-plus","vant","element-less","lowerCode"],
+    "author": "PeerQuan <PeerQuan@qq.com>",
+    "license": "ISC"
+  }
+  

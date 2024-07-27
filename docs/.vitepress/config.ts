@@ -12,7 +12,7 @@ import tag from './plugins/tag'
 const slidebar =  getSidebar(__dirname, '');
 
 export default defineConfig({
-    base: "/element-less/",
+    // base: "/element-less/",
     themeConfig:{
         search:{provider: 'local'},
         siteTitle:'Element-Less',
@@ -62,11 +62,9 @@ export default defineConfig({
     }},
     vite:{
       resolve: {
-        alias: {
-
-        '@': path.resolve(__dirname, '../../packages'),
-        'vue': 'vue/dist/vue.esm-bundler.js'
-        }
+        alias: [
+          { find: '@', replacement: path.resolve(__dirname, '../../packages') }
+        ]
       }
     }
   })

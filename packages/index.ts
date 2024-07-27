@@ -153,7 +153,7 @@ const ElementLess = {
         });
     },
     utlis:utils,
-    ElsMessage:ElsMessage
+    message:ElsMessage
 
 };
 components.forEach((item) => {

@@ -14,8 +14,10 @@ import Vant from 'vant'
 import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import VueUeditorWrap from "vue-ueditor-wrap"
-import ElementLess from "@/";
 
+// import "../../../element-less/style.css"
+// import ElementLess from "../../../element-less";
+ import ElementLess from "../../../packages";
 import { createPinia } from 'pinia'
 import 'element-plus/dist/index.css'
 import 'vant/lib/index.css';

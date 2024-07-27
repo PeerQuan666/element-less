@@ -4,8 +4,9 @@ import { getCurrentInstance} from 'vue'
 import { exportJsonToExcel, exportTableToExcelEl, exportTableToExcelElMuti } from '../export/Export2Excel.js'
 import { ElMessage } from 'element-plus'
 import useClipboard from "vue-clipboard3";
+import useCopy from 'clipboard-copy'
 import shortid from 'shortid'
-const { toClipboard } = useClipboard()
+
 
 export * from './message'
 export * from './types'
@@ -663,8 +664,7 @@ export default {
 
     },
     clip(text) {
-    
-        toClipboard(text).then(res=>{
+        useCopy(text).then(res=>{
             ElMessage.success('复制成功')
         }).catch(err=>{
             ElMessage.error('复制失败')

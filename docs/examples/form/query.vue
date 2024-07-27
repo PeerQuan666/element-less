@@ -13,12 +13,11 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import utils from '@/utils'
 const queryForm = ref()
 const formData = ref({})
 function handleSearch() {
     queryForm.value.query().then(res => {
-        console.info(utils.getQueryParameters(res))
+        console.log(res)
     })
 
 
