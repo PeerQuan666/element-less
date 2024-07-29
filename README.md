@@ -19,4 +19,4 @@ Vue+ElementUI
 
 #### 使用说明
 
-文档地址:http://peerquan.gitee.io/element-less
+文档地址:http://component.ybt2023.com/element-less

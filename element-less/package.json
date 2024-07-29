@@ -1,6 +1,6 @@
 {
     "name": "element-less",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "基于ElementUI二次封装组件库，简洁高效",
     "main": "element-less.js",
     "scripts": {
